@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ServerEngine.Test": {
+      "commandName": "Project",
+      "commandLineArgs": "-C appsettings.Development.json -S ServerEngine"
+    }
+  }
+}

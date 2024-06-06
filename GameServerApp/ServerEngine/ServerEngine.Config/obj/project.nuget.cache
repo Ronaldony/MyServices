@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "LroLxNlm42NPHU5zG4h3NxmbgJxJfj53n1cqYzoH7ASB+mBfDM84rt0RspMlE6WBkSZ5RBX4QYb2UyBBjMhFLg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gande\\.nuget\\packages\\consul\\1.7.14.3\\consul.1.7.14.3.nupkg.sha512",
+    "C:\\Users\\gande\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\gande\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
