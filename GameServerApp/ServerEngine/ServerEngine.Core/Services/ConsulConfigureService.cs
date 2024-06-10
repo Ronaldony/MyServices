@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ServerEngine.Core.Services
 {
+    using ServerEngine.Config;
     using ServerEngine.Config.Consul;
     using ServerEngine.Core.Services.Interfaces;
 
@@ -16,7 +17,6 @@ namespace ServerEngine.Core.Services
         private readonly IServiceProvider _serviceProvider;
 
         private ConsulClient _consulClient;
-        private Config_Consul _configConsul;
 
         public ConsulConfigureService(IServiceProvider serviceProvider)
         {
@@ -26,15 +26,14 @@ namespace ServerEngine.Core.Services
             _logger = loggerFactory.CreateLogger<ConsulConfigureService>();
         }
 
-        public void Initialize()
+        public void Initialize(ConfigBase config)
         {
-            var configuration = _serviceProvider.GetRequiredService<IConfiguration>();
-            _configConsul = configuration.GetSection("Config_Consul").Get<Config_Consul>();
+            var configConsul = config as Config_Consul;
 
             _consulClient = new ConsulClient(new ConsulClientConfiguration
             {
-                Address = new Uri("http://" + _configConsul.Address),
-                Datacenter = "dc1",
+                Address = new Uri(configConsul.Address),
+                Datacenter = configConsul.Datacenter,
             });
 
             _logger.LogInformation("ConsulConfigureService initialize.");
@@ -58,7 +57,7 @@ namespace ServerEngine.Core.Services
                 catch (Exception ex)
                 {
                     _logger.LogError(ex.Message);
-                    return default;
+                    return null;
                 }
             }
         }

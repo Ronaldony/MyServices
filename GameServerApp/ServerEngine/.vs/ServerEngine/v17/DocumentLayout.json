@@ -1,0 +1,239 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\services\\postblobdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\services\\postblobdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\services\\interfaces\\iblobdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\services\\interfaces\\iblobdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\consulconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\consulconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\interfaces\\iremoteconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\interfaces\\iremoteconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.config\\consul\\config_consul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|solutionrelative:serverengine.config\\consul\\config_consul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.config\\configbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|solutionrelative:serverengine.config\\configbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.config\\consul\\consulgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|solutionrelative:serverengine.config\\consul\\consulgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\serverengine.test.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\serverengine.test.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\serverengine.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\serverengine.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ConfigBase.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ConfigBase.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Config\\ConfigBase.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ConfigBase.cs",
+              "RelativeToolTip": "ServerEngine.Config\\ConfigBase.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T10:29:50.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IRemoteConfigureService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwA0AAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T10:27:43.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "StartupServer.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\StartupServer.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\StartupServer.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\StartupServer.cs",
+              "RelativeToolTip": "ServerEngine.Test\\StartupServer.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABYAAABfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T10:26:54.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\appsettings.Development.json",
+              "RelativeToolTip": "ServerEngine.Test\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-06-08T10:25:22.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ServerEngine.Test",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\ServerEngine.Test.csproj",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
+              "RelativeToolTip": "ServerEngine.Test\\ServerEngine.Test.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-06-08T10:25:21.006Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ConsulGame.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\Consul\\ConsulGame.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Config\\Consul\\ConsulGame.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\Consul\\ConsulGame.cs",
+              "RelativeToolTip": "ServerEngine.Config\\Consul\\ConsulGame.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T10:25:12.383Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PostBlobDataService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Services\\PostBlobDataService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Services\\PostBlobDataService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Services\\PostBlobDataService.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Services\\PostBlobDataService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T10:17:03.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IBlobDataService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Services\\Interfaces\\IBlobDataService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Services\\Interfaces\\IBlobDataService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Services\\Interfaces\\IBlobDataService.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Services\\Interfaces\\IBlobDataService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T10:16:21.005Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Config_Consul.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\Consul\\Config_Consul.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Config\\Consul\\Config_Consul.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\Consul\\Config_Consul.cs",
+              "RelativeToolTip": "ServerEngine.Config\\Consul\\Config_Consul.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T07:17:38.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ConsulConfigureService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\ConsulConfigureService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\ConsulConfigureService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\ConsulConfigureService.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Services\\ConsulConfigureService.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAuwCIAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T07:16:35.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ServerEngine.Core",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\ServerEngine.Core.csproj",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
+              "RelativeToolTip": "ServerEngine.Core\\ServerEngine.Core.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAABPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-06-06T16:28:04.509Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

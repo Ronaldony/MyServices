@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerEngine.Config", "Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerEngine.Core", "ServerEngine.Core\ServerEngine.Core.csproj", "{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerEngine.Test", "ServerEngine.Test\ServerEngine.Test.csproj", "{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerEngine.Test", "ServerEngine.Test\ServerEngine.Test.csproj", "{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerEngine.Database", "ServerEngine.Database\ServerEngine.Database.csproj", "{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

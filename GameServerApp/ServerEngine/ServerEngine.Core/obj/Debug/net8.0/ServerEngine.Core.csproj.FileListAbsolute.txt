@@ -14,4 +14,3 @@ C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEn
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net8.0\refint\ServerEngine.Core.dll
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net8.0\ServerEngine.Core.pdb
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net8.0\ref\ServerEngine.Core.dll
-C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\bin\Debug\net8.0\appsettings.Development.json

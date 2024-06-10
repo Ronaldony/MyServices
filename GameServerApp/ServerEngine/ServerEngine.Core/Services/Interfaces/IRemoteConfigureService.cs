@@ -1,7 +1,8 @@
 ﻿
-
 namespace ServerEngine.Core.Services.Interfaces
 {
+    using ServerEngine.Config;
+
     /// <summary>
     /// Interface for remote configure service.
     /// </summary>
@@ -10,7 +11,7 @@ namespace ServerEngine.Core.Services.Interfaces
         /// <summary>
         /// Initialize.
         /// </summary>
-        void Initialize();
+        void Initialize(ConfigBase config);
 
         /// <summary>
         /// Get configuration data.

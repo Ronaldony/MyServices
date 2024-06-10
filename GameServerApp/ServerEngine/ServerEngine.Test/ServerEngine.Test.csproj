@@ -18,4 +18,10 @@
     <ProjectReference Include="..\ServerEngine.Core\ServerEngine.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
