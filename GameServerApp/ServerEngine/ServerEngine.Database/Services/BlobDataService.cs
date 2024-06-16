@@ -5,14 +5,14 @@ namespace ServerEngine.Database.Services
 {
     using ServerEngine.Database.Services.Interfaces;
 
-    public class PostBlobDataService : IBlobDataService
+    public class BlobDataService : IBlobDataService
     {
-        private ILogger<PostBlobDataService> _logger;
+        private ILogger<BlobDataService> _logger;
 
-        public PostBlobDataService(IServiceProvider serviceProvider)
+        public BlobDataService(IServiceProvider serviceProvider)
         {
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-            _logger = loggerFactory.CreateLogger<PostBlobDataService>();
+            _logger = loggerFactory.CreateLogger<BlobDataService>();
         }
 
         public T Select<T>(string key) where T : class

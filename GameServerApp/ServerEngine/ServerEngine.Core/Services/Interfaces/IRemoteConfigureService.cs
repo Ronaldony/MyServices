@@ -11,7 +11,7 @@ namespace ServerEngine.Core.Services.Interfaces
         /// <summary>
         /// Initialize.
         /// </summary>
-        void Initialize(ConfigBase config);
+        bool Initialize(ConfigBase config);
 
         /// <summary>
         /// Get configuration data.

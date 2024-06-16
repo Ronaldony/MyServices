@@ -1,6 +1,4 @@
-﻿
-using Consul;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PowerArgs;
@@ -11,7 +9,7 @@ namespace ServerEngine.Test
 {
     public class Program
     {
-        public async static Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var arguments = ParseCommand(args);
             if (arguments == null)
@@ -29,13 +27,14 @@ namespace ServerEngine.Test
                 .ConfigureServices(services =>
                 {
                     services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
+                    services.AddSingleton<ISnowflakeService, SnowflakeService>();
                 })
                 .Build();
 
             var startupServer = new StartupServer(host.Services);
             await startupServer.ConfigureAsync();
 
-            host.Run();
+            await host.RunAsync();
         }
 
         private static Arguments ParseCommand(string[] args)

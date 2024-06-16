@@ -1,5 +1,4 @@
 ﻿using Consul;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -7,9 +6,9 @@ using System.Text;
 
 namespace ServerEngine.Core.Services
 {
-    using ServerEngine.Config;
     using ServerEngine.Config.Consul;
-    using ServerEngine.Core.Services.Interfaces;
+    using Config;
+    using Interfaces;
 
     public class ConsulConfigureService : IRemoteConfigureService
     {
@@ -26,9 +25,14 @@ namespace ServerEngine.Core.Services
             _logger = loggerFactory.CreateLogger<ConsulConfigureService>();
         }
 
-        public void Initialize(ConfigBase config)
+        public bool Initialize(ConfigBase config)
         {
             var configConsul = config as Config_Consul;
+
+            if (configConsul == null)
+            {
+                return false;
+            }
 
             _consulClient = new ConsulClient(new ConsulClientConfiguration
             {
@@ -37,10 +41,12 @@ namespace ServerEngine.Core.Services
             });
 
             _logger.LogInformation("ConsulConfigureService initialize.");
+
+            return true;
         }
 
         /// <summary>
-        /// 
+        /// Get configuration data.
         /// </summary>
         public async Task<T> GetConfigData<T>(string key) where T : class
         {

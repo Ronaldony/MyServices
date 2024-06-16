@@ -15,6 +15,29 @@
           "lib/netstandard2.0/Consul.dll": {}
         }
       },
+      "MemoryPack/1.21.1": {
+        "type": "package",
+        "dependencies": {
+          "MemoryPack.Core": "1.21.1",
+          "MemoryPack.Generator": "1.21.1"
+        }
+      },
+      "MemoryPack.Core/1.21.1": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/MemoryPack.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/MemoryPack.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "MemoryPack.Generator/1.21.1": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.7.0": {
         "type": "package",
         "compile": {
@@ -617,6 +640,15 @@
           }
         }
       },
+      "Snowflake.CSharp/1.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/Snowflake.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Snowflake.dll": {}
+        }
+      },
       "System.Diagnostics.DiagnosticSource/8.0.0": {
         "type": "package",
         "compile": {
@@ -727,6 +759,49 @@
         "consul.nuspec",
         "lib/net461/Consul.dll",
         "lib/netstandard2.0/Consul.dll"
+      ]
+    },
+    "MemoryPack/1.21.1": {
+      "sha512": "ezalanS2gubWk1bS7S7onpU4fff42nr7EneRBOGOXWFC8qFFdmrBF+jznqVzg7buEPRJrSkwoXJFwuiHc1yvIA==",
+      "type": "package",
+      "path": "memorypack/1.21.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "memorypack.1.21.1.nupkg.sha512",
+        "memorypack.nuspec"
+      ]
+    },
+    "MemoryPack.Core/1.21.1": {
+      "sha512": "ekQ4rrlC9Tq/DwmK01oTlMQoyJyUtX4QVzfrLrp/9F39AeK1G3dqLJvOCdDttAUYMxoBrDSsK4tQlNaTiWVitA==",
+      "type": "package",
+      "path": "memorypack.core/1.21.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/net7.0/MemoryPack.Core.dll",
+        "lib/net7.0/MemoryPack.Core.xml",
+        "lib/net8.0/MemoryPack.Core.dll",
+        "lib/net8.0/MemoryPack.Core.xml",
+        "lib/netstandard2.1/MemoryPack.Core.dll",
+        "lib/netstandard2.1/MemoryPack.Core.xml",
+        "memorypack.core.1.21.1.nupkg.sha512",
+        "memorypack.core.nuspec"
+      ]
+    },
+    "MemoryPack.Generator/1.21.1": {
+      "sha512": "kin3y4wUfzognJB2L8yVLekugeyFxsEWiqgsUcTWEMFumGHuklBtltI7AVdHcUNSFvycC98xdCNG8GauHfxv4Q==",
+      "type": "package",
+      "path": "memorypack.generator/1.21.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "analyzers/dotnet/cs/MemoryPack.Generator.dll",
+        "memorypack.generator.1.21.1.nupkg.sha512",
+        "memorypack.generator.nuspec"
       ]
     },
     "Microsoft.CSharp/4.7.0": {
@@ -1718,6 +1793,21 @@
         "packageIcon.png"
       ]
     },
+    "Snowflake.CSharp/1.3.0": {
+      "sha512": "8/fpQ4eF+vRx7UGziuKKpJzfhMQVcULtYzMWEF/7LY9TGYFc9jw/ZVj+IemTV+pZQQsjLCSHHS/JoKPyf4SKTg==",
+      "type": "package",
+      "path": "snowflake.csharp/1.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard1.0/Snowflake.dll",
+        "lib/netstandard1.3/Snowflake.dll",
+        "lib/netstandard2.0/Snowflake.dll",
+        "lib/netstandard2.1/Snowflake.dll",
+        "snowflake.csharp.1.3.0.nupkg.sha512",
+        "snowflake.csharp.nuspec"
+      ]
+    },
     "System.Diagnostics.DiagnosticSource/8.0.0": {
       "sha512": "c9xLpVz6PL9lp/djOWtk5KPDZq3cSYpmXoJQY524EOtuFl5z9ZtsotpsyrDW40U1DRnQSYvcPKEUV0X//u6gkQ==",
       "type": "package",
@@ -1902,10 +1992,12 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "MemoryPack >= 1.21.1",
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "Newtonsoft.Json >= 13.0.3",
-      "ServerEngine.Config >= 1.0.0"
+      "ServerEngine.Config >= 1.0.0",
+      "Snowflake.CSharp >= 1.3.0"
     ]
   },
   "packageFolders": {
@@ -1956,6 +2048,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "MemoryPack": {
+            "target": "Package",
+            "version": "[1.21.1, )"
+          },
           "Microsoft.Extensions.Configuration": {
             "target": "Package",
             "version": "[8.0.0, )"
@@ -1967,6 +2063,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "Snowflake.CSharp": {
+            "target": "Package",
+            "version": "[1.3.0, )"
           }
         },
         "imports": [

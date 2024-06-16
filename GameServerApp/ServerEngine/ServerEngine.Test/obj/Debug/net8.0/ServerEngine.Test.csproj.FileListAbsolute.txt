@@ -53,3 +53,5 @@ C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEn
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\obj\Debug\net8.0\ServerEngine.Test.genruntimeconfig.cache
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\obj\Debug\net8.0\ref\ServerEngine.Test.dll
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\bin\Debug\net8.0\MemoryPack.Core.dll
+C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\bin\Debug\net8.0\Snowflake.dll

@@ -30,6 +30,21 @@
           }
         }
       },
+      "MemoryPack/1.21.1": {
+        "dependencies": {
+          "MemoryPack.Core": "1.21.1",
+          "MemoryPack.Generator": "1.21.1"
+        }
+      },
+      "MemoryPack.Core/1.21.1": {
+        "runtime": {
+          "lib/net8.0/MemoryPack.Core.dll": {
+            "assemblyVersion": "1.21.1.0",
+            "fileVersion": "1.21.1.0"
+          }
+        }
+      },
+      "MemoryPack.Generator/1.21.1": {},
       "Microsoft.CSharp/4.7.0": {},
       "Microsoft.Extensions.Configuration/8.0.0": {
         "dependencies": {
@@ -410,6 +425,14 @@
           }
         }
       },
+      "Snowflake.CSharp/1.3.0": {
+        "runtime": {
+          "lib/netstandard2.1/Snowflake.dll": {
+            "assemblyVersion": "1.3.0.0",
+            "fileVersion": "1.3.0.0"
+          }
+        }
+      },
       "System.Diagnostics.DiagnosticSource/8.0.0": {},
       "System.Diagnostics.EventLog/8.0.0": {
         "runtime": {
@@ -449,10 +472,12 @@
       },
       "ServerEngine.Core/1.0.0": {
         "dependencies": {
+          "MemoryPack": "1.21.1",
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Hosting": "8.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "ServerEngine.Config": "1.0.0"
+          "ServerEngine.Config": "1.0.0",
+          "Snowflake.CSharp": "1.3.0"
         },
         "runtime": {
           "ServerEngine.Core.dll": {}
@@ -472,6 +497,27 @@
       "sha512": "sha512-t4w5fwKldVE9gnByiDbSLvsSIMWAp7vN3pGzASGup5BgFDfcpxjFrBr2wLbuyUGJW3QrHp2VuS32/blPGMPkrA==",
       "path": "consul/1.7.14.3",
       "hashPath": "consul.1.7.14.3.nupkg.sha512"
+    },
+    "MemoryPack/1.21.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ezalanS2gubWk1bS7S7onpU4fff42nr7EneRBOGOXWFC8qFFdmrBF+jznqVzg7buEPRJrSkwoXJFwuiHc1yvIA==",
+      "path": "memorypack/1.21.1",
+      "hashPath": "memorypack.1.21.1.nupkg.sha512"
+    },
+    "MemoryPack.Core/1.21.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ekQ4rrlC9Tq/DwmK01oTlMQoyJyUtX4QVzfrLrp/9F39AeK1G3dqLJvOCdDttAUYMxoBrDSsK4tQlNaTiWVitA==",
+      "path": "memorypack.core/1.21.1",
+      "hashPath": "memorypack.core.1.21.1.nupkg.sha512"
+    },
+    "MemoryPack.Generator/1.21.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kin3y4wUfzognJB2L8yVLekugeyFxsEWiqgsUcTWEMFumGHuklBtltI7AVdHcUNSFvycC98xdCNG8GauHfxv4Q==",
+      "path": "memorypack.generator/1.21.1",
+      "hashPath": "memorypack.generator.1.21.1.nupkg.sha512"
     },
     "Microsoft.CSharp/4.7.0": {
       "type": "package",
@@ -682,6 +728,13 @@
       "sha512": "sha512-8baSCh4j3oF6nQYkfnERl3pk5vvidJmx6LUIdNVV2F7whx0+BuE4QUwHX+lczHUHAFKDJKABXrjrSZzAJlfWxA==",
       "path": "powerargs/4.0.3",
       "hashPath": "powerargs.4.0.3.nupkg.sha512"
+    },
+    "Snowflake.CSharp/1.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8/fpQ4eF+vRx7UGziuKKpJzfhMQVcULtYzMWEF/7LY9TGYFc9jw/ZVj+IemTV+pZQQsjLCSHHS/JoKPyf4SKTg==",
+      "path": "snowflake.csharp/1.3.0",
+      "hashPath": "snowflake.csharp.1.3.0.nupkg.sha512"
     },
     "System.Diagnostics.DiagnosticSource/8.0.0": {
       "type": "package",

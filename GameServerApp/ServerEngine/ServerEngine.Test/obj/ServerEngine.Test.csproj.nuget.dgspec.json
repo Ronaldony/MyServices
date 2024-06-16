@@ -115,6 +115,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "MemoryPack": {
+              "target": "Package",
+              "version": "[1.21.1, )"
+            },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -126,6 +130,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "Snowflake.CSharp": {
+              "target": "Package",
+              "version": "[1.3.0, )"
             }
           },
           "imports": [
