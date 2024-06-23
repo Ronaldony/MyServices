@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace ServerEngine.Database.Services.Interfaces
+﻿namespace ServerEngine.Database.Services.Interfaces
 {
     public interface IBlobDataService
     {

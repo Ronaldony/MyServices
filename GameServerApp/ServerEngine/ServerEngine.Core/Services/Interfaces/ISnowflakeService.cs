@@ -5,7 +5,7 @@
         /// <summary>
         /// Initialize.
         /// </summary>
-        void Initialize(int dcId, int serverId);
+        void Initialize(DateTime baseTime, int dcId, int serverId);
 
         /// <summary>
         /// Generate primary key.

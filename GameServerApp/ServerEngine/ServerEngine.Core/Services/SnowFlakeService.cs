@@ -2,33 +2,61 @@
 namespace ServerEngine.Core.Services
 {
     using Interfaces;
+    using ServerEngine.Core.Util;
 
     public class SnowflakeService : ISnowflakeService
     {
-        private const long Epoch = 1288834974657L;
-        private const int NodeIdBits = 48;
+        // EpochBaseTime: 특정 시간 이후로 몇 밀리초가 경과했는지를 나타내는 값.
+        private readonly DateTime _epochBaseTime;
+        private long _epoch = 0;
+
+        private const int DatacenterBits = 24;
+        private const int WorkerBits = 24;
         private const int SequenceBits = 16;
-        private const long MaxNodeId = -1L ^ (-1L << NodeIdBits);
+
+        // max.
+        private const long MaxDatacenterId = -1L ^ (-1L << DatacenterBits);
+        private const long MaxWorkerId = -1L ^ (-1L << WorkerBits);
         private const long MaxSequence = -1L ^ (-1L << SequenceBits);
-        private const int NodeIdShift = SequenceBits;
-        private const int TimestampShift = 64;
+
+        // Shift.
+        private const int WorkerIdShift = SequenceBits;
+        private const int DatacenterIdShift = SequenceBits + WorkerBits;
+        private const int TimestampShift = SequenceBits + WorkerBits + DatacenterBits;
 
         private long _lastTimestamp = -1L;
-        private long _nodeId;
+        private long _dcId;
+        private long _workerId;
         private long _sequence = 0L;
 
         public SnowflakeService()
         {
-
+            _epochBaseTime = new DateTime(2024, 1, 1, 0, 0, 0).ToUniversalTime();
         }
 
-        public void Initialize(int nodeId, int serverId)
+        public void Initialize(DateTime baseTime, int dcId, int workerId)
         {
-            if (nodeId > MaxNodeId || nodeId < 0)
+            // Initialize config datas.
+            if (dcId > MaxDatacenterId || dcId < 0)
             {
-                throw new ArgumentException($"Node ID must be between 0 and {MaxNodeId}");
+                return;
             }
-            _nodeId = nodeId;
+
+            if (workerId > MaxWorkerId || workerId < 0)
+            {
+                return;
+            }
+
+            if (true == TimeUtil.IsPastTime(_epochBaseTime, baseTime))
+            {
+                return;
+            }
+
+            // Set config datas.
+            var epochTime = baseTime.ToUniversalTime() - _epochBaseTime;
+            _epoch = (long)epochTime.TotalMilliseconds;
+            _dcId = dcId;
+            _workerId = workerId;
         }
 
         public string GenerateId()
@@ -56,7 +84,8 @@ namespace ServerEngine.Core.Services
                 }
 
                 _lastTimestamp = timestamp;
-                long id = ((timestamp - Epoch) << TimestampShift) | (_nodeId << NodeIdShift) | _sequence;
+                
+                long id = ((timestamp - _epoch) << TimestampShift) | (_dcId << DatacenterIdShift) | (_workerId << WorkerIdShift) | _sequence;
                 
                 return id.ToString("X16");
             }

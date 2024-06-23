@@ -6,5 +6,6 @@
         public string Server { get; set; }
         public string Language { get; set; }
         public string Region { get; set; }
+        public DateTime SnowflakeBaseTime { get; set; }
     }
 }

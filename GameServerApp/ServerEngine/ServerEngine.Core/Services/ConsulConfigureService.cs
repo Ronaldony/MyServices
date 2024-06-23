@@ -6,9 +6,9 @@ using System.Text;
 
 namespace ServerEngine.Core.Services
 {
-    using ServerEngine.Config.Consul;
     using Config;
     using Interfaces;
+    using ServerEngine.Config.Consul;
 
     public class ConsulConfigureService : IRemoteConfigureService
     {
@@ -31,6 +31,7 @@ namespace ServerEngine.Core.Services
 
             if (configConsul == null)
             {
+                _logger.LogError("ConfigBase is null.");
                 return false;
             }
 
