@@ -5,6 +5,7 @@ namespace ServerEngine.Test
 {
     using ServerEngine.Config.Consul;
     using ServerEngine.Core.Services.Interfaces;
+    using System.Dynamic;
 
     internal class StartupServer
     {
@@ -27,13 +28,14 @@ namespace ServerEngine.Test
 
             var consulGame = await consulConfigureService.GetConfigData<ConsulGame>("Development");
 
+
+            /////////////////////////////////////////////////////////////////////////////
+            // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<ISnowflakeService>();
             snowFlakeService.Initialize(consulGame.SnowflakeBaseTime, 1, 2);
 
-            for (int cnt = 0; cnt < 20; cnt++)
-            {
-                Console.WriteLine($"{cnt} / Id: {snowFlakeService.GenerateId()}");
-            }
+            var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
+            jsonSerializer.Initialize();
         }
     }
 }

@@ -10,7 +10,11 @@ namespace ServerEngine.Core.Services
     using Interfaces;
     using ServerEngine.Config.Consul;
 
-    public class ConsulConfigureService : IRemoteConfigureService
+    /// <summary>
+    /// ConsulConfigureService.
+    /// Configuration service using consul from vault.
+    /// </summary>
+    public sealed class ConsulConfigureService : IRemoteConfigureService
     {
         private readonly ILogger<ConsulConfigureService> _logger;
         private readonly IServiceProvider _serviceProvider;
@@ -25,6 +29,9 @@ namespace ServerEngine.Core.Services
             _logger = loggerFactory.CreateLogger<ConsulConfigureService>();
         }
 
+        /// <summary>
+        /// Initialize configure datas.
+        /// </summary>
         public bool Initialize(ConfigBase config)
         {
             var configConsul = config as Config_Consul;

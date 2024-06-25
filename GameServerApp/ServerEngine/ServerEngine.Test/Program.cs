@@ -28,6 +28,11 @@ namespace ServerEngine.Test
                 {
                     services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
                     services.AddSingleton<ISnowflakeService, SnowflakeService>();
+                    services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
+                    services.AddSingleton<IJsonSerializer, CustomJsonSerializer>();
+                })
+                .ConfigureAppConfiguration(services =>
+                {
                 })
                 .Build();
 

@@ -1,6 +1,6 @@
 ﻿namespace ServerEngine.Core.Services.Interfaces
 {
-    public interface IDataSerializer
+    public interface IJsonSerializer
     {
         /// <summary>
         /// Initialize.
@@ -8,13 +8,13 @@
         public void Initialize();
 
         /// <summary>
-        /// Serialize data.
+        /// Serialize object to json string.
         /// </summary>
-        byte[] Serialize<T>(T data) where T: class;
+        public string Serialize(object datgaObj);
 
         /// <summary>
-        /// Deserialize data object.
+        /// Deserialize json string to object.
         /// </summary>
-        T Deserialize<T>(byte[] dataObj) where T: class;
+        public T Deserialize<T>(string dataString) where T : class;
     }
 }

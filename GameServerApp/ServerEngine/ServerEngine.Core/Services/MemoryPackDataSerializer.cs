@@ -6,7 +6,11 @@ namespace ServerEngine.Core.Services
 {
     using Interfaces;
 
-    public class MemoryPackDataSerializer : IDataSerializer
+    /// <summary>
+    /// MemoryPackDataSerializer.
+    /// Data serializer using memorypack and brotli.
+    /// </summary>
+    public sealed class MemoryPackDataSerializer : IDataSerializer
     {
         private ILogger<MemoryPackDataSerializer> _logger;
 
@@ -15,6 +19,14 @@ namespace ServerEngine.Core.Services
             _logger = logger;
         }
 
+        public void Initialize()
+        {
+            _logger.LogInformation("MemoryPackDataSerializer initialize.");
+        }
+
+        /// <summary>
+        /// Serialize.
+        /// </summary>
         public byte[] Serialize<T>(T data) where T : class
         {
             using (var compressor = new BrotliCompressor())
@@ -24,6 +36,9 @@ namespace ServerEngine.Core.Services
             }
         }
 
+        /// <summary>
+        /// Deserialize.
+        /// </summary>
         public T Deserialize<T>(byte[] dataObj) where T : class
         {
             using (var decompressor = new BrotliDecompressor())
