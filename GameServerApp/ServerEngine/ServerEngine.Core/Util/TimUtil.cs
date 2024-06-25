@@ -13,24 +13,17 @@
         /// </returns>
         public static bool IsPastTime(DateTime src, DateTime dst)
         {
-            // Year.
-            if (dst.Year > src.Year)
+            if (DateTime.MinValue == src)
             {
-                return true;
+                return false;
             }
 
-            // Total day.
-            if (dst.DayOfYear > src.DayOfYear)
+            if (dst.CompareTo(src) > 0 )
             {
-                return true;
+                return false;
             }
 
-            if (dst.Ticks > src.Ticks)
-            {
-                return true;
-            }
-
-            return false;
+            return true;
         }
     }
 }
