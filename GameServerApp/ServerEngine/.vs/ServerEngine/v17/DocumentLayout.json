@@ -3,36 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\types\\type_blobdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\types\\type_blobdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\postgresql\\dataobject_psql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\postgresql\\dataobject_psql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\blobdatabaseinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\blobdatabaseinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\postgresql\\services\\dataobjectservice_psql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\postgresql\\services\\dataobjectservice_psql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\services\\blobdatabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\services\\blobdatabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\data\\dataobjectinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\data\\dataobjectinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\postgresql\\blobdatabase_psql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\postgresql\\blobdatabase_psql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\types\\type_dataobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\types\\type_dataobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\interfaces\\iblobdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\interfaces\\iblobdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\interfaces\\idataobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\interfaces\\idataobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\interfaces\\iblobdatabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\interfaces\\iblobdatabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\interfaces\\idataobjectservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\interfaces\\idataobjectservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\serverengine.database.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\serverengine.database.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\attributes\\dataobjectattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\attributes\\dataobjectattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.database\\attributes\\blobdataattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\attributes\\blobdataattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\interfaces\\idataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\interfaces\\idataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\util\\timutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -43,16 +43,20 @@
       "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\snowflakeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\memorypackdataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\memorypackdataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\newtonsoftjsonserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\newtonsoftjsonserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\consulconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\consulconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\customjsonserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\customjsonserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\memorypackdataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\memorypackdataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\interfaces\\iuniqueidservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\interfaces\\iuniqueidservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\interfaces\\ijsonserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -63,36 +67,8 @@
       "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\type_test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\type_test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\arguments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\arguments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\interfaces\\idataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\interfaces\\idataserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\interfaces\\iremoteconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\interfaces\\iremoteconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\services\\interfaces\\isnowflakeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\interfaces\\isnowflakeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.config\\consul\\config_consul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|solutionrelative:serverengine.config\\consul\\config_consul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -102,8 +78,34 @@
       "DocumentGroups": [
         {
           "DockedHeight": 343,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DataObject_PSQL.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\DataObject_PSQL.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\PostgreSQL\\DataObject_PSQL.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\DataObject_PSQL.cs",
+              "RelativeToolTip": "ServerEngine.Database\\PostgreSQL\\DataObject_PSQL.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwCIAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T14:49:01.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DataObjectInfo.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Data\\DataObjectInfo.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Data\\DataObjectInfo.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Data\\DataObjectInfo.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Data\\DataObjectInfo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T14:48:01.795Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
@@ -118,106 +120,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ServerEngine.Database",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\ServerEngine.Database.csproj",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
-              "RelativeToolTip": "ServerEngine.Database\\ServerEngine.Database.csproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-06-25T15:55:28.729Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BlobDatabaseInfo.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\BlobDatabaseInfo.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\BlobDatabaseInfo.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\BlobDatabaseInfo.cs",
-              "RelativeToolTip": "ServerEngine.Database\\BlobDatabaseInfo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T15:54:10.984Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BlobDatabaseService.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Services\\BlobDatabaseService.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\Services\\BlobDatabaseService.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Services\\BlobDatabaseService.cs",
-              "RelativeToolTip": "ServerEngine.Database\\Services\\BlobDatabaseService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAABMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T15:47:46.344Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "BlobDataAttribute.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Attributes\\BlobDataAttribute.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\Attributes\\BlobDataAttribute.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Attributes\\BlobDataAttribute.cs",
-              "RelativeToolTip": "ServerEngine.Database\\Attributes\\BlobDataAttribute.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAABfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T15:35:00.772Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Type_BlobData.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Types\\Type_BlobData.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\Types\\Type_BlobData.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Types\\Type_BlobData.cs",
-              "RelativeToolTip": "ServerEngine.Database\\Types\\Type_BlobData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T15:10:54.085Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IBlobDatabaseService.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IBlobDatabaseService.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\Interfaces\\IBlobDatabaseService.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IBlobDatabaseService.cs",
-              "RelativeToolTip": "ServerEngine.Database\\Interfaces\\IBlobDatabaseService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T15:06:06.107Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "BlobDatabase_PSQL.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\BlobDatabase_PSQL.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\PostgreSQL\\BlobDatabase_PSQL.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\BlobDatabase_PSQL.cs",
-              "RelativeToolTip": "ServerEngine.Database\\PostgreSQL\\BlobDatabase_PSQL.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAdAAAA",
+              "Title": "Type_DataObject.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Types\\Type_DataObject.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Types\\Type_DataObject.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Types\\Type_DataObject.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Types\\Type_DataObject.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T14:57:09.5Z",
+              "WhenOpened": "2024-07-18T14:46:33.676Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "IBlobDatabase.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IBlobDatabase.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Database\\Interfaces\\IBlobDatabase.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IBlobDatabase.cs",
-              "RelativeToolTip": "ServerEngine.Database\\Interfaces\\IBlobDatabase.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAWAAAA",
+              "Title": "IDataObject.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IDataObject.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Interfaces\\IDataObject.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IDataObject.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Interfaces\\IDataObject.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T14:39:01.748Z",
+              "WhenOpened": "2024-07-18T14:45:47.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DataObjectAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Attributes\\DataObjectAttribute.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Attributes\\DataObjectAttribute.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Attributes\\DataObjectAttribute.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Attributes\\DataObjectAttribute.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAYAAABHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T14:45:31.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DataObjectService_PSQL.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\Services\\DataObjectService_PSQL.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\PostgreSQL\\Services\\DataObjectService_PSQL.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\Services\\DataObjectService_PSQL.cs",
+              "RelativeToolTip": "ServerEngine.Database\\PostgreSQL\\Services\\DataObjectService_PSQL.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAwCkAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T14:33:13.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IUniqueIdService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IUniqueIdService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\IUniqueIdService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IUniqueIdService.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\IUniqueIdService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T14:32:09.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IDataSerializer.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T14:30:22.041Z",
               "EditorCaption": ""
             },
             {
@@ -228,71 +204,49 @@
               "RelativeDocumentMoniker": "ServerEngine.Core\\Util\\TimUtil.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Util\\TimUtil.cs",
               "RelativeToolTip": "ServerEngine.Core\\Util\\TimUtil.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAWAAAA",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAzwBYAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T14:27:04.802Z",
+              "WhenOpened": "2024-07-18T09:46:17.441Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Type_Test.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Type_Test.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\Type_Test.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Type_Test.cs",
-              "RelativeToolTip": "ServerEngine.Test\\Type_Test.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T14:35:49.175Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\Program.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
-              "RelativeToolTip": "ServerEngine.Test\\Program.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAIA5wB8AAABTAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T14:23:36.477Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "CustomJsonSerializer.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\CustomJsonSerializer.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\CustomJsonSerializer.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\CustomJsonSerializer.cs",
-              "RelativeToolTip": "ServerEngine.Core\\Services\\CustomJsonSerializer.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAxwBkAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T14:16:18.234Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 10,
               "Title": "MemoryPackDataSerializer.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\MemoryPackDataSerializer.cs",
               "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\MemoryPackDataSerializer.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\MemoryPackDataSerializer.cs",
               "RelativeToolTip": "ServerEngine.Core\\Services\\MemoryPackDataSerializer.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAAYwCwAAAANAAAA",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwB4AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:52:12.744Z"
+              "WhenOpened": "2024-07-18T09:42:54.75Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "IJsonSerializer.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
-              "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAWAAAA",
+              "DocumentIndex": 11,
+              "Title": "NewtonsoftJsonSerializer.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAzwBYAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:51:47.973Z"
+              "WhenOpened": "2024-07-18T09:39:30.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Program.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Program.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAACgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T09:39:18.871Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -302,107 +256,62 @@
               "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\SnowFlakeService.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\SnowFlakeService.cs",
               "RelativeToolTip": "ServerEngine.Core\\Services\\SnowFlakeService.cs",
-              "ViewState": "AQIAAFwAAAAAAAAAAAAgwG0AAAAJAAAA",
+              "ViewState": "AQIAACsAAAAAAAAAAAAQwBIAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:41:59.664Z",
+              "WhenOpened": "2024-07-18T09:39:14.067Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Arguments.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Arguments.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\Arguments.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Arguments.cs",
-              "RelativeToolTip": "ServerEngine.Test\\Arguments.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAABTAAAA",
+              "DocumentIndex": 14,
+              "Title": "IJsonSerializer.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\IJsonSerializer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:38:34.728Z"
+              "WhenOpened": "2024-07-18T09:39:11.672Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "IDataSerializer.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
-              "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\IDataSerializer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:36:37.131Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 16,
               "Title": "IRemoteConfigureService.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
               "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
               "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\IRemoteConfigureService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:35:33.296Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ISnowflakeService.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\ISnowflakeService.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\Interfaces\\ISnowflakeService.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\Interfaces\\ISnowflakeService.cs",
-              "RelativeToolTip": "ServerEngine.Core\\Services\\Interfaces\\ISnowflakeService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:36:36.128Z"
+              "WhenOpened": "2024-07-18T09:39:11.153Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Config_Consul.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\Consul\\Config_Consul.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Config\\Consul\\Config_Consul.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\Consul\\Config_Consul.cs",
-              "RelativeToolTip": "ServerEngine.Config\\Consul\\Config_Consul.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:36:17.133Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "ConsulConfigureService.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\ConsulConfigureService.cs",
               "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\ConsulConfigureService.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\ConsulConfigureService.cs",
               "RelativeToolTip": "ServerEngine.Core\\Services\\ConsulConfigureService.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAQwDMAAAAAAAAA",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAYwEIAAABTAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:35:50.22Z",
+              "WhenOpened": "2024-07-18T09:38:09.954Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\appsettings.Development.json",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\appsettings.Development.json",
-              "RelativeToolTip": "ServerEngine.Test\\appsettings.Development.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-06-23T13:34:56.282Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "StartupServer.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\StartupServer.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\StartupServer.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\StartupServer.cs",
-              "RelativeToolTip": "ServerEngine.Test\\StartupServer.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAuwB0AAAAAAAAA",
+              "DocumentIndex": 5,
+              "Title": "IDataObjectService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IDataObjectService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Interfaces\\IDataObjectService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Interfaces\\IDataObjectService.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Interfaces\\IDataObjectService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-16T17:12:03.632Z"
+              "WhenOpened": "2024-06-25T15:06:06.107Z",
+              "EditorCaption": ""
             }
           ]
         },

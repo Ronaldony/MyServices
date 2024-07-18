@@ -1,14 +1,14 @@
 ﻿
 namespace ServerEngine.Core.Services
 {
-    using Interfaces;
+    using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Core.Util;
 
     /// <summary>
     /// SnowflakeService.
     /// Unique id generator service.
     /// </summary>
-    public sealed class SnowflakeService : ISnowflakeService
+    public sealed class SnowflakeService : IUniqueIdService
     {
         // EpochBaseTime: 특정 시간 이후로 몇 밀리초가 경과했는지를 나타내는 값.
         private readonly DateTime _epochBaseTime;
@@ -97,6 +97,8 @@ namespace ServerEngine.Core.Services
 
                 _lastTimestamp = timestamp;
                 
+                // ID.
+                // Position: (MSB)Time | DataCenter | WorkerId | Sequence.
                 var id = ((timestamp - _epoch) << TimestampShift) | (_dcId << DatacenterIdShift) | (_workerId << WorkerIdShift) | _sequence;
                 
                 return id.ToString("X16");

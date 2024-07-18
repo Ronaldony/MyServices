@@ -1,6 +1,6 @@
 ﻿namespace ServerEngine.Core.Services.Interfaces
 {
-    public interface ISnowflakeService
+    public interface IUniqueIdService
     {
         /// <summary>
         /// Initialize.

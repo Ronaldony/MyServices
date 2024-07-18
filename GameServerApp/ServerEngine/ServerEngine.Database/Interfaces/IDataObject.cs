@@ -1,6 +1,6 @@
 ﻿namespace ServerEngine.Database.Interfaces
 {
-    public interface IBlobDatabase
+    public interface IDataObject
     {
         /// <summary>
         /// Get blob data.

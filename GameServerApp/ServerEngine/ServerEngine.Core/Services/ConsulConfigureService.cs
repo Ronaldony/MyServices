@@ -6,9 +6,9 @@ using System.Text;
 
 namespace ServerEngine.Core.Services
 {
-    using Config;
-    using Interfaces;
+    using ServerEngine.Config;
     using ServerEngine.Config.Consul;
+    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
     /// ConsulConfigureService.
@@ -17,16 +17,17 @@ namespace ServerEngine.Core.Services
     public sealed class ConsulConfigureService : IRemoteConfigureService
     {
         private readonly ILogger<ConsulConfigureService> _logger;
-        private readonly IServiceProvider _serviceProvider;
+        
+        private readonly IJsonSerializer _jsonSerializer;
 
         private ConsulClient _consulClient;
 
         public ConsulConfigureService(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
-
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             _logger = loggerFactory.CreateLogger<ConsulConfigureService>();
+
+            _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
         }
 
         /// <summary>
@@ -63,10 +64,9 @@ namespace ServerEngine.Core.Services
                 try
                 {
                     var getPair = await client.KV.Get(key);
-
                     var keyValue = Encoding.UTF8.GetString(getPair.Response.Value);
                     
-                    return JsonConvert.DeserializeObject<T>(keyValue);
+                    return _jsonSerializer.Deserialize<T>(keyValue);
                 }
                 catch (Exception ex)
                 {

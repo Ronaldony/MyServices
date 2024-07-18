@@ -2,13 +2,26 @@
 {
     public static class TimeUtil
     {
+        ///////////////////////////////////////////////////////
+        // Time now - Local.
+        private static DateTime _now = DateTime.Now.ToLocalTime();
+        public static DateTime GetNow() => _now;
+
+        /// <summary>
+        /// Add time from minute.
+        /// </summary>
+        public static void AddNowTime(int minute) => _now.AddMinutes(minute);
+
+        /// <summary>
+        /// Default time.
+        /// </summary>
+        private static DateTime _defaultTime = new DateTime(1970, 1, 1);
+
         /// <summary>
         /// Check dst is past src.
         /// </summary>
-        /// <param name="src">Source time</param>
-        /// <param name="dst">Destination time</param>
         /// <returns>
-        /// true: dst is past src. 
+        /// true: dst is past src.
         /// false: otherwise.
         /// </returns>
         public static bool IsPastTime(DateTime src, DateTime dst)
@@ -24,6 +37,50 @@
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Compare both time is same.
+        /// </summary>
+        public static bool IsSameDay(DateTime src, DateTime dst)
+        {
+            if ((IsNullOrDefault(dst) == true) || (IsNullOrDefault(src) == true))
+            {
+                return false;
+            }
+
+            // Year.
+            if (false == src.Year.Equals(dst.Year))
+            {
+                return false;
+            }
+
+            // DayOfYear.
+            if (false == src.DayOfYear.Equals(dst.DayOfYear))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Check the time is null or MinValue.
+        /// </summary>
+        public static bool IsNullOrDefault(DateTime src)
+        {
+            if (true == src.Equals(null))
+            {
+                return true;
+            }
+
+            // Less than default time.
+            if (src.CompareTo(_defaultTime) < 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

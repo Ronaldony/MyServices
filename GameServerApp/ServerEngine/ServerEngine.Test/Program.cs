@@ -27,9 +27,9 @@ namespace ServerEngine.Test
                 .ConfigureServices(services =>
                 {
                     services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
-                    services.AddSingleton<ISnowflakeService, SnowflakeService>();
+                    services.AddSingleton<IUniqueIdService, SnowflakeService>();
                     services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
-                    services.AddSingleton<IJsonSerializer, CustomJsonSerializer>();
+                    services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
                 })
                 .ConfigureAppConfiguration(services =>
                 {

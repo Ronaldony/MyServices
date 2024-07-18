@@ -1,10 +1,10 @@
-﻿using MemoryPack;
-using MemoryPack.Compression;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace ServerEngine.Core.Services
 {
-    using Interfaces;
+    using MemoryPack;
+    using MemoryPack.Compression;
+    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
     /// MemoryPackDataSerializer.

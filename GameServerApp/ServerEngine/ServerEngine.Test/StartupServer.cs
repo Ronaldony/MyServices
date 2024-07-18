@@ -31,7 +31,7 @@ namespace ServerEngine.Test
 
             /////////////////////////////////////////////////////////////////////////////
             // Initialize servivces.
-            var snowFlakeService = _serviceProvider.GetRequiredService<ISnowflakeService>();
+            var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(consulGame.SnowflakeBaseTime, 1, 2);
 
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
