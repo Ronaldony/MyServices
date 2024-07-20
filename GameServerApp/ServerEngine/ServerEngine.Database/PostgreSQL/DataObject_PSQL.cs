@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Dapper;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
+using Npgsql;
+using System.Data;
 
 namespace ServerEngine.Database.PostgreSQL
 {
@@ -13,7 +15,9 @@ namespace ServerEngine.Database.PostgreSQL
         private readonly ILogger<DataObject_PSQL> _logger;
         private DataObjectInfo _dataObjectInfo;
 
-        public DataObject_PSQL(IServiceProvider serviceProvider, Type_DataObject dataObjectType)
+        private readonly string _connectString;
+
+        public DataObject_PSQL(IServiceProvider serviceProvider, Type_DataObject dataObjectType, string connectString)
         {
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             _logger = loggerFactory.CreateLogger<DataObject_PSQL>();
@@ -21,8 +25,11 @@ namespace ServerEngine.Database.PostgreSQL
             // Get Data Obejct Info.
             var dataObjectService = serviceProvider.GetRequiredService<IDataObjectService>();
             _dataObjectInfo = dataObjectService.GetDataObjectInfo(dataObjectType);
-            
-            //NpgsqlConnectionStringBuilder
+
+            // Get connection string.
+            var connectionSB = new NpgsqlConnectionStringBuilder(connectString);
+            connectionSB.Database = _dataObjectInfo.Database;
+            _connectString = connectionSB.ConnectionString;
         }
 
         /// <summary>
@@ -30,16 +37,61 @@ namespace ServerEngine.Database.PostgreSQL
         /// </summary>
         public T Select<T>(string key) where T : class
         {
-            // TODO: Select from DB.
+            // TODO: Select from cache first.
 
-            return null;
+            // TODO: Select from DB.
+            var sql = $"SELECT _data FROM {_dataObjectInfo.Table} WHERE key=@Key";
+            using (var connection = new NpgsqlConnection(_connectString))
+            {
+                connection.Open();
+
+                return connection.QueryFirstOrDefault(
+                    sql: sql,
+                    param: new
+                    {
+                        Key = key,
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+            }
         }
 
         public bool Upsert<T>(string key, T data) where T : class
         {
-            // TODO: Upsert from DB.
+            // TODO: Check object is changed.
 
-            return true;
+            // TODO: Update cache.
+
+            // TODO: Upsert from DB.
+            var sql = $"""
+                        INSERT INTO {_dataObjectInfo.Table} VALUES (@Key, @Data, NOW()) 
+                        ON DUPLICATE KEY UPDATE _data=@Data
+                        """;
+
+            using (var connection = new NpgsqlConnection(_connectString))
+            {
+                connection.Open();
+
+                int rowAffect = connection.Execute(
+                    sql: sql,
+                    param: new
+                    {
+                        Key = key,
+                        Data = data
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+
+                // Upsert success.
+                if (rowAffect > 0 )
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
     }
 }

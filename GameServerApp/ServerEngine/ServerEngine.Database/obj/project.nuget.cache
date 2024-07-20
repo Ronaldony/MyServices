@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "6Q7xT9zj6yRSBUQ3iQaA8L7mwyxjWZOSZ0xMRgjKVTKSKDGRk20FSNImFqM6b+GUZs0zZmd65/StGNdHniNukw==",
+  "dgSpecHash": "tAxJ6NqwWSfgolieah/dZVXVwufsNiWFvc0eUGMhQlhYK33rHcNUAqN0/bQB6CmVYz9hrTSOUKG2H3bgYnoBTg==",
   "success": true,
   "projectFilePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gande\\.nuget\\packages\\consul\\1.7.14.3\\consul.1.7.14.3.nupkg.sha512",
+    "C:\\Users\\gande\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\gande\\.nuget\\packages\\memorypack\\1.21.1\\memorypack.1.21.1.nupkg.sha512",
     "C:\\Users\\gande\\.nuget\\packages\\memorypack.core\\1.21.1\\memorypack.core.1.21.1.nupkg.sha512",
     "C:\\Users\\gande\\.nuget\\packages\\memorypack.generator\\1.21.1\\memorypack.generator.1.21.1.nupkg.sha512",
