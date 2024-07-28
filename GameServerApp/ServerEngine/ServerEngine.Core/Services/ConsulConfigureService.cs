@@ -1,7 +1,6 @@
 ﻿using Consul;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System.Text;
 
 namespace ServerEngine.Core.Services
@@ -39,7 +38,7 @@ namespace ServerEngine.Core.Services
 
             if (configConsul == null)
             {
-                _logger.LogError("ConfigBase is null.");
+                _logger.LogError("fail to initialize ConsulConfigureService.");
                 return false;
             }
 

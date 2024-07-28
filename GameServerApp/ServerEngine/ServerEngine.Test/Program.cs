@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using PowerArgs;
-using ServerEngine.Core.Services;
-using ServerEngine.Core.Services.Interfaces;
+﻿using PowerArgs;
 
 namespace ServerEngine.Test
 {
@@ -18,28 +13,13 @@ namespace ServerEngine.Test
                 return;
             }
 
-            var host = Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(configs =>
-                {
-                    configs.AddJsonFile(arguments.ConfigFile);
-                    configs.SetBasePath(AppContext.BaseDirectory);
-                })
-                .ConfigureServices(services =>
-                {
-                    services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
-                    services.AddSingleton<IUniqueIdService, SnowflakeService>();
-                    services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
-                    services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
-                })
-                .ConfigureAppConfiguration(services =>
-                {
-                })
-                .Build();
+            var startup = new Startup(args, arguments);
+            startup.Configure();
 
-            var startupServer = new StartupServer(host.Services);
+            var startupServer = new StartupServer(startup.WebApp.Services);
             await startupServer.ConfigureAsync();
 
-            await host.RunAsync();
+            await startup.WebApp.RunAsync();
         }
 
         private static Arguments ParseCommand(string[] args)

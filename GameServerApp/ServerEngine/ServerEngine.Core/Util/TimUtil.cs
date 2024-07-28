@@ -5,7 +5,7 @@
         ///////////////////////////////////////////////////////
         // Time now - Local.
         private static DateTime _now = DateTime.Now.ToLocalTime();
-        public static DateTime GetNow() => _now;
+        public static DateTime Now => _now;
 
         /// <summary>
         /// Add time from minute.

@@ -2,7 +2,7 @@
   "profiles": {
     "ServerEngine.Test": {
       "commandName": "Project",
-      "commandLineArgs": "-C appsettings.Development.json -S ServerEngine"
+      "commandLineArgs": "-C appsettings.Development.json -S ServerEngine -P 8000"
     }
   }
 }

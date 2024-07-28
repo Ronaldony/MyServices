@@ -3,8 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ServerEngine.Test
 {
+    using ServerEngine.Config;
+    using ServerEngine.Config.ConfigManager;
     using ServerEngine.Config.Consul;
     using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Database.Interfaces;
     using System.Dynamic;
 
     internal class StartupServer
@@ -26,16 +29,21 @@ namespace ServerEngine.Test
             var consulConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
             consulConfigureService.Initialize(configConsul);
 
-            var consulGame = await consulConfigureService.GetConfigData<ConsulGame>("Development");
+            var configGame = await consulConfigureService.GetConfigData<Config_Game>("Development");
+            var configDatabase = await consulConfigureService.GetConfigData<List<Config_Database>>("Development_Database");
 
+            GameConfigManager.Initialize(configGame, configDatabase);
 
             /////////////////////////////////////////////////////////////////////////////
             // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
-            snowFlakeService.Initialize(consulGame.SnowflakeBaseTime, 1, 2);
+            snowFlakeService.Initialize(configGame.SnowflakeBaseTime, 1, 2);
 
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
+
+            var dataObjectService = _serviceProvider.GetRequiredService<IDataObjectService>();
+            dataObjectService.Initialize();
         }
     }
 }

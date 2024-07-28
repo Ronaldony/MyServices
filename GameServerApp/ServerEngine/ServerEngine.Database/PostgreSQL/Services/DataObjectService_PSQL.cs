@@ -10,7 +10,7 @@ namespace ServerEngine.Database.PostgreSQL.Services
     public class DataObjectService_PSQL : IDataObjectService
     {
         private readonly ILogger<DataObjectService_PSQL> _logger;
-
+        
         private Dictionary<Type_DataObject, DataObjectInfo> _dataObjectInfos;
 
         public DataObjectService_PSQL(ILogger<DataObjectService_PSQL> logger)

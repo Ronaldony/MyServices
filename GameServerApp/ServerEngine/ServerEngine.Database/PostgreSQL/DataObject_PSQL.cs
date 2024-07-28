@@ -6,6 +6,7 @@ using System.Data;
 
 namespace ServerEngine.Database.PostgreSQL
 {
+    using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Data;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Database.Types;
@@ -13,83 +14,111 @@ namespace ServerEngine.Database.PostgreSQL
     public abstract class DataObject_PSQL : IDataObject
     {
         private readonly ILogger<DataObject_PSQL> _logger;
-        private DataObjectInfo _dataObjectInfo;
+        private readonly IDataSerializer _dataSerializer;
 
+        private DataObjectInfo _dataObjectInfo;
         private readonly string _connectString;
 
         public DataObject_PSQL(IServiceProvider serviceProvider, Type_DataObject dataObjectType, string connectString)
         {
-            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-            _logger = loggerFactory.CreateLogger<DataObject_PSQL>();
-            
-            // Get Data Obejct Info.
+            _logger = serviceProvider.GetRequiredService<ILogger<DataObject_PSQL>>();
+
+            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
+
+            // get DataObjectInfo.
             var dataObjectService = serviceProvider.GetRequiredService<IDataObjectService>();
             _dataObjectInfo = dataObjectService.GetDataObjectInfo(dataObjectType);
 
-            // Get connection string.
+            // set connection string.
             var connectionSB = new NpgsqlConnectionStringBuilder(connectString);
             connectionSB.Database = _dataObjectInfo.Database;
             _connectString = connectionSB.ConnectionString;
         }
 
         /// <summary>
-        /// Select 
+        /// Select.
         /// </summary>
-        public T Select<T>(string key) where T : class
+        public T Select<T>(string key) where T : DataObjectBase
         {
             // TODO: Select from cache first.
 
-            // TODO: Select from DB.
-            var sql = $"SELECT _data FROM {_dataObjectInfo.Table} WHERE key=@Key";
-            using (var connection = new NpgsqlConnection(_connectString))
+            // Select Database.
+            try
             {
-                connection.Open();
+                var sql = $"""
+                        SELECT _data FROM "{_dataObjectInfo.Table}" WHERE key=@Key
+                        """;
 
-                return connection.QueryFirstOrDefault(
-                    sql: sql,
-                    param: new
-                    {
-                        Key = key,
-                    },
-                    commandTimeout: 10,
-                    commandType: CommandType.Text
-                    );
+                using (var connection = new NpgsqlConnection(_connectString))
+                {
+                    connection.Open();
+
+                    var dataBytes = connection.QueryFirstOrDefault(
+                        sql: sql,
+                        param: new
+                        {
+                            Key = key,
+                        },
+                        commandTimeout: 10,
+                        commandType: CommandType.Text
+                        );
+
+                    return _dataSerializer.Deserialize<T>(dataBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return null;
             }
         }
 
-        public bool Upsert<T>(string key, T data) where T : class
+        public bool Upsert<T>(string key, T dataObject) where T : DataObjectBase
         {
+            var dataBytes = _dataSerializer.Serialize(dataObject);
+
             // TODO: Check object is changed.
 
             // TODO: Update cache.
 
-            // TODO: Upsert from DB.
-            var sql = $"""
-                        INSERT INTO {_dataObjectInfo.Table} VALUES (@Key, @Data, NOW()) 
-                        ON DUPLICATE KEY UPDATE _data=@Data
+            // Upsert Database.
+
+            try
+            {
+               var sql = $"""
+                        INSERT INTO "{_dataObjectInfo.Table}" (key, _data, regtime) VALUES (@Key, @Data, NOW()) 
+                        ON CONFLICT (key) 
+                        DO UPDATE 
+                        SET _data=@Data
                         """;
 
-            using (var connection = new NpgsqlConnection(_connectString))
-            {
-                connection.Open();
-
-                int rowAffect = connection.Execute(
-                    sql: sql,
-                    param: new
-                    {
-                        Key = key,
-                        Data = data
-                    },
-                    commandTimeout: 10,
-                    commandType: CommandType.Text
-                    );
-
-                // Upsert success.
-                if (rowAffect > 0 )
+                using (var connection = new NpgsqlConnection(_connectString))
                 {
-                    return true;
-                }
+                    connection.Open();
 
+                    int rowAffect = connection.Execute(
+                        sql: sql,
+                        param: new
+                        {
+                            Key = key,
+                            Data = dataBytes
+                        },
+                        commandTimeout: 10,
+                        commandType: CommandType.Text
+                        );
+
+                    // Upsert success.
+                    if (rowAffect > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
                 return false;
             }
         }
