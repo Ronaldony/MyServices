@@ -2,7 +2,6 @@
 
 namespace ServerEngine.Database.PostgreSQL.Services
 {
-    using Npgsql;
     using ServerEngine.Database.Data;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Database.Types;

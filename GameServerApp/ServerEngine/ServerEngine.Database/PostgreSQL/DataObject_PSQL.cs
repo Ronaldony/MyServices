@@ -10,6 +10,7 @@ namespace ServerEngine.Database.PostgreSQL
     using ServerEngine.Database.Data;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Database.Types;
+    using System.Runtime.CompilerServices;
 
     public abstract class DataObject_PSQL : IDataObject
     {
@@ -53,7 +54,7 @@ namespace ServerEngine.Database.PostgreSQL
                 {
                     connection.Open();
 
-                    var dataBytes = connection.QueryFirstOrDefault(
+                    var dataBytes = connection.QueryFirstOrDefault<byte[]>(
                         sql: sql,
                         param: new
                         {
@@ -73,6 +74,9 @@ namespace ServerEngine.Database.PostgreSQL
             }
         }
 
+        /// <summary>
+        /// Upsert.
+        /// </summary>
         public bool Upsert<T>(string key, T dataObject) where T : DataObjectBase
         {
             var dataBytes = _dataSerializer.Serialize(dataObject);
@@ -81,8 +85,7 @@ namespace ServerEngine.Database.PostgreSQL
 
             // TODO: Update cache.
 
-            // Upsert Database.
-
+            // Upsert.
             try
             {
                var sql = $"""

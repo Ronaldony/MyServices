@@ -1,4 +1,7 @@
 ﻿using PowerArgs;
+using ServerEngine.Core.Util;
+using ServerEngine.Test.Database.Data;
+using ServerEngine.Test.Database.DataObject;
 
 namespace ServerEngine.Test
 {
@@ -12,6 +15,8 @@ namespace ServerEngine.Test
                 Console.WriteLine("Arguments is null.");
                 return;
             }
+
+            TestCode();
 
             var startup = new Startup(args, arguments);
             startup.Configure();
@@ -34,6 +39,10 @@ namespace ServerEngine.Test
                 Console.WriteLine(ex.Message);
                 return null;
             }
+        }
+
+        public static void TestCode()
+        {
         }
     }
 }

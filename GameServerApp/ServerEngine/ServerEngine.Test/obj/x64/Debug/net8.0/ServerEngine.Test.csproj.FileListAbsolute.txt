@@ -40,3 +40,5 @@ C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEn
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\obj\x64\Debug\net8.0\ServerEngine.Test.pdb
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\obj\x64\Debug\net8.0\ServerEngine.Test.genruntimeconfig.cache
 C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\obj\x64\Debug\net8.0\ref\ServerEngine.Test.dll
+C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\bin\x64\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Test\bin\x64\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll

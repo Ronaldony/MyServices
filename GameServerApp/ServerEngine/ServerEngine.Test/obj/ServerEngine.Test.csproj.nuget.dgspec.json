@@ -299,6 +299,10 @@
             "PowerArgs": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

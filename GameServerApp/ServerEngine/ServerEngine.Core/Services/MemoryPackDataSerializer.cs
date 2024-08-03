@@ -5,6 +5,7 @@ namespace ServerEngine.Core.Services
     using MemoryPack;
     using MemoryPack.Compression;
     using ServerEngine.Core.Services.Interfaces;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// MemoryPackDataSerializer.

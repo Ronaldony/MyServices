@@ -35,7 +35,7 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<IDataObjectService, DataObjectService_PSQL>();
 
             // Database.
-            _webAppBuilder.Services.AddScoped<DataObject_PlayerInfo>();
+            _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
 
             _webAppBuilder.WebHost.ConfigureKestrel(d =>
             {
