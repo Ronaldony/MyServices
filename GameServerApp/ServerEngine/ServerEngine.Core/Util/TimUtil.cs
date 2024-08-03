@@ -2,7 +2,6 @@
 {
     public static class TimeUtil
     {
-        ///////////////////////////////////////////////////////
         // Time now - Local.
         private static DateTime _now = DateTime.Now.ToLocalTime();
         public static DateTime Now => _now;
@@ -10,7 +9,7 @@
         /// <summary>
         /// Add time from minute.
         /// </summary>
-        public static void AddNowTime(int minute) => _now.AddMinutes(minute);
+        public static void AddNowTime(int minute) => _now = _now.AddMinutes(minute);
 
         /// <summary>
         /// Default time.

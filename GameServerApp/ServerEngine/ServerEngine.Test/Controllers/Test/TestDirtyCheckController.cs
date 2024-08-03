@@ -57,7 +57,10 @@ namespace ServerEngine.Test.Controllers.Test
                 // 체크 카운트 131072마다 출력.
                 if ((cnt & 0x1FFFF) == 0x1FFFF)
                 {
-                    _logger.LogInformation($"Check count: {cnt}");
+                    _logger.LogInformation($"Check count: {cnt}, Time: {TimeUtil.Now}");
+
+                    TimeUtil.AddNowTime(20);
+                    _logger.LogInformation($"now Time: {TimeUtil.Now}");
                 }
 
                 // TestString dirty check.

@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.core\\util\\timutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\util\\timutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\controllers\\test\\testdirtycheckcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\controllers\\test\\testdirtycheckcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\controllers\\test\\data\\testdirtcheck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\controllers\\test\\data\\testdirtcheck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\database\\data\\dto_playerinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\database\\data\\dto_playerinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\controllers\\test\\data\\testdirtycheck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\controllers\\test\\data\\testdirtycheck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\controllers\\test\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -41,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.config\\configmanager\\gameconfigmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|solutionrelative:serverengine.config\\configmanager\\gameconfigmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\gameserverapp\\serverengine\\serverengine.test\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -79,19 +79,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TimUtil.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Util\\TimUtil.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Util\\TimUtil.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Util\\TimUtil.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Util\\TimUtil.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAoAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-03T15:30:42.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "TestDirtyCheckController.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\TestDirtyCheckController.cs",
               "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\TestDirtyCheckController.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\TestDirtyCheckController.cs",
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\TestDirtyCheckController.cs",
-              "ViewState": "AQIAAFYAAAAAAAAAAAAAAHEAAAAjAAAA",
+              "ViewState": "AQIAACkAAAAAAAAAAAAAAD0AAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-03T14:22:04.409Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "PlayerInfoObejct.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
               "RelativeDocumentMoniker": "ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
@@ -99,12 +112,11 @@
               "RelativeToolTip": "ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
               "ViewState": "AQIAAAgAAAAAAAAAAAAuwB0AAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T14:07:24.135Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-03T14:07:24.135Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "DataObject_PSQL.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\DataObject_PSQL.cs",
               "RelativeDocumentMoniker": "ServerEngine.Database\\PostgreSQL\\DataObject_PSQL.cs",
@@ -112,12 +124,11 @@
               "RelativeToolTip": "ServerEngine.Database\\PostgreSQL\\DataObject_PSQL.cs",
               "ViewState": "AQIAAHoAAAAAAAAAAAAgwH4AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T14:06:37.286Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-03T14:06:37.286Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "DataObjectService_PSQL.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\PostgreSQL\\Services\\DataObjectService_PSQL.cs",
               "RelativeDocumentMoniker": "ServerEngine.Database\\PostgreSQL\\Services\\DataObjectService_PSQL.cs",
@@ -125,25 +136,50 @@
               "RelativeToolTip": "ServerEngine.Database\\PostgreSQL\\Services\\DataObjectService_PSQL.cs",
               "ViewState": "AQIAAB4AAAAAAAAAAAAYwBgAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T14:06:37.555Z",
+              "WhenOpened": "2024-08-03T14:06:37.555Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Program.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Program.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAAAAoAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-03T13:29:30.08Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "TestDirtyCheck.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtyCheck.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtyCheck.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtyCheck.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtyCheck.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-03T15:32:04.385Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "TestController.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\TestController.cs",
               "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\TestController.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\TestController.cs",
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\TestController.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAuwCgAAAAJAAAA",
+              "ViewState": "AQIAABoAAAAAAAAAAAAuwCoAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-01T15:12:57.806Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Type_DataObject.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Types\\Type_DataObject.cs",
               "RelativeDocumentMoniker": "ServerEngine.Database\\Types\\Type_DataObject.cs",
@@ -151,12 +187,11 @@
               "RelativeToolTip": "ServerEngine.Database\\Types\\Type_DataObject.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T14:07:55.968Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-03T14:07:55.968Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "MemoryPackDataSerializer.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\Services\\MemoryPackDataSerializer.cs",
               "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\MemoryPackDataSerializer.cs",
@@ -164,8 +199,7 @@
               "RelativeToolTip": "ServerEngine.Core\\Services\\MemoryPackDataSerializer.cs",
               "ViewState": "AQIAACsAAAAAAAAAAAAAwDEAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T13:53:10.753Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-03T13:53:10.753Z"
             },
             {
               "$type": "Document",
@@ -177,8 +211,7 @@
               "RelativeToolTip": "ServerEngine.Test\\StartupServer.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAlwCIAAABFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T13:39:23.157Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-03T13:39:23.157Z"
             },
             {
               "$type": "Document",
@@ -190,12 +223,11 @@
               "RelativeToolTip": "ServerEngine.Test\\Startup.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T13:29:37.648Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-03T13:29:37.648Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "GameConfigManager.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ConfigManager\\GameConfigManager.cs",
               "RelativeDocumentMoniker": "ServerEngine.Config\\ConfigManager\\GameConfigManager.cs",
@@ -203,21 +235,7 @@
               "RelativeToolTip": "ServerEngine.Config\\ConfigManager\\GameConfigManager.cs",
               "ViewState": "AQIAADQAAAAAAAAAAAAwwCIAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T13:39:55.551Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\Program.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
-              "RelativeToolTip": "ServerEngine.Test\\Program.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAQwCwAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T13:29:30.08Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-03T13:39:55.551Z"
             }
           ]
         },
@@ -238,53 +256,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "60b49ac0-fe6f-4ab5-8b4e-3a0c721d9951",
-        "Display": 0,
-        "X": 463,
-        "Y": 556,
-        "Width": 1129,
-        "Height": 1078,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TestDirtCheck.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtCheck.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtCheck.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtCheck.cs",
-              "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtCheck.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB4AAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T15:20:38.429Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DTO_PlayerInfo.cs",
-              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
-              "RelativeDocumentMoniker": "ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
-              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
-              "RelativeToolTip": "ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAVAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-03T15:00:06.316Z",
-              "EditorCaption": ""
             }
           ]
         }
