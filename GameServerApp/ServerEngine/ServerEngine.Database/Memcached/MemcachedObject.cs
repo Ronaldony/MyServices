@@ -27,13 +27,13 @@ namespace ServerEngine.Database.Memcached
 		/// <summary>
 		/// Get data from cache.
 		/// </summary>
-		public T Get<T>(string key) where T : class
+		public T Get<T>(string key)
 		{
 			var data = _memcachedClient.Get<T>(key);
 
 			if (null == data)
 			{
-				return null;
+				return default;
 			}
 
 			return data;
@@ -42,7 +42,7 @@ namespace ServerEngine.Database.Memcached
 		/// <summary>
 		/// Set data into cache.
 		/// </summary>
-		public bool Set<T>(string key, T value) where T : class
+		public bool Set<T>(string key, T value)
 		{
 			return _memcachedClient.Set(key, value, 3600);
 		}

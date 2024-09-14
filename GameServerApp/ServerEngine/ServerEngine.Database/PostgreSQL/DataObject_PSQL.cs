@@ -14,7 +14,9 @@ namespace ServerEngine.Database.PostgreSQL
 	public abstract class DataObject_PSQL : IDataObject
     {
         private readonly ILogger<DataObject_PSQL> _logger;
+        
         private readonly IDataSerializer _dataSerializer;
+        private ICacheObject _cacheObject;
 
         private DataObjectInfo _dataObjectInfo;
         private readonly string _connectString;
@@ -25,7 +27,8 @@ namespace ServerEngine.Database.PostgreSQL
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DataObject_PSQL>>();
 
-            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
+            _cacheObject = serviceProvider.GetRequiredService<ICacheObject>();
+			_dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             _dataObjectInfo = dataObjectInfo;
 
@@ -40,7 +43,12 @@ namespace ServerEngine.Database.PostgreSQL
         /// </summary>
         public T Select<T>(string key) where T : DataObjectBase
         {
-            // TODO: Select from cache.
+            // Get from memory cache.
+            var cachingData = _cacheObject.Get<T>(key);
+            if (null != cachingData)
+            {
+                return cachingData;
+			}
 
             // Select Database.
             try
@@ -66,7 +74,12 @@ namespace ServerEngine.Database.PostgreSQL
                     // save ori data bytes.
                     _oriDataBytes = dataBytes;
 
-                    return _dataSerializer.Deserialize<T>(dataBytes);
+                    var dataObject = _dataSerializer.Deserialize<T>(dataBytes);
+
+					// update cache.
+					_cacheObject.Set<T>(key, dataObject);
+
+					return dataObject;
                 }
             }
             catch (Exception ex)
@@ -90,7 +103,8 @@ namespace ServerEngine.Database.PostgreSQL
                 return true;
             }
 
-            // TODO: update cache.
+            // update cache.
+            _cacheObject.Set<T>(key, dataObject);
 
             // Upsert.
             try

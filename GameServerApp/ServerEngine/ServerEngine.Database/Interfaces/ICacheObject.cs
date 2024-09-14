@@ -5,8 +5,8 @@
 	/// </summary>
 	public interface ICacheObject
 	{
-		T Get<T>(string key) where T: class;
+		T Get<T>(string key);
 
-		bool Set<T>(string key, T value) where T : class;
+		bool Set<T>(string key, T value);
 	}
 }
