@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ServerEngine.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be223990b452c09c776f1e4ca1f6b30e0f3bfd46")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8e8ae79f44ab8b858022446436db13b31712e20")]
 [assembly: System.Reflection.AssemblyProductAttribute("ServerEngine.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ServerEngine.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

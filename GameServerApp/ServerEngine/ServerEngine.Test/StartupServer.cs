@@ -41,9 +41,6 @@ namespace ServerEngine.Test
 
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
-
-            var dataObjectService = _serviceProvider.GetRequiredService<IDataObjectService>();
-            dataObjectService.Initialize();
         }
     }
 }

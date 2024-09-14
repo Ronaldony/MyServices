@@ -1,14 +1,14 @@
 ﻿
 namespace ServerEngine.Core.Services
 {
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Core.Util;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Core.Util;
 
-    /// <summary>
-    /// SnowflakeService.
-    /// Unique id generator service.
-    /// </summary>
-    public sealed class SnowflakeService : IUniqueIdService
+	/// <summary>
+	/// SnowflakeService.
+	/// Unique id generator service.
+	/// </summary>
+	public sealed class SnowflakeService : IUniqueIdService
     {
         // EpochBaseTime: 특정 시간 이후로 몇 밀리초가 경과했는지를 나타내는 값.
         private readonly DateTime _epochBaseTime;

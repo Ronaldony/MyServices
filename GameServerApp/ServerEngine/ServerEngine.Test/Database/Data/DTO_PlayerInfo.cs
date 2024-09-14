@@ -1,17 +1,14 @@
 ﻿
 using MemoryPack;
-using ServerEngine.Database.Data;
 using System.Runtime.InteropServices;
 
 namespace ServerEngine.Test.Database.Data
 {
-    [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    using ServerEngine.Database.Data;
+
+	[MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class DTO_PlayerInfo : DataObjectBase
     {
-        public DTO_PlayerInfo()
-        { 
-        }
-
         /// <summary>
         /// Pid.
         /// </summary>

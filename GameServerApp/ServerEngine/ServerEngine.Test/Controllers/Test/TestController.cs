@@ -3,11 +3,10 @@ using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
 using ServerEngine.Test.Database.Data;
 using ServerEngine.Test.Database.DataObject;
-using System.Runtime.CompilerServices;
 
 namespace ServerEngine.Test.Controllers.Test
 {
-    public class TestController : Controller
+	public class TestController : Controller
     {
         private readonly ILogger<TestController> _logger;
         private readonly PlayerInfoObejct _playerInfoObject;
@@ -25,7 +24,6 @@ namespace ServerEngine.Test.Controllers.Test
 
         [HttpGet]
         [Route("test")]
-        [Route("")]
         public string Process()
         {
             var isUpsert = _playerInfoObject.Upsert("Test", new DTO_PlayerInfo

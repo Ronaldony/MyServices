@@ -1,12 +1,12 @@
-﻿using ServerEngine.Core.Services.Interfaces;
-using ServerEngine.Core.Services;
-using ServerEngine.Test.Database.DataObject;
-using ServerEngine.Database.Interfaces;
-using ServerEngine.Database.PostgreSQL.Services;
-
-namespace ServerEngine.Test
+﻿namespace ServerEngine.Test
 {
-    public class Startup
+	using ServerEngine.Core.Services;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Database.Interfaces;
+	using ServerEngine.Database.Memcached;
+	using ServerEngine.Test.Database.DataObject;
+
+	public class Startup
     {
         public WebApplication WebApp { get; set; }
 
@@ -25,21 +25,27 @@ namespace ServerEngine.Test
 
         public void Configure()
         {
-            // services
             _webAppBuilder.Services.AddControllers();
+            
+            // cache.
+            _webAppBuilder.Services.AddEnyimMemcached(options =>
+            {
+                options.AddServer("192.168.10.6", 11211);
+			});
 
+            // services
             _webAppBuilder.Services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
             _webAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
             _webAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
-            _webAppBuilder.Services.AddSingleton<IDataObjectService, DataObjectService_PSQL>();
 
-            // Database.
-            _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+			// scoped.
+			_webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+            _webAppBuilder.Services.AddScoped<ICacheObject, MemcachedObject>();
 
-            _webAppBuilder.WebHost.ConfigureKestrel(d =>
+			_webAppBuilder.WebHost.ConfigureKestrel(configs =>
             {
-                d.ListenAnyIP(_arguments.Port);
+                configs.ListenAnyIP(_arguments.Port);
             });
 
             // Build WebApplication.
@@ -47,6 +53,7 @@ namespace ServerEngine.Test
 
             //WebApp.UseHttpsRedirection();
             WebApp.UseAuthorization();
+            WebApp.UseEnyimMemcached();
             WebApp.MapControllers();
         }
     }

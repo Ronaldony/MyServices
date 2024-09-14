@@ -1,17 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MemoryPack;
+using MemoryPack.Compression;
+using Microsoft.Extensions.Logging;
 
 namespace ServerEngine.Core.Services
 {
-    using MemoryPack;
-    using MemoryPack.Compression;
-    using ServerEngine.Core.Services.Interfaces;
-    using System.Runtime.CompilerServices;
+	using ServerEngine.Core.Services.Interfaces;
 
-    /// <summary>
-    /// MemoryPackDataSerializer.
-    /// Data serializer using memorypack and brotli.
-    /// </summary>
-    public sealed class MemoryPackDataSerializer : IDataSerializer
+	/// <summary>
+	/// MemoryPackDataSerializer.
+	/// Data serializer using memorypack and brotli.
+	/// </summary>
+	public sealed class MemoryPackDataSerializer : IDataSerializer
     {
         private ILogger<MemoryPackDataSerializer> _logger;
 

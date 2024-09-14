@@ -1,18 +1,14 @@
-﻿using MemoryPack.Formatters;
-using Microsoft.AspNetCore.Mvc;
-using Npgsql.Replication.PgOutput.Messages;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
 using ServerEngine.Test.Controllers.Test.Data;
-using ServerEngine.Test.Database.Data;
 using ServerEngine.Test.Database.DataObject;
-using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ServerEngine.Test.Controllers.Test
 {
-    public class TestDirtyCheckController : Controller
+	public class TestDirtyCheckController : Controller
     {
         private readonly ILogger<TestDirtyCheckController> _logger;
         private readonly PlayerInfoObejct _playerInfoObject;
@@ -58,65 +54,62 @@ namespace ServerEngine.Test.Controllers.Test
                 if ((cnt & 0x1FFFF) == 0x1FFFF)
                 {
                     _logger.LogInformation($"Check count: {cnt}, Time: {TimeUtil.Now}");
-
-                    TimeUtil.AddNowTime(20);
-                    _logger.LogInformation($"now Time: {TimeUtil.Now}");
                 }
 
                 // TestString dirty check.
                 playerInfo.TestString = GetNextString(playerInfo.TestString);
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestString: {playerInfo.TestString}");
+                    return $"error count: {cnt}, TestString: {playerInfo.TestString}";
                 }
 
                 // TestLong dirty check.
                 playerInfo.TestLong++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestLong: {playerInfo.TestLong}");
+                    return $"error count: {cnt}, TestLong: {playerInfo.TestLong}";
                 }
 
                 // TestDouble dirty check.
                 playerInfo.TestDouble++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestDouble: {playerInfo.TestDouble}");
+                    return $"error count: {cnt}, TestDouble: {playerInfo.TestDouble}";
                 }
 
                 // TestString2 dirty check.
                 playerInfo.TestString2 = GetNextString(playerInfo.TestString2);
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestString2: {playerInfo.TestString2}");
+                    return $"error count: {cnt}, TestString2: {playerInfo.TestString2}";
                 }
 
                 // TestLong2 dirty check.
                 playerInfo.TestLong2++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestLong2: {playerInfo.TestLong2}");
+                    return $"error count: {cnt}, TestLong2: {playerInfo.TestLong2}";
                 }
 
                 // TestBool dirty check.
                 playerInfo.TestBool = !playerInfo.TestBool;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestBool: {playerInfo.TestBool}");
+                    return $"error count: {cnt}, TestBool: {playerInfo.TestBool}";
                 }
 
                 // TestDateTime dirty check.
                 playerInfo.TestDateTime = playerInfo.TestDateTime.AddTicks(1);
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestDateTime: {playerInfo.TestDateTime}");
+                    return $"error count: {cnt}, TestDateTime: {playerInfo.TestDateTime}";
                 }
 
                 // TestFloat dirty check.
                 playerInfo.TestFloat++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    _logger.LogError($"error count: {cnt}, TestFloat: {playerInfo.TestFloat}");
+                    return $"error count: {cnt}, TestFloat: {playerInfo.TestFloat}";
                 }
             }
 

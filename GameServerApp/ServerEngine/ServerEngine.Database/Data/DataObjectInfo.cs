@@ -1,15 +1,15 @@
 ﻿namespace ServerEngine.Database.Data
 {
-    public class DataObjectInfo
+	public class DataObjectInfo
     {
         /// <summary>
-        /// Database.
+        /// Document.
         /// </summary>
-        public string Database { get; set; }
+        public string Document { get; set; }
 
         /// <summary>
-        /// Table in Database.
+        /// Bucket in document.
         /// </summary>
-        public string Table { get; set; }
+        public string Bucket { get; set; }
     }
 }

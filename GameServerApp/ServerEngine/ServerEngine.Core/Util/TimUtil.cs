@@ -2,14 +2,28 @@
 {
     public static class TimeUtil
     {
-        // Time now - Local.
-        private static DateTime _now = DateTime.Now.ToLocalTime();
+        /// <summary>
+        /// Now time.
+        /// </summary>
         public static DateTime Now => _now;
+        private static DateTime _now
+        {
+            get
+            {
+                if (0 != _addMinute)
+                {
+                    return DateTime.Now.AddMinutes(_addMinute);
+                }
+
+                return DateTime.Now;
+            }
+        }
 
         /// <summary>
         /// Add time from minute.
         /// </summary>
-        public static void AddNowTime(int minute) => _now = _now.AddMinutes(minute);
+        public static void AddNowTime(int minute) => _addMinute = minute;
+        private static int _addMinute;
 
         /// <summary>
         /// Default time.

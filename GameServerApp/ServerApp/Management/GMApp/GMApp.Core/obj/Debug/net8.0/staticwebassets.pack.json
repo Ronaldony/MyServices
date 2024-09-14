@@ -1,0 +1,89 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\GMApp.Core.bundle.scp.css",
+      "PackagePath": "staticwebassets\\GMApp.Core.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\background.png",
+      "PackagePath": "staticwebassets\\background.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\css\\portal.css",
+      "PackagePath": "staticwebassets\\css\\portal.css"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\exampleJsInterop.js",
+      "PackagePath": "staticwebassets\\exampleJsInterop.js"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\BlazorLogo.png",
+      "PackagePath": "staticwebassets\\images\\BlazorLogo.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\Icons-FindReplace-RegEx.png",
+      "PackagePath": "staticwebassets\\images\\Icons-FindReplace-RegEx.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\Splash_Corporation_logo.png",
+      "PackagePath": "staticwebassets\\images\\Splash_Corporation_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\newproject.png",
+      "PackagePath": "staticwebassets\\images\\newproject.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\template-counter.png",
+      "PackagePath": "staticwebassets\\images\\template-counter.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\template-home.png",
+      "PackagePath": "staticwebassets\\images\\template-home.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\template-weather.png",
+      "PackagePath": "staticwebassets\\images\\template-weather.png"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\images\\tool_img.jpg",
+      "PackagePath": "staticwebassets\\images\\tool_img.jpg"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\js\\CacheStorageAccessor.js",
+      "PackagePath": "staticwebassets\\js\\CacheStorageAccessor.js"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\js\\highlight-extensions.js",
+      "PackagePath": "staticwebassets\\js\\highlight-extensions.js"
+    },
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp.Core\\wwwroot\\js\\popper.min.js",
+      "PackagePath": "staticwebassets\\js\\popper.min.js"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.GMApp.Core.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.GMApp.Core.props",
+      "PackagePath": "build\\GMApp.Core.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.GMApp.Core.props",
+      "PackagePath": "buildMultiTargeting\\GMApp.Core.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.GMApp.Core.props",
+      "PackagePath": "buildTransitive\\GMApp.Core.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -3,16 +3,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using System.Data;
+using System.Runtime.CompilerServices;
 
 namespace ServerEngine.Database.PostgreSQL
 {
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Database.Data;
-    using ServerEngine.Database.Interfaces;
-    using ServerEngine.Database.Types;
-    using System.Runtime.CompilerServices;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Database.Data;
+	using ServerEngine.Database.Interfaces;
 
-    public abstract class DataObject_PSQL : IDataObject
+	public abstract class DataObject_PSQL : IDataObject
     {
         private readonly ILogger<DataObject_PSQL> _logger;
         private readonly IDataSerializer _dataSerializer;
@@ -20,19 +19,19 @@ namespace ServerEngine.Database.PostgreSQL
         private DataObjectInfo _dataObjectInfo;
         private readonly string _connectString;
 
-        public DataObject_PSQL(IServiceProvider serviceProvider, Type_DataObject dataObjectType, string connectString)
+        private byte[] _oriDataBytes;
+
+        public DataObject_PSQL(IServiceProvider serviceProvider, DataObjectInfo dataObjectInfo, string connectString)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DataObject_PSQL>>();
 
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
-            // get DataObjectInfo.
-            var dataObjectService = serviceProvider.GetRequiredService<IDataObjectService>();
-            _dataObjectInfo = dataObjectService.GetDataObjectInfo(dataObjectType);
+            _dataObjectInfo = dataObjectInfo;
 
-            // set connection string.
-            var connectionSB = new NpgsqlConnectionStringBuilder(connectString);
-            connectionSB.Database = _dataObjectInfo.Database;
+			// set connection string.
+			var connectionSB = new NpgsqlConnectionStringBuilder(connectString);
+            connectionSB.Database = _dataObjectInfo.Document;
             _connectString = connectionSB.ConnectionString;
         }
 
@@ -41,13 +40,13 @@ namespace ServerEngine.Database.PostgreSQL
         /// </summary>
         public T Select<T>(string key) where T : DataObjectBase
         {
-            // TODO: Select from cache first.
+            // TODO: Select from cache.
 
             // Select Database.
             try
             {
                 var sql = $"""
-                        SELECT _data FROM "{_dataObjectInfo.Table}" WHERE key=@Key
+                        SELECT _data FROM "{_dataObjectInfo.Bucket}" WHERE key=@Key
                         """;
 
                 using (var connection = new NpgsqlConnection(_connectString))
@@ -63,6 +62,9 @@ namespace ServerEngine.Database.PostgreSQL
                         commandTimeout: 10,
                         commandType: CommandType.Text
                         );
+
+                    // save ori data bytes.
+                    _oriDataBytes = dataBytes;
 
                     return _dataSerializer.Deserialize<T>(dataBytes);
                 }
@@ -81,15 +83,20 @@ namespace ServerEngine.Database.PostgreSQL
         {
             var dataBytes = _dataSerializer.Serialize(dataObject);
 
-            // TODO: Check object is changed.
+            // dirty check.
+            if (false == IsDirty(_oriDataBytes, dataBytes))
+            {
+                // skip upsert DB.
+                return true;
+            }
 
-            // TODO: Update cache.
+            // TODO: update cache.
 
             // Upsert.
             try
             {
                var sql = $"""
-                        INSERT INTO "{_dataObjectInfo.Table}" (key, _data, regtime) VALUES (@Key, @Data, NOW()) 
+                        INSERT INTO "{_dataObjectInfo.Bucket}" (key, _data, regtime) VALUES (@Key, @Data, NOW()) 
                         ON CONFLICT (key) 
                         DO UPDATE 
                         SET _data=@Data
@@ -97,6 +104,7 @@ namespace ServerEngine.Database.PostgreSQL
 
                 using (var connection = new NpgsqlConnection(_connectString))
                 {
+                    // Connection.
                     connection.Open();
 
                     int rowAffect = connection.Execute(
@@ -124,6 +132,44 @@ namespace ServerEngine.Database.PostgreSQL
                 _logger.LogError(ex.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Dirty check for obejct bytes.
+        /// </summary>
+        private bool IsDirty(byte[] ori, byte[] dst)
+        {
+            if ((null == ori) || (null == dst))
+			{
+                return true;
+            }
+
+            if (false == ori.Length.Equals(dst.Length))
+            {
+                return true;
+            }
+
+            var longSize = ori.Length / sizeof(long);
+            var oriLong = Unsafe.As<long[]>(ori);
+            var dstLong = Unsafe.As<long[]>(dst);
+            
+            for (int i = 0; i < longSize; i++)
+            {
+                if (false == oriLong[i].Equals(dstLong[i]))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = longSize * 8; i < ori.Length; i++)
+            {
+                if (false == ori[i].Equals(dst[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

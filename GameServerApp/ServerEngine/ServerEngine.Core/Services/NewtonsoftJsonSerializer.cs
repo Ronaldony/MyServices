@@ -4,9 +4,9 @@ using Newtonsoft.Json.Converters;
 
 namespace ServerEngine.Core.Services
 {
-    using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Core.Services.Interfaces;
 
-    public sealed class NewtonsoftJsonSerializer : IJsonSerializer
+	public sealed class NewtonsoftJsonSerializer : IJsonSerializer
     {
         private readonly ILogger<NewtonsoftJsonSerializer> _logger;
         private readonly StringEnumConverter _jsonConverter;

@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerApp\\Management\\GMApp\\GMApp\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.GMApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.GMApp.props",
+      "PackagePath": "build\\GMApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.GMApp.props",
+      "PackagePath": "buildMultiTargeting\\GMApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.GMApp.props",
+      "PackagePath": "buildTransitive\\GMApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -5,15 +5,15 @@ using System.Text;
 
 namespace ServerEngine.Core.Services
 {
-    using ServerEngine.Config;
-    using ServerEngine.Config.Consul;
-    using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Config;
+	using ServerEngine.Config.Consul;
+	using ServerEngine.Core.Services.Interfaces;
 
-    /// <summary>
-    /// ConsulConfigureService.
-    /// Configuration service using consul from vault.
-    /// </summary>
-    public sealed class ConsulConfigureService : IRemoteConfigureService
+	/// <summary>
+	/// ConsulConfigureService.
+	/// Configuration service using consul from vault.
+	/// </summary>
+	public sealed class ConsulConfigureService : IRemoteConfigureService
     {
         private readonly ILogger<ConsulConfigureService> _logger;
         
