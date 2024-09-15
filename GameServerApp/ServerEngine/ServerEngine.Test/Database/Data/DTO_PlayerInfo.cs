@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace ServerEngine.Test.Database.Data
 {
-    using ServerEngine.Database.Data;
+    using ServerEngine.Database.DataObject;
 
-	[MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class DTO_PlayerInfo : DataObjectBase
     {
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace ServerEngine.Database.Data
+﻿namespace ServerEngine.Database.DataObject
 {
     public class DataObjectBase
     {

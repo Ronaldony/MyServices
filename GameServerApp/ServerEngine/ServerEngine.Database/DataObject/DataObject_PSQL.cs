@@ -5,18 +5,20 @@ using Npgsql;
 using System.Data;
 using System.Runtime.CompilerServices;
 
-namespace ServerEngine.Database.PostgreSQL
+namespace ServerEngine.Database.DataObject
 {
 	using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Database.Data;
 	using ServerEngine.Database.Interfaces;
 
+	/// <summary>
+	/// Data object for PostgreSQL.
+	/// </summary>
 	public abstract class DataObject_PSQL : IDataObject
     {
         private readonly ILogger<DataObject_PSQL> _logger;
         
         private readonly IDataSerializer _dataSerializer;
-        private ICacheObject _cacheObject;
+        private ICacheService _cacheService;
 
         private DataObjectInfo _dataObjectInfo;
         private readonly string _connectString;
@@ -27,7 +29,7 @@ namespace ServerEngine.Database.PostgreSQL
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DataObject_PSQL>>();
 
-            _cacheObject = serviceProvider.GetRequiredService<ICacheObject>();
+            _cacheService = serviceProvider.GetRequiredService<ICacheService>();
 			_dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             _dataObjectInfo = dataObjectInfo;
@@ -44,7 +46,7 @@ namespace ServerEngine.Database.PostgreSQL
         public T Select<T>(string key) where T : DataObjectBase
         {
             // Get from memory cache.
-            var cachingData = _cacheObject.Get<T>(key);
+            var cachingData = _cacheService.Get<T>(key);
             if (null != cachingData)
             {
                 return cachingData;
@@ -77,7 +79,7 @@ namespace ServerEngine.Database.PostgreSQL
                     var dataObject = _dataSerializer.Deserialize<T>(dataBytes);
 
 					// update cache.
-					_cacheObject.Set<T>(key, dataObject);
+					_cacheService.Set<T>(key, dataObject);
 
 					return dataObject;
                 }
@@ -104,7 +106,7 @@ namespace ServerEngine.Database.PostgreSQL
             }
 
             // update cache.
-            _cacheObject.Set<T>(key, dataObject);
+            _cacheService.Set<T>(key, dataObject);
 
             // Upsert.
             try

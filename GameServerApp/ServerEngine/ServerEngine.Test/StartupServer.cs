@@ -7,8 +7,9 @@ namespace ServerEngine.Test
     using ServerEngine.Config.ConfigManager;
     using ServerEngine.Config.Consul;
     using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Database.Interfaces;
-    using System.Dynamic;
+	using ServerEngine.Database.Cache;
+	using ServerEngine.Database.Interfaces;
+	using System.Dynamic;
 
     internal class StartupServer
     {
@@ -26,13 +27,14 @@ namespace ServerEngine.Test
             // Get appsettins.
             var configConsul = configuration.GetSection("Config_Consul").Get<Config_Consul>();
 
-            var consulConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
+			var consulConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
             consulConfigureService.Initialize(configConsul);
 
             var configGame = await consulConfigureService.GetConfigData<Config_Game>("Development");
             var configDatabase = await consulConfigureService.GetConfigData<List<Config_Database>>("Development_Database");
+			var configCache = await consulConfigureService.GetConfigData<IEnumerable<CacheHost>>("Development_Cache");
 
-            GameConfigManager.Initialize(configGame, configDatabase);
+			GameConfigManager.Initialize(configGame, configDatabase);
 
             /////////////////////////////////////////////////////////////////////////////
             // Initialize servivces.

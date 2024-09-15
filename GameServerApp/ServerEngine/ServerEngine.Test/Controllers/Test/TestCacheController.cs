@@ -1,29 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ServerEngine.Core.Util;
-using ServerEngine.Database.Interfaces;
-using ServerEngine.Test.Database.Data;
-using ServerEngine.Test.Database.DataObject;
-using System.Text.Json.Serialization;
 
 namespace ServerEngine.Test.Controllers.Test
 {
+	using ServerEngine.Core.Util;
+	using ServerEngine.Database.Interfaces;
+	using ServerEngine.Test.Database.Data;
+	using ServerEngine.Test.Database.DataObject;
+
 	public class TestCacheController : Controller
     {
         private readonly ILogger<TestCacheController> _logger;
 
         private readonly PlayerInfoObejct _playerInfoObject;
-        private readonly ICacheObject _cacheObject;
+        private readonly ICacheService _cacheService;
 
         public TestCacheController(
             ILogger<TestCacheController> logger, 
             PlayerInfoObejct playerInfoObject,
-			ICacheObject cacheObject)
+			ICacheService cacheObject)
         {
             _logger = logger;
 
             _playerInfoObject = playerInfoObject;
-            _cacheObject = cacheObject;
+            _cacheService = cacheObject;
         }
 
         [HttpGet]
@@ -37,13 +37,13 @@ namespace ServerEngine.Test.Controllers.Test
 				RegTime = TimeUtil.Now,
 			};
 
-            var isSet = _cacheObject.Set<DTO_PlayerInfo>(playerInfo.Pid, playerInfo);
+            var isSet = _cacheService.Set<DTO_PlayerInfo>(playerInfo.Pid, playerInfo);
             if (false == isSet)
             {
                 return "failed to set cache";
             }
 
-            var cachedData = _cacheObject.Get<DTO_PlayerInfo>(playerInfo.Pid);
+            var cachedData = _cacheService.Get<DTO_PlayerInfo>(playerInfo.Pid);
             if (null == cachedData)
             {
                 return "failed to get cached data";

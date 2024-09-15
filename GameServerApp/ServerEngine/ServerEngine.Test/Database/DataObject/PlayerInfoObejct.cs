@@ -2,8 +2,7 @@
 namespace ServerEngine.Test.Database.DataObject
 {
 	using ServerEngine.Config.ConfigManager;
-	using ServerEngine.Database.Data;
-	using ServerEngine.Database.PostgreSQL;
+	using ServerEngine.Database.DataObject;
 	using ServerEngine.Test.Database.Data;
 
 	public class PlayerInfoObejct : DataObject_PSQL

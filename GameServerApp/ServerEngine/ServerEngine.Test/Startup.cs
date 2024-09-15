@@ -2,8 +2,8 @@
 {
 	using ServerEngine.Core.Services;
 	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Database.Cache;
 	using ServerEngine.Database.Interfaces;
-	using ServerEngine.Database.Memcached;
 	using ServerEngine.Test.Database.DataObject;
 
 	public class Startup
@@ -41,7 +41,7 @@
 
 			// scoped.
 			_webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
-            _webAppBuilder.Services.AddScoped<ICacheObject, MemcachedObject>();
+            _webAppBuilder.Services.AddScoped<ICacheService, MemcachedService>();
 
 			_webAppBuilder.WebHost.ConfigureKestrel(configs =>
             {

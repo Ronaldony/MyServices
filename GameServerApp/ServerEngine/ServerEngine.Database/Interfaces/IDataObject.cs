@@ -1,7 +1,7 @@
 ﻿
 namespace ServerEngine.Database.Interfaces
 {
-    using ServerEngine.Database.Data;
+    using ServerEngine.Database.DataObject;
 
     public interface IDataObject
     {

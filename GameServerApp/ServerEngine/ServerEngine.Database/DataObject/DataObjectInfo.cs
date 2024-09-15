@@ -1,6 +1,6 @@
-﻿namespace ServerEngine.Database.Data
+﻿namespace ServerEngine.Database.DataObject
 {
-	public class DataObjectInfo
+    public class DataObjectInfo
     {
         /// <summary>
         /// Document.
