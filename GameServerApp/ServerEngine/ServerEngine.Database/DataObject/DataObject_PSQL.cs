@@ -18,7 +18,7 @@ namespace ServerEngine.Database.DataObject
         private readonly ILogger<DataObject_PSQL> _logger;
         
         private readonly IDataSerializer _dataSerializer;
-        private ICacheService _cacheService;
+        private IMemcachedService _cacheService;
 
         private DataObjectInfo _dataObjectInfo;
         private readonly string _connectString;
@@ -29,7 +29,7 @@ namespace ServerEngine.Database.DataObject
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DataObject_PSQL>>();
 
-            _cacheService = serviceProvider.GetRequiredService<ICacheService>();
+            _cacheService = serviceProvider.GetRequiredService<IMemcachedService>();
 			_dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             _dataObjectInfo = dataObjectInfo;

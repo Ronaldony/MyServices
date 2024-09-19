@@ -12,7 +12,7 @@ namespace ServerEngine.Database.Cache
 	/// <summary>
 	/// MemcachedObject.
 	/// </summary>
-	public sealed class MemcachedService : ICacheService
+	public sealed class MemcachedService : IMemcachedService
 	{
 		private ILogger<MemcachedService> _logger;
 
@@ -28,49 +28,80 @@ namespace ServerEngine.Database.Cache
 		/// <summary>
 		/// Initialize.
 		/// </summary>
-		public void Initialize(IServiceProvider serviceProvider, IEnumerable<CacheHost> cacheHosts, int expireSec)
+		public bool Initialize(IServiceProvider serviceProvider, IEnumerable<CacheHost> cacheHosts, int expireSec)
 		{
-			var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-
-			// Memcached options.
-			var options = new MemcachedClientOptions
+			try
 			{
-				Protocol = MemcachedProtocol.Binary
-			};
+				var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 
-			foreach (var host in cacheHosts)
-			{
-				options.AddServer(host.Address, host.Port);
+				// Memcached options.
+				var options = new MemcachedClientOptions
+				{
+					Protocol = MemcachedProtocol.Binary
+				};
+
+				foreach (var host in cacheHosts)
+				{
+					options.AddServer(host.Address, host.Port);
+					_logger.LogInformation($"Memcached server add - {host.Address}:{host.Port}");
+				}
+
+				// Memcached configuration.
+				var config = new MemcachedClientConfiguration(loggerFactory, options);
+
+				_memcachedClient = new MemcachedClient(loggerFactory, config);
+				_expireSec = expireSec;
+
+				_logger.LogInformation($"MemcachedService initialized.");
+
+				return true;
 			}
-
-			// Memcached configuration.
-			var config = new MemcachedClientConfiguration(loggerFactory, options);
-
-			_memcachedClient = new MemcachedClient(loggerFactory, config);
-			_expireSec = expireSec;
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;
+			}
 		}
 
 		/// <summary>
-		/// Get data from cache.
+		/// Get data.
 		/// </summary>
 		public T Get<T>(string key)
 		{
-			var data = _memcachedClient.Get<T>(key);
-
-			if (null == data)
-			{
-				return default;
-			}
-
-			return data;
+			return _memcachedClient.Get<T>(key);
 		}
 
 		/// <summary>
-		/// Set data into cache.
+		/// Get data with CAS.
+		/// </summary>
+		public CasResult<T> GetWithCas<T>(string key)
+		{
+			return _memcachedClient.GetWithCas<T>(key);
+		}
+
+		/// <summary>
+		/// Set data.
 		/// </summary>
 		public bool Set<T>(string key, T value)
 		{
 			return _memcachedClient.Set(key, value, _expireSec);
+		}
+
+		/// <summary>
+		/// Set data with CAS.
+		/// </summary>
+		public bool SetWithCas<T>(string key, T value, ulong cas)
+		{
+			var result = _memcachedClient.Cas(StoreMode.Set, key, value, cas);
+			return result.Result;
+		}
+
+		/// <summary>
+		/// Remove.
+		/// </summary>
+		public bool Remove(string key)
+		{
+			return _memcachedClient.Remove(key);
 		}
 	}
 }

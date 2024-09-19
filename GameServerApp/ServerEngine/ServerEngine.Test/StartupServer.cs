@@ -43,6 +43,9 @@ namespace ServerEngine.Test
 
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
+
+            var memcachedService = _serviceProvider.GetRequiredService<IMemcachedService>();
+            memcachedService.Initialize(_serviceProvider, configCache, 1000);
         }
     }
 }

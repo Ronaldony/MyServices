@@ -38,10 +38,10 @@
             _webAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
             _webAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
+            _webAppBuilder.Services.AddSingleton<IMemcachedService, MemcachedService>();
 
 			// scoped.
 			_webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
-            _webAppBuilder.Services.AddScoped<ICacheService, MemcachedService>();
 
 			_webAppBuilder.WebHost.ConfigureKestrel(configs =>
             {
