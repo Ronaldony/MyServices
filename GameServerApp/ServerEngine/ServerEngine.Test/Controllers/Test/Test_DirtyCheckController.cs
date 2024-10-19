@@ -1,21 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServerEngine.Core.Services.Interfaces;
-using ServerEngine.Core.Util;
-using ServerEngine.Test.Controllers.Test.Data;
-using ServerEngine.Test.Database.DataObject;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ServerEngine.Test.Controllers.Test
 {
-	public class TestDirtyCheckController : Controller
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Core.Util;
+    using ServerEngine.Test.Controllers.Test.Data;
+    using ServerEngine.Test.Database.DataObject;
+
+    /// <summary>
+    /// Test_DirtyCheckController.
+    /// </summary>
+	public class Test_DirtyCheckController : Controller
     {
-        private readonly ILogger<TestDirtyCheckController> _logger;
+        private readonly ILogger<Test_DirtyCheckController> _logger;
         private readonly PlayerInfoObejct _playerInfoObject;
         private readonly IDataSerializer _dataSerializer;
 
-        public TestDirtyCheckController(
-            ILogger<TestDirtyCheckController> logger, 
+        public Test_DirtyCheckController(
+            ILogger<Test_DirtyCheckController> logger, 
             PlayerInfoObejct playerInfoObject,
             IDataSerializer dataSerializer)
         {
@@ -30,16 +34,16 @@ namespace ServerEngine.Test.Controllers.Test
         [Route("test/dirty-check")]
         public string Process()
         {
-            var playerInfo = new TestDirtyCheck
+            var playerInfo = new TestData
             { 
-                TestString = "",
-                TestLong = 0,
-                TestDouble = 0,
-                TestString2 = "",
-                TestLong2 = 0,
-                TestBool = false,
-                TestDateTime = DateTime.MinValue,
-                TestFloat = 0,
+                Data_Str1 = "",
+                Data_Long1 = 0,
+                Data_Double1 = 0,
+                Data_Str2 = "",
+                Data_Long2 = 0,
+                Data_Bool1 = false,
+                Data_Date1 = DateTime.MinValue,
+                Data_Float1 = 0,
             };
                 
             var oriDatabytes = _dataSerializer.Serialize(playerInfo);
@@ -57,59 +61,59 @@ namespace ServerEngine.Test.Controllers.Test
                 }
 
                 // TestString dirty check.
-                playerInfo.TestString = GetNextString(playerInfo.TestString);
+                playerInfo.Data_Str1 = GetNextString(playerInfo.Data_Str1);
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestString: {playerInfo.TestString}";
+                    return $"error count: {cnt}, TestString: {playerInfo.Data_Str1}";
                 }
 
                 // TestLong dirty check.
-                playerInfo.TestLong++;
+                playerInfo.Data_Long1++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestLong: {playerInfo.TestLong}";
+                    return $"error count: {cnt}, TestLong: {playerInfo.Data_Long1}";
                 }
 
                 // TestDouble dirty check.
-                playerInfo.TestDouble++;
+                playerInfo.Data_Double1++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestDouble: {playerInfo.TestDouble}";
+                    return $"error count: {cnt}, TestDouble: {playerInfo.Data_Double1}";
                 }
 
                 // TestString2 dirty check.
-                playerInfo.TestString2 = GetNextString(playerInfo.TestString2);
+                playerInfo.Data_Str2 = GetNextString(playerInfo.Data_Str2);
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestString2: {playerInfo.TestString2}";
+                    return $"error count: {cnt}, TestString2: {playerInfo.Data_Str2}";
                 }
 
                 // TestLong2 dirty check.
-                playerInfo.TestLong2++;
+                playerInfo.Data_Long2++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestLong2: {playerInfo.TestLong2}";
+                    return $"error count: {cnt}, TestLong2: {playerInfo.Data_Long2}";
                 }
 
                 // TestBool dirty check.
-                playerInfo.TestBool = !playerInfo.TestBool;
+                playerInfo.Data_Bool1 = !playerInfo.Data_Bool1;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestBool: {playerInfo.TestBool}";
+                    return $"error count: {cnt}, TestBool: {playerInfo.Data_Bool1}";
                 }
 
                 // TestDateTime dirty check.
-                playerInfo.TestDateTime = playerInfo.TestDateTime.AddTicks(1);
+                playerInfo.Data_Date1 = playerInfo.Data_Date1.AddTicks(1);
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestDateTime: {playerInfo.TestDateTime}";
+                    return $"error count: {cnt}, TestDateTime: {playerInfo.Data_Date1}";
                 }
 
                 // TestFloat dirty check.
-                playerInfo.TestFloat++;
+                playerInfo.Data_Float1++;
                 if (false == IsDirty(_dataSerializer.Serialize(playerInfo), oriDatabytes))
                 {
-                    return $"error count: {cnt}, TestFloat: {playerInfo.TestFloat}";
+                    return $"error count: {cnt}, TestFloat: {playerInfo.Data_Float1}";
                 }
             }
 

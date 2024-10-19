@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "awOu3iTZDmw=",
+  "dgSpecHash": "8ehpUKccTPE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
+  "projectFilePath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\boba1\\.nuget\\packages\\consul\\1.7.14.3\\consul.1.7.14.3.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\memorypack\\1.21.1\\memorypack.1.21.1.nupkg.sha512",

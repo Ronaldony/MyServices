@@ -2,12 +2,12 @@
 {
     using Microsoft.Extensions.ObjectPool;
     using ServerEngine.Core.Services;
-	using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Database.Cache;
-	using ServerEngine.Database.Interfaces;
-	using ServerEngine.Test.Database.DataObject;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Database.Cache;
+    using ServerEngine.Database.Interfaces;
+    using ServerEngine.Test.Database.DataObject;
 
-	public class Startup
+    public class Startup
     {
         public WebApplication WebApp { get; set; }
 
@@ -27,12 +27,12 @@
         public void Configure()
         {
             _webAppBuilder.Services.AddControllers();
-            
+
             // cache.
-   //         _webAppBuilder.Services.AddEnyimMemcached(options =>
-   //         {
-   //             options.AddServer("192.168.10.6", 11211);
-			//});
+            _webAppBuilder.Services.AddEnyimMemcached(options =>
+            {
+                options.AddServer("192.168.10.6", 11211);
+            });
 
             // services
             _webAppBuilder.Services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
@@ -55,8 +55,8 @@
             // Build WebApplication.
             WebApp = _webAppBuilder.Build();
 
-            ////WebApp.UseHttpsRedirection();
-            //WebApp.UseAuthorization();
+            WebApp.UseHttpsRedirection();
+            WebApp.UseAuthorization();
             //WebApp.UseEnyimMemcached();
             WebApp.MapControllers();
         }

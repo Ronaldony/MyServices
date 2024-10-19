@@ -3,21 +3,23 @@ using Newtonsoft.Json;
 
 namespace ServerEngine.Test.Controllers.Test
 {
-	using ServerEngine.Core.Util;
-	using ServerEngine.Database.Cache;
-	using ServerEngine.Database.Interfaces;
-	using ServerEngine.Test.Database.Data;
-	using ServerEngine.Test.Database.DataObject;
+    using ServerEngine.Core.Util;
+    using ServerEngine.Database.Interfaces;
+    using ServerEngine.Test.Database.Data;
+    using ServerEngine.Test.Database.DataObject;
 
-	public class TestCacheController : Controller
+    /// <summary>
+    /// Test_CacheController.
+    /// </summary>
+    public class Test_CacheController : Controller
     {
-        private readonly ILogger<TestCacheController> _logger;
+        private readonly ILogger<Test_CacheController> _logger;
 
         private readonly PlayerInfoObejct _playerInfoObject;
         private readonly IMemcachedService _memcachedService;
 
-        public TestCacheController(
-            ILogger<TestCacheController> logger, 
+        public Test_CacheController(
+            ILogger<Test_CacheController> logger, 
             PlayerInfoObejct playerInfoObject,
 			IMemcachedService memcachedService)
         {

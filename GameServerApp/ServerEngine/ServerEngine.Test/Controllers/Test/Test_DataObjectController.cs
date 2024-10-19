@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServerEngine.Core.Services.Interfaces;
-using ServerEngine.Core.Util;
-using ServerEngine.Test.Database.Data;
-using ServerEngine.Test.Database.DataObject;
 
 namespace ServerEngine.Test.Controllers.Test
 {
-	public class TestController : Controller
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Core.Util;
+    using ServerEngine.Test.Database.Data;
+    using ServerEngine.Test.Database.DataObject;
+
+    /// <summary>
+    /// Test_Controller.
+    /// </summary>
+    public class Test_DataObjectController : Controller
     {
-        private readonly ILogger<TestController> _logger;
+        private readonly ILogger<Test_DataObjectController> _logger;
         private readonly PlayerInfoObejct _playerInfoObject;
         private readonly IDataSerializer _dataSerializer;
 
-        public TestController(
-            ILogger<TestController> logger, 
+        public Test_DataObjectController(
+            ILogger<Test_DataObjectController> logger, 
             PlayerInfoObejct playerInfoObject,
             IDataSerializer dataSerializer)
         {

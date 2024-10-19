@@ -1,7 +1,6 @@
 ﻿
 namespace ServerEngine.Test.Database.DataObject
 {
-    using Microsoft.Extensions.ObjectPool;
     using ServerEngine.Config.ConfigManager;
     using ServerEngine.Core.DataObject;
     using ServerEngine.Database.DataObject;
