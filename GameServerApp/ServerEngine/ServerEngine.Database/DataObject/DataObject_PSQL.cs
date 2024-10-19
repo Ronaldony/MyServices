@@ -7,13 +7,14 @@ using System.Runtime.CompilerServices;
 
 namespace ServerEngine.Database.DataObject
 {
-	using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Database.Interfaces;
+    using ServerEngine.Core.DataObject;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Database.Interfaces;
 
-	/// <summary>
-	/// Data object for PostgreSQL.
-	/// </summary>
-	public abstract class DataObject_PSQL : IDataObject
+    /// <summary>
+    /// Data object for PostgreSQL.
+    /// </summary>
+    public abstract class DataObject_PSQL : IDataObject
     {
         private readonly ILogger<DataObject_PSQL> _logger;
         

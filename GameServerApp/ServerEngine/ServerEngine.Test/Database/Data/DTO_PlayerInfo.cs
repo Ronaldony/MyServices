@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace ServerEngine.Test.Database.Data
 {
-    using ServerEngine.Database.DataObject;
+    using ServerEngine.Core.DataObject;
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class DTO_PlayerInfo : DataObjectBase
@@ -26,5 +26,17 @@ namespace ServerEngine.Test.Database.Data
         /// </summary>
         [MemoryPackOrder(2)]
         public DateTime RegTime { get; set; }
+
+        /// <summary>
+        /// Reset by ObjectPoolService.
+        /// </summary>
+        public override bool TryReset()
+        {
+            Pid = string.Empty;
+            PlayerName = string.Empty;
+            RegTime = DateTime.MinValue;
+
+            return true;
+        }
     }
 }

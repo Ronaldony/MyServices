@@ -1,6 +1,7 @@
 ﻿namespace ServerEngine.Test
 {
-	using ServerEngine.Core.Services;
+    using Microsoft.Extensions.ObjectPool;
+    using ServerEngine.Core.Services;
 	using ServerEngine.Core.Services.Interfaces;
 	using ServerEngine.Database.Cache;
 	using ServerEngine.Database.Interfaces;
@@ -28,10 +29,10 @@
             _webAppBuilder.Services.AddControllers();
             
             // cache.
-            _webAppBuilder.Services.AddEnyimMemcached(options =>
-            {
-                options.AddServer("192.168.10.6", 11211);
-			});
+   //         _webAppBuilder.Services.AddEnyimMemcached(options =>
+   //         {
+   //             options.AddServer("192.168.10.6", 11211);
+			//});
 
             // services
             _webAppBuilder.Services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
@@ -40,8 +41,11 @@
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             _webAppBuilder.Services.AddSingleton<IMemcachedService, MemcachedService>();
 
-			// scoped.
-			_webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+            _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
+            _webAppBuilder.Services.AddSingleton<IObjectPoolService, CustomObjectPoolService>();
+
+            // scoped.
+            _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
 
 			_webAppBuilder.WebHost.ConfigureKestrel(configs =>
             {
@@ -51,9 +55,9 @@
             // Build WebApplication.
             WebApp = _webAppBuilder.Build();
 
-            //WebApp.UseHttpsRedirection();
-            WebApp.UseAuthorization();
-            WebApp.UseEnyimMemcached();
+            ////WebApp.UseHttpsRedirection();
+            //WebApp.UseAuthorization();
+            //WebApp.UseEnyimMemcached();
             WebApp.MapControllers();
         }
     }

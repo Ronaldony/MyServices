@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ServerEngine.Core
-build_property.ProjectDir = C:\Users\gande\OneDrive\Documents\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\
+build_property.ProjectDir = C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

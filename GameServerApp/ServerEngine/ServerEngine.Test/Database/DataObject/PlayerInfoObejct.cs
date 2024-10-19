@@ -1,11 +1,13 @@
 ﻿
 namespace ServerEngine.Test.Database.DataObject
 {
-	using ServerEngine.Config.ConfigManager;
-	using ServerEngine.Database.DataObject;
-	using ServerEngine.Test.Database.Data;
+    using Microsoft.Extensions.ObjectPool;
+    using ServerEngine.Config.ConfigManager;
+    using ServerEngine.Core.DataObject;
+    using ServerEngine.Database.DataObject;
+    using ServerEngine.Test.Database.Data;
 
-	public class PlayerInfoObejct : DataObject_PSQL
+    public class PlayerInfoObejct : DataObject_PSQL
     {
         private readonly ILogger<PlayerInfoObejct> _logger;
 
@@ -36,6 +38,7 @@ namespace ServerEngine.Test.Database.DataObject
             
             return playerInfo;
         }
+
 
         /// <summary>
         /// Upsert.
