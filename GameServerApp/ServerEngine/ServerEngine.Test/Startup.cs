@@ -6,6 +6,7 @@
     using ServerEngine.Database.Cache;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Test.Database.DataObject;
+    using System.Net;
 
     public class Startup
     {
@@ -29,10 +30,10 @@
             _webAppBuilder.Services.AddControllers();
 
             // cache.
-            _webAppBuilder.Services.AddEnyimMemcached(options =>
-            {
-                options.AddServer("192.168.10.6", 11211);
-            });
+            //_webAppBuilder.Services.AddEnyimMemcached(options =>
+            //{
+            //    options.AddServer("192.168.10.6", 11211);
+            //});
 
             // services
             _webAppBuilder.Services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
@@ -47,15 +48,15 @@
             // scoped.
             _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
 
-			_webAppBuilder.WebHost.ConfigureKestrel(configs =>
+			_webAppBuilder.WebHost.UseKestrel(configs =>
             {
-                configs.ListenAnyIP(_arguments.Port);
+                configs.Listen(IPAddress.Any, _arguments.Port);
             });
 
             // Build WebApplication.
             WebApp = _webAppBuilder.Build();
 
-            WebApp.UseHttpsRedirection();
+            //WebApp.UseHttpsRedirection();
             WebApp.UseAuthorization();
             //WebApp.UseEnyimMemcached();
             WebApp.MapControllers();

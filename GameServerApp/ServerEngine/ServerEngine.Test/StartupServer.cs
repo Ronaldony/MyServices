@@ -26,11 +26,6 @@
             var objectPoolService = _serviceProvider.GetRequiredService<IObjectPoolService>();
             objectPoolService.Initialize();
 
-            var dataObject = objectPoolService.Acquire<DTO_PlayerInfo>();
-            objectPoolService.Release(dataObject);
-
-            dataObject = objectPoolService.Acquire<DTO_PlayerInfo>();
-
             //         var configGame = await consulConfigureService.GetConfigData<Config_Game>("Development");
             //         var configDatabase = await consulConfigureService.GetConfigData<List<Config_Database>>("Development_Database");
             //var configCache = await consulConfigureService.GetConfigData<IEnumerable<CacheHost>>("Development_Cache");
