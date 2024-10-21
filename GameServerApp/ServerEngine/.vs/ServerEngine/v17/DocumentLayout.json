@@ -79,8 +79,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-17T13:43:16.172Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -93,8 +92,7 @@
               "ViewState": "AgIAACUAAAAAAAAAAAAAwBUAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-19T16:01:29.81Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -107,8 +105,7 @@
               "ViewState": "AgIAAEcAAAAAAAAAAAAqwFMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-19T15:56:25.826Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -120,8 +117,7 @@
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Test_ObjectPoolController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T17:09:08.997Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T17:09:08.997Z"
             },
             {
               "$type": "Document",
@@ -133,8 +129,7 @@
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Test_DirtyCheckController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T17:07:54.722Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T17:07:54.722Z"
             },
             {
               "$type": "Document",
@@ -146,8 +141,7 @@
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Test_DataObjectController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T17:07:50.52Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T17:07:50.52Z"
             },
             {
               "$type": "Document",
@@ -157,7 +151,7 @@
               "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtyCheck.cs",
               "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtyCheck.cs",
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Data\\TestDirtyCheck.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAIwBgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-19T17:07:17.953Z",
               "EditorCaption": ""
@@ -172,8 +166,7 @@
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Test_CacheController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T17:07:10.067Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T17:07:10.067Z"
             },
             {
               "$type": "Document",
@@ -185,8 +178,7 @@
               "RelativeToolTip": "ServerEngine.Test\\Program.cs",
               "ViewState": "AgIAABsAAAAAAAAAAADwvxQAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T17:06:32.401Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T17:06:32.401Z"
             },
             {
               "$type": "Document",
@@ -198,8 +190,7 @@
               "RelativeToolTip": "ServerEngine.Core\\DataObject\\DataObjectInfo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T17:04:47.147Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T17:04:47.147Z"
             },
             {
               "$type": "Document",
@@ -211,8 +202,7 @@
               "RelativeToolTip": "ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAApwA4AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T17:00:06.144Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T17:00:06.144Z"
             },
             {
               "$type": "Document",
@@ -224,8 +214,7 @@
               "RelativeToolTip": "ServerEngine.Database\\DataObject\\DataObject_PSQL.cs",
               "ViewState": "AgIAAGIAAAAAAAAAAAAQwDQAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T16:59:50.761Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T16:59:50.761Z"
             },
             {
               "$type": "Document",
@@ -237,8 +226,7 @@
               "RelativeToolTip": "ServerEngine.Core\\DataObject\\DataObjectBase.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T16:08:11.734Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T16:08:11.734Z"
             },
             {
               "$type": "Document",
@@ -250,8 +238,7 @@
               "RelativeToolTip": "ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T16:06:52.782Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-19T16:06:52.782Z"
             }
           ]
         }
