@@ -7,33 +7,27 @@ namespace ServerEngine.Test.Database.Data
     using ServerEngine.Core.DataObject;
 
     /// <summary>
-    /// DTO_PlayerInfo.
+    /// DTO_ShopInfo.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_PlayerInfo : DataObjectBase
+    public partial class DTO_ShopInfo : DataObjectBase
     {
         /// <summary>
-        /// Pid.
+        /// ShopInfo RefId.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
-        
+        public int RefId { get; set; }
+
         /// <summary>
-        /// Uid.
+        /// ShopInfo Schedule RefId.
         /// </summary>
         [MemoryPackOrder(1)]
-        public string Uid { get; set; }
+        public int ScheduleRefId { get; set; }
 
         /// <summary>
-        /// PlayerName.
+        /// RegTime.
         /// </summary>
         [MemoryPackOrder(2)]
-        public string PlayerName { get; set; }
-
-        /// <summary>
-        /// 생성 시간.
-        /// </summary>
-        [MemoryPackOrder(3)]
         public DateTime RegTime { get; set; }
 
         /// <summary>
@@ -41,8 +35,8 @@ namespace ServerEngine.Test.Database.Data
         /// </summary>
         public override bool TryReset()
         {
-            Pid = string.Empty;
-            PlayerName = string.Empty;
+            RefId = 0;
+            ScheduleRefId = 0;
             RegTime = DateTime.MinValue;
 
             return true;
