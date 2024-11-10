@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj": {}
+    "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
+    "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+        "projectUniqueName": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
         "projectName": "ServerEngine.Config",
-        "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
-        "packagesPath": "C:\\Users\\gande\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\obj\\",
+        "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+        "packagesPath": "C:\\Users\\boba1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\gande\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\boba1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -67,21 +67,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
+    "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
+        "projectUniqueName": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
         "projectName": "ServerEngine.Core",
-        "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
-        "packagesPath": "C:\\Users\\gande\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\obj\\",
+        "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
+        "packagesPath": "C:\\Users\\boba1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\gande\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\boba1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -96,8 +96,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
-                "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
+              "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
+                "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
               }
             }
           }
@@ -129,6 +129,10 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "Microsoft.Extensions.ObjectPool": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
@@ -154,21 +158,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj": {
+    "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
+        "projectUniqueName": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
         "projectName": "ServerEngine.Database",
-        "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
-        "packagesPath": "C:\\Users\\gande\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\obj\\",
+        "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
+        "packagesPath": "C:\\Users\\boba1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Database\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\gande\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\boba1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -183,11 +187,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
-                "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
+              "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
+                "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
               },
-              "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
-                "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj"
+              "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
+                "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj"
               }
             }
           }
@@ -236,21 +240,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj": {
+    "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
+        "projectUniqueName": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
         "projectName": "ServerEngine.Test",
-        "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
-        "packagesPath": "C:\\Users\\gande\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\obj\\",
+        "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
+        "packagesPath": "C:\\Users\\boba1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\gande\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\boba1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -265,14 +269,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
-                "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
+              "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
+                "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
               },
-              "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
-                "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj"
+              "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
+                "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj"
               },
-              "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj": {
-                "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj"
+              "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj": {
+                "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj"
               }
             }
           }
@@ -332,7 +336,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

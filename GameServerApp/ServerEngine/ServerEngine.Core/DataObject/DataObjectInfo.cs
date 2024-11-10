@@ -1,4 +1,4 @@
-﻿namespace ServerEngine.Database.DataObject
+﻿namespace ServerEngine.Core.DataObject
 {
     public class DataObjectInfo
     {

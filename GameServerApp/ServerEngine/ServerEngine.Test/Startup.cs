@@ -1,12 +1,15 @@
 ﻿namespace ServerEngine.Test
 {
-	using ServerEngine.Core.Services;
-	using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Database.Cache;
-	using ServerEngine.Database.Interfaces;
-	using ServerEngine.Test.Database.DataObject;
+    using Microsoft.Extensions.ObjectPool;
+    using ServerEngine.Core.Services;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Database.Cache;
+    using ServerEngine.Database.Interfaces;
+    using ServerEngine.Test.Database.DataObject;
+    using System.ComponentModel;
+    using System.Net;
 
-	public class Startup
+    public class Startup
     {
         public WebApplication WebApp { get; set; }
 
@@ -26,12 +29,12 @@
         public void Configure()
         {
             _webAppBuilder.Services.AddControllers();
-            
+
             // cache.
-            _webAppBuilder.Services.AddEnyimMemcached(options =>
-            {
-                options.AddServer("192.168.10.6", 11211);
-			});
+            //_webAppBuilder.Services.AddEnyimMemcached(options =>
+            //{
+            //    options.AddServer("192.168.10.6", 11211);
+            //});
 
             // services
             _webAppBuilder.Services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
@@ -40,12 +43,15 @@
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             _webAppBuilder.Services.AddSingleton<IMemcachedService, MemcachedService>();
 
-			// scoped.
-			_webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+            _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
+            _webAppBuilder.Services.AddSingleton<IObjectPoolService, CustomObjectPoolService>();
 
-			_webAppBuilder.WebHost.ConfigureKestrel(configs =>
+            // scoped.
+            _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+
+			_webAppBuilder.WebHost.UseKestrel(configs =>
             {
-                configs.ListenAnyIP(_arguments.Port);
+                configs.Listen(IPAddress.Any, _arguments.Port);
             });
 
             // Build WebApplication.
@@ -53,7 +59,7 @@
 
             //WebApp.UseHttpsRedirection();
             WebApp.UseAuthorization();
-            WebApp.UseEnyimMemcached();
+            //WebApp.UseEnyimMemcached();
             WebApp.MapControllers();
         }
     }
