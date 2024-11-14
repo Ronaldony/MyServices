@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerEngine.Core.Profile;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Test.Database.Data;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 namespace ServerEngine.Test.Controllers.Test
@@ -140,6 +138,41 @@ namespace ServerEngine.Test.Controllers.Test
         [Route("test-objectpool/speed")]
         public string Test_Spped()
         {
+            var testCount = 400000000;
+
+            var profilerNomral = new Profiler();
+
+            // Create obejct.
+            profilerNomral.Profile(() =>
+            {
+                // Acquire DataObejct.
+                for (int cnt = 0; cnt < testCount; cnt++)
+                {
+                    var playerInfo = new DTO_PlayerInfo();
+                }
+            });
+
+            _logger.LogInformation($"Create obejct - ms(total): {profilerNomral.SW.ElapsedMilliseconds}}");
+
+            var profilerObjectPool = new Profiler();
+
+            // Acquire DataObejct.
+            for (int cnt = 0; cnt < testCount; cnt++)
+            {
+                var playerInfo = _objectPoolService.Acquire<DTO_PlayerInfo>();
+            }
+            // Create obejct by ObjectPool.
+            profilerObjectPool.Profile(() =>
+            {
+                // Acquire DataObejct.
+                for (int cnt = 0; cnt < testCount; cnt++)
+                {
+                    var playerInfo = _objectPoolService.Acquire<DTO_PlayerInfo>();
+                }
+            });
+
+            _logger.LogInformation($"Create obejct by pool - ms(total): {profilerObjectPool.SW.ElapsedMilliseconds}");
+
             return default;
         }
     }

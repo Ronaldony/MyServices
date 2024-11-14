@@ -98,7 +98,6 @@ namespace ServerEngine.Test.Controllers.Test
 			return JsonConvert.SerializeObject(casResult.Result);
 		}
 
-
 		[HttpGet]
 		[Route("test-cache-cas-init")]
 		public string ProcessCasInit()
