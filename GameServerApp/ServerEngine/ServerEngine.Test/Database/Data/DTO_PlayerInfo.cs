@@ -39,13 +39,11 @@ namespace ServerEngine.Test.Database.Data
         /// <summary>
         /// Reset by ObjectPoolService.
         /// </summary>
-        public override bool TryReset()
+        public override void TryReset()
         {
             Pid = string.Empty;
             PlayerName = string.Empty;
             RegTime = DateTime.MinValue;
-
-            return true;
         }
     }
 }

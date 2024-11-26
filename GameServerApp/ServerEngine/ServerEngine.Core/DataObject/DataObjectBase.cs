@@ -2,14 +2,11 @@
 
 namespace ServerEngine.Core.DataObject
 {
-    public class DataObjectBase : IResettable
+    public abstract class DataObjectBase
     {
         /// <summary>
         /// Reset by ObjectPoolService.
         /// </summary>
-        public virtual bool TryReset()
-        {
-            return true;
-        }
+        public abstract void TryReset();
     }
 }
