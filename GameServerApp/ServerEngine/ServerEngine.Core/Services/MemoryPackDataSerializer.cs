@@ -4,13 +4,13 @@ using Microsoft.Extensions.Logging;
 
 namespace ServerEngine.Core.Services
 {
-	using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Core.Services.Interfaces;
 
-	/// <summary>
-	/// MemoryPackDataSerializer.
-	/// Data serializer using memorypack and brotli.
-	/// </summary>
-	public sealed class MemoryPackDataSerializer : IDataSerializer
+    /// <summary>
+    /// MemoryPackDataSerializer.
+    /// Data serializer using memorypack and brotli.
+    /// </summary>
+    public sealed class MemoryPackDataSerializer : IDataSerializer
     {
         private ILogger<MemoryPackDataSerializer> _logger;
 

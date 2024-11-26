@@ -2,7 +2,8 @@
 using ServerEngine.Core.Profile;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Test.Database.Data;
-using System.Threading;
+using System.Diagnostics;
+using System.Text;
 
 namespace ServerEngine.Test.Controllers.Test
 {
@@ -87,7 +88,7 @@ namespace ServerEngine.Test.Controllers.Test
             var nowTime = DateTime.Now;
 
             // Acquire DataObejct.
-            for (int cnt = 0; cnt < 400000; cnt++)
+            for (int cnt = 0; cnt < 1000000; cnt++)
             {
                 var playerInfo = _objectPoolService.Acquire<DTO_PlayerInfo>();
                 playerInfos.Add(playerInfo);
@@ -135,45 +136,92 @@ namespace ServerEngine.Test.Controllers.Test
         }
 
         [HttpGet]
-        [Route("test-objectpool/speed")]
-        public string Test_Spped()
+        [Route("test-objectpool/benchmark-pool")]
+        public string Test_BenchmarkPool()
         {
-            var testCount = 400000000;
-
-            var profilerNomral = new Profiler();
-
-            // Create obejct.
-            profilerNomral.Profile(() =>
-            {
-                // Acquire DataObejct.
-                for (int cnt = 0; cnt < testCount; cnt++)
-                {
-                    var playerInfo = new DTO_PlayerInfo();
-                }
-            });
-
-            _logger.LogInformation($"Create obejct - ms(total): {profilerNomral.SW.ElapsedMilliseconds}}");
-
-            var profilerObjectPool = new Profiler();
+            var maxBenchmarkCount = 10;
+            var dataObjectCount = 4000000;
 
             // Acquire DataObejct.
-            for (int cnt = 0; cnt < testCount; cnt++)
+            var dtoBenchmarks = new List<DTO_Benchmark>();
+            for (int acquireCount = 0; acquireCount < dataObjectCount; acquireCount++)
             {
-                var playerInfo = _objectPoolService.Acquire<DTO_PlayerInfo>();
+                dtoBenchmarks.Add(_objectPoolService.Acquire<DTO_Benchmark>());
             }
-            // Create obejct by ObjectPool.
-            profilerObjectPool.Profile(() =>
+
+            // Release DataObject.
+            foreach (var benchmark in dtoBenchmarks)
             {
-                // Acquire DataObejct.
-                for (int cnt = 0; cnt < testCount; cnt++)
+                _objectPoolService.Release(benchmark);
+            }
+
+            dtoBenchmarks.Clear();
+
+            // Create obejct by ObjectPool.
+            var sw = new Stopwatch();
+
+            // Acquire DataObejct.
+            for (int benchmarkCount = 0; benchmarkCount < maxBenchmarkCount; benchmarkCount++)
+            {
+                for (int cnt = 0; cnt < dataObjectCount; cnt++)
                 {
-                    var playerInfo = _objectPoolService.Acquire<DTO_PlayerInfo>();
+                    sw.Start();
+
+                    var dtoBenchmark = _objectPoolService.Acquire<DTO_Benchmark>();
+
+                    sw.Stop();
+
+                    dtoBenchmarks.Add(dtoBenchmark);
                 }
-            });
 
-            _logger.LogInformation($"Create obejct by pool - ms(total): {profilerObjectPool.SW.ElapsedMilliseconds}");
+                foreach (var playerInfo in dtoBenchmarks)
+                {
+                    _objectPoolService.Release(playerInfo);
+                }
 
-            return default;
+                dtoBenchmarks.Clear();
+            }
+
+            var avgMS = sw.ElapsedMilliseconds / (double)(maxBenchmarkCount);
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"//////////////////////////////////////////////////////////////////");
+            sb.AppendLine($"[Benchmark - Object Pool] ms(total): {sw.ElapsedMilliseconds}, ms(avg): {avgMS}");
+
+            return sb.ToString();
+        }
+
+
+        [HttpGet]
+        [Route("test-objectpool/benchmark-new")]
+        public string Test_BenchmarkNew()
+        {
+            var maxBenchmarkCount = 10;
+            var dataObjectCount = 4000000;
+
+            // Create obejct by ObjectPool.
+            var sw = new Stopwatch();
+
+            // Acquire DataObejct.
+            for (int benchmarkCount = 0; benchmarkCount < maxBenchmarkCount; benchmarkCount++)
+            {
+                for (int cnt = 0; cnt < dataObjectCount; cnt++)
+                {
+                    sw.Start();
+
+                    var playerInfo = new DTO_Benchmark();
+
+                    sw.Stop();
+                }
+            }
+
+            var avgMS = sw.ElapsedMilliseconds / (double)(maxBenchmarkCount);
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"//////////////////////////////////////////////////////////////////");
+            sb.AppendLine($"[Benchmark - New] ms(total): {sw.ElapsedMilliseconds}, ms(avg): {avgMS}");
+
+            return sb.ToString();
         }
     }
 }

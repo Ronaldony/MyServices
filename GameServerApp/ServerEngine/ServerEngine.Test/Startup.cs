@@ -44,7 +44,7 @@
             _webAppBuilder.Services.AddSingleton<IMemcachedService, MemcachedService>();
 
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-            _webAppBuilder.Services.AddSingleton<IObjectPoolService, CustomObjectPoolService>();
+            _webAppBuilder.Services.AddSingleton<IObjectPoolService, DataObjectPoolService>();
 
             // scoped.
             _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();

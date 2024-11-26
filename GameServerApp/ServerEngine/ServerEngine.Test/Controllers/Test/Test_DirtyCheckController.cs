@@ -28,8 +28,6 @@ namespace ServerEngine.Test.Controllers.Test
             _dataSerializer = dataSerializer;
         }
 
-        
-
         [HttpGet]
         [Route("test/dirty-check")]
         public string Process()

@@ -33,13 +33,11 @@ namespace ServerEngine.Test.Database.Data
         /// <summary>
         /// Reset by ObjectPoolService.
         /// </summary>
-        public override bool TryReset()
+        public override void TryReset()
         {
             RefId = 0;
             ScheduleRefId = 0;
             RegTime = DateTime.MinValue;
-
-            return true;
         }
     }
 }

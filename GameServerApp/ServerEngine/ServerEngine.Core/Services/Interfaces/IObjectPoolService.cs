@@ -1,5 +1,8 @@
-﻿namespace ServerEngine.Core.Services.Interfaces
+﻿
+namespace ServerEngine.Core.Services.Interfaces
 {
+    using ServerEngine.Core.DataObject;
+
     /// <summary>
     /// Object pool interface.
     /// </summary>
@@ -13,11 +16,11 @@
         /// <summary>
         /// Acquire.
         /// </summary>
-        T Acquire<T>() where T: class, new ();
+        T Acquire<T>() where T: DataObjectBase, new ();
 
         /// <summary>
         /// Release.
         /// </summary>
-        bool Release<T>(T obj) where T: class, new ();
+        bool Release<T>(T obj) where T: DataObjectBase, new ();
     }
 }
