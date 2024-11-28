@@ -1,15 +1,16 @@
-﻿namespace ServerEngine.Test
-{
-    using Microsoft.Extensions.ObjectPool;
-    using ServerEngine.Core.Services;
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Database.Cache;
-    using ServerEngine.Database.Interfaces;
-    using ServerEngine.Test.Database.DataObject;
-    using System.ComponentModel;
-    using System.Net;
+﻿using Microsoft.Extensions.ObjectPool;
+using System.Net;
 
-    public class Startup
+namespace ServerEngine.Test
+{
+	using ServerEngine.Core.Services;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Database.Cache;
+	using ServerEngine.Database.Interfaces;
+	using ServerEngine.GeoIP;
+	using ServerEngine.Test.Database.DataObject;
+
+	public class Startup
     {
         public WebApplication WebApp { get; set; }
 
@@ -45,9 +46,10 @@
 
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<IObjectPoolService, DataObjectPoolService>();
+            _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
 
-            // scoped.
-            _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+			// scoped.
+			_webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
 
 			_webAppBuilder.WebHost.UseKestrel(configs =>
             {

@@ -44,6 +44,49 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "Figgle/0.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Figgle.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Figgle.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "MaxMind.Db/4.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/MaxMind.Db.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/MaxMind.Db.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "MaxMind.GeoIP2/5.2.0": {
+        "type": "package",
+        "dependencies": {
+          "MaxMind.Db": "4.1.0",
+          "Microsoft.Extensions.Options": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/MaxMind.GeoIP2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/MaxMind.GeoIP2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "MemoryPack/1.21.1": {
         "type": "package",
         "dependencies": {
@@ -603,20 +646,20 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
+      "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
         "type": "package",
         "compile": {
-          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "buildTransitive/net6.0/_._": {}
+          "buildTransitive/net8.0/_._": {}
         }
       },
       "Microsoft.Extensions.DependencyModel/2.1.0": {
@@ -817,23 +860,23 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/8.0.0": {
+      "Microsoft.Extensions.Logging.Abstractions/9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         },
         "compile": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "buildTransitive/net6.0/Microsoft.Extensions.Logging.Abstractions.targets": {}
+          "buildTransitive/net8.0/Microsoft.Extensions.Logging.Abstractions.targets": {}
         }
       },
       "Microsoft.Extensions.Logging.Configuration/8.0.0": {
@@ -1721,6 +1764,19 @@
           "lib/netcoreapp2.1/_._": {}
         }
       },
+      "ServerEngine.AsciiBanner/1.1.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Figgle": "0.5.1"
+        },
+        "compile": {
+          "bin/placeholder/ServerEngine.AsciiBanner.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ServerEngine.AsciiBanner.dll": {}
+        }
+      },
       "ServerEngine.Config/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -1773,6 +1829,20 @@
         },
         "runtime": {
           "bin/placeholder/ServerEngine.Database.dll": {}
+        }
+      },
+      "ServerEngine.GeoIP/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "MaxMind.GeoIP2": "5.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ServerEngine.GeoIP.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ServerEngine.GeoIP.dll": {}
         }
       }
     }
@@ -1827,6 +1897,67 @@
         "lib/net6.0/EnyimMemcachedCore.dll",
         "lib/net7.0/EnyimMemcachedCore.dll",
         "lib/net8.0/EnyimMemcachedCore.dll"
+      ]
+    },
+    "Figgle/0.5.1": {
+      "sha512": "F21k9oOGRgSb+1dCX0kFDYRBbShSMFvL49xjNmF/dsJwiN5M7zBaSWsYKpi/KZWXVIIxNzTbNTq9ZciucaHYMQ==",
+      "type": "package",
+      "path": "figgle/0.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "figgle.0.5.1.nupkg.sha512",
+        "figgle.nuspec",
+        "lib/netstandard2.0/Figgle.dll",
+        "lib/netstandard2.0/Figgle.xml",
+        "logo-square-256px.png"
+      ]
+    },
+    "MaxMind.Db/4.1.0": {
+      "sha512": "lEjCFX0TUQCRmFS8xrXIQSi+4omJ1Fwy0gAHlbnjg8cgSBa0cllP5zOEftQ23EP247EbnF7mNCQ3JsG/bMkHAA==",
+      "type": "package",
+      "path": "maxmind.db/4.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "MaxMind-logo.png",
+        "README.md",
+        "lib/net6.0/MaxMind.Db.dll",
+        "lib/net6.0/MaxMind.Db.xml",
+        "lib/net7.0/MaxMind.Db.dll",
+        "lib/net7.0/MaxMind.Db.xml",
+        "lib/net8.0/MaxMind.Db.dll",
+        "lib/net8.0/MaxMind.Db.xml",
+        "lib/netstandard2.0/MaxMind.Db.dll",
+        "lib/netstandard2.0/MaxMind.Db.xml",
+        "lib/netstandard2.1/MaxMind.Db.dll",
+        "lib/netstandard2.1/MaxMind.Db.xml",
+        "maxmind.db.4.1.0.nupkg.sha512",
+        "maxmind.db.nuspec"
+      ]
+    },
+    "MaxMind.GeoIP2/5.2.0": {
+      "sha512": "E8i6yQPlAznLTfS8w208uY3oqCg6i7sQ9cxKmlDdhFMXVLfm4sKphOTMsIWdAHJCV7RxW2a3DlqxAPkQrqmqlA==",
+      "type": "package",
+      "path": "maxmind.geoip2/5.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "MaxMind-logo.png",
+        "README.md",
+        "lib/net6.0/MaxMind.GeoIP2.dll",
+        "lib/net6.0/MaxMind.GeoIP2.xml",
+        "lib/net7.0/MaxMind.GeoIP2.dll",
+        "lib/net7.0/MaxMind.GeoIP2.xml",
+        "lib/net8.0/MaxMind.GeoIP2.dll",
+        "lib/net8.0/MaxMind.GeoIP2.xml",
+        "lib/netstandard2.0/MaxMind.GeoIP2.dll",
+        "lib/netstandard2.0/MaxMind.GeoIP2.xml",
+        "lib/netstandard2.1/MaxMind.GeoIP2.dll",
+        "lib/netstandard2.1/MaxMind.GeoIP2.xml",
+        "maxmind.geoip2.5.2.0.nupkg.sha512",
+        "maxmind.geoip2.nuspec"
       ]
     },
     "MemoryPack/1.21.1": {
@@ -2483,10 +2614,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
-      "sha512": "cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==",
+    "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
+      "sha512": "+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg==",
       "type": "package",
-      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.0",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2496,21 +2627,19 @@
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
         "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
+        "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
         "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -2773,10 +2902,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Logging.Abstractions/8.0.0": {
-      "sha512": "arDBqTgFCyS0EvRV7O3MZturChstm50OJ0y9bDJvAcmEPJm0FFpFyjU/JLYyStNGGey081DvnQYlncNX5SJJGA==",
+    "Microsoft.Extensions.Logging.Abstractions/9.0.0": {
+      "sha512": "g0UfujELzlLbHoVG8kPKVBaW470Ewi+jnptGS9KUi6jcb+k2StujtK3m26DFSGGwQ/+bVgZfsWqNzlP6YOejvw==",
       "type": "package",
-      "path": "microsoft.extensions.logging.abstractions/8.0.0",
+      "path": "microsoft.extensions.logging.abstractions/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2828,20 +2957,18 @@
         "analyzers/dotnet/roslyn4.4/cs/zh-Hant/Microsoft.Extensions.Logging.Generators.resources.dll",
         "buildTransitive/net461/Microsoft.Extensions.Logging.Abstractions.targets",
         "buildTransitive/net462/Microsoft.Extensions.Logging.Abstractions.targets",
-        "buildTransitive/net6.0/Microsoft.Extensions.Logging.Abstractions.targets",
+        "buildTransitive/net8.0/Microsoft.Extensions.Logging.Abstractions.targets",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Logging.Abstractions.targets",
         "buildTransitive/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.targets",
         "lib/net462/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.Logging.Abstractions.xml",
-        "lib/net6.0/Microsoft.Extensions.Logging.Abstractions.dll",
-        "lib/net6.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "lib/net7.0/Microsoft.Extensions.Logging.Abstractions.dll",
-        "lib/net7.0/Microsoft.Extensions.Logging.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.xml",
+        "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll",
+        "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+        "microsoft.extensions.logging.abstractions.9.0.0.nupkg.sha512",
         "microsoft.extensions.logging.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -5270,6 +5397,11 @@
         "version.txt"
       ]
     },
+    "ServerEngine.AsciiBanner/1.1.0": {
+      "type": "project",
+      "path": "../ServerEngine.AsciiBanner/ServerEngine.AsciiBanner.csproj",
+      "msbuildProject": "../ServerEngine.AsciiBanner/ServerEngine.AsciiBanner.csproj"
+    },
     "ServerEngine.Config/1.0.0": {
       "type": "project",
       "path": "../ServerEngine.Config/ServerEngine.Config.csproj",
@@ -5284,6 +5416,11 @@
       "type": "project",
       "path": "../ServerEngine.Database/ServerEngine.Database.csproj",
       "msbuildProject": "../ServerEngine.Database/ServerEngine.Database.csproj"
+    },
+    "ServerEngine.GeoIP/1.0.0": {
+      "type": "project",
+      "path": "../ServerEngine.GeoIP/ServerEngine.GeoIP.csproj",
+      "msbuildProject": "../ServerEngine.GeoIP/ServerEngine.GeoIP.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5294,9 +5431,11 @@
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "PowerArgs >= 4.0.3",
+      "ServerEngine.AsciiBanner >= 1.1.0",
       "ServerEngine.Config >= 1.0.0",
       "ServerEngine.Core >= 1.0.0",
       "ServerEngine.Database >= 1.0.0",
+      "ServerEngine.GeoIP >= 1.0.0",
       "System.Configuration.ConfigurationManager >= 8.0.0",
       "System.Text.Encodings.Web >= 9.0.0",
       "System.Text.Json >= 9.0.0"
@@ -5334,6 +5473,9 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
+            "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj": {
+              "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj"
+            },
             "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
               "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
             },
@@ -5342,6 +5484,9 @@
             },
             "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj": {
               "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj"
+            },
+            "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj": {
+              "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj"
             }
           }
         }

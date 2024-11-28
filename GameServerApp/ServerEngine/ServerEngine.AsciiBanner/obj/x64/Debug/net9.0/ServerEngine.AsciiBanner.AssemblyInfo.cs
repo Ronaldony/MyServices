@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ServerEngine.AsciiBanner")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d52df30b578b03675023dc127d3beb599e77435")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dff640d42fa45403abcef6ac10073dab0247ef12")]
 [assembly: System.Reflection.AssemblyProductAttribute("ServerEngine.AsciiBanner")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ServerEngine.AsciiBanner")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

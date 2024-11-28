@@ -1,13 +1,13 @@
 ﻿using PowerArgs;
-using ServerEngine.Core.Util;
-using ServerEngine.Test.Database.Data;
-using ServerEngine.Test.Database.DataObject;
+using ServerEngine.AsciiBanner;
 
 namespace ServerEngine.Test
 {
-    public class Program
+	public class Program
     {
-        public static async Task Main(string[] args)
+        private const string SERVER_NAME = "ServerEngine.Test"; 
+
+		public static async Task Main(string[] args)
         {
             var arguments = ParseCommand(args);
             if (arguments == null)
@@ -23,6 +23,9 @@ namespace ServerEngine.Test
 
             var startupServer = new StartupServer(startup.WebApp.Services);
             await startupServer.ConfigureAsync();
+
+            var asciiBannerWriter = new AsciiBannerWriter("slant.flf");
+            Console.WriteLine(asciiBannerWriter.GetAsciiText(SERVER_NAME));
 
             await startup.WebApp.RunAsync();
         }

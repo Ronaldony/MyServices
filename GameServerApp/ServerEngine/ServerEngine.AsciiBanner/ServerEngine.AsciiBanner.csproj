@@ -12,539 +12,1069 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\1row.flf" />
-    <None Remove="Fonts\3-d.flf" />
-    <None Remove="Fonts\3d_diagonal.flf" />
-    <None Remove="Fonts\3x5.flf" />
-    <None Remove="Fonts\4max.flf" />
-    <None Remove="Fonts\5lineoblique.flf" />
-    <None Remove="Fonts\acrobatic.flf" />
-    <None Remove="Fonts\alligator.flf" />
-    <None Remove="Fonts\alligator2.flf" />
-    <None Remove="Fonts\alligator3.flf" />
-    <None Remove="Fonts\alpha.flf" />
-    <None Remove="Fonts\alphabet.flf" />
-    <None Remove="Fonts\amc3line.flf" />
-    <None Remove="Fonts\amc3liv1.flf" />
-    <None Remove="Fonts\amcaaa01.flf" />
-    <None Remove="Fonts\amcneko.flf" />
-    <None Remove="Fonts\amcrazo2.flf" />
-    <None Remove="Fonts\amcrazor.flf" />
-    <None Remove="Fonts\amcslash.flf" />
-    <None Remove="Fonts\amcslder.flf" />
-    <None Remove="Fonts\amcthin.flf" />
-    <None Remove="Fonts\amctubes.flf" />
-    <None Remove="Fonts\amcun1.flf" />
-    <None Remove="Fonts\arrows.flf" />
-    <None Remove="Fonts\ascii_new_roman.flf" />
-    <None Remove="Fonts\avatar.flf" />
-    <None Remove="Fonts\B1FF.flf" />
-    <None Remove="Fonts\banner.flf" />
-    <None Remove="Fonts\banner3-D.flf" />
-    <None Remove="Fonts\banner3.flf" />
-    <None Remove="Fonts\banner4.flf" />
-    <None Remove="Fonts\barbwire.flf" />
-    <None Remove="Fonts\basic.flf" />
-    <None Remove="Fonts\bear.flf" />
-    <None Remove="Fonts\bell.flf" />
-    <None Remove="Fonts\benjamin.flf" />
-    <None Remove="Fonts\big.flf" />
-    <None Remove="Fonts\bigchief.flf" />
-    <None Remove="Fonts\bigfig.flf" />
-    <None Remove="Fonts\binary.flf" />
-    <None Remove="Fonts\block.flf" />
-    <None Remove="Fonts\blocks.flf" />
-    <None Remove="Fonts\bolger.flf" />
-    <None Remove="Fonts\braced.flf" />
-    <None Remove="Fonts\bright.flf" />
-    <None Remove="Fonts\broadway.flf" />
-    <None Remove="Fonts\broadway_kb.flf" />
-    <None Remove="Fonts\bubble.flf" />
-    <None Remove="Fonts\bulbhead.flf" />
-    <None Remove="Fonts\calgphy2.flf" />
-    <None Remove="Fonts\caligraphy.flf" />
-    <None Remove="Fonts\cards.flf" />
-    <None Remove="Fonts\catwalk.flf" />
-    <None Remove="Fonts\chiseled.flf" />
-    <None Remove="Fonts\chunky.flf" />
-    <None Remove="Fonts\coinstak.flf" />
-    <None Remove="Fonts\cola.flf" />
-    <None Remove="Fonts\colossal.flf" />
-    <None Remove="Fonts\computer.flf" />
-    <None Remove="Fonts\contessa.flf" />
-    <None Remove="Fonts\contrast.flf" />
-    <None Remove="Fonts\cosmic.flf" />
-    <None Remove="Fonts\cosmike.flf" />
-    <None Remove="Fonts\crawford.flf" />
-    <None Remove="Fonts\crazy.flf" />
-    <None Remove="Fonts\cricket.flf" />
-    <None Remove="Fonts\cursive.flf" />
-    <None Remove="Fonts\cyberlarge.flf" />
-    <None Remove="Fonts\cybermedium.flf" />
-    <None Remove="Fonts\cybersmall.flf" />
-    <None Remove="Fonts\cygnet.flf" />
-    <None Remove="Fonts\DANC4.flf" />
-    <None Remove="Fonts\dancingfont.flf" />
-    <None Remove="Fonts\decimal.flf" />
-    <None Remove="Fonts\defleppard.flf" />
-    <None Remove="Fonts\diamond.flf" />
-    <None Remove="Fonts\dietcola.flf" />
-    <None Remove="Fonts\digital.flf" />
-    <None Remove="Fonts\doh.flf" />
-    <None Remove="Fonts\doom.flf" />
-    <None Remove="Fonts\dosrebel.flf" />
-    <None Remove="Fonts\dotmatrix.flf" />
-    <None Remove="Fonts\double.flf" />
-    <None Remove="Fonts\doubleshorts.flf" />
-    <None Remove="Fonts\drpepper.flf" />
-    <None Remove="Fonts\dwhistled.flf" />
-    <None Remove="Fonts\eftichess.flf" />
-    <None Remove="Fonts\eftifont.flf" />
-    <None Remove="Fonts\eftipiti.flf" />
-    <None Remove="Fonts\eftirobot.flf" />
-    <None Remove="Fonts\eftitalic.flf" />
-    <None Remove="Fonts\eftiwall.flf" />
-    <None Remove="Fonts\eftiwater.flf" />
-    <None Remove="Fonts\epic.flf" />
-    <None Remove="Fonts\fender.flf" />
-    <None Remove="Fonts\filter.flf" />
-    <None Remove="Fonts\fire_font-k.flf" />
-    <None Remove="Fonts\fire_font-s.flf" />
-    <None Remove="Fonts\flipped.flf" />
-    <None Remove="Fonts\flowerpower.flf" />
-    <None Remove="Fonts\fourtops.flf" />
-    <None Remove="Fonts\fraktur.flf" />
-    <None Remove="Fonts\funface.flf" />
-    <None Remove="Fonts\funfaces.flf" />
-    <None Remove="Fonts\fuzzy.flf" />
-    <None Remove="Fonts\georgi16.flf" />
-    <None Remove="Fonts\Georgia11.flf" />
-    <None Remove="Fonts\ghost.flf" />
-    <None Remove="Fonts\ghoulish.flf" />
-    <None Remove="Fonts\glenyn.flf" />
-    <None Remove="Fonts\goofy.flf" />
-    <None Remove="Fonts\gothic.flf" />
-    <None Remove="Fonts\graceful.flf" />
-    <None Remove="Fonts\gradient.flf" />
-    <None Remove="Fonts\graffiti.flf" />
-    <None Remove="Fonts\greek.flf" />
-    <None Remove="Fonts\heart_left.flf" />
-    <None Remove="Fonts\heart_right.flf" />
-    <None Remove="Fonts\henry3d.flf" />
-    <None Remove="Fonts\hex.flf" />
-    <None Remove="Fonts\hieroglyphs.flf" />
-    <None Remove="Fonts\hollywood.flf" />
-    <None Remove="Fonts\horizontalleft.flf" />
-    <None Remove="Fonts\horizontalright.flf" />
-    <None Remove="Fonts\ICL-1900.flf" />
-    <None Remove="Fonts\impossible.flf" />
-    <None Remove="Fonts\invita.flf" />
-    <None Remove="Fonts\isometric1.flf" />
-    <None Remove="Fonts\isometric2.flf" />
-    <None Remove="Fonts\isometric3.flf" />
-    <None Remove="Fonts\isometric4.flf" />
-    <None Remove="Fonts\italic.flf" />
-    <None Remove="Fonts\ivrit.flf" />
-    <None Remove="Fonts\jacky.flf" />
-    <None Remove="Fonts\jazmine.flf" />
-    <None Remove="Fonts\jerusalem.flf" />
-    <None Remove="Fonts\katakana.flf" />
-    <None Remove="Fonts\kban.flf" />
-    <None Remove="Fonts\keyboard.flf" />
-    <None Remove="Fonts\knob.flf" />
-    <None Remove="Fonts\konto.flf" />
-    <None Remove="Fonts\kontoslant.flf" />
-    <None Remove="Fonts\larry3d.flf" />
-    <None Remove="Fonts\lcd.flf" />
-    <None Remove="Fonts\lean.flf" />
-    <None Remove="Fonts\letters.flf" />
-    <None Remove="Fonts\lildevil.flf" />
-    <None Remove="Fonts\lineblocks.flf" />
-    <None Remove="Fonts\linux.flf" />
-    <None Remove="Fonts\lockergnome.flf" />
-    <None Remove="Fonts\madrid.flf" />
-    <None Remove="Fonts\marquee.flf" />
-    <None Remove="Fonts\maxfour.flf" />
-    <None Remove="Fonts\merlin1.flf" />
-    <None Remove="Fonts\merlin2.flf" />
-    <None Remove="Fonts\mike.flf" />
-    <None Remove="Fonts\mini.flf" />
-    <None Remove="Fonts\mirror.flf" />
-    <None Remove="Fonts\mnemonic.flf" />
-    <None Remove="Fonts\modular.flf" />
-    <None Remove="Fonts\morse.flf" />
-    <None Remove="Fonts\morse2.flf" />
-    <None Remove="Fonts\moscow.flf" />
-    <None Remove="Fonts\mshebrew210.flf" />
-    <None Remove="Fonts\muzzle.flf" />
-    <None Remove="Fonts\nancyj-fancy.flf" />
-    <None Remove="Fonts\nancyj-improved.flf" />
-    <None Remove="Fonts\nancyj-underlined.flf" />
-    <None Remove="Fonts\nancyj.flf" />
-    <None Remove="Fonts\nipples.flf" />
-    <None Remove="Fonts\nscript.flf" />
-    <None Remove="Fonts\ntgreek.flf" />
-    <None Remove="Fonts\nvscript.flf" />
-    <None Remove="Fonts\o8.flf" />
-    <None Remove="Fonts\octal.flf" />
-    <None Remove="Fonts\ogre.flf" />
-    <None Remove="Fonts\oldbanner.flf" />
-    <None Remove="Fonts\os2.flf" />
-    <None Remove="Fonts\pawp.flf" />
-    <None Remove="Fonts\peaks.flf" />
-    <None Remove="Fonts\peaksslant.flf" />
-    <None Remove="Fonts\pebbles.flf" />
-    <None Remove="Fonts\pepper.flf" />
-    <None Remove="Fonts\poison.flf" />
-    <None Remove="Fonts\puffy.flf" />
-    <None Remove="Fonts\puzzle.flf" />
-    <None Remove="Fonts\pyramid.flf" />
-    <None Remove="Fonts\rammstein.flf" />
-    <None Remove="Fonts\rectangles.flf" />
-    <None Remove="Fonts\red_phoenix.flf" />
-    <None Remove="Fonts\relief.flf" />
-    <None Remove="Fonts\relief2.flf" />
-    <None Remove="Fonts\rev.flf" />
-    <None Remove="Fonts\reverse.flf" />
-    <None Remove="Fonts\roman.flf" />
-    <None Remove="Fonts\rot13.flf" />
-    <None Remove="Fonts\rotated.flf" />
-    <None Remove="Fonts\rounded.flf" />
-    <None Remove="Fonts\rowancap.flf" />
-    <None Remove="Fonts\rozzo.flf" />
-    <None Remove="Fonts\runic.flf" />
-    <None Remove="Fonts\runyc.flf" />
-    <None Remove="Fonts\s-relief.flf" />
-    <None Remove="Fonts\santaclara.flf" />
-    <None Remove="Fonts\sblood.flf" />
-    <None Remove="Fonts\script.flf" />
-    <None Remove="Fonts\serifcap.flf" />
-    <None Remove="Fonts\shadow.flf" />
-    <None Remove="Fonts\shimrod.flf" />
-    <None Remove="Fonts\short.flf" />
-    <None Remove="Fonts\slant.flf" />
-    <None Remove="Fonts\slide.flf" />
-    <None Remove="Fonts\slscript.flf" />
-    <None Remove="Fonts\small.flf" />
-    <None Remove="Fonts\smallcaps.flf" />
-    <None Remove="Fonts\smisome1.flf" />
-    <None Remove="Fonts\smkeyboard.flf" />
-    <None Remove="Fonts\smpoison.flf" />
-    <None Remove="Fonts\smscript.flf" />
-    <None Remove="Fonts\smshadow.flf" />
-    <None Remove="Fonts\smslant.flf" />
-    <None Remove="Fonts\smtengwar.flf" />
-    <None Remove="Fonts\soft.flf" />
-    <None Remove="Fonts\speed.flf" />
-    <None Remove="Fonts\spliff.flf" />
-    <None Remove="Fonts\stacey.flf" />
-    <None Remove="Fonts\stampate.flf" />
-    <None Remove="Fonts\stampatello.flf" />
-    <None Remove="Fonts\standard.flf" />
-    <None Remove="Fonts\starstrips.flf" />
-    <None Remove="Fonts\starwars.flf" />
-    <None Remove="Fonts\stellar.flf" />
-    <None Remove="Fonts\stforek.flf" />
-    <None Remove="Fonts\stop.flf" />
-    <None Remove="Fonts\straight.flf" />
-    <None Remove="Fonts\sub-zero.flf" />
-    <None Remove="Fonts\swampland.flf" />
-    <None Remove="Fonts\swan.flf" />
-    <None Remove="Fonts\sweet.flf" />
-    <None Remove="Fonts\tanja.flf" />
-    <None Remove="Fonts\tengwar.flf" />
-    <None Remove="Fonts\term.flf" />
-    <None Remove="Fonts\test1.flf" />
-    <None Remove="Fonts\thick.flf" />
-    <None Remove="Fonts\thin.flf" />
-    <None Remove="Fonts\threepoint.flf" />
-    <None Remove="Fonts\ticks.flf" />
-    <None Remove="Fonts\ticksslant.flf" />
-    <None Remove="Fonts\tiles.flf" />
-    <None Remove="Fonts\tinker-toy.flf" />
-    <None Remove="Fonts\tombstone.flf" />
-    <None Remove="Fonts\train.flf" />
-    <None Remove="Fonts\trek.flf" />
-    <None Remove="Fonts\tsalagi.flf" />
-    <None Remove="Fonts\tubular.flf" />
-    <None Remove="Fonts\twisted.flf" />
-    <None Remove="Fonts\twopoint.flf" />
-    <None Remove="Fonts\univers.flf" />
-    <None Remove="Fonts\usaflag.flf" />
-    <None Remove="Fonts\varsity.flf" />
-    <None Remove="Fonts\wavy.flf" />
-    <None Remove="Fonts\weird.flf" />
-    <None Remove="Fonts\wetletter.flf" />
-    <None Remove="Fonts\whimsy.flf" />
-    <None Remove="Fonts\wow.flf" />
+    <None Remove="AsciiArt\Fonts\1row.flf" />
+    <None Remove="AsciiArt\Fonts\3-d.flf" />
+    <None Remove="AsciiArt\Fonts\3d_diagonal.flf" />
+    <None Remove="AsciiArt\Fonts\3x5.flf" />
+    <None Remove="AsciiArt\Fonts\4max.flf" />
+    <None Remove="AsciiArt\Fonts\5lineoblique.flf" />
+    <None Remove="AsciiArt\Fonts\acrobatic.flf" />
+    <None Remove="AsciiArt\Fonts\alligator.flf" />
+    <None Remove="AsciiArt\Fonts\alligator2.flf" />
+    <None Remove="AsciiArt\Fonts\alligator3.flf" />
+    <None Remove="AsciiArt\Fonts\alpha.flf" />
+    <None Remove="AsciiArt\Fonts\alphabet.flf" />
+    <None Remove="AsciiArt\Fonts\amc3line.flf" />
+    <None Remove="AsciiArt\Fonts\amc3liv1.flf" />
+    <None Remove="AsciiArt\Fonts\amcaaa01.flf" />
+    <None Remove="AsciiArt\Fonts\amcneko.flf" />
+    <None Remove="AsciiArt\Fonts\amcrazo2.flf" />
+    <None Remove="AsciiArt\Fonts\amcrazor.flf" />
+    <None Remove="AsciiArt\Fonts\amcslash.flf" />
+    <None Remove="AsciiArt\Fonts\amcslder.flf" />
+    <None Remove="AsciiArt\Fonts\amcthin.flf" />
+    <None Remove="AsciiArt\Fonts\amctubes.flf" />
+    <None Remove="AsciiArt\Fonts\amcun1.flf" />
+    <None Remove="AsciiArt\Fonts\arrows.flf" />
+    <None Remove="AsciiArt\Fonts\ascii_new_roman.flf" />
+    <None Remove="AsciiArt\Fonts\avatar.flf" />
+    <None Remove="AsciiArt\Fonts\B1FF.flf" />
+    <None Remove="AsciiArt\Fonts\banner.flf" />
+    <None Remove="AsciiArt\Fonts\banner3-D.flf" />
+    <None Remove="AsciiArt\Fonts\banner3.flf" />
+    <None Remove="AsciiArt\Fonts\banner4.flf" />
+    <None Remove="AsciiArt\Fonts\barbwire.flf" />
+    <None Remove="AsciiArt\Fonts\basic.flf" />
+    <None Remove="AsciiArt\Fonts\bear.flf" />
+    <None Remove="AsciiArt\Fonts\bell.flf" />
+    <None Remove="AsciiArt\Fonts\benjamin.flf" />
+    <None Remove="AsciiArt\Fonts\big.flf" />
+    <None Remove="AsciiArt\Fonts\bigchief.flf" />
+    <None Remove="AsciiArt\Fonts\bigfig.flf" />
+    <None Remove="AsciiArt\Fonts\binary.flf" />
+    <None Remove="AsciiArt\Fonts\block.flf" />
+    <None Remove="AsciiArt\Fonts\blocks.flf" />
+    <None Remove="AsciiArt\Fonts\bolger.flf" />
+    <None Remove="AsciiArt\Fonts\braced.flf" />
+    <None Remove="AsciiArt\Fonts\bright.flf" />
+    <None Remove="AsciiArt\Fonts\broadway.flf" />
+    <None Remove="AsciiArt\Fonts\broadway_kb.flf" />
+    <None Remove="AsciiArt\Fonts\bubble.flf" />
+    <None Remove="AsciiArt\Fonts\bulbhead.flf" />
+    <None Remove="AsciiArt\Fonts\calgphy2.flf" />
+    <None Remove="AsciiArt\Fonts\caligraphy.flf" />
+    <None Remove="AsciiArt\Fonts\cards.flf" />
+    <None Remove="AsciiArt\Fonts\catwalk.flf" />
+    <None Remove="AsciiArt\Fonts\chiseled.flf" />
+    <None Remove="AsciiArt\Fonts\chunky.flf" />
+    <None Remove="AsciiArt\Fonts\coinstak.flf" />
+    <None Remove="AsciiArt\Fonts\cola.flf" />
+    <None Remove="AsciiArt\Fonts\colossal.flf" />
+    <None Remove="AsciiArt\Fonts\computer.flf" />
+    <None Remove="AsciiArt\Fonts\contessa.flf" />
+    <None Remove="AsciiArt\Fonts\contrast.flf" />
+    <None Remove="AsciiArt\Fonts\cosmic.flf" />
+    <None Remove="AsciiArt\Fonts\cosmike.flf" />
+    <None Remove="AsciiArt\Fonts\crawford.flf" />
+    <None Remove="AsciiArt\Fonts\crazy.flf" />
+    <None Remove="AsciiArt\Fonts\cricket.flf" />
+    <None Remove="AsciiArt\Fonts\cursive.flf" />
+    <None Remove="AsciiArt\Fonts\cyberlarge.flf" />
+    <None Remove="AsciiArt\Fonts\cybermedium.flf" />
+    <None Remove="AsciiArt\Fonts\cybersmall.flf" />
+    <None Remove="AsciiArt\Fonts\cygnet.flf" />
+    <None Remove="AsciiArt\Fonts\DANC4.flf" />
+    <None Remove="AsciiArt\Fonts\dancingfont.flf" />
+    <None Remove="AsciiArt\Fonts\decimal.flf" />
+    <None Remove="AsciiArt\Fonts\defleppard.flf" />
+    <None Remove="AsciiArt\Fonts\diamond.flf" />
+    <None Remove="AsciiArt\Fonts\dietcola.flf" />
+    <None Remove="AsciiArt\Fonts\digital.flf" />
+    <None Remove="AsciiArt\Fonts\doh.flf" />
+    <None Remove="AsciiArt\Fonts\doom.flf" />
+    <None Remove="AsciiArt\Fonts\dosrebel.flf" />
+    <None Remove="AsciiArt\Fonts\dotmatrix.flf" />
+    <None Remove="AsciiArt\Fonts\double.flf" />
+    <None Remove="AsciiArt\Fonts\doubleshorts.flf" />
+    <None Remove="AsciiArt\Fonts\drpepper.flf" />
+    <None Remove="AsciiArt\Fonts\dwhistled.flf" />
+    <None Remove="AsciiArt\Fonts\eftichess.flf" />
+    <None Remove="AsciiArt\Fonts\eftifont.flf" />
+    <None Remove="AsciiArt\Fonts\eftipiti.flf" />
+    <None Remove="AsciiArt\Fonts\eftirobot.flf" />
+    <None Remove="AsciiArt\Fonts\eftitalic.flf" />
+    <None Remove="AsciiArt\Fonts\eftiwall.flf" />
+    <None Remove="AsciiArt\Fonts\eftiwater.flf" />
+    <None Remove="AsciiArt\Fonts\epic.flf" />
+    <None Remove="AsciiArt\Fonts\fender.flf" />
+    <None Remove="AsciiArt\Fonts\filter.flf" />
+    <None Remove="AsciiArt\Fonts\fire_font-k.flf" />
+    <None Remove="AsciiArt\Fonts\fire_font-s.flf" />
+    <None Remove="AsciiArt\Fonts\flipped.flf" />
+    <None Remove="AsciiArt\Fonts\flowerpower.flf" />
+    <None Remove="AsciiArt\Fonts\fourtops.flf" />
+    <None Remove="AsciiArt\Fonts\fraktur.flf" />
+    <None Remove="AsciiArt\Fonts\funface.flf" />
+    <None Remove="AsciiArt\Fonts\funfaces.flf" />
+    <None Remove="AsciiArt\Fonts\fuzzy.flf" />
+    <None Remove="AsciiArt\Fonts\georgi16.flf" />
+    <None Remove="AsciiArt\Fonts\Georgia11.flf" />
+    <None Remove="AsciiArt\Fonts\ghost.flf" />
+    <None Remove="AsciiArt\Fonts\ghoulish.flf" />
+    <None Remove="AsciiArt\Fonts\glenyn.flf" />
+    <None Remove="AsciiArt\Fonts\goofy.flf" />
+    <None Remove="AsciiArt\Fonts\gothic.flf" />
+    <None Remove="AsciiArt\Fonts\graceful.flf" />
+    <None Remove="AsciiArt\Fonts\gradient.flf" />
+    <None Remove="AsciiArt\Fonts\graffiti.flf" />
+    <None Remove="AsciiArt\Fonts\greek.flf" />
+    <None Remove="AsciiArt\Fonts\heart_left.flf" />
+    <None Remove="AsciiArt\Fonts\heart_right.flf" />
+    <None Remove="AsciiArt\Fonts\henry3d.flf" />
+    <None Remove="AsciiArt\Fonts\hex.flf" />
+    <None Remove="AsciiArt\Fonts\hieroglyphs.flf" />
+    <None Remove="AsciiArt\Fonts\hollywood.flf" />
+    <None Remove="AsciiArt\Fonts\horizontalleft.flf" />
+    <None Remove="AsciiArt\Fonts\horizontalright.flf" />
+    <None Remove="AsciiArt\Fonts\ICL-1900.flf" />
+    <None Remove="AsciiArt\Fonts\impossible.flf" />
+    <None Remove="AsciiArt\Fonts\invita.flf" />
+    <None Remove="AsciiArt\Fonts\isometric1.flf" />
+    <None Remove="AsciiArt\Fonts\isometric2.flf" />
+    <None Remove="AsciiArt\Fonts\isometric3.flf" />
+    <None Remove="AsciiArt\Fonts\isometric4.flf" />
+    <None Remove="AsciiArt\Fonts\italic.flf" />
+    <None Remove="AsciiArt\Fonts\ivrit.flf" />
+    <None Remove="AsciiArt\Fonts\jacky.flf" />
+    <None Remove="AsciiArt\Fonts\jazmine.flf" />
+    <None Remove="AsciiArt\Fonts\jerusalem.flf" />
+    <None Remove="AsciiArt\Fonts\katakana.flf" />
+    <None Remove="AsciiArt\Fonts\kban.flf" />
+    <None Remove="AsciiArt\Fonts\keyboard.flf" />
+    <None Remove="AsciiArt\Fonts\knob.flf" />
+    <None Remove="AsciiArt\Fonts\konto.flf" />
+    <None Remove="AsciiArt\Fonts\kontoslant.flf" />
+    <None Remove="AsciiArt\Fonts\larry3d.flf" />
+    <None Remove="AsciiArt\Fonts\lcd.flf" />
+    <None Remove="AsciiArt\Fonts\lean.flf" />
+    <None Remove="AsciiArt\Fonts\letters.flf" />
+    <None Remove="AsciiArt\Fonts\lildevil.flf" />
+    <None Remove="AsciiArt\Fonts\lineblocks.flf" />
+    <None Remove="AsciiArt\Fonts\linux.flf" />
+    <None Remove="AsciiArt\Fonts\lockergnome.flf" />
+    <None Remove="AsciiArt\Fonts\madrid.flf" />
+    <None Remove="AsciiArt\Fonts\marquee.flf" />
+    <None Remove="AsciiArt\Fonts\maxfour.flf" />
+    <None Remove="AsciiArt\Fonts\merlin1.flf" />
+    <None Remove="AsciiArt\Fonts\merlin2.flf" />
+    <None Remove="AsciiArt\Fonts\mike.flf" />
+    <None Remove="AsciiArt\Fonts\mini.flf" />
+    <None Remove="AsciiArt\Fonts\mirror.flf" />
+    <None Remove="AsciiArt\Fonts\mnemonic.flf" />
+    <None Remove="AsciiArt\Fonts\modular.flf" />
+    <None Remove="AsciiArt\Fonts\morse.flf" />
+    <None Remove="AsciiArt\Fonts\morse2.flf" />
+    <None Remove="AsciiArt\Fonts\moscow.flf" />
+    <None Remove="AsciiArt\Fonts\mshebrew210.flf" />
+    <None Remove="AsciiArt\Fonts\muzzle.flf" />
+    <None Remove="AsciiArt\Fonts\nancyj-fancy.flf" />
+    <None Remove="AsciiArt\Fonts\nancyj-improved.flf" />
+    <None Remove="AsciiArt\Fonts\nancyj-underlined.flf" />
+    <None Remove="AsciiArt\Fonts\nancyj.flf" />
+    <None Remove="AsciiArt\Fonts\nipples.flf" />
+    <None Remove="AsciiArt\Fonts\nscript.flf" />
+    <None Remove="AsciiArt\Fonts\ntgreek.flf" />
+    <None Remove="AsciiArt\Fonts\nvscript.flf" />
+    <None Remove="AsciiArt\Fonts\o8.flf" />
+    <None Remove="AsciiArt\Fonts\octal.flf" />
+    <None Remove="AsciiArt\Fonts\ogre.flf" />
+    <None Remove="AsciiArt\Fonts\oldbanner.flf" />
+    <None Remove="AsciiArt\Fonts\os2.flf" />
+    <None Remove="AsciiArt\Fonts\pawp.flf" />
+    <None Remove="AsciiArt\Fonts\peaks.flf" />
+    <None Remove="AsciiArt\Fonts\peaksslant.flf" />
+    <None Remove="AsciiArt\Fonts\pebbles.flf" />
+    <None Remove="AsciiArt\Fonts\pepper.flf" />
+    <None Remove="AsciiArt\Fonts\poison.flf" />
+    <None Remove="AsciiArt\Fonts\puffy.flf" />
+    <None Remove="AsciiArt\Fonts\puzzle.flf" />
+    <None Remove="AsciiArt\Fonts\pyramid.flf" />
+    <None Remove="AsciiArt\Fonts\rammstein.flf" />
+    <None Remove="AsciiArt\Fonts\rectangles.flf" />
+    <None Remove="AsciiArt\Fonts\red_phoenix.flf" />
+    <None Remove="AsciiArt\Fonts\relief.flf" />
+    <None Remove="AsciiArt\Fonts\relief2.flf" />
+    <None Remove="AsciiArt\Fonts\rev.flf" />
+    <None Remove="AsciiArt\Fonts\reverse.flf" />
+    <None Remove="AsciiArt\Fonts\roman.flf" />
+    <None Remove="AsciiArt\Fonts\rot13.flf" />
+    <None Remove="AsciiArt\Fonts\rotated.flf" />
+    <None Remove="AsciiArt\Fonts\rounded.flf" />
+    <None Remove="AsciiArt\Fonts\rowancap.flf" />
+    <None Remove="AsciiArt\Fonts\rozzo.flf" />
+    <None Remove="AsciiArt\Fonts\runic.flf" />
+    <None Remove="AsciiArt\Fonts\runyc.flf" />
+    <None Remove="AsciiArt\Fonts\s-relief.flf" />
+    <None Remove="AsciiArt\Fonts\santaclara.flf" />
+    <None Remove="AsciiArt\Fonts\sblood.flf" />
+    <None Remove="AsciiArt\Fonts\script.flf" />
+    <None Remove="AsciiArt\Fonts\serifcap.flf" />
+    <None Remove="AsciiArt\Fonts\shadow.flf" />
+    <None Remove="AsciiArt\Fonts\shimrod.flf" />
+    <None Remove="AsciiArt\Fonts\short.flf" />
+    <None Remove="AsciiArt\Fonts\slant.flf" />
+    <None Remove="AsciiArt\Fonts\slide.flf" />
+    <None Remove="AsciiArt\Fonts\slscript.flf" />
+    <None Remove="AsciiArt\Fonts\small.flf" />
+    <None Remove="AsciiArt\Fonts\smallcaps.flf" />
+    <None Remove="AsciiArt\Fonts\smisome1.flf" />
+    <None Remove="AsciiArt\Fonts\smkeyboard.flf" />
+    <None Remove="AsciiArt\Fonts\smpoison.flf" />
+    <None Remove="AsciiArt\Fonts\smscript.flf" />
+    <None Remove="AsciiArt\Fonts\smshadow.flf" />
+    <None Remove="AsciiArt\Fonts\smslant.flf" />
+    <None Remove="AsciiArt\Fonts\smtengwar.flf" />
+    <None Remove="AsciiArt\Fonts\soft.flf" />
+    <None Remove="AsciiArt\Fonts\speed.flf" />
+    <None Remove="AsciiArt\Fonts\spliff.flf" />
+    <None Remove="AsciiArt\Fonts\stacey.flf" />
+    <None Remove="AsciiArt\Fonts\stampate.flf" />
+    <None Remove="AsciiArt\Fonts\stampatello.flf" />
+    <None Remove="AsciiArt\Fonts\standard.flf" />
+    <None Remove="AsciiArt\Fonts\starstrips.flf" />
+    <None Remove="AsciiArt\Fonts\starwars.flf" />
+    <None Remove="AsciiArt\Fonts\stellar.flf" />
+    <None Remove="AsciiArt\Fonts\stforek.flf" />
+    <None Remove="AsciiArt\Fonts\stop.flf" />
+    <None Remove="AsciiArt\Fonts\straight.flf" />
+    <None Remove="AsciiArt\Fonts\sub-zero.flf" />
+    <None Remove="AsciiArt\Fonts\swampland.flf" />
+    <None Remove="AsciiArt\Fonts\swan.flf" />
+    <None Remove="AsciiArt\Fonts\sweet.flf" />
+    <None Remove="AsciiArt\Fonts\tanja.flf" />
+    <None Remove="AsciiArt\Fonts\tengwar.flf" />
+    <None Remove="AsciiArt\Fonts\term.flf" />
+    <None Remove="AsciiArt\Fonts\test1.flf" />
+    <None Remove="AsciiArt\Fonts\thick.flf" />
+    <None Remove="AsciiArt\Fonts\thin.flf" />
+    <None Remove="AsciiArt\Fonts\threepoint.flf" />
+    <None Remove="AsciiArt\Fonts\ticks.flf" />
+    <None Remove="AsciiArt\Fonts\ticksslant.flf" />
+    <None Remove="AsciiArt\Fonts\tiles.flf" />
+    <None Remove="AsciiArt\Fonts\tinker-toy.flf" />
+    <None Remove="AsciiArt\Fonts\tombstone.flf" />
+    <None Remove="AsciiArt\Fonts\train.flf" />
+    <None Remove="AsciiArt\Fonts\trek.flf" />
+    <None Remove="AsciiArt\Fonts\tsalagi.flf" />
+    <None Remove="AsciiArt\Fonts\tubular.flf" />
+    <None Remove="AsciiArt\Fonts\twisted.flf" />
+    <None Remove="AsciiArt\Fonts\twopoint.flf" />
+    <None Remove="AsciiArt\Fonts\univers.flf" />
+    <None Remove="AsciiArt\Fonts\usaflag.flf" />
+    <None Remove="AsciiArt\Fonts\varsity.flf" />
+    <None Remove="AsciiArt\Fonts\wavy.flf" />
+    <None Remove="AsciiArt\Fonts\weird.flf" />
+    <None Remove="AsciiArt\Fonts\wetletter.flf" />
+    <None Remove="AsciiArt\Fonts\whimsy.flf" />
+    <None Remove="AsciiArt\Fonts\wow.flf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\1row.flf" />
-    <EmbeddedResource Include="Fonts\3-d.flf" />
-    <EmbeddedResource Include="Fonts\3d_diagonal.flf" />
-    <EmbeddedResource Include="Fonts\3x5.flf" />
-    <EmbeddedResource Include="Fonts\4max.flf" />
-    <EmbeddedResource Include="Fonts\5lineoblique.flf" />
-    <EmbeddedResource Include="Fonts\acrobatic.flf" />
-    <EmbeddedResource Include="Fonts\alligator.flf" />
-    <EmbeddedResource Include="Fonts\alligator2.flf" />
-    <EmbeddedResource Include="Fonts\alligator3.flf" />
-    <EmbeddedResource Include="Fonts\alpha.flf" />
-    <EmbeddedResource Include="Fonts\alphabet.flf" />
-    <EmbeddedResource Include="Fonts\amc3line.flf" />
-    <EmbeddedResource Include="Fonts\amc3liv1.flf" />
-    <EmbeddedResource Include="Fonts\amcaaa01.flf" />
-    <EmbeddedResource Include="Fonts\amcneko.flf" />
-    <EmbeddedResource Include="Fonts\amcrazo2.flf" />
-    <EmbeddedResource Include="Fonts\amcrazor.flf" />
-    <EmbeddedResource Include="Fonts\amcslash.flf" />
-    <EmbeddedResource Include="Fonts\amcslder.flf" />
-    <EmbeddedResource Include="Fonts\amcthin.flf" />
-    <EmbeddedResource Include="Fonts\amctubes.flf" />
-    <EmbeddedResource Include="Fonts\amcun1.flf" />
-    <EmbeddedResource Include="Fonts\arrows.flf" />
-    <EmbeddedResource Include="Fonts\ascii_new_roman.flf" />
-    <EmbeddedResource Include="Fonts\avatar.flf" />
-    <EmbeddedResource Include="Fonts\B1FF.flf" />
-    <EmbeddedResource Include="Fonts\banner.flf" />
-    <EmbeddedResource Include="Fonts\banner3-D.flf" />
-    <EmbeddedResource Include="Fonts\banner3.flf" />
-    <EmbeddedResource Include="Fonts\banner4.flf" />
-    <EmbeddedResource Include="Fonts\barbwire.flf" />
-    <EmbeddedResource Include="Fonts\basic.flf" />
-    <EmbeddedResource Include="Fonts\bear.flf" />
-    <EmbeddedResource Include="Fonts\bell.flf" />
-    <EmbeddedResource Include="Fonts\benjamin.flf" />
-    <EmbeddedResource Include="Fonts\big.flf" />
-    <EmbeddedResource Include="Fonts\bigchief.flf" />
-    <EmbeddedResource Include="Fonts\bigfig.flf" />
-    <EmbeddedResource Include="Fonts\binary.flf" />
-    <EmbeddedResource Include="Fonts\block.flf" />
-    <EmbeddedResource Include="Fonts\blocks.flf" />
-    <EmbeddedResource Include="Fonts\bolger.flf" />
-    <EmbeddedResource Include="Fonts\braced.flf" />
-    <EmbeddedResource Include="Fonts\bright.flf" />
-    <EmbeddedResource Include="Fonts\broadway.flf" />
-    <EmbeddedResource Include="Fonts\broadway_kb.flf" />
-    <EmbeddedResource Include="Fonts\bubble.flf" />
-    <EmbeddedResource Include="Fonts\bulbhead.flf" />
-    <EmbeddedResource Include="Fonts\calgphy2.flf" />
-    <EmbeddedResource Include="Fonts\caligraphy.flf" />
-    <EmbeddedResource Include="Fonts\cards.flf" />
-    <EmbeddedResource Include="Fonts\catwalk.flf" />
-    <EmbeddedResource Include="Fonts\chiseled.flf" />
-    <EmbeddedResource Include="Fonts\chunky.flf" />
-    <EmbeddedResource Include="Fonts\coinstak.flf" />
-    <EmbeddedResource Include="Fonts\cola.flf" />
-    <EmbeddedResource Include="Fonts\colossal.flf" />
-    <EmbeddedResource Include="Fonts\computer.flf" />
-    <EmbeddedResource Include="Fonts\contessa.flf" />
-    <EmbeddedResource Include="Fonts\contrast.flf" />
-    <EmbeddedResource Include="Fonts\cosmic.flf" />
-    <EmbeddedResource Include="Fonts\cosmike.flf" />
-    <EmbeddedResource Include="Fonts\crawford.flf" />
-    <EmbeddedResource Include="Fonts\crazy.flf" />
-    <EmbeddedResource Include="Fonts\cricket.flf" />
-    <EmbeddedResource Include="Fonts\cursive.flf" />
-    <EmbeddedResource Include="Fonts\cyberlarge.flf" />
-    <EmbeddedResource Include="Fonts\cybermedium.flf" />
-    <EmbeddedResource Include="Fonts\cybersmall.flf" />
-    <EmbeddedResource Include="Fonts\cygnet.flf" />
-    <EmbeddedResource Include="Fonts\DANC4.flf" />
-    <EmbeddedResource Include="Fonts\dancingfont.flf" />
-    <EmbeddedResource Include="Fonts\decimal.flf" />
-    <EmbeddedResource Include="Fonts\defleppard.flf" />
-    <EmbeddedResource Include="Fonts\diamond.flf" />
-    <EmbeddedResource Include="Fonts\dietcola.flf" />
-    <EmbeddedResource Include="Fonts\digital.flf" />
-    <EmbeddedResource Include="Fonts\doh.flf" />
-    <EmbeddedResource Include="Fonts\doom.flf" />
-    <EmbeddedResource Include="Fonts\dosrebel.flf" />
-    <EmbeddedResource Include="Fonts\dotmatrix.flf" />
-    <EmbeddedResource Include="Fonts\double.flf" />
-    <EmbeddedResource Include="Fonts\doubleshorts.flf" />
-    <EmbeddedResource Include="Fonts\drpepper.flf" />
-    <EmbeddedResource Include="Fonts\dwhistled.flf" />
-    <EmbeddedResource Include="Fonts\eftichess.flf" />
-    <EmbeddedResource Include="Fonts\eftifont.flf" />
-    <EmbeddedResource Include="Fonts\eftipiti.flf" />
-    <EmbeddedResource Include="Fonts\eftirobot.flf" />
-    <EmbeddedResource Include="Fonts\eftitalic.flf" />
-    <EmbeddedResource Include="Fonts\eftiwall.flf" />
-    <EmbeddedResource Include="Fonts\eftiwater.flf" />
-    <EmbeddedResource Include="Fonts\epic.flf" />
-    <EmbeddedResource Include="Fonts\fender.flf" />
-    <EmbeddedResource Include="Fonts\filter.flf" />
-    <EmbeddedResource Include="Fonts\fire_font-k.flf" />
-    <EmbeddedResource Include="Fonts\fire_font-s.flf" />
-    <EmbeddedResource Include="Fonts\flipped.flf" />
-    <EmbeddedResource Include="Fonts\flowerpower.flf" />
-    <EmbeddedResource Include="Fonts\fourtops.flf" />
-    <EmbeddedResource Include="Fonts\fraktur.flf" />
-    <EmbeddedResource Include="Fonts\funface.flf" />
-    <EmbeddedResource Include="Fonts\funfaces.flf" />
-    <EmbeddedResource Include="Fonts\fuzzy.flf" />
-    <EmbeddedResource Include="Fonts\georgi16.flf" />
-    <EmbeddedResource Include="Fonts\Georgia11.flf" />
-    <EmbeddedResource Include="Fonts\ghost.flf" />
-    <EmbeddedResource Include="Fonts\ghoulish.flf" />
-    <EmbeddedResource Include="Fonts\glenyn.flf" />
-    <EmbeddedResource Include="Fonts\goofy.flf" />
-    <EmbeddedResource Include="Fonts\gothic.flf" />
-    <EmbeddedResource Include="Fonts\graceful.flf" />
-    <EmbeddedResource Include="Fonts\gradient.flf" />
-    <EmbeddedResource Include="Fonts\graffiti.flf" />
-    <EmbeddedResource Include="Fonts\greek.flf" />
-    <EmbeddedResource Include="Fonts\heart_left.flf" />
-    <EmbeddedResource Include="Fonts\heart_right.flf" />
-    <EmbeddedResource Include="Fonts\henry3d.flf" />
-    <EmbeddedResource Include="Fonts\hex.flf" />
-    <EmbeddedResource Include="Fonts\hieroglyphs.flf" />
-    <EmbeddedResource Include="Fonts\hollywood.flf" />
-    <EmbeddedResource Include="Fonts\horizontalleft.flf" />
-    <EmbeddedResource Include="Fonts\horizontalright.flf" />
-    <EmbeddedResource Include="Fonts\ICL-1900.flf" />
-    <EmbeddedResource Include="Fonts\impossible.flf" />
-    <EmbeddedResource Include="Fonts\invita.flf" />
-    <EmbeddedResource Include="Fonts\isometric1.flf" />
-    <EmbeddedResource Include="Fonts\isometric2.flf" />
-    <EmbeddedResource Include="Fonts\isometric3.flf" />
-    <EmbeddedResource Include="Fonts\isometric4.flf" />
-    <EmbeddedResource Include="Fonts\italic.flf" />
-    <EmbeddedResource Include="Fonts\ivrit.flf" />
-    <EmbeddedResource Include="Fonts\jacky.flf" />
-    <EmbeddedResource Include="Fonts\jazmine.flf" />
-    <EmbeddedResource Include="Fonts\jerusalem.flf" />
-    <EmbeddedResource Include="Fonts\katakana.flf" />
-    <EmbeddedResource Include="Fonts\kban.flf" />
-    <EmbeddedResource Include="Fonts\keyboard.flf" />
-    <EmbeddedResource Include="Fonts\knob.flf" />
-    <EmbeddedResource Include="Fonts\konto.flf" />
-    <EmbeddedResource Include="Fonts\kontoslant.flf" />
-    <EmbeddedResource Include="Fonts\larry3d.flf" />
-    <EmbeddedResource Include="Fonts\lcd.flf" />
-    <EmbeddedResource Include="Fonts\lean.flf" />
-    <EmbeddedResource Include="Fonts\letters.flf" />
-    <EmbeddedResource Include="Fonts\lildevil.flf" />
-    <EmbeddedResource Include="Fonts\lineblocks.flf" />
-    <EmbeddedResource Include="Fonts\linux.flf" />
-    <EmbeddedResource Include="Fonts\lockergnome.flf" />
-    <EmbeddedResource Include="Fonts\madrid.flf" />
-    <EmbeddedResource Include="Fonts\marquee.flf" />
-    <EmbeddedResource Include="Fonts\maxfour.flf" />
-    <EmbeddedResource Include="Fonts\merlin1.flf" />
-    <EmbeddedResource Include="Fonts\merlin2.flf" />
-    <EmbeddedResource Include="Fonts\mike.flf" />
-    <EmbeddedResource Include="Fonts\mini.flf" />
-    <EmbeddedResource Include="Fonts\mirror.flf" />
-    <EmbeddedResource Include="Fonts\mnemonic.flf" />
-    <EmbeddedResource Include="Fonts\modular.flf" />
-    <EmbeddedResource Include="Fonts\morse.flf" />
-    <EmbeddedResource Include="Fonts\morse2.flf" />
-    <EmbeddedResource Include="Fonts\moscow.flf" />
-    <EmbeddedResource Include="Fonts\mshebrew210.flf" />
-    <EmbeddedResource Include="Fonts\muzzle.flf" />
-    <EmbeddedResource Include="Fonts\nancyj-fancy.flf" />
-    <EmbeddedResource Include="Fonts\nancyj-improved.flf" />
-    <EmbeddedResource Include="Fonts\nancyj-underlined.flf" />
-    <EmbeddedResource Include="Fonts\nancyj.flf" />
-    <EmbeddedResource Include="Fonts\nipples.flf" />
-    <EmbeddedResource Include="Fonts\nscript.flf" />
-    <EmbeddedResource Include="Fonts\ntgreek.flf" />
-    <EmbeddedResource Include="Fonts\nvscript.flf" />
-    <EmbeddedResource Include="Fonts\o8.flf" />
-    <EmbeddedResource Include="Fonts\octal.flf" />
-    <EmbeddedResource Include="Fonts\ogre.flf" />
-    <EmbeddedResource Include="Fonts\oldbanner.flf" />
-    <EmbeddedResource Include="Fonts\os2.flf" />
-    <EmbeddedResource Include="Fonts\pawp.flf" />
-    <EmbeddedResource Include="Fonts\peaks.flf" />
-    <EmbeddedResource Include="Fonts\peaksslant.flf" />
-    <EmbeddedResource Include="Fonts\pebbles.flf" />
-    <EmbeddedResource Include="Fonts\pepper.flf" />
-    <EmbeddedResource Include="Fonts\poison.flf" />
-    <EmbeddedResource Include="Fonts\puffy.flf" />
-    <EmbeddedResource Include="Fonts\puzzle.flf" />
-    <EmbeddedResource Include="Fonts\pyramid.flf" />
-    <EmbeddedResource Include="Fonts\rammstein.flf" />
-    <EmbeddedResource Include="Fonts\rectangles.flf" />
-    <EmbeddedResource Include="Fonts\red_phoenix.flf" />
-    <EmbeddedResource Include="Fonts\relief.flf" />
-    <EmbeddedResource Include="Fonts\relief2.flf" />
-    <EmbeddedResource Include="Fonts\rev.flf" />
-    <EmbeddedResource Include="Fonts\reverse.flf" />
-    <EmbeddedResource Include="Fonts\roman.flf" />
-    <EmbeddedResource Include="Fonts\rot13.flf" />
-    <EmbeddedResource Include="Fonts\rotated.flf" />
-    <EmbeddedResource Include="Fonts\rounded.flf" />
-    <EmbeddedResource Include="Fonts\rowancap.flf" />
-    <EmbeddedResource Include="Fonts\rozzo.flf" />
-    <EmbeddedResource Include="Fonts\runic.flf" />
-    <EmbeddedResource Include="Fonts\runyc.flf" />
-    <EmbeddedResource Include="Fonts\s-relief.flf" />
-    <EmbeddedResource Include="Fonts\santaclara.flf" />
-    <EmbeddedResource Include="Fonts\sblood.flf" />
-    <EmbeddedResource Include="Fonts\script.flf" />
-    <EmbeddedResource Include="Fonts\serifcap.flf" />
-    <EmbeddedResource Include="Fonts\shadow.flf" />
-    <EmbeddedResource Include="Fonts\shimrod.flf" />
-    <EmbeddedResource Include="Fonts\short.flf" />
-    <EmbeddedResource Include="Fonts\slant.flf" />
-    <EmbeddedResource Include="Fonts\slide.flf" />
-    <EmbeddedResource Include="Fonts\slscript.flf" />
-    <EmbeddedResource Include="Fonts\small.flf" />
-    <EmbeddedResource Include="Fonts\smallcaps.flf" />
-    <EmbeddedResource Include="Fonts\smisome1.flf" />
-    <EmbeddedResource Include="Fonts\smkeyboard.flf" />
-    <EmbeddedResource Include="Fonts\smpoison.flf" />
-    <EmbeddedResource Include="Fonts\smscript.flf" />
-    <EmbeddedResource Include="Fonts\smshadow.flf" />
-    <EmbeddedResource Include="Fonts\smslant.flf" />
-    <EmbeddedResource Include="Fonts\smtengwar.flf" />
-    <EmbeddedResource Include="Fonts\soft.flf" />
-    <EmbeddedResource Include="Fonts\speed.flf" />
-    <EmbeddedResource Include="Fonts\spliff.flf" />
-    <EmbeddedResource Include="Fonts\stacey.flf" />
-    <EmbeddedResource Include="Fonts\stampate.flf" />
-    <EmbeddedResource Include="Fonts\stampatello.flf" />
-    <EmbeddedResource Include="Fonts\standard.flf" />
-    <EmbeddedResource Include="Fonts\starstrips.flf" />
-    <EmbeddedResource Include="Fonts\starwars.flf" />
-    <EmbeddedResource Include="Fonts\stellar.flf" />
-    <EmbeddedResource Include="Fonts\stforek.flf" />
-    <EmbeddedResource Include="Fonts\stop.flf" />
-    <EmbeddedResource Include="Fonts\straight.flf" />
-    <EmbeddedResource Include="Fonts\sub-zero.flf" />
-    <EmbeddedResource Include="Fonts\swampland.flf" />
-    <EmbeddedResource Include="Fonts\swan.flf" />
-    <EmbeddedResource Include="Fonts\sweet.flf" />
-    <EmbeddedResource Include="Fonts\tanja.flf" />
-    <EmbeddedResource Include="Fonts\tengwar.flf" />
-    <EmbeddedResource Include="Fonts\term.flf" />
-    <EmbeddedResource Include="Fonts\test1.flf" />
-    <EmbeddedResource Include="Fonts\thick.flf" />
-    <EmbeddedResource Include="Fonts\thin.flf" />
-    <EmbeddedResource Include="Fonts\threepoint.flf" />
-    <EmbeddedResource Include="Fonts\ticks.flf" />
-    <EmbeddedResource Include="Fonts\ticksslant.flf" />
-    <EmbeddedResource Include="Fonts\tiles.flf" />
-    <EmbeddedResource Include="Fonts\tinker-toy.flf" />
-    <EmbeddedResource Include="Fonts\tombstone.flf" />
-    <EmbeddedResource Include="Fonts\train.flf" />
-    <EmbeddedResource Include="Fonts\trek.flf" />
-    <EmbeddedResource Include="Fonts\tsalagi.flf" />
-    <EmbeddedResource Include="Fonts\tubular.flf" />
-    <EmbeddedResource Include="Fonts\twisted.flf" />
-    <EmbeddedResource Include="Fonts\twopoint.flf" />
-    <EmbeddedResource Include="Fonts\univers.flf" />
-    <EmbeddedResource Include="Fonts\usaflag.flf" />
-    <EmbeddedResource Include="Fonts\varsity.flf" />
-    <EmbeddedResource Include="Fonts\wavy.flf" />
-    <EmbeddedResource Include="Fonts\weird.flf" />
-    <EmbeddedResource Include="Fonts\wetletter.flf" />
-    <EmbeddedResource Include="Fonts\whimsy.flf" />
-    <EmbeddedResource Include="Fonts\wow.flf" />
+    <EmbeddedResource Include="AsciiArt\Fonts\1row.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\3-d.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\3d_diagonal.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\3x5.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\4max.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\5lineoblique.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\acrobatic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\alligator.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\alligator2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\alligator3.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\alpha.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\alphabet.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amc3line.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amc3liv1.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcaaa01.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcneko.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcrazo2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcrazor.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcslash.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcslder.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcthin.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amctubes.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\amcun1.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\arrows.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ascii_new_roman.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\avatar.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\B1FF.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\banner.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\banner3-D.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\banner3.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\banner4.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\barbwire.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\basic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bear.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bell.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\benjamin.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\big.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bigchief.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bigfig.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\binary.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\block.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\blocks.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bolger.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\braced.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bright.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\broadway.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\broadway_kb.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bubble.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\bulbhead.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\calgphy2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\caligraphy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cards.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\catwalk.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\chiseled.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\chunky.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\coinstak.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cola.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\colossal.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\computer.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\contessa.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\contrast.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cosmic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cosmike.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\crawford.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\crazy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cricket.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cursive.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cyberlarge.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cybermedium.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cybersmall.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\cygnet.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\DANC4.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\dancingfont.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\decimal.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\defleppard.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\diamond.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\dietcola.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\digital.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\doh.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\doom.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\dosrebel.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\dotmatrix.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\double.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\doubleshorts.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\drpepper.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\dwhistled.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\eftichess.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\eftifont.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\eftipiti.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\eftirobot.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\eftitalic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\eftiwall.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\eftiwater.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\epic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\fender.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\filter.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\fire_font-k.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\fire_font-s.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\flipped.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\flowerpower.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\fourtops.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\fraktur.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\funface.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\funfaces.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\fuzzy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\georgi16.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\Georgia11.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ghost.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ghoulish.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\glenyn.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\goofy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\gothic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\graceful.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\gradient.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\graffiti.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\greek.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\heart_left.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\heart_right.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\henry3d.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\hex.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\hieroglyphs.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\hollywood.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\horizontalleft.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\horizontalright.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ICL-1900.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\impossible.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\invita.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\isometric1.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\isometric2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\isometric3.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\isometric4.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\italic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ivrit.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\jacky.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\jazmine.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\jerusalem.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\katakana.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\kban.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\keyboard.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\knob.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\konto.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\kontoslant.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\larry3d.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\lcd.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\lean.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\letters.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\lildevil.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\lineblocks.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\linux.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\lockergnome.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\madrid.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\marquee.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\maxfour.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\merlin1.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\merlin2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\mike.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\mini.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\mirror.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\mnemonic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\modular.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\morse.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\morse2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\moscow.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\mshebrew210.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\muzzle.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\nancyj-fancy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\nancyj-improved.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\nancyj-underlined.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\nancyj.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\nipples.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\nscript.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ntgreek.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\nvscript.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\o8.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\octal.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ogre.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\oldbanner.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\os2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\pawp.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\peaks.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\peaksslant.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\pebbles.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\pepper.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\poison.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\puffy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\puzzle.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\pyramid.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rammstein.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rectangles.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\red_phoenix.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\relief.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\relief2.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rev.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\reverse.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\roman.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rot13.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rotated.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rounded.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rowancap.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\rozzo.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\runic.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\runyc.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\s-relief.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\santaclara.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\sblood.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\script.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\serifcap.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\shadow.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\shimrod.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\short.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\slant.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\slide.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\slscript.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\small.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smallcaps.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smisome1.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smkeyboard.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smpoison.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smscript.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smshadow.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smslant.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\smtengwar.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\soft.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\speed.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\spliff.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\stacey.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\stampate.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\stampatello.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\standard.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\starstrips.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\starwars.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\stellar.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\stforek.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\stop.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\straight.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\sub-zero.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\swampland.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\swan.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\sweet.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\tanja.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\tengwar.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\term.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\test1.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\thick.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\thin.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\threepoint.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ticks.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\ticksslant.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\tiles.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\tinker-toy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\tombstone.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\train.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\trek.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\tsalagi.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\tubular.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\twisted.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\twopoint.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\univers.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\usaflag.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\varsity.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\wavy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\weird.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\wetletter.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\whimsy.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AsciiArt\Fonts\wow.flf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

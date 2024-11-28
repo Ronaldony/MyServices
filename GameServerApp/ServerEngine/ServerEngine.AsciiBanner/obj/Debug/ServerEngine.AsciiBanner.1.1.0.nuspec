@@ -5,7 +5,7 @@
     <version>1.1.0</version>
     <authors>ServerEngine.AsciiBanner</authors>
     <description>Package Description</description>
-    <repository type="git" commit="1d52df30b578b03675023dc127d3beb599e77435" />
+    <repository type="git" commit="dff640d42fa45403abcef6ac10073dab0247ef12" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Figgle" version="0.5.1" exclude="Build,Analyzers" />

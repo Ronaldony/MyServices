@@ -21,9 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ServerEngine.AsciiBanner\ServerEngine.AsciiBanner.csproj" />
     <ProjectReference Include="..\ServerEngine.Config\ServerEngine.Config.csproj" />
     <ProjectReference Include="..\ServerEngine.Core\ServerEngine.Core.csproj" />
     <ProjectReference Include="..\ServerEngine.Database\ServerEngine.Database.csproj" />
+    <ProjectReference Include="..\ServerEngine.GeoIP\ServerEngine.GeoIP.csproj" />
   </ItemGroup>
 
   <ItemGroup>

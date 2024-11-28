@@ -3,8 +3,60 @@
   "WorkspaceRootPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4233B17C-1AB7-4FDC-9050-B509C4D2DBE9}|ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.asciibanner\\asciiart\\asciibannerwrite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4233B17C-1AB7-4FDC-9050-B509C4D2DBE9}|ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj|solutionrelative:serverengine.asciibanner\\asciiart\\asciibannerwrite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.geoip\\maxmindipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|solutionrelative:serverengine.geoip\\maxmindipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.geoip\\igeoipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|solutionrelative:serverengine.geoip\\igeoipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\controllers\\test\\test_geoipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\controllers\\test\\test_geoipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.database\\cache\\cachehost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\cache\\cachehost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\database\\data\\dto_playerinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\database\\data\\dto_playerinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\database\\data\\dto_benchmark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\database\\data\\dto_benchmark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\database\\data\\dummydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\database\\data\\dummydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\database\\dataobject\\playerinfoobejct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\database\\dataobject\\playerinfoobejct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\controllers\\test\\test_objectpoolcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\controllers\\test\\test_objectpoolcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\controllers\\test\\test_dirtycheckcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\controllers\\test\\test_dirtycheckcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|c:\\users\\gande\\onedrive\\documents\\myservices\\myservices\\gameserverapp\\serverengine\\serverengine.test\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D90D27F-611B-48E2-8546-C4CEC8A6DDED}|ServerEngine.Test\\ServerEngine.Test.csproj|solutionrelative:serverengine.test\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +66,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 343,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,13 +82,182 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AsciiBannerWrite.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\AsciiArt\\AsciiBannerWrite.cs",
+              "RelativeDocumentMoniker": "ServerEngine.AsciiBanner\\AsciiArt\\AsciiBannerWrite.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\AsciiArt\\AsciiBannerWrite.cs",
+              "RelativeToolTip": "ServerEngine.AsciiBanner\\AsciiArt\\AsciiBannerWrite.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAiwA4AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T10:01:46.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DTO_Benchmark.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DTO_Benchmark.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Database\\Data\\DTO_Benchmark.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DTO_Benchmark.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Database\\Data\\DTO_Benchmark.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T10:00:19.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DummyData.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DummyData.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Database\\Data\\DummyData.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DummyData.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Database\\Data\\DummyData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T10:00:18.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Test_DirtyCheckController.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Test_DirtyCheckController.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\Test_DirtyCheckController.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Test_DirtyCheckController.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Test_DirtyCheckController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T09:45:39.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Test_GeoIPController.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Test_GeoIPController.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\Test_GeoIPController.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Test_GeoIPController.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Test_GeoIPController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T09:44:21.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PlayerInfoObejct.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Database\\DataObject\\PlayerInfoObejct.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBwAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T09:43:47.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Program.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Program.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Program.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwBoAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T09:42:32.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MaxMindIPService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "RelativeToolTip": "ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAiwBEAAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T09:09:39.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IGeoIPService.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\IGeoIPService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.GeoIP\\IGeoIPService.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\IGeoIPService.cs",
+              "RelativeToolTip": "ServerEngine.GeoIP\\IGeoIPService.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAYwBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T11:24:51.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CacheHost.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Cache\\CacheHost.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\Cache\\CacheHost.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\Cache\\CacheHost.cs",
+              "RelativeToolTip": "ServerEngine.Database\\Cache\\CacheHost.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T11:24:48.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "StartupServer.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\StartupServer.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\StartupServer.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\StartupServer.cs",
+              "RelativeToolTip": "ServerEngine.Test\\StartupServer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T11:25:24.894Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DTO_PlayerInfo.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Database\\Data\\DTO_PlayerInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T10:00:19.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Startup.cs",
+              "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Startup.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Test\\Startup.cs",
+              "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Startup.cs",
+              "RelativeToolTip": "ServerEngine.Test\\Startup.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwDwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T09:42:47.519Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "Test_ObjectPoolController.cs",
               "DocumentMoniker": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Test_ObjectPoolController.cs",
               "RelativeDocumentMoniker": "ServerEngine.Test\\Controllers\\Test\\Test_ObjectPoolController.cs",
               "ToolTip": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\Controllers\\Test\\Test_ObjectPoolController.cs",
               "RelativeToolTip": "ServerEngine.Test\\Controllers\\Test\\Test_ObjectPoolController.cs",
-              "ViewState": "AgIAAKAAAAAAAAAAAAAuwLYAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBkAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-26T13:10:59.961Z",
               "EditorCaption": ""

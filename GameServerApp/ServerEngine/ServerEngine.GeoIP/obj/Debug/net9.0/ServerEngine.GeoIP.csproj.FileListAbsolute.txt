@@ -10,3 +10,5 @@ C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngi
 C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\refint\ServerEngine.GeoIP.dll
 C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.pdb
 C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ref\ServerEngine.GeoIP.dll
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\MaxMind\GeoLite2-Country.mmdb
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.csproj.AssemblyReference.cache
