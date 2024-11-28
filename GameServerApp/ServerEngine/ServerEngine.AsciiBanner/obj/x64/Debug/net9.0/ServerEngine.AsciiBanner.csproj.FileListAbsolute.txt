@@ -1,0 +1,13 @@
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\bin\x64\Debug\net9.0\ServerEngine.AsciiBanner.deps.json
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\bin\x64\Debug\net9.0\ServerEngine.AsciiBanner.dll
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\bin\x64\Debug\net9.0\ServerEngine.AsciiBanner.pdb
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.csproj.AssemblyReference.cache
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.AssemblyInfoInputs.cache
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.AssemblyInfo.cs
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.csproj.CoreCompileInputs.cache
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.sourcelink.json
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.dll
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\refint\ServerEngine.AsciiBanner.dll
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ServerEngine.AsciiBanner.pdb
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\obj\x64\Debug\net9.0\ref\ServerEngine.AsciiBanner.dll

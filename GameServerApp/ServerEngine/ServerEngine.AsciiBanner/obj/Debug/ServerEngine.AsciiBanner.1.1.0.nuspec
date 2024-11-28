@@ -5,14 +5,14 @@
     <version>1.1.0</version>
     <authors>ServerEngine.AsciiBanner</authors>
     <description>Package Description</description>
-    <repository type="git" commit="c9e32abf1c885fd05f7299f5f2336c79d76e95c6" />
+    <repository type="git" commit="1d52df30b578b03675023dc127d3beb599e77435" />
     <dependencies>
-      <group targetFramework="net8.0">
+      <group targetFramework="net9.0">
         <dependency id="Figgle" version="0.5.1" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\boba1\OneDrive\문서\Jaeseung\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\bin\x64\Debug\net8.0\ServerEngine.AsciiBanner.dll" target="lib\net8.0\ServerEngine.AsciiBanner.dll" />
+    <file src="C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\bin\x64\Debug\net9.0\ServerEngine.AsciiBanner.dll" target="lib\net9.0\ServerEngine.AsciiBanner.dll" />
   </files>
 </package>

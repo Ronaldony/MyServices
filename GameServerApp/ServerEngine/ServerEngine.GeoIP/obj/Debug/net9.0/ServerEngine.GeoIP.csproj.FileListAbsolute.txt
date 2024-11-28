@@ -1,0 +1,12 @@
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.deps.json
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.dll
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.pdb
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.AssemblyInfoInputs.cache
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.AssemblyInfo.cs
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.csproj.CoreCompileInputs.cache
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.sourcelink.json
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.dll
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\refint\ServerEngine.GeoIP.dll
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.pdb
+C:\Users\gande\OneDrive\Documents\MyServices\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ref\ServerEngine.GeoIP.dll

@@ -469,10 +469,7 @@
           "Consul": "1.7.14.3"
         },
         "runtime": {
-          "ServerEngine.Config.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "ServerEngine.Config.dll": {}
         }
       }
     }
