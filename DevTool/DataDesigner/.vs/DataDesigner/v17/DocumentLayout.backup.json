@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 436,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Program.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Program.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Program.cs",
+              "RelativeToolTip": "DataDesigner\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T02:14:34.488Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

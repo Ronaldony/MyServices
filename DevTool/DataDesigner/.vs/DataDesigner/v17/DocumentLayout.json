@@ -1,0 +1,173 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\core\\parser\\enumparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\parser\\enumparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\core\\parser\\iparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\parser\\iparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\uploader\\idatauplaoder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\uploader\\idatauplaoder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\loader\\enumloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\loader\\enumloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\loader\\idataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\loader\\idataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\core\\datagenerator\\idatagenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\datagenerator\\idatagenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\uploader\\enumuploader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\uploader\\enumuploader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|c:\\users\\ralph_2bytescorp\\documents\\github\\myservices\\devtool\\datadesigner\\datadesigner\\loader\\objectloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ADB4E3A-92AB-4BA3-8C84-459D4E506812}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\loader\\objectloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 436,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EnumParser.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Core\\Parser\\EnumParser.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\Parser\\EnumParser.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Core\\Parser\\EnumParser.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\Parser\\EnumParser.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBwAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T03:38:01.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IParser.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Core\\Parser\\IParser.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\Parser\\IParser.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Core\\Parser\\IParser.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\Parser\\IParser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T03:34:46.135Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IDataGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Core\\DataGenerator\\IDataGenerator.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\DataGenerator\\IDataGenerator.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Core\\DataGenerator\\IDataGenerator.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\DataGenerator\\IDataGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T03:34:39.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IDataUplaoder.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Uploader\\IDataUplaoder.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Uploader\\IDataUplaoder.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Uploader\\IDataUplaoder.cs",
+              "RelativeToolTip": "DataDesigner\\Uploader\\IDataUplaoder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T03:01:33.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ObjectLoader.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Loader\\ObjectLoader.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Loader\\ObjectLoader.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Loader\\ObjectLoader.cs",
+              "RelativeToolTip": "DataDesigner\\Loader\\ObjectLoader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T02:58:08.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IDataLoader.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Loader\\IDataLoader.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Loader\\IDataLoader.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Loader\\IDataLoader.cs",
+              "RelativeToolTip": "DataDesigner\\Loader\\IDataLoader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T02:31:09.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EnumUploader.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Uploader\\EnumUploader.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Uploader\\EnumUploader.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Uploader\\EnumUploader.cs",
+              "RelativeToolTip": "DataDesigner\\Uploader\\EnumUploader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T02:30:31.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EnumLoader.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Loader\\EnumLoader.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Loader\\EnumLoader.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Loader\\EnumLoader.cs",
+              "RelativeToolTip": "DataDesigner\\Loader\\EnumLoader.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAvwDsAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T02:15:42.871Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Program.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Program.cs",
+              "ToolTip": "C:\\Users\\ralph_2bytescorp\\Documents\\GitHub\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\Program.cs",
+              "RelativeToolTip": "DataDesigner\\Program.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAYwCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T02:14:34.488Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
