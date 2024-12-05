@@ -13,6 +13,6 @@
         /// <summary>
         /// Parse type.
         /// </summary>
-        Dictionary<Type, List<Type>> Parse(string typeName, string typeValue);
+        Dictionary<Type, List<Type>> Parse<T>(string typeName, T typeValue);
     }
 }

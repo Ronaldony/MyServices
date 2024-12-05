@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.CodeDom;
 
 namespace DataDesigner.Core.Parser
 {
@@ -26,48 +27,39 @@ namespace DataDesigner.Core.Parser
         /// <summary>
         /// Parse enum type.
         /// </summary>
-        public Dictionary<Type, List<Type>> Parse(string typeName, string typeValue)
+        /// <typeparam name="T">Parse value type</typeparam>
+        /// <param name="typeName">Type name</param>
+        /// <param name="typeValue">Type value</param>
+        /// <returns>
+        /// Type: Type of type name.
+        /// List<Type>: Values of type value.
+        /// </returns>
+        public Dictionary<Type, List<Type>> Parse<T>(string typeName, T typeValue)
         {
             _logger.LogInformation($"//////////////////////////////////////////////////////////");
             _logger.LogInformation($"[EnumParser] Parse datas.");
 
-            try
-            {
-                var typeDict = new Dictionary<Type, List<Type>>();
-                var lines = typeValue.Split(Environment.NewLine);
+            
+            var codeType = new CodeTypeDeclaration(typeName);
 
-                foreach (var line in lines)
-                {
-                    var values = line.Split(',');
-                    if (values.Length != 2)
-                    {
-                        _logger.LogError($"[EnumParser] Invalid line: {line}");
-                        continue;
-                    }
+            var start = new CodeEntryPointMethod();
+            var cs1 = new CodeMethodInvokeExpression(
+                new CodeTypeReferenceExpression("System.Console"),
+                "WriteLine", new CodePrimitiveExpression("Hello World!"));
+            start.Statements.Add(cs1);
 
-                    var key = values[0].Trim();
-                    var value = values[1].Trim();
+            codeType.Members.Add(start);
 
-                    if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
-                    {
-                        _logger.LogError($"[EnumParser] Invalid line: {line}");
-                        continue;
-                    }
+            // Namespace.
+            var codeNameSpace = new CodeNamespace("samples");
 
-                    //if (!typeDict.ContainsKey(key))
-                    //{
-                    //    typeDict.Add(key, new List<Type>());
-                    //}
+            codeNameSpace.Imports.Add(new CodeNamespaceImport("System"));
+            codeNameSpace.Imports.Add(new CodeNamespaceImport("GameCore"));
+            codeNameSpace.Types.Add(codeType);
 
-                    //typeDict[key].Add(value);
-                }
-                return typeDict;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-
-            }
+            // CompileUnit.
+            var compileUnit = new CodeCompileUnit();
+            compileUnit.Namespaces.Add(codeNameSpace);
 
             return default;
         }

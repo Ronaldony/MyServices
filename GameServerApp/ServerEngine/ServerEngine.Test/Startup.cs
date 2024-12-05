@@ -3,14 +3,14 @@ using System.Net;
 
 namespace ServerEngine.Test
 {
-	using ServerEngine.Core.Services;
-	using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Database.Cache;
-	using ServerEngine.Database.Interfaces;
-	using ServerEngine.GeoIP;
-	using ServerEngine.Test.Database.DataObject;
+    using ServerEngine.Core.Services;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Database.Cache;
+    using ServerEngine.Database.Interfaces;
+    using ServerEngine.GeoIP;
+    using ServerEngine.Test.Database.DataObject;
 
-	public class Startup
+    public class Startup
     {
         public WebApplication WebApp { get; set; }
 

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {}
+    "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
+    "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+        "projectUniqueName": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
         "projectName": "ServerEngine.Config",
-        "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
-        "packagesPath": "C:\\Users\\gande\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\obj\\",
+        "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+        "packagesPath": "C:\\Users\\boba1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\gande\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\boba1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

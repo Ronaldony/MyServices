@@ -5442,23 +5442,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gande\\.nuget\\packages\\": {},
+    "C:\\Users\\boba1\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
+      "projectUniqueName": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
       "projectName": "ServerEngine.Test",
-      "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
-      "packagesPath": "C:\\Users\\gande\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\obj\\",
+      "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\ServerEngine.Test.csproj",
+      "packagesPath": "C:\\Users\\boba1\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\gande\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\boba1\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5473,20 +5473,20 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj": {
-              "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj"
+            "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj": {
+              "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj"
             },
-            "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
-              "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
+            "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj": {
+              "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj"
             },
-            "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
-              "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj"
+            "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj": {
+              "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj"
             },
-            "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj": {
-              "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj"
+            "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj": {
+              "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj"
             },
-            "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj": {
-              "projectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj"
+            "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj": {
+              "projectPath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj"
             }
           }
         }

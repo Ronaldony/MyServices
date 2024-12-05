@@ -1,11 +1,12 @@
 ﻿using PowerArgs;
-using ServerEngine.AsciiBanner;
 
 namespace ServerEngine.Test
 {
+    using ServerEngine.AsciiBanner;
+
 	public class Program
     {
-        private const string SERVER_NAME = "ServerEngine.Test"; 
+        private const string PROGRAM_NAME = "ServerEngine.Test"; 
 
 		public static async Task Main(string[] args)
         {
@@ -25,7 +26,7 @@ namespace ServerEngine.Test
             await startupServer.ConfigureAsync();
 
             var asciiBannerWriter = new AsciiBannerWriter("slant.flf");
-            Console.WriteLine(asciiBannerWriter.GetAsciiText(SERVER_NAME));
+            Console.WriteLine(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
 
             await startup.WebApp.RunAsync();
         }
