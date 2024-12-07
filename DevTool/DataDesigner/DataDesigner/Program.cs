@@ -1,7 +1,6 @@
-﻿using DataDesigner.Core.Parser;
+﻿using DataDesigner.Core.Generator;
 using DataDesigner.Test;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -70,14 +69,44 @@ namespace DataDesigner
             }
 
             // Json test data.
-            var testClassJson = JsonConvert.SerializeObject(testClasses);
-            var testEnums = JsonConvert.SerializeObject(Enum.GetValues<Type_Test>());
+            var classJson = JsonConvert.SerializeObject(testClasses);
+            var enumJson = JsonConvert.SerializeObject(Enum.GetValues<Type_Test>());
+
+            var testEnumType = "Type_Program";
+            var testEnums = new List<EnumData>();
+
+            testEnums.Add(new EnumData
+            {
+                Key = "None",
+                Value = 0,
+                Comments = "First"
+            });
+
+            testEnums.Add(new EnumData
+            {
+                Key = "First",
+                Value = 1,
+                Comments = "Comment - first"
+            });
+
+            testEnums.Add(new EnumData
+            {
+                Key = "Second",
+                Value = 3,
+                Comments = "Comment - second"
+            });
+
+            testEnums.Add(new EnumData
+            {
+                Key = "Third",
+                Value = 4,
+                Comments = "Comment - third"
+            });
 
             ////////////////////////////////////////////////////////////////////
             /// Parser.
-            var enumParser = new EnumParser(serviceProvider);
-            enumParser.Parse(typeof(Type_Test).Name, testEnums);
-
+            var enumParser = new EnumCodeGenerator(serviceProvider);
+            enumParser.Generate("Program", testEnumType, testEnums);
         }
     }
 }
