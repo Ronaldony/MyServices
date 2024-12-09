@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "haL4q8619EU=",
+  "dgSpecHash": "6bMRTyhWoRU=",
   "success": true,
   "projectFilePath": "C:\\Users\\boba1\\OneDrive\\문서\\Jaeseung\\MyServices\\DevTool\\DataDesigner\\DataDesigner\\DataDesigner.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\boba1\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.4\\microsoft.codeanalysis.analyzers.3.3.4.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\microsoft.codeanalysis.common\\4.12.0\\microsoft.codeanalysis.common.4.12.0.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\microsoft.codeanalysis.csharp\\4.12.0\\microsoft.codeanalysis.csharp.4.12.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.0\\microsoft.extensions.configuration.9.0.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.0\\microsoft.extensions.configuration.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\microsoft.extensions.configuration.binder\\9.0.0\\microsoft.extensions.configuration.binder.9.0.0.nupkg.sha512",
@@ -35,9 +38,11 @@
     "C:\\Users\\boba1\\.nuget\\packages\\nlog\\5.3.4\\nlog.5.3.4.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\nlog.extensions.logging\\5.3.15\\nlog.extensions.logging.5.3.15.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\system.codedom\\9.0.0\\system.codedom.9.0.0.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\system.collections.immutable\\8.0.0\\system.collections.immutable.8.0.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\system.diagnostics.diagnosticsource\\9.0.0\\system.diagnostics.diagnosticsource.9.0.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\system.diagnostics.eventlog\\9.0.0\\system.diagnostics.eventlog.9.0.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\system.io.pipelines\\9.0.0\\system.io.pipelines.9.0.0.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\system.reflection.metadata\\8.0.0\\system.reflection.metadata.8.0.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\system.text.encodings.web\\9.0.0\\system.text.encodings.web.9.0.0.nupkg.sha512",
     "C:\\Users\\boba1\\.nuget\\packages\\system.text.json\\9.0.0\\system.text.json.9.0.0.nupkg.sha512"
   ],

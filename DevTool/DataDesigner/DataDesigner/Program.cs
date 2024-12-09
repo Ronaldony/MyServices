@@ -1,9 +1,7 @@
-﻿using DataDesigner.Core.Generator;
-using DataDesigner.Test;
+﻿using DataDesigner.Core.CodeGenerator;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using NLog;
 using NLog.Extensions.Logging;
 
@@ -47,66 +45,93 @@ namespace DataDesigner
                 .SetupExtensions(ext => ext.RegisterConfigSettings(configRoot))
                 .GetCurrentClassLogger();
 
-            TestParse(host.Services);
+            ////////////////////////////////////////////////
+            /// Test.
+            
+            Test_EnumCodeGenerator(host.Services);
+            Test_ClassCodeGenerator(host.Services);
         }
 
-        private static void TestParse(IServiceProvider serviceProvider)
+        /// <summary>
+        /// Test for EnumCodeGenerator.
+        /// </summary>
+        private static void Test_EnumCodeGenerator(IServiceProvider serviceProvider)
         {
             ////////////////////////////////////////////////////////////////////
             /// Setup test datas.
-            var testCount = 3;
-            var testClasses = new List<TestClass>();
+            var codeDatas = new List<EnumCodeData>();
 
-            for (var cnt = 0; cnt < testCount; cnt++)
+            for (int cnt = 0; cnt < 10; ++cnt)
             {
-                testClasses.Add(new TestClass
+                codeDatas.Add(new EnumCodeData
                 {
-                    TestInt = cnt,
-                    TestFloat = cnt,
-                    TestDouble = cnt,
-                    TestString = cnt.ToString()
+                    Key = $"Key{cnt}",
+                    Value = cnt,
+                    Comment = $"Comment{cnt}"
                 });
             }
 
-            // Json test data.
-            var classJson = JsonConvert.SerializeObject(testClasses);
-            var enumJson = JsonConvert.SerializeObject(Enum.GetValues<Type_Test>());
+            ////////////////////////////////////////////////////////////////////
+            var codeGenerator = new EnumCodeGenerator(serviceProvider);
+            codeGenerator.Generate(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "Type_EnumCode", codeDatas);
+        }
 
-            var testEnumType = "Type_Program";
-            var testEnums = new List<EnumData>();
+        /// <summary>
+        /// Test for ClassCodeGenerator.
+        /// </summary>
+        private static void Test_ClassCodeGenerator(IServiceProvider serviceProvider)
+        {
+            ////////////////////////////////////////////////////////////////////
+            /// Setup test datas.
+            var codeDatas = new List<ClassCodeData>();
 
-            testEnums.Add(new EnumData
+            for (int cnt = 0; cnt < 2; ++cnt)
             {
-                Key = "None",
-                Value = 0,
-                Comments = "First"
-            });
+                // Int.
+                codeDatas.Add(new ClassCodeData
+                {
+                    Name = $"TestInt{cnt}",
+                    Type = "int",
+                    Comment = $"Comment - Int"
+                });
 
-            testEnums.Add(new EnumData
-            {
-                Key = "First",
-                Value = 1,
-                Comments = "Comment - first"
-            });
+                // string.
+                codeDatas.Add(new ClassCodeData
+                {
+                    Name = $"TestString{cnt}",
+                    Type = "string",
+                    Comment = $"Comment - string"
+                });
 
-            testEnums.Add(new EnumData
-            {
-                Key = "Second",
-                Value = 3,
-                Comments = "Comment - second"
-            });
+                // double.
+                codeDatas.Add(new ClassCodeData
+                {
+                    Name = $"TestDouble{cnt}",
+                    Type = "double",
+                    Comment = $"Comment - double"
+                });
 
-            testEnums.Add(new EnumData
-            {
-                Key = "Third",
-                Value = 4,
-                Comments = "Comment - third"
-            });
+                // bool.
+                codeDatas.Add(new ClassCodeData
+                {
+                    Name = $"TestBool{cnt}",
+                    Type = "bool",
+                    Comment = $"Comment - bool"
+                });
+
+                // Type_EnumCode.
+                codeDatas.Add(new ClassCodeData
+                {
+                    Name = $"TestEnumCode{cnt}",
+                    Type = "Type_EnumCode",
+                    Comment = $"Comment - Type_EnumCode"
+                });
+            }
 
             ////////////////////////////////////////////////////////////////////
-            /// Parser.
-            var enumParser = new EnumCodeGenerator(serviceProvider);
-            enumParser.Generate("Program", testEnumType, testEnums);
+            var codeGenerator = new ClassCodeGenerator(serviceProvider);
+            codeGenerator.Initialize();
+            codeGenerator.Generate(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "ClassCode", codeDatas);
         }
     }
 }
