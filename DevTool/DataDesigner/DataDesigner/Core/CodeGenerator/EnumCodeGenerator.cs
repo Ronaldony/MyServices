@@ -1,13 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Reflection;
-using System.Runtime.Loader;
 
 namespace DataDesigner.Core.CodeGenerator
 {
@@ -18,10 +16,19 @@ namespace DataDesigner.Core.CodeGenerator
     {
         private readonly ILogger<EnumCodeGenerator> _logger;
 
+        /// <summary>
+        /// C# compilation.
+        /// </summary>
+        private CSharpCompilation _compilation;
+
         public EnumCodeGenerator(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<EnumCodeGenerator>>();
 
+            _compilation = CSharpCompilation.Create(
+                assemblyName: typeof(EnumCodeGenerator).Name,
+                references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         }
 
         public void Initialize()
@@ -50,6 +57,48 @@ namespace DataDesigner.Core.CodeGenerator
             _logger.LogInformation($"[EnumCodeGenerator] Code generated...");
         }
 
+
+        /// <summary>
+        /// Get generated assembly.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Type> GetGeneratedTypes()
+        {
+            var types = new List<Type>();
+
+            using (var ms = new MemoryStream())
+            {
+                // emit compilation to memory stream.
+                var result = _compilation.Emit(ms);
+
+                if (result.Success)
+                {
+                    // success.
+                    var assembly = Assembly.Load(ms.ToArray());
+                    types = assembly.GetTypes().ToList();
+                }
+                else
+                {
+                    // fail.
+                    var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
+
+                    foreach (var fail in failures)
+                    {
+                        _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
+                    }
+                }
+            }
+
+            return types;
+        }
+
+        /// <summary>
+        /// Get assembly.
+        /// </summary>
+        public MetadataReference GetMetadataRef()
+        {
+            return _compilation.ToMetadataReference();
+        }
 
         /// <summary>
         /// Get code compile unit for type.
@@ -118,27 +167,9 @@ namespace DataDesigner.Core.CodeGenerator
                 // Close the output file.
                 tw.Close();
 
-                // Complie.
-                var syntasTree = CSharpSyntaxTree.ParseText(File.ReadAllText($"{dirPath}/{outputfileName}"));
-
-                var compilation = CSharpCompilation.Create(
-                    assemblyName: "MyAssembly",
-                    syntaxTrees: new[] { syntasTree },
-                    options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-
-                using (var ms = new MemoryStream())
-                {
-                    EmitResult result = compilation.Emit(ms);
-
-                    if (result.Success)
-                    {
-                        ms.Seek(0, SeekOrigin.Begin);
-
-                        var assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
-                        var types = assembly.GetTypes();
-                    }
-                }
+                // Add syntax tree into compilation.
+                var syntaxTree = CSharpSyntaxTree.ParseText(File.ReadAllText($"{dirPath}/{outputfileName}"));
+                _compilation = _compilation.AddSyntaxTrees(syntaxTree);
             }
         }
     }

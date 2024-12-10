@@ -24,6 +24,9 @@ namespace TestCode {
         // Comment - bool
         private bool TestBool0;
         
+        // Comment - Type_EnumCode
+        private TestCode.Type_EnumCode TestEnumCode0;
+        
         // Comment - Int
         private int TestInt1;
         
@@ -35,5 +38,8 @@ namespace TestCode {
         
         // Comment - bool
         private bool TestBool1;
+        
+        // Comment - Type_EnumCode
+        private TestCode.Type_EnumCode TestEnumCode1;
     }
 }

@@ -1,9 +1,12 @@
-﻿using Microsoft.CSharp;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace DataDesigner.Core.CodeGenerator
 {
@@ -14,17 +17,38 @@ namespace DataDesigner.Core.CodeGenerator
     {
         private readonly ILogger<ClassCodeGenerator> _logger;
 
+        private readonly EnumCodeGenerator _enumCodeGenerator;
+
+        /// <summary>
+        /// Assembly list for getting type.
+        /// </summary>
         private List<Assembly> _assemblies;
 
+        /// <summary>
+        /// Type table dictionary.
+        /// key: type name.
+        /// value: Type.
+        /// </summary>
         private Dictionary<string, Type> _typeTableDic;
+
+        /// <summary>
+        /// C# compiler.
+        /// </summary>
+        private CSharpCompilation _compilation;
 
         public ClassCodeGenerator(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<ClassCodeGenerator>>();
 
+            _enumCodeGenerator = serviceProvider.GetRequiredService<EnumCodeGenerator>();
+
             _assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
 
             _typeTableDic = new Dictionary<string, Type>();
+
+            _compilation = CSharpCompilation.Create(
+                assemblyName: typeof(ClassCodeGenerator).Name,
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         }
 
         public void Initialize()
@@ -37,6 +61,51 @@ namespace DataDesigner.Core.CodeGenerator
             _typeTableDic.Add("double", typeof(double));
             _typeTableDic.Add("string", typeof(string));
             _typeTableDic.Add("bool", typeof(bool));
+
+            // Setup C# Complier.
+            var references = new MetadataReference[]
+            {
+                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                _enumCodeGenerator.GetMetadataRef()
+            };
+
+            _compilation = _compilation.AddReferences(references);
+        }
+
+        /// <summary>
+        /// Get generated assembly.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Type> GetGeneratedTypes()
+        {
+            var types = new List<Type>();
+
+            using (var ms = new MemoryStream())
+            {
+                // emit compilation to memory stream.
+                var result = _compilation.Emit(ms);
+
+                if (result.Success)
+                {
+                    // success.
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    var assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
+                    types = assembly.GetTypes().ToList();
+                }
+                else
+                {
+                    // fail.
+                    var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
+
+                    foreach (var fail in failures)
+                    {
+                        _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
+                    }
+                }
+            }
+
+            return types;
         }
 
         /// <summary>
@@ -55,7 +124,7 @@ namespace DataDesigner.Core.CodeGenerator
 
             if (null == compileUnit)
             {
-                _logger.LogError($"[EnumCodeGenerator] Failed to generate code.");
+                _logger.LogError($"[ClassCodeGenerator] Failed to generate code.");
                 return false;
             }
 
@@ -141,6 +210,10 @@ namespace DataDesigner.Core.CodeGenerator
 
                 // Close the output file.
                 tw.Close();
+
+                // Add syntax tree into compilation.
+                var syntaxTree = CSharpSyntaxTree.ParseText(File.ReadAllText($"{dirPath}/{outputfileName}"));
+                _compilation = _compilation.AddSyntaxTrees(syntaxTree);
             }
 
             return true;
@@ -151,13 +224,21 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         private Type GetTypeFromName(string typeName)
         {
-            // Find from type table.
+            // 1. Find from type table.
             if (true == _typeTableDic.ContainsKey(typeName))
             {
                 return _typeTableDic[typeName];
             }
 
-            // Find from Assembly.
+            // 2. Find from enum code generator.
+            var generatedTypes = _enumCodeGenerator.GetGeneratedTypes();
+            var findType = generatedTypes.FirstOrDefault(d => d.Name.Equals(typeName));
+            if (null != findType)
+            {
+                return findType;
+            }
+
+            // 3. Find from Assembly.
             foreach (var asm in _assemblies)
             {
                 var type = asm.GetType(typeName, false, true);
