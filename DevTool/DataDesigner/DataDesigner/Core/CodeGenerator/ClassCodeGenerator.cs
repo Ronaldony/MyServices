@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.CodeDom;
 using System.CodeDom.Compiler;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -67,7 +68,7 @@ namespace DataDesigner.Core.CodeGenerator
             {
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                 _enumCodeGenerator.GetMetadataRef()
-            };
+            }.ToList();
 
             _compilation = _compilation.AddReferences(references);
         }
@@ -87,9 +88,6 @@ namespace DataDesigner.Core.CodeGenerator
 
                 if (result.Success)
                 {
-                    // success.
-                    ms.Seek(0, SeekOrigin.Begin);
-
                     var assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
                     types = assembly.GetTypes().ToList();
                 }
@@ -130,7 +128,7 @@ namespace DataDesigner.Core.CodeGenerator
 
             GenerateCode(compileUnit, dirPath, $"{className}.cs");
 
-            _logger.LogInformation($"[EnumCodeGenerator] Code generated...");
+            _logger.LogInformation($"[ClassCodeGenerator] Code generated...");
 
             return true;
         }

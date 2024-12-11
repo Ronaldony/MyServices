@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace DataDesigner.Core.CodeGenerator
 {
@@ -15,6 +16,10 @@ namespace DataDesigner.Core.CodeGenerator
     internal sealed class EnumCodeGenerator
     {
         private readonly ILogger<EnumCodeGenerator> _logger;
+
+        private MetadataReference _metadataReference;
+
+        private Assembly _assembly;
 
         /// <summary>
         /// C# compilation.
@@ -57,15 +62,20 @@ namespace DataDesigner.Core.CodeGenerator
             _logger.LogInformation($"[EnumCodeGenerator] Code generated...");
         }
 
-
         /// <summary>
         /// Get generated assembly.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Type> GetGeneratedTypes()
         {
-            var types = new List<Type>();
-
+            return _assembly.GetTypes();
+        }
+        
+        /// <summary>
+        /// Set Assembly.
+        /// </summary>
+        private void SetAssembly()
+        {
             using (var ms = new MemoryStream())
             {
                 // emit compilation to memory stream.
@@ -73,9 +83,13 @@ namespace DataDesigner.Core.CodeGenerator
 
                 if (result.Success)
                 {
+                    ms.Seek(0, SeekOrigin.Begin);
+
                     // success.
-                    var assembly = Assembly.Load(ms.ToArray());
-                    types = assembly.GetTypes().ToList();
+                    _assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+                    _metadataReference = AssemblyMetadata.CreateFromStream(ms, true).GetReference();
                 }
                 else
                 {
@@ -88,8 +102,6 @@ namespace DataDesigner.Core.CodeGenerator
                     }
                 }
             }
-
-            return types;
         }
 
         /// <summary>
@@ -97,7 +109,7 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         public MetadataReference GetMetadataRef()
         {
-            return _compilation.ToMetadataReference();
+            return _metadataReference;
         }
 
         /// <summary>
@@ -170,6 +182,8 @@ namespace DataDesigner.Core.CodeGenerator
                 // Add syntax tree into compilation.
                 var syntaxTree = CSharpSyntaxTree.ParseText(File.ReadAllText($"{dirPath}/{outputfileName}"));
                 _compilation = _compilation.AddSyntaxTrees(syntaxTree);
+
+                SetAssembly();
             }
         }
     }
