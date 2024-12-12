@@ -17,23 +17,17 @@ namespace DataDesigner.Core.CodeGenerator
     {
         private readonly ILogger<EnumCodeGenerator> _logger;
 
-        private MetadataReference _metadataReference;
+        private readonly string _dllFileName;
 
-        private Assembly _assembly;
+        private List<Type> _generatedTypes;
 
-        /// <summary>
-        /// C# compilation.
-        /// </summary>
-        private CSharpCompilation _compilation;
-
-        public EnumCodeGenerator(IServiceProvider serviceProvider)
+        public EnumCodeGenerator(IServiceProvider serviceProvider, string dllFileName)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<EnumCodeGenerator>>();
 
-            _compilation = CSharpCompilation.Create(
-                assemblyName: typeof(EnumCodeGenerator).Name,
-                references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            _dllFileName = dllFileName;
+
+            _generatedTypes = new List<Type>();
         }
 
         public void Initialize()
@@ -63,53 +57,45 @@ namespace DataDesigner.Core.CodeGenerator
         }
 
         /// <summary>
+        /// Get assembly.
+        /// </summary>
+        public string GetDllFilePath()
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _dllFileName);
+        }
+
+        /// <summary>
         /// Get generated assembly.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Type> GetGeneratedTypes()
         {
-            return _assembly.GetTypes();
+            return _generatedTypes;
         }
         
         /// <summary>
         /// Set Assembly.
         /// </summary>
-        private void SetAssembly()
+        private void EmitToDll(CSharpCompilation compilation)
         {
-            using (var ms = new MemoryStream())
+            // emit compilation to memory stream.
+            var result = compilation.Emit(GetDllFilePath());
+
+            if (result.Success)
             {
-                // emit compilation to memory stream.
-                var result = _compilation.Emit(ms);
+                var assembly = Assembly.LoadFrom(GetDllFilePath());
+                _generatedTypes = assembly.GetTypes().ToList();
+            }
+            else
+            {
+                // fail.
+                var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
 
-                if (result.Success)
+                foreach (var fail in failures)
                 {
-                    ms.Seek(0, SeekOrigin.Begin);
-
-                    // success.
-                    _assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
-
-                    ms.Seek(0, SeekOrigin.Begin);
-                    _metadataReference = AssemblyMetadata.CreateFromStream(ms, true).GetReference();
-                }
-                else
-                {
-                    // fail.
-                    var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
-
-                    foreach (var fail in failures)
-                    {
-                        _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
-                    }
+                    _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
                 }
             }
-        }
-
-        /// <summary>
-        /// Get assembly.
-        /// </summary>
-        public MetadataReference GetMetadataRef()
-        {
-            return _metadataReference;
         }
 
         /// <summary>
@@ -163,12 +149,12 @@ namespace DataDesigner.Core.CodeGenerator
         /// <param name="outputfileName">Output file name</param>
         private void GenerateCode(CodeCompileUnit compileUnit, string dirPath, string outputfileName)
         {
-            var codeProvider = new CSharpCodeProvider();
+            using var codeProvider = new CSharpCodeProvider();
 
             // Create a TextWriter to a StreamWriter to the output file.
             using (StreamWriter sw = new StreamWriter(outputfileName, false))
             {
-                var tw = new IndentedTextWriter(sw, "    ");
+                using var tw = new IndentedTextWriter(sw, "    ");
 
                 var options = new CodeGeneratorOptions();
                 options.BlankLinesBetweenMembers = true;
@@ -180,10 +166,17 @@ namespace DataDesigner.Core.CodeGenerator
                 tw.Close();
 
                 // Add syntax tree into compilation.
-                var syntaxTree = CSharpSyntaxTree.ParseText(File.ReadAllText($"{dirPath}/{outputfileName}"));
-                _compilation = _compilation.AddSyntaxTrees(syntaxTree);
+                var text = File.ReadAllText($"{dirPath}/{outputfileName}");
+                var syntaxTree = CSharpSyntaxTree.ParseText(text);
 
-                SetAssembly();
+                // Compilation.
+                var compilation = CSharpCompilation.Create(
+                    assemblyName: _dllFileName,
+                    syntaxTrees: new [] { syntaxTree },
+                    references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+                    options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+                EmitToDll(compilation);
             }
         }
     }

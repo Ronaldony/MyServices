@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.CodeDom;
 using System.CodeDom.Compiler;
-using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime.Loader;
 
 namespace DataDesigner.Core.CodeGenerator
@@ -67,9 +67,10 @@ namespace DataDesigner.Core.CodeGenerator
             var references = new MetadataReference[]
             {
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                _enumCodeGenerator.GetMetadataRef()
+                MetadataReference.CreateFromFile(_enumCodeGenerator.GetDllFilePath()),
             }.ToList();
 
+            //_compilation.SyntaxTrees.Add();
             _compilation = _compilation.AddReferences(references);
         }
 
@@ -81,25 +82,22 @@ namespace DataDesigner.Core.CodeGenerator
         {
             var types = new List<Type>();
 
-            using (var ms = new MemoryStream())
+            // emit compilation to memory stream.
+            var result = _compilation.Emit(_enumCodeGenerator.GetDllFilePath());
+
+            if (result.Success)
             {
-                // emit compilation to memory stream.
-                var result = _compilation.Emit(ms);
+                var asm = Assembly.LoadFile(_enumCodeGenerator.GetDllFilePath());
+                types = asm.GetTypes().ToList();
+            }
+            else
+            {
+                // fail.
+                var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
 
-                if (result.Success)
+                foreach (var fail in failures)
                 {
-                    var assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
-                    types = assembly.GetTypes().ToList();
-                }
-                else
-                {
-                    // fail.
-                    var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
-
-                    foreach (var fail in failures)
-                    {
-                        _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
-                    }
+                    _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
                 }
             }
 
@@ -165,6 +163,7 @@ namespace DataDesigner.Core.CodeGenerator
                 }
 
                 var codeMember = new CodeMemberField(type, codeData.Name);
+                codeMember.Attributes = MemberAttributes.Public;
 
                 codeMember.Comments.Add(new CodeCommentStatement
                 {

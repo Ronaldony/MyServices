@@ -1,4 +1,5 @@
 ﻿using DataDesigner.Core.CodeGenerator;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -6,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
 using System;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace DataDesigner
 {
@@ -42,7 +45,7 @@ namespace DataDesigner
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddSingleton<EnumCodeGenerator>(serviceProvider => new EnumCodeGenerator(serviceProvider));
+                    services.AddSingleton<EnumCodeGenerator>(serviceProvider => new EnumCodeGenerator(serviceProvider, "Generated.dll"));
                     services.AddSingleton<ClassCodeGenerator>(serviceProvider => new ClassCodeGenerator(serviceProvider));
                 })
                 .Build();
@@ -54,7 +57,7 @@ namespace DataDesigner
 
             ////////////////////////////////////////////////
             /// Test.
-            
+
             Test_EnumCodeGenerator(host.Services);
             Test_ClassCodeGenerator(host.Services);
         }
@@ -81,8 +84,6 @@ namespace DataDesigner
             ////////////////////////////////////////////////////////////////////
             var codeGenerator = serviceProvider.GetRequiredService<EnumCodeGenerator>();
             codeGenerator.Generate(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "Type_EnumCode", codeDatas);
-
-            var types = codeGenerator.GetGeneratedTypes();
         }
 
         /// <summary>
