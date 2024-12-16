@@ -1,17 +1,13 @@
-﻿using DataDesigner.Core.CodeGenerator;
-using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
-using System;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace DataDesigner
 {
+    using DataDesigner.Core.CodeGenerator;
 
     /// <summary>
     /// Program.
@@ -45,8 +41,8 @@ namespace DataDesigner
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddSingleton<EnumCodeGenerator>(serviceProvider => new EnumCodeGenerator(serviceProvider, "Generated.dll"));
-                    services.AddSingleton<ClassCodeGenerator>(serviceProvider => new ClassCodeGenerator(serviceProvider));
+                    services.AddSingleton<EnumCodeGenerator>(serviceProvider => new EnumCodeGenerator(serviceProvider, AppDomain.CurrentDomain.BaseDirectory, "GeneratedEnum.dll"));
+                    services.AddSingleton<ClassCodeGenerator>(serviceProvider => new ClassCodeGenerator(serviceProvider, AppDomain.CurrentDomain.BaseDirectory, "GeneratedClass.dll"));
                 })
                 .Build();
 
@@ -80,10 +76,11 @@ namespace DataDesigner
                     Comment = $"Comment{cnt}"
                 });
             }
-
             ////////////////////////////////////////////////////////////////////
             var codeGenerator = serviceProvider.GetRequiredService<EnumCodeGenerator>();
-            codeGenerator.Generate(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "Type_EnumCode", codeDatas);
+            codeGenerator.AddType(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "Type_EnumCode", codeDatas);
+            codeGenerator.AddType(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "Type_EnumCode2", codeDatas);
+            codeGenerator.CreateFile();
         }
 
         /// <summary>
@@ -136,13 +133,23 @@ namespace DataDesigner
                     Type = "Type_EnumCode",
                     Comment = $"Comment - Type_EnumCode"
                 });
+
+                // Type_EnumCode.
+                codeDatas.Add(new ClassCodeData
+                {
+                    Name = $"TestEnumCode_{cnt}",
+                    Type = "Type_EnumCode2",
+                    Comment = $"Comment - Type_EnumCode"
+                });
             }
 
             ////////////////////////////////////////////////////////////////////
             var codeGenerator = serviceProvider.GetRequiredService<ClassCodeGenerator>();
             codeGenerator.Initialize();
-            codeGenerator.Generate(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "ClassCode", codeDatas);
-            var types = codeGenerator.GetGeneratedTypes();
+            codeGenerator.AddClass(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "ClassCode", codeDatas);
+            codeGenerator.CreateFile();
+
+            var types = codeGenerator.GetNewClassTypes();
         }
     }
 }

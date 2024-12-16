@@ -6,8 +6,6 @@ using Microsoft.Extensions.Logging;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Reflection;
-using System.Reflection.Metadata;
-using System.Runtime.Loader;
 
 namespace DataDesigner.Core.CodeGenerator
 {
@@ -21,9 +19,9 @@ namespace DataDesigner.Core.CodeGenerator
         private readonly EnumCodeGenerator _enumCodeGenerator;
 
         /// <summary>
-        /// Assembly list for getting type.
+        /// Type list.
         /// </summary>
-        private List<Assembly> _assemblies;
+        private List<Type> _allTypes;
 
         /// <summary>
         /// Type table dictionary.
@@ -37,19 +35,39 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         private CSharpCompilation _compilation;
 
-        public ClassCodeGenerator(IServiceProvider serviceProvider)
+        /// <summary>
+        /// Directory path.
+        /// </summary>
+        private string _dirPath;
+
+        /// <summary>
+        /// File name.
+        /// </summary>
+        private string _fileName;
+
+        public ClassCodeGenerator(IServiceProvider serviceProvider, string dirPath, string fileName)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<ClassCodeGenerator>>();
 
             _enumCodeGenerator = serviceProvider.GetRequiredService<EnumCodeGenerator>();
 
-            _assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            _dirPath = dirPath;
+            _fileName = fileName;
 
             _typeTableDic = new Dictionary<string, Type>();
 
             _compilation = CSharpCompilation.Create(
                 assemblyName: typeof(ClassCodeGenerator).Name,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            // Initialize type list.
+            _allTypes = new List<Type>();
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                var types = asm.GetTypes();
+
+                _allTypes.AddRange(types);
+            }
         }
 
         public void Initialize()
@@ -67,7 +85,7 @@ namespace DataDesigner.Core.CodeGenerator
             var references = new MetadataReference[]
             {
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(_enumCodeGenerator.GetDllFilePath()),
+                MetadataReference.CreateFromFile(_enumCodeGenerator.GetFilePath()),
             }.ToList();
 
             //_compilation.SyntaxTrees.Add();
@@ -75,33 +93,38 @@ namespace DataDesigner.Core.CodeGenerator
         }
 
         /// <summary>
-        /// Get generated assembly.
+        /// Write the file contains class.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Type> GetGeneratedTypes()
+        public bool CreateFile()
         {
-            var types = new List<Type>();
-
             // emit compilation to memory stream.
-            var result = _compilation.Emit(_enumCodeGenerator.GetDllFilePath());
+            var result = _compilation.Emit(GetFilePath());
 
-            if (result.Success)
+            if (!result.Success)
             {
-                var asm = Assembly.LoadFile(_enumCodeGenerator.GetDllFilePath());
-                types = asm.GetTypes().ToList();
-            }
-            else
-            {
-                // fail.
+                // Fail.
                 var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
 
                 foreach (var fail in failures)
                 {
                     _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
                 }
+
+                return false;
             }
 
-            return types;
+            return true;
+        }
+
+        /// <summary>
+        /// Get generated assembly.
+        /// </summary>
+        public IEnumerable<Type> GetNewClassTypes()
+        {
+            var assembly = Assembly.LoadFrom(GetFilePath());
+
+            return assembly.GetTypes();
         }
 
         /// <summary>
@@ -111,10 +134,10 @@ namespace DataDesigner.Core.CodeGenerator
         /// <param name="classNamespace">Namespace for class</param>
         /// <param name="className">Class name</param>
         /// <param name="codeDatas">ClassCodeData list</param>
-        public bool Generate(string dirPath, string classNamespace, string className, IEnumerable<ClassCodeData> codeDatas)
+        public bool AddClass(string dirPath, string classNamespace, string className, IEnumerable<ClassCodeData> codeDatas)
         {
             _logger.LogInformation($"//////////////////////////////////////////////////////////");
-            _logger.LogInformation($"[ClassCodeGenerator] Generating start...");
+            _logger.LogInformation($"[ClassCodeGenerator] Generating start");
 
             var compileUnit = GetCompileUnit(classNamespace, className, codeDatas);
 
@@ -124,9 +147,9 @@ namespace DataDesigner.Core.CodeGenerator
                 return false;
             }
 
-            GenerateCode(compileUnit, dirPath, $"{className}.cs");
+            GenerateCode(compileUnit, $"{className}.cs");
 
-            _logger.LogInformation($"[ClassCodeGenerator] Code generated...");
+            _logger.LogInformation($"[ClassCodeGenerator] Code generated");
 
             return true;
         }
@@ -189,7 +212,7 @@ namespace DataDesigner.Core.CodeGenerator
         /// <param name="compileUnit"></param>
         /// <param name="dirPath"></param>
         /// <param name="outputfileName"></param>
-        private bool GenerateCode(CodeCompileUnit compileUnit, string dirPath, string outputfileName)
+        private bool GenerateCode(CodeCompileUnit compileUnit, string outputfileName)
         {
             // Generate the code with the C# code provider.
             var codeProvider = new CSharpCodeProvider();
@@ -209,7 +232,9 @@ namespace DataDesigner.Core.CodeGenerator
                 tw.Close();
 
                 // Add syntax tree into compilation.
-                var syntaxTree = CSharpSyntaxTree.ParseText(File.ReadAllText($"{dirPath}/{outputfileName}"));
+                var fileText = File.ReadAllText($"{_dirPath}/{outputfileName}");
+                var syntaxTree = CSharpSyntaxTree.ParseText(fileText);
+
                 _compilation = _compilation.AddSyntaxTrees(syntaxTree);
             }
 
@@ -228,7 +253,7 @@ namespace DataDesigner.Core.CodeGenerator
             }
 
             // 2. Find from enum code generator.
-            var generatedTypes = _enumCodeGenerator.GetGeneratedTypes();
+            var generatedTypes = Assembly.LoadFrom(_enumCodeGenerator.GetFilePath()).GetTypes();
             var findType = generatedTypes.FirstOrDefault(d => d.Name.Equals(typeName));
             if (null != findType)
             {
@@ -236,17 +261,16 @@ namespace DataDesigner.Core.CodeGenerator
             }
 
             // 3. Find from Assembly.
-            foreach (var asm in _assemblies)
-            {
-                var type = asm.GetType(typeName, false, true);
-
-                if (null != type)
-                {
-                    return type;
-                }
-            }
 
             return default;
+        }
+
+        /// <summary>
+        /// Get file full path.
+        /// </summary>
+        private string GetFilePath()
+        {
+            return Path.Combine(_dirPath, _fileName);
         }
     }
 }
