@@ -1,12 +1,12 @@
 ﻿namespace DataDesigner.Core.CodeGenerator
 {
     /// <summary>
-    /// Data for generating enum type.
+    /// Member for enum code.
     /// </summary>
 
-    public sealed class EnumCodeData
+    public sealed class EnumCodeMember
     {
-        public string Key { get; set; }
+        public string Name { get; set; }
 
         public int Value { get; set; }
 

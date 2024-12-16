@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,44 +17,54 @@ namespace DataDesigner.Core.CodeGenerator
     {
         private readonly ILogger<EnumCodeGenerator> _logger;
 
-        private readonly string _fileName;
-        private readonly string _ditPath;
+        public string DllFilePath => _dllFilePath;
+
+        private string _dllFileName;
+        private string _dirPath;
+        private string _dllFilePath;
+
+        /// <summary>
+        /// CompilationUnitSyntaxs.
+        /// key: file name.
+        /// value: CompilationUnitSyntax.
+        /// </summary>
+        private readonly Dictionary<string, CompilationUnitSyntax> _compilationSyntaxs;
 
         private CSharpCompilation _compilation;
 
-        public EnumCodeGenerator(IServiceProvider serviceProvider, string dirPath, string dllFileName)
+        public EnumCodeGenerator(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<EnumCodeGenerator>>();
 
-            _fileName = dllFileName;
-            _ditPath = dirPath;
-
             _compilation = CSharpCompilation.Create(
-                assemblyName: _fileName,
+                assemblyName: _dllFileName,
                 references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            _compilationSyntaxs = new Dictionary<string, CompilationUnitSyntax>();
         }
 
-        public void Initialize()
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        /// <param name="dirPath">Directory path to generate</param>
+        /// <param name="dllFileName">DLL file name to generate</param>
+        public void Initialize(string dirPath, string dllFileName)
         {
             // Initialize.
             _logger.LogInformation("EnumCodeGenerator initialized.");
+
+            _dirPath = dirPath;
+            _dllFileName = dllFileName;
+            _dllFilePath = Path.Combine(_dirPath, dllFileName);
         }
 
         /// <summary>
         /// Get generated file full path.
         /// </summary>
-        public string GetFilePath()
+        public IEnumerable<Type> GetGeneratedTypes()
         {
-            return Path.Combine(_ditPath, _fileName);
-        }
-
-        /// <summary>
-        /// Get generated file full path.
-        /// </summary>
-        public IEnumerable<Type> GetNewTypes()
-        {
-            var assembly = Assembly.LoadFrom(GetFilePath());
+            var assembly = Assembly.LoadFrom(DllFilePath);
 
             return assembly.GetTypes();
         }
@@ -65,28 +76,52 @@ namespace DataDesigner.Core.CodeGenerator
         /// <param name="enumNamespace">Namespace for Enum</param>
         /// <param name="enumName">Enum name</param>
         /// <param name="codeDatas">EnumCodeData list</param>
-        public void AddType(string dirPath, string enumNamespace, string enumName, IEnumerable<EnumCodeData> codeDatas)
+        public void AddType(string enumNamespace, string enumName, IEnumerable<EnumCodeMember> codeDatas)
         {
             _logger.LogDebug($"//////////////////////////////////////////////////////////");
             _logger.LogDebug($"[EnumCodeGenerator] Generating start");
 
             // Get compile unit.
-            var compileUnit = CreateCompileUnit(enumNamespace, enumName, codeDatas);
+            var compilationSyntax = CreateCompilationSyntax(enumNamespace, enumName, codeDatas);
 
-            // Generate code.
-            GenerateCodeFile(compileUnit, $"{enumName}.cs");
+            // Generate DLL.
+            GenerateDLL(compilationSyntax);
+            
+            // Accumulate CompilationUnitSyntax.
+            _compilationSyntaxs.Add($"{enumName}.cs", compilationSyntax);
 
             _logger.LogDebug($"[EnumCodeGenerator] Code generated");
+        }
+
+        public void CreateFiles(string dirPath)
+        {
+            // Create file for generating types.
+            foreach (var pair in _compilationSyntaxs)
+            {
+                var fileName = pair.Key;
+                var compilationSyntax = pair.Value;
+
+                var filePath = Path.Combine(_dirPath, fileName);
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+                File.WriteAllText(filePath, compilationSyntax.ToFullString());
+            }
         }
         
         /// <summary>
         /// Write the file contains enum.
         /// </summary>
-        public bool CreateFile()
+        private bool GenerateDLL(CompilationUnitSyntax compilationSyntax)
         {
-            // emit compilation to memory stream.
-            var result = _compilation.Emit(GetFilePath());
+            _compilation = _compilation.AddSyntaxTrees(compilationSyntax.SyntaxTree);
 
+            // emit compilation to memory stream.
+            var result = _compilation.Emit(DllFilePath);
+            
             if (!result.Success)
             {
                 // Fail.
@@ -104,80 +139,45 @@ namespace DataDesigner.Core.CodeGenerator
         }
 
         /// <summary>
-        /// Get code compile unit for type.
+        /// Create CodeCompileUnit\.
         /// </summary>
         /// <param name="enumNamespace">Namespace for Enum</param>
         /// <param name="enumName">Enum name</param>
-        /// <param name="codeDatas">EnumCodeData list</param>
-        private CodeCompileUnit CreateCompileUnit(string enumNamespace, string enumName, IEnumerable<EnumCodeData> codeDatas)
+        /// <param name="codeMembers">EnumCodeData list</param>
+        private CompilationUnitSyntax CreateCompilationSyntax(string enumNamespace, string enumName, IEnumerable<EnumCodeMember> codeMembers)
         {
-            // Code namespace.
-            var codeNameSpace = new CodeNamespace(enumNamespace);
-            
-            // Declare enum type.
-            var codeType = new CodeTypeDeclaration
-            {
-                Name = enumName,
-                IsEnum = true,
-                TypeAttributes = TypeAttributes.Public,
-            };
+            // Create namespace.
+            var namespaceSyntax = SyntaxFactory
+                .NamespaceDeclaration(SyntaxFactory.IdentifierName(enumNamespace));
 
-            // Add code member.
-            foreach (var codeData in codeDatas)
-            {
-                var codeMember = new CodeMemberField(enumName, codeData.Key);
-                
-                codeMember.InitExpression = new CodePrimitiveExpression(codeData.Value);
-                codeMember.Comments.Add(new CodeCommentStatement
-                {
-                    Comment = new CodeComment(codeData.Comment)
-                });
+            // Create enum declare.
+            var enumDeclare = SyntaxFactory.EnumDeclaration(enumName)
+                .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
 
-                codeType.Members.Add(codeMember);
+            // Create enum member.
+            foreach (var codeMember in codeMembers)
+            {
+                var enumMember = SyntaxFactory
+                    .EnumMemberDeclaration(codeMember.Name) // Name
+                    .WithEqualsValue(                       // Value
+                        SyntaxFactory.EqualsValueClause(
+                            SyntaxFactory.LiteralExpression(
+                                SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(codeMember.Value)
+                                )
+                            )
+                        )
+                .WithLeadingTrivia( // 멤버 주석 추가
+                    SyntaxFactory.Comment($"// {codeMember.Comment}"),
+                    SyntaxFactory.CarriageReturnLineFeed);
+
+                // Add member.
+                enumDeclare = enumDeclare.AddMembers(enumMember);
             }
 
-            // Add type into namespace.
-            codeNameSpace.Types.Add(codeType);
-            codeNameSpace.Comments.Clear();
+            // Add member.
+            namespaceSyntax = namespaceSyntax.AddMembers(enumDeclare);
 
-            // Create CompileUnit.
-            var compileUnit = new CodeCompileUnit();
-            compileUnit.Namespaces.Add(codeNameSpace);
-
-            return compileUnit;
-        }
-
-        /// <summary>
-        /// Generate code
-        /// </summary>
-        /// <param name="compileUnit">Code compile unit/param>
-        /// <param name="dirPath">Directory path which file will be generated</param>
-        /// <param name="outputfileName">Output file name</param>
-        private void GenerateCodeFile(CodeCompileUnit compileUnit, string outputfileName)
-        {
-            using var codeProvider = new CSharpCodeProvider();
-
-            // Create a TextWriter to a StreamWriter to the output file.
-            using (StreamWriter sw = new StreamWriter(outputfileName, false))
-            {
-                using var tw = new IndentedTextWriter(sw, "    ");
-
-                var options = new CodeGeneratorOptions();
-                options.BlankLinesBetweenMembers = true;
-
-                // Generate source code using the code provider.
-                codeProvider.GenerateCodeFromCompileUnit(compileUnit, tw, options);
-
-                // Close the output file.
-                tw.Close();
-
-                // Add syntax tree into compilation.
-                var fileText = File.ReadAllText($"{_ditPath}/{outputfileName}");
-                var syntaxTree = CSharpSyntaxTree.ParseText(fileText);
-                var root = syntaxTree.GetRoot();
-
-                _compilation = _compilation.AddSyntaxTrees(syntaxTree);
-            }
+            return SyntaxFactory.CompilationUnit().AddMembers(namespaceSyntax).NormalizeWhitespace();
         }
     }
 }

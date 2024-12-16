@@ -30,29 +30,16 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         private Dictionary<string, Type> _typeTableDic;
 
-        /// <summary>
-        /// C# compiler.
-        /// </summary>
         private CSharpCompilation _compilation;
 
-        /// <summary>
-        /// Directory path.
-        /// </summary>
         private string _dirPath;
+        private string _dllFileName;
 
-        /// <summary>
-        /// File name.
-        /// </summary>
-        private string _fileName;
-
-        public ClassCodeGenerator(IServiceProvider serviceProvider, string dirPath, string fileName)
+        public ClassCodeGenerator(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<ClassCodeGenerator>>();
 
             _enumCodeGenerator = serviceProvider.GetRequiredService<EnumCodeGenerator>();
-
-            _dirPath = dirPath;
-            _fileName = fileName;
 
             _typeTableDic = new Dictionary<string, Type>();
 
@@ -70,8 +57,11 @@ namespace DataDesigner.Core.CodeGenerator
             }
         }
 
-        public void Initialize()
+        public void Initialize(string dirPath, string dllFileName)
         {
+            _dirPath = dirPath;
+            _dllFileName = dllFileName;
+
             // Setup type table.
             _typeTableDic.Clear();
             _typeTableDic.Add("int", typeof(int));
@@ -81,15 +71,7 @@ namespace DataDesigner.Core.CodeGenerator
             _typeTableDic.Add("string", typeof(string));
             _typeTableDic.Add("bool", typeof(bool));
 
-            // Setup C# Complier.
-            var references = new MetadataReference[]
-            {
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(_enumCodeGenerator.GetFilePath()),
-            }.ToList();
-
-            //_compilation.SyntaxTrees.Add();
-            _compilation = _compilation.AddReferences(references);
+            _logger.LogInformation($"ClassCodeGenerator initialized.");
         }
 
         /// <summary>
@@ -134,7 +116,7 @@ namespace DataDesigner.Core.CodeGenerator
         /// <param name="classNamespace">Namespace for class</param>
         /// <param name="className">Class name</param>
         /// <param name="codeDatas">ClassCodeData list</param>
-        public bool AddClass(string dirPath, string classNamespace, string className, IEnumerable<ClassCodeData> codeDatas)
+        public bool AddClass(string dirPath, string classNamespace, string className, IEnumerable<ClassCodeMember> codeDatas)
         {
             _logger.LogInformation($"//////////////////////////////////////////////////////////");
             _logger.LogInformation($"[ClassCodeGenerator] Generating start");
@@ -160,7 +142,7 @@ namespace DataDesigner.Core.CodeGenerator
         /// <param name="classNamespace">Namespace for class</param>
         /// <param name="className">Class name</param>
         /// <param name="codeDatas">EnumCodeData list</param>
-        private CodeCompileUnit GetCompileUnit(string classNamespace, string className, IEnumerable<ClassCodeData> codeDatas)
+        private CodeCompileUnit GetCompileUnit(string classNamespace, string className, IEnumerable<ClassCodeMember> codeDatas)
         {
             // Code namespace.
             var codeNameSpace = new CodeNamespace(classNamespace);
@@ -253,7 +235,7 @@ namespace DataDesigner.Core.CodeGenerator
             }
 
             // 2. Find from enum code generator.
-            var generatedTypes = Assembly.LoadFrom(_enumCodeGenerator.GetFilePath()).GetTypes();
+            var generatedTypes = Assembly.LoadFrom(_enumCodeGenerator.DllFilePath).GetTypes();
             var findType = generatedTypes.FirstOrDefault(d => d.Name.Equals(typeName));
             if (null != findType)
             {
@@ -270,7 +252,16 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         private string GetFilePath()
         {
-            return Path.Combine(_dirPath, _fileName);
+            return Path.Combine(_dirPath, _dllFileName);
+        }
+
+        /// <summary>
+        /// Refresh references.
+        /// </summary>
+        private void RefreshReferences()
+        {
+            _compilation = _compilation.AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+            _compilation = _compilation.AddReferences(MetadataReference.CreateFromFile(_enumCodeGenerator.DllFilePath));
         }
     }
 }

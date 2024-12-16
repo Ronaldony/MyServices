@@ -1,9 +1,9 @@
 ﻿namespace DataDesigner.Core.CodeGenerator
 {
     /// <summary>
-    /// Data for generating class type.
+    /// Member for class code.
     /// </summary>
-    internal sealed class ClassCodeData
+    internal sealed class ClassCodeMember
     {
         public string Type { get; set; }
 
