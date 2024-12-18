@@ -3,7 +3,7 @@
     /// <summary>
     /// Member for class code.
     /// </summary>
-    internal sealed class ClassCodeMember
+    internal sealed class ClassMember
     {
         public string Type { get; set; }
 

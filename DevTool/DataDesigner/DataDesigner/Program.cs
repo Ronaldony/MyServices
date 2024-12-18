@@ -61,6 +61,7 @@ namespace DataDesigner
 
             // EnumCodeGenerator.
             var classCodeGenerator = services.GetRequiredService<ClassCodeGenerator>();
+            classCodeGenerator.Initialize(AppDomain.CurrentDomain.BaseDirectory, "GeneratedClass.dll");
 
             ////////////////////////////////////////////////
             /// Test.
@@ -76,11 +77,11 @@ namespace DataDesigner
         {
             ////////////////////////////////////////////////////////////////////
             /// Setup test datas.
-            var codeDatas = new List<EnumCodeMember>();
+            var codeDatas = new List<EnumMember>();
 
             for (int cnt = 0; cnt < 10; ++cnt)
             {
-                codeDatas.Add(new EnumCodeMember
+                codeDatas.Add(new EnumMember
                 {
                     Name = $"Key{cnt}",
                     Value = cnt,
@@ -102,12 +103,12 @@ namespace DataDesigner
         {
             ////////////////////////////////////////////////////////////////////
             /// Setup test datas.
-            var codeDatas = new List<ClassCodeMember>();
+            var codeDatas = new List<ClassMember>();
 
             for (int cnt = 0; cnt < 2; ++cnt)
             {
                 // Int.
-                codeDatas.Add(new ClassCodeMember
+                codeDatas.Add(new ClassMember
                 {
                     Name = $"TestInt{cnt}",
                     Type = "int",
@@ -115,7 +116,7 @@ namespace DataDesigner
                 });
 
                 // string.
-                codeDatas.Add(new ClassCodeMember
+                codeDatas.Add(new ClassMember
                 {
                     Name = $"TestString{cnt}",
                     Type = "string",
@@ -123,7 +124,7 @@ namespace DataDesigner
                 });
 
                 // double.
-                codeDatas.Add(new ClassCodeMember
+                codeDatas.Add(new ClassMember
                 {
                     Name = $"TestDouble{cnt}",
                     Type = "double",
@@ -131,7 +132,7 @@ namespace DataDesigner
                 });
 
                 // bool.
-                codeDatas.Add(new ClassCodeMember
+                codeDatas.Add(new ClassMember
                 {
                     Name = $"TestBool{cnt}",
                     Type = "bool",
@@ -139,7 +140,7 @@ namespace DataDesigner
                 });
 
                 // Type_EnumCode.
-                codeDatas.Add(new ClassCodeMember
+                codeDatas.Add(new ClassMember
                 {
                     Name = $"TestEnumCode{cnt}",
                     Type = "Type_EnumCode",
@@ -147,7 +148,7 @@ namespace DataDesigner
                 });
 
                 // Type_EnumCode.
-                codeDatas.Add(new ClassCodeMember
+                codeDatas.Add(new ClassMember
                 {
                     Name = $"TestEnumCode_{cnt}",
                     Type = "Type_EnumCode2",
@@ -157,11 +158,10 @@ namespace DataDesigner
 
             ////////////////////////////////////////////////////////////////////
             var codeGenerator = serviceProvider.GetRequiredService<ClassCodeGenerator>();
-            codeGenerator.Initialize(AppDomain.CurrentDomain.BaseDirectory, "GeneratedClass.dll");
-            codeGenerator.AddClass(AppDomain.CurrentDomain.BaseDirectory, "TestCode", "ClassCode", codeDatas);
-            codeGenerator.CreateFile();
+            codeGenerator.AddClass("TestCode", "ClassCode", codeDatas);
+            codeGenerator.CreateFiles(AppDomain.CurrentDomain.BaseDirectory);
 
-            var types = codeGenerator.GetNewClassTypes();
+            var types = codeGenerator.GetGeneratedTypes();
         }
     }
 }

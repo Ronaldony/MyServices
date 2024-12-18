@@ -1,11 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.Reflection;
 
 namespace DataDesigner.Core.CodeGenerator
@@ -17,9 +14,6 @@ namespace DataDesigner.Core.CodeGenerator
     {
         private readonly ILogger<EnumCodeGenerator> _logger;
 
-        public string DllFilePath => _dllFilePath;
-
-        private string _dllFileName;
         private string _dirPath;
         private string _dllFilePath;
 
@@ -36,11 +30,6 @@ namespace DataDesigner.Core.CodeGenerator
         {
             _logger = serviceProvider.GetRequiredService<ILogger<EnumCodeGenerator>>();
 
-            _compilation = CSharpCompilation.Create(
-                assemblyName: _dllFileName,
-                references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
             _compilationSyntaxs = new Dictionary<string, CompilationUnitSyntax>();
         }
 
@@ -55,8 +44,13 @@ namespace DataDesigner.Core.CodeGenerator
             _logger.LogInformation("EnumCodeGenerator initialized.");
 
             _dirPath = dirPath;
-            _dllFileName = dllFileName;
             _dllFilePath = Path.Combine(_dirPath, dllFileName);
+
+            // Create compilation.
+            _compilation = CSharpCompilation.Create(
+                assemblyName: dllFileName,
+                references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         }
 
         /// <summary>
@@ -64,7 +58,7 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         public IEnumerable<Type> GetGeneratedTypes()
         {
-            var assembly = Assembly.LoadFrom(DllFilePath);
+            var assembly = Assembly.LoadFrom(_dllFilePath);
 
             return assembly.GetTypes();
         }
@@ -75,14 +69,14 @@ namespace DataDesigner.Core.CodeGenerator
         /// <param name="dirPath">Directory path which file will be generated</param>
         /// <param name="enumNamespace">Namespace for Enum</param>
         /// <param name="enumName">Enum name</param>
-        /// <param name="codeDatas">EnumCodeData list</param>
-        public void AddType(string enumNamespace, string enumName, IEnumerable<EnumCodeMember> codeDatas)
+        /// <param name="enumMembers">EnumCodeData list</param>
+        public void AddType(string enumNamespace, string enumName, IEnumerable<EnumMember> enumMembers)
         {
             _logger.LogDebug($"//////////////////////////////////////////////////////////");
             _logger.LogDebug($"[EnumCodeGenerator] Generating start");
 
             // Get compile unit.
-            var compilationSyntax = CreateCompilationSyntax(enumNamespace, enumName, codeDatas);
+            var compilationSyntax = CreateCompilationSyntax(enumNamespace, enumName, enumMembers);
 
             // Generate DLL.
             GenerateDLL(compilationSyntax);
@@ -93,6 +87,10 @@ namespace DataDesigner.Core.CodeGenerator
             _logger.LogDebug($"[EnumCodeGenerator] Code generated");
         }
 
+        /// <summary>
+        /// Create files.
+        /// </summary>
+        /// <param name="dirPath"></param>
         public void CreateFiles(string dirPath)
         {
             // Create file for generating types.
@@ -111,7 +109,15 @@ namespace DataDesigner.Core.CodeGenerator
                 File.WriteAllText(filePath, compilationSyntax.ToFullString());
             }
         }
-        
+
+        /// <summary>
+        /// Get MetadataReference.
+        /// </summary>
+        public MetadataReference GetMetadataReference()
+        {
+            return MetadataReference.CreateFromFile(_dllFilePath);
+        }
+
         /// <summary>
         /// Write the file contains enum.
         /// </summary>
@@ -120,7 +126,7 @@ namespace DataDesigner.Core.CodeGenerator
             _compilation = _compilation.AddSyntaxTrees(compilationSyntax.SyntaxTree);
 
             // emit compilation to memory stream.
-            var result = _compilation.Emit(DllFilePath);
+            var result = _compilation.Emit(_dllFilePath);
             
             if (!result.Success)
             {
@@ -143,41 +149,42 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         /// <param name="enumNamespace">Namespace for Enum</param>
         /// <param name="enumName">Enum name</param>
-        /// <param name="codeMembers">EnumCodeData list</param>
-        private CompilationUnitSyntax CreateCompilationSyntax(string enumNamespace, string enumName, IEnumerable<EnumCodeMember> codeMembers)
+        /// <param name="enumMembers">EnumCodeData list</param>
+        private CompilationUnitSyntax CreateCompilationSyntax(string enumNamespace, string enumName, IEnumerable<EnumMember> enumMembers)
         {
             // Create namespace.
-            var namespaceSyntax = SyntaxFactory
+            var declareNamespace = SyntaxFactory
                 .NamespaceDeclaration(SyntaxFactory.IdentifierName(enumNamespace));
 
             // Create enum declare.
-            var enumDeclare = SyntaxFactory.EnumDeclaration(enumName)
+            var declareEnum = SyntaxFactory
+                .EnumDeclaration(enumName)
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
 
             // Create enum member.
-            foreach (var codeMember in codeMembers)
+            foreach (var enumMember in enumMembers)
             {
-                var enumMember = SyntaxFactory
-                    .EnumMemberDeclaration(codeMember.Name) // Name
+                var memberSyntax = SyntaxFactory
+                    .EnumMemberDeclaration(enumMember.Name) // Name
                     .WithEqualsValue(                       // Value
                         SyntaxFactory.EqualsValueClause(
                             SyntaxFactory.LiteralExpression(
-                                SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(codeMember.Value)
+                                SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(enumMember.Value)
                                 )
                             )
                         )
                 .WithLeadingTrivia( // 멤버 주석 추가
-                    SyntaxFactory.Comment($"// {codeMember.Comment}"),
+                    SyntaxFactory.Comment($"// {enumMember.Comment}"),
                     SyntaxFactory.CarriageReturnLineFeed);
 
                 // Add member.
-                enumDeclare = enumDeclare.AddMembers(enumMember);
+                declareEnum = declareEnum.AddMembers(memberSyntax);
             }
 
             // Add member.
-            namespaceSyntax = namespaceSyntax.AddMembers(enumDeclare);
+            declareNamespace = declareNamespace.AddMembers(declareEnum);
 
-            return SyntaxFactory.CompilationUnit().AddMembers(namespaceSyntax).NormalizeWhitespace();
+            return SyntaxFactory.CompilationUnit().AddMembers(declareNamespace).NormalizeWhitespace();
         }
     }
 }

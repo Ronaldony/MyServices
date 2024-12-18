@@ -4,7 +4,7 @@
     /// Member for enum code.
     /// </summary>
 
-    public sealed class EnumCodeMember
+    public sealed class EnumMember
     {
         public string Name { get; set; }
 
