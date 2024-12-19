@@ -74,6 +74,10 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "PowerArgs": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "System.CodeDom": {
               "target": "Package",
               "version": "[9.0.0, )"

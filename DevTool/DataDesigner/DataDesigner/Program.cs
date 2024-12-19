@@ -8,7 +8,6 @@ using NLog.Extensions.Logging;
 namespace DataDesigner
 {
     using DataDesigner.Core.CodeGenerator;
-    using System.CodeDom.Compiler;
 
     /// <summary>
     /// Program.
@@ -42,8 +41,7 @@ namespace DataDesigner
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddSingleton<EnumCodeGenerator>(serviceProvider => new EnumCodeGenerator(serviceProvider));
-                    services.AddSingleton<ClassCodeGenerator>(serviceProvider => new ClassCodeGenerator(serviceProvider));
+                    services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
                 })
                 .Build();
 
@@ -56,16 +54,12 @@ namespace DataDesigner
             var services = host.Services;
 
             // EnumCodeGenerator.
-            var enumCodeGenerator = services.GetRequiredService<EnumCodeGenerator>();
-            enumCodeGenerator.Initialize(AppDomain.CurrentDomain.BaseDirectory, "GeneratedEnum.dll");
-
-            // EnumCodeGenerator.
-            var classCodeGenerator = services.GetRequiredService<ClassCodeGenerator>();
-            classCodeGenerator.Initialize(AppDomain.CurrentDomain.BaseDirectory, "GeneratedClass.dll");
+            var codeGenerator = services.GetRequiredService<CodeGenerator>();
+            codeGenerator.Initialize(AppDomain.CurrentDomain.BaseDirectory, "GeneratedCode.dll");
 
             ////////////////////////////////////////////////
             /// Test.
-
+            
             Test_EnumCodeGenerator(host.Services);
             Test_ClassCodeGenerator(host.Services);
         }
@@ -89,7 +83,7 @@ namespace DataDesigner
                 });
             }
             ////////////////////////////////////////////////////////////////////
-            var codeGenerator = serviceProvider.GetRequiredService<EnumCodeGenerator>();
+            var codeGenerator = serviceProvider.GetRequiredService<CodeGenerator>();
             codeGenerator.AddType("TestCode", "Type_EnumCode", codeDatas);
             codeGenerator.AddType("TestCode", "Type_EnumCode2", codeDatas);
 
@@ -157,7 +151,7 @@ namespace DataDesigner
             }
 
             ////////////////////////////////////////////////////////////////////
-            var codeGenerator = serviceProvider.GetRequiredService<ClassCodeGenerator>();
+            var codeGenerator = serviceProvider.GetRequiredService<CodeGenerator>();
             codeGenerator.AddClass("TestCode", "ClassCode", codeDatas);
             codeGenerator.CreateFiles(AppDomain.CurrentDomain.BaseDirectory);
 

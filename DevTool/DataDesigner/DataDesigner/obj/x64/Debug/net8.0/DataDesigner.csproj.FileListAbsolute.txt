@@ -83,3 +83,4 @@ C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\DevTool\DataDesigner\DataDesi
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\DevTool\DataDesigner\DataDesigner\obj\x64\Debug\net8.0\DataDesigner.pdb
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\DevTool\DataDesigner\DataDesigner\obj\x64\Debug\net8.0\DataDesigner.genruntimeconfig.cache
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\DevTool\DataDesigner\DataDesigner\obj\x64\Debug\net8.0\ref\DataDesigner.dll
+C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\DevTool\DataDesigner\DataDesigner\bin\x64\Debug\net8.0\PowerArgs.dll

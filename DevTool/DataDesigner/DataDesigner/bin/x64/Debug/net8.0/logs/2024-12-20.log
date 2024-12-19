@@ -1,0 +1,233 @@
+2024-12-20 00:18:07.6125 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:18:08.0479 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:18:08.0498 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:18:08.0498 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:18:08.5645 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:18:08.5645 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:18:08.5645 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:18:08.6024 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:18:08.6024 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:18:08.6024 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:18:08.9134 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:18:37.7387 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:18:38.2151 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:18:38.2151 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:18:38.2151 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:18:38.7644 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:18:38.7644 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:18:38.7644 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:18:38.8031 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:18:38.8031 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:18:38.8031 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:18:38.9786 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (7,11): error CS0246: 'TestCode.Name' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:18:38.9937 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (31,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:18:38.9937 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (55,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:18:38.9937 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:20:02.0737 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:20:02.4943 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:20:02.4943 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:20:02.4943 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:20:03.0071 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:20:03.0071 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:20:03.0071 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:20:03.0493 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:20:03.0493 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:20:03.0493 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:20:03.3073 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:20:17.1099 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:20:17.6608 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:20:17.6608 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:20:17.6608 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:20:18.2071 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:20:18.2071 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:20:18.2071 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:20:18.2516 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:20:18.2603 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:20:18.2603 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:20:18.4654 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:21:20.6291 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:21:21.0747 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:21:21.0747 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:21:21.0747 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:21:21.6167 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:21:21.6167 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:21:21.6167 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:21:21.6547 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:21:21.6620 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:21:21.6620 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:21:21.8992 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:22:30.8980 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:22:31.4202 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:22:31.4202 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:22:31.4202 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:22:31.9483 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:22:31.9483 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:22:31.9483 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:22:31.9885 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:22:31.9885 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:22:31.9885 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:22:32.2078 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:24:56.1645 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:24:56.5677 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:24:56.5677 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:24:56.5677 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:24:57.0933 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:24:57.0933 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:24:57.0933 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:24:57.1314 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:24:57.1314 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:24:57.1314 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:24:57.3578 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (4,11): error CS0246: 'TestCode.Name' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:24:57.3578 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (27,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:24:57.3578 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (31,16): error CS0246: 'Type_EnumCode2' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:24:57.3578 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (51,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:24:57.3608 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (55,16): error CS0246: 'Type_EnumCode2' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:24:57.3608 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:25:13.6119 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:25:14.0153 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:25:14.0175 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:25:14.0175 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:25:14.5375 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:25:14.5375 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:25:14.5375 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:25:14.6157 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:25:14.6157 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:25:14.6157 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:25:14.8171 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:25:29.9296 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:25:30.3432 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:25:30.3432 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:25:30.3453 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:25:30.8656 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:25:30.8656 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:25:30.8656 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:25:30.9020 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:25:32.5455 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:25:32.5455 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:25:32.7626 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (4,11): error CS0246: 'TestCode.Name' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:25:32.7626 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (28,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:25:32.7626 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (52,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:25:32.7626 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:26:30.3605 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:26:30.7733 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:26:30.7733 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:26:30.7733 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:26:31.2755 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:26:31.2755 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:26:31.2755 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:26:31.3188 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:26:33.4434 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:26:33.4434 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:27:45.9304 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (4,11): error CS0246: 'TestCode.Name' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:27:45.9304 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (28,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:27:45.9304 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.GenerateDLL [ERROR] enum code compilation failed. msg: (52,16): error CS0246: 'Type_EnumCode' 형식 또는 네임스페이스 이름을 찾을 수 없습니다. using 지시문 또는 어셈블리 참조가 있는지 확인하세요. 
+2024-12-20 00:27:45.9304 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:28:25.1019 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:28:25.5421 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:28:25.5421 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:28:25.5421 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:28:26.0518 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:28:26.0518 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:28:26.0518 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:28:26.0896 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:28:26.0974 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:28:26.0974 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:28:31.1105 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:28:33.7383 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:28:34.1639 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:28:34.1639 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:28:34.1639 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:28:34.7052 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:28:34.7052 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:28:34.7052 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:28:34.7458 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:28:34.7539 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:28:34.7539 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 00:28:35.0079 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 00:59:05.5553 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 00:59:05.6038 DataDesigner.Core.CodeGenerator.ClassCodeGenerator.Initialize [INFO] ClassCodeGenerator initialized. 
+2024-12-20 00:59:05.6038 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:59:05.6038 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:59:06.0900 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:59:06.0900 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 00:59:06.0900 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 00:59:06.1272 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 00:59:06.1272 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 00:59:06.1272 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 01:01:30.4519 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:01:30.4762 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:01:30.4762 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:01:31.0011 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:01:31.0011 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:01:31.0011 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:01:31.0416 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:01:31.0490 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 01:01:31.0490 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 01:02:44.6928 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:02:44.7267 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:02:44.7267 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:02:45.2662 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:02:45.2662 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:02:45.2672 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:02:45.3080 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:02:45.3150 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 01:02:45.3150 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 01:03:03.8422 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:03:03.8702 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:03:03.8702 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:03:04.4286 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:03:04.4286 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:03:04.4286 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:03:04.4828 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:03:04.4929 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 01:03:04.4929 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 01:03:23.5733 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:03:23.5988 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:03:23.5988 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:03:24.2133 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:03:24.2133 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:03:24.2133 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:03:24.2507 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:03:24.2597 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 01:03:24.2597 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 01:12:38.8749 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:12:38.9008 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:12:38.9008 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:13:02.1772 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:13:02.2032 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:13:02.2032 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:13:02.8579 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:13:02.8579 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:13:02.8579 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:13:29.5354 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:13:29.5603 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:13:29.5603 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:14:12.9109 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:14:12.9366 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:14:12.9366 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:14:28.9834 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:14:29.0092 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:14:29.0092 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:14:29.5751 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:14:29.5751 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:14:29.5751 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:16:22.9025 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:16:22.9340 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:16:22.9340 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:16:23.5014 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:16:23.5014 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:16:23.5014 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:16:23.5429 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:16:23.5504 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 01:16:23.5504 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 01:16:23.8223 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 
+2024-12-20 01:16:46.2913 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-20 01:16:46.3168 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:16:46.3168 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:16:46.8956 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:16:46.8956 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] ////////////////////////////////////////////////////////// 
+2024-12-20 01:16:46.8956 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Generating start 
+2024-12-20 01:16:46.9370 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddType [DEBUG] [EnumCodeGenerator] Code generated 
+2024-12-20 01:16:46.9445 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] ////////////////////////////////////////////////////////// 
+2024-12-20 01:16:46.9445 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Generating start 
+2024-12-20 01:16:47.1332 DataDesigner.Core.CodeGenerator.EnumCodeGenerator.AddClass [INFO] [ClassCodeGenerator] Code generated 

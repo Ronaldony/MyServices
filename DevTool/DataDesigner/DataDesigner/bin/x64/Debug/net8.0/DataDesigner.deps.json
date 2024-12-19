@@ -14,6 +14,7 @@
           "NLog": "5.3.4",
           "NLog.Extensions.Logging": "5.3.15",
           "Newtonsoft.Json": "13.0.3",
+          "PowerArgs": "4.0.3",
           "System.CodeDom": "9.0.0"
         },
         "runtime": {
@@ -523,6 +524,14 @@
           }
         }
       },
+      "PowerArgs/4.0.3": {
+        "runtime": {
+          "lib/net6.0/PowerArgs.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "4.0.3.0"
+          }
+        }
+      },
       "System.CodeDom/9.0.0": {
         "runtime": {
           "lib/net8.0/System.CodeDom.dll": {
@@ -841,6 +850,13 @@
       "sha512": "sha512-BSCkfWjaTesw4/k8Ujj3YdqtDzd2iCRYIOwoHume7aaJFz4/gLbemA5MLgkAwtCxcd8nGBGfaEkeIzQPGxArLg==",
       "path": "nlog.extensions.logging/5.3.15",
       "hashPath": "nlog.extensions.logging.5.3.15.nupkg.sha512"
+    },
+    "PowerArgs/4.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8baSCh4j3oF6nQYkfnERl3pk5vvidJmx6LUIdNVV2F7whx0+BuE4QUwHX+lczHUHAFKDJKABXrjrSZzAJlfWxA==",
+      "path": "powerargs/4.0.3",
+      "hashPath": "powerargs.4.0.3.nupkg.sha512"
     },
     "System.CodeDom/9.0.0": {
       "type": "package",

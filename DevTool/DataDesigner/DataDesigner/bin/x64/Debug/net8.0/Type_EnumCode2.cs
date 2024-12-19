@@ -2,25 +2,45 @@ namespace TestCode
 {
     public enum Type_EnumCode2
     {
-        // Comment0
+        /// <summary>
+        /// Comment0
+        /// </summary>
         Key0 = 0,
-        // Comment1
+        /// <summary>
+        /// Comment1
+        /// </summary>
         Key1 = 1,
-        // Comment2
+        /// <summary>
+        /// Comment2
+        /// </summary>
         Key2 = 2,
-        // Comment3
+        /// <summary>
+        /// Comment3
+        /// </summary>
         Key3 = 3,
-        // Comment4
+        /// <summary>
+        /// Comment4
+        /// </summary>
         Key4 = 4,
-        // Comment5
+        /// <summary>
+        /// Comment5
+        /// </summary>
         Key5 = 5,
-        // Comment6
+        /// <summary>
+        /// Comment6
+        /// </summary>
         Key6 = 6,
-        // Comment7
+        /// <summary>
+        /// Comment7
+        /// </summary>
         Key7 = 7,
-        // Comment8
+        /// <summary>
+        /// Comment8
+        /// </summary>
         Key8 = 8,
-        // Comment9
+        /// <summary>
+        /// Comment9
+        /// </summary>
         Key9 = 9
     }
 }
