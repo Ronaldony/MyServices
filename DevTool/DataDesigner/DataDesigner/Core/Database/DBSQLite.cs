@@ -5,6 +5,5 @@
     /// </summary>
     internal class DBSQLite
     {
-
     }
 }

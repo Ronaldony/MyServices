@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DataDesigner.Core.DataMember;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,13 +9,11 @@ using System.Reflection;
 namespace DataDesigner.Core.CodeGenerator
 {
     /// <summary>
-    /// EnumCodeGenerator.
+    /// CodeGenerator.
     /// </summary>
     internal sealed class CodeGenerator
     {
         private readonly ILogger<CodeGenerator> _logger;
-
-        private string _dirPath;
 
         /// <summary>
         /// Generated types.
@@ -27,18 +26,25 @@ namespace DataDesigner.Core.CodeGenerator
         private List<Type> _typeList;
 
         /// <summary>
-        /// CompilationUnitSyntaxs.
+        /// CompilationUnitSyntax for class.
         /// key: file name.
         /// value: CompilationUnitSyntax.
         /// </summary>
-        private readonly Dictionary<string, CompilationUnitSyntax> _compilationSyntaxs;
+        private readonly Dictionary<string, CompilationUnitSyntax> _classCompilationUnits;
+
+        /// <summary>
+        /// CompilationUnitSyntax for enum.
+        /// key: file name.
+        /// value: CompilationUnitSyntax.
+        /// </summary>
+        private readonly Dictionary<string, CompilationUnitSyntax> _enumCompilationUnits;
 
         /// <summary>
         /// Type table dictionary.
         /// key: type name.
         /// value: Type.
         /// </summary>
-        private Dictionary<string, Type> _typeTableDic;
+        private Dictionary<string, Type> _primitiveTypeDict;
 
         private CSharpCompilation _compilation;
 
@@ -46,10 +52,10 @@ namespace DataDesigner.Core.CodeGenerator
         {
             _logger = serviceProvider.GetRequiredService<ILogger<CodeGenerator>>();
 
-            _compilationSyntaxs = new Dictionary<string, CompilationUnitSyntax>();
+            _classCompilationUnits = new Dictionary<string, CompilationUnitSyntax>();
+            _enumCompilationUnits = new Dictionary<string, CompilationUnitSyntax>();
 
-            _typeTableDic = new Dictionary<string, Type>();
-
+            _primitiveTypeDict = new Dictionary<string, Type>();
             _typeList = new List<Type>();
 
             _generatedTypes = new List<Type>();
@@ -60,10 +66,8 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         /// <param name="dirPath">Directory path to generate</param>
         /// <param name="dllFileName">DLL file name to generate</param>
-        public void Initialize(string dirPath, string dllFileName)
+        public void Initialize(string dllFileName)
         {
-            _dirPath = dirPath;
-
             // Create compilation.
             _compilation = CSharpCompilation.Create(
                 assemblyName: dllFileName,
@@ -80,13 +84,13 @@ namespace DataDesigner.Core.CodeGenerator
             }
 
             // Setup type table.
-            _typeTableDic.Clear();
-            _typeTableDic.Add("int", typeof(int));
-            _typeTableDic.Add("long", typeof(int));
-            _typeTableDic.Add("float", typeof(float));
-            _typeTableDic.Add("double", typeof(double));
-            _typeTableDic.Add("string", typeof(string));
-            _typeTableDic.Add("bool", typeof(bool));
+            _primitiveTypeDict.Clear();
+            _primitiveTypeDict.Add("int", typeof(int));
+            _primitiveTypeDict.Add("long", typeof(int));
+            _primitiveTypeDict.Add("float", typeof(float));
+            _primitiveTypeDict.Add("double", typeof(double));
+            _primitiveTypeDict.Add("string", typeof(string));
+            _primitiveTypeDict.Add("bool", typeof(bool));
 
             // Initialize.
             _logger.LogInformation("EnumCodeGenerator initialized.");
@@ -94,9 +98,9 @@ namespace DataDesigner.Core.CodeGenerator
         }
 
         /// <summary>
-        /// Get generated file full path.
+        /// Get new types from generated.
         /// </summary>
-        public IEnumerable<Type> GetGeneratedTypes()
+        public IEnumerable<Type> GetNewTypes()
         {
             return _generatedTypes;
         }
@@ -106,19 +110,19 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         public void AddType(string enumNamespace, string enumName, IEnumerable<EnumMember> enumMembers)
         {
-            _logger.LogDebug($"//////////////////////////////////////////////////////////");
-            _logger.LogDebug($"[EnumCodeGenerator] Generating start");
+            _logger.LogDebug($"//----------------------------------------------------");
+            _logger.LogDebug($"[CodeGenerator] Generating enum {enumName}");
 
             // Get compile unit.
-            var compilationSyntax = CreateEnumSyntax(enumNamespace, enumName, enumMembers);
+            var compilationSyntax = CreateEnumCompilationUnit(enumNamespace, enumName, enumMembers);
 
             // Accumulate CompilationUnitSyntax.
-            _compilationSyntaxs.Add($"{enumName}.cs", compilationSyntax);
+            _enumCompilationUnits.Add($"{enumName}.cs", compilationSyntax);
 
             // Refresh types.
             RefreshTypes(compilationSyntax);
 
-            _logger.LogDebug($"[EnumCodeGenerator] Code generated");
+            _logger.LogDebug($"[CodeGenerator] Enum {enumName} generated.");
         }
 
         /// <summary>
@@ -126,25 +130,25 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         public bool AddClass(string classNamespace, string className, IEnumerable<ClassMember> classMembers)
         {
-            _logger.LogInformation($"//////////////////////////////////////////////////////////");
-            _logger.LogInformation($"[ClassCodeGenerator] Generating start");
+            _logger.LogDebug($"//----------------------------------------------------");
+            _logger.LogDebug($"[CodeGenerator] Generating class {className}");
 
             // Get compile unit.
-            var compilationSyntax = CreateClassSyntax(classNamespace, className, classMembers);
+            var compilationSyntax = CreateClassCompilationUnit(classNamespace, className, classMembers);
 
             if (null == compilationSyntax)
             {
-                _logger.LogError($"[ClassCodeGenerator] Failed to generate code.");
+                _logger.LogError($"[CodeGenerator] Failed to generate {className}.");
                 return false;
             }
 
             // Accumulate CompilationUnitSyntax.
-            _compilationSyntaxs.Add($"{className}.cs", compilationSyntax);
+            _classCompilationUnits.Add($"{className}.cs", compilationSyntax);
 
             // Refresh types.
             RefreshTypes(compilationSyntax);
 
-            _logger.LogInformation($"[ClassCodeGenerator] Code generated");
+            _logger.LogInformation($"[CodeGenerator] Class {className} generated.");
 
             return true;
         }
@@ -152,16 +156,31 @@ namespace DataDesigner.Core.CodeGenerator
         /// <summary>
         /// Create files.
         /// </summary>
-        /// <param name="dirPath"></param>
         public void CreateFiles(string dirPath)
         {
-            // Create file for generating types.
-            foreach (var pair in _compilationSyntaxs)
+            // Create enum.
+            foreach (var pair in _enumCompilationUnits)
             {
                 var fileName = pair.Key;
                 var compilationSyntax = pair.Value;
 
-                var filePath = Path.Combine(_dirPath, fileName);
+                var filePath = Path.Combine(dirPath, "Type", fileName);
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+                File.WriteAllText(filePath, compilationSyntax.ToFullString());
+            }
+
+            // Create class.
+            foreach (var pair in _classCompilationUnits)
+            {
+                var fileName = pair.Key;
+                var compilationSyntax = pair.Value;
+
+                var filePath = Path.Combine(dirPath, "Table", fileName);
 
                 if (File.Exists(filePath))
                 {
@@ -215,8 +234,8 @@ namespace DataDesigner.Core.CodeGenerator
         /// </summary>
         /// <param name="enumNamespace">Namespace for Enum</param>
         /// <param name="enumName">Enum name</param>
-        /// <param name="enumMembers">EnumCodeData list</param>
-        private CompilationUnitSyntax CreateEnumSyntax(string enumNamespace, string enumName, IEnumerable<EnumMember> enumMembers)
+        /// <param name="enumMembers">Enum member list</param>
+        private CompilationUnitSyntax CreateEnumCompilationUnit(string enumNamespace, string enumName, IEnumerable<EnumMember> enumMembers)
         {
             // Create namespace.
             var declareNamespace = SyntaxFactory
@@ -259,10 +278,10 @@ namespace DataDesigner.Core.CodeGenerator
         /// <summary>
         /// Create class CodeCompileUnit.
         /// </summary>
-        /// <param name="enumNamespace">Namespace for Enum</param>
-        /// <param name="enumName">Enum name</param>
-        /// <param name="codeMembers">EnumCodeData list</param>
-        private CompilationUnitSyntax CreateClassSyntax(string classNamespace, string className, IEnumerable<ClassMember> classMembers)
+        /// <param name="classNamespace">Namespace for class</param>
+        /// <param name="className">Enum name</param>
+        /// <param name="classMembers">Class member list</param>
+        private CompilationUnitSyntax CreateClassCompilationUnit(string classNamespace, string className, IEnumerable<ClassMember> classMembers)
         {
             // Create namespace.
             var declareNamespace = SyntaxFactory
@@ -337,13 +356,13 @@ namespace DataDesigner.Core.CodeGenerator
         private Type FindType(string typeName)
         {
             // 1. Find from type table.
-            if (true == _typeTableDic.ContainsKey(typeName))
+            if (true == _primitiveTypeDict.ContainsKey(typeName))
             {
-                return _typeTableDic[typeName];
+                return _primitiveTypeDict[typeName];
             }
 
             // 2. Find from generator.
-            var types = GetGeneratedTypes();
+            var types = GetNewTypes();
             if (null != types)
             {
                 return types.FirstOrDefault(d => d.Name.Equals(typeName));

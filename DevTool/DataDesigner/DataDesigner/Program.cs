@@ -8,6 +8,7 @@ using NLog.Extensions.Logging;
 namespace DataDesigner
 {
     using DataDesigner.Core.CodeGenerator;
+    using DataDesigner.Core.TypeMember;
 
     /// <summary>
     /// Program.
@@ -154,8 +155,6 @@ namespace DataDesigner
             var codeGenerator = serviceProvider.GetRequiredService<CodeGenerator>();
             codeGenerator.AddClass("TestCode", "ClassCode", codeDatas);
             codeGenerator.CreateFiles(AppDomain.CurrentDomain.BaseDirectory);
-
-            var types = codeGenerator.GetGeneratedTypes();
         }
     }
 }
