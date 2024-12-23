@@ -1,0 +1,6 @@
+@DataDesigner_HostAddress = http://localhost:5032
+
+GET {{DataDesigner_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
