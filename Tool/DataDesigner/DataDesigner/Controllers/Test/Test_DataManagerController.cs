@@ -27,7 +27,7 @@ namespace DataDesigner.Controllers.Test
         public string Test_Class()
         {
             // Manage class.
-            _classManaer.UpdateScheme(new ClassScheme
+            _classManaer.UpdateSchema(new ClassSchema
             {
                 Name = "TB_Dungeon",
                 Description = "Dungeon Table."
@@ -82,7 +82,7 @@ namespace DataDesigner.Controllers.Test
         public string Test_Enum()
         {
             // Manage class.
-            _enumManager.UpdateScheme(new EnumScheme
+            _enumManager.UpdateSchema(new EnumSchema
             {
                 Name = "Type_Dungeon",
                 Category = "All",

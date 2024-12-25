@@ -1,12 +1,12 @@
 ﻿namespace DataDesigner.Core.Data
 {
     /// <summary>
-    /// Data scheme.
+    /// ClassSchema.
     /// </summary>
-    public sealed class ClassScheme
+    public sealed class ClassSchema
     {
         /// <summary>
-        /// Enum name.
+        /// Class name.
         /// </summary>
         public string Name { get; set; }
 

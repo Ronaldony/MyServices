@@ -60,9 +60,9 @@ namespace DataDesigner.Core.DataManager
             // Check directory.
             Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
 
-            // Check scheme file exist.
-            var schemeFilePath = Path.Combine(_basePath, FILE_DIR, $"{name}.scheme");
-            if (false == File.Exists(schemeFilePath))
+            // Check schema file exist.
+            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{name}.scheme");
+            if (false == File.Exists(schemaFilePath))
             {
                 return false;
             }
@@ -79,24 +79,24 @@ namespace DataDesigner.Core.DataManager
         }
 
         /// <summary>
-        /// Create scheme for class.
+        /// Create schema for class.
         /// </summary>
-        public void UpdateScheme(ClassScheme scheme)
+        public void UpdateSchema(ClassSchema schema)
         {
-            if (false == _classMemberDict.ContainsKey(scheme.Name))
+            if (false == _classMemberDict.ContainsKey(schema.Name))
             {
-                _classMemberDict.Add(scheme.Name, new List<ClassMember>());
+                _classMemberDict.Add(schema.Name, new List<ClassMember>());
             }
 
             // Check directory.
             Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
 
-            // Scheme.
-            var schemeFilePath = Path.Combine(_basePath, FILE_DIR, $"{scheme.Name}.scheme");
-            var schemeJson = JsonConvert.SerializeObject(scheme);
+            // Schema.
+            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{schema.Name}.scheme");
+            var schemaJson = JsonConvert.SerializeObject(schema);
 
-            // Overwrite scheme file.
-            File.WriteAllText(schemeFilePath, schemeJson);
+            // Overwrite schema file.
+            File.WriteAllText(schemaFilePath, schemaJson);
         }
 
         /// <summary>

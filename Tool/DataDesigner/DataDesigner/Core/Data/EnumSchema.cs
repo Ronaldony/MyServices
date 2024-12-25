@@ -1,9 +1,9 @@
 ﻿namespace DataDesigner.Core.Data
 {
     /// <summary>
-    /// Data scheme.
+    /// EnumSchema.
     /// </summary>
-    public sealed class EnumScheme
+    public sealed class EnumSchema
     {
         /// <summary>
         /// Enum name.

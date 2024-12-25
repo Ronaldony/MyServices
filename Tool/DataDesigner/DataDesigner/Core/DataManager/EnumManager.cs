@@ -60,9 +60,9 @@ namespace DataDesigner.Core.DataManager
             // Check directory.
             Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
 
-            // Check scheme file exist.
-            var schemeFilePath = Path.Combine(_basePath, FILE_DIR, $"{name}.scheme");
-            if (false == File.Exists(schemeFilePath))
+            // Check schema file exist.
+            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{name}.scheme");
+            if (false == File.Exists(schemaFilePath))
             {
                 return false;
             }
@@ -81,21 +81,21 @@ namespace DataDesigner.Core.DataManager
         /// <summary>
         /// Update shceme for type.
         /// </summary>
-        public void UpdateScheme(EnumScheme scheme)
+        public void UpdateSchema(EnumSchema schema)
         {
-            if (false == _enumMemberDict.ContainsKey(scheme.Name))
+            if (false == _enumMemberDict.ContainsKey(schema.Name))
             {
-                _enumMemberDict.Add(scheme.Name, new List<EnumMember>());
+                _enumMemberDict.Add(schema.Name, new List<EnumMember>());
             }
 
             // Check directory.
             Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
 
-            // Create scheme file.
-            var schemeFilePath = Path.Combine(_basePath, FILE_DIR, $"{scheme.Name}.scheme");
-            var schemeJson = JsonConvert.SerializeObject(scheme);
+            // Create schema file.
+            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{schema.Name}.scheme");
+            var schemaJson = JsonConvert.SerializeObject(schema);
 
-            File.WriteAllText(_basePath, schemeJson);
+            File.WriteAllText(_basePath, schemaJson);
         }
 
         /// <summary>

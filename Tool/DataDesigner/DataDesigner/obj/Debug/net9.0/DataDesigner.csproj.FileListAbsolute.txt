@@ -7,7 +7,6 @@ C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigne
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner\obj\Debug\net9.0\DataDesigner.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner\obj\Debug\net9.0\DataDesigner.sourcelink.json
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner\bin\Debug\net9.0\NLog.config
-C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner\bin\Debug\net9.0\appsettings.json
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner\bin\Debug\net9.0\DataDesigner.staticwebassets.endpoints.json
 C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner\bin\Debug\net9.0\DataDesigner.exe

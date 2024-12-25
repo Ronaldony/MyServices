@@ -44,13 +44,9 @@ namespace DataDesigner
             services.AddSingleton<EnumManager>(serviceProvider => new EnumManager(serviceProvider));
             services.AddSingleton<ClassManager>(serviceProvider => new ClassManager(serviceProvider));
 
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            services.AddOpenApi();
-
             // builder.
             var app = builder.Build();
             app.MapControllers();
-            app.MapOpenApi();
 
             // Startup Server.
             var startupServer = new StartupServer(app.Services);
