@@ -1,0 +1,83 @@
+2024-12-25 19:09:11.6160 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:09:11.6593 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] //------------------------------------------- 
+2024-12-25 19:09:11.6593 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] // Loading enum. 
+2024-12-25 19:09:11.6593 DataDesigner.Core.DataManager.EnumManager.Initialize [INFO] EnumManager initialized. 
+2024-12-25 19:09:11.6593 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] //------------------------------------------- 
+2024-12-25 19:09:11.6593 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] // Loading classes. 
+2024-12-25 19:09:11.6593 DataDesigner.Core.DataManager.ClassManager.Initialize [INFO] ClassManager initialized. 
+2024-12-25 19:09:11.6593 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:09:11.6593 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode 
+2024-12-25 19:09:12.2493 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode generated. 
+2024-12-25 19:09:12.2493 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:09:12.2493 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode2 
+2024-12-25 19:09:12.2902 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode2 generated. 
+2024-12-25 19:09:12.2902 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:09:12.2902 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] [CodeGenerator] Generating class ClassCode 
+2024-12-25 19:09:12.4850 DataDesigner.Core.Generator.CodeGenerator.AddClass [INFO] [CodeGenerator] Class ClassCode generated. 
+2024-12-25 19:09:12.5296 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:09:12.6061 Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder+OverrideWithEndpointsStrategy.BindAsync [WARN] Overriding address(es) 'https://localhost:7191, http://localhost:5032'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. 
+2024-12-25 19:09:12.6295 Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync [INFO] Now listening on: http://[::]:8000 
+2024-12-25 19:09:12.6629 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
+2024-12-25 19:09:12.6629 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Development 
+2024-12-25 19:09:12.6629 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner 
+2024-12-25 19:09:48.7030 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:09:48.7400 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] //------------------------------------------- 
+2024-12-25 19:09:48.7400 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] // Loading enum. 
+2024-12-25 19:09:48.7400 DataDesigner.Core.DataManager.EnumManager.Initialize [INFO] EnumManager initialized. 
+2024-12-25 19:09:48.7400 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] //------------------------------------------- 
+2024-12-25 19:09:48.7400 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] // Loading classes. 
+2024-12-25 19:09:48.7400 DataDesigner.Core.DataManager.ClassManager.Initialize [INFO] ClassManager initialized. 
+2024-12-25 19:09:48.7400 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:09:48.7400 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode 
+2024-12-25 19:09:49.3071 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode generated. 
+2024-12-25 19:09:49.3071 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:09:49.3071 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode2 
+2024-12-25 19:09:49.3488 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode2 generated. 
+2024-12-25 19:09:49.3488 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:09:49.3488 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] [CodeGenerator] Generating class ClassCode 
+2024-12-25 19:09:49.5403 DataDesigner.Core.Generator.CodeGenerator.AddClass [INFO] [CodeGenerator] Class ClassCode generated. 
+2024-12-25 19:09:49.5814 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:09:51.8079 Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder+OverrideWithEndpointsStrategy.BindAsync [WARN] Overriding address(es) 'https://localhost:7191, http://localhost:5032'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. 
+2024-12-25 19:09:51.8281 Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync [INFO] Now listening on: http://[::]:8000 
+2024-12-25 19:09:51.8543 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
+2024-12-25 19:09:51.8543 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Development 
+2024-12-25 19:09:51.8543 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner 
+2024-12-25 19:10:49.7610 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:10:49.8002 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] //------------------------------------------- 
+2024-12-25 19:10:49.8002 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] // Loading enum. 
+2024-12-25 19:10:49.8002 DataDesigner.Core.DataManager.EnumManager.Initialize [INFO] EnumManager initialized. 
+2024-12-25 19:10:49.8002 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] //------------------------------------------- 
+2024-12-25 19:10:49.8002 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] // Loading classes. 
+2024-12-25 19:10:49.8002 DataDesigner.Core.DataManager.ClassManager.Initialize [INFO] ClassManager initialized. 
+2024-12-25 19:10:49.8002 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:10:49.8002 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode 
+2024-12-25 19:10:50.3447 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode generated. 
+2024-12-25 19:10:50.3447 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:10:50.3447 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode2 
+2024-12-25 19:10:50.4077 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode2 generated. 
+2024-12-25 19:10:50.4077 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:10:50.4077 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] [CodeGenerator] Generating class ClassCode 
+2024-12-25 19:10:50.6491 DataDesigner.Core.Generator.CodeGenerator.AddClass [INFO] [CodeGenerator] Class ClassCode generated. 
+2024-12-25 19:10:50.6977 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:11:10.8498 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:11:10.8940 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] //------------------------------------------- 
+2024-12-25 19:11:10.8940 DataDesigner.Core.DataManager.EnumManager.LoadEnums [DEBUG] // Loading enum. 
+2024-12-25 19:11:10.8940 DataDesigner.Core.DataManager.EnumManager.Initialize [INFO] EnumManager initialized. 
+2024-12-25 19:11:10.8940 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] //------------------------------------------- 
+2024-12-25 19:11:10.8940 DataDesigner.Core.DataManager.ClassManager.LoadClasses [DEBUG] // Loading classes. 
+2024-12-25 19:11:10.8940 DataDesigner.Core.DataManager.ClassManager.Initialize [INFO] ClassManager initialized. 
+2024-12-25 19:11:10.8940 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:11:10.8940 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode 
+2024-12-25 19:11:11.8328 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode generated. 
+2024-12-25 19:11:11.8328 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:11:11.8328 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Generating enum Type_EnumCode2 
+2024-12-25 19:11:11.8758 DataDesigner.Core.Generator.CodeGenerator.AddEnum [DEBUG] [CodeGenerator] Enum Type_EnumCode2 generated. 
+2024-12-25 19:11:11.8758 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] //---------------------------------------------------- 
+2024-12-25 19:11:11.8758 DataDesigner.Core.Generator.CodeGenerator.AddClass [DEBUG] [CodeGenerator] Generating class ClassCode 
+2024-12-25 19:11:12.1115 DataDesigner.Core.Generator.CodeGenerator.AddClass [INFO] [CodeGenerator] Class ClassCode generated. 
+2024-12-25 19:11:12.1637 DataDesigner.Core.Generator.CodeGenerator.Initialize [INFO] EnumCodeGenerator initialized. 
+2024-12-25 19:11:16.3857 Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder+OverrideWithEndpointsStrategy.BindAsync [WARN] Overriding address(es) 'https://localhost:7191, http://localhost:5032'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. 
+2024-12-25 19:11:16.4049 Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync [INFO] Now listening on: http://[::]:8000 
+2024-12-25 19:11:16.4303 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
+2024-12-25 19:11:16.4303 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Development 
+2024-12-25 19:11:16.4303 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Users\boba1\OneDrive\문서\Jaeseung\MyServices\Tool\DataDesigner\DataDesigner 

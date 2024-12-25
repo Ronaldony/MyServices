@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "None",
+    "Value": 0,
+    "Comment": "None type"
+  },
+  {
+    "Name": "Normal",
+    "Value": 1,
+    "Comment": "Instance"
+  },
+  {
+    "Name": "Instance",
+    "Value": 2,
+    "Comment": "Instance"
+  },
+  {
+    "Name": "Raid",
+    "Value": 3,
+    "Comment": "Raid"
+  }
+]

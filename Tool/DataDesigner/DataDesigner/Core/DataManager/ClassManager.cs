@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace DataDesigner.Core.DataManager
 {
@@ -13,25 +11,25 @@ namespace DataDesigner.Core.DataManager
     internal sealed class ClassManager
     {
         private const string ALL_FILES = "*.obj";
-        private const string FILE_DIR = "DataDesinger/Object";
+        private const string FILE_DIR = $"DataDesigner/{FilePath.FOLDER_CLASS}";
 
         private readonly ILogger<ClassManager> _logger;
 
-        private string _basePath;
+        private string _srcFolderPath;
 
         /// <summary>
         /// Data dictionary.
         /// key: enum name.
         /// value: enum datas string.
-        /// </summary>
+        /// </summary>s
         /// <returns></returns>
-        private Dictionary<string, List<ClassMember>> _classMemberDict;
+        private Dictionary<string, string> _classValues;
 
         public ClassManager(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<ClassManager>>();
 
-            _classMemberDict = new Dictionary<string, List<ClassMember>>();
+            _classValues = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace DataDesigner.Core.DataManager
         /// </summary>
         public void Initialize(string basePath)
         {
-            _basePath = basePath;
+            _srcFolderPath = Path.Combine(basePath, FILE_DIR);
 
             // Load class.
             LoadClasses(basePath);
@@ -48,32 +46,38 @@ namespace DataDesigner.Core.DataManager
         }
 
         /// <summary>
+        /// Get all classes.
+        /// </summary>
+        public Dictionary<string, string> GetAllClasses()
+        {
+            return _classValues;
+        }
+
+        /// <summary>
         /// Update class members.
         /// </summary>
-        public bool UpdateMembers(string name, List<ClassMember> members)
+        public bool UpdateMembers(string name, string members)
         {
-            if (_classMemberDict.ContainsKey(name))
+            if (false == _classValues.ContainsKey(name))
             {
                 return false;
             }
 
             // Check directory.
-            Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
+            Directory.CreateDirectory(_srcFolderPath);
 
             // Check schema file exist.
-            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{name}.scheme");
+            var schemaFilePath = Path.Combine(_srcFolderPath, $"{name}.schema");
             if (false == File.Exists(schemaFilePath))
             {
                 return false;
             }
 
-            var membersJson = JsonConvert.SerializeObject(members, Formatting.Indented);
-
             // Overwrite file.
-            var filePath = Path.Combine(_basePath, FILE_DIR, $"{name}.obj");
-            File.WriteAllText(filePath, membersJson);
+            var filePath = Path.Combine(_srcFolderPath, $"{name}.obj");
+            File.WriteAllText(filePath, members);
 
-            _classMemberDict[name] = members;
+            _classValues[name] = members;
 
             return true;
         }
@@ -81,22 +85,22 @@ namespace DataDesigner.Core.DataManager
         /// <summary>
         /// Create schema for class.
         /// </summary>
-        public void UpdateSchema(ClassSchema schema)
+        public void UpdateSchemaInfo(ClassSchemaInfo schemaInfo)
         {
-            if (false == _classMemberDict.ContainsKey(schema.Name))
+            if (false == _classValues.ContainsKey(schemaInfo.Name))
             {
-                _classMemberDict.Add(schema.Name, new List<ClassMember>());
+                _classValues.Add(schemaInfo.Name, string.Empty);
             }
 
             // Check directory.
-            Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
+            Directory.CreateDirectory(_srcFolderPath);
 
             // Schema.
-            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{schema.Name}.scheme");
-            var schemaJson = JsonConvert.SerializeObject(schema);
+            var schemaFilePath = Path.Combine(_srcFolderPath, $"{schemaInfo.Name}.schema");
+            var schemaInfoJson = JsonConvert.SerializeObject(schemaInfo, Formatting.Indented);
 
             // Overwrite schema file.
-            File.WriteAllText(schemaFilePath, schemaJson);
+            File.WriteAllText(schemaFilePath, schemaInfoJson);
         }
 
         /// <summary>
@@ -109,16 +113,14 @@ namespace DataDesigner.Core.DataManager
 
             var files = Directory.GetFiles(basePath, ALL_FILES, SearchOption.AllDirectories);
 
-            _classMemberDict.Clear();
+            _classValues.Clear();
 
             foreach (var file in files)
             {
                 var fileContent = File.ReadAllText(file);
                 var className = Path.GetFileNameWithoutExtension(file);
 
-                var classMembers = JsonConvert.DeserializeObject<List<ClassMember>>(fileContent);
-
-                _classMemberDict.Add(className, classMembers);
+                _classValues.Add(className, fileContent);
 
                 _logger.LogDebug($"Load class: {className}");
             }

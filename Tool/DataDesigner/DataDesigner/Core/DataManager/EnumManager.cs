@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace DataDesigner.Core.DataManager
 {
@@ -13,9 +11,9 @@ namespace DataDesigner.Core.DataManager
     internal sealed class EnumManager
     {
         private const string ALL_FILES = "*.type";
-        private const string FILE_DIR = "DataDesigner/Type";
+        private const string FILE_DIR = $"DataDesigner/{FilePath.FOLDER_ENUM}";
         
-        private string _basePath;
+        private string _srcFolderPath;
 
         private readonly ILogger<EnumManager> _logger;
 
@@ -39,7 +37,7 @@ namespace DataDesigner.Core.DataManager
         /// </summary>
         public void Initialize(string basePath)
         {
-            _basePath = basePath;
+            _srcFolderPath = Path.Combine(basePath, FILE_DIR);
 
             // Load enum datas.
             LoadEnums(basePath);
@@ -52,16 +50,16 @@ namespace DataDesigner.Core.DataManager
         /// </summary>
         public bool UpdateMembers(string name, List<EnumMember> members)
         {
-            if (_enumMemberDict.ContainsKey(name))
+            if (false == _enumMemberDict.ContainsKey(name))
             {
                 return false;
             }
 
             // Check directory.
-            Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
+            Directory.CreateDirectory(_srcFolderPath);
 
             // Check schema file exist.
-            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{name}.scheme");
+            var schemaFilePath = Path.Combine(_srcFolderPath, $"{name}.schema");
             if (false == File.Exists(schemaFilePath))
             {
                 return false;
@@ -70,7 +68,7 @@ namespace DataDesigner.Core.DataManager
             var membersJson = JsonConvert.SerializeObject(members, Formatting.Indented);
 
             // Overwrite file.
-            var filePath = Path.Combine(_basePath, FILE_DIR, $"{name}.type");
+            var filePath = Path.Combine(_srcFolderPath, $"{name}.type");
             File.WriteAllText(filePath, membersJson);
 
             _enumMemberDict[name] = members;
@@ -81,21 +79,21 @@ namespace DataDesigner.Core.DataManager
         /// <summary>
         /// Update shceme for type.
         /// </summary>
-        public void UpdateSchema(EnumSchema schema)
+        public void UpdateSchemaInfo(EnumSchemaInfo schemaInfo)
         {
-            if (false == _enumMemberDict.ContainsKey(schema.Name))
+            if (false == _enumMemberDict.ContainsKey(schemaInfo.Name))
             {
-                _enumMemberDict.Add(schema.Name, new List<EnumMember>());
+                _enumMemberDict.Add(schemaInfo.Name, new List<EnumMember>());
             }
 
             // Check directory.
-            Directory.CreateDirectory(Path.Combine(_basePath, FILE_DIR));
+            Directory.CreateDirectory(_srcFolderPath);
 
             // Create schema file.
-            var schemaFilePath = Path.Combine(_basePath, FILE_DIR, $"{schema.Name}.scheme");
-            var schemaJson = JsonConvert.SerializeObject(schema);
+            var schemaFilePath = Path.Combine(_srcFolderPath, $"{schemaInfo.Name}.schema");
+            var schemaJson = JsonConvert.SerializeObject(schemaInfo, Formatting.Indented);
 
-            File.WriteAllText(_basePath, schemaJson);
+            File.WriteAllText(schemaFilePath, schemaJson);
         }
 
         /// <summary>

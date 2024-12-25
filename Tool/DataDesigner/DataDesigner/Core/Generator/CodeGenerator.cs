@@ -162,7 +162,7 @@ namespace DataDesigner.Core.Generator
         public void CreateFiles(string dirPath)
         {
             // Check foler existed.
-            var enumFolder = Path.Combine(dirPath, "Type");
+            var enumFolder = Path.Combine(dirPath, FilePath.FOLDER_ENUM);
             Directory.CreateDirectory(enumFolder);
 
             // Create enum.
@@ -177,7 +177,7 @@ namespace DataDesigner.Core.Generator
             }
 
             // Check foler existed.
-            var classFolder = Path.Combine(dirPath, "Object");
+            var classFolder = Path.Combine(dirPath, FilePath.FOLDER_CLASS);
             Directory.CreateDirectory(classFolder);
 
             // Create class.

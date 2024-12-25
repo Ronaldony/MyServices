@@ -5,11 +5,12 @@ namespace DataDesigner.Controllers.Test
 {
     using DataDesigner.Core.Data;
     using DataDesigner.Core.DataManager;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Test_DataMapperController.
     /// </summary>
-    internal class Test_DataManagerController : Controller
+    public class Test_DataManagerController : Controller
     {
         private readonly ILogger<Test_DataManagerController> _logger;
 
@@ -23,11 +24,11 @@ namespace DataDesigner.Controllers.Test
         }
 
         [HttpGet]
-        [Route("test/data-mapper/class")]
+        [Route("test/data-manager/class")]
         public string Test_Class()
         {
             // Manage class.
-            _classManaer.UpdateSchema(new ClassSchema
+            _classManaer.UpdateSchemaInfo(new ClassSchemaInfo
             {
                 Name = "TB_Dungeon",
                 Description = "Dungeon Table."
@@ -71,18 +72,19 @@ namespace DataDesigner.Controllers.Test
                 IsIndexed = false,
             });
 
-            _classManaer.UpdateMembers("TB_Dungeon", classMembers);
+            var classMemberJson = JsonConvert.SerializeObject(classMembers, Formatting.Indented);
+
+            _classManaer.UpdateMembers("TB_Dungeon", classMemberJson);
 
             return "Result ok.";
         }
 
-
         [HttpGet]
-        [Route("test/data-mapper/enum")]
+        [Route("test/data-manager/enum")]
         public string Test_Enum()
         {
             // Manage class.
-            _enumManager.UpdateSchema(new EnumSchema
+            _enumManager.UpdateSchemaInfo(new EnumSchemaInfo
             {
                 Name = "Type_Dungeon",
                 Category = "All",

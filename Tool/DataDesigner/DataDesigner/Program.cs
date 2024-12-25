@@ -2,8 +2,8 @@
 using DataDesigner.Core.Data;
 using DataDesigner.Core.DataManager;
 using DataDesigner.Core.Generator;
-using Microsoft.Extensions.Hosting;
 using NLog.Extensions.Logging;
+using System.Net;
 
 namespace DataDesigner
 {
@@ -13,36 +13,33 @@ namespace DataDesigner
         {
             // Set configuration file.
             var configRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddEnvironmentVariables()
                 .Build();
 
             // WebApplicationBuilder.
             var builder = WebApplication.CreateBuilder(args);
-
+            
             // Configuration.
             builder.Configuration.AddConfiguration(configRoot);
-            builder.Configuration.AddEnvironmentVariables();
-
-            // Web host.
-            builder.WebHost.ConfigureKestrel(options =>
-            {
-                options.ListenAnyIP(8000);
-            });
+            //builder.Configuration.AddEnvironmentVariables();
 
             // Logging.
             builder.Logging.ClearProviders();
             builder.Logging.AddNLog();
             builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
             
-            // Services.
-            var services = builder.Services;
-
             // Add services to the container.
-            services.AddControllers();
-            services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
-            services.AddSingleton<EnumManager>(serviceProvider => new EnumManager(serviceProvider));
-            services.AddSingleton<ClassManager>(serviceProvider => new ClassManager(serviceProvider));
+            builder.Services.AddControllers();
+            builder.Services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
+            builder.Services.AddSingleton<EnumManager>(serviceProvider => new EnumManager(serviceProvider));
+            builder.Services.AddSingleton<ClassManager>(serviceProvider => new ClassManager(serviceProvider));
+
+            // Web host.
+            builder.WebHost.UseKestrel(options =>
+            {
+                options.Listen(IPAddress.Any, 8010);
+            });
 
             // builder.
             var app = builder.Build();
@@ -61,11 +58,12 @@ namespace DataDesigner
 
         private static void Test(IServiceProvider serviceProvider)
         {
+            var codeGenerator = serviceProvider.GetRequiredService<CodeGenerator>();
+            codeGenerator.Initialize();
+
             Test_EnumCodeGenerator(serviceProvider);
             Test_ClassCodeGenerator(serviceProvider);
 
-            var codeGenerator = serviceProvider.GetRequiredService<CodeGenerator>();
-            codeGenerator.Initialize();
             codeGenerator.CreateFiles(AppDomain.CurrentDomain.BaseDirectory);
         }
 

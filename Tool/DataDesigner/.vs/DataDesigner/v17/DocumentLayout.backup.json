@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\controllers\\test\\test_datamanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\controllers\\test\\test_datamanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\database\\dbsqlite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\database\\dbsqlite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\generator\\dbgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\generator\\dbgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\datamanager\\enummanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\datamanager\\enummanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\controllers\\test\\test_datamanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\controllers\\test\\test_datamanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\data\\classmember.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\data\\classmember.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\generator\\codegenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\generator\\codegenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,14 +31,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Test_DataManagerController.cs",
-              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
-              "RelativeDocumentMoniker": "DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
-              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
-              "RelativeToolTip": "DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAewA4AAAAyAAAAAAAAAA==",
+              "Title": "DBSQLite.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Database\\DBSQLite.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\Database\\DBSQLite.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Database\\DBSQLite.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\Database\\DBSQLite.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAwFQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T10:03:11.9Z",
+              "WhenOpened": "2024-12-25T15:47:46.75Z",
               "EditorCaption": ""
             },
             {
@@ -49,22 +49,22 @@
               "RelativeDocumentMoniker": "DataDesigner\\Core\\Generator\\DBGenerator.cs",
               "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Generator\\DBGenerator.cs",
               "RelativeToolTip": "DataDesigner\\Core\\Generator\\DBGenerator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T10:03:09.437Z",
+              "WhenOpened": "2024-12-25T15:32:31.289Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "EnumManager.cs",
-              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\DataManager\\EnumManager.cs",
-              "RelativeDocumentMoniker": "DataDesigner\\Core\\DataManager\\EnumManager.cs",
-              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\DataManager\\EnumManager.cs",
-              "RelativeToolTip": "DataDesigner\\Core\\DataManager\\EnumManager.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAIA+wF4AAABcAAAAAAAAAA==",
+              "Title": "Test_DataManagerController.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
+              "RelativeToolTip": "DataDesigner\\Controllers\\Test\\Test_DataManagerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-23T15:46:28.163Z",
+              "WhenOpened": "2024-12-25T15:32:27.04Z",
               "EditorCaption": ""
             }
           ]
@@ -75,12 +75,12 @@
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "FloatingWindowState": {
-        "Id": "93692e52-d0a5-4d3e-a6d7-24d6210c3ecb",
-        "Display": 1,
-        "X": -809,
-        "Y": 51,
-        "Width": 2161,
-        "Height": 905,
+        "Id": "3d789e58-9eb6-4be8-960a-36acdc2decf7",
+        "Display": 0,
+        "X": 110,
+        "Y": 238,
+        "Width": 2572,
+        "Height": 1403,
         "WindowState": 2
       },
       "DocumentGroups": [
@@ -91,14 +91,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ClassMember.cs",
-              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Data\\ClassMember.cs",
-              "RelativeDocumentMoniker": "DataDesigner\\Core\\Data\\ClassMember.cs",
-              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Data\\ClassMember.cs",
-              "RelativeToolTip": "DataDesigner\\Core\\Data\\ClassMember.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAoAAAAAAAAAA==",
+              "Title": "CodeGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Generator\\CodeGenerator.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\Generator\\CodeGenerator.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Generator\\CodeGenerator.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\Generator\\CodeGenerator.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAowK0AAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-23T15:11:13.748Z",
+              "WhenOpened": "2024-12-25T14:26:35.587Z",
               "EditorCaption": ""
             }
           ]

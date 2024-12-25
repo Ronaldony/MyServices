@@ -1,0 +1,26 @@
+[
+  {
+    "Type": "int",
+    "Name": "Id",
+    "Comment": "Primary key",
+    "IsIndexed": true
+  },
+  {
+    "Type": "int",
+    "Name": "GroupId",
+    "Comment": "groud id",
+    "IsIndexed": true
+  },
+  {
+    "Type": "bool",
+    "Name": "IsLocked",
+    "Comment": "lock status",
+    "IsIndexed": false
+  },
+  {
+    "Type": "string",
+    "Name": "Summary",
+    "Comment": "summmary for this table",
+    "IsIndexed": false
+  }
+]
