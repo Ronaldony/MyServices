@@ -1,11 +1,12 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DataDesigner.Controllers.Test
 {
     using DataDesigner.Core.Data;
-    using DataDesigner.Core.DataManager;
-    using Newtonsoft.Json;
+    using DataDesigner.Core.Services.Interfaces;
+    using DataDesigner.Core.TypeManager;
 
     /// <summary>
     /// Test_DataMapperController.
@@ -14,11 +15,17 @@ namespace DataDesigner.Controllers.Test
     {
         private readonly ILogger<Test_DataManagerController> _logger;
 
+        private readonly IJsonSerializer _jsonSerializer;
+
         private readonly ClassManager _classManaer;
         private readonly EnumManager _enumManager;
 
         public Test_DataManagerController(IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<Test_DataManagerController>>();
+
+            _jsonSerializer = serviceProvider.GetService<IJsonSerializer>();
+             
             _enumManager = serviceProvider.GetRequiredService<EnumManager>();
             _classManaer = serviceProvider.GetRequiredService<ClassManager>();
         }
@@ -28,11 +35,11 @@ namespace DataDesigner.Controllers.Test
         public string Test_Class()
         {
             // Manage class.
-            _classManaer.UpdateSchemaInfo(new ClassSchemaInfo
-            {
-                Name = "TB_Dungeon",
-                Description = "Dungeon Table."
-            });
+            //_classManaer.UpdateSchemaInfo(new ClassSchemaInfo
+            //{
+            //    Name = "TB_Dungeon",
+            //    Description = "Dungeon Table."
+            //});
 
             var classMembers = new List<ClassMember>();
 
@@ -72,9 +79,9 @@ namespace DataDesigner.Controllers.Test
                 IsIndexed = false,
             });
 
-            var classMemberJson = JsonConvert.SerializeObject(classMembers, Formatting.Indented);
+            var classMemberJson = _jsonSerializer.Serialize(classMembers);
 
-            _classManaer.UpdateMembers("TB_Dungeon", classMemberJson);
+            //_classManaer.U("TB_Dungeon", classMemberJson);
 
             return "Result ok.";
         }
@@ -84,12 +91,12 @@ namespace DataDesigner.Controllers.Test
         public string Test_Enum()
         {
             // Manage class.
-            _enumManager.UpdateSchemaInfo(new EnumSchemaInfo
-            {
-                Name = "Type_Dungeon",
-                Category = "All",
-                Description = "Dungeon Type."
-            });
+            //_enumManager.UpdateSchemaInfo(new EnumSchemaColumn
+            //{
+            //    Name = "Type_Dungeon",
+            //    Category = "All",
+            //    Description = "Dungeon Type."
+            //});
 
             var enumMembers = new List<EnumMember>();
 

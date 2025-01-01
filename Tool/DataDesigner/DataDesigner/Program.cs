@@ -1,12 +1,13 @@
 
-using DataDesigner.Core.Data;
-using DataDesigner.Core.DataManager;
-using DataDesigner.Core.Generator;
 using NLog.Extensions.Logging;
 using System.Net;
 
 namespace DataDesigner
 {
+    using DataDesigner.Core.Data;
+    using DataDesigner.Core.Generator;
+    using DataDesigner.Core.TypeManager;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -54,7 +55,6 @@ namespace DataDesigner
 
             app.Run();
         }
-
 
         private static void Test(IServiceProvider serviceProvider)
         {

@@ -86,18 +86,18 @@ namespace DataDesigner.Core.Generator
                 _typeList.AddRange(types);
             }
 
-            // Setup type table.
+            // Set up primitive types.
             _primitiveTypeDict.Clear();
             _primitiveTypeDict.Add("int", typeof(int));
-            _primitiveTypeDict.Add("long", typeof(int));
+            _primitiveTypeDict.Add("long", typeof(long));
             _primitiveTypeDict.Add("float", typeof(float));
             _primitiveTypeDict.Add("double", typeof(double));
             _primitiveTypeDict.Add("string", typeof(string));
             _primitiveTypeDict.Add("bool", typeof(bool));
+            _primitiveTypeDict.Add("date", typeof(DateTime));
 
             // Initialize.
             _logger.LogInformation("EnumCodeGenerator initialized.");
-
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace DataDesigner.Core.Generator
             }
 
             // Check foler existed.
-            var classFolder = Path.Combine(dirPath, FilePath.FOLDER_CLASS);
+            var classFolder = Path.Combine(dirPath, FilePath.CLASS_FOLDER);
             Directory.CreateDirectory(classFolder);
 
             // Create class.

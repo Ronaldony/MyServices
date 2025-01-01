@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace DataDesigner.Core.DataManager
+﻿namespace DataDesigner.Core.TypeManager
 {
     using DataDesigner.Core.Data;
+    using DataDesigner.Core.Services.Interfaces;
 
     /// <summary>
     /// EnumLoader.
@@ -10,12 +9,15 @@ namespace DataDesigner.Core.DataManager
     /// </summary>
     internal sealed class EnumManager
     {
-        private const string ALL_FILES = "*.type";
-        private const string FILE_DIR = $"DataDesigner/{FilePath.FOLDER_ENUM}";
+        private const string ALL_DATA_FILES = "*.type";
+        private const string SRC_FOLDER = $"DataDesigner/{FilePath.FOLDER_ENUM}";
         
         private string _srcFolderPath;
 
         private readonly ILogger<EnumManager> _logger;
+        private readonly IJsonSerializer _jsonSerializer;
+
+        private List<Type> _enumTypes;
 
         /// <summary>
         /// Data dictionary.
@@ -28,6 +30,7 @@ namespace DataDesigner.Core.DataManager
         public EnumManager(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<EnumManager>>();
+            _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
 
             _enumMemberDict = new Dictionary<string, List<EnumMember>>();
         }
@@ -37,12 +40,20 @@ namespace DataDesigner.Core.DataManager
         /// </summary>
         public void Initialize(string basePath)
         {
-            _srcFolderPath = Path.Combine(basePath, FILE_DIR);
+            _srcFolderPath = Path.Combine(basePath, SRC_FOLDER);
 
             // Load enum datas.
             LoadEnums(basePath);
 
             _logger.LogInformation($"EnumManager initialized.");
+        }
+
+        /// <summary>
+        /// Get enum Types.
+        /// </summary>
+        public IList<Type> GetTypes()
+        {
+            return _enumTypes;
         }
 
         /// <summary>
@@ -65,7 +76,7 @@ namespace DataDesigner.Core.DataManager
                 return false;
             }
 
-            var membersJson = JsonConvert.SerializeObject(members, Formatting.Indented);
+            var membersJson = _jsonSerializer.Serialize(members);
 
             // Overwrite file.
             var filePath = Path.Combine(_srcFolderPath, $"{name}.type");
@@ -79,7 +90,7 @@ namespace DataDesigner.Core.DataManager
         /// <summary>
         /// Update shceme for type.
         /// </summary>
-        public void UpdateSchemaInfo(EnumSchemaInfo schemaInfo)
+        public void UpdateSchemaInfo(EnumSchemaColumn schemaInfo)
         {
             if (false == _enumMemberDict.ContainsKey(schemaInfo.Name))
             {
@@ -91,7 +102,7 @@ namespace DataDesigner.Core.DataManager
 
             // Create schema file.
             var schemaFilePath = Path.Combine(_srcFolderPath, $"{schemaInfo.Name}.schema");
-            var schemaJson = JsonConvert.SerializeObject(schemaInfo, Formatting.Indented);
+            var schemaJson = _jsonSerializer.Serialize(schemaInfo);
 
             File.WriteAllText(schemaFilePath, schemaJson);
         }
@@ -104,7 +115,7 @@ namespace DataDesigner.Core.DataManager
             _logger.LogDebug($"//-------------------------------------------");
             _logger.LogDebug($"// Loading enum.");
 
-            var files = Directory.GetFiles(basePath, ALL_FILES, SearchOption.AllDirectories);
+            var files = Directory.GetFiles(basePath, ALL_DATA_FILES, SearchOption.AllDirectories);
 
             _enumMemberDict.Clear();
 
@@ -113,7 +124,7 @@ namespace DataDesigner.Core.DataManager
                 var fileContent = File.ReadAllText(file);
                 var enumName = Path.GetFileNameWithoutExtension(file);
 
-                var enumMembers = JsonConvert.DeserializeObject<List<EnumMember>>(fileContent);
+                var enumMembers = _jsonSerializer.Deserialize<List<EnumMember>>(fileContent);
 
                 _enumMemberDict.Add(enumName, enumMembers);
 

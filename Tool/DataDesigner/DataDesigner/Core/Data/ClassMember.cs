@@ -3,7 +3,7 @@
     /// <summary>
     /// Member for class code.
     /// </summary>
-    internal sealed class ClassMember
+    public sealed class ClassMember
     {
         /// <summary>
         /// Member type.

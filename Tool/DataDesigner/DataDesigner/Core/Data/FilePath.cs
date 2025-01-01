@@ -6,6 +6,6 @@
     public class FilePath
     {
         public const string FOLDER_ENUM = "Type";
-        public const string FOLDER_CLASS = "Object";
+        public const string CLASS_FOLDER = "Object";
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DataDesigner")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e418968d5f361ad2d11728677d9cec855b64eade")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58b16ca74f13ac4495d5672925541aa98fcf1b51")]
 [assembly: System.Reflection.AssemblyProductAttribute("DataDesigner")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DataDesigner")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

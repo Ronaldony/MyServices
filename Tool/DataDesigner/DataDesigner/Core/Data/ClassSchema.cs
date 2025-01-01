@@ -1,12 +1,12 @@
 ﻿namespace DataDesigner.Core.Data
 {
     /// <summary>
-    /// EnumSchema.
+    /// ClassSchema.
     /// </summary>
-    public sealed class EnumSchemaInfo
+    public sealed class ClassSchema
     {
         /// <summary>
-        /// Enum name.
+        /// Schema name.
         /// </summary>
         public string Name { get; set; }
 
@@ -16,8 +16,13 @@
         public string Category { get; set; }
 
         /// <summary>
-        /// Description.
+        /// Schema description.
         /// </summary>
-        public string Description { get; set; }
+        public string Desciption { get; set; }
+
+        /// <summary>
+        /// Columns.
+        /// </summary>
+        public List<ClassSchemaColumn> Columns { get; set; }
     }
 }

@@ -1,8 +1,10 @@
-﻿using DataDesigner.Core.DataManager;
-using DataDesigner.Core.Generator;
+﻿
 
 namespace DataDesigner
 {
+    using DataDesigner.Core.Generator;
+    using DataDesigner.Core.TypeManager;
+
     public class StartupServer
     {
         private readonly IServiceProvider _serviceProvider;
