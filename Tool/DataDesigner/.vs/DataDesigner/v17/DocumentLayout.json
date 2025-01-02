@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\typemanager\\class\\classmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\typemanager\\class\\classmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\typemanager\\class\\classmanager_schema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\typemanager\\class\\classmanager_schema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\typemanager\\class\\classmanager_row.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\typemanager\\class\\classmanager_row.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\services\\newtonsoftjsonserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\services\\newtonsoftjsonserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\typemanager\\enum\\enummanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\typemanager\\enum\\enummanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\controllers\\statuscheckcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\controllers\\statuscheckcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\typemanager\\class\\classmanager_schema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|solutionrelative:datadesigner\\core\\typemanager\\class\\classmanager_schema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7C3F1069-7608-46F3-A1AC-F0EE417CEF0F}|DataDesigner\\DataDesigner.csproj|c:\\users\\boba1\\onedrive\\\uBB38\uC11C\\jaeseung\\myservices\\tool\\datadesigner\\datadesigner\\core\\data\\classschemacolumn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,11 +46,76 @@
       "DocumentGroups": [
         {
           "DockedHeight": 343,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Program.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Program.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Program.cs",
+              "RelativeToolTip": "DataDesigner\\Program.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAYwBEAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-02T16:12:11.193Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClassManager_Schema.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAgwC4AAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-02T15:40:32.506Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ClassManager_Row.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Row.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Row.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Row.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Row.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAkwFYAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-02T15:06:40.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClassManager.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAAALQAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-02T15:06:40.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NewtonsoftJsonSerializer.cs",
+              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "RelativeDocumentMoniker": "DataDesigner\\Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "RelativeToolTip": "DataDesigner\\Core\\Services\\NewtonsoftJsonSerializer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-02T15:06:35.601Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "DBGenerator.cs",
               "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Generator\\DBGenerator.cs",
               "RelativeDocumentMoniker": "DataDesigner\\Core\\Generator\\DBGenerator.cs",
@@ -42,12 +123,11 @@
               "RelativeToolTip": "DataDesigner\\Core\\Generator\\DBGenerator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-01T12:28:02.364Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-01T12:28:02.364Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "StatusCheckController.cs",
               "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Controllers\\StatusCheckController.cs",
               "RelativeDocumentMoniker": "DataDesigner\\Controllers\\StatusCheckController.cs",
@@ -55,25 +135,11 @@
               "RelativeToolTip": "DataDesigner\\Controllers\\StatusCheckController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-01T12:27:49.932Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-01T12:27:49.932Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ClassManager_Schema.cs",
-              "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
-              "RelativeDocumentMoniker": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
-              "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
-              "RelativeToolTip": "DataDesigner\\Core\\TypeManager\\Class\\ClassManager_Schema.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAuwJEAAABQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-01T08:07:01.374Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "ClassSchemaColumn.cs",
               "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\Data\\ClassSchemaColumn.cs",
               "RelativeDocumentMoniker": "DataDesigner\\Core\\Data\\ClassSchemaColumn.cs",
@@ -81,18 +147,17 @@
               "RelativeToolTip": "DataDesigner\\Core\\Data\\ClassSchemaColumn.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-01T06:51:11.758Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-01T06:51:11.758Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "EnumManager.cs",
               "DocumentMoniker": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Enum\\EnumManager.cs",
               "RelativeDocumentMoniker": "DataDesigner\\Core\\TypeManager\\Enum\\EnumManager.cs",
               "ToolTip": "C:\\Users\\boba1\\OneDrive\\\uBB38\uC11C\\Jaeseung\\MyServices\\Tool\\DataDesigner\\DataDesigner\\Core\\TypeManager\\Enum\\EnumManager.cs",
               "RelativeToolTip": "DataDesigner\\Core\\TypeManager\\Enum\\EnumManager.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAApwBMAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAHIAAAAAAAAAAADgv18AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-31T14:12:53.486Z",
               "EditorCaption": ""

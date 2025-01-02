@@ -5,7 +5,11 @@ using System.Data;
 namespace DataDesigner.Core.TypeManager
 {
     using DataDesigner.Core.Data;
+    using Microsoft.OpenApi.Extensions;
+    using System.Globalization;
+    using System.Linq;
     using System.Reflection.Emit;
+    using System.Xml.Linq;
 
     /// <summary>
     /// ClassManager.
@@ -30,17 +34,17 @@ namespace DataDesigner.Core.TypeManager
             // Check column.
             if (IsColumnChanged(oldSchema.Columns, newSchema.Columns))
             {
+                var oldTB = GetTypeBuilder(oldSchema.Name);
                 var newTB = CreateTypeBuilder(newSchema.Name, newSchema);
 
                 // 컬럼이 변경된 경우, 데이터 파일도 변경이 필요.
-                if (false == UpdateSchemaRows(newTB, newSchema, oldSchema.Columns, newSchema.Columns))
+                if (false == UpdateSchemaRows(oldTB, newTB, newSchema, oldSchema.Columns, newSchema.Columns))
                 {
                     return false;
                 }
 
                 // Update type buidler.
-                AddOrUpdateTypeBuilder(newSchema.Name, newTB);
-
+                SetTypeBuilder(newSchema.Name, newTB);
                 FlushFiles(newSchema.Name);
             }
 
@@ -91,91 +95,64 @@ namespace DataDesigner.Core.TypeManager
         /// <summary>
         /// Updat rows by columns.
         /// </summary>
-        private bool UpdateSchemaRows(TypeBuilder tb, ClassSchema newSchema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
+        private bool UpdateSchemaRows(TypeBuilder oldTB, TypeBuilder newTB, ClassSchema newSchema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
         {
-            // Delete rows.
-            var isDelete = DeleteRowColumns(tb, newSchema, oldCols, newCols);
-            if (false == isDelete)
-            {
-                return false;
-            }
-
-            // Add rows.
-            var isAdded = AddRowColumns(newSchema, oldCols, newCols);
-            if (false == isAdded)
-            {
-                return false;
-            }
-
-            // Update rows.
-            var isUpdated = UpdateRowColumns(newSchema, oldCols, newCols);
-            if (false == isUpdated)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Delete rows for deleted column.
-        /// </summary>
-        private bool DeleteRowColumns(TypeBuilder tb, ClassSchema newSchema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
-        {
-            var deleteColNames = new List<string>();
-
-            foreach (var oldCol in oldCols)
-            {
-                var findCol = newCols.FirstOrDefault(d => d.Idx.Equals(oldCol.Idx));
-
-                // 스키마 컬럼 Idx가 없는 경우, 해당 컬럼 삭제.
-                if (null == findCol)
-                {
-                    deleteColNames.Add(oldCol.Name);
-                }
-            }
+            var addCols = GetAddCols(newCols);
+            var updateCols = GetUpdateCols(oldCols, newCols);
 
             // Get rows.
             var oriRows = GetRows(newSchema.Name);
-            if (default ==  oriRows)
+            if (default == oriRows)
             {
                 return false;
             }
 
-            // Create List<Type>.
-            var schemaListType = typeof(List<>).MakeGenericType(tb.CreateType());
-            var schemaTypes = (IList)Activator.CreateInstance(schemaListType);
+            // Create List for new type.
+            var classListType = typeof(List<>).MakeGenericType(newTB.CreateType());
+            var classList = (IList)Activator.CreateInstance(classListType);
 
-            var properties = tb.CreateType().GetProperties();
+            var oldProps = oldTB.CreateType().GetProperties();
+            var newProps = newTB.CreateType().GetProperties();
 
+            // Search original row.
             foreach (var oriRow in oriRows)
             {
-                var type = tb.CreateType();
+                var type = newTB.CreateType();
 
-                // Set property.
-                foreach (var prop in properties)
+                // Search new props.
+                foreach (var prop in newProps)
                 {
-                    var findName = deleteColNames.FirstOrDefault(d => d.Equals(prop.Name));
-                    if (string.IsNullOrEmpty(findName))
+                    var typeProp = type.GetProperty(prop.Name);
+                    object value = default;
+
+                    // Input column data.
+                    if (addCols.Exists(d => d.Equals(prop.Name)))
                     {
-                        continue;
+                        // Add column.
+                        typeProp.SetValue(type, default);
+                    }
+                    else if (updateCols.ContainsKey(prop.Name))
+                    {
+                        // Update column.
+                        var oldProp = oldProps.FirstOrDefault(d => d.Name.Equals(updateCols[prop.Name]));
+                        value = oldProp.GetValue(oriRow, null);
+                    }
+                    else
+                    {
+                        // Old colmn.
+                        value = prop.GetValue(oriRow, null);
                     }
 
-                    var value = prop.GetValue(oriRow, null);
-                    var setProp = type.GetProperty(prop.Name);
-
-                    // 새로운 Schema에 Property가 없음
-                    if (null == setProp)
-                    {
-                        return false;
-                    }
-
+                    // Old column.
+                    typeProp.SetValue(type, value);
                 }
 
-                schemaTypes.Add(type);
+                classList.Add(type);
             }
 
-            // Update ori rows.
+            // Class datas.
+            var classDatas = classList.OfType<object>().ToList();
+            SetRows(newSchema.Name, classDatas);
 
             return true;
         }
@@ -183,19 +160,32 @@ namespace DataDesigner.Core.TypeManager
         /// <summary>
         /// Add rows for added column.
         /// </summary>
-        private bool AddRowColumns(ClassSchema schema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
+        private List<string> GetAddCols(List<ClassSchemaColumn> newCols)
         {
-
-            return true;
+            return newCols.Where(d => d.Idx == 0).Select(d => d.Name).ToList();
         }
 
         /// <summary>
         /// Update rows for updated column.
         /// </summary>
-        private bool UpdateRowColumns(ClassSchema schema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
+        /// <returns>
+        /// key: new column name.
+        /// value: old column name.
+        /// </returns>
+        private Dictionary<string, string> GetUpdateCols(List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
         {
+            var colDict = new Dictionary<string, string>();
 
-            return true;
+            foreach (var newCol in newCols)
+            {
+                var oldCol = oldCols.First(d => d.Idx.Equals(newCol.Idx));
+                if (null != oldCol)
+                {
+                    colDict.Add(oldCol.Name, newCol.Name);
+                }
+            }
+
+            return colDict;
         }
 
         /// <summary>

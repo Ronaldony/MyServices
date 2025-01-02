@@ -30,7 +30,7 @@ namespace DataDesigner.Core.TypeManager
         /// key: class name.
         /// value: row datas of class.
         /// </summary>
-        private Dictionary<string, List<object>> _classRowDict;
+        private ConcurrentDictionary<string, List<object>> _classRowDict;
 
         /// <summary>
         /// key: type name.
@@ -57,7 +57,7 @@ namespace DataDesigner.Core.TypeManager
 
             _enumManager = serviceProvider.GetRequiredService<EnumManager>();
 
-            _classRowDict = new Dictionary<string, List<object>>();
+            _classRowDict = new ConcurrentDictionary<string, List<object>>();
             _classTBDict = new ConcurrentDictionary<string, TypeBuilder>();
             _classSchemaDict = new ConcurrentDictionary<string, ClassSchema>();
 
@@ -144,14 +144,14 @@ namespace DataDesigner.Core.TypeManager
 
                 // Update TypeBuilder.
                 var classType = tb.CreateType();
-                AddOrUpdateTypeBuilder(classType.Name, tb);
+                SetTypeBuilder(classType.Name, tb);
 
                 // Get row datas.
                 var rowText = File.ReadAllText(file);
                 var rowDatas = _jsonSerializer.Deserialize<List<object>>(rowText);
 
                 // Add row datas.
-                _classRowDict.Add(classType.Name, rowDatas);
+                SetRows(classType.Name, rowDatas);
 
                 // Add schema.
                 if (false == _classSchemaDict.TryAdd(classType.Name, schema))
@@ -195,7 +195,7 @@ namespace DataDesigner.Core.TypeManager
         /// <summary>
         /// Add or update TypeBuidler.
         /// </summary>
-        private void AddOrUpdateTypeBuilder(string typeName, TypeBuilder tb)
+        private void SetTypeBuilder(string typeName, TypeBuilder tb)
         {
             if (false == _classTBDict.ContainsKey(typeName))
             {
@@ -203,6 +203,14 @@ namespace DataDesigner.Core.TypeManager
             }
 
             _classTBDict.AddOrUpdate(typeName, tb, (key, old) => tb);
+        }
+
+        /// <summary>
+        /// Get TypeBuilder.
+        /// </summary>
+        private TypeBuilder GetTypeBuilder(string typeName)
+        {
+            return _classTBDict.GetValueOrDefault(typeName);
         }
         
         /// <summary>
@@ -226,6 +234,19 @@ namespace DataDesigner.Core.TypeManager
         private List<object> GetRows(string typeName)
         {
             return _classRowDict.GetValueOrDefault(typeName);
+        }
+
+        /// <summary>
+        /// Set rows for type.
+        /// </summary>
+        private void SetRows(string typeName, List<object> list)
+        {
+            if (false == _classRowDict.ContainsKey(typeName))
+            {
+                _classRowDict.TryAdd(typeName, null);
+            }
+
+            _classRowDict.AddOrUpdate(typeName, list, (key, old) => list);
         }
 
         /// <summary>
