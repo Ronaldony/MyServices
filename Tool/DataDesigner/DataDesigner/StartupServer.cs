@@ -4,6 +4,7 @@ namespace DataDesigner
 {
     using DataDesigner.Core.Generator;
     using DataDesigner.Core.TypeManager;
+    using Microsoft.Extensions.DependencyInjection;
 
     public class StartupServer
     {
@@ -17,8 +18,8 @@ namespace DataDesigner
         public void Startup()
         {
             // CodeGenerator.
-            var dataCodeGenerator = _serviceProvider.GetRequiredService<CodeGenerator>();
-            dataCodeGenerator.Initialize();
+            var codeGenerator = _serviceProvider.GetRequiredService<CodeGenerator>();
+            codeGenerator.Initialize();
 
             // EnumManager.
             var enumManager = _serviceProvider.GetRequiredService<EnumManager>();
