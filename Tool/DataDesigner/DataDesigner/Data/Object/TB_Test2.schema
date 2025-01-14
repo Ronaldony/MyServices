@@ -1,0 +1,15 @@
+{
+  "Name": "TB_Test2",
+  "Category": "Test2",
+  "Desciption": "Test schema2",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": true,
+      "Type": "int",
+      "RefType": null,
+      "Description": "Primary key"
+    }
+  ]
+}

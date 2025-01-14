@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\ServerEngine.Test.props" />
-</Project>

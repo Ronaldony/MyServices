@@ -1,0 +1,23 @@
+{
+  "Name": "TB_Test",
+  "Category": "Test",
+  "Desciption": "Test schema",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": true,
+      "Type": "int",
+      "RefType": null,
+      "Description": "Primary key"
+    },
+    {
+      "Idx": 2,
+      "Name": "Pid",
+      "IsIndexed": true,
+      "Type": "string",
+      "RefType": null,
+      "Description": "Player id"
+    }
+  ]
+}

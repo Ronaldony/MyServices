@@ -1,0 +1,17 @@
+[
+  {
+    "Id": 0,
+    "Name": "Normal",
+    "Description": "Normal desc"
+  },
+  {
+    "Id": 1,
+    "Name": "Paid",
+    "Description": "Rare desc"
+  },
+  {
+    "Id": 2,
+    "Name": "SuperPaid",
+    "Description": "SuperPaid desc"
+  }
+]
