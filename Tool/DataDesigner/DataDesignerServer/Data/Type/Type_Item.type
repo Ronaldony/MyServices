@@ -1,0 +1,12 @@
+[
+  {
+    "Id": 0,
+    "Name": "Normal",
+    "Description": "Normal desc"
+  },
+  {
+    "Id": 1,
+    "Name": "Rare",
+    "Description": "Rare desc"
+  }
+]
