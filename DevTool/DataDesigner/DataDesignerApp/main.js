@@ -1,6 +1,11 @@
 const { app, BrowserWindow } = require('electron');
 const url = require('url');
 const path = require('path');
+const fs = require('fs');
+const { ipcMain } = require('electron/main');
+const TodoService = require('./actions/TodoService');
+const FormData = require('form-data');
+const { default: axios } = require('axios');
 
 let mainWindow;
 
@@ -9,6 +14,11 @@ function createMainWindow() {
     title: 'My buddy app',
     width: 1500,
     height: 800,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
   mainWindow.webContents.openDevTools();
@@ -18,7 +28,7 @@ function createMainWindow() {
     protocol: 'file',
   });
 
-  mainWindow.loadURL(startUrl);
+  mainWindow.loadURL('http://localhost:3000');
 }
 
 app.whenReady().then(createMainWindow);
