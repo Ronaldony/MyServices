@@ -10,6 +10,7 @@ namespace DataDesignerServerServer
     using DataDesignerServer.Core.Services.Interfaces;
     using DataDesignerServer.Core.TypeManager.Class;
     using DataDesignerServer.Core.TypeManager.Enum;
+    using Microsoft.Extensions.Options;
 
     public class Program
     {
@@ -43,12 +44,18 @@ namespace DataDesignerServerServer
             // Web host.
             builder.WebHost.UseKestrel(options =>
             {
-                options.Listen(IPAddress.Any, 8010);
+                options.Listen(IPAddress.Any, 7000);
             });
 
             // builder.
             var app = builder.Build();
             app.MapControllers();
+            app.UseCors(options =>
+            {
+                options.AllowAnyHeader();
+                options.AllowAnyOrigin();
+                options.AllowAnyMethod();
+            });
 
             // Startup Server.
             var startupServer = new StartupServer(app.Services);

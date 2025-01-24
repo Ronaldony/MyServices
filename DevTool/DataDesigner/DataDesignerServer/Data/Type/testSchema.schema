@@ -1,0 +1,15 @@
+{
+  "Name": "testSchema",
+  "Category": "testCate",
+  "Desciption": "test",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": true,
+      "Type": "int",
+      "RefType": null,
+      "Summary": "Primary key"
+    }
+  ]
+}

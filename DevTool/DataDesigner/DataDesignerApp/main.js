@@ -1,11 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const url = require('url');
 const path = require('path');
-const fs = require('fs');
-const { ipcMain } = require('electron/main');
-const TodoService = require('./actions/TodoService');
-const FormData = require('form-data');
-const { default: axios } = require('axios');
 
 let mainWindow;
 
@@ -29,6 +24,11 @@ function createMainWindow() {
   });
 
   mainWindow.loadURL('http://localhost:3000');
+  // mainWindow.loadURL(startUrl);
 }
 
-app.whenReady().then(createMainWindow);
+app.whenReady().then(() => {
+  createMainWindow();
+
+  // execute server.
+});
