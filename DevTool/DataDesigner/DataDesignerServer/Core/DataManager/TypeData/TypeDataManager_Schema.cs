@@ -1,13 +1,13 @@
 ﻿using DataDesignerServer.Core.Data;
 
-namespace DataDesignerServer.Core.TypeManager.Enum
+namespace DataDesignerServer.Core.DataManager.TypeData
 {
-    public partial class EnumManager
+    public partial class TypeDataManager
     {
         /// <summary>
         /// Create schema.
         /// </summary>
-        public bool CreateSchema(string schemaName, EnumSchema schema)
+        public bool CreateSchema(string schemaName, TypeSchema schema)
         {
             // Schema.
             var oldSchema = FindSchemaOrDefault(schemaName);
@@ -24,12 +24,12 @@ namespace DataDesignerServer.Core.TypeManager.Enum
             }
 
             // EnumBuilder.
-            var rows = new List<EnumSchemaRow>();
-            var eb = CreateEnumBuilder(schemaName, rows);
+            var rows = new List<TypeSchemaRow>();
+            var eb = CreateTypeBuilder(schemaName, rows);
             
             // Set rows, builder.
             SetRows(schemaName, rows);
-            SetEnumBuilder(schemaName, eb);
+            SetTypeBuilder(schemaName, eb);
 
             // Flush.
             if (false == FlushFiles(schemaName))
@@ -43,7 +43,7 @@ namespace DataDesignerServer.Core.TypeManager.Enum
         /// <summary>
         /// Create schema for class.
         /// </summary>
-        public bool UpdateSchema(string schemaName, EnumSchema schema)
+        public bool UpdateSchema(string schemaName, TypeSchema schema)
         {
             // Old schema.
             var oldSchema = FindSchemaOrDefault(schemaName);

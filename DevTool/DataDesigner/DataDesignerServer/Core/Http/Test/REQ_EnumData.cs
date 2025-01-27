@@ -1,5 +1,4 @@
-﻿
-namespace DataDesignerServer.Core.Http.Enum
+﻿namespace DataDesignerServer.Core.Http.Test
 {
     using DataDesignerServer.Core.Data;
 
@@ -16,6 +15,6 @@ namespace DataDesignerServer.Core.Http.Enum
         /// <summary>
         /// Rows.
         /// </summary>
-        public List<EnumSchemaRow> Rows { get; set; }
+        public List<TypeSchemaRow> Rows { get; set; }
     }
 }

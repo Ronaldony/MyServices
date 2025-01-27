@@ -1,23 +1,23 @@
 ﻿namespace DataDesignerServer.Core.Data
 {
     /// <summary>
-    /// EnumSchema.
+    /// TypeSchemnColumn.
     /// </summary>
-    public sealed class EnumSchema
+    public sealed class TypeSchemaColumn
     {
         /// <summary>
-        /// Schema name.
+        /// Name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Category.
+        /// IsIndexed.
         /// </summary>
-        public string Category { get; set; }
+        public bool IsIndexed { get; set; }
 
         /// <summary>
-        /// Description.
+        /// Type.
         /// </summary>
-        public string Description { get; set; }
+        public string Type { get; set; }
     }
 }

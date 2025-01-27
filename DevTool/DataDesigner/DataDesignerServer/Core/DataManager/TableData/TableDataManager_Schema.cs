@@ -2,15 +2,15 @@
 using System.Collections;
 using System.Reflection.Emit;
 
-namespace DataDesignerServer.Core.TypeManager.Class
+namespace DataDesignerServer.Core.DataManager.TableData
 {
     using DataDesignerServer.Core.Data;
 
     /// <summary>
-    /// ClassManager.
-    /// Desc: Manage class types.
+    /// TableManager.
+    /// Desc: Manage table types.
     /// </summary>
-    public sealed partial class ClassManager
+    public sealed partial class TableDataManager
     {
         /// <summary>
         /// Create schema.

@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Test
 {
     using DataDesignerServer.Core.Data;
-    using DataDesignerServer.Core.Http.Enum;
+    using DataDesignerServer.Core.DataManager.TypeData;
+    using DataDesignerServer.Core.Http.Test;
     using DataDesignerServer.Core.Services.Interfaces;
-    using DataDesignerServer.Core.TypeManager.Enum;
 
     public class EnumManagerController : Controller
     {
@@ -14,7 +14,7 @@ namespace DataDesignerServer.Controllers.Test
 
         private readonly IJsonSerializer _jsonSerializer;
 
-        private readonly EnumManager _enumManaer;
+        private readonly TypeDataManager _enumManaer;
 
         public EnumManagerController(
             IServiceProvider serviceProvider)
@@ -22,12 +22,12 @@ namespace DataDesignerServer.Controllers.Test
             _logger = serviceProvider.GetService<ILogger<EnumManagerController>>();
             _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
 
-            _enumManaer = serviceProvider.GetService<EnumManager>();
+            _enumManaer = serviceProvider.GetService<TypeDataManager>();
         }
 
         [HttpPost]
         [Route("test/enum-manager/create-schema")]
-        public string CreateSchema([FromBody]EnumSchema schema)
+        public string CreateSchema([FromBody]TypeSchema schema)
         {
             if (false == _enumManaer.CreateSchema(schema.Name, schema))
             {

@@ -1,4 +1,4 @@
-﻿namespace DataDesignerServer.Core.Http.Class
+﻿namespace DataDesignerServer.Core.Http.Test
 {
     /// <summary>
     /// REQ_ClassData.

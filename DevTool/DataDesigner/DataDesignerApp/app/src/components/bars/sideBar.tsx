@@ -1,12 +1,11 @@
-
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
 import SideList from './sideList.tsx';
 
-export default function PermanentDrawerLeft() {
-  const drawerWidth = 240;
+export default function SideBar() {
+  const drawerWidth = 200;
 
   return (
     <React.Fragment>
@@ -26,7 +25,7 @@ export default function PermanentDrawerLeft() {
         <Toolbar />
         <Divider />
         {/* Side list */}
-        <SideList/>
+        <SideList />
       </Drawer>
     </React.Fragment>
   );

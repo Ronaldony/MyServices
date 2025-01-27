@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 export default function HeaderBar() {
-  const drawerWidth = 240;
+  const drawerWidth = 200;
 
   return (
     <AppBar

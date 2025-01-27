@@ -28,7 +28,7 @@
         /// <summary>
         /// Reference enum.
         /// </summary 
-        public Type RefType { get; set; }
+        public string RefType { get; set; }
 
         /// <summary>
         /// Description.

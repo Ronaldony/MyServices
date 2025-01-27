@@ -5,7 +5,8 @@
     /// </summary>
     public class FilePath
     {
-        public const string ENUM_FOLDER = "Type";
-        public const string CLASS_FOLDER = "Object";
+        public const string TYPE_FOLDER = "Type";
+        public const string TABLE_FOLDER = "Table";
+        public const string CONFIG_FOLDER = "Config";
     }
 }

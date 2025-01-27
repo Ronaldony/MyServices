@@ -1,16 +1,16 @@
 ﻿using DataDesignerServer.Core.Data;
 
-namespace DataDesignerServer.Core.TypeManager.Enum
+namespace DataDesignerServer.Core.DataManager.TypeData
 {
     /// <summary>
     /// EnumManager.
     /// </summary>
-    public partial class EnumManager
+    public partial class TypeDataManager
     {
         /// <summary>
         /// Update class members.
         /// </summary>
-        public bool UpdateRows(string enumName, List<EnumSchemaRow> rows)
+        public bool UpdateRows(string enumName, List<TypeSchemaRow> rows)
         {
             // Find type.
             var type = GetEnumType(enumName);
@@ -20,10 +20,10 @@ namespace DataDesignerServer.Core.TypeManager.Enum
             }
 
             // Create builder.
-            var eb = CreateEnumBuilder(enumName, rows);
+            var eb = CreateTypeBuilder(enumName, rows);
 
             // Set row, builder.
-            SetEnumBuilder(enumName, eb);
+            SetTypeBuilder(enumName, eb);
             SetRows(enumName, rows);
 
             // Write update rows to the file.

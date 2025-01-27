@@ -1,10 +1,10 @@
 ﻿namespace DataDesignerServer.Core.Data
 {
     /// <summary>
-    /// Member for enum code.
+    /// Member for type code.
     /// </summary>
 
-    public sealed class EnumMember
+    public sealed class TypeMember
     {
         /// <summary>
         /// Member name.

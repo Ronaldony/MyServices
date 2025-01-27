@@ -1,13 +1,13 @@
-﻿namespace DataDesignerServer.Core.TypeManager.Class
+﻿namespace DataDesignerServer.Core.DataManager.ConfigData
 {
     /// <summary>
-    /// ClassManager.
-    /// Desc: Manage class types.
+    /// ConfigDataManager.
+    /// Desc: Manage config types.
     /// </summary>
-    public sealed partial class ClassManager
+    public sealed partial class ConfigDataManager
     {
         /// <summary>
-        /// Update class members.
+        /// Update members.
         /// </summary>
         public bool AddOrUpdatgeRow(string className, object row)
         {
@@ -35,7 +35,7 @@
         }
 
         /// <summary>
-        /// Update class members.
+        /// Update members.
         /// </summary>
         public bool DeleteRow(string className, object row)
         {

@@ -1,9 +1,9 @@
 ﻿namespace DataDesignerServer.Core.Data
 {
     /// <summary>
-    /// EnumSchemaRow.
+    /// TypeSchemaRow.
     /// </summary>
-    public sealed class EnumSchemaRow
+    public sealed class TypeSchemaRow
     {
         /// <summary>
         /// Value.

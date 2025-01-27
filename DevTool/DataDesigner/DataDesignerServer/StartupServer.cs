@@ -1,8 +1,8 @@
 ﻿namespace DataDesignerServer
 {
+    using DataDesignerServer.Core.DataManager.TableData;
+    using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Generator;
-    using DataDesignerServer.Core.TypeManager.Class;
-    using DataDesignerServer.Core.TypeManager.Enum;
 
     public class StartupServer
     {
@@ -20,11 +20,11 @@
             codeGenerator.Initialize();
 
             // EnumManager.
-            var enumManager = _serviceProvider.GetRequiredService<EnumManager>();
+            var enumManager = _serviceProvider.GetRequiredService<TypeDataManager>();
             enumManager.Initialize(Directory.GetCurrentDirectory());
 
             // ClassManager.
-            var classManager = _serviceProvider.GetRequiredService<ClassManager>();
+            var classManager = _serviceProvider.GetRequiredService<TableDataManager>();
             classManager.Initialize(Directory.GetCurrentDirectory());
         }
     }

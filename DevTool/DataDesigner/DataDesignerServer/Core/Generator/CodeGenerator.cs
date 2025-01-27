@@ -111,7 +111,7 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Parse class code data, then generate enum code.
         /// </summary>
-        public void AddEnum(string enumNamespace, string enumName, IEnumerable<EnumMember> enumMembers)
+        public void AddEnum(string enumNamespace, string enumName, IEnumerable<TypeMember> enumMembers)
         {
             _logger.LogDebug($"//----------------------------------------------------");
             _logger.LogDebug($"[CodeGenerator] Generating enum {enumName}");
@@ -162,7 +162,7 @@ namespace DataDesignerServer.Core.Generator
         public void CreateFiles(string dirPath)
         {
             // Check folder.
-            var enumFolder = Path.Combine(dirPath, FilePath.ENUM_FOLDER);
+            var enumFolder = Path.Combine(dirPath, FilePath.TYPE_FOLDER);
             Directory.CreateDirectory(enumFolder);
 
             // Create enum.
@@ -177,7 +177,7 @@ namespace DataDesignerServer.Core.Generator
             }
 
             // Check folder.
-            var classFolder = Path.Combine(dirPath, FilePath.CLASS_FOLDER);
+            var classFolder = Path.Combine(dirPath, FilePath.TABLE_FOLDER);
             Directory.CreateDirectory(classFolder);
 
             // Create class.
@@ -236,7 +236,7 @@ namespace DataDesignerServer.Core.Generator
         /// <param name="enumNamespace">Namespace for Enum</param>
         /// <param name="enumName">Enum name</param>
         /// <param name="enumMembers">Enum member list</param>
-        private CompilationUnitSyntax CreateEnumCompilationUnit(string enumNamespace, string enumName, IEnumerable<EnumMember> enumMembers)
+        private CompilationUnitSyntax CreateEnumCompilationUnit(string enumNamespace, string enumName, IEnumerable<TypeMember> enumMembers)
         {
             // Create namespace.
             var declareNamespace = SyntaxFactory

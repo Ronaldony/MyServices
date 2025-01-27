@@ -5,12 +5,12 @@ using System.Net;
 namespace DataDesignerServerServer
 {
     using DataDesignerServer;
+    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.DataManager.TableData;
+    using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Generator;
     using DataDesignerServer.Core.Services;
     using DataDesignerServer.Core.Services.Interfaces;
-    using DataDesignerServer.Core.TypeManager.Class;
-    using DataDesignerServer.Core.TypeManager.Enum;
-    using Microsoft.Extensions.Options;
 
     public class Program
     {
@@ -37,8 +37,9 @@ namespace DataDesignerServerServer
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
-            builder.Services.AddSingleton<EnumManager>(serviceProvider => new EnumManager(serviceProvider));
-            builder.Services.AddSingleton<ClassManager>(serviceProvider => new ClassManager(serviceProvider));
+            builder.Services.AddSingleton<TypeDataManager>(serviceProvider => new TypeDataManager(serviceProvider));
+            builder.Services.AddSingleton<ConfigDataManager>(serviceProvider => new ConfigDataManager(serviceProvider));
+            builder.Services.AddSingleton<TableDataManager>(serviceProvider => new TableDataManager(serviceProvider));
             builder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
 
             // Web host.

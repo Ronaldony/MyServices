@@ -3,27 +3,27 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace DataDesignerServer.Core.TypeManager.Class
+namespace DataDesignerServer.Core.DataManager.ConfigData
 {
     using DataDesignerServer.Core.Data;
+    using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Services.Interfaces;
-    using DataDesignerServer.Core.TypeManager.Enum;
 
     /// <summary>
-    /// ClassManager.
-    /// Desc: Manage class types.
+    /// TableManager.
+    /// Desc: Manage table types.
     /// </summary>
-    public sealed partial class ClassManager
+    public sealed partial class ConfigDataManager
     {
-        private const string ALL_DATA_FILE = "*.obj";
+        private const string ALL_DATA_FILE = "*.conf";
         private const string ALL_SCHEMA_FILE = "*.schema";
 
         private string _srcFolderPath;
 
-        private readonly ILogger<ClassManager> _logger;
+        private readonly ILogger<ConfigDataManager> _logger;
         private readonly IJsonSerializer _jsonSerializer;
 
-        private readonly EnumManager _enumManager;
+        private readonly TypeDataManager _typeDataManager;
 
         /// <summary>
         /// Data dictionary.
@@ -50,12 +50,12 @@ namespace DataDesignerServer.Core.TypeManager.Class
         /// </summary>
         private Dictionary<string, Type> _primitiveTypeDict;
 
-        public ClassManager(IServiceProvider serviceProvider)
+        public ConfigDataManager(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<ClassManager>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<ConfigDataManager>>();
             _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
 
-            _enumManager = serviceProvider.GetRequiredService<EnumManager>();
+            _typeDataManager = serviceProvider.GetRequiredService<TypeDataManager>();
 
             _classRowDict = new ConcurrentDictionary<string, List<object>>();
             _tbDict = new ConcurrentDictionary<string, TypeBuilder>();
@@ -69,7 +69,7 @@ namespace DataDesignerServer.Core.TypeManager.Class
         /// </summary>
         public bool Initialize(string basePath)
         {
-            _srcFolderPath = Path.Combine(basePath, "Data", FilePath.ENUM_FOLDER);
+            _srcFolderPath = Path.Combine(basePath, "Data", FilePath.CONFIG_FOLDER);
 
             // Create directory.
             Directory.CreateDirectory(_srcFolderPath);
@@ -78,7 +78,7 @@ namespace DataDesignerServer.Core.TypeManager.Class
             _primitiveTypeDict = Initialize_PrimitiveTypes();
 
             // Load class from file.
-            if (false == LoadClasses(_srcFolderPath))
+            if (false == LoadTables(_srcFolderPath))
             {
                 _logger.LogError($"Load class failed. path: {_srcFolderPath}");
 
@@ -114,8 +114,6 @@ namespace DataDesignerServer.Core.TypeManager.Class
             return _classRowDict.GetValueOrDefault(schemaName);
         }
 
-        #region PRIVATE
-
         /// <summary>
         /// Initialize primitive types.
         /// </summary>
@@ -146,7 +144,7 @@ namespace DataDesignerServer.Core.TypeManager.Class
         /// </summary>
         private ModuleBuilder CreateModuleBuilder()
         {
-            var abName = new AssemblyName(typeof(ClassManager).Name);
+            var abName = new AssemblyName(typeof(ConfigDataManager).Name);
             var ab = AssemblyBuilder
                 .DefineDynamicAssembly(abName, AssemblyBuilderAccess.Run);
 
@@ -156,10 +154,10 @@ namespace DataDesignerServer.Core.TypeManager.Class
         /// <summary>
         /// Load datas.
         /// </summary>
-        private bool LoadClasses(string basePath)
+        private bool LoadTables(string basePath)
         {
             _logger.LogDebug($"//-------------------------------------------");
-            _logger.LogDebug($"// Loading classes.");
+            _logger.LogDebug($"// Loading tables.");
 
             var dataFiles = Directory.GetFiles(basePath, ALL_DATA_FILE, SearchOption.AllDirectories);
             var schemaFiles = Directory.GetFiles(basePath, ALL_SCHEMA_FILE, SearchOption.AllDirectories);
@@ -306,7 +304,7 @@ namespace DataDesignerServer.Core.TypeManager.Class
             }
 
             // Find from enum types.
-            return _enumManager.FindTypeOrDefault(typeName);
+            return _typeDataManager.FindTypeOrDefault(typeName);
         }
 
         /// <summary>
@@ -394,7 +392,5 @@ namespace DataDesignerServer.Core.TypeManager.Class
 
             return true;
         }
-
-        #endregion 
     }
 }

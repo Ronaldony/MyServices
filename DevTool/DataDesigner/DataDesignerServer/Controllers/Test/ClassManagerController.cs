@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Test
 {
     using DataDesignerServer.Core.Data;
-    using DataDesignerServer.Core.Http.Class;
+    using DataDesignerServer.Core.DataManager.TableData;
+    using DataDesignerServer.Core.Http.Test;
     using DataDesignerServer.Core.Services.Interfaces;
-    using DataDesignerServer.Core.TypeManager.Class;
 
     /// <summary>
     /// Test_DataMapperController.
@@ -17,14 +17,14 @@ namespace DataDesignerServer.Controllers.Test
 
         private readonly IJsonSerializer _jsonSerializer;
 
-        private readonly ClassManager _classManaer;
+        private readonly TableDataManager _classManaer;
 
         public ClassManagerController(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<ClassManagerController>>();
             _jsonSerializer = serviceProvider.GetService<IJsonSerializer>();
              
-            _classManaer = serviceProvider.GetRequiredService<ClassManager>();
+            _classManaer = serviceProvider.GetRequiredService<TableDataManager>();
         }
 
         [HttpGet]

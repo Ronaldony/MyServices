@@ -41,7 +41,7 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Generate DB for enum.
         /// </summary>
-        public bool GenerateEnum(string basePath, Type enumType, List<EnumMember> enumList)
+        public bool GenerateEnum(string basePath, Type enumType, List<TypeMember> enumList)
         {
             var dbSQLite = new DBSQLite(basePath);
 

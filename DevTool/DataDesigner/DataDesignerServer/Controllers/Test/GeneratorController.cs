@@ -1,11 +1,13 @@
-﻿using DataDesignerServer.Core.Data;
-using DataDesignerServer.Core.Generator;
-using DataDesignerServer.Core.TypeManager.Class;
-using DataDesignerServer.Core.TypeManager.Enum;
+﻿
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Test
 {
+    using DataDesignerServer.Core.Data;
+    using DataDesignerServer.Core.DataManager.TableData;
+    using DataDesignerServer.Core.DataManager.TypeData;
+    using DataDesignerServer.Core.Generator;
+
     /// <summary>
     /// GeneratorController.
     /// </summary>
@@ -14,16 +16,16 @@ namespace DataDesignerServer.Controllers.Test
         private readonly ILogger<GeneratorController> _logger;
 
         private readonly CodeGenerator _codeGenerator;
-        private readonly ClassManager _classManager;
-        private readonly EnumManager _enumManager;
+        private readonly TableDataManager _classManager;
+        private readonly TypeDataManager _enumManager;
 
         public GeneratorController(IServiceProvider serviceProvider) 
         {
             _logger = serviceProvider.GetRequiredService<ILogger<GeneratorController>>();
 
             _codeGenerator = serviceProvider.GetRequiredService<CodeGenerator>();
-            _classManager = serviceProvider.GetRequiredService<ClassManager>();
-            _enumManager = serviceProvider.GetRequiredService<EnumManager>();
+            _classManager = serviceProvider.GetRequiredService<TableDataManager>();
+            _enumManager = serviceProvider.GetRequiredService<TypeDataManager>();
         }
 
         [HttpGet]
@@ -81,12 +83,12 @@ namespace DataDesignerServer.Controllers.Test
                     continue;
                 }
 
-                var members = new List<EnumMember>();
+                var members = new List<TypeMember>();
                 
                 // Rows.
                 foreach (var row in rows)
                 {
-                    members.Add(new EnumMember
+                    members.Add(new TypeMember
                     {
                         Name = row.Name,
                         Value = row.Id,
