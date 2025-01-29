@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 
 namespace DataDesignerServer.Core.DataManager.TableData
 {
+    using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Services.Interfaces;

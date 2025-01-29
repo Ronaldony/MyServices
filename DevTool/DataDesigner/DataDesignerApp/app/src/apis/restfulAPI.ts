@@ -1,29 +1,39 @@
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 
 // Request Get method.
-export async function Request_Get<T>(url): Promise<T | null> 
-{
+export async function Request_Get<T>(url): Promise<T | null> {
   try {
     const res = await axios.get(url);
-    const recvData = res.data;
+    const resData = res.data;
 
-    return recvData;
+    // check status code.
+    if (resData?.errorCode) {
+      console.log(`server error code: ${resData.errorCode}, msg: ${resData.errorMsg}`);
+      return null;
+    }
+
+    return resData;
   } catch (error) {
-    console.log(error);
+    console.log(`api error - ${error}`);
     return null;
   }
 }
 
 // Request Post method.
-export async function Request_Post<T>(url, body): Promise<T | null>
-{
+export async function Request_Post<T>(url, body): Promise<T | null> {
   try {
     const res = await axios.post(url, body);
-    const recvData = res.data;
+    const resData = res.data;
 
-    return recvData;
+    // check status code.
+    if (resData?.errorCode) {
+      console.log(`server error code: ${resData.errorCode}, msg: ${resData.errorMsg}`);
+      return null;
+    }
+
+    return resData;
   } catch (error) {
-    console.log(error);
+    console.log(`api error - ${error}`);
     return null;
   }
 }
@@ -33,3 +43,11 @@ export function Request_Patch(url, body) {}
 
 // Request Delete method.
 export function Request_Delete(url) {}
+
+function IsErrorResponse(res: any) : boolean
+{
+    // check status code.
+    if (res.status !== HttpStatusCode.Ok) return true;
+    
+    return false;
+}

@@ -4,6 +4,7 @@ using System.Reflection.Emit;
 
 namespace DataDesignerServer.Core.DataManager.TypeData
 {
+    using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.Services.Interfaces;
 

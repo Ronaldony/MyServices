@@ -1,9 +1,9 @@
-﻿namespace DataDesignerServer.Core.Data
+﻿namespace DataDesignerServer.Core.Common
 {
     /// <summary>
     /// Path for generating data.
     /// </summary>
-    public class FilePath
+    public static class FilePath
     {
         public const string TYPE_FOLDER = "Type";
         public const string TABLE_FOLDER = "Table";

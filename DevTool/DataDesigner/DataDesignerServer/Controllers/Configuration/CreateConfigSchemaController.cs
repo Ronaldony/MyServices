@@ -1,7 +1,8 @@
-﻿using DataDesignerServer.Core.Data;
+﻿using DataDesignerServer.Core.Common;
 using DataDesignerServer.Core.DataManager.ConfigData;
 using DataDesignerServer.Core.Http.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Filters;
 
 namespace DataDesignerServer.Controllers.Configuration
 {
@@ -24,24 +25,13 @@ namespace DataDesignerServer.Controllers.Configuration
         [Route("/config/create-schema")]
         public RES_CreateConfigSchema Process([FromBody] REQ_CreateConfigSchema req)
         {
-            var schema = new ClassSchema
-            {
-                Name = schemaName,
-                Category = category,
-                Columns = new List<ClassSchemaColumn>(),
-                Desciption = desc
-            };
-
             // Create.
-            if (false == _configDataManager.CreateSchema(schema.Name, schema))
+            if (false == _configDataManager.CreateSchema(req.Schema.Name, req.Schema))
             {
-                return "fail.";
+                throw new ServerException(ServerErrorCode.FailCreateConfigSchema, "not exist configuration");
             }
 
-            return new RES_CreateConfigSchema
-            {
-
-            };
+            return new RES_CreateConfigSchema();
         }
     }
 }

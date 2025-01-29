@@ -1,26 +1,28 @@
-import axios from "axios";
-import { Fragment, useEffect, useState } from "react";
-import React from "react";
+import React, { Fragment, useEffect } from 'react';
+import { Request_Get } from '../apis/restfulAPI.ts';
 
-export default function TestPage()
-{
-    useEffect(() => {
-        // axios.get(`${process.env.REACT_APP_API_BASE}${"/test/class-manager/create-schema?schemaName=testSchema&category=testCate&desc=test"}`)
-        axios.get(`${process.env.REACT_APP_API_BASE}${"/test/class-manager/find-schema?schemaName=testSchema"}`)
-        .then(res => {
-            console.log(res.data)
-        }).catch(err => {
-            console.log(err)
-        })
-    }, [])
+export default function TestPage() {
+  // Initialize.
+  useEffect(() => {
+    fetchDataListAsync('/').then((res) => {
+      console.log("res: ");
+      console.log(res);
+    })
+    .catch(error => {
+      console.log("error: ");
+      console.log(error);
+    })
+    ;
+  }, []);
 
-    console.log(`${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_SERVER_SATUS}`)
-
-    return (
-        <Fragment>
-            <div>
-                Configuration page.
-            </div>
-        </Fragment>
-    )
+  return (
+    <Fragment>
+      <div>Configuration page.</div>
+    </Fragment>
+  );
 }
+
+// fetchDataListAsync.
+const fetchDataListAsync = async (path) => {
+  return await Request_Get<any>(`${process.env.REACT_APP_API_BASE}${path}`);
+};

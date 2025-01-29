@@ -8,6 +8,7 @@ namespace DataDesignerServerServer
     using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.DataManager.TableData;
     using DataDesignerServer.Core.DataManager.TypeData;
+    using DataDesignerServer.Core.Filter;
     using DataDesignerServer.Core.Generator;
     using DataDesignerServer.Core.Services;
     using DataDesignerServer.Core.Services.Interfaces;
@@ -34,8 +35,14 @@ namespace DataDesignerServerServer
             builder.Logging.AddNLog();
             builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
             
+            // Controllers.
+            builder.Services.AddControllers(options =>
+            {
+                // Exception.
+                options.Filters.Add<ErrorrExceptionFilter>();
+            });
+
             // Add services to the container.
-            builder.Services.AddControllers();
             builder.Services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
             builder.Services.AddSingleton<TypeDataManager>(serviceProvider => new TypeDataManager(serviceProvider));
             builder.Services.AddSingleton<ConfigDataManager>(serviceProvider => new ConfigDataManager(serviceProvider));

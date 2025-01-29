@@ -5,6 +5,11 @@
     /// </summary>
     public class ClassSchema
     {
+        public ClassSchema()
+        {
+            Columns = new List<ClassSchemaColumn>();
+        }
+
         /// <summary>
         /// Schema name.
         /// </summary>
