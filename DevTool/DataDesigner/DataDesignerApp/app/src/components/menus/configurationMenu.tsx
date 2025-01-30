@@ -6,7 +6,7 @@ import {
   CircularProgress,
   Divider,
   FormControl,
-  FormControlLabel,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -14,7 +14,6 @@ import {
   ListItemText,
   MenuItem,
   Modal,
-  Paper,
   Select,
   Stack,
   Table,
@@ -27,12 +26,21 @@ import {
   Typography,
 } from '@mui/material';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import { Request_Get } from '../../apis/restfulAPI.ts';
-import { RES_AllConfiguration } from '../../interfaces/api/configuration.ts';
-import { ClassSchemaColumn } from '../../interfaces/classSchema.ts';
+import { Request_Get, Request_Post } from '../../apis/restfulAPI.ts';
+import {
+  REQ_CreateConfigSchema,
+  RES_AllConfiguration,
+  RES_CreateConfigSchema,
+} from '../../interfaces/protocols/configuration.ts';
+import {
+  ClassSchema,
+  ClassSchemaColumn,
+} from '../../interfaces/classSchema.ts';
 import ErrorModal from '../modals/errorModal.tsx';
 import { schemaModalStyle } from './styles.ts';
+import LoadingSpinner from '../modals/loadingSpinner.tsx';
 
+//////////////////////////////////////////////////////////////////////////
 // Configuration menu
 export default function ConfigurationMenu({ setSelectedConfig }) {
   const [selectedData, setSelectedData] = useState('');
@@ -68,30 +76,17 @@ export default function ConfigurationMenu({ setSelectedConfig }) {
   }, []);
 
   // switch selected data
-  const onSetSelectedData = useCallback((selectedData) => {
-    setSelectedData(selectedData);
-    setSelectedConfig(selectedData);
-  }, []);
+  const onSetSelectedData = useCallback(
+    (selectedData) => {
+      setSelectedData(selectedData);
+      setSelectedConfig(selectedData);
+    },
+    [selectedData]
+  );
 
   // loading
   if (true === isLoading) {
-    return (
-      <Fragment>
-        <Modal
-          open={isLoading}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <CircularProgress
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-            }}
-          />
-        </Modal>
-      </Fragment>
-    );
+    return <LoadingSpinner />;
   }
 
   // error render
@@ -161,28 +156,52 @@ export default function ConfigurationMenu({ setSelectedConfig }) {
   );
 }
 
+//////////////////////////////////////////////////////////////////////////
 // CreateSchemaModal
-let nextIdx = 1;
-
 function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
   // schema
-  const [createSchema, setCreateSchema] = useState(false);
-
-  // index
-  const [index, setIndex] = useState(1);
+  const [newSchema, setNewSchema] = useState<ClassSchema | any>({
+    name: '',
+    category: '',
+    desciption: '',
+    columns: null
+  });
 
   // columns
   const [columns, setColumns] = useState<ClassSchemaColumn[]>([
     {
-      idx: nextIdx,
-      name: 'Name',
+      idx: 0,
+      name: 'Id',
       isIndexed: false,
       type: 'int',
-      refType: '',
+      refTable: '',
       summary: 'Schema ID',
     },
   ]);
 
+  useEffect(() => {
+    setNewSchema({ ...newSchema, columns: columns });
+  }, [columns])
+
+  // request create schema.
+  const reqCreateSchemaAsync = useCallback(async () => {
+    console.log('columns')
+    console.log(columns)
+    console.log("newSchema")
+    console.log(newSchema)
+
+    // Request
+    const req: REQ_CreateConfigSchema = {
+      schema: newSchema,
+    };
+
+    const reqResult = await Request_Post<RES_CreateConfigSchema>(
+      `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_CREATE_SCHEMA}`,
+      req
+    );
+    console.log(reqResult);
+  }, [newSchema, columns]);
+  
   return (
     <Fragment>
       {/* Schema modal */}
@@ -202,14 +221,45 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
             component="form"
             sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
           >
-            <TextField label="Name" variant="standard" focused required />
-            <TextField label="Category" variant="standard" focused />
-            <TextField label="Summary" variant="standard" focused />
+            {/* Name */}
+            <TextField
+              label="Name"
+              variant="standard"
+              focused
+              value={newSchema.name}
+              required
+              error={!newSchema.name}
+              onChange={(e) =>
+                setNewSchema({...newSchema, name: e.target.value })
+              }
+            />
+
+            {/* Category */}
+            <TextField
+              label="Category"
+              variant="standard"
+              focused
+              value={newSchema.category}
+              onChange={(e) =>
+                setNewSchema({ ...newSchema, category: e.target.value })
+              }
+            />
+
+            {/* desciption */}
+            <TextField
+              label="Desciption"
+              variant="standard"
+              focused
+              value={newSchema.desciption}
+              onChange={(e) =>
+                setNewSchema({ ...newSchema, desciption: e.target.value })
+              }
+            />
           </Box>
 
           {/* Schema Body */}
           <Box component="form">
-            <ConfigTable columns={columns} setColumns={setColumns} />
+            <ColumnsTable columns={columns} setColumns={setColumns} />
           </Box>
 
           {/* Buttons */}
@@ -221,7 +271,10 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
               alignItems: 'center',
             }}
           >
-            <Button variant="contained" onClick={() => setCreateSchema(true)}>
+            <Button
+              variant="contained"
+              onClick={async () => reqCreateSchemaAsync()}
+            >
               Create
             </Button>
             <Button
@@ -237,23 +290,123 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
   );
 }
 
-// ConfigTable
-function ConfigTable({ columns, setColumns }: any) {
-  const [name, setName] = useState('');
+//////////////////////////////////////////////////////////////////////////
+// ColumnsTable
+function ColumnsTable({ columns, setColumns }: any) {
+  // types
+  const [types, setTypes] = useState<string[] | any>([]);
+  const [refTables, setRefTables] = useState<string[] | any>([]);
 
-  // handle column
-  function handleColumn(handleIndex, key, value) {
-    const modifiedColumns = columns.map((col, index) => {
-      if (index === handleIndex) {
-        // modify
-        col[key] = value;
-        return col;
-      } else {
-        return col;
-      }
+  // status
+  const [openTypes, setOpenTypes] = useState<boolean[] | any>([false]);
+  const [openRefTables, setOpenRefTables] = useState<boolean[] | any>([false]);
+
+  // index info
+  const primaryIndex = 0;
+
+  ////////////////////////////////////////////////////////
+  // fetch types.
+  useEffect(() => {
+    // fetch types.
+    Request_Get<String[]>(
+      `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCH_TYPES}`
+    ).then((res) => {
+      if (null === res) console.log('fail to fetch types');
+      else setTypes(res);
     });
 
-    setColumns(modifiedColumns);
+    // Fetch ref types
+    Request_Get<String[]>(
+      `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCH_REFTABLES}`
+    ).then((res) => {
+      if (null === res) console.log('fail to fetch ref types');
+      else setRefTables(res);
+    });
+  }, []);
+
+  ////////////////////////////////////////////////////////
+  // handle column
+  function updateColumn(handleIndex, key, value) {
+    setColumns(
+      columns.map((col, index) => {
+        if (index === handleIndex) {
+          // modify
+          col[key] = value;
+          return col;
+        } else return col;
+      })
+    );
+  }
+
+  // add column
+  function addColumn() {
+    // add column
+    setColumns((prev) => [
+      ...prev,
+      {
+        idx: 0,
+        name: '',
+        isIndexed: false,
+        type: '',
+        refTable: '',
+        summary: '',
+      },
+    ]);
+
+    // add status
+    setOpenRefTables((prev) => [...prev, false]);
+    setOpenTypes((prev) => [...prev, false]);
+  }
+
+  // delete column
+  function deleteColumn(columnIdx) {
+    // delete column
+    setColumns(columns.filter((d, index) => index !== columnIdx));
+
+    // delete status
+    setOpenRefTables(openRefTables.filter((d, index) => index !== columnIdx));
+    setOpenTypes(openTypes.filter((d, index) => index !== columnIdx));
+  }
+
+  ////////////////////////////////////////////////////////
+  // handle open types
+  function handleOpenTypes(handleIndex, value) {
+    setOpenTypes(
+      openTypes.map((isOpen, index) => {
+        if (index === handleIndex) return value;
+        else return isOpen;
+      })
+    );
+  }
+
+  // handle open ref types
+  function handleOpenRefTables(handleIndex, value) {
+    setOpenRefTables(
+      openRefTables.map((isOpen, index) => {
+        if (index === handleIndex) return value;
+        else return isOpen;
+      })
+    );
+  }
+
+  ////////////////////////////////////////////////////////
+  // get type status
+  function getOpenType(getIndex) {
+    let isOpen = false;
+
+    openTypes.map((openType, index) => {
+      if (index === getIndex) isOpen = openType;
+    });
+    return isOpen;
+  }
+
+  function getOpenRefTable(getIndex) {
+    let isOpen = false;
+
+    openRefTables.map((openRefTable, index) => {
+      if (index === getIndex) isOpen = openRefTable;
+    });
+    return isOpen;
   }
 
   return (
@@ -278,11 +431,14 @@ function ConfigTable({ columns, setColumns }: any) {
                 Type
               </TableCell>
               <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
-                RefType
+                RefTable
               </TableCell>
               <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
                 Summary
               </TableCell>
+              <TableCell
+                style={{ paddingTop: 0, paddingBottom: 0 }}
+              ></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -290,49 +446,108 @@ function ConfigTable({ columns, setColumns }: any) {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                   {/* Name */}
-                  <TableCell>
+                  <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
                     <TextField
+                      disabled={index === primaryIndex}
                       variant="standard"
                       focused
                       value={column.name}
+                      required
+                      error={!column.name}
                       onChange={(e) =>
-                        handleColumn(index, 'name', e.target.value)
+                        updateColumn(index, 'name', e.target.value)
                       }
                     />
                   </TableCell>
+
                   {/* IsIndexed */}
-                  <TableCell>
+                  <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
                     <Checkbox
+                      disabled={index === primaryIndex}
                       checked={column.isIndexed}
                       onChange={(e) =>
-                        handleColumn(index, 'isIndexed', e.target.checked)
+                        updateColumn(index, 'isIndexed', e.target.checked)
                       }
                     />
                   </TableCell>
+
                   {/* Type */}
-                  <TableCell>{column.type}</TableCell>
-                  <FormControl sx={{ m: 1, minWidth: 120 }}>
-                    <Select
-                      labelId="demo-controlled-open-select-label"
-                      id="demo-controlled-open-select"
-                      open={true}
-                      value={column.type}
-                      label="Age"
-                      onChange={(e) =>
-                        handleColumn(index, 'type', e.target.value)}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={'Ten'}>Ten</MenuItem>
-                      <MenuItem value={'Twenty'}>Twenty</MenuItem>
-                      <MenuItem value={'Thirty'}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                  {/* RefType */}
-                  <TableCell>{column.refType}</TableCell>
+                  <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <Select
+                        disabled={index === primaryIndex}
+                        size="small"
+                        open={getOpenType(index)}
+                        onOpen={() => handleOpenTypes(index, true)}
+                        onClose={() => handleOpenTypes(index, false)}
+                        value={column.type}
+                        onChange={(e) =>
+                          updateColumn(index, 'type', e.target.value)
+                        }
+                      >
+                        {/* empty */}
+                        <MenuItem value="">None</MenuItem>
+                        {types?.map((d) => {
+                          return (
+                            <MenuItem key={d} value={d}>
+                              {d}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </TableCell>
+
+                  {/* RefTable */}
+                  <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <Select
+                        size="small"
+                        open={getOpenRefTable(index)}
+                        onOpen={() => handleOpenRefTables(index, true)}
+                        onClose={() => handleOpenRefTables(index, false)}
+                        value={column.refTable}
+                        onChange={(e) =>
+                          updateColumn(index, 'refTable', e.target.value)
+                        }
+                      >
+                        {/* empty */}
+                        <MenuItem value="">None</MenuItem>
+                        {refTables?.map((d) => {
+                          return (
+                            <MenuItem key={d} value={d}>
+                              {d}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </TableCell>
+
                   {/* Summary */}
-                  <TableCell>{column.summary}</TableCell>
+                  <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
+                    <TextField
+                      variant="standard"
+                      focused
+                      value={column.summary}
+                      onChange={(e) =>
+                        updateColumn(index, 'summary', e.target.value)
+                      }
+                    />
+                  </TableCell>
+
+                  {/* Delete */}
+                  <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}>
+                    <Button
+                      variant="contained"
+                      disabled={index === primaryIndex}
+                      color="error"
+                      size="small"
+                      onClick={() => deleteColumn(index)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               );
             })}
@@ -341,7 +556,12 @@ function ConfigTable({ columns, setColumns }: any) {
       </TableContainer>
 
       {/* Add button */}
-      <Button variant="contained" color="error" size="small">
+      <Button
+        variant="contained"
+        color="success"
+        size="small"
+        onClick={() => addColumn()}
+      >
         Add
       </Button>
     </Fragment>

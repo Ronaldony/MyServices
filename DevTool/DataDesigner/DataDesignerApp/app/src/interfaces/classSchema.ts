@@ -4,14 +4,14 @@ export interface ClassSchemaColumn {
   name: string;
   isIndexed: boolean;
   type: string;
-  refType: any;
+  refTable: string;
   summary: string;
 }
 
 // ClassSchema.
 export interface ClassSchema {
-  name: string,
-  category: string
-  desciption: string,
-  columns: Array<ClassSchemaColumn>
+  name: string;
+  category: string;
+  desciption: string;
+  columns: Array<ClassSchemaColumn>;
 }

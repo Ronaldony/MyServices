@@ -1,4 +1,4 @@
-import axios, { HttpStatusCode } from 'axios';
+import axios from 'axios';
 
 // Request Get method.
 export async function Request_Get<T>(url): Promise<T | null> {
@@ -8,7 +8,9 @@ export async function Request_Get<T>(url): Promise<T | null> {
 
     // check status code.
     if (resData?.errorCode) {
-      console.log(`server error code: ${resData.errorCode}, msg: ${resData.errorMsg}`);
+      console.log(
+        `server error code: ${resData.errorCode}, msg: ${resData.errorMsg}`
+      );
       return null;
     }
 
@@ -27,7 +29,9 @@ export async function Request_Post<T>(url, body): Promise<T | null> {
 
     // check status code.
     if (resData?.errorCode) {
-      console.log(`server error code: ${resData.errorCode}, msg: ${resData.errorMsg}`);
+      console.log(
+        `server error code: ${resData.errorCode}, msg: ${resData.errorMsg}`
+      );
       return null;
     }
 
@@ -43,11 +47,3 @@ export function Request_Patch(url, body) {}
 
 // Request Delete method.
 export function Request_Delete(url) {}
-
-function IsErrorResponse(res: any) : boolean
-{
-    // check status code.
-    if (res.status !== HttpStatusCode.Ok) return true;
-    
-    return false;
-}

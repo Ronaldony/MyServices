@@ -6,7 +6,7 @@ namespace DataDesignerServer.Controllers.Configuration
     using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.Http.Configuration;
 
-    public class GetConfigSchemaInfoController : ControllerBase
+    public class GetConfigSchemaInfoController : Controller
     {
         private readonly ILogger<GetConfigSchemaInfoController> _logger;
 

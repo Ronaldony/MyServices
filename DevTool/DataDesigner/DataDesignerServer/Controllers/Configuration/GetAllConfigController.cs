@@ -5,7 +5,7 @@ namespace DataDesignerServer.Controllers.Configuration
     using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.Http.Configuration;
 
-    public sealed class GetAllConfigController : ControllerBase
+    public sealed class GetAllConfigController : Controller
     {
         private readonly ILogger<GetAllConfigController> _logger;
 

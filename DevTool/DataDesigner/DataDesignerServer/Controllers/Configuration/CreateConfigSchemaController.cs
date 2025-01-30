@@ -2,11 +2,10 @@
 using DataDesignerServer.Core.DataManager.ConfigData;
 using DataDesignerServer.Core.Http.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using System.Web.Http.Filters;
 
 namespace DataDesignerServer.Controllers.Configuration
 {
-    public class CreateConfigSchemaController
+    public class CreateConfigSchemaController : Controller
     {
         private readonly ILogger<CreateConfigSchemaController> _logger;
 

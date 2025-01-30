@@ -7,6 +7,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
     using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.Services.Interfaces;
+    using System.Collections.Generic;
 
     /// <summary>
     /// TypeManager.
@@ -114,6 +115,65 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         }
 
         /// <summary>
+        /// Initialize primitive types.
+        /// </summary>
+        private Dictionary<string, TypeSchema> Initialize_PrimitiveTypes()
+        {
+            var typeDict = new Dictionary<string, TypeSchema>();
+
+            typeDict.Add("int", new TypeSchema
+            {
+                Name = "int",
+                Category = "primitive",
+                Description = "int"
+            });
+
+            typeDict.Add("long", new TypeSchema
+            {
+                Name = "long",
+                Category = "primitive",
+                Description = "long"
+            });
+
+            typeDict.Add("float", new TypeSchema
+            {
+                Name = "float",
+                Category = "primitive",
+                Description = "float"
+            });
+
+            typeDict.Add("double", new TypeSchema
+            {
+                Name = "double",
+                Category = "primitive",
+                Description = "double"
+            });
+
+            typeDict.Add("string", new TypeSchema
+            {
+                Name = "string",
+                Category = "primitive",
+                Description = "string"
+            });
+
+            typeDict.Add("bool", new TypeSchema
+            {
+                Name = "bool",
+                Category = "primitive",
+                Description = "bool"
+            });
+
+            typeDict.Add("date", new TypeSchema
+            {
+                Name = "date",
+                Category = "primitive",
+                Description = "date"
+            });
+
+            return typeDict;
+        }
+
+        /// <summary>
         /// Load enums.
         /// </summary>
         private bool LoadTypes(string basePath)
@@ -126,6 +186,18 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
             _typeRowDict.Clear();
 
+            // add primitive types.
+            var primitiveTypes = Initialize_PrimitiveTypes();
+
+            foreach (var pair in primitiveTypes)
+            {
+                if (false == _schemaDict.TryAdd(pair.Key, pair.Value))
+                {
+                    return false;
+                }
+            }
+
+            // add enum types.
             foreach (var file in enumFiles)
             {
                 var enumName = Path.GetFileNameWithoutExtension(file);
