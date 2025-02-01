@@ -1,5 +1,6 @@
 ﻿namespace DataDesignerServer
 {
+    using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.DataManager.TableData;
     using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Generator;
@@ -26,6 +27,10 @@
             // ClassManager.
             var classManager = _serviceProvider.GetRequiredService<TableDataManager>();
             classManager.Initialize(Directory.GetCurrentDirectory());
+
+            // ConfigDataManager.
+            var configDataManager = _serviceProvider.GetRequiredService<ConfigDataManager>();
+            configDataManager.Initialize(Directory.GetCurrentDirectory());
         }
     }
 }

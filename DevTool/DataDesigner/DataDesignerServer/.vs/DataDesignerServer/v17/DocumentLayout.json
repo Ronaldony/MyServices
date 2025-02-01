@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\controllers\\configuration\\findconfigschemacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:controllers\\configuration\\findconfigschemacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\controllers\\configuration\\createconfigschemacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:controllers\\configuration\\createconfigschemacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\controllers\\configuration\\getallconfigcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:controllers\\configuration\\getallconfigcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\core\\http\\configuration\\http_getconfigschemainfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:core\\http\\configuration\\http_getconfigschemainfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\core\\common\\servererrorcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:core\\common\\servererrorcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\controllers\\common\\fetchtypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:controllers\\common\\fetchtypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\controllers\\common\\fetchreftypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:controllers\\common\\fetchreftypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|c:\\depot_jaesueng\\myservices\\devtool\\datadesigner\\datadesignerserver\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BA692C3-0878-4F7F-BB2D-3B37D6742FE0}|DataDesignerServer.csproj|solutionrelative:startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ServerErrorCode.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Core\\Common\\ServerErrorCode.cs",
+              "RelativeDocumentMoniker": "Core\\Common\\ServerErrorCode.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Core\\Common\\ServerErrorCode.cs",
+              "RelativeToolTip": "Core\\Common\\ServerErrorCode.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T18:06:37.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Http_GetConfigSchemaInfo.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Core\\Http\\Configuration\\Http_GetConfigSchemaInfo.cs",
+              "RelativeDocumentMoniker": "Core\\Http\\Configuration\\Http_GetConfigSchemaInfo.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Core\\Http\\Configuration\\Http_GetConfigSchemaInfo.cs",
+              "RelativeToolTip": "Core\\Http\\Configuration\\Http_GetConfigSchemaInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T17:44:57.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FetchRefTypesController.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Common\\FetchRefTypesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Common\\FetchRefTypesController.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Common\\FetchRefTypesController.cs",
+              "RelativeToolTip": "Controllers\\Common\\FetchRefTypesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T16:41:20.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FetchTypesController.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Common\\FetchTypesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Common\\FetchTypesController.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Common\\FetchTypesController.cs",
+              "RelativeToolTip": "Controllers\\Common\\FetchTypesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwkAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T16:41:17.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FindConfigSchemaController.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Configuration\\FindConfigSchemaController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Configuration\\FindConfigSchemaController.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Configuration\\FindConfigSchemaController.cs",
+              "RelativeToolTip": "Controllers\\Configuration\\FindConfigSchemaController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAADwvxsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T16:41:13.084Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GetAllConfigController.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Configuration\\GetAllConfigController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Configuration\\GetAllConfigController.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Configuration\\GetAllConfigController.cs",
+              "RelativeToolTip": "Controllers\\Configuration\\GetAllConfigController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvxoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T14:41:23.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "StartupServer.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\StartupServer.cs",
+              "RelativeDocumentMoniker": "StartupServer.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\StartupServer.cs",
+              "RelativeToolTip": "StartupServer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvxwAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T13:18:32.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CreateConfigSchemaController.cs",
+              "DocumentMoniker": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Configuration\\CreateConfigSchemaController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Configuration\\CreateConfigSchemaController.cs",
+              "ToolTip": "C:\\Depot_Jaesueng\\MyServices\\DevTool\\DataDesigner\\DataDesignerServer\\Controllers\\Configuration\\CreateConfigSchemaController.cs",
+              "RelativeToolTip": "Controllers\\Configuration\\CreateConfigSchemaController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAADwvyMAAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T13:12:42.777Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

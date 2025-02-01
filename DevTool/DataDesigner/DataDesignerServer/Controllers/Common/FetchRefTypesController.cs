@@ -18,11 +18,7 @@ namespace DataDesignerServer.Controllers.Common
         [Route("/common/fetch-ref-tables")]
         public List<string> Process()
         {
-            var refTables = new List<string>();
-            refTables.Add("default");
-
-            //return _tableDataManager.GetSchemaNames().ToList();
-            return refTables;
+            return _tableDataManager.GetSchemaNames().ToList();
         }
     }
 }

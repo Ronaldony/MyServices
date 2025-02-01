@@ -26,14 +26,14 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
             }
 
             // Add Id.
-            schema.Columns.Add(new ClassSchemaColumn
-            {
-                Idx = 1,
-                Name = "Id",
-                IsIndexed = true,
-                Type = "int",
-                Summary = "Primary key"
-            });
+            //schema.Columns.Add(new ClassSchemaColumn
+            //{
+            //    Idx = 1,
+            //    Name = "Id",
+            //    IsIndexed = true,
+            //    Type = "int",
+            //    Summary = "Primary key"
+            //});
 
             // Schema.
             if (default == SetSchema(schemaName, schema))

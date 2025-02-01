@@ -92,11 +92,16 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
         }
 
         /// <summary>
-        /// Get schema for type.
+        /// Check existance for shcema.
         /// </summary>
-        public ClassSchema FindSchemaOrDefault(string schemaName)
+        public bool IsExistSchema(string schemaName)
         {
-            return _schemaDict.GetValueOrDefault(schemaName);
+            if (null == FindSchemaOrDefault(schemaName))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -113,6 +118,14 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
         public IEnumerable<object> FindRowsOrDefault(string schemaName)
         {
             return _classRowDict.GetValueOrDefault(schemaName);
+        }
+
+        /// <summary>
+        /// Get schema for type.
+        /// </summary>
+        public ClassSchema FindSchemaOrDefault(string schemaName)
+        {
+            return _schemaDict.GetValueOrDefault(schemaName);
         }
 
         /// <summary>

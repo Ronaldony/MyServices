@@ -3,10 +3,8 @@ import {
   Box,
   Button,
   Checkbox,
-  CircularProgress,
   Divider,
   FormControl,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -26,26 +24,31 @@ import {
   Typography,
 } from '@mui/material';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import { Request_Get, Request_Post } from '../../apis/restfulAPI.ts';
+import { useNavigate } from 'react-router-dom';
+import { Request_Get, Request_Post } from '../../apis/restAPI.ts';
+import {
+  ClassSchema,
+  ClassSchemaColumn,
+} from '../../classes/classSchema.ts';
 import {
   REQ_CreateConfigSchema,
   RES_AllConfiguration,
   RES_CreateConfigSchema,
-} from '../../interfaces/protocols/configuration.ts';
-import {
-  ClassSchema,
-  ClassSchemaColumn,
-} from '../../interfaces/classSchema.ts';
+} from '../../classes/protocols/configuration.ts';
+import { RES_Error } from '../../classes/protocols/error.ts';
+import CheckModal from '../modals/checkModal.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
-import { schemaModalStyle } from './styles.ts';
 import LoadingSpinner from '../modals/loadingSpinner.tsx';
+import { schemaModalStyle } from './styles.ts';
 
 //////////////////////////////////////////////////////////////////////////
 // Configuration menu
 export default function ConfigurationMenu({ setSelectedConfig }) {
   const [selectedData, setSelectedData] = useState('');
-  const [dataListRes, setDataListRes] = useState<RES_AllConfiguration | null>();
-  const [errorMsg, setErrorMsg] = useState();
+  const [dataListRes, setDataListRes] = useState<
+    RES_AllConfiguration | RES_Error | any
+  >();
+  const [errorMsg, setErrorMsg] = useState('');
 
   // status
   const [openErrorModal, setOpenErrorModal] = useState(false);
@@ -58,30 +61,33 @@ export default function ConfigurationMenu({ setSelectedConfig }) {
     Request_Get<RES_AllConfiguration>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_GETALL}`
     ).then((res) => {
-      if (res === null) {
-        // error
-        onError('fail to fetch configuration list');
-        setIsError(true);
-      } else setDataListRes(res);
+      if (res instanceof RES_Error) onError('fail to fetch configuration list');
+      else setDataListRes(res);
 
       // loading status
       setIsLoading(false);
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // on error
-  const onError = useCallback((msg) => {
-    setErrorMsg(msg);
-    setOpenErrorModal(true);
-  }, []);
+  // onError
+  const onError = useCallback(
+    (msg) => {
+      setErrorMsg(msg);
+      setOpenErrorModal(true);
+      setIsError(true);
+    },
+    [setErrorMsg, setOpenErrorModal, setIsError]
+  );
 
   // switch selected data
-  const onSetSelectedData = useCallback(
+  const onSelectedData = useCallback(
     (selectedData) => {
       setSelectedData(selectedData);
       setSelectedConfig(selectedData);
     },
-    [selectedData]
+    [setSelectedData, setSelectedConfig]
   );
 
   // loading
@@ -132,7 +138,7 @@ export default function ConfigurationMenu({ setSelectedConfig }) {
               <ListItem disablePadding key={data}>
                 <ListItemButton
                   selected={selectedData === data}
-                  onClick={() => onSetSelectedData(data)}
+                  onClick={() => onSelectedData(data)}
                 >
                   <ListItemText primary={data} />
                 </ListItemButton>
@@ -160,48 +166,76 @@ export default function ConfigurationMenu({ setSelectedConfig }) {
 // CreateSchemaModal
 function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
   // schema
-  const [newSchema, setNewSchema] = useState<ClassSchema | any>({
-    name: '',
-    category: '',
-    desciption: '',
-    columns: null
-  });
+  const [newSchema, setNewSchema] = useState<ClassSchema>(
+    new ClassSchema('', '', '', null)
+  );
 
   // columns
   const [columns, setColumns] = useState<ClassSchemaColumn[]>([
-    {
-      idx: 0,
-      name: 'Id',
-      isIndexed: false,
-      type: 'int',
-      refTable: '',
-      summary: 'Schema ID',
-    },
+    new ClassSchemaColumn(0, 'Id', false, 'int', '', 'Schema ID'),
   ]);
 
+  // error
+  const [errorMsg, setErrorMsg] = useState('');
+  const [openErrorModal, setOpenErrorModal] = useState(false);
+
+  // check
+  const [checkMsg, setCheckMsg] = useState('');
+  const [openCheckModal, setOpenCheckModal] = useState(false);
+
+  // navigate
+  const navigate = useNavigate();
+
+  // close modals
+  const onSuccessCreated = useCallback(() => {
+    setOpenCheckModal(false)
+    setOpenSchemaModal(false)
+    navigate(0)
+  }, [setOpenCheckModal, setOpenSchemaModal, navigate])
+
+  // on error
+  const onError = useCallback(
+    (msg) => {
+      setErrorMsg(msg);
+      setOpenErrorModal(true);
+    },
+    [setErrorMsg, setOpenErrorModal]
+  );
+  
+  // on check
+  const onCheckModal = useCallback(
+    (msg) => {
+      setCheckMsg(msg);
+      setOpenCheckModal(true);
+    },
+    [setCheckMsg, setOpenCheckModal]
+  );
+
+  async function onCheckOkAsync()
+  {
+    await reqCreateSchemaAsync();
+  }
+
+  // update schema
   useEffect(() => {
-    setNewSchema({ ...newSchema, columns: columns });
-  }, [columns])
+    setNewSchema((prev) => {
+      return { ...prev, columns: columns };
+    });
+  }, [columns, setNewSchema]);
 
   // request create schema.
   const reqCreateSchemaAsync = useCallback(async () => {
-    console.log('columns')
-    console.log(columns)
-    console.log("newSchema")
-    console.log(newSchema)
-
-    // Request
-    const req: REQ_CreateConfigSchema = {
-      schema: newSchema,
-    };
-
-    const reqResult = await Request_Post<RES_CreateConfigSchema>(
+    // request
+    const res = await Request_Post<RES_CreateConfigSchema>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_CREATE_SCHEMA}`,
-      req
+      new REQ_CreateConfigSchema(newSchema)
     );
-    console.log(reqResult);
-  }, [newSchema, columns]);
-  
+
+    // error.
+    if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
+    else onSuccessCreated()
+  }, [newSchema, onError, onSuccessCreated]);
+
   return (
     <Fragment>
       {/* Schema modal */}
@@ -230,7 +264,7 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
               required
               error={!newSchema.name}
               onChange={(e) =>
-                setNewSchema({...newSchema, name: e.target.value })
+                setNewSchema({ ...newSchema, name: e.target.value })
               }
             />
 
@@ -273,7 +307,7 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
           >
             <Button
               variant="contained"
-              onClick={async () => reqCreateSchemaAsync()}
+              onClick={async () => onCheckModal("Are you sure to create schema?")}
             >
               Create
             </Button>
@@ -284,6 +318,20 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
               Close
             </Button>
           </Stack>
+
+          {/* Error modal */}
+          <ErrorModal
+            openErrorModal={openErrorModal}
+            errorMsg={errorMsg}
+            setOpenErrorModal={setOpenErrorModal}
+          />
+
+          {/* Check modal */}
+            <CheckModal 
+            openCheckModal={openCheckModal}
+            checkMsg={checkMsg}
+            setOpenCheckModal={setOpenCheckModal}
+            setOnCheckOk={onCheckOkAsync}/>
         </Box>
       </Modal>
     </Fragment>
@@ -311,7 +359,7 @@ function ColumnsTable({ columns, setColumns }: any) {
     Request_Get<String[]>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCH_TYPES}`
     ).then((res) => {
-      if (null === res) console.log('fail to fetch types');
+      if (res instanceof RES_Error) console.log('fail to fetch types');
       else setTypes(res);
     });
 
@@ -319,7 +367,7 @@ function ColumnsTable({ columns, setColumns }: any) {
     Request_Get<String[]>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCH_REFTABLES}`
     ).then((res) => {
-      if (null === res) console.log('fail to fetch ref types');
+      if (res instanceof RES_Error) console.log('fail to fetch ref types');
       else setRefTables(res);
     });
   }, []);
@@ -343,14 +391,7 @@ function ColumnsTable({ columns, setColumns }: any) {
     // add column
     setColumns((prev) => [
       ...prev,
-      {
-        idx: 0,
-        name: '',
-        isIndexed: false,
-        type: '',
-        refTable: '',
-        summary: '',
-      },
+      new ClassSchemaColumn(0, '', false, 'int', '', ''),
     ]);
 
     // add status
@@ -391,23 +432,27 @@ function ColumnsTable({ columns, setColumns }: any) {
 
   ////////////////////////////////////////////////////////
   // get type status
-  function getOpenType(getIndex) {
+  const getOpenType = useCallback((getIndex) =>
+  {
+    let isOpen = false;
+    
+    openTypes.forEach((element, index) => {
+      if (index === getIndex) isOpen = element;
+    });
+
+    return isOpen;
+  }, [openTypes]);
+
+  const getOpenRefTable = useCallback((getIndex) =>
+    {
     let isOpen = false;
 
-    openTypes.map((openType, index) => {
-      if (index === getIndex) isOpen = openType;
+    openRefTables.forEach((element, index) => {
+      if (index === getIndex) isOpen = element;
     });
-    return isOpen;
-  }
 
-  function getOpenRefTable(getIndex) {
-    let isOpen = false;
-
-    openRefTables.map((openRefTable, index) => {
-      if (index === getIndex) isOpen = openRefTable;
-    });
     return isOpen;
-  }
+  }, [openRefTables])
 
   return (
     <Fragment>
@@ -486,7 +531,6 @@ function ColumnsTable({ columns, setColumns }: any) {
                         }
                       >
                         {/* empty */}
-                        <MenuItem value="">None</MenuItem>
                         {types?.map((d) => {
                           return (
                             <MenuItem key={d} value={d}>

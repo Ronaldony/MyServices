@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { Request_Get } from '../apis/restfulAPI.ts';
+import { Request_Get } from '../apis/restAPI.ts';
 
 export default function TestPage() {
   // Initialize.

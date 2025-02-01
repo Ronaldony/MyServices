@@ -5,8 +5,15 @@ namespace DataDesignerServer.Core.Filter
 {
     using DataDesignerServer.Core.Common;
 
+    /// <summary>
+    /// ErrorrExceptionFilter.
+    /// </summary>
     public class ErrorrExceptionFilter : IExceptionFilter
     {
+        /// <summary>
+        /// OnException.
+        /// </summary>
+        /// <param name="context"></param>
         public void OnException(ExceptionContext context)
         {
             if (context.Exception is ServerException)
@@ -20,7 +27,7 @@ namespace DataDesignerServer.Core.Filter
                 context.Result = new ObjectResult(
                     new
                     {
-                        errorMsg = serverException.Message,
+                        errorMsg = serverException.ErrorMsg,
                         errorCode = serverException.ErrorCode,
                         stackTrace = serverException.StackTrace
                     })

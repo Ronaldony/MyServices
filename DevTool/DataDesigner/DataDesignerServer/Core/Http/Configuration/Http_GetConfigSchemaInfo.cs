@@ -4,18 +4,18 @@ namespace DataDesignerServer.Core.Http.Configuration
     using DataDesignerServer.Core.Data;
 
     /// <summary>
-    /// REQ_GetConfigSchema.
+    /// REQ_FindConfigSchema.
     /// </summary>
-    [HttpAttribute("/config/get-schema-info")]
-    public class REQ_GetConfigSchemaInfo
+    [HttpAttribute("/config/find-schema")]
+    public class REQ_FindConfigSchema
     {
 
     }
 
     /// <summary>
-    /// RES_GetConfigSchemaInfo.
+    /// RES_FindConfigSchema.
     /// </summary>
-    public class RES_GetConfigSchemaInfo
+    public class RES_FindConfigSchema
     {
         public ClassSchema Schema { get; set; }
     }

@@ -18,7 +18,7 @@ export default function SideList() {
       setSeletecIndex(index);
       navigate(redirectTo);
     },
-    [seletecIndex]
+    [setSeletecIndex, navigate]
   );
 
   return (
@@ -70,8 +70,7 @@ export default function SideList() {
           selected={seletecIndex === 4}
           onClick={() => updateMenu(4, '/')}
         >
-          <ListItemIcon>
-          </ListItemIcon>
+          <ListItemIcon></ListItemIcon>
           <ListItemText primary={'Test'} />
         </ListItemButton>
       </List>
