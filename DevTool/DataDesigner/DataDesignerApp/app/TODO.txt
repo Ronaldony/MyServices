@@ -1,0 +1,5 @@
+- Create schema (Modal)
+- Schema 뷰어
+- Multi tab 뷰어
+- Column 변경 (이름, 타입, Summary, Index 정보 등)
+- Column 추가, 삭제

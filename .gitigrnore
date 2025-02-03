@@ -1,8 +1,1 @@
 ## ignore ##
-
-## Tool ##
-Tool/DataDesigner/.vs
-Tool/DataDesigner/DataDesigner/bin
-Tool/DataDesigner/DataDesigner/obj
-
-## GameServerApp ##
