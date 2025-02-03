@@ -213,7 +213,7 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
                 var rowDatas = _jsonSerializer.Deserialize(rowText, classList.GetType()) as IList;
 
                 // Add row datas.
-                SetRows(classType.Name, classList.OfType<object>().ToList());
+                SetRows(classType.Name, rowDatas.OfType<object>().ToList());
 
                 // Add schema.
                 if (false == _schemaDict.TryAdd(classType.Name, schema))
@@ -369,7 +369,7 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
         private bool FlushFiles(string typeName)
         {
             // Check data file.
-            var dataFile = Path.Combine(_srcFolderPath, $"{typeName}.obj");
+            var dataFile = Path.Combine(_srcFolderPath, $"{typeName}.conf");
             if (false == File.Exists(dataFile))
             {
                 File.Create(dataFile).Dispose();
