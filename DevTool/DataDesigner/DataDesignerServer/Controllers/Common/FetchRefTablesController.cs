@@ -4,11 +4,11 @@ namespace DataDesignerServer.Controllers.Common
 {
     using DataDesignerServer.Core.DataManager.TableData;
 
-    public class FetchRefTypesController : Controller
+    public class FetchRefTablesController : Controller
     {
         private readonly TableDataManager _tableDataManager;
 
-        public FetchRefTypesController(
+        public FetchRefTablesController(
             TableDataManager tableDataManager)
         {
             _tableDataManager = tableDataManager;

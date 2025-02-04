@@ -4,15 +4,14 @@ using System.Reflection.Emit;
 
 namespace DataDesignerServer.Core.DataManager.TypeData
 {
-    using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.Data;
-    using DataDesignerServer.Core.Services.Interfaces;
-    using System.Collections.Generic;
+	using DataDesignerServer.Core.Common;
+	using DataDesignerServer.Core.Data;
+	using DataDesignerServer.Core.Services.Interfaces;
 
-    /// <summary>
-    /// TypeManager.
-    /// </summary>
-    public sealed partial class TypeDataManager
+	/// <summary>
+	/// TypeManager.
+	/// </summary>
+	public sealed partial class TypeDataManager
     {
         private const string ALL_TYPE_FILES = "*.type";
         private const string ALL_SCHEMA_FILE = "*.schema";
@@ -84,7 +83,6 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// <summary>
         /// Get types.
         /// </summary>
-        /// <returns></returns>
         public Type FindTypeOrDefault(string typeName)
         {
             return _typeDict.GetValueOrDefault(typeName);

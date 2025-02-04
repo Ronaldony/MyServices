@@ -1,23 +1,18 @@
 import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
+  Box
 } from '@mui/material';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { Request_Get } from '../apis/restAPI.ts';
-import { ClassSchema } from '../classes/shared/classSchema.ts';
+import { ClassSchema, ClassSchemaColumn } from '../classes/shared/classSchema.ts';
 import {
   RES_FindConfigRows,
-  RES_FindConfigSchema,
+  RES_FindConfigSchema
 } from '../classes/shared/protocols/configuration.ts';
 import { RES_Error } from '../classes/shared/protocols/error.ts';
 import ErrorModal from '../components/modals/errorModal.tsx';
 import ConfigurationMenu from './../components/menus/configurationMenu.tsx';
+import { DataGrid, GridColDef, GridColType } from '@mui/x-data-grid';
+import { RES_FindTypeOrTableKeys } from '../classes/shared/protocols/common.ts';
 
 export default function ConfigurationPage() {
   // configuration
@@ -55,8 +50,8 @@ export default function ConfigurationPage() {
       {/* Menu */}
       <ConfigurationMenu setSelectedSchema={setSelectedSchema} />
 
-      {/* Data */}
-      <GridColumns schema={schema} isEditable={false} />
+      {/* Grid columns */}
+      <GridColumns schemaName={schema?.name} columns={schema?.columns} isEditable={false} />
 
       {/* Error */}
       <ErrorModal
@@ -68,103 +63,112 @@ export default function ConfigurationPage() {
   );
 }
 
-// Grid
-function GridColumns({ schema, isEditable }: any) {
-  // table columns
-  const [tableRows, setTableRows] = useState<Array<any>>([]);
+var gridColumns: GridColDef[] = [];
 
-  // status.
-  const [tableLoaded, setTableLoaded] = useState(false);
+// GridColumns.
+function GridColumns({ schemaName, columns, isEditable }: any) {
+  // status
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  // request rows.
+  // grid
+  const [gridRows, setGridRows] = useState<Array<any>>([]);
+
+  // api
+  const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_FIND_ROWS}?schema=${schemaName}`;
+
+  // update columns
   useEffect(() => {
-    if (schema !== undefined) {
-      const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_FIND_ROWS}?schema=${schema?.name}`;
+    if ((columns !== null) && (columns !== undefined)) {
+      // set grid columns
+      gridColumns = ConvertColsToGridCols(columns, schemaName);
 
+      // request grid rows.
       Request_Get<RES_FindConfigRows>(query).then((res) => {
         if (res instanceof RES_Error) {
           console.log('error');
         } else {
-          setTableLoaded(true);
-          setTableRows(res.rows);
+          setDataLoaded(true);
+          setGridRows(res.rows);
         }
       });
     }
-  }, [schema]);
+  }, [columns]);
 
-  // schema undefined
-  if (tableLoaded === false) {
-    return <Fragment></Fragment>;
+  // check data loaded
+  if (false === dataLoaded) {
+    return <></>
   }
 
-  // Update row value
-  function updateRowValue(updateIndex, key, value) {
-    setTableRows(
-      tableRows.map((col, index) => {
-        if (index === updateIndex) {
-          // modify
-          col[key] = value;
-          return col;
-        } else {
-          return col;
-        }
-      })
-    );
-  }
-
+  // grid columns
   return (
     <Fragment>
-      {/* Table */}
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          {/* Header */}
-          <TableHead>
-            <TableRow>
-              {schema?.columns?.map((element, index) => {
-                return (
-                  <TableCell align="center" key={index}>
-                    {element.name}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
-
-          {/* Body */}
-          <TableBody>
-            {tableRows?.map((row, index) => {
-              let rowKeys = Object.keys(row);
-              console.log(`index: ${index}`);
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                  {rowKeys.map((rowKey) => {
-                    console.log(`rowKey: ${rowKey}`);
-
-                    return (
-                      <TableCell
-                        style={{ paddingTop: 0, paddingBottom: 0 }}
-                        key={rowKey}
-                      >
-                        {/* Type check */}
-                        <TextField
-                          disabled={isEditable === false}
-                          variant="standard"
-                          focused
-                          value={row[rowKey]}
-                          required
-                          onChange={(e) =>
-                            updateRowValue(index, rowKey, e.target.value)
-                          }
-                        />
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DataGrid rows={gridRows} columns={gridColumns} editMode="row" />
     </Fragment>
   );
+}
+
+// ConvertDataToGridData.
+function ConvertColsToGridCols(columns: Array<ClassSchemaColumn>, schemaName: string): GridColDef[] {
+  let gridDatas: GridColDef[] = [];
+
+  // convert columns to grid columns
+  columns.forEach(col => {
+    let type = ConvertType(col.type);
+    let field = col.name.charAt(0).toLowerCase() + col.name.slice(1);
+    let valueOpts = GetValueOptions(schemaName);
+
+    // add grid column
+    gridDatas.push({
+      field: field,
+      headerName: col.name,
+      type: type,
+      width: 100,
+      editable: true,
+      valueOptions: valueOpts
+    });
+  });
+
+  return gridDatas;
+}
+
+// ConvertType
+function ConvertType(type: string): GridColType {
+  switch (type) {
+    // numbers
+    case 'int':
+    case 'long':
+    case 'float':
+    case 'double':
+      return 'number';
+    // string
+    case 'string':
+      return 'string';
+    // date
+    case 'date':
+      return 'dateTime';
+    // boolean.
+    case 'bool':
+      return 'boolean';
+    default:
+      return 'singleSelect';
+  }
+}
+
+// GetValueOptions.
+function GetValueOptions(schemaName: string): [] {
+  const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FIND_TYPE_TABLE_KEYS}?schema=${schemaName}`;
+
+  Request_Get<RES_FindTypeOrTableKeys>(query)
+    .then(res => {
+      if (res instanceof RES_Error) {
+        // error
+        return [];
+      }
+      else {
+        // value options
+        return res.keys;
+      }
+    })
+
+  return [];
 }

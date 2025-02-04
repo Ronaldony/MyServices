@@ -1,0 +1,31 @@
+{
+  "Name": "TC_SelectTest",
+  "Category": "Test",
+  "Desciption": "test",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "Item",
+      "IsIndexed": false,
+      "Type": "Type_Item",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "Player",
+      "IsIndexed": false,
+      "Type": "Type_Player",
+      "RefTable": "",
+      "Summary": ""
+    }
+  ]
+}
