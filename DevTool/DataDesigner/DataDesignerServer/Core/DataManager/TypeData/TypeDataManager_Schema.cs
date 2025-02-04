@@ -25,12 +25,8 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
             // EnumBuilder.
             var rows = new List<TypeSchemaRow>();
-            var eb = CreateTypeBuilder(schemaName, rows);
+            UpdateEnumBuiler(schemaName, rows);
             
-            // Set rows, builder.
-            SetRows(schemaName, rows);
-            SetTypeBuilder(schemaName, eb);
-
             // Flush.
             if (false == FlushFiles(schemaName))
             {

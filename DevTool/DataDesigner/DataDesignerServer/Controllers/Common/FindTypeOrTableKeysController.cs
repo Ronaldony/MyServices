@@ -31,13 +31,18 @@ namespace DataDesignerServer.Controllers.Common
 		}
 
 		[HttpGet]
-		[Route("/common/find-type-table-values")]
-		public RES_FindTypeOrTableKeys Process(string schemaName)
+		[Route("/common/find-type-table-keys")]
+		public RES_FindTypeOrTableKeys Process(string schema)
 		{
-			// find from type.
-			if (default != _typeDataManager.FindSchemaOrDefault(schemaName))
+			if (string.IsNullOrEmpty(schema))
 			{
-				var rows = _typeDataManager.GetRowsOrDefault(schemaName);
+                throw new ServerException(ServerErrorCode.Common_NotExistSchema, "not exist schema");
+            }
+
+            // find from type.
+            if (default != _typeDataManager.FindSchemaOrDefault(schema))
+			{
+				var rows = _typeDataManager.GetRowsOrDefault(schema);
 
 				return new RES_FindTypeOrTableKeys
 				{
@@ -47,9 +52,9 @@ namespace DataDesignerServer.Controllers.Common
 			}
 
 			// find from table.
-			if (default != _tableDataManager.FindSchemaOrDefault(schemaName))
+			if (default != _tableDataManager.FindSchemaOrDefault(schema))
 			{
-				var rows = _tableDataManager.FindRowsOrDefault(schemaName);
+				var rows = _tableDataManager.FindRowsOrDefault(schema);
 
 				return new RES_FindTypeOrTableKeys
 				{

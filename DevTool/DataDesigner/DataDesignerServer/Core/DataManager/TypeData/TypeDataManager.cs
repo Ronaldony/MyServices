@@ -7,11 +7,15 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 	using DataDesignerServer.Core.Common;
 	using DataDesignerServer.Core.Data;
 	using DataDesignerServer.Core.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Reflection.Metadata;
+    using System.Web.Http.Validation;
 
-	/// <summary>
-	/// TypeManager.
-	/// </summary>
-	public sealed partial class TypeDataManager
+    /// <summary>
+    /// TypeManager.
+    /// </summary>
+    public sealed partial class TypeDataManager
     {
         private const string ALL_TYPE_FILES = "*.type";
         private const string ALL_SCHEMA_FILE = "*.schema";
@@ -21,12 +25,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         private readonly ILogger<TypeDataManager> _logger;
         private readonly IJsonSerializer _jsonSerializer;
 
-        /// <summary>
-        /// Type dictionary.
-        /// key : type name.
-        /// value: type.
-        /// </summary>
-        private readonly Dictionary<string, Type> _typeDict;
+        private ModuleBuilder _moduleBuilder;
 
         /// <summary>
         /// Enum value dict.
@@ -39,7 +38,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// key: type name.
         /// value: EnumBuilder.
         /// </summary>
-        private ConcurrentDictionary<string, EnumBuilder> _ebDict;
+        private ConcurrentDictionary<string, EnumBuilder> _ebDict { get; set; }
 
         /// <summary>
         /// key: type name.
@@ -52,7 +51,6 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             _logger = serviceProvider.GetRequiredService<ILogger<TypeDataManager>>();
             _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
 
-            _typeDict = new Dictionary<string, Type>();
             _typeRowDict = new ConcurrentDictionary<string, List<TypeSchemaRow>>();
             _ebDict = new ConcurrentDictionary<string, EnumBuilder>();
             _schemaDict = new ConcurrentDictionary<string, TypeSchema>();
@@ -63,6 +61,9 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// </summary>
         public bool Initialize(string basePath)
         {
+            // module builder.
+            _moduleBuilder = CreateModuleBuilder();
+
             _srcFolderPath = Path.Combine(basePath, "Data", FilePath.TYPE_FOLDER);
 
             // Create directory.
@@ -85,7 +86,12 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// </summary>
         public Type FindTypeOrDefault(string typeName)
         {
-            return _typeDict.GetValueOrDefault(typeName);
+            if (_ebDict.ContainsKey(typeName))
+            {
+                return _ebDict[typeName];
+            }
+
+            return default;
         }
 
         /// <summary>
@@ -212,7 +218,9 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 var rowDatas = _jsonSerializer.Deserialize<List<TypeSchemaRow>>(rowText);
 
                 // Create TypeBuilder.
-                var eb = CreateTypeBuilder(enumName, rowDatas);
+                UpdateEnumBuiler(enumName, rowDatas);
+
+                var eb = _ebDict[enumName];
                 if (null == eb)
                 {
                     return false;
@@ -220,7 +228,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
                 // Update TypeBuilder.
                 var enumType = eb.CreateType();
-                SetTypeBuilder(enumName, eb);
+                SetEnumBuilder(enumName, eb);
 
                 // Add row datas.
                 SetRows(enumType.Name, rowDatas);
@@ -242,13 +250,35 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         }
 
         /// <summary>
-        /// Create type buidler.
+        /// Update enum buidler.
         /// </summary>
-        private EnumBuilder CreateTypeBuilder(string enumName, List<TypeSchemaRow> rows)
+        private void UpdateEnumBuiler(string typeName, List<TypeSchemaRow> rows)
         {
+            // check existance of type.
+            if (default != FindTypeOrDefault(typeName))
+            {
+                // Reset module builder.
+                _moduleBuilder = CreateModuleBuilder();
+
+                foreach (var pair in _typeRowDict)
+                {
+                    if (!pair.Key.Equals(typeName))
+                    {
+                        CreateEnumBuilder(pair.Key, pair.Value);
+                    }
+                }
+            }
+
             // Define type.
-            var mb = CreateModuleBuilder();
-            var eb = mb.DefineEnum(enumName, TypeAttributes.Public, typeof(int));
+            CreateEnumBuilder(typeName, rows);
+        }
+
+        /// <summary>
+        /// Create enum builder.
+        /// </summary>
+        private void CreateEnumBuilder(string typeName, List<TypeSchemaRow> rows)
+        {
+            var eb = _moduleBuilder.DefineEnum(typeName, TypeAttributes.Public, typeof(int));
 
             // Id.
             foreach (var row in rows)
@@ -256,13 +286,15 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 eb.DefineLiteral(row.Name, row.Id);
             }
 
-            return eb;
+            // Set row, builder.
+            SetEnumBuilder(typeName, eb);
+            SetRows(typeName, rows);
         }
 
         /// <summary>
         /// Add or update EnumBuidler.
         /// </summary>
-        private void SetTypeBuilder(string enumName, EnumBuilder eb)
+        private void SetEnumBuilder(string enumName, EnumBuilder eb)
         {
             if (false == _ebDict.ContainsKey(enumName))
             {
@@ -270,16 +302,6 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             }
 
             _ebDict.AddOrUpdate(enumName, eb, (key, old) => eb);
-
-            // Update type dictionary.
-            if (_typeDict.ContainsKey(enumName))
-            {
-                _typeDict[enumName] = eb.CreateType();
-            }
-            else
-            {
-                _typeDict.Add(enumName, eb.CreateType());
-            }
         }
 
         /// <summary>
@@ -327,6 +349,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
             return _ebDict[enumName].CreateType();
         }
+
 
         /// <summary>
         /// Write data file.

@@ -19,12 +19,8 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 return false;
             }
 
-            // Create builder.
-            var eb = CreateTypeBuilder(enumName, rows);
-
-            // Set row, builder.
-            SetTypeBuilder(enumName, eb);
-            SetRows(enumName, rows);
+            // Update builder.
+            UpdateEnumBuiler(enumName, rows);
 
             // Write update rows to the file.
             if (false == FlushFiles(enumName))
