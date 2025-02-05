@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DataDesignerServer.Core.Services
 {
@@ -9,12 +11,21 @@ namespace DataDesignerServer.Core.Services
     /// </summary>
     public sealed class NewtonsoftJsonSerializer : IJsonSerializer
     {
+        private readonly JsonSerializerOptions _serializerOptions;
+
+        public NewtonsoftJsonSerializer()
+        {
+            _serializerOptions = new JsonSerializerOptions();
+            _serializerOptions.Converters.Add(new JsonStringEnumConverter());
+            _serializerOptions.WriteIndented = true;
+        }
+
         /// <summary>
         /// Serialize.
         /// </summary>
         public string Serialize<T>(T data)
         {
-            return JsonConvert.SerializeObject(data, Formatting.Indented);
+            return JsonSerializer.Serialize(data, _serializerOptions);
         }
 
         /// <summary>
@@ -22,7 +33,7 @@ namespace DataDesignerServer.Core.Services
         /// </summary>
         public T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonSerializer.Deserialize<T>(json, _serializerOptions);
         }
 
         /// <summary>
@@ -30,7 +41,7 @@ namespace DataDesignerServer.Core.Services
         /// </summary>
         public object Deserialize(string json, Type type)
         {
-            return JsonConvert.DeserializeObject(json, type);
+            return JsonSerializer.Deserialize(json, type, _serializerOptions);
         }
     }
 }

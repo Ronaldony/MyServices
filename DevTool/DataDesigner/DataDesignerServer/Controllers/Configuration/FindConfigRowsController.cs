@@ -41,12 +41,12 @@ namespace DataDesignerServer.Controllers.Configuration
             // rows.
             var oriRows = _configDataManager.FindRowsOrDefault(schema);
 
-            //var rows = ConvertRows(oriRows);
+            var rows = ConvertRows(oriRows);
 
-			return new RES_FindConfigRows
+            return new RES_FindConfigRows
             {
                 Schema = schema,
-                Rows = oriRows.ToList(),
+                Rows = rows.ToList(),
 			};
         }
 
@@ -57,14 +57,20 @@ namespace DataDesignerServer.Controllers.Configuration
         {
             var dstRows = new List<object>();
 
-   //         foreach (var oriRow in oriRows)
-   //         {
-   //             var desValue = _jsonSerializer.Deserialize<Dictionary<string, string>>(oriRow);
+            foreach (var pair in oriRows.Select((value, index) => (value, index)))
+            {
+                var oriRow = pair.value;
+                var index = pair.index;
 
-   //             desValue.Add("internalId", desValue["Id"]);
-			//}
+                var rowJson = _jsonSerializer.Serialize(oriRow);
+                var dstValue = _jsonSerializer.Deserialize<Dictionary<string, object>>(rowJson);
 
-            return default;
+                dstValue.Add("internalId", Guid.NewGuid());
+
+                dstRows.Add(dstValue);
+            }
+
+            return dstRows;
         }
     }
 }
