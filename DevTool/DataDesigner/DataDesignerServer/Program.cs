@@ -4,72 +4,79 @@ using System.Net;
 
 namespace DataDesignerServerServer
 {
-    using DataDesignerServer;
-    using DataDesignerServer.Core.DataManager.ConfigData;
-    using DataDesignerServer.Core.DataManager.TableData;
-    using DataDesignerServer.Core.DataManager.TypeData;
-    using DataDesignerServer.Core.Filter;
-    using DataDesignerServer.Core.Generator;
-    using DataDesignerServer.Core.Services;
-    using DataDesignerServer.Core.Services.Interfaces;
+	using DataDesignerServer;
+	using DataDesignerServer.Core.DataManager.ConfigData;
+	using DataDesignerServer.Core.DataManager.TableData;
+	using DataDesignerServer.Core.DataManager.TypeData;
+	using DataDesignerServer.Core.Filter;
+	using DataDesignerServer.Core.Generator;
+	using DataDesignerServer.Core.Services;
+	using DataDesignerServer.Core.Services.Interfaces;
+	using Microsoft.Extensions.Options;
+	using System.Text.Json.Serialization;
 
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            // Set configuration file.
-            var configRoot = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .Build();
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			// Set configuration file.
+			var configRoot = new ConfigurationBuilder()
+				.AddJsonFile("appsettings.json")
+				.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+				.Build();
 
-            // WebApplicationBuilder.
-            var builder = WebApplication.CreateBuilder(args);
-            
-            // Configuration.
-            builder.Configuration.AddConfiguration(configRoot);
-            //builder.Configuration.AddEnvironmentVariables();
+			// WebApplicationBuilder.
+			var builder = WebApplication.CreateBuilder(args);
 
-            // Logging.
-            builder.Logging.ClearProviders();
-            builder.Logging.AddNLog();
-            builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-            
-            // Controllers.
-            builder.Services.AddControllers(options =>
-            {
-                // Exception.
-                options.Filters.Add<ErrorrExceptionFilter>();
-            });
+			// Configuration.
+			builder.Configuration.AddConfiguration(configRoot);
+			//builder.Configuration.AddEnvironmentVariables();
 
-            // Add services to the container.
-            builder.Services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
-            builder.Services.AddSingleton<TypeDataManager>(serviceProvider => new TypeDataManager(serviceProvider));
-            builder.Services.AddSingleton<ConfigDataManager>(serviceProvider => new ConfigDataManager(serviceProvider));
-            builder.Services.AddSingleton<TableDataManager>(serviceProvider => new TableDataManager(serviceProvider));
-            builder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
+			// Logging.
+			builder.Logging.ClearProviders();
+			builder.Logging.AddNLog();
+			builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
 
-            // Web host.
-            builder.WebHost.UseKestrel(options =>
-            {
-                options.Listen(IPAddress.Any, 7000);
-            });
+			// Controllers.
+			builder.Services.AddControllers(options =>
+			{
+				// Exception.
+				options.Filters.Add<ErrorrExceptionFilter>();
+			})
+				.AddJsonOptions(options =>
+				{
+					// it return enum string instead of int.
+					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				});
 
-            // builder.
-            var app = builder.Build();
-            app.MapControllers();
-            app.UseCors(options =>
-            {
-                options.AllowAnyHeader();
-                options.AllowAnyOrigin();
-                options.AllowAnyMethod();
-            });
+			// Add services to the container.
+			builder.Services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
+			builder.Services.AddSingleton<TypeDataManager>(serviceProvider => new TypeDataManager(serviceProvider));
+			builder.Services.AddSingleton<ConfigDataManager>(serviceProvider => new ConfigDataManager(serviceProvider));
+			builder.Services.AddSingleton<TableDataManager>(serviceProvider => new TableDataManager(serviceProvider));
+			builder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
 
-            // Startup Server.
-            var startupServer = new StartupServer(app.Services);
-            startupServer.Startup();
+			// Web host.
+			builder.WebHost.UseKestrel(options =>
+			{
+				options.Listen(IPAddress.Any, 7000);
+			});
 
-            app.Run();
-        }
-    }
+			// builder.
+			var app = builder.Build();
+			app.MapControllers();
+			app.UseCors(options =>
+			{
+				options.AllowAnyHeader();
+				options.AllowAnyOrigin();
+				options.AllowAnyMethod();
+			});
+
+			// Startup Server.
+			var startupServer = new StartupServer(app.Services);
+			startupServer.Startup();
+
+			app.Run();
+		}
+	}
 }

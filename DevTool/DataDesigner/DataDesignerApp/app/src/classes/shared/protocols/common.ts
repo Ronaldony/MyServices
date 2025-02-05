@@ -1,9 +1,9 @@
-// REQ_FindTypeOrTableKeys.
-export class REQ_FindTypeOrTableKeys {
+// REQ_FetchTypeAndTableKeys.
+export class REQ_FetchTypeAndTableKeys {
 
 }
 
-// RES_FindTypeOrTableKeys.
-export class RES_FindTypeOrTableKeys {
-    keys: string[]
+// RES_FetchTypeAndTableKeys.
+export class RES_FetchTypeAndTableKeys {
+    schemaKeysDict: Map<string, []>;
 }

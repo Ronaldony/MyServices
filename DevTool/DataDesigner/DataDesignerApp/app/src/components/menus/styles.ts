@@ -1,5 +1,3 @@
-import { height } from "@mui/system";
-
 // schemaModalStyle
 export const schemaModalStyle = {
   position: 'absolute',

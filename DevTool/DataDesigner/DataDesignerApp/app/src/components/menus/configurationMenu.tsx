@@ -116,7 +116,7 @@ export default function ConfigurationMenu({ setSelectedSchema }) {
         sx={{
           minWidth: '120px',
           overflow: 'auto',
-          borderRight: '1px solid silver',
+          borderRight: '1px solid silver'
         }}
       >
         {/* Create */}

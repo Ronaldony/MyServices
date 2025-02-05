@@ -6,21 +6,27 @@ namespace DataDesignerServer.Controllers.Configuration
     using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.Http.Configuration;
+	using DataDesignerServer.Core.Services.Interfaces;
 
-    public class FindConfigRowsController : Controller
+	public class FindConfigRowsController : Controller
     {
         private readonly ILogger<FindConfigRowsController> _logger;
 
         private readonly ConfigDataManager _configDataManager;
 
+        private readonly IJsonSerializer _jsonSerializer;
+
         public FindConfigRowsController(
             ILogger<FindConfigRowsController> logger,
-            ConfigDataManager configDataManager)
+            ConfigDataManager configDataManager,
+			IJsonSerializer jsonSerializer)
         {
             _logger = logger;
 
             _configDataManager = configDataManager;
-        }
+            _jsonSerializer = jsonSerializer;
+
+		}
 
         [HttpGet]
         [Route("/config/find-rows")]
@@ -33,13 +39,32 @@ namespace DataDesignerServer.Controllers.Configuration
             }
 
             // rows.
-            var rows = _configDataManager.FindRowsOrDefault(schema);
+            var oriRows = _configDataManager.FindRowsOrDefault(schema);
 
-            return new RES_FindConfigRows
+            //var rows = ConvertRows(oriRows);
+
+			return new RES_FindConfigRows
             {
                 Schema = schema,
-                Rows = rows.ToList(),
-            };
+                Rows = oriRows.ToList(),
+			};
+        }
+
+        /// <summary>
+        /// Convert rows to new rows which added internal id.
+        /// </summary>
+        private List<object> ConvertRows(IEnumerable<object> oriRows)
+        {
+            var dstRows = new List<object>();
+
+   //         foreach (var oriRow in oriRows)
+   //         {
+   //             var desValue = _jsonSerializer.Deserialize<Dictionary<string, string>>(oriRow);
+
+   //             desValue.Add("internalId", desValue["Id"]);
+			//}
+
+            return default;
         }
     }
 }

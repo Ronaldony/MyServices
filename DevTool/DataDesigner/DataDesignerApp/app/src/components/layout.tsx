@@ -13,7 +13,7 @@ import TestPage from '../pages/test.tsx';
 
 export default function Layout() {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', width: '100%', height: '100%' }} >
       {/* header */}
       <HeaderBar />
       {/* css */}
@@ -23,7 +23,7 @@ export default function Layout() {
       {/* body */}
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, height: '94.2vh' }}
       >
         <Toolbar />
         <Routes>

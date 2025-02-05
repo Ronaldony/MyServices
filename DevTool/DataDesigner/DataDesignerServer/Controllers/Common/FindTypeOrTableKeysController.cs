@@ -31,38 +31,49 @@ namespace DataDesignerServer.Controllers.Common
 		}
 
 		[HttpGet]
-		[Route("/common/find-type-table-keys")]
-		public RES_FindTypeOrTableKeys Process(string schema)
+		[Route("/common/fetch-type-table-keys")]
+		public RES_FetchTypeAndTableKeys Process()
 		{
-			if (string.IsNullOrEmpty(schema))
+			var res = new RES_FetchTypeAndTableKeys
 			{
-                throw new ServerException(ServerErrorCode.Common_NotExistSchema, "not exist schema");
-            }
+				SchemaKeysDict = new Dictionary<string, List<string>>()
+			};
 
-            // find from type.
-            if (default != _typeDataManager.FindSchemaOrDefault(schema))
+			// find from type.
+			var typeSchemas = _typeDataManager.GetSchemaNames();
+
+			foreach (var schema in typeSchemas)
 			{
 				var rows = _typeDataManager.GetRowsOrDefault(schema);
 
-				return new RES_FindTypeOrTableKeys
+				if (default == rows)
 				{
-					Keys = rows.Select(d => d.Name).ToList()
-				};
+					// primitive types.
+					continue;
+				}
 
+				res.SchemaKeysDict.Add(schema, rows.Select(d => d.Name).ToList());
 			}
 
 			// find from table.
-			if (default != _tableDataManager.FindSchemaOrDefault(schema))
-			{
-				var rows = _tableDataManager.FindRowsOrDefault(schema);
+			var tableSchemas = _tableDataManager.GetSchemaNames();
 
-				return new RES_FindTypeOrTableKeys
+			foreach (var schema in  tableSchemas)
+			{
+				var findRows = _tableDataManager.FindRowsOrDefault(schema);
+
+				if (default == findRows)
 				{
-					Keys = FilterIdFromTable(rows),
-				};
+					throw new ServerException(ServerErrorCode.Common_NotExistSchema, $"not exist schema. name: {schema}");
+				}
+
+				// filter rows.
+				var rows = FilterIdFromTable(findRows);
+
+				res.SchemaKeysDict.Add(schema, rows);
 			}
 
-			throw new ServerException(ServerErrorCode.Common_NotExistSchema, "not exist schema");
+			return res;
 		}
 
 		/// <summary>
