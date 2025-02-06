@@ -34,7 +34,20 @@ export async function Request_Post<T>(url, body): Promise<T | RES_Error> {
 }
 
 // Request Patch method.
-export function Request_Patch(url, body) {}
+export async function Request_Patch<T>(url, body): Promise<T | RES_Error> {
+  try {
+    const res = await axios.patch(url, body);
+    const resData = res.data;
+
+    // check status code.
+    if (resData?.errorCode)
+      return new RES_Error(resData.errorCode, resData.errorMsg);
+
+    return resData;
+  } catch (error) {
+    return new RES_Error(HttpStatusCode.NotFound, 'API request failed');
+  }
+}
 
 // Request Delete method.
 export function Request_Delete(url) {}

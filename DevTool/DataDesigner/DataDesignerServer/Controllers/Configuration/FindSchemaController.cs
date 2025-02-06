@@ -4,17 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Configuration
 {
     using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.Http.Configuration;
 
-    public class FindConfigSchemaController : Controller
+    /// <summary>
+    /// FindSchemaController.
+    /// </summary>
+    public class FindSchemaController : Controller
     {
-        private readonly ILogger<FindConfigSchemaController> _logger;
+        private readonly ILogger<FindSchemaController> _logger;
 
         private readonly ConfigDataManager _configDataManager;
 
-        public FindConfigSchemaController(
+        public FindSchemaController(
             ConfigDataManager configDataManager)
         {
             _configDataManager = configDataManager;

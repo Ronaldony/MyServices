@@ -1,5 +1,4 @@
-﻿using DataDesignerServer.Core.Common;
-using DataDesignerServer.Core.Data;
+﻿
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -7,6 +6,9 @@ using System.Reflection;
 
 namespace DataDesignerServer.Core.Generator
 {
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.Data;
+
     /// <summary>
     /// CodeGenerator.
     /// </summary>

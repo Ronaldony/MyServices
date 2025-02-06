@@ -5,19 +5,23 @@ using System.Text.Json.Serialization;
 namespace DataDesignerServer.Core.Services
 {
     using DataDesignerServer.Core.Services.Interfaces;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// NewtonsoftJsonSerializer.
     /// </summary>
     public sealed class NewtonsoftJsonSerializer : IJsonSerializer
     {
-        private readonly JsonSerializerOptions _serializerOptions;
+        private readonly JsonSerializerSettings _jsonSerializerSettings;
 
         public NewtonsoftJsonSerializer()
         {
-            _serializerOptions = new JsonSerializerOptions();
-            _serializerOptions.Converters.Add(new JsonStringEnumConverter());
-            _serializerOptions.WriteIndented = true;
+            _jsonSerializerSettings = new JsonSerializerSettings
+            {
+                Converters = { new StringEnumConverter()},
+                Formatting = Formatting.Indented,
+            };
         }
 
         /// <summary>
@@ -25,7 +29,7 @@ namespace DataDesignerServer.Core.Services
         /// </summary>
         public string Serialize<T>(T data)
         {
-            return JsonSerializer.Serialize(data, _serializerOptions);
+            return JsonConvert.SerializeObject(data, _jsonSerializerSettings);
         }
 
         /// <summary>
@@ -33,7 +37,7 @@ namespace DataDesignerServer.Core.Services
         /// </summary>
         public T Deserialize<T>(string json)
         {
-            return JsonSerializer.Deserialize<T>(json, _serializerOptions);
+            return JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace DataDesignerServer.Core.Services
         /// </summary>
         public object Deserialize(string json, Type type)
         {
-            return JsonSerializer.Deserialize(json, type, _serializerOptions);
+            return JsonConvert.DeserializeObject(json, type, _jsonSerializerSettings);
         }
     }
 }

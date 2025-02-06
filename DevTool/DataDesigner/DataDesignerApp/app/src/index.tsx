@@ -2,7 +2,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import Layout from './components/layout.tsx';
@@ -16,11 +16,11 @@ const root = ReactDOM.createRoot(
 
 // "root"를 렌더링
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <HashRouter>
       <Layout />
     </HashRouter>
-  </React.StrictMode>
+  </StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

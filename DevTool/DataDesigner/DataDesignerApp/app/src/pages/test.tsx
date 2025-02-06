@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 
 import { styled } from '@mui/material/styles';
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import HeaderBar from './../components/bars/headerBar';
 
 export default function TestPage() {
 
@@ -93,6 +94,12 @@ const rows: GridRowsProp = [
   ];
 
   return (
-      <DataGrid rows={rows} columns={columns}  editMode="row" />
+    <Fragment>
+
+      <div style={{height:'100%'}} onContextMenu={() => {console.log('sd')}}>
+
+        <DataGrid rows={rows} columns={columns} editMode="row" />
+      </div>
+    </Fragment>
   );
 }

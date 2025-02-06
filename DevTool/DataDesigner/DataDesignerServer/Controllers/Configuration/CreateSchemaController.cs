@@ -1,18 +1,23 @@
-﻿using DataDesignerServer.Core.Common;
-using DataDesignerServer.Core.DataManager.ConfigData;
-using DataDesignerServer.Core.Http.Configuration;
+﻿
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Configuration
 {
-    public class CreateConfigSchemaController : Controller
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.Http.Configuration;
+
+    /// <summary>
+    /// CreateSchemaController.
+    /// </summary>
+    public class CreateSchemaController : Controller
     {
-        private readonly ILogger<CreateConfigSchemaController> _logger;
+        private readonly ILogger<CreateSchemaController> _logger;
 
         private readonly ConfigDataManager _configDataManager;
 
-        public CreateConfigSchemaController(
-            ILogger<CreateConfigSchemaController> logger,
+        public CreateSchemaController(
+            ILogger<CreateSchemaController> logger,
             ConfigDataManager configDataManager)
         {
             _logger = logger;

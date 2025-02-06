@@ -6,27 +6,27 @@ namespace DataDesignerServer.Controllers.Configuration
     using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.Http.Configuration;
-	using DataDesignerServer.Core.Services.Interfaces;
+    using DataDesignerServer.Core.Services.Interfaces;
 
-	public class FindConfigRowsController : Controller
+    public class FindRowsController : Controller
     {
-        private readonly ILogger<FindConfigRowsController> _logger;
+        private readonly ILogger<FindRowsController> _logger;
 
         private readonly ConfigDataManager _configDataManager;
 
         private readonly IJsonSerializer _jsonSerializer;
 
-        public FindConfigRowsController(
-            ILogger<FindConfigRowsController> logger,
+        public FindRowsController(
+            ILogger<FindRowsController> logger,
             ConfigDataManager configDataManager,
-			IJsonSerializer jsonSerializer)
+            IJsonSerializer jsonSerializer)
         {
             _logger = logger;
 
             _configDataManager = configDataManager;
             _jsonSerializer = jsonSerializer;
 
-		}
+        }
 
         [HttpGet]
         [Route("/config/find-rows")]
@@ -47,7 +47,7 @@ namespace DataDesignerServer.Controllers.Configuration
             {
                 Schema = schema,
                 Rows = rows.ToList(),
-			};
+            };
         }
 
         /// <summary>

@@ -1,16 +1,13 @@
-﻿using System.Collections.Concurrent;
+﻿using Microsoft.CodeAnalysis;
+using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace DataDesignerServer.Core.DataManager.TypeData
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.Data;
-	using DataDesignerServer.Core.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Reflection.Metadata;
-    using System.Web.Http.Validation;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.Data;
+    using DataDesignerServer.Core.Services.Interfaces;
 
     /// <summary>
     /// TypeManager.
@@ -19,13 +16,15 @@ namespace DataDesignerServer.Core.DataManager.TypeData
     {
         private const string ALL_TYPE_FILES = "*.type";
         private const string ALL_SCHEMA_FILE = "*.schema";
-        
+
         private string _srcFolderPath;
 
         private readonly ILogger<TypeDataManager> _logger;
         private readonly IJsonSerializer _jsonSerializer;
 
         private ModuleBuilder _moduleBuilder;
+
+        private AssemblyBuilder _assemblyBuilder;
 
         /// <summary>
         /// Enum value dict.
@@ -88,7 +87,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         {
             if (_ebDict.ContainsKey(typeName))
             {
-                return _ebDict[typeName];
+                return _ebDict[typeName].CreateType();
             }
 
             return default;
@@ -228,10 +227,6 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
                 // Update TypeBuilder.
                 var enumType = eb.CreateType();
-                SetEnumBuilder(enumName, eb);
-
-                // Add row datas.
-                SetRows(enumType.Name, rowDatas);
 
                 // Read schema.
                 var schemaText = File.ReadAllText(schemaFile);
@@ -323,10 +318,9 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         private ModuleBuilder CreateModuleBuilder()
         {
             var abName = new AssemblyName(typeof(TypeDataManager).Name);
-            var ab = AssemblyBuilder
-                .DefineDynamicAssembly(abName, AssemblyBuilderAccess.Run);
+            _assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(abName, AssemblyBuilderAccess.Run);
 
-            return ab.DefineDynamicModule(abName.Name);
+            return _assemblyBuilder.DefineDynamicModule(abName.Name);
         }
 
         /// <summary>

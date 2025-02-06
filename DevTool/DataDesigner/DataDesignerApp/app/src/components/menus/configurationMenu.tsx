@@ -61,7 +61,7 @@ export default function ConfigurationMenu({ setSelectedSchema }) {
     Request_Get<RES_AllConfiguration>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_GETALL}`
     ).then((res) => {
-      if (res instanceof RES_Error) onError('fail to fetch configuration list');
+      if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
       else setDataListRes(res);
 
       // loading status
@@ -114,9 +114,9 @@ export default function ConfigurationMenu({ setSelectedSchema }) {
       {/* List */}
       <List
         sx={{
-          minWidth: '120px',
           overflow: 'auto',
-          borderRight: '1px solid silver'
+          borderRight: '1px solid silver',
+          height: '100%',
         }}
       >
         {/* Create */}
@@ -188,10 +188,10 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
 
   // close modals
   const onSuccessCreated = useCallback(() => {
-    setOpenCheckModal(false)
-    setOpenSchemaModal(false)
-    navigate(0)
-  }, [setOpenCheckModal, setOpenSchemaModal, navigate])
+    setOpenCheckModal(false);
+    setOpenSchemaModal(false);
+    navigate(0);
+  }, [setOpenCheckModal, setOpenSchemaModal, navigate]);
 
   // on error
   const onError = useCallback(
@@ -201,7 +201,7 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
     },
     [setErrorMsg, setOpenErrorModal]
   );
-  
+
   // on check
   const onCheckModal = useCallback(
     (msg) => {
@@ -211,8 +211,7 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
     [setCheckMsg, setOpenCheckModal]
   );
 
-  async function onCheckOkAsync()
-  {
+  async function onCheckOkAsync() {
     await reqCreateSchemaAsync();
   }
 
@@ -233,7 +232,7 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
 
     // error.
     if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
-    else onSuccessCreated()
+    else onSuccessCreated();
   }, [newSchema, onError, onSuccessCreated]);
 
   return (
@@ -307,12 +306,15 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
           >
             <Button
               variant="contained"
-              onClick={async () => onCheckModal("Are you sure to create schema?")}
+              onClick={async () =>
+                onCheckModal('Are you sure to create schema?')
+              }
             >
               Create
             </Button>
             <Button
               variant="contained"
+              color="error"
               onClick={() => setOpenSchemaModal(false)}
             >
               Close
@@ -327,11 +329,12 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
           />
 
           {/* Check modal */}
-            <CheckModal 
+          <CheckModal
             openCheckModal={openCheckModal}
             checkMsg={checkMsg}
             setOpenCheckModal={setOpenCheckModal}
-            setOnCheckOk={onCheckOkAsync}/>
+            setOnCheckOk={onCheckOkAsync}
+          />
         </Box>
       </Modal>
     </Fragment>
@@ -432,27 +435,31 @@ function ColumnsTable({ columns, setColumns }: any) {
 
   ////////////////////////////////////////////////////////
   // get type status
-  const getOpenType = useCallback((getIndex) =>
-  {
-    let isOpen = false;
-    
-    openTypes.forEach((element, index) => {
-      if (index === getIndex) isOpen = element;
-    });
+  const getOpenType = useCallback(
+    (getIndex) => {
+      let isOpen = false;
 
-    return isOpen;
-  }, [openTypes]);
+      openTypes.forEach((element, index) => {
+        if (index === getIndex) isOpen = element;
+      });
 
-  const getOpenRefTable = useCallback((getIndex) =>
-    {
-    let isOpen = false;
+      return isOpen;
+    },
+    [openTypes]
+  );
 
-    openRefTables.forEach((element, index) => {
-      if (index === getIndex) isOpen = element;
-    });
+  const getOpenRefTable = useCallback(
+    (getIndex) => {
+      let isOpen = false;
 
-    return isOpen;
-  }, [openRefTables])
+      openRefTables.forEach((element, index) => {
+        if (index === getIndex) isOpen = element;
+      });
+
+      return isOpen;
+    },
+    [openRefTables]
+  );
 
   return (
     <Fragment>
@@ -462,30 +469,45 @@ function ColumnsTable({ columns, setColumns }: any) {
       </Typography>
 
       {/* Table */}
-      <TableContainer sx={{height: '350px'}}>
+      <TableContainer sx={{ height: '350px' }}>
         <Table stickyHeader aria-label="sticky table">
           {/* Header */}
           <TableHead>
             <TableRow>
-              <TableCell align='right' style={{ paddingTop: 0, paddingBottom: 0 }}>
+              <TableCell
+                align="right"
+                style={{ paddingTop: 0, paddingBottom: 0 }}
+              >
                 Name
               </TableCell>
-              <TableCell align='right' style={{ paddingTop: 0, paddingBottom: 0 }}>
+              <TableCell
+                align="right"
+                style={{ paddingTop: 0, paddingBottom: 0 }}
+              >
                 Index
               </TableCell>
-              <TableCell align='right' style={{ paddingTop: 0, paddingBottom: 0 }}>
+              <TableCell
+                align="right"
+                style={{ paddingTop: 0, paddingBottom: 0 }}
+              >
                 Type
               </TableCell>
-              <TableCell align='right' style={{ paddingTop: 0, paddingBottom: 0 }}>
+              <TableCell
+                align="right"
+                style={{ paddingTop: 0, paddingBottom: 0 }}
+              >
                 RefTable
               </TableCell>
-              <TableCell align='right' style={{ paddingTop: 0, paddingBottom: 0 }}>
+              <TableCell
+                align="right"
+                style={{ paddingTop: 0, paddingBottom: 0 }}
+              >
                 Summary
               </TableCell>
-              <TableCell style={{ paddingTop: 0, paddingBottom: 0 }}/>
+              <TableCell style={{ paddingTop: 0, paddingBottom: 0 }} />
             </TableRow>
           </TableHead>
-          
+
           {/* Body */}
           <TableBody>
             {columns.map((column, index) => {

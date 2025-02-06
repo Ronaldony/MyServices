@@ -1,4 +1,6 @@
-﻿namespace DataDesignerServer.Core.DataManager.ConfigData
+﻿using Newtonsoft.Json.Linq;
+
+namespace DataDesignerServer.Core.DataManager.ConfigData
 {
     /// <summary>
     /// ConfigDataManager.
@@ -6,10 +8,44 @@
     /// </summary>
     public sealed partial class ConfigDataManager
     {
+        public bool UpdateRows(string className, List<object> rows)
+        {
+            // Find type.
+            var type = GetClassType(className);
+            if (null == type)
+            {
+                return false;
+            }
+
+            // Get type rows.
+            var oriRows = GetRowsOrDefault(type.Name);
+            if (oriRows == default)
+            {
+                // Fail.
+                return false;
+            }
+
+            oriRows.Clear();
+
+            foreach (var row in rows)
+            {
+                // Add row.
+                var rowData = GetRowData(type, row);
+                oriRows.Add(rowData);
+            }
+
+            if (false == FlushFiles(type.Name))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Update members.
         /// </summary>
-        public bool AddOrUpdatgeRow(string className, object row)
+        private bool AddOrUpdatgeRow(string className, object row)
         {
             // Find type.
             var type = GetClassType(className);
@@ -37,7 +73,7 @@
         /// <summary>
         /// Update members.
         /// </summary>
-        public bool DeleteRow(string className, object row)
+        private bool DeleteRow(string className, object row)
         {
             // Find type.
             var type = GetClassType(className);
@@ -72,9 +108,34 @@
 
             foreach (var prop in type.GetProperties())
             {
-                var propValue = Convert.ChangeType(rowDict[prop.Name], prop.PropertyType);
+                var propType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
 
-                prop.SetValue(rowData, propValue);
+                if (default != propType)
+                {
+                    object value = default;
+
+                    // enum type인 경우
+                    propType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
+
+                    if (rowDict.ContainsKey(prop.Name))
+                    {
+                        value = Enum.Parse(propType, rowDict[prop.Name].ToString());
+                    }
+                    else
+                    {
+                        var defaultValue = propType.GetEnumValues().GetValue(0).ToString();
+                        value = Enum.Parse(propType, defaultValue);
+                    }
+
+                    prop.SetValue(rowData, value);
+                }
+                else
+                {
+                    // primitive type인 경우
+                    var value = Convert.ChangeType(rowDict[prop.Name], prop.PropertyType);
+                    prop.SetValue(rowData, value);
+                }
+
             }
 
             return rowData;

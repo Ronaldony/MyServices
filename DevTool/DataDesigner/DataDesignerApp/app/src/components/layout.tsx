@@ -13,7 +13,7 @@ import TestPage from '../pages/test.tsx';
 
 export default function Layout() {
   return (
-    <Box sx={{ display: 'flex', width: '100%', height: '100%' }} >
+    <div style={{ display: 'flex', width: '100%', height: '100%' }} >
       {/* header */}
       <HeaderBar />
       {/* css */}
@@ -23,9 +23,8 @@ export default function Layout() {
       {/* body */}
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, height: '94.2vh' }}
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, width: '100%', height: '100%', paddingTop:'65px' }}
       >
-        <Toolbar />
         <Routes>
           <Route
             path="/data/configuration"
@@ -37,6 +36,6 @@ export default function Layout() {
           <Route path="/generate" element={<GeneratePage />}></Route>
         </Routes>
       </Box>
-    </Box>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import { ClassSchema } from '../classSchema';
 
 ///////////////////////////////////////////
+///////////////////////////////////////////
 // RES_AllConfiguration.
 export class RES_AllConfiguration {
   schemaNames: Array<string>;
@@ -11,6 +12,7 @@ export class RES_AllConfiguration {
   }
 }
 
+///////////////////////////////////////////
 ///////////////////////////////////////////
 // REQ_CreateConfigSchema
 export class REQ_CreateConfigSchema {
@@ -26,6 +28,7 @@ export class REQ_CreateConfigSchema {
 export class RES_CreateConfigSchema {}
 
 ///////////////////////////////////////////
+///////////////////////////////////////////
 // REQ_FindConfigSchema
 export class REQ_FindConfigSchema {}
 
@@ -40,6 +43,7 @@ export class RES_FindConfigSchema {
 }
 
 ///////////////////////////////////////////
+///////////////////////////////////////////
 // REQ_FindConfigRows.
 export class REQ_FindConfigRows {}
 
@@ -52,4 +56,22 @@ export class RES_FindConfigRows {
     this.schema = schema;
     this.rows = rows;
   }
+}
+
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+// REQ_UpdateConfigRows.
+export class REQ_UpdateConfigRows {
+  schema: string;
+  rows: Array<any>;
+
+  constructor(schema: string, rows: Array<any>) {
+    this.schema = schema;
+    this.rows = rows;
+  }
+}
+
+// RES_UpdateConfigRows.
+export class RES_UpdateConfigRows {
 }
