@@ -99,7 +99,9 @@ export default function ConfigurationGridTable({ schemaName, columns }: any) {
   const onAddRow = useCallback(() => {
     const sortedRows = [...gridRows].sort((l, r) => (l.Id > r.Id ? 1 : -1));
     const last = sortedRows[gridRows.length - 1];
-    const newId = last.Id + 1;
+    let newId = last?.Id + 1;
+
+    if (last?.Id === undefined) newId = 1;
 
     setGridRows((prev) => [...prev, { Id: newId, internalId: uuid() }]);
   }, [gridRows, setGridRows]);

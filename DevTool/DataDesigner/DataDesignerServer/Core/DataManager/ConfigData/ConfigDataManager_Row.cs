@@ -109,11 +109,10 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
             foreach (var prop in type.GetProperties())
             {
                 var propType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
+                object value = default;
 
                 if (default != propType)
                 {
-                    object value = default;
-
                     // enum type인 경우
                     propType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
 
@@ -132,7 +131,15 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
                 else
                 {
                     // primitive type인 경우
-                    var value = Convert.ChangeType(rowDict[prop.Name], prop.PropertyType);
+                    if (rowDict.ContainsKey(prop.Name))
+                    {
+                        value = Convert.ChangeType(rowDict[prop.Name], prop.PropertyType);
+                    }
+                    else
+                    {
+                        value = default;
+                    }
+
                     prop.SetValue(rowData, value);
                 }
 

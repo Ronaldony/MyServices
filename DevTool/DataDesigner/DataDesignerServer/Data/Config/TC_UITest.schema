@@ -1,0 +1,39 @@
+{
+  "Name": "TC_UITest",
+  "Category": "UI",
+  "Desciption": "UI description",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "width",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "heigth",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 4,
+      "Name": "summary",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    }
+  ]
+}
