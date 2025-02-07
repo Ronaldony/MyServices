@@ -1,22 +1,21 @@
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NLog.Extensions.Logging;
 using System.Net;
-using System.Text.Json.Serialization;
 
 namespace DataDesignerServerServer
 {
-    using DataDesignerServer;
-    using DataDesignerServer.Core.DataManager.ConfigData;
-    using DataDesignerServer.Core.DataManager.TableData;
-    using DataDesignerServer.Core.DataManager.TypeData;
-    using DataDesignerServer.Core.Filter;
-    using DataDesignerServer.Core.Generator;
-    using DataDesignerServer.Core.Services;
-    using DataDesignerServer.Core.Services.Interfaces;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json;
+	using DataDesignerServer;
+	using DataDesignerServer.Core.DataManager.ConfigData;
+	using DataDesignerServer.Core.DataManager.TableData;
+	using DataDesignerServer.Core.DataManager.TypeData;
+	using DataDesignerServer.Core.Filter;
+	using DataDesignerServer.Core.Generator;
+	using DataDesignerServer.Core.Services;
+	using DataDesignerServer.Core.Services.Interfaces;
 
-    public class Program
+	public class Program
 	{
 		public static void Main(string[] args)
 		{

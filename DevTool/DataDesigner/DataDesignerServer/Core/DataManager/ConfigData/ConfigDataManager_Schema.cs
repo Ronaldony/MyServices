@@ -25,16 +25,6 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
                 return false;
             }
 
-            // Add Id.
-            //schema.Columns.Add(new ClassSchemaColumn
-            //{
-            //    Idx = 1,
-            //    Name = "Id",
-            //    IsIndexed = true,
-            //    Type = "int",
-            //    Summary = "Primary key"
-            //});
-
             // Schema.
             if (default == SetSchema(schemaName, schema))
             {
@@ -108,9 +98,39 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
         }
 
         /// <summary>
-        /// Check column of schema is changed .
+        /// Delete schema
         /// </summary>
-        private bool IsColumnChanged(List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
+		public bool DeleteSchema(string schemaName)
+		{
+			// Old schema.
+			var oldSchema = FindSchemaOrDefault(schemaName);
+			if (null == oldSchema)
+			{
+				return false;
+			}
+
+            // remove rows.
+            if (false == RemoveRows(schemaName))
+            {
+                return false;
+            }
+
+			// remove schema.
+			if (false == RemoveSchema(schemaName))
+			{
+				return false;
+			}
+
+            // Refresh schema file.
+            RemoveFiles(schemaName);
+
+			return true;
+		}
+
+		/// <summary>
+		/// Check column of schema is changed .
+		/// </summary>
+		private bool IsColumnChanged(List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
         {
             // Cond 1. 컬럼 명 및 개수.
             var interCols = oldCols.IntersectBy(newCols.Select(d => d.Name), d => d.Name);

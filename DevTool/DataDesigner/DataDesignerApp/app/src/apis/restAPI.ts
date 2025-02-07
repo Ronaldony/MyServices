@@ -50,4 +50,17 @@ export async function Request_Patch<T>(url, body): Promise<T | RES_Error> {
 }
 
 // Request Delete method.
-export function Request_Delete(url) {}
+export async function Request_Delete<T>(url, body): Promise<T | RES_Error> {
+  try {
+    const res = await axios.delete(url, {data: body});
+    const resData = res.data;
+
+    // check status code.
+    if (resData?.errorCode)
+      return new RES_Error(resData.errorCode, resData.errorMsg);
+
+    return resData;
+  } catch (error) {
+    return new RES_Error(HttpStatusCode.NotFound, 'API request failed');
+  }
+}

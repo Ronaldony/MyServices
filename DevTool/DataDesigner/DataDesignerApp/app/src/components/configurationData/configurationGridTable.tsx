@@ -2,11 +2,10 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Button,
-  ButtonGroup,
   ListItemIcon,
   Menu,
   MenuItem,
-  Stack,
+  Stack
 } from '@mui/material';
 import {
   DataGrid,
@@ -17,21 +16,20 @@ import {
   useGridApiRef,
 } from '@mui/x-data-grid';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import uuid from 'react-uuid';
-import { Request_Get, Request_Patch, Request_Post } from '../../apis/restAPI.ts';
-import { RES_FetchTypeAndTableKeys } from '../../classes/shared/protocols/common.ts';
-import { RES_Error } from '../../classes/shared/protocols/error.ts';
-import { REQ_UpdateConfigRows, RES_FindConfigRows } from '../../classes/shared/protocols/configuration.ts';
-import ErrorModal from '../modals/errorModal.tsx';
-import { ClassSchemaColumn } from '../../classes/shared/classSchema.ts';
 import { useNavigate } from 'react-router-dom';
-import { schemaModalStyle } from './../menus/styles';
+import uuid from 'react-uuid';
+import { Request_Get, Request_Patch } from '../../apis/restAPI.ts';
+import { ClassSchemaColumn } from '../../classes/shared/classSchema.ts';
+import { RES_FetchTypeAndTableKeys } from '../../classes/shared/protocols/common.ts';
+import { REQ_UpdateConfigRows, RES_FindConfigRows } from '../../classes/shared/protocols/configuration.ts';
+import { RES_Error } from '../../classes/shared/protocols/error.ts';
 import CheckModal from '../modals/checkModal.tsx';
+import ErrorModal from '../modals/errorModal.tsx';
 
 // GridColumns.
 var gridColumns: GridColDef[] = [];
 
-export default function GridTable({ schemaName, columns }: any) {
+export default function ConfigurationGridTable({ schemaName, columns }: any) {
   // status
   const [dataLoaded, setDataLoaded] = useState(false);
 

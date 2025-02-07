@@ -3,8 +3,9 @@
 namespace DataDesignerServer.Controllers.Common
 {
     using DataDesignerServer.Core.DataManager.TableData;
+	using DataDesignerServer.Core.Http.Common;
 
-    public class FetchRefTablesController : Controller
+	public class FetchRefTablesController : Controller
     {
         private readonly TableDataManager _tableDataManager;
 
@@ -16,9 +17,14 @@ namespace DataDesignerServer.Controllers.Common
 
         [HttpGet]
         [Route("/common/fetch-ref-tables")]
-        public List<string> Process()
+        public RES_FetchRefTables Process()
         {
-            return _tableDataManager.GetSchemaNames().ToList();
+            var tables = _tableDataManager.GetSchemaNames().ToList();
+
+            return new RES_FetchRefTables
+            {
+                Tables = tables,
+            };
         }
     }
 }

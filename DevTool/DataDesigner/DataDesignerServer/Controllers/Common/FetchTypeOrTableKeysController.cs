@@ -10,16 +10,16 @@ namespace DataDesignerServer.Controllers.Common
 	using DataDesignerServer.Core.Services.Interfaces;
 
 	/// <summary>
-	/// FindTypeOrTableKeysController.
+	/// FetchTypeOrTableKeysController.
 	/// </summary>
-	public class FindTypeOrTableKeysController : Controller
+	public class FetchTypeOrTableKeysController : Controller
 	{
 		private readonly IJsonSerializer _jsonSerializer;
 
 		private readonly TableDataManager _tableDataManager;
 		private readonly TypeDataManager _typeDataManager;
 
-		public FindTypeOrTableKeysController(
+		public FetchTypeOrTableKeysController(
 			IJsonSerializer jsonSerializer,
 			TableDataManager tableDataManager,
 			TypeDataManager typeDataManager) 

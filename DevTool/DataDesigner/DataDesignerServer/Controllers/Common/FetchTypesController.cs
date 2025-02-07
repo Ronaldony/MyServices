@@ -4,8 +4,9 @@ using System.Linq;
 namespace DataDesignerServer.Controllers.Common
 {
     using DataDesignerServer.Core.DataManager.TypeData;
+	using DataDesignerServer.Core.Http.Common;
 
-    public class FetchTypesController : Controller
+	public class FetchTypesController : Controller
     {
         private readonly TypeDataManager _typeDataManager;
 
@@ -17,9 +18,14 @@ namespace DataDesignerServer.Controllers.Common
 
         [HttpGet]
         [Route("/common/fetch-types")]
-        public List<string> Process()
+        public RES_FetchTypes Process()
         {
-            return _typeDataManager.GetSchemaNames().ToList();
+            var types = _typeDataManager.GetSchemaNames().ToList();
+
+            return new RES_FetchTypes
+            {
+                Types = types,
+            };
         }
     }
 }

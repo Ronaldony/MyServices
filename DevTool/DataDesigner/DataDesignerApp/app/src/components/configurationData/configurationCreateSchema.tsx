@@ -1,15 +1,8 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
   Box,
   Button,
   Checkbox,
-  Divider,
   FormControl,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   MenuItem,
   Modal,
   Select,
@@ -21,7 +14,7 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -30,141 +23,32 @@ import {
   ClassSchema,
   ClassSchemaColumn,
 } from '../../classes/shared/classSchema.ts';
+import { RES_FetchRefTables, RES_FetchTypes } from '../../classes/shared/protocols/common.ts';
 import {
   REQ_CreateConfigSchema,
-  RES_AllConfiguration,
-  RES_CreateConfigSchema,
+  RES_CreateConfigSchema
 } from '../../classes/shared/protocols/configuration.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
 import CheckModal from '../modals/checkModal.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
-import LoadingSpinner from '../modals/loadingSpinner.tsx';
-import { schemaModalStyle } from './styles.ts';
 
-//////////////////////////////////////////////////////////////////////////
-// Configuration menu
-export default function ConfigurationMenu({ setSelectedSchema }) {
-  const [selectedData, setSelectedData] = useState('');
-  const [dataListRes, setDataListRes] = useState<
-    RES_AllConfiguration | RES_Error | any
-  >();
-  const [errorMsg, setErrorMsg] = useState('');
-
-  // status
-  const [openErrorModal, setOpenErrorModal] = useState(false);
-  const [openSchemaModal, setOpenSchemaModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  // initialize
-  useEffect(() => {
-    Request_Get<RES_AllConfiguration>(
-      `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_GETALL}`
-    ).then((res) => {
-      if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
-      else setDataListRes(res);
-
-      // loading status
-      setIsLoading(false);
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // onError
-  const onError = useCallback(
-    (msg) => {
-      setErrorMsg(msg);
-      setOpenErrorModal(true);
-      setIsError(true);
-    },
-    [setErrorMsg, setOpenErrorModal, setIsError]
-  );
-
-  // switch selected data
-  const onSelectedData = useCallback(
-    (selectedData) => {
-      setSelectedData(selectedData);
-      setSelectedSchema(selectedData);
-    },
-    [setSelectedData, setSelectedSchema]
-  );
-
-  // loading
-  if (true === isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  // error render
-  if (true === isError) {
-    return (
-      <Fragment>
-        <ErrorModal
-          openErrorModal={openErrorModal}
-          errorMsg={errorMsg}
-          setOpenErrorModal={setOpenErrorModal}
-        />
-      </Fragment>
-    );
-  }
-
-  // menu
-  return (
-    <Fragment>
-      {/* List */}
-      <List
-        sx={{
-          overflow: 'auto',
-          borderRight: '1px solid silver',
-          height: '100%',
-        }}
-      >
-        {/* Create */}
-        <ListItem>
-          <ListItemButton onClick={() => setOpenSchemaModal(true)}>
-            <ListItemIcon>
-              <AddCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Create'} />
-          </ListItemButton>
-        </ListItem>
-
-        <Divider />
-
-        {/* DataList */}
-        {dataListRes?.schemaNames === undefined
-          ? ''
-          : dataListRes?.schemaNames.map((data) => (
-              <ListItem disablePadding key={data}>
-                <ListItemButton
-                  selected={selectedData === data}
-                  onClick={() => onSelectedData(data)}
-                >
-                  <ListItemText primary={data} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-      </List>
-
-      {/* CreateSchema */}
-      <CreateSchemaModal
-        openSchemaModal={openSchemaModal}
-        setOpenSchemaModal={setOpenSchemaModal}
-      />
-
-      {/* Error modal */}
-      <ErrorModal
-        openErrorModal={openErrorModal}
-        errorMsg={errorMsg}
-        setOpenErrorModal={setOpenErrorModal}
-      />
-    </Fragment>
-  );
+// modal style
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  height: '90%',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
 }
 
+
 //////////////////////////////////////////////////////////////////////////
-// CreateSchemaModal
-function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
+// ConfigurationCreateSchema
+export default function ConfigurationCreateSchema({ openSchemaModal, setOpenSchemaModal }) {
   // schema
   const [newSchema, setNewSchema] = useState<ClassSchema>(
     new ClassSchema('', '', '', null)
@@ -215,13 +99,6 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
     await reqCreateSchemaAsync();
   }
 
-  // update schema
-  useEffect(() => {
-    setNewSchema((prev) => {
-      return { ...prev, columns: columns };
-    });
-  }, [columns, setNewSchema]);
-
   // request create schema.
   const reqCreateSchemaAsync = useCallback(async () => {
     // request
@@ -235,6 +112,13 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
     else onSuccessCreated();
   }, [newSchema, onError, onSuccessCreated]);
 
+  // update schema
+  useEffect(() => {
+    setNewSchema((prev) => {
+      return { ...prev, columns: columns };
+    });
+  }, [columns, setNewSchema]);
+
   return (
     <Fragment>
       {/* Schema modal */}
@@ -243,7 +127,7 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={schemaModalStyle}>
+        <Box sx={modalStyle}>
           {/* Title */}
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Create schema
@@ -291,7 +175,7 @@ function CreateSchemaModal({ openSchemaModal, setOpenSchemaModal }) {
           </Box>
 
           {/* Schema Body */}
-          <Box component="form">
+          <Box component="form" sx={{height: '80%'}}>
             <ColumnsTable columns={columns} setColumns={setColumns} />
           </Box>
 
@@ -359,19 +243,19 @@ function ColumnsTable({ columns, setColumns }: any) {
   // fetch types.
   useEffect(() => {
     // fetch types.
-    Request_Get<String[]>(
+    Request_Get<RES_FetchTypes>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCH_TYPES}`
     ).then((res) => {
       if (res instanceof RES_Error) console.log('fail to fetch types');
-      else setTypes(res);
+      else setTypes(res.types);
     });
 
     // Fetch ref types
-    Request_Get<String[]>(
+    Request_Get<RES_FetchRefTables>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCH_REFTABLES}`
     ).then((res) => {
-      if (res instanceof RES_Error) console.log('fail to fetch ref types');
-      else setRefTables(res);
+      if (res instanceof RES_Error) console.log('fail to fetch ref tables');
+      else setRefTables(res.tables);
     });
   }, []);
 
@@ -469,7 +353,7 @@ function ColumnsTable({ columns, setColumns }: any) {
       </Typography>
 
       {/* Table */}
-      <TableContainer sx={{ height: '350px' }}>
+      <TableContainer sx={{ height: '85%' }}>
         <Table stickyHeader aria-label="sticky table">
           {/* Header */}
           <TableHead>

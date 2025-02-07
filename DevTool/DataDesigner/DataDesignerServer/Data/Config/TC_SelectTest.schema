@@ -26,6 +26,14 @@
       "Type": "Type_Player",
       "RefTable": "",
       "Summary": ""
+    },
+    {
+      "Idx": 4,
+      "Name": "Summary",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": ""
     }
   ]
 }

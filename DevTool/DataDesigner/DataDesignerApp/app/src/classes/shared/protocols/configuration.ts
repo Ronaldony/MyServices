@@ -1,7 +1,6 @@
 import { ClassSchema } from '../classSchema';
 
 ///////////////////////////////////////////
-///////////////////////////////////////////
 // RES_AllConfiguration.
 export class RES_AllConfiguration {
   schemaNames: Array<string>;
@@ -12,7 +11,6 @@ export class RES_AllConfiguration {
   }
 }
 
-///////////////////////////////////////////
 ///////////////////////////////////////////
 // REQ_CreateConfigSchema
 export class REQ_CreateConfigSchema {
@@ -28,6 +26,36 @@ export class REQ_CreateConfigSchema {
 export class RES_CreateConfigSchema {}
 
 ///////////////////////////////////////////
+// REQ_UpdateConfigSchema
+export class REQ_UpdateConfigSchema {
+  schema: ClassSchema;
+
+  // constructor
+  constructor(schema: ClassSchema) {
+    this.schema = schema;
+  }
+}
+
+// RES_UpdateConfigSchema
+export class RES_UpdateConfigSchema {}
+
+///////////////////////////////////////////
+// REQ_DeleteConfigSchema
+export class REQ_DeleteConfigSchema
+{
+  schema: string;
+
+  // constructor
+  constructor(schema: string) {
+    this.schema = schema;
+  }
+}
+
+// RES_DeleteConfigSchema
+export class RES_DeleteConfigSchema
+{
+}
+
 ///////////////////////////////////////////
 // REQ_FindConfigSchema
 export class REQ_FindConfigSchema {}
@@ -43,7 +71,6 @@ export class RES_FindConfigSchema {
 }
 
 ///////////////////////////////////////////
-///////////////////////////////////////////
 // REQ_FindConfigRows.
 export class REQ_FindConfigRows {}
 
@@ -58,8 +85,6 @@ export class RES_FindConfigRows {
   }
 }
 
-
-///////////////////////////////////////////
 ///////////////////////////////////////////
 // REQ_UpdateConfigRows.
 export class REQ_UpdateConfigRows {
