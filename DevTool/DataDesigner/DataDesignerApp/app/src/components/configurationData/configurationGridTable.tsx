@@ -19,22 +19,24 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { Request_Get, Request_Patch } from '../../apis/restAPI.ts';
-import { ClassSchemaColumn } from '../../classes/shared/classSchema.ts';
+import { ClassSchema, ClassSchemaColumn } from '../../classes/shared/classSchema.ts';
 import { RES_FetchTypeAndTableKeys } from '../../classes/shared/protocols/common.ts';
-import { REQ_UpdateConfigRows, RES_FindConfigRows } from '../../classes/shared/protocols/configuration.ts';
+import { REQ_UpdateConfigRows, RES_FindConfigRows, RES_FindConfigSchema } from '../../classes/shared/protocols/configuration.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
 import CheckModal from '../modals/checkModal.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
+import ConfigurationHeaderbar from './configurationHeaderbar.tsx';
 
 // GridColumns.
 var gridColumns: GridColDef[] = [];
 
-export default function ConfigurationGridTable({ schemaName, columns }: any) {
+export default function ConfigurationGridTable({ schemaName }: any) {
   // status
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // grid
+  // data
   const [gridRows, setGridRows] = useState<Array<any>>([]);
+  const [schema, setSchema] = useState<ClassSchema>(new ClassSchema('', '', '', null));
 
   // value options
   const [valueOptionsDict, setValueOptionsDict] = useState<Map<string, []>>(
@@ -90,6 +92,7 @@ export default function ConfigurationGridTable({ schemaName, columns }: any) {
         setGridRows(gridRows.filter((row) => row.Id !== deleteRow.Id));
       });
 
+      // close context menu
       onContextMenuClose();
     },
     [gridRows, setGridRows, onContextMenuClose]
@@ -124,6 +127,18 @@ export default function ConfigurationGridTable({ schemaName, columns }: any) {
 
   ////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////
+  // request schema
+  useEffect(() => {
+    if ((false === dataLoaded) && (schemaName !== '')) {
+      const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_FIND_SCHEMA}?schema=${schemaName}`;
+
+      Request_Get<RES_FindConfigSchema>(query).then((res) => {
+        if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorCode}`);
+        else setSchema(res.schema);
+      });
+    }
+  }, [dataLoaded, schemaName, onError, setSchema]);
+
   // request value options for select of grid table
   useEffect(() => {
     const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCh_TYPE_TABLE_KEYS}`;
@@ -136,12 +151,12 @@ export default function ConfigurationGridTable({ schemaName, columns }: any) {
 
   // Convert columns and request rows
   useEffect(() => {
-    if (columns !== null && columns !== undefined) {
+    if ((false === dataLoaded) && (schema.name !== '')) {
       // convert grid columns
-      gridColumns = ConvertColsToGridCols(columns, valueOptionsDict);
+      gridColumns = ConvertColsToGridCols(schema.columns, valueOptionsDict);
 
       // query.
-      const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_FIND_ROWS}?schema=${schemaName}`;
+      const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_FIND_ROWS}?schema=${schema.name}`;
 
       // request grid table
       Request_Get<RES_FindConfigRows>(query).then((res) => {
@@ -153,7 +168,7 @@ export default function ConfigurationGridTable({ schemaName, columns }: any) {
         }
       });
     }
-  }, [columns, onError, schemaName, valueOptionsDict]);
+  }, [dataLoaded, onError, schema.name, schema.columns, schema, valueOptionsDict]);
 
   // wait for loaded data
   if (false === dataLoaded) {
@@ -163,6 +178,10 @@ export default function ConfigurationGridTable({ schemaName, columns }: any) {
   // grid columns
   return (
     <Fragment>
+      {/* Header */}
+      <ConfigurationHeaderbar schemaName={schema?.name} desciption={schema?.desciption} />
+
+      {/* Grid table */}
       <div onContextMenu={handleContextMenuPos} style={{ height: '95%' }}>
         {/* Grid */}
         <DataGrid
@@ -309,15 +328,14 @@ function SubmitButtons({ schemaName, gridRows }: any) {
 
 // ConvertDataToGridData.
 function ConvertColsToGridCols(
-  columns: Array<ClassSchemaColumn>,
+  columns: Array<ClassSchemaColumn> | null,
   valueOptionsDict: Map<string, []>
 ): GridColDef[] {
   let gridColumns: GridColDef[] = [];
 
   // convert columns to grid columns
-  columns.forEach(async (col) => {
+  columns?.forEach(async (col) => {
     let type = ConvertType(col.type);
-    let field = col.name.charAt(0).toLowerCase() + col.name.slice(1)
     let valueOpts: [] | undefined = [];
 
     // select type

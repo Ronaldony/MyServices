@@ -57,7 +57,7 @@ export default function ConfigurationHeaderbar({ schemaName, desciption }) {
             })
         setOpenCheckModal(false)
 
-    }, [schemaName])
+    }, [schemaName, navigate, onError])
 
     // check schema name
     if (!schemaName) {

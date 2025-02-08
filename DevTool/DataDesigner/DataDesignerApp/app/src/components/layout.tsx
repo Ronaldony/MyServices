@@ -1,15 +1,14 @@
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ConfigurationPage from '../pages/configuration.tsx';
 import GeneratePage from '../pages/generate.tsx';
 import Tablepage from '../pages/tablepage.tsx';
+import TestPage from '../pages/test.tsx';
 import TypePage from '../pages/type.tsx';
 import HeaderBar from './bars/headerBar.tsx';
 import Sidebar from './bars/sideBar.tsx';
-import TestPage from '../pages/test.tsx';
 
 export default function Layout() {
   return (

@@ -125,7 +125,7 @@ export default function ConfigurationEditSchema({ openSchemaModal, setOpenSchema
         setColumns(res.schema.columns)
       }
     })
-  }, [openSchemaModal])
+  }, [openSchemaModal, onError, schemaName])
 
   // update schema
   useEffect(() => {

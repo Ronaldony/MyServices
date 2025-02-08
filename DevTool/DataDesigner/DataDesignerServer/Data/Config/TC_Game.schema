@@ -1,7 +1,7 @@
 {
   "Name": "TC_Game",
-  "Category": "Game",
-  "Desciption": "Game configuration",
+  "Category": "",
+  "Desciption": "",
   "Columns": [
     {
       "Idx": 1,
@@ -13,33 +13,9 @@
     },
     {
       "Idx": 2,
-      "Name": "Name",
-      "IsIndexed": false,
-      "Type": "string",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 3,
-      "Name": "Region",
-      "IsIndexed": false,
-      "Type": "string",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 4,
-      "Name": "Port",
-      "IsIndexed": false,
-      "Type": "int",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 5,
       "Name": "Summary",
       "IsIndexed": false,
-      "Type": "string",
+      "Type": "int",
       "RefTable": "",
       "Summary": ""
     }

@@ -1,7 +1,7 @@
 {
-  "Name": "TC_UITest",
-  "Category": "UI",
-  "Desciption": "UI description",
+  "Name": "TC_GameConfig",
+  "Category": "",
+  "Desciption": "GD",
   "Columns": [
     {
       "Idx": 1,
@@ -13,25 +13,25 @@
     },
     {
       "Idx": 2,
-      "Name": "width",
+      "Name": "Item",
       "IsIndexed": false,
-      "Type": "int",
+      "Type": "Type_Item",
       "RefTable": "",
       "Summary": ""
     },
     {
       "Idx": 3,
-      "Name": "heigth",
+      "Name": "Player",
       "IsIndexed": false,
-      "Type": "int",
+      "Type": "Type_Player",
       "RefTable": "",
       "Summary": ""
     },
     {
       "Idx": 4,
-      "Name": "summary",
+      "Name": "Summary",
       "IsIndexed": false,
-      "Type": "int",
+      "Type": "string",
       "RefTable": "",
       "Summary": ""
     }
