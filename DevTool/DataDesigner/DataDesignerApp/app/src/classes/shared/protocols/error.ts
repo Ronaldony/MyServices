@@ -1,3 +1,6 @@
+
+///////////////////////////////////////////
+// RES_Error
 export class RES_Error {
   errorCode: number;
   errorMsg: string;

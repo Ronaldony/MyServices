@@ -1,7 +1,7 @@
 {
   "Name": "TC_Game",
   "Category": "",
-  "Desciption": "",
+  "Description": null,
   "Columns": [
     {
       "Idx": 1,
@@ -15,7 +15,7 @@
       "Idx": 2,
       "Name": "Summary",
       "IsIndexed": false,
-      "Type": "int",
+      "Type": "string",
       "RefTable": "",
       "Summary": ""
     }

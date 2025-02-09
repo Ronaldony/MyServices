@@ -27,6 +27,11 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         private AssemblyBuilder _assemblyBuilder;
 
         /// <summary>
+        /// Default columns of type schema.
+        /// </summary>
+        private List<TypeSchemaColumn> _typeSchemaColumns;
+
+        /// <summary>
         /// Enum value dict.
         /// key: enum name.
         /// value: enum datas.
@@ -45,6 +50,12 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// </summary>
         private ConcurrentDictionary<string, TypeSchema> _schemaDict;
 
+        /// <summary>
+        /// key: type name.
+        /// value: schema string.
+        /// </summary>
+        private ConcurrentDictionary<string, TypeSchema> _primitiveSchemaDict;
+
         public TypeDataManager(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<TypeDataManager>>();
@@ -53,6 +64,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             _typeRowDict = new ConcurrentDictionary<string, List<TypeSchemaRow>>();
             _ebDict = new ConcurrentDictionary<string, EnumBuilder>();
             _schemaDict = new ConcurrentDictionary<string, TypeSchema>();
+            _primitiveSchemaDict = new ConcurrentDictionary<string, TypeSchema>();
         }
 
         /// <summary>
@@ -75,6 +87,8 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 return false;
             }
 
+            _typeSchemaColumns = Initialize_SchemaColumns();
+
             _logger.LogInformation($"EnumManager initialized.");
 
             return true;
@@ -94,11 +108,24 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         }
 
         /// <summary>
-        /// Get schema names.
+        /// Get schema names only custom type.
         /// </summary>
-        public IEnumerable<string> GetSchemaNames()
+        public IEnumerable<string> GetTypeSchemas()
         {
             return _schemaDict.Keys;
+        }
+
+        /// <summary>
+        /// Get schema names with primitive types(int, float, bool, string etc..).
+        /// </summary>
+        public IEnumerable<string> GetTypeSchemasWithPrimitive()
+        {
+            var typeSchemas = new List<string>();
+
+            typeSchemas.AddRange(_primitiveSchemaDict.Keys);
+            typeSchemas.AddRange(_schemaDict.Keys);
+
+            return typeSchemas;
         }
 
         /// <summary>
@@ -115,6 +142,15 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         public List<TypeSchemaRow> GetRowsOrDefault(string typeName)
         {
             return _typeRowDict.GetValueOrDefault(typeName);
+        }
+
+        /// <summary>
+        /// Get type schema columns.
+        /// </summary>
+        /// <returns></returns>
+        public List<TypeSchemaColumn> GetSchemaColumns()
+        {
+            return _typeSchemaColumns;
         }
 
         /// <summary>
@@ -177,6 +213,35 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         }
 
         /// <summary>
+        /// Initialize SchemaColumns
+        /// </summary>
+        /// <returns></returns>
+        private List<TypeSchemaColumn> Initialize_SchemaColumns()
+        {
+            var columns = new List<TypeSchemaColumn>();
+
+            columns.Add(new TypeSchemaColumn
+            {
+                Name = "Id",
+                Type = "int"
+            });
+
+            columns.Add(new TypeSchemaColumn
+            {
+                Name = "Name",
+                Type = "string"
+            });
+
+            columns.Add(new TypeSchemaColumn
+            {
+                Name = "Summary",
+                Type = "string"
+            });
+
+            return columns;
+        }
+
+        /// <summary>
         /// Load enums.
         /// </summary>
         private bool LoadTypes(string basePath)
@@ -194,7 +259,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
             foreach (var pair in primitiveTypes)
             {
-                if (false == _schemaDict.TryAdd(pair.Key, pair.Value))
+                if (false == _primitiveSchemaDict.TryAdd(pair.Key, pair.Value))
                 {
                     return false;
                 }
@@ -245,6 +310,24 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         }
 
         /// <summary>
+        /// Remove enum buidler.
+        /// </summary>
+        private void RemoveEnumBuiler(string typeName)
+        {
+            // Reset module builder.
+            _moduleBuilder = CreateModuleBuilder();
+
+            foreach (var pair in _typeRowDict)
+            {
+                // 삭제 Enum 제외한 다른 Enum builder 갱신.
+                if (!pair.Key.Equals(typeName))
+                {
+                    CreateEnumBuilder(pair.Key, pair.Value);
+                }
+            }
+        }
+
+        /// <summary>
         /// Update enum buidler.
         /// </summary>
         private void UpdateEnumBuiler(string typeName, List<TypeSchemaRow> rows)
@@ -257,6 +340,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
                 foreach (var pair in _typeRowDict)
                 {
+                    // 업데이트 Enum 제외한 다른 Enum builder 갱신.
                     if (!pair.Key.Equals(typeName))
                     {
                         CreateEnumBuilder(pair.Key, pair.Value);
@@ -332,6 +416,20 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         }
 
         /// <summary>
+        /// Get schema for type.
+        /// </summary>
+        private bool RemoveSchema(string typeName)
+        {
+            var schema = FindSchemaOrDefault(typeName);
+            if (default == schema)
+            {
+                return false;
+            }
+
+            return _schemaDict.Remove(typeName, out schema);
+        }
+
+        /// <summary>
         /// Get primitive type or enum from name.
         /// </summary>
         private Type GetEnumType(string enumName)
@@ -343,7 +441,6 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
             return _ebDict[enumName].CreateType();
         }
-
 
         /// <summary>
         /// Write data file.
@@ -387,6 +484,20 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             File.WriteAllText(schemaFile, schemaJson);
 
             return true;
+        }
+
+        /// <summary>
+        /// Remove files
+        /// </summary>
+        private void RemoveFiles(string typeName)
+        {
+            // remvoe data file.
+            var enumFile = Path.Combine(_srcFolderPath, $"{typeName}.type");
+            File.Delete(enumFile);
+
+            // remvoe schema file.
+            var schemaFile = Path.Combine(_srcFolderPath, $"{typeName}.schema");
+            File.Delete(schemaFile);
         }
     }
 }

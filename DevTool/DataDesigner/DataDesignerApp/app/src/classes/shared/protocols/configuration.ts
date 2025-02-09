@@ -1,8 +1,8 @@
 import { ClassSchema } from '../classSchema';
 
 ///////////////////////////////////////////
-// RES_AllConfiguration.
-export class RES_AllConfiguration {
+// RES_GetAllConfig.
+export class RES_GetAllConfig {
   schemaNames: Array<string>;
 
   // constructor
@@ -76,10 +76,10 @@ export class REQ_FindConfigRows {}
 
 // RES_FindConfigRows.
 export class RES_FindConfigRows {
-  schema: string;
+  schema: ClassSchema;
   rows: Array<any>;
 
-  constructor(schema: string, rows: Array<any>) {
+  constructor(schema: ClassSchema, rows: Array<any>) {
     this.schema = schema;
     this.rows = rows;
   }

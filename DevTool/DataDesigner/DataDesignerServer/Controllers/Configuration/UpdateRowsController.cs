@@ -1,17 +1,19 @@
-﻿using DataDesignerServer.Core.Common;
-using DataDesignerServer.Core.DataManager.ConfigData;
-using DataDesignerServer.Core.Http.Configuration;
-using DataDesignerServer.Core.Services.Interfaces;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using SQLitePCL;
 
 namespace DataDesignerServer.Controllers.Configuration
 {
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.Http.Configuration;
+    using DataDesignerServer.Core.Services.Interfaces;
+
     /// <summary>
     /// UpdateRowsController.
     /// </summary>
     public class UpdateRowsController : Controller
     {
+        // internal id key for MUI Data grid.
         private const string INTERNAL_ID_KEY = "internalId";
 
         private readonly IJsonSerializer _jsonSerializer;

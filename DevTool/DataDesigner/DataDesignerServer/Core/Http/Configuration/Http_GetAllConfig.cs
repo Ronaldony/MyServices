@@ -13,6 +13,9 @@
     /// </summary>
     public class RES_GetAllConfig
     {
+        /// <summary>
+        /// SchemaNames.
+        /// </summary>
         public List<string> SchemaNames { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace DataDesignerServer.Controllers.Common
 			};
 
 			// find from type.
-			var typeSchemas = _typeDataManager.GetSchemaNames();
+			var typeSchemas = _typeDataManager.GetTypeSchemasWithPrimitive();
 
 			foreach (var schema in typeSchemas)
 			{

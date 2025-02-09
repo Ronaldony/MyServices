@@ -1,7 +1,7 @@
 {
   "Name": "TC_GameConfig",
   "Category": "",
-  "Desciption": "GD",
+  "Description": null,
   "Columns": [
     {
       "Idx": 1,
@@ -30,6 +30,14 @@
     {
       "Idx": 4,
       "Name": "Summary",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "HomeType",
       "IsIndexed": false,
       "Type": "string",
       "RefTable": "",

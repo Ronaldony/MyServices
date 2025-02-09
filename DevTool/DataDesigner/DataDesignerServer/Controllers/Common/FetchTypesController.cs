@@ -20,7 +20,7 @@ namespace DataDesignerServer.Controllers.Common
         [Route("/common/fetch-types")]
         public RES_FetchTypes Process()
         {
-            var types = _typeDataManager.GetSchemaNames().ToList();
+            var types = _typeDataManager.GetTypeSchemasWithPrimitive().ToList();
 
             return new RES_FetchTypes
             {

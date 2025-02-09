@@ -6,7 +6,10 @@
 	[HttpAttribute("/config/delete-schema")]
     public class REQ_DeleteConfigSchema
     {
-		public string Schema { get; set; }
+        /// <summary>
+        /// Schema.
+        /// </summary>
+        public string Schema { get; set; }
     }
 
 	/// <summary>

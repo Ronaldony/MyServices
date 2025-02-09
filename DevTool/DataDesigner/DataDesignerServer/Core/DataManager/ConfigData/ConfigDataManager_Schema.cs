@@ -65,7 +65,7 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
                 var oldTB = GetTypeBuilder(oldSchema.Name);
                 var newTB = CreateTypeBuilder(schema.Name, schema);
 
-                // 컬럼이 변경된 경우, 데이터 파일도 변경이 필요.
+                // 컬럼이 변경된 경우.
                 if (false == UpdateSchemaRows(oldTB, newTB, schema, oldSchema.Columns, schema.Columns))
                 {
                     return false;
@@ -197,6 +197,12 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
                     if (addCols.Exists(d => d.Equals(prop.Name)))
                     {
                         // Add column.
+                        var findType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
+                        if (default != findType)
+                        {
+                            // Default value
+                            value = findType.GetEnumValues().GetValue(0);
+                        }
                     }
                     else if (updateCols.ContainsKey(prop.Name))
                     {
@@ -209,6 +215,9 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
                         {
                             return false;
                         }
+
+                        // convert value
+                        value = Convert.ChangeType(value, prop.PropertyType);
                     }
                     else
                     {

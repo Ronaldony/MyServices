@@ -7,12 +7,12 @@
     public class REQ_UpdateConfigRows
     {
         /// <summary>
-        /// Configuration schema.
+        /// Schema.
         /// </summary>
         public string Schema { get; set; }
 
         /// <summary>
-        /// Configuration rows.
+        /// Rows.
         /// </summary>
         public List<object> Rows { get; set; }
     }

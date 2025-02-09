@@ -17,6 +17,9 @@ namespace DataDesignerServer.Core.Http.Configuration
     /// </summary>
     public class RES_FindConfigSchema
     {
+        /// <summary>
+        /// Schema.
+        /// </summary>
         public ClassSchema Schema { get; set; }
     }
 }

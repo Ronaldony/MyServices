@@ -7,16 +7,11 @@ namespace DataDesignerServer.Controllers.Configuration
 
     public sealed class GetAllConfigController : Controller
     {
-        private readonly ILogger<GetAllConfigController> _logger;
-
         private readonly ConfigDataManager _configDataManager;
 
         public GetAllConfigController(
-            ILogger<GetAllConfigController> logger,
             ConfigDataManager configDataManager)
         {
-            _logger = logger;
-
             _configDataManager = configDataManager;
         }
 

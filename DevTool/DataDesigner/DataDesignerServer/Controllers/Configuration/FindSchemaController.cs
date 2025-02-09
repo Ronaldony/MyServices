@@ -12,8 +12,6 @@ namespace DataDesignerServer.Controllers.Configuration
     /// </summary>
     public class FindSchemaController : Controller
     {
-        private readonly ILogger<FindSchemaController> _logger;
-
         private readonly ConfigDataManager _configDataManager;
 
         public FindSchemaController(

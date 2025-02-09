@@ -1,12 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {
-  Button,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Stack
-} from '@mui/material';
+import { Button, ListItemIcon, Menu, MenuItem, Stack } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -19,9 +13,13 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { Request_Get, Request_Patch } from '../../apis/restAPI.ts';
-import { ClassSchema, ClassSchemaColumn } from '../../classes/shared/classSchema.ts';
+import {
+  ClassSchemaColumn
+} from '../../classes/shared/classSchema.ts';
 import { RES_FetchTypeAndTableKeys } from '../../classes/shared/protocols/common.ts';
-import { REQ_UpdateConfigRows, RES_FindConfigRows, RES_FindConfigSchema } from '../../classes/shared/protocols/configuration.ts';
+import {
+  REQ_UpdateConfigRows
+} from '../../classes/shared/protocols/configuration.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
 import CheckModal from '../modals/checkModal.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
@@ -30,18 +28,14 @@ import ConfigurationHeaderbar from './configurationHeaderbar.tsx';
 // GridColumns.
 var gridColumns: GridColDef[] = [];
 
-export default function ConfigurationGridTable({ schemaName }: any) {
+export default function ConfigurationGridTable({
+  schemaName,
+  schemaList,
+  setSchemaList,
+  schemaIndex,
+}: any) {
   // status
   const [dataLoaded, setDataLoaded] = useState(false);
-
-  // data
-  const [gridRows, setGridRows] = useState<Array<any>>([]);
-  const [schema, setSchema] = useState<ClassSchema>(new ClassSchema('', '', '', null));
-
-  // value options
-  const [valueOptionsDict, setValueOptionsDict] = useState<Map<string, []>>(
-    new Map()
-  );
 
   // error
   const [openErrorModal, setOpenErrorModal] = useState(false);
@@ -89,25 +83,46 @@ export default function ConfigurationGridTable({ schemaName }: any) {
   const onDeleteRows = useCallback(
     (rowMap: Map<GridRowId, GridRowModel>) => {
       rowMap.forEach((deleteRow) => {
-        setGridRows(gridRows.filter((row) => row.Id !== deleteRow.Id));
+        setSchemaList(
+          schemaList.map((schema, index) => {
+            if (index === schemaIndex)
+              return {
+                ...schema,
+                rows: schema.rows.filter((row) => row.Id !== deleteRow.Id),
+              };
+            else return schema;
+          })
+        );
       });
 
       // close context menu
       onContextMenuClose();
     },
-    [gridRows, setGridRows, onContextMenuClose]
+    [onContextMenuClose, schemaIndex, schemaList, setSchemaList]
   );
 
   // add rows
   const onAddRow = useCallback(() => {
-    const sortedRows = [...gridRows].sort((l, r) => (l.Id > r.Id ? 1 : -1));
-    const last = sortedRows[gridRows.length - 1];
+    const sortedRows = [...schemaList.at(schemaIndex).rows].sort((l, r) =>
+      l.Id > r.Id ? 1 : -1
+    );
+    const last = sortedRows[sortedRows.length - 1];
     let newId = last?.Id + 1;
 
     if (last?.Id === undefined) newId = 1;
 
-    setGridRows((prev) => [...prev, { Id: newId, internalId: uuid() }]);
-  }, [gridRows, setGridRows]);
+    // set schema
+    setSchemaList(
+      schemaList.map((schema, index) => {
+        if (index === schemaIndex)
+          return {
+            ...schema,
+            rows: [...schema.rows, { Id: newId, internalId: uuid() }],
+          };
+        else return schema;
+      })
+    );
+  }, [schemaIndex, setSchemaList, schemaList]);
 
   // get row id
   const getRowId = useCallback((row) => {
@@ -117,58 +132,42 @@ export default function ConfigurationGridTable({ schemaName }: any) {
   // processRowUpdate
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    setGridRows(
-      gridRows.map((row) =>
-        row.internalId === newRow.internalId ? updatedRow : row
-      )
+    setSchemaList(
+      schemaList.map((schema, index) => {
+        if (index === schemaIndex)
+          return {
+            ...schema,
+            rows: schema.rows.map((row) =>
+              row.internalId === newRow.internalId ? updatedRow : row
+            ),
+          };
+        else return schema;
+      })
     );
+
     return updatedRow;
   };
 
   ////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////
-  // request schema
-  useEffect(() => {
-    if ((false === dataLoaded) && (schemaName !== '')) {
-      const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_FIND_SCHEMA}?schema=${schemaName}`;
-
-      Request_Get<RES_FindConfigSchema>(query).then((res) => {
-        if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorCode}`);
-        else setSchema(res.schema);
-      });
-    }
-  }, [dataLoaded, schemaName, onError, setSchema]);
-
   // request value options for select of grid table
   useEffect(() => {
     const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCh_TYPE_TABLE_KEYS}`;
 
     Request_Get<RES_FetchTypeAndTableKeys>(query).then((res) => {
-      if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorCode}`);
-      else setValueOptionsDict(res.schemaKeysDict);
+      if (res instanceof RES_Error)
+        onError(`[${res.errorCode}] ${res.errorCode}`);
+      else {
+        gridColumns = ConvertColsToGridCols(
+          schemaList.at(schemaIndex).schema.columns,
+          res.schemaKeysDict
+        );
+        setDataLoaded(true);
+      }
     });
-  }, [onError, setValueOptionsDict]);
 
-  // Convert columns and request rows
-  useEffect(() => {
-    if ((false === dataLoaded) && (schema.name !== '')) {
-      // convert grid columns
-      gridColumns = ConvertColsToGridCols(schema.columns, valueOptionsDict);
-
-      // query.
-      const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_FIND_ROWS}?schema=${schema.name}`;
-
-      // request grid table
-      Request_Get<RES_FindConfigRows>(query).then((res) => {
-        if (res instanceof RES_Error) {
-          onError(`[${res.errorCode}] ${res.errorCode}`);
-        } else {
-          setGridRows(res.rows);
-          setDataLoaded(true);
-        }
-      });
-    }
-  }, [dataLoaded, onError, schema.name, schema.columns, schema, valueOptionsDict]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // wait for loaded data
   if (false === dataLoaded) {
@@ -179,14 +178,17 @@ export default function ConfigurationGridTable({ schemaName }: any) {
   return (
     <Fragment>
       {/* Header */}
-      <ConfigurationHeaderbar schemaName={schema?.name} desciption={schema?.desciption} />
+      <ConfigurationHeaderbar
+        schemaName={schemaName}
+        description={schemaList.at(schemaIndex).schema.description}
+      />
 
       {/* Grid table */}
       <div onContextMenu={handleContextMenuPos} style={{ height: '95%' }}>
         {/* Grid */}
         <DataGrid
           apiRef={apiRef}
-          rows={gridRows}
+          rows={schemaList.at(schemaIndex).rows}
           columns={gridColumns}
           editMode="row"
           getRowId={getRowId}
@@ -226,7 +228,10 @@ export default function ConfigurationGridTable({ schemaName }: any) {
       </div>
 
       {/* submit buttons */}
-      <SubmitButtons schemaName={schemaName} gridRows={gridRows}/>
+      <SubmitButtons
+        schemaName={schemaName}
+        gridRows={schemaList.at(schemaIndex).rows}
+      />
 
       {/* Error */}
       <ErrorModal
@@ -234,7 +239,6 @@ export default function ConfigurationGridTable({ schemaName }: any) {
         errorMsg={errorMsg}
         setOpenErrorModal={setOpenErrorModal}
       />
-
     </Fragment>
   );
 }
@@ -262,10 +266,13 @@ function SubmitButtons({ schemaName, gridRows }: any) {
   );
 
   // on check
-  const onCheck = useCallback((msg) =>{
-    setCheckMsg(msg);
-    setOpenCheckModal(true);
-  }, [setOpenCheckModal])
+  const onCheck = useCallback(
+    (msg) => {
+      setCheckMsg(msg);
+      setOpenCheckModal(true);
+    },
+    [setOpenCheckModal]
+  );
 
   // request server to save data
   const onRequestSaveData = useCallback(() => {
@@ -275,14 +282,15 @@ function SubmitButtons({ schemaName, gridRows }: any) {
     // query
     const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_UPDATE_ROWS}?schema=${schemaName}`;
 
-    console.log(gridRows)
+    console.log(gridRows);
 
     // Request protocol
     const req = new REQ_UpdateConfigRows(schemaName, gridRows);
 
     // request
     Request_Patch(query, req).then((res) => {
-      if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorCode}`);
+      if (res instanceof RES_Error)
+        onError(`[${res.errorCode}] ${res.errorCode}`);
     });
   }, [schemaName, onError, gridRows]);
 
@@ -299,7 +307,10 @@ function SubmitButtons({ schemaName, gridRows }: any) {
         }}
       >
         {/* Save */}
-        <Button variant="contained" onClick={() => onCheck('Are you sure to update rows?')}>
+        <Button
+          variant="contained"
+          onClick={() => onCheck('Are you sure to update rows?')}
+        >
           Save
         </Button>
         {/* Cancel */}

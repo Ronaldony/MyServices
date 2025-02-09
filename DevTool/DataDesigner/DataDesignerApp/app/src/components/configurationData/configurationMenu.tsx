@@ -10,7 +10,7 @@ import {
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { Request_Get } from '../../apis/restAPI.ts';
 import {
-  RES_AllConfiguration
+  RES_GetAllConfig
 } from '../../classes/shared/protocols/configuration.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
 import ErrorModal from '../modals/errorModal.tsx';
@@ -21,9 +21,7 @@ import ConfigurationCreateSchema from './configurationCreateSchema.tsx';
 // Configuration menu
 export default function ConfigurationMenu({ setSelectedSchema }) {
   const [selectedData, setSelectedData] = useState('');
-  const [dataListRes, setDataListRes] = useState<
-    RES_AllConfiguration | RES_Error | any
-  >();
+  const [schemaList, setSchemaList] = useState<Array<string>>([]);
   const [errorMsg, setErrorMsg] = useState('');
 
   // status
@@ -34,11 +32,11 @@ export default function ConfigurationMenu({ setSelectedSchema }) {
 
   // initialize
   useEffect(() => {
-    Request_Get<RES_AllConfiguration>(
+    Request_Get<RES_GetAllConfig>(
       `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_GETALL}`
     ).then((res) => {
       if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
-      else setDataListRes(res);
+      else setSchemaList(res.schemaNames);
 
       // loading status
       setIsLoading(false);
@@ -108,9 +106,7 @@ export default function ConfigurationMenu({ setSelectedSchema }) {
         <Divider />
 
         {/* DataList */}
-        {dataListRes?.schemaNames === undefined
-          ? ''
-          : dataListRes?.schemaNames.map((data) => (
+        {schemaList.map((data) => (
             <ListItem disablePadding key={data}>
               <ListItemButton
                 selected={selectedData === data}

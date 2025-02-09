@@ -18,12 +18,12 @@ namespace DataDesignerServer.Core.Http.Configuration
     public class RES_FindConfigRows
     {
         /// <summary>
-        /// Schema of configuration.
+        /// Schema.
         /// </summary>
-        public string Schema { get; set; }
+        public ClassSchema Schema { get; set; }
 
         /// <summary>
-        /// Rows of the schema.
+        /// Rows.
         /// </summary>
         public List<object> Rows { get; set; }
     }

@@ -12,16 +12,11 @@ namespace DataDesignerServer.Controllers.Configuration
 	/// </summary>
 	public class DeleteSchemaController : Controller
     {
-        private readonly ILogger<DeleteSchemaController> _logger;
-
         private readonly ConfigDataManager _configDataManager;
 
         public DeleteSchemaController(
-            ILogger<DeleteSchemaController> logger,
             ConfigDataManager configDataManager)
         {
-            _logger = logger;
-
             _configDataManager = configDataManager;
         }
 
@@ -36,9 +31,9 @@ namespace DataDesignerServer.Controllers.Configuration
             }
 
             // check existance for schema
-            if (false == _configDataManager.IsExistSchema(req.Schema))
+            if (default == _configDataManager.FindSchemaOrDefault(req.Schema))
             {
-                throw new ServerException(ServerErrorCode.ConfigData_AlreadyExistSchema, "not exist schema");
+                throw new ServerException(ServerErrorCode.ConfigData_NotExistSchema, "not exist schema");
             }
 
             // delete schema.

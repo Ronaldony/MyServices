@@ -8,7 +8,7 @@ import CheckModal from '../modals/checkModal.tsx';
 import ConfigurationEditSchema from './configurationEditSchema.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
 
-export default function ConfigurationHeaderbar({ schemaName, desciption }) {
+export default function ConfigurationHeaderbar({ schemaName, description }) {
     const navigate = useNavigate();
 
     // schema
@@ -51,7 +51,7 @@ export default function ConfigurationHeaderbar({ schemaName, desciption }) {
         // request
         Request_Delete<RES_DeleteConfigSchema>(query, req)
             .then((res) => {
-                if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorCode}`);
+                if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
                 else navigate(0);
 
             })
@@ -74,7 +74,7 @@ export default function ConfigurationHeaderbar({ schemaName, desciption }) {
                     <Typography gutterBottom variant="h5" component="div" color='green'>
                         {schemaName}
                     </Typography>
-                    {desciption}
+                    {description}
                 </CardContent>
                 
                 {/* CardActions */}

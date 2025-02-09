@@ -55,7 +55,7 @@ namespace DataDesignerServer.Controllers.Test
         [Route("test/enum-manager/all-enums")]
         public string AllEnums()
         {
-            var schemaNames = _enumManaer.GetSchemaNames();
+            var schemaNames = _enumManaer.GetTypeSchemasWithPrimitive();
 
             if (false == schemaNames.Any())
             {

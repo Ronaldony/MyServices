@@ -12,16 +12,11 @@ namespace DataDesignerServer.Controllers.Configuration
 	/// </summary>
 	public class UpdateSchemaController : Controller
     {
-        private readonly ILogger<UpdateSchemaController> _logger;
-
         private readonly ConfigDataManager _configDataManager;
 
         public UpdateSchemaController(
-            ILogger<UpdateSchemaController> logger,
             ConfigDataManager configDataManager)
         {
-            _logger = logger;
-
             _configDataManager = configDataManager;
         }
 
@@ -36,15 +31,15 @@ namespace DataDesignerServer.Controllers.Configuration
             }
 
             // check existance for schema
-            if (false == _configDataManager.IsExistSchema(req.Schema.Name))
+            if (default == _configDataManager.FindSchemaOrDefault(req.Schema.Name))
             {
-                throw new ServerException(ServerErrorCode.ConfigData_AlreadyExistSchema, "not exist schema");
+                throw new ServerException(ServerErrorCode.ConfigData_NotExistSchema, "not exist schema");
             }
 
             // update schema    
             if (false == _configDataManager.UpdateSchema(req.Schema.Name, req.Schema))
             {
-				throw new ServerException(ServerErrorCode.ConfigData_AlreadyExistSchema, "not exist schema");
+				throw new ServerException(ServerErrorCode.ConfigData_UpdateSchema, "fail to update schema");
 			}
 
             return new RES_UpdateConfigSchema();

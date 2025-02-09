@@ -65,7 +65,7 @@ namespace DataDesignerServer.Controllers.Test
 
             //////////////////////////////////////////////
             /// Generate enum.
-            var enumSchemaNames = _enumManager.GetSchemaNames();
+            var enumSchemaNames = _enumManager.GetTypeSchemasWithPrimitive();
 
             foreach (var name in enumSchemaNames)
             {

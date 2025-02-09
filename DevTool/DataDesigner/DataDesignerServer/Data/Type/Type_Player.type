@@ -2,16 +2,16 @@
   {
     "Id": 0,
     "Name": "Normal",
-    "Description": "Normal desc"
+    "Summary": null
   },
   {
     "Id": 1,
     "Name": "Paid",
-    "Description": "Rare desc"
+    "Summary": null
   },
   {
     "Id": 2,
-    "Name": "SuperPaid",
-    "Description": "SuperPaid desc"
+    "Name": "Premium",
+    "Summary": null
   }
 ]

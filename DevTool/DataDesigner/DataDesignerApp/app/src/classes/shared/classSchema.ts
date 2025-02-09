@@ -1,3 +1,4 @@
+///////////////////////////////////////////
 // ClassSchemaColumn
 export class ClassSchemaColumn {
   idx: number;
@@ -22,14 +23,27 @@ export class ClassSchemaColumn {
 export class ClassSchema {
   name: string;
   category: string;
-  desciption: string;
+  description: string;
   columns: Array<ClassSchemaColumn> | null;
   
   // constructor
-  constructor(name: string, category: string, desciption: string, columns: Array<ClassSchemaColumn> | null) {
+  constructor(name: string, category: string, description: string, columns: Array<ClassSchemaColumn> | null) {
     this.name = name;
     this.category = category;
-    this.desciption = desciption;
+    this.description = description;
     this.columns = columns;
   }
+}
+
+// ClassData
+export class ClassData {
+    schema: ClassSchema;
+    rows: Array<any>;
+        
+    // constructor 
+    constructor(schema: ClassSchema, rows: Array<any>)
+    {
+        this.schema = schema;
+        this.rows = rows;
+    }
 }

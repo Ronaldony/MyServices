@@ -62,5 +62,32 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
             return true;
         }
+
+        /// <summary>
+        /// Create schema for class.
+        /// </summary>
+        public bool DeleteSchema(string schemaName)
+        {
+            // Old schema.
+            var oldSchema = FindSchemaOrDefault(schemaName);
+            if (null == oldSchema)
+            {
+                return false;
+            }
+
+            // remove schema
+            if (false == RemoveSchema(schemaName))
+            {
+                return false;
+            }
+
+            // remove builder
+            RemoveEnumBuiler(schemaName);
+
+            // Refresh schema file.
+            RemoveFiles(schemaName);
+
+            return true;
+        }
     }
 }

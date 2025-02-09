@@ -10,19 +10,14 @@ namespace DataDesignerServer.Controllers.Configuration
 
     public class FindRowsController : Controller
     {
-        private readonly ILogger<FindRowsController> _logger;
-
         private readonly ConfigDataManager _configDataManager;
 
         private readonly IJsonSerializer _jsonSerializer;
 
         public FindRowsController(
-            ILogger<FindRowsController> logger,
             ConfigDataManager configDataManager,
             IJsonSerializer jsonSerializer)
         {
-            _logger = logger;
-
             _configDataManager = configDataManager;
             _jsonSerializer = jsonSerializer;
 
@@ -33,19 +28,24 @@ namespace DataDesignerServer.Controllers.Configuration
         public RES_FindConfigRows Process(string schema)
         {
             // check schema.
-            if (false == _configDataManager.IsExistSchema(schema))
+            var findSchema = _configDataManager.FindSchemaOrDefault(schema);
+            if (default == findSchema)
             {
                 throw new ServerException(ServerErrorCode.ConfigData_NotExistSchema, "not exist schema");
             }
 
             // rows.
             var oriRows = _configDataManager.FindRowsOrDefault(schema);
+            if (default == oriRows)
+            {
+                throw new ServerException(ServerErrorCode.ConfigData_NotExistRow, "not exist row even one");
+            }
 
             var rows = ConvertRows(oriRows);
 
             return new RES_FindConfigRows
             {
-                Schema = schema,
+                Schema = findSchema,
                 Rows = rows.ToList(),
             };
         }

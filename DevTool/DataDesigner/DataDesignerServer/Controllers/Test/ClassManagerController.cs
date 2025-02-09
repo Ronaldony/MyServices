@@ -73,7 +73,7 @@ namespace DataDesignerServer.Controllers.Test
                 Name = schemaName,
                 Category = category,
                 Columns = new List<ClassSchemaColumn>(),
-                Desciption = desc
+                Description = desc
             };
 
             // Create.

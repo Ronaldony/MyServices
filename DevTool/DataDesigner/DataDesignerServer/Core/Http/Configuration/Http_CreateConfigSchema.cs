@@ -8,6 +8,9 @@ namespace DataDesignerServer.Core.Http.Configuration
     [HttpAttribute("/config/create-schema")]
     public class REQ_CreateConfigSchema
     {
+        /// <summary>
+        /// Schema.
+        /// </summary>
         public ClassSchema Schema { get; set; }
     }
 

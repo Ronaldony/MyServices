@@ -12,16 +12,11 @@ namespace DataDesignerServer.Controllers.Configuration
     /// </summary>
     public class CreateSchemaController : Controller
     {
-        private readonly ILogger<CreateSchemaController> _logger;
-
         private readonly ConfigDataManager _configDataManager;
 
         public CreateSchemaController(
-            ILogger<CreateSchemaController> logger,
             ConfigDataManager configDataManager)
         {
-            _logger = logger;
-
             _configDataManager = configDataManager;
         }
 
@@ -36,7 +31,7 @@ namespace DataDesignerServer.Controllers.Configuration
             }
 
             // check existance for schema
-            if (true == _configDataManager.IsExistSchema(req.Schema.Name))
+            if (default != _configDataManager.FindSchemaOrDefault(req.Schema.Name))
             {
                 throw new ServerException(ServerErrorCode.ConfigData_AlreadyExistSchema, "already exist schema");
             }

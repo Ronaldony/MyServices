@@ -92,19 +92,6 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
         }
 
         /// <summary>
-        /// Check existance for shcema.
-        /// </summary>
-        public bool IsExistSchema(string schemaName)
-        {
-            if (null == FindSchemaOrDefault(schemaName))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Get all schema names.
         /// </summary>
         public IEnumerable<string> GetSchemaNames()

@@ -8,6 +8,9 @@ namespace DataDesignerServer.Core.Http.Configuration
 	[HttpAttribute("/config/update-schema")]
     public class REQ_UpdateConfigSchema
     {
+        /// <summary>
+        /// Schema.
+        /// </summary>
         public ClassSchema Schema { get; set; }
     }
 
