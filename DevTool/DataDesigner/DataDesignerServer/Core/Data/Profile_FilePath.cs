@@ -1,7 +1,25 @@
 ﻿namespace DataDesignerServer.Core.Data
 {
-	public class Profile_FilePath
+    /// <summary>
+    /// Profile_FilePath.
+    /// </summary>
+    public class Profile_FilePath
 	{
+		public Profile_FilePath() { }
+
+		public Profile_FilePath(string target)
+		{
+			this.Target = target;
+			this.ProtocolPath = string.Empty;
+			this.DataCodePath = string.Empty;
+			this.DatabaseFilePath = string.Empty;
+        }
+
+        /// <summary>
+        /// Target
+        /// </summary>
+        public string Target { get; set; }
+
 		/// <summary>
 		/// Protocol code.
 		/// </summary>

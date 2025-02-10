@@ -1,23 +1,29 @@
 ﻿namespace DataDesignerServer.Core.Data
 {
-	/// <summary>
-	/// UserProfile.
-	/// </summary>
-	public class Profile
+    /// <summary>
+    /// Profile.
+    /// </summary>
+    public class Profile
 	{
-		/// <summary>
-		/// Name.
-		/// </summary>
-		public string Name { get; set; }
+		public Profile() { }
+
+		public Profile(string name) 
+		{
+			this.Name = name;
+
+			this.FilePathList = new List<Profile_FilePath>();
+            this.FilePathList.Add(new Profile_FilePath("Client"));
+            this.FilePathList.Add(new Profile_FilePath("Server"));
+        }
+
+        /// <summary>
+        /// Name.
+        /// </summary>
+        public string Name { get; set; }
 
 		/// <summary>
 		/// File path for server.
 		/// </summary>
-		public Profile_FilePath ServerFilePath { get; set; }
-		
-		/// <summary>
-		/// File path for client.
-		/// </summary>
-		public Profile_FilePath ClientFilePath { get; set; }
-	}
+		public List<Profile_FilePath> FilePathList { get; set; }
+    }
 }

@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Generate
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.Http.Generate;
-	using DataDesignerServer.Core.Services;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.Http.Generate;
+    using DataDesignerServer.Core.Services;
 
-	/// <summary>
-	/// DeleteProfileController.
-	/// </summary>
-	public class DeleteProfileController : Controller
+    /// <summary>
+    /// DeleteProfileController.
+    /// </summary>
+    public class DeleteProfileController : Controller
 	{
 		private readonly ProfileService _profileService;
 

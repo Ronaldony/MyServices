@@ -81,7 +81,7 @@ export default function ConfigurationPage() {
   return (
     <Box sx={{ display: 'flex', width: '100%', height: '100%'}}>
       {/* Menu */}
-      <div style={{ height: '100%', width:'15%' }}>
+      <div style={{ height: '100%' }}>
         <ConfigurationMenu setSelectedSchema={setSelectedSchema} />
       </div>
 
@@ -89,7 +89,7 @@ export default function ConfigurationPage() {
       <div
         style={{
           borderColor: 'divider',
-          width: '100%',
+          minWidth:'100%',
           height: '100%',
         }}
       >

@@ -55,11 +55,12 @@ namespace DataDesignerServerServer
 				});
 
 			// Add services to the container.
-			builder.Services.AddSingleton<CodeGenerator>(serviceProvider => new CodeGenerator(serviceProvider));
-			builder.Services.AddSingleton<TypeDataManager>(serviceProvider => new TypeDataManager(serviceProvider));
-			builder.Services.AddSingleton<ConfigDataManager>(serviceProvider => new ConfigDataManager(serviceProvider));
-			builder.Services.AddSingleton<TableDataManager>(serviceProvider => new TableDataManager(serviceProvider));
-			builder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
+			builder.Services.AddSingleton<CodeGenerator>();
+			builder.Services.AddSingleton<TypeDataManager>();
+			builder.Services.AddSingleton<ConfigDataManager>();
+			builder.Services.AddSingleton<TableDataManager>();
+			builder.Services.AddSingleton<ProfileService>();
+            builder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
 
 			// Web host.
 			builder.WebHost.UseKestrel(options =>

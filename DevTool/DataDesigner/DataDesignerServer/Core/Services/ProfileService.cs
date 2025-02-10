@@ -67,19 +67,37 @@ namespace DataDesignerServer.Core.Services
 			return findProfile;
 		}
 
-		/// <summary>
-		/// Update profile.
-		/// </summary>
-		public bool AddOrUpdateProfile(Profile profile)
-		{
-			if (false == FlushFile())
-			{
-				return false;
-			}
+        /// <summary>
+        /// Add profile.
+        /// </summary>
+        public bool AddProfile(string profileName)
+        {
+			var addProfile = new Profile(profileName);
 
+            _profileDict.AddOrUpdate(profileName, addProfile, (key, old) => addProfile);
+
+            if (false == FlushFile())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Update profile.
+        /// </summary>
+        public bool UpdateProfile(Profile profile)
+		{
 			_profileDict.AddOrUpdate(profile.Name, profile, (key, old) => profile);
 
-			return true;
+			// flush file.
+            if (false == FlushFile())
+            {
+                return false;
+            }
+
+            return true;
 		}
 
 		/// <summary>
@@ -110,18 +128,19 @@ namespace DataDesignerServer.Core.Services
 		private ConcurrentDictionary<string, Profile> LoadProfiles(string folder)
 		{
 			// check folder.
-			if (false == File.Exists(folder))
+			if (false == Directory.Exists(folder))
 			{
-				File.Create(folder).Dispose();
+                Directory.CreateDirectory(folder);
 			}
 
 			// check profile file.
 			var profilePath = Path.Combine(folder, PROFILE_FILE);
-			if (File.Exists(profilePath))
+			if (false == File.Exists(profilePath))
 			{
 				File.Create(profilePath).Dispose();
+				File.WriteAllText(profilePath, "[]");
 
-				return new ConcurrentDictionary<string, Profile>();
+                return new ConcurrentDictionary<string, Profile>();
 			}
 
 			// Load profile file.

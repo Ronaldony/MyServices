@@ -115,10 +115,10 @@ export default function TypeCreateSchema({ openSchemaModal, setOpenSchemaModal }
             <TextField
               label="Name"
               variant="standard"
-              focused
               value={newSchema.name}
-              required
               error={!newSchema.name}
+              focused
+              required
               onChange={(e) =>
                 setNewSchema({ ...newSchema, name: e.target.value })
               }
@@ -128,8 +128,8 @@ export default function TypeCreateSchema({ openSchemaModal, setOpenSchemaModal }
             <TextField
               label="Category"
               variant="standard"
-              focused
               value={newSchema.category}
+              focused
               onChange={(e) =>
                 setNewSchema({ ...newSchema, category: e.target.value })
               }
@@ -139,8 +139,8 @@ export default function TypeCreateSchema({ openSchemaModal, setOpenSchemaModal }
             <TextField
               label="Desciption"
               variant="standard"
-              focused
               value={newSchema.description}
+              focused
               onChange={(e) =>
                 setNewSchema({ ...newSchema, description: e.target.value })
               }

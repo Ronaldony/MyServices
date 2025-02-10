@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Generate
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.Http.Generate;
-	using DataDesignerServer.Core.Services;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.Http.Generate;
+    using DataDesignerServer.Core.Services;
 
-	/// <summary>
-	/// UpdateProfileController.
-	/// </summary>
-	public class UpdateProfileController : Controller
+    /// <summary>
+    /// UpdateProfileController.
+    /// </summary>
+    public class UpdateProfileController : Controller
 	{
 		private readonly ProfileService _profileService;
 
@@ -20,7 +20,7 @@ namespace DataDesignerServer.Controllers.Generate
 			_profileService = profileService;
 		}
 
-		[HttpPost]
+		[HttpPatch]
 		[Route("/generate/udpate-profile")]
 		public RES_UpdateProfile Process([FromBody] REQ_UpdateProfile req)
 		{
@@ -30,7 +30,7 @@ namespace DataDesignerServer.Controllers.Generate
 				throw new ServerException(ServerErrorCode.Generate_NoProfileName, "no profile name");
 			}
 
-			if (false == _profileService.AddOrUpdateProfile(req.Profile))
+			if (false == _profileService.UpdateProfile(req.Profile))
 			{
 				throw new ServerException(ServerErrorCode.Generate_UpdateProfile, "fail to update profile");
 			}

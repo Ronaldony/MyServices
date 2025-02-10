@@ -4,6 +4,7 @@
     using DataDesignerServer.Core.DataManager.TableData;
     using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Generator;
+    using DataDesignerServer.Core.Services;
 
     public class StartupServer
     {
@@ -31,6 +32,10 @@
             // ConfigDataManager.
             var configDataManager = _serviceProvider.GetRequiredService<ConfigDataManager>();
             configDataManager.Initialize(Directory.GetCurrentDirectory());
+
+            // ProfileService.
+            var profileService = _serviceProvider.GetRequiredService<ProfileService>();
+            profileService.Initialize(Directory.GetCurrentDirectory());
         }
     }
 }

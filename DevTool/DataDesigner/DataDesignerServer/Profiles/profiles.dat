@@ -1,0 +1,19 @@
+{
+  "6mwvn": {
+    "Name": "6mwvn",
+    "FilePathList": [
+      {
+        "Target": "Client",
+        "ProtocolPath": "",
+        "DataCodePath": "",
+        "DatabaseFilePath": ""
+      },
+      {
+        "Target": "Server",
+        "ProtocolPath": "",
+        "DataCodePath": "",
+        "DatabaseFilePath": ""
+      }
+    ]
+  }
+}

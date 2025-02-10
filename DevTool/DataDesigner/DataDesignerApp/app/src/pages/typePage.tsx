@@ -87,9 +87,8 @@ export default function TypePage() {
       {/* Rows */}
       <div
         style={{
-          borderBottom: 1,
           borderColor: 'divider',
-          width: '100%',
+          minWidth:'100%',
           height: '100%',
         }}
       >

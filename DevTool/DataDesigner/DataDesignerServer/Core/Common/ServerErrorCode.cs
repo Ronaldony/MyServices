@@ -45,8 +45,9 @@
 		// Generate
 		public const int Generate_NoProfileName = 500;				// 500. 프로파일 이름 없음.
 		public const int Generate_UpdateProfile = 501;				// 501. 프로파일 갱신 실패.
-		public const int Generate_DeleteProfile = 502;				// 502. 프로파일 삭제 실패.
-		public const int Generate_NotExistProfile = 503;			// 503. 프로파일 존재하지 않음.
+		public const int Generate_AddProfile = 502;					// 502. 프로파일 추가 실패.
+		public const int Generate_DeleteProfile = 503;				// 503. 프로파일 삭제 실패.
+		public const int Generate_NotExistProfile = 504;			// 504. 프로파일 존재하지 않음.
 
 	}
 }
