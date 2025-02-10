@@ -25,16 +25,6 @@ namespace DataDesignerServer.Core.DataManager.TableData
                 return false;
             }
 
-            // Add Id.
-            schema.Columns.Add(new ClassSchemaColumn
-            {
-                Idx = 1,
-                Name = "Id",
-                IsIndexed = true,
-                Type = "int",
-                Summary = "Primary key"
-            });
-
             // Schema.
             if (default == SetSchema(schemaName, schema))
             {
@@ -75,7 +65,7 @@ namespace DataDesignerServer.Core.DataManager.TableData
                 var oldTB = GetTypeBuilder(oldSchema.Name);
                 var newTB = CreateTypeBuilder(schema.Name, schema);
 
-                // 컬럼이 변경된 경우, 데이터 파일도 변경이 필요.
+                // 컬럼이 변경된 경우.
                 if (false == UpdateSchemaRows(oldTB, newTB, schema, oldSchema.Columns, schema.Columns))
                 {
                     return false;
@@ -108,9 +98,39 @@ namespace DataDesignerServer.Core.DataManager.TableData
         }
 
         /// <summary>
-        /// Check column of schema is changed .
+        /// Delete schema
         /// </summary>
-        private bool IsColumnChanged(List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
+		public bool DeleteSchema(string schemaName)
+		{
+			// Old schema.
+			var oldSchema = FindSchemaOrDefault(schemaName);
+			if (null == oldSchema)
+			{
+				return false;
+			}
+
+            // remove rows.
+            if (false == RemoveRows(schemaName))
+            {
+                return false;
+            }
+
+			// remove schema.
+			if (false == RemoveSchema(schemaName))
+			{
+				return false;
+			}
+
+            // Refresh schema file.
+            RemoveFiles(schemaName);
+
+			return true;
+		}
+
+		/// <summary>
+		/// Check column of schema is changed .
+		/// </summary>
+		private bool IsColumnChanged(List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
         {
             // Cond 1. 컬럼 명 및 개수.
             var interCols = oldCols.IntersectBy(newCols.Select(d => d.Name), d => d.Name);
@@ -177,6 +197,12 @@ namespace DataDesignerServer.Core.DataManager.TableData
                     if (addCols.Exists(d => d.Equals(prop.Name)))
                     {
                         // Add column.
+                        var findType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
+                        if (default != findType)
+                        {
+                            // Default value
+                            value = findType.GetEnumValues().GetValue(0);
+                        }
                     }
                     else if (updateCols.ContainsKey(prop.Name))
                     {
@@ -189,6 +215,9 @@ namespace DataDesignerServer.Core.DataManager.TableData
                         {
                             return false;
                         }
+
+                        // convert value
+                        value = Convert.ChangeType(value, prop.PropertyType);
                     }
                     else
                     {

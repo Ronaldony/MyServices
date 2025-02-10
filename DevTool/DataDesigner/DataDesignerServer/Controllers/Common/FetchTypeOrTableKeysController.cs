@@ -85,9 +85,10 @@ namespace DataDesignerServer.Controllers.Common
 
 			foreach (var row in rows)
 			{
-				var dict = _jsonSerializer.Deserialize<Dictionary<string, string>>(row.ToString());
+				var rowJson = _jsonSerializer.Serialize(row);
+				var dict = _jsonSerializer.Deserialize<Dictionary<string, object>>(rowJson);
 
-				tableIds.Add(dict["Id"]);
+				tableIds.Add(dict["Id"].ToString());
 			}
 
 			return tableIds;

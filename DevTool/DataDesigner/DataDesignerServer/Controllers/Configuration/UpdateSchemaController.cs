@@ -36,8 +36,22 @@ namespace DataDesignerServer.Controllers.Configuration
                 throw new ServerException(ServerErrorCode.ConfigData_NotExistSchema, "not exist schema");
             }
 
-            // update schema    
-            if (false == _configDataManager.UpdateSchema(req.Schema.Name, req.Schema))
+			// Check columns
+			foreach (var column in req.Schema.Columns)
+			{
+				if (string.IsNullOrEmpty(column.Name))
+				{
+					throw new ServerException(ServerErrorCode.ConfigData_NoColumnName, $"no column name.");
+				}
+
+				if (false == string.IsNullOrEmpty(column.RefTable))
+				{
+					column.Type = "int";
+				}
+			}
+
+			// update schema    
+			if (false == _configDataManager.UpdateSchema(req.Schema.Name, req.Schema))
             {
 				throw new ServerException(ServerErrorCode.ConfigData_UpdateSchema, "fail to update schema");
 			}

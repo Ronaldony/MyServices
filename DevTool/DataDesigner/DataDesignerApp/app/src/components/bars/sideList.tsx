@@ -10,7 +10,7 @@ import TypeSpecimenIcon from '@mui/icons-material/TypeSpecimen';
 import { useNavigate } from 'react-router-dom';
 
 export default function SideList() {
-  const [seletecIndex, setSeletecIndex] = React.useState(1);
+  const [seletecIndex, setSeletecIndex] = React.useState(0);
   const navigate = useNavigate();
 
   const updateMenu = React.useCallback(
@@ -45,7 +45,7 @@ export default function SideList() {
           </ListItemIcon>
           <ListItemText primary={'Type'} />
         </ListItemButton>
-        {/* Data Table */}
+        {/* Table */}
         <ListItemButton
           selected={seletecIndex === 2}
           onClick={() => updateMenu(2, '/data/table')}
@@ -53,7 +53,7 @@ export default function SideList() {
           <ListItemIcon>
             <DataObjectIcon />
           </ListItemIcon>
-          <ListItemText primary={'Data Table'} />
+          <ListItemText primary={'Table'} />
         </ListItemButton>
         {/* Generate */}
         <ListItemButton

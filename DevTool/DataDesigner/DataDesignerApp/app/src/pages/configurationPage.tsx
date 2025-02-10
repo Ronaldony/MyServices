@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import ConfigurationGridTable from '../components/configurationData/configurationGridTable.tsx';
 import ConfigurationMenu from '../components/configurationData/configurationMenu.tsx';
 import { ClassData } from '../classes/shared/classSchema.ts';
@@ -79,16 +79,15 @@ export default function ConfigurationPage() {
 
   // render
   return (
-    <Box sx={{ display: 'flex', height: '100%', width: '100%' }}>
+    <Box sx={{ display: 'flex', width: '100%', height: '100%'}}>
       {/* Menu */}
-      <div style={{ height: '100%' }}>
+      <div style={{ height: '100%', width:'15%' }}>
         <ConfigurationMenu setSelectedSchema={setSelectedSchema} />
       </div>
 
       {/* Tabs */}
       <div
         style={{
-          borderBottom: 1,
           borderColor: 'divider',
           width: '100%',
           height: '100%',
@@ -156,11 +155,11 @@ function CustomTabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{ width: '100%', height: '70%', padding: 0, margin: 0 }}
+      style={{ width: '100%', height: '70%' }}
       {...other}
     >
       {value === index && (
-        <div style={{ width: '100%', height: '100%' }}>{children}</div>
+        <Fragment>{children}</Fragment>
       )}
     </div>
   );

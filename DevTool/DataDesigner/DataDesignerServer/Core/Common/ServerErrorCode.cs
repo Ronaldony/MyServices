@@ -30,5 +30,23 @@
         public const int TypeData_NotExistSchema = 305;             // 305. 스키마가 존재하지 않음.
         public const int TypeData_UpdateRow = 306;                  // 306. 데이터 업데이트 실패.
         public const int TypeData_NotExistRow = 307;                // 307. 데이터 로우 존재하지 않음.
-    }
+
+		// Table
+		public const int TableData_CreateSchema = 400;             // 400. 스키마 생성 실패.
+		public const int TableData_UpdateSchema = 401;             // 401. 스키마 갱신 실패.
+		public const int TableData_DeleteSchema = 402;             // 402. 스키마 제거 실패.
+		public const int TableData_AlreadyExistSchema = 403;       // 403. 이미 스키마 존재.
+		public const int TableData_NoSchemaName = 404;             // 404. 스키마 name이 없음.
+		public const int TableData_NoColumnName = 405;             // 405. 컬럼 name이 없음.
+		public const int TableData_NotExistSchema = 406;           // 406. 스키마가 존재하지 않음.
+		public const int TableData_UpdateRow = 407;                // 407. 데이터 업데이트 실패.
+		public const int TableData_NotExistRow = 408;              // 408. 데이터 로우 존재하지 않음.
+
+		// Generate
+		public const int Generate_NoProfileName = 500;				// 500. 프로파일 이름 없음.
+		public const int Generate_UpdateProfile = 501;				// 501. 프로파일 갱신 실패.
+		public const int Generate_DeleteProfile = 502;				// 502. 프로파일 삭제 실패.
+		public const int Generate_NotExistProfile = 503;			// 503. 프로파일 존재하지 않음.
+
+	}
 }

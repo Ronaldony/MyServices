@@ -4,12 +4,12 @@ using System.Reflection.Emit;
 
 namespace DataDesignerServer.Core.DataManager.ConfigData
 {
-    using DataDesignerServer.Core.Data;
+	using DataDesignerServer.Core.Data;
 
-    /// <summary>
-    /// ConfigDataManager.
-    /// Desc: Manage config types.
-    /// </summary>
+	/// <summary>
+	/// ConfigDataManager.
+	/// Desc: Manage config types.
+	/// </summary>
     public sealed partial class ConfigDataManager
     {
         /// <summary>
@@ -25,8 +25,8 @@ namespace DataDesignerServer.Core.DataManager.ConfigData
                 return false;
             }
 
-            // Schema.
-            if (default == SetSchema(schemaName, schema))
+			// Schema.
+			if (default == SetSchema(schemaName, schema))
             {
                 return false;
             }

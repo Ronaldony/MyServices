@@ -1,15 +1,14 @@
-﻿namespace DataDesignerServer.Core.DataManager.TableData
+﻿using Newtonsoft.Json.Linq;
+
+namespace DataDesignerServer.Core.DataManager.TableData
 {
-    /// <summary>
-    /// TableManager.
-    /// Desc: Manage table types.
-    /// </summary>
-    public sealed partial class TableDataManager
+	/// <summary>
+	/// TableDataManager.
+	/// Desc: Manage table types.
+	/// </summary>
+	public sealed partial class TableDataManager
     {
-        /// <summary>
-        /// Update members.
-        /// </summary>
-        public bool AddOrUpdatgeRow(string className, object row)
+        public bool UpdateRows(string className, List<object> rows)
         {
             // Find type.
             var type = GetClassType(className);
@@ -18,42 +17,23 @@
                 return false;
             }
 
-            // Add row.
-            var rowData = GetRowData(type, row);
-            if (false == AddOrUpdateRowData(type, rowData))
+            // Get type rows.
+            var oriRows = GetRowsOrDefault(type.Name);
+            if (oriRows == default)
             {
+                // Fail.
                 return false;
             }
 
-            // Write update rows to the file.
-            if (false == FlushFiles(type.Name))
+            oriRows.Clear();
+
+            foreach (var row in rows)
             {
-                return false;
+                // Add row.
+                var rowData = GetRowData(type, row);
+                oriRows.Add(rowData);
             }
 
-            return true;
-        }
-
-        /// <summary>
-        /// Update members.
-        /// </summary>
-        public bool DeleteRow(string className, object row)
-        {
-            // Find type.
-            var type = GetClassType(className);
-            if (null == type)
-            {
-                return false;
-            }
-
-            // Add row.
-            var rowData = GetRowData(type, row);
-            if (false == DeleteRowData(type, rowData))
-            {
-                return false;
-            }
-
-            // Write update rows to the file.
             if (false == FlushFiles(type.Name))
             {
                 return false;
@@ -72,91 +52,46 @@
 
             foreach (var prop in type.GetProperties())
             {
-                var propValue = Convert.ChangeType(rowDict[prop.Name], prop.PropertyType);
+                var propType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
+                object value = default;
 
-                prop.SetValue(rowData, propValue);
+                if (default != propType)
+                {
+                    // enum type인 경우
+                    propType = _typeDataManager.FindTypeOrDefault(prop.PropertyType.Name);
+
+                    if (rowDict.ContainsKey(prop.Name))
+                    {
+                        // parse data.
+                        value = Enum.Parse(propType, rowDict[prop.Name].ToString());
+                    }
+                    else
+                    {
+                        // Default value.
+                        var defaultValue = propType.GetEnumValues().GetValue(0).ToString();
+                        value = Enum.Parse(propType, defaultValue);
+                    }
+
+                    prop.SetValue(rowData, value);
+                }
+                else
+                {
+                    // primitive type인 경우
+                    if (rowDict.ContainsKey(prop.Name))
+                    {
+                        value = Convert.ChangeType(rowDict[prop.Name], prop.PropertyType);
+                    }
+                    else
+                    {
+                        value = default;
+                    }
+
+                    prop.SetValue(rowData, value);
+                }
+
             }
 
             return rowData;
-        }
-
-        /// <summary>
-        /// Add or update row data.
-        /// </summary>
-        private bool AddOrUpdateRowData(Type type, object rowData)
-        {
-            // Get Id.
-            var prop = type.GetProperty("Id");
-            var updateId = (int)prop.GetValue(rowData);
-
-            // Get type rows.
-            var oriRows = GetRowsOrDefault(type.Name);
-            if (oriRows == default)
-            {
-                // Fail.
-                return false;
-            }
-
-            // Find row.
-            foreach (var oriRow in oriRows.Select((value, index) => (value, index)))
-            {
-                var oriRowId = (int)prop.GetValue(oriRow.value);
-
-                // Compare row Id.
-                if (oriRowId == updateId)
-                {
-                    // 동일 Id인 경우 Replace.
-                    oriRows.RemoveAt(oriRow.index);
-                    oriRows.Insert(oriRow.index, rowData);
-
-                    return true;
-                }
-                else if (oriRowId > updateId)
-                {
-                    // Id가 큰 경우.
-                    oriRows.Insert(oriRow.index, rowData);
-                    return true;
-                }
-            }
-
-            // 새로운 Id의 값이 제일 큰 경우.
-            oriRows.Add(rowData);
-
-            return true;
-        }
-
-        /// <summary>
-        /// Delete row data.
-        /// </summary>
-        private bool DeleteRowData(Type type, object rowData)
-        {
-            // Get Id.
-            var prop = type.GetProperty("Id");
-            var updateId = (int)prop.GetValue(rowData);
-
-            // Get type rows.
-            var oriRows = GetRowsOrDefault(type.Name);
-            if (oriRows == default)
-            {
-                // Fail.
-                return false;
-            }
-
-            // Find row.
-            foreach (var oriRow in oriRows.Select((value, index) => (value, index)))
-            {
-                var oriRowId = (int)prop.GetValue(oriRow.value);
-
-                // Compare row Id.
-                if (oriRowId == updateId)
-                {
-                    // 동일 Id인 경우 Delete.
-                    oriRows.RemoveAt(oriRow.index);
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

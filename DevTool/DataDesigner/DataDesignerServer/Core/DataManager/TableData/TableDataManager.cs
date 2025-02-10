@@ -92,14 +92,6 @@ namespace DataDesignerServer.Core.DataManager.TableData
         }
 
         /// <summary>
-        /// Get schema for type.
-        /// </summary>
-        public ClassSchema FindSchemaOrDefault(string schemaName)
-        {
-            return _schemaDict.GetValueOrDefault(schemaName);
-        }
-
-        /// <summary>
         /// Get all schema names.
         /// </summary>
         public IEnumerable<string> GetSchemaNames()
@@ -113,6 +105,14 @@ namespace DataDesignerServer.Core.DataManager.TableData
         public IEnumerable<object> FindRowsOrDefault(string schemaName)
         {
             return _classRowDict.GetValueOrDefault(schemaName);
+        }
+
+        /// <summary>
+        /// Get schema for type.
+        /// </summary>
+        public ClassSchema FindSchemaOrDefault(string schemaName)
+        {
+            return _schemaDict.GetValueOrDefault(schemaName);
         }
 
         /// <summary>
@@ -342,42 +342,67 @@ namespace DataDesignerServer.Core.DataManager.TableData
             _classRowDict.AddOrUpdate(typeName, list, (key, old) => list);
         }
 
-        /// <summary>
-        /// Get schema for type.
-        /// </summary>
-        private ClassSchema SetSchema(string typeName, ClassSchema schema)
+		/// <summary>
+		/// Remove rows.
+		/// </summary>
+		private bool RemoveRows(string typeName)
+		{
+			if (false == _classRowDict.ContainsKey(typeName))
+			{
+                return false;
+			}
+
+            var rows = FindRowsOrDefault(typeName).ToList();
+
+			return _classRowDict.Remove(typeName, out rows);
+		}
+
+		/// <summary>
+		/// Get schema.
+		/// </summary>
+		private ClassSchema SetSchema(string typeName, ClassSchema schema)
         {
             return _schemaDict.AddOrUpdate(typeName, schema, (key, old) => schema);
         }
 
-        /// <summary>
-        /// Write data file.
-        /// </summary>
-        private bool FlushFiles(string typeName)
+		/// <summary>
+		/// Remove schema.
+		/// </summary>
+		private bool RemoveSchema(string typeName)
+		{
+            var schema = FindSchemaOrDefault(typeName);
+
+			return _schemaDict.Remove(typeName, out schema);
+		}
+
+		/// <summary>
+		/// Write data file.
+		/// </summary>
+		private bool FlushFiles(string schemaName)
         {
             // Check data file.
-            var dataFile = Path.Combine(_srcFolderPath, $"{typeName}.tb");
+            var dataFile = Path.Combine(_srcFolderPath, $"{schemaName}.tb");
             if (false == File.Exists(dataFile))
             {
                 File.Create(dataFile).Dispose();
             }
 
             // Check data file.
-            var schemaFile = Path.Combine(_srcFolderPath, $"{typeName}.schema");
+            var schemaFile = Path.Combine(_srcFolderPath, $"{schemaName}.schema");
             if (false == File.Exists(schemaFile))
             {
                 File.Create(schemaFile).Dispose();
             }
 
             // Get rows.
-            var rows = GetRowsOrDefault(typeName);
+            var rows = GetRowsOrDefault(schemaName);
             if (default == rows)
             {
                 return false;
             }
 
             // Get schema.
-            var schema = FindSchemaOrDefault(typeName);
+            var schema = FindSchemaOrDefault(schemaName);
             if (default == schema)
             {
                 return false;
@@ -392,6 +417,18 @@ namespace DataDesignerServer.Core.DataManager.TableData
             File.WriteAllText(schemaFile, schemaJson);
 
             return true;
+        }
+
+        /// <summary>
+        /// Delete files.
+        /// </summary>
+        private void RemoveFiles(string schemaName)
+        {
+			var dataFile = Path.Combine(_srcFolderPath, $"{schemaName}.conf");
+            File.Delete(dataFile);
+
+			var schemaFile = Path.Combine(_srcFolderPath, $"{schemaName}.schema");
+            File.Delete(schemaFile);
         }
     }
 }

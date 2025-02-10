@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, ListItemIcon, Menu, MenuItem, Stack } from '@mui/material';
+import { Box, Button, ListItemIcon, Menu, MenuItem, Stack } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -152,7 +152,7 @@ export default function ConfigurationGridTable({
   ////////////////////////////////////////////////////////////////
   // request value options for select of grid table
   useEffect(() => {
-    const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCh_TYPE_TABLE_KEYS}`;
+    const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_FETCH_TYPE_TABLE_KEYS}`;
 
     Request_Get<RES_FetchTypeAndTableKeys>(query).then((res) => {
       if (res instanceof RES_Error)
@@ -165,7 +165,6 @@ export default function ConfigurationGridTable({
         setDataLoaded(true);
       }
     });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -177,6 +176,7 @@ export default function ConfigurationGridTable({
   // grid columns
   return (
     <Fragment>
+
       {/* Header */}
       <ConfigurationHeaderbar
         schemaName={schemaName}
@@ -190,10 +190,11 @@ export default function ConfigurationGridTable({
           apiRef={apiRef}
           rows={schemaList.at(schemaIndex).rows}
           columns={gridColumns}
-          editMode="row"
+          editMode='row'
           getRowId={getRowId}
           processRowUpdate={processRowUpdate}
           hideFooter
+          showCellVerticalBorder
         />
 
         {/* Context Menu */}
@@ -282,8 +283,6 @@ function SubmitButtons({ schemaName, gridRows }: any) {
     // query
     const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_CONFIG_UPDATE_ROWS}?schema=${schemaName}`;
 
-    console.log(gridRows);
-
     // Request protocol
     const req = new REQ_UpdateConfigRows(schemaName, gridRows);
 
@@ -349,8 +348,14 @@ function ConvertColsToGridCols(
     let type = ConvertType(col.type);
     let valueOpts: [] | undefined = [];
 
-    // select type
-    if (type === 'singleSelect') valueOpts = valueOptionsDict[col.type];
+    // check ref table and type
+    if (col.refTable) {
+      valueOpts = valueOptionsDict[col.refTable];
+      type = 'singleSelect';
+    }
+    else if (type === 'singleSelect') {
+      valueOpts = valueOptionsDict[col.type];
+    }
 
     // add grid column
     gridColumns.push({

@@ -1,16 +1,22 @@
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import ConfigurationPage from '../pages/configurationPage.tsx';
-import GeneratePage from '../pages/generate.tsx';
+import GeneratePage from '../pages/generatePage.tsx';
 import Tablepage from '../pages/tablepage.tsx';
-import TestPage from '../pages/test.tsx';
 import TypePage from '../pages/typePage.tsx';
 import HeaderBar from './bars/headerBar.tsx';
 import Sidebar from './bars/sideBar.tsx';
 
 export default function Layout() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/data/configuration')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       {/* header */}
@@ -23,17 +29,15 @@ export default function Layout() {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
           bgcolor: 'background.default',
           p: 3,
-          width: '100%',
+          width: '78%',
           height: '100%',
           paddingTop: '65px',
         }}
       >
         <Routes>
-          <Route path="/" element={<TestPage />}></Route>
-          <Route 
+          <Route
             path="/data/configuration"
             element={<ConfigurationPage />}
           ></Route>

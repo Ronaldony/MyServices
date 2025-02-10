@@ -37,10 +37,10 @@
     },
     {
       "Idx": 5,
-      "Name": "HomeType",
+      "Name": "RefItem",
       "IsIndexed": false,
-      "Type": "string",
-      "RefTable": "",
+      "Type": "int",
+      "RefTable": "TB_Item",
       "Summary": ""
     }
   ]
