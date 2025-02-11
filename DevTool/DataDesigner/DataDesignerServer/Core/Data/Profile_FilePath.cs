@@ -10,6 +10,7 @@
 		public Profile_FilePath(string target)
 		{
 			this.Target = target;
+			this.ProjectPath = string.Empty;
 			this.ProtocolPath = string.Empty;
 			this.DataCodePath = string.Empty;
 			this.DatabaseFilePath = string.Empty;
@@ -19,6 +20,11 @@
         /// Target
         /// </summary>
         public string Target { get; set; }
+
+		/// <summary>
+		/// Project path.
+		/// </summary>
+		public string ProjectPath { get; set; }
 
 		/// <summary>
 		/// Protocol code.

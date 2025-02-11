@@ -21,7 +21,7 @@ namespace DataDesignerServer.Controllers.Generate
 		}
 
 		[HttpPatch]
-		[Route("/generate/udpate-profile")]
+		[Route("/generate/update-profile")]
 		public RES_UpdateProfile Process([FromBody] REQ_UpdateProfile req)
 		{
 			// check name

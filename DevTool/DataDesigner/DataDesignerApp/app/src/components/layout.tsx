@@ -10,13 +10,6 @@ import HeaderBar from './bars/headerBar.tsx';
 import Sidebar from './bars/sideBar.tsx';
 
 export default function Layout() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate('/data/configuration')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       {/* header */}
@@ -37,11 +30,11 @@ export default function Layout() {
         }}
       >
         <Routes>
-          <Route
+          <Route 
             path="/data/configuration"
             element={<ConfigurationPage />}
           ></Route>
-          <Route path="/data/type" element={<TypePage />}></Route>
+          <Route  path="/data/type" element={<TypePage />}></Route>
           <Route path="/data/table" element={<Tablepage />}></Route>
           <Route path="/generate" element={<GeneratePage />}></Route>
         </Routes>

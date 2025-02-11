@@ -16,6 +16,7 @@ export class Profile
 export class Profile_FilePath
 {
     target: string;
+    projectPath: string;
     protocolPath: string;
     dataCodePath: string;
     databaseFilePath: string;

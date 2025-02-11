@@ -1,15 +1,17 @@
 {
-  "6mwvn": {
-    "Name": "6mwvn",
+  "x8fh0": {
+    "Name": "x8fh0",
     "FilePathList": [
       {
         "Target": "Client",
+        "ProjectPath": "",
         "ProtocolPath": "",
         "DataCodePath": "",
         "DatabaseFilePath": ""
       },
       {
         "Target": "Server",
+        "ProjectPath": "",
         "ProtocolPath": "",
         "DataCodePath": "",
         "DatabaseFilePath": ""
