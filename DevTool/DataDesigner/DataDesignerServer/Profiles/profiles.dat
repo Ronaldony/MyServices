@@ -4,10 +4,10 @@
     "FilePathList": [
       {
         "Target": "Client",
-        "ProjectPath": "",
-        "ProtocolPath": "",
-        "DataCodePath": "",
-        "DatabaseFilePath": ""
+        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
+        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
+        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
+        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore"
       },
       {
         "Target": "Server",

@@ -1,13 +1,33 @@
 import FolderIcon from '@mui/icons-material/Folder';
-import { Box, Button, IconButton, Stack, Tab, Tabs, TextField, Typography } from '@mui/material';
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
-import { Request_Get } from '../apis/restAPI.ts';
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+} from '@mui/material';
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { Request_Get, Request_Post } from '../apis/restAPI.ts';
 import { Profile, Profile_FilePath } from '../classes/shared/profile.ts';
 import { RES_Error } from '../classes/shared/protocols/error.ts';
-import { RES_FindProfile } from '../classes/shared/protocols/generate.ts';
-import GenerateMenu from '../components/generate/generateMenu.tsx';
-import ErrorModal from '../components/modals/errorModal.tsx';
+import {
+  REQ_Generate,
+  RES_FindProfile,
+  RES_Generate,
+} from '../classes/shared/protocols/generate.ts';
 import GenerateHeaderbar from '../components/generate/generateHeaderbar.tsx';
+import GenerateMenu from '../components/generate/generateMenu.tsx';
+import CheckModal from '../components/modals/checkModal.tsx';
+import ErrorModal from '../components/modals/errorModal.tsx';
+import RequestingSpinner from '../components/modals/requestingSpinner.tsx';
 
 // GeneratePage
 export default function GeneratePage() {
@@ -16,10 +36,18 @@ export default function GeneratePage() {
   const [profile, setProfile] = useState<Profile>(
     new Profile('', new Array<Profile_FilePath>())
   );
+  const [target, setTarget] = useState("Client");
 
   // error
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // generate
+  const [openGenerateModal, setOpenGenerateModal] = useState(false);
+  const [generateMsg, setGenerateMsg] = useState('');
+
+  // status
+  const [isRequesting, setIsRequesting] = useState(false);
 
   // tab value
   const [value, setValue] = React.useState(0);
@@ -41,29 +69,57 @@ export default function GeneratePage() {
     [setErrorMsg, setOpenErrorModal]
   );
 
+  // onGenerate
+  const onGenerate = useCallback((msg) => {
+    setGenerateMsg(msg);
+    setOpenGenerateModal(true);
+  }, []);
+
+  // onRequestGenerate
+  const onRequestGenerate = useCallback(() => {
+    // query
+    const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_GENERATE_DATA}`;
+    const req = new REQ_Generate(target, profile);
+
+    // set
+    setIsRequesting(true);
+
+    // reqeust
+    Request_Post<RES_Generate>(query, req).then((res) => {
+      if (res instanceof RES_Error)
+        onError(`[${res.errorCode}] ${res.errorMsg}`);
+
+      // reset status
+      setIsRequesting(false);
+    });
+  }, [target, profile, onError]);
+
   // Function to trigger the hidden file input
   const handleButtonClick = () => {
     inputRef.current?.click();
   };
 
   // Handler for when the folder is selected
-  const handleFolderChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, handleIndex: number) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      // Get folder full path.
-      const firstFile = files[0] as any;
-      const fileLength = firstFile.name.length + 1; // +1은 '/' 포함
-      const projectPath = firstFile.path.slice(0, fileLength * -1);
+  const handleFolderChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>, handleIndex: number) => {
+      const files = event.target.files;
+      if (files && files.length > 0) {
+        // Get folder full path.
+        const firstFile = files[0] as any;
+        const fileLength = firstFile.name.length + 1; // +1은 '/' 포함
+        const projectPath = firstFile.path.slice(0, fileLength * -1);
 
-      setProfile({
-        ...profile, filePathList: profile.filePathList.map((filePath, index) => {
-          if (index === handleIndex) filePath.projectPath = projectPath;
-          return filePath;
-        })
+        setProfile({
+          ...profile,
+          filePathList: profile.filePathList.map((filePath, index) => {
+            if (index === handleIndex) filePath.projectPath = projectPath;
+            return filePath;
+          }),
+        });
       }
-      )
-    }
-  }, [profile, setProfile]);
+    },
+    [profile, setProfile]
+  );
 
   // request profile
   useEffect(() => {
@@ -81,16 +137,18 @@ export default function GeneratePage() {
 
   // Profile을 선택하지 않은 경우.
   if (selectedProfile === '') {
-    return <Box sx={{ display: 'flex', height: '100%', width: '100%' }}>
-      {/* Menu */}
-      <div style={{ height: '100%' }}>
+    return (
+      <Box sx={{ display: 'flex', height: '100%', width: '100%' }}>
         {/* Menu */}
-        <GenerateMenu
-          selectedProfile={selectedProfile}
-          setSelectedProfile={setSelectedProfile}
-        />
-      </div>
-    </Box>
+        <div style={{ height: '100%' }}>
+          {/* Menu */}
+          <GenerateMenu
+            selectedProfile={selectedProfile}
+            setSelectedProfile={setSelectedProfile}
+          />
+        </div>
+      </Box>
+    );
   }
 
   return (
@@ -123,7 +181,11 @@ export default function GeneratePage() {
         <Tabs value={value} onChange={handleChange} sx={{ display: 'block' }}>
           {profile.filePathList?.map((filePath, index) => {
             return (
-              <Tab label={filePath.target} key={index} {...tabProps(index)} />
+              <Tab 
+              label={filePath.target} 
+              key={index}
+              onClick={() => {setTarget(filePath.target)}} 
+              {...tabProps(index)} />
             );
           })}
         </Tabs>
@@ -140,7 +202,7 @@ export default function GeneratePage() {
                 <TextField
                   sx={{ width: '90%' }}
                   label="ProjectPath"
-                  value={filePath.projectPath ?? ""}
+                  value={filePath.projectPath ?? ''}
                   variant="filled"
                   focused
                   onChange={(e) =>
@@ -162,9 +224,12 @@ export default function GeneratePage() {
                   style={{ display: 'none' }}
                   ref={inputRef}
                   onChange={(e) => handleFolderChange(e, index)}
-                  {...({ webkitdirectory: "true" } as any)}
+                  {...({ webkitdirectory: 'true', directory: 'true' } as any)}
                 />
-                <IconButton onClick={handleButtonClick} style={{ padding: 15, margin: 0 }}>
+                <IconButton
+                  onClick={handleButtonClick}
+                  style={{ padding: 15, margin: 0 }}
+                >
                   <FolderIcon />
                 </IconButton>
               </Stack>
@@ -173,19 +238,16 @@ export default function GeneratePage() {
               <TextField
                 sx={{ width: '90%' }}
                 label="ProtocolPath"
-                value={filePath.protocolPath ?? ""}
+                value={filePath.protocolPath ?? ''}
                 variant="filled"
                 focused
                 onChange={(e) =>
                   setProfile({
                     ...profile,
-                    filePathList: profile.filePathList.map(
-                      (row, rowIndex) => {
-                        if (index === rowIndex)
-                          row.protocolPath = e.target.value;
-                        return row;
-                      }
-                    ),
+                    filePathList: profile.filePathList.map((row, rowIndex) => {
+                      if (index === rowIndex) row.protocolPath = e.target.value;
+                      return row;
+                    }),
                   })
                 }
               />
@@ -194,19 +256,16 @@ export default function GeneratePage() {
               <TextField
                 sx={{ width: '90%' }}
                 label="DataCodePath"
-                value={filePath.dataCodePath ?? ""}
+                value={filePath.dataCodePath ?? ''}
                 variant="filled"
                 focused
                 onChange={(e) =>
                   setProfile({
                     ...profile,
-                    filePathList: profile.filePathList.map(
-                      (row, rowIndex) => {
-                        if (index === rowIndex)
-                          row.dataCodePath = e.target.value;
-                        return row;
-                      }
-                    ),
+                    filePathList: profile.filePathList.map((row, rowIndex) => {
+                      if (index === rowIndex) row.dataCodePath = e.target.value;
+                      return row;
+                    }),
                   })
                 }
               />
@@ -215,19 +274,17 @@ export default function GeneratePage() {
               <TextField
                 sx={{ width: '90%' }}
                 label="DatabaseFilePath"
-                value={filePath.databaseFilePath ?? ""}
+                value={filePath.databaseFilePath ?? ''}
                 variant="filled"
                 focused
                 onChange={(e) =>
                   setProfile({
                     ...profile,
-                    filePathList: profile.filePathList.map(
-                      (row, rowIndex) => {
-                        if (index === rowIndex)
-                          row.databaseFilePath = e.target.value;
-                        return row;
-                      }
-                    ),
+                    filePathList: profile.filePathList.map((row, rowIndex) => {
+                      if (index === rowIndex)
+                        row.databaseFilePath = e.target.value;
+                      return row;
+                    }),
                   })
                 }
               />
@@ -235,7 +292,7 @@ export default function GeneratePage() {
           );
         })}
 
-        {/* Save */}
+        {/* Generate Button */}
         <Button
           variant="contained"
           onClick={() => onGenerate('Are you sure to generate?')}
@@ -250,6 +307,17 @@ export default function GeneratePage() {
         errorMsg={errorMsg}
         setOpenErrorModal={setOpenErrorModal}
       />
+
+      {/* Check modal */}
+      <CheckModal
+        openCheckModal={openGenerateModal}
+        checkMsg={generateMsg}
+        setOpenCheckModal={setOpenGenerateModal}
+        setOnCheckOk={onRequestGenerate}
+      />
+
+      {/* Requesting */}
+      <RequestingSpinner isRequesting={isRequesting} />
     </Box>
   );
 }

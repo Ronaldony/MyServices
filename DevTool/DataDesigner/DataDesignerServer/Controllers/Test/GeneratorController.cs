@@ -19,7 +19,7 @@ namespace DataDesignerServer.Controllers.Test
         private readonly TableDataManager _classManager;
         private readonly TypeDataManager _enumManager;
 
-        public GeneratorController(IServiceProvider serviceProvider) 
+        public GeneratorController(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<GeneratorController>>();
 
@@ -46,21 +46,7 @@ namespace DataDesignerServer.Controllers.Test
                     continue;
                 }
 
-                var members = new List<ClassMember>();
-
-                // Columns.
-                foreach (var col in schema.Columns)
-                {
-                    members.Add(new ClassMember
-                    {
-                        Name = col.Name,
-                        Type = col.Type,
-                        IsIndexed = col.IsIndexed,
-                        Summary = col.Summary,
-                    });
-                }
-
-                _codeGenerator.AddClass("GameCore", schema.Name, members);
+                _codeGenerator.AddClass("GameCore", schema.Name, schema.Columns);
             }
 
             //////////////////////////////////////////////
@@ -83,20 +69,7 @@ namespace DataDesignerServer.Controllers.Test
                     continue;
                 }
 
-                var members = new List<TypeMember>();
-                
-                // Rows.
-                foreach (var row in rows)
-                {
-                    members.Add(new TypeMember
-                    {
-                        Name = row.Name,
-                        Value = row.Id,
-                        Summary  = row.Summary
-                    });
-                }
-
-                _codeGenerator.AddEnum("GameCore", schema.Name, members);
+                _codeGenerator.AddEnum("GameCore", schema.Name, rows);
             }
 
             var createFolder = Path.Combine(Directory.GetCurrentDirectory(), "Code");

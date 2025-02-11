@@ -56,3 +56,18 @@ export class REQ_CreateProfile {
 
 // RES_CreateProfile.
 export class RES_CreateProfile {}
+
+// REQ_Generate
+export class REQ_Generate{
+  target: string;
+  profile: Profile;
+
+  constructor(target: string, profile: Profile)
+  {
+    this.target = target;
+    this.profile = profile;
+  }
+}
+
+// RES_Generate
+export class RES_Generate{}

@@ -12,7 +12,7 @@ namespace DataDesignerServer.Core.Generator
     /// <summary>
     /// CodeGenerator.
     /// </summary>
-    internal sealed class CodeGenerator
+    public sealed class CodeGenerator
     {
         private readonly ILogger<CodeGenerator> _logger;
 
@@ -114,13 +114,13 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Parse class code data, then generate enum code.
         /// </summary>
-        public void AddEnum(string enumNamespace, string enumName, IEnumerable<TypeMember> enumMembers)
+        public void AddEnum(string enumNamespace, string enumName, IEnumerable<TypeSchemaRow> rows)
         {
             _logger.LogDebug($"//----------------------------------------------------");
             _logger.LogDebug($"[CodeGenerator] Generating enum {enumName}");
 
             // Get compile unit.
-            var compilationSyntax = CreateEnumCompilationUnit(enumNamespace, enumName, enumMembers);
+            var compilationSyntax = CreateEnumCompilationUnit(enumNamespace, enumName, rows);
 
             // Accumulate CompilationUnitSyntax.
             _enumUnitSyntaxes.Add($"{enumName}.cs", compilationSyntax);
@@ -134,13 +134,13 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Parse class code data, then generate class code.
         /// </summary>
-        public bool AddClass(string classNamespace, string className, IEnumerable<ClassMember> classMembers)
+        public bool AddClass(string classNamespace, string className, IEnumerable<ClassSchemaColumn> columns)
         {
             _logger.LogDebug($"//----------------------------------------------------");
             _logger.LogDebug($"[CodeGenerator] Generating class {className}");
 
             // Get compile unit.
-            var compilationSyntax = CreateClassCompilationUnit(classNamespace, className, classMembers);
+            var compilationSyntax = CreateClassCompilationUnit(classNamespace, className, columns);
 
             if (null == compilationSyntax)
             {
@@ -238,8 +238,8 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         /// <param name="enumNamespace">Namespace for Enum</param>
         /// <param name="enumName">Enum name</param>
-        /// <param name="enumMembers">Enum member list</param>
-        private CompilationUnitSyntax CreateEnumCompilationUnit(string enumNamespace, string enumName, IEnumerable<TypeMember> enumMembers)
+        /// <param name="rows">Enum rows</param>
+        private CompilationUnitSyntax CreateEnumCompilationUnit(string enumNamespace, string enumName, IEnumerable<TypeSchemaRow> rows)
         {
             // Create namespace.
             var declareNamespace = SyntaxFactory
@@ -251,20 +251,20 @@ namespace DataDesignerServer.Core.Generator
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
 
             // Create enum member.
-            foreach (var enumMember in enumMembers)
+            foreach (var row in rows)
             {
                 var memberSyntax = SyntaxFactory
-                    .EnumMemberDeclaration(enumMember.Name)         // Name
-                    .WithEqualsValue(                               // Value
+                    .EnumMemberDeclaration(row.Name)                // Name
+                    .WithEqualsValue(                               // Id
                         SyntaxFactory.EqualsValueClause(
                             SyntaxFactory.LiteralExpression(
-                                SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(enumMember.Value)
+                                SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(row.Id)
                                 )
                             )
                         )
                 .WithLeadingTrivia(                                 // 주석 추가
                     SyntaxFactory.Comment($"/// <summary>"), SyntaxFactory.CarriageReturnLineFeed,
-                    SyntaxFactory.Comment($"/// {enumMember.Summary}"), SyntaxFactory.CarriageReturnLineFeed,
+                    SyntaxFactory.Comment($"/// {row.Summary}"), SyntaxFactory.CarriageReturnLineFeed,
                     SyntaxFactory.Comment($"/// </summary>"), SyntaxFactory.CarriageReturnLineFeed
                     );
 
@@ -284,8 +284,8 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         /// <param name="classNamespace">Namespace for class</param>
         /// <param name="className">Enum name</param>
-        /// <param name="classMembers">Class member list</param>
-        private CompilationUnitSyntax CreateClassCompilationUnit(string classNamespace, string className, IEnumerable<ClassMember> classMembers)
+        /// <param name="columns">Class member list</param>
+        private CompilationUnitSyntax CreateClassCompilationUnit(string classNamespace, string className, IEnumerable<ClassSchemaColumn> columns)
         {
             // Create namespace.
             var declareNamespace = SyntaxFactory
@@ -299,9 +299,9 @@ namespace DataDesignerServer.Core.Generator
             var namespaceList = new HashSet<string>();
 
             // Create member.
-            foreach (var classMember in classMembers)
+            foreach (var column in columns)
             {
-                var type = FindType(classMember.Type);
+                var type = FindType(column.Type);
                 if (null == type)
                 {
                     // Not found type.
@@ -317,8 +317,8 @@ namespace DataDesignerServer.Core.Generator
                 // Field.
                 var propSyntax = SyntaxFactory
                     .PropertyDeclaration(
-                        SyntaxFactory.ParseTypeName(classMember.Type),                          // Type
-                        classMember.Name                                                        // Name
+                        SyntaxFactory.ParseTypeName(column.Type),                          // Type
+                        column.Name                                                        // Name
                     )
                     .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))                // Public
                     .AddAccessorListAccessors(
@@ -329,7 +329,7 @@ namespace DataDesignerServer.Core.Generator
                     )
                     .WithLeadingTrivia(                                                         // 주석 추가
                         SyntaxFactory.Comment($"/// <summary>"), SyntaxFactory.CarriageReturnLineFeed,
-                        SyntaxFactory.Comment($"/// {classMember.Summary}"), SyntaxFactory.CarriageReturnLineFeed,
+                        SyntaxFactory.Comment($"/// {column.Summary}"), SyntaxFactory.CarriageReturnLineFeed,
                         SyntaxFactory.Comment($"/// </summary>"), SyntaxFactory.CarriageReturnLineFeed
                     );
 

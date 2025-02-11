@@ -110,7 +110,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// <summary>
         /// Get schema names only custom type.
         /// </summary>
-        public IEnumerable<string> GetTypeSchemas()
+        public IEnumerable<string> GetSchemaNames()
         {
             return _schemaDict.Keys;
         }

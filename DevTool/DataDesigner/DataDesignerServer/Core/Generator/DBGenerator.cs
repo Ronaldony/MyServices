@@ -41,13 +41,13 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Generate DB for enum.
         /// </summary>
-        public bool GenerateEnum(string basePath, Type enumType, List<TypeMember> enumList)
+        public bool GenerateEnum(string basePath, Type enumType, List<TypeSchemaRow> rows)
         {
             var dbSQLite = new DBSQLite(basePath);
 
             dbSQLite.Create(enumType);
 
-            foreach (var item in enumList)
+            foreach (var item in rows)
             {
                 if (false == dbSQLite.Insert(enumType, item.GetType()))
                 {
