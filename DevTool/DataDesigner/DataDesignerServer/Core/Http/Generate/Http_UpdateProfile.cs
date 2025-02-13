@@ -9,6 +9,14 @@ namespace DataDesignerServer.Core.Http.Generate
 	[HttpAttribute("/generate/update-profile")]
 	public class REQ_UpdateProfile
 	{
+		/// <summary>
+		/// Original profile name.
+		/// </summary>
+		public string OriProfileName { get; set; }
+
+		/// <summary>
+		/// Profile.
+		/// </summary>
 		public Profile Profile { get; set; }
 	}
 

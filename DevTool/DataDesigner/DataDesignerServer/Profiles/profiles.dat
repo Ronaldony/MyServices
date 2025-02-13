@@ -1,6 +1,6 @@
 {
-  "x8fh0": {
-    "Name": "x8fh0",
+  "Development": {
+    "Name": "Development",
     "FilePathList": [
       {
         "Target": "Client",
@@ -8,6 +8,25 @@
         "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
         "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
         "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore"
+      },
+      {
+        "Target": "Server",
+        "ProjectPath": "",
+        "ProtocolPath": "",
+        "DataCodePath": "",
+        "DatabaseFilePath": ""
+      }
+    ]
+  },
+  "crpcm": {
+    "Name": "crpcm",
+    "FilePathList": [
+      {
+        "Target": "Client",
+        "ProjectPath": "",
+        "ProtocolPath": "",
+        "DataCodePath": "",
+        "DatabaseFilePath": ""
       },
       {
         "Target": "Server",

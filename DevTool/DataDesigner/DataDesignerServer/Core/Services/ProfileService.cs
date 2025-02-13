@@ -87,8 +87,18 @@ namespace DataDesignerServer.Core.Services
         /// <summary>
         /// Update profile.
         /// </summary>
-        public bool UpdateProfile(Profile profile)
+        public bool UpdateProfile(string oriProfileName, Profile profile)
 		{
+			// if profile exist, delete.
+			if (false == oriProfileName.Equals(profile.Name))
+			{
+				if (false == DeleteProfile(oriProfileName))
+				{
+					return false;
+				}
+			}
+			
+			// Update.
 			_profileDict.AddOrUpdate(profile.Name, profile, (key, old) => profile);
 
 			// flush file.

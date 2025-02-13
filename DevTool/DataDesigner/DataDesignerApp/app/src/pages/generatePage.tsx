@@ -86,11 +86,11 @@ export default function GeneratePage() {
 
     // reqeust
     Request_Post<RES_Generate>(query, req).then((res) => {
-      if (res instanceof RES_Error)
-        onError(`[${res.errorCode}] ${res.errorMsg}`);
+      if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
 
       // reset status
       setIsRequesting(false);
+      setOpenGenerateModal(false);
     });
   }, [target, profile, onError]);
 
@@ -102,7 +102,10 @@ export default function GeneratePage() {
   // Handler for when the folder is selected
   const handleFolderChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, handleIndex: number) => {
-      const files = event.target.files;
+      const files = event.currentTarget.attributes;
+
+      console.log(`files`)
+      console.log(files)
       if (files && files.length > 0) {
         // Get folder full path.
         const firstFile = files[0] as any;
@@ -128,8 +131,7 @@ export default function GeneratePage() {
       const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_GENERATE_FIND_PROFILE}?profileName=${selectedProfile}`;
       // reqeust
       Request_Get<RES_FindProfile>(query).then((res) => {
-        if (res instanceof RES_Error)
-          onError(`[${res.errorCode}] ${res.errorMsg}`);
+        if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
         else setProfile(res.profile);
       });
     }
@@ -181,11 +183,11 @@ export default function GeneratePage() {
         <Tabs value={value} onChange={handleChange} sx={{ display: 'block' }}>
           {profile.filePathList?.map((filePath, index) => {
             return (
-              <Tab 
-              label={filePath.target} 
-              key={index}
-              onClick={() => {setTarget(filePath.target)}} 
-              {...tabProps(index)} />
+              <Tab
+                label={filePath.target}
+                key={index}
+                onClick={() => { setTarget(filePath.target) }}
+                {...tabProps(index)} />
             );
           })}
         </Tabs>
@@ -224,7 +226,7 @@ export default function GeneratePage() {
                   style={{ display: 'none' }}
                   ref={inputRef}
                   onChange={(e) => handleFolderChange(e, index)}
-                  {...({ webkitdirectory: 'true', directory: 'true' } as any)}
+                  {...({ webkitdirectory: 'true', directory: 'true', mozdirectory: 'true' } as any)}
                 />
                 <IconButton
                   onClick={handleButtonClick}
@@ -292,13 +294,23 @@ export default function GeneratePage() {
           );
         })}
 
-        {/* Generate Button */}
-        <Button
-          variant="contained"
-          onClick={() => onGenerate('Are you sure to generate?')}
+        {/* Edit, Delete button */}
+        <Stack
+          direction="row"
+          sx={{
+            justifyContent: 'flex-end',
+            padding: '30px'
+          }}
         >
-          Generate
-        </Button>
+          {/* Generate Button */}
+          <Button
+            variant="contained"
+            onClick={() => onGenerate('Are you sure to generate?')}
+          >
+            Generate
+          </Button>
+        </Stack>
+
       </Box>
 
       {/* Error modal */}

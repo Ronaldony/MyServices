@@ -8,6 +8,9 @@ import CheckModal from '../modals/checkModal.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
 
 export default function GenerateHeaderbar({ profileName, profile }: any) {
+    // profile
+    const [oriProfileName, setOriProfileName] = useState(profileName);
+
     // navigate
     const navigate = useNavigate();
 
@@ -39,22 +42,25 @@ export default function GenerateHeaderbar({ profileName, profile }: any) {
     }, [setOpenDeleteModal])
 
     // on edit 
-    const onEdit = useCallback((msg) => {
+    const onUpdate = useCallback((msg) => {
         setOpenEditModal(true)
         setEditMsg(msg)
     }, [setOpenEditModal])
 
     // on request edit
-    const onRequestEdit = useCallback(() => {
+    const onRequestUpdate = useCallback(() => {
         // parameters
         const query = `${process.env.REACT_APP_API_BASE}${process.env.REACT_APP_API_SUB_GENERATE_UPDATE_PROFILE}`;
-        const req = new REQ_UpdateProfile(profile);
+        const req = new REQ_UpdateProfile(oriProfileName, profile);
 
         // request
         Request_Patch<RES_UpdateProfile>(query, req)
             .then((res) => {
                 if (res instanceof RES_Error) onError(`[${res.errorCode}] ${res.errorMsg}`);
                 else navigate(0)
+                
+                // update previous profile name.
+                setOriProfileName(profile.name)
             })
 
         // reset modal
@@ -96,7 +102,7 @@ export default function GenerateHeaderbar({ profileName, profile }: any) {
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={{ xs: 1 }}
             >
-                <Button size="small" variant="outlined" onClick={() => onEdit('Are you sure to edit?')}>Edit</Button>
+                <Button size="small" variant="outlined" onClick={() => onUpdate('Are you sure to update?')}>Update</Button>
                 <Button size="small" variant="outlined" color='error' onClick={() => onDelete('Are you sure to remove?')}>Remove</Button>
             </Stack>
 
@@ -112,7 +118,7 @@ export default function GenerateHeaderbar({ profileName, profile }: any) {
                 openCheckModal={openEditModal}
                 checkMsg={editMsg}
                 setOpenCheckModal={setOpenEditModal}
-                setOnCheckOk={onRequestEdit}
+                setOnCheckOk={onRequestUpdate}
             />
 
             {/* Delete modal */}

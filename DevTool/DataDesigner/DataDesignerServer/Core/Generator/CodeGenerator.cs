@@ -6,13 +6,14 @@ using System.Reflection;
 
 namespace DataDesignerServer.Core.Generator
 {
-    using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.Data;
+	using DataDesignerServer.Core.Common;
+	using DataDesignerServer.Core.Data;
+	using DataDesignerServer.Core.Types;
 
-    /// <summary>
-    /// CodeGenerator.
-    /// </summary>
-    public sealed class CodeGenerator
+	/// <summary>
+	/// CodeGenerator.
+	/// </summary>
+	public sealed class CodeGenerator
     {
         private readonly ILogger<CodeGenerator> _logger;
 
@@ -26,19 +27,15 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         private List<Type> _typeList;
 
-        /// <summary>
-        /// CompilationUnitSyntax for class.
-        /// key: file name.
-        /// value: CompilationUnitSyntax.
-        /// </summary>
-        private readonly Dictionary<string, CompilationUnitSyntax> _classUnitSyntaxes;
+		/// <summary>
+		/// Class CodeUnitSyntax list.
+		/// </summary>
+		private readonly List<CodeUnitSyntax> _classUnitSyntaxes;
 
-        /// <summary>
-        /// CompilationUnitSyntax for enum.
-        /// key: file name.
-        /// value: CompilationUnitSyntax.
-        /// </summary>
-        private readonly Dictionary<string, CompilationUnitSyntax> _enumUnitSyntaxes;
+		/// <summary>
+		/// Enum CodeUnitSyntax list.
+		/// </summary>
+		private readonly List<CodeUnitSyntax> _enumUnitSyntaxes;
 
         /// <summary>
         /// Type table dictionary.
@@ -56,10 +53,10 @@ namespace DataDesignerServer.Core.Generator
         {
             _logger = serviceProvider.GetRequiredService<ILogger<CodeGenerator>>();
 
-            _classUnitSyntaxes = new Dictionary<string, CompilationUnitSyntax>();
-            _enumUnitSyntaxes = new Dictionary<string, CompilationUnitSyntax>();
+			_enumUnitSyntaxes = new List<CodeUnitSyntax>();
+			_classUnitSyntaxes = new List<CodeUnitSyntax>();
 
-            _primitiveTypeDict = new Dictionary<string, Type>();
+			_primitiveTypeDict = new Dictionary<string, Type>();
             _typeList = new List<Type>();
 
             _generatedTypes = new List<Type>();
@@ -68,8 +65,6 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Initialize.
         /// </summary>
-        /// <param name="dirPath">Directory path to generate</param>
-        /// <param name="dllFileName">DLL file name to generate</param>
         public void Initialize()
         {
             // Create compilation.
@@ -82,6 +77,7 @@ namespace DataDesignerServer.Core.Generator
 
             // Setup all types.
             _typeList.Clear();
+
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
                 var types = asm.GetTypes();
@@ -99,8 +95,12 @@ namespace DataDesignerServer.Core.Generator
             _primitiveTypeDict.Add("bool", typeof(bool));
             _primitiveTypeDict.Add("date", typeof(DateTime));
 
-            // Initialize.
-            _logger.LogInformation("EnumCodeGenerator initialized.");
+			// clear UnitSyntax.
+			_classUnitSyntaxes.Clear();
+			_enumUnitSyntaxes.Clear();
+
+			// Initialize.
+			_logger.LogInformation("CodeGenerator initialized.");
         }
 
         /// <summary>
@@ -114,16 +114,21 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Parse class code data, then generate enum code.
         /// </summary>
-        public void AddEnum(string enumNamespace, string enumName, IEnumerable<TypeSchemaRow> rows)
+        public void AddEnum(Type_GenerateCode genCodeType, string enumNamespace, string enumName, IEnumerable<TypeSchemaRow> rows)
         {
             _logger.LogDebug($"//----------------------------------------------------");
             _logger.LogDebug($"[CodeGenerator] Generating enum {enumName}");
 
             // Get compile unit.
-            var compilationSyntax = CreateEnumCompilationUnit(enumNamespace, enumName, rows);
+            var compilationSyntax = CreateEnumUnitSyntax(enumNamespace, enumName, rows);
 
-            // Accumulate CompilationUnitSyntax.
-            _enumUnitSyntaxes.Add($"{enumName}.cs", compilationSyntax);
+            // Add CodeUnitSyntax.
+            _enumUnitSyntaxes.Add(new CodeUnitSyntax
+            {
+                FileName = $"{enumName}.cs",
+                UnitSyntax = compilationSyntax,
+                GenCodeType = genCodeType,
+			});
 
             // Refresh types.
             FlushTypes(compilationSyntax);
@@ -134,13 +139,13 @@ namespace DataDesignerServer.Core.Generator
         /// <summary>
         /// Parse class code data, then generate class code.
         /// </summary>
-        public bool AddClass(string classNamespace, string className, IEnumerable<ClassSchemaColumn> columns)
+        public bool AddClass(Type_GenerateCode genCodeType, string classNamespace, string className, IEnumerable<ClassSchemaColumn> columns)
         {
             _logger.LogDebug($"//----------------------------------------------------");
             _logger.LogDebug($"[CodeGenerator] Generating class {className}");
 
             // Get compile unit.
-            var compilationSyntax = CreateClassCompilationUnit(classNamespace, className, columns);
+            var compilationSyntax = CreateClassUnitSyntax(classNamespace, className, columns);
 
             if (null == compilationSyntax)
             {
@@ -148,8 +153,13 @@ namespace DataDesignerServer.Core.Generator
                 return false;
             }
 
-            // Accumulate CompilationUnitSyntax.
-            _classUnitSyntaxes.Add($"{className}.cs", compilationSyntax);
+            // Add CodeUnitSyntax.
+            _classUnitSyntaxes.Add(new CodeUnitSyntax
+            {
+                GenCodeType = genCodeType,
+                UnitSyntax = compilationSyntax,
+                FileName = $"{className}.cs",
+            });
 
             // Refresh types.
             FlushTypes(compilationSyntax);
@@ -164,19 +174,15 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         public void CreateFiles(string dirPath)
         {
-            // Check folder.
-            var enumFolder = Path.Combine(dirPath, FilePath.TYPE_FOLDER);
-            Directory.CreateDirectory(enumFolder);
+            var folderDict = CreateFolders(dirPath);
 
-            // Create enum.
-            foreach (var pair in _enumUnitSyntaxes)
-            {
-                var fileName = pair.Key;
-                var compilationSyntax = pair.Value;
+			// Create enum.
+			foreach (var unitSyntax in _enumUnitSyntaxes)
+			{
+                var folder = folderDict[unitSyntax.GenCodeType];
+				var filePath = Path.Combine(folder, unitSyntax.FileName);
 
-                var filePath = Path.Combine(enumFolder, fileName);
-
-                File.WriteAllText(filePath, compilationSyntax.ToFullString());
+				File.WriteAllText(filePath, unitSyntax.UnitSyntax.ToFullString());
             }
 
             // Check folder.
@@ -184,21 +190,63 @@ namespace DataDesignerServer.Core.Generator
             Directory.CreateDirectory(classFolder);
 
             // Create class.
-            foreach (var pair in _classUnitSyntaxes)
-            {
-                var fileName = pair.Key;
-                var compilationSyntax = pair.Value;
+            foreach (var unitSyntax in _classUnitSyntaxes)
+			{
+				var folder = folderDict[unitSyntax.GenCodeType];
+				var filePath = Path.Combine(folder, unitSyntax.FileName);
 
-                var filePath = Path.Combine(classFolder, fileName);
-
-                File.WriteAllText(filePath, compilationSyntax.ToFullString());
+				File.WriteAllText(filePath, unitSyntax.UnitSyntax.ToFullString());
             }
-        }
+
+            Initialize();
+		}
 
         /// <summary>
-        /// Flush types.
+        /// Create folders.
         /// </summary>
-        private bool FlushTypes(CompilationUnitSyntax compilationSyntax)
+        private Dictionary<Type_GenerateCode, string> CreateFolders(string dirPath)
+		{
+            var folderDict = new Dictionary<Type_GenerateCode, string>();
+
+			// Check folder.
+			foreach (var type in Enum.GetValues<Type_GenerateCode>())
+			{
+                var folder = string.Empty;
+
+				switch (type)
+				{
+					case Type_GenerateCode.Type:
+						{
+							folder = Path.Combine(dirPath, FilePath.TYPE_FOLDER);
+						}
+						break;
+					case Type_GenerateCode.Configuration:
+						{
+							folder = Path.Combine(dirPath, FilePath.CONFIG_FOLDER);
+						}
+						break;
+					case Type_GenerateCode.Table:
+						{
+							folder = Path.Combine(dirPath, FilePath.TABLE_FOLDER);
+						}
+						break;
+				}
+                
+                // Create directory, add folder information.
+                if (false == string.IsNullOrEmpty(folder))
+                {
+				    Directory.CreateDirectory(folder);
+                    folderDict.Add(type, folder);
+                }
+			}
+            
+            return folderDict;
+		}
+
+		/// <summary>
+		/// Flush types.
+		/// </summary>
+		private bool FlushTypes(CompilationUnitSyntax compilationSyntax)
         {
             _compilation = _compilation.AddSyntaxTrees(compilationSyntax.SyntaxTree);
 
@@ -234,12 +282,9 @@ namespace DataDesignerServer.Core.Generator
         }
 
         /// <summary>
-        /// Create enum CodeCompileUnit\.
+        /// Create enum CodeCompileUnit.
         /// </summary>
-        /// <param name="enumNamespace">Namespace for Enum</param>
-        /// <param name="enumName">Enum name</param>
-        /// <param name="rows">Enum rows</param>
-        private CompilationUnitSyntax CreateEnumCompilationUnit(string enumNamespace, string enumName, IEnumerable<TypeSchemaRow> rows)
+        private CompilationUnitSyntax CreateEnumUnitSyntax(string enumNamespace, string enumName, IEnumerable<TypeSchemaRow> rows)
         {
             // Create namespace.
             var declareNamespace = SyntaxFactory
@@ -278,14 +323,10 @@ namespace DataDesignerServer.Core.Generator
             return SyntaxFactory.CompilationUnit().AddMembers(declareNamespace).NormalizeWhitespace();
         }
 
-
         /// <summary>
         /// Create class CodeCompileUnit.
         /// </summary>
-        /// <param name="classNamespace">Namespace for class</param>
-        /// <param name="className">Enum name</param>
-        /// <param name="columns">Class member list</param>
-        private CompilationUnitSyntax CreateClassCompilationUnit(string classNamespace, string className, IEnumerable<ClassSchemaColumn> columns)
+        private CompilationUnitSyntax CreateClassUnitSyntax(string classNamespace, string className, IEnumerable<ClassSchemaColumn> columns)
         {
             // Create namespace.
             var declareNamespace = SyntaxFactory

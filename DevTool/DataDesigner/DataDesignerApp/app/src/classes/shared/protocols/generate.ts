@@ -34,9 +34,11 @@ export class RES_GetProfileNames {
 
 // REQ_UpdateProfile
 export class REQ_UpdateProfile {
+  oriProfileName: string;
   profile: Profile;
 
-  constructor(profile: Profile) {
+  constructor(oriProfileName: string, profile: Profile) {
+    this.oriProfileName = oriProfileName;
     this.profile = profile;
   }
 }

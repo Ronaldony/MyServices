@@ -30,7 +30,8 @@ namespace DataDesignerServer.Controllers.Generate
 				throw new ServerException(ServerErrorCode.Generate_NoProfileName, "no profile name");
 			}
 
-			if (false == _profileService.UpdateProfile(req.Profile))
+			// Update profile.
+			if (false == _profileService.UpdateProfile(req.OriProfileName, req.Profile))
 			{
 				throw new ServerException(ServerErrorCode.Generate_UpdateProfile, "fail to update profile");
 			}
