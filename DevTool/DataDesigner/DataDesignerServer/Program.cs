@@ -56,7 +56,8 @@ namespace DataDesignerServerServer
 
 			// Add services to the container.
 			builder.Services.AddSingleton<CodeGenerator>();
-			builder.Services.AddSingleton<TypeDataManager>();
+			builder.Services.AddSingleton<DBGenerator>();
+            builder.Services.AddSingleton<TypeDataManager>();
 			builder.Services.AddSingleton<ConfigDataManager>();
 			builder.Services.AddSingleton<TableDataManager>();
 			builder.Services.AddSingleton<ProfileService>();

@@ -10,25 +10,33 @@ namespace DataDesignerServer.Core.Generator
     /// </summary>
     public sealed class DBGenerator
     {
-        private readonly IServiceProvider _serviceProvider;
-
-        public DBGenerator(IServiceProvider serviceProvider)
+        public DBGenerator()
         {
-            _serviceProvider = serviceProvider;
         }
 
         /// <summary>
         /// Generate DB for class,
         /// </summary>
-        public bool GenerateClass(string basePath, Type classType, List<Type> classList)
+        public bool GenerateClass(string basePath, Type classType, ClassSchema classSchema, IEnumerable<object> rows)
         {
             var dbSQLite = new DBSQLite(basePath);
 
-            dbSQLite.Create(classType);
+            dbSQLite.CreateClassTable(classType, classSchema.Columns);
 
-            foreach (var item in classList)
+            // Create index.
+            foreach (var column in classSchema.Columns)
             {
-                if (false == dbSQLite.Insert(classType, item))
+                // Check index
+                if (column.IsIndexed)
+                {
+                    dbSQLite.CreateIndex(classType, column.Name);
+                }
+            }
+
+            // Insert datas.
+            foreach (var row in rows)
+            {
+                if (false == dbSQLite.Insert(classType, row))
                 {
                     // Insert failed.
                     return false;
@@ -39,24 +47,25 @@ namespace DataDesignerServer.Core.Generator
         }
 
         /// <summary>
-        /// Generate DB for enum.
+        /// Generate DB for class,
         /// </summary>
         public bool GenerateEnum(string basePath, Type enumType, List<TypeSchemaRow> rows)
         {
             var dbSQLite = new DBSQLite(basePath);
 
-            dbSQLite.Create(enumType);
+            dbSQLite.CreateTypeTable(enumType);
 
-            foreach (var item in rows)
+            // Insert datas.
+            foreach (var row in rows)
             {
-                if (false == dbSQLite.Insert(enumType, item.GetType()))
+                if (false == dbSQLite.Insert(enumType, row))
                 {
                     // Insert failed.
                     return false;
                 }
             }
 
-            return default;
+            return true;
         }
     }
 }

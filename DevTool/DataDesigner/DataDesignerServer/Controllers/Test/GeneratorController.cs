@@ -34,7 +34,7 @@ namespace DataDesignerServer.Controllers.Test
 		{
 			//////////////////////////////////////////////
 			/// Generate class.
-			var classSchemaNames = _classManager.GetSchemaNames();
+			var classSchemaNames = _classManager.GetAllType().Select(d => d.Name);
 
 			foreach (var name in classSchemaNames)
 			{

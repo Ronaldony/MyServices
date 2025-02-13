@@ -358,16 +358,32 @@ function ConvertColsToGridCols(
     }
 
     // add grid column
-    gridColumns.push({
-      field: col.name,
-      headerName: col.name,
-      type: type,
-      minWidth: 130,
-      editable: true,
-      headerAlign: 'center',
-      align: 'right',
-      valueOptions: valueOpts,
-    });
+    if (type === 'dateTime')
+    {
+      gridColumns.push({
+        field: col.name,
+        headerName: col.name,
+        type: type,
+        minWidth: 130,
+        editable: true,
+        headerAlign: 'center',
+        align: 'right',
+        valueGetter: (value) => value && new Date(value)
+      });
+    }
+    else
+    {
+      gridColumns.push({
+        field: col.name,
+        headerName: col.name,
+        type: type,
+        minWidth: 130,
+        editable: true,
+        headerAlign: 'center',
+        align: 'right',
+        valueOptions: valueOpts,
+      });
+    }
   });
 
   return gridColumns;

@@ -21,7 +21,7 @@ namespace DataDesignerServer.Controllers.Configuration
         {
             return new RES_GetAllConfig
             {
-                SchemaNames = _configDataManager.GetSchemaNames().ToList(),
+                SchemaNames = _configDataManager.GetAllType().Select(d => d.Name).ToList(),
             };
         }
     }

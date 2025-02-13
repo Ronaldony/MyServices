@@ -8,16 +8,16 @@ namespace DataDesignerServer.Core.Data
 	/// CodeUnitSyntax.
 	/// </summary>
 	public class CodeUnitSyntax
-	{
+    {
+        /// <summary>
+        /// File name.
+        /// </summary>
+        public string FileName { get; set; }
+
 		/// <summary>
 		/// Type_GenerateCode.
 		/// </summary>
 		public Type_GenerateCode GenCodeType { get; set; }
-
-		/// <summary>
-		/// File name.
-		/// </summary>
-		public string FileName { get; set; }
 
 		/// <summary>
 		/// CompilationUnitSyntax.

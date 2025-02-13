@@ -110,9 +110,9 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// <summary>
         /// Get schema names only custom type.
         /// </summary>
-        public IEnumerable<string> GetSchemaNames()
+        public IEnumerable<Type> GetAllType()
         {
-            return _schemaDict.Keys;
+            return _ebDict.Values.Select(d => d.AsType());
         }
 
         /// <summary>

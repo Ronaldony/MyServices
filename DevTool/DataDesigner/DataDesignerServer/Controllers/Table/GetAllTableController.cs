@@ -21,7 +21,7 @@ namespace DataDesignerServer.Controllers.Table
         {
             return new RES_GetAllTable
 			{
-                SchemaNames = _tableDataManager.GetSchemaNames().ToList(),
+                SchemaNames = _tableDataManager.GetAllType().Select(d => d.Name).ToList(),
             };
         }
     }

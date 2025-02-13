@@ -1,6 +1,13 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, ListItemIcon, Menu, MenuItem, Stack } from '@mui/material';
+import {
+  Box,
+  Button,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Stack,
+} from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -13,13 +20,9 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { Request_Get, Request_Patch } from '../../apis/restAPI.ts';
-import {
-  ClassSchemaColumn
-} from '../../classes/shared/classSchema.ts';
+import { ClassSchemaColumn } from '../../classes/shared/classSchema.ts';
 import { RES_FetchTypeAndTableKeys } from '../../classes/shared/protocols/common.ts';
-import {
-  REQ_UpdateConfigRows
-} from '../../classes/shared/protocols/configuration.ts';
+import { REQ_UpdateConfigRows } from '../../classes/shared/protocols/configuration.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
 import CheckModal from '../modals/checkModal.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
@@ -176,7 +179,6 @@ export default function ConfigurationGridTable({
   // grid columns
   return (
     <Fragment>
-
       {/* Header */}
       <ConfigurationHeaderbar
         schemaName={schemaName}
@@ -190,7 +192,7 @@ export default function ConfigurationGridTable({
           apiRef={apiRef}
           rows={schemaList.at(schemaIndex).rows}
           columns={gridColumns}
-          editMode='row'
+          editMode="row"
           getRowId={getRowId}
           processRowUpdate={processRowUpdate}
           hideFooter
@@ -352,22 +354,34 @@ function ConvertColsToGridCols(
     if (col.refTable) {
       valueOpts = valueOptionsDict[col.refTable];
       type = 'singleSelect';
-    }
-    else if (type === 'singleSelect') {
+    } else if (type === 'singleSelect') {
       valueOpts = valueOptionsDict[col.type];
     }
 
     // add grid column
-    gridColumns.push({
-      field: col.name,
-      headerName: col.name,
-      type: type,
-      minWidth: 130,
-      editable: true,
-      headerAlign: 'center',
-      align: 'right',
-      valueOptions: valueOpts,
-    });
+    if (type === 'dateTime') {
+      gridColumns.push({
+        field: col.name,
+        headerName: col.name,
+        type: type,
+        minWidth: 130,
+        editable: true,
+        headerAlign: 'center',
+        align: 'right',
+        valueGetter: (value) => value && new Date(value),
+      });
+    } else {
+      gridColumns.push({
+        field: col.name,
+        headerName: col.name,
+        type: type,
+        minWidth: 130,
+        editable: true,
+        headerAlign: 'center',
+        align: 'right',
+        valueOptions: valueOpts,
+      });
+    }
   });
 
   return gridColumns;

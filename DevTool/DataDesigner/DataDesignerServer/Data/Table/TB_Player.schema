@@ -1,7 +1,7 @@
 {
-  "Name": "TB_Item",
-  "Category": "Item",
-  "Description": "Desc",
+  "Name": "TB_Player",
+  "Category": "",
+  "Description": "",
   "Columns": [
     {
       "Idx": 1,
@@ -13,15 +13,15 @@
     },
     {
       "Idx": 2,
-      "Name": "ItemType",
-      "IsIndexed": false,
+      "Name": "Item",
+      "IsIndexed": true,
       "Type": "Type_Item",
       "RefTable": "",
       "Summary": ""
     },
     {
       "Idx": 3,
-      "Name": "Name",
+      "Name": "Summary",
       "IsIndexed": false,
       "Type": "string",
       "RefTable": "",
@@ -29,9 +29,9 @@
     },
     {
       "Idx": 4,
-      "Name": "Summary",
+      "Name": "LoginTime",
       "IsIndexed": false,
-      "Type": "string",
+      "Type": "date",
       "RefTable": "",
       "Summary": ""
     }

@@ -6,14 +6,14 @@ using System.Reflection;
 
 namespace DataDesignerServer.Core.Generator
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.Data;
-	using DataDesignerServer.Core.Types;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.Data;
+    using DataDesignerServer.Core.Types;
 
-	/// <summary>
-	/// CodeGenerator.
-	/// </summary>
-	public sealed class CodeGenerator
+    /// <summary>
+    /// CodeGenerator.
+    /// </summary>
+    public sealed class CodeGenerator
     {
         private readonly ILogger<CodeGenerator> _logger;
 
@@ -27,15 +27,19 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         private List<Type> _typeList;
 
-		/// <summary>
-		/// Class CodeUnitSyntax list.
-		/// </summary>
-		private readonly List<CodeUnitSyntax> _classUnitSyntaxes;
+        /// <summary>
+        /// Class CodeUnitSyntax list.
+        /// key: Class name.
+        /// value: CodeUnitSyntax.
+        /// </summary>
+        private readonly Dictionary<string, CodeUnitSyntax> _classUnitSyntaxDict;
 
-		/// <summary>
-		/// Enum CodeUnitSyntax list.
-		/// </summary>
-		private readonly List<CodeUnitSyntax> _enumUnitSyntaxes;
+        /// <summary>
+        /// Enum CodeUnitSyntax list.
+        /// key: Enum name.
+        /// value: CodeUnitSyntax.
+        /// </summary>
+        private readonly Dictionary<string, CodeUnitSyntax> _enumUnitSyntaxDict;
 
         /// <summary>
         /// Type table dictionary.
@@ -44,19 +48,14 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         private Dictionary<string, Type> _primitiveTypeDict;
 
-        /// <summary>
-        /// Compilation.
-        /// </summary>
-        private CSharpCompilation _compilation;
-
         public CodeGenerator(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<CodeGenerator>>();
 
-			_enumUnitSyntaxes = new List<CodeUnitSyntax>();
-			_classUnitSyntaxes = new List<CodeUnitSyntax>();
+            _enumUnitSyntaxDict = new Dictionary<string, CodeUnitSyntax>();
+            _classUnitSyntaxDict = new Dictionary<string, CodeUnitSyntax>();
 
-			_primitiveTypeDict = new Dictionary<string, Type>();
+            _primitiveTypeDict = new Dictionary<string, Type>();
             _typeList = new List<Type>();
 
             _generatedTypes = new List<Type>();
@@ -67,13 +66,6 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         public void Initialize()
         {
-            // Create compilation.
-            var dllFile = typeof(CodeGenerator).Name + ".dll";
-
-            _compilation = CSharpCompilation.Create(
-                assemblyName: dllFile,
-                references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             // Setup all types.
             _typeList.Clear();
@@ -95,12 +87,12 @@ namespace DataDesignerServer.Core.Generator
             _primitiveTypeDict.Add("bool", typeof(bool));
             _primitiveTypeDict.Add("date", typeof(DateTime));
 
-			// clear UnitSyntax.
-			_classUnitSyntaxes.Clear();
-			_enumUnitSyntaxes.Clear();
+            // clear UnitSyntax.
+            _classUnitSyntaxDict.Clear();
+            _enumUnitSyntaxDict.Clear();
 
-			// Initialize.
-			_logger.LogInformation("CodeGenerator initialized.");
+            // Initialize.
+            _logger.LogInformation("CodeGenerator initialized.");
         }
 
         /// <summary>
@@ -122,16 +114,23 @@ namespace DataDesignerServer.Core.Generator
             // Get compile unit.
             var compilationSyntax = CreateEnumUnitSyntax(enumNamespace, enumName, rows);
 
-            // Add CodeUnitSyntax.
-            _enumUnitSyntaxes.Add(new CodeUnitSyntax
+            // Update CodeUnitSyntax.
+            if (_enumUnitSyntaxDict.ContainsKey(enumName))
             {
-                FileName = $"{enumName}.cs",
-                UnitSyntax = compilationSyntax,
-                GenCodeType = genCodeType,
-			});
+                _enumUnitSyntaxDict[enumName].UnitSyntax = compilationSyntax;
+            }
+            else
+            {
+                _enumUnitSyntaxDict.Add(enumName, new CodeUnitSyntax
+                {
+                    FileName = $"{enumName}.cs",
+                    UnitSyntax = compilationSyntax,
+                    GenCodeType = genCodeType,
+                });
+            }
 
             // Refresh types.
-            FlushTypes(compilationSyntax);
+            FlushTypes();
 
             _logger.LogDebug($"[CodeGenerator] Enum {enumName} generated.");
         }
@@ -153,16 +152,23 @@ namespace DataDesignerServer.Core.Generator
                 return false;
             }
 
-            // Add CodeUnitSyntax.
-            _classUnitSyntaxes.Add(new CodeUnitSyntax
+            // Update CodeUnitSyntax.
+            if (_classUnitSyntaxDict.ContainsKey(className))
             {
-                GenCodeType = genCodeType,
-                UnitSyntax = compilationSyntax,
-                FileName = $"{className}.cs",
-            });
+                _classUnitSyntaxDict[className].UnitSyntax = compilationSyntax;
+            }
+            else
+            {
+                _classUnitSyntaxDict.Add(className, new CodeUnitSyntax
+                {
+                    FileName = $"{className}.cs",
+                    UnitSyntax = compilationSyntax,
+                    GenCodeType = genCodeType,
+                });
+            }
 
             // Refresh types.
-            FlushTypes(compilationSyntax);
+            FlushTypes();
 
             _logger.LogInformation($"[CodeGenerator] Class {className} generated.");
 
@@ -176,13 +182,15 @@ namespace DataDesignerServer.Core.Generator
         {
             var folderDict = CreateFolders(dirPath);
 
-			// Create enum.
-			foreach (var unitSyntax in _enumUnitSyntaxes)
-			{
-                var folder = folderDict[unitSyntax.GenCodeType];
-				var filePath = Path.Combine(folder, unitSyntax.FileName);
+            // Create enum.
+            foreach (var pair in _enumUnitSyntaxDict)
+            {
+                var codeUnitSyntax = pair.Value;
 
-				File.WriteAllText(filePath, unitSyntax.UnitSyntax.ToFullString());
+                var folder = folderDict[codeUnitSyntax.GenCodeType];
+                var filePath = Path.Combine(folder, codeUnitSyntax.FileName);
+
+                File.WriteAllText(filePath, codeUnitSyntax.UnitSyntax.ToFullString());
             }
 
             // Check folder.
@@ -190,70 +198,93 @@ namespace DataDesignerServer.Core.Generator
             Directory.CreateDirectory(classFolder);
 
             // Create class.
-            foreach (var unitSyntax in _classUnitSyntaxes)
-			{
-				var folder = folderDict[unitSyntax.GenCodeType];
-				var filePath = Path.Combine(folder, unitSyntax.FileName);
+            foreach (var pair in _classUnitSyntaxDict)
+            {
+                var codeUnitSyntax = pair.Value;
 
-				File.WriteAllText(filePath, unitSyntax.UnitSyntax.ToFullString());
+                var folder = folderDict[codeUnitSyntax.GenCodeType];
+                var filePath = Path.Combine(folder, codeUnitSyntax.FileName);
+
+                File.WriteAllText(filePath, codeUnitSyntax.UnitSyntax.ToFullString());
             }
-
-            Initialize();
-		}
+        }
 
         /// <summary>
         /// Create folders.
         /// </summary>
         private Dictionary<Type_GenerateCode, string> CreateFolders(string dirPath)
-		{
+        {
             var folderDict = new Dictionary<Type_GenerateCode, string>();
 
-			// Check folder.
-			foreach (var type in Enum.GetValues<Type_GenerateCode>())
-			{
+            // Check folder.
+            foreach (var type in Enum.GetValues<Type_GenerateCode>())
+            {
                 var folder = string.Empty;
 
-				switch (type)
-				{
-					case Type_GenerateCode.Type:
-						{
-							folder = Path.Combine(dirPath, FilePath.TYPE_FOLDER);
-						}
-						break;
-					case Type_GenerateCode.Configuration:
-						{
-							folder = Path.Combine(dirPath, FilePath.CONFIG_FOLDER);
-						}
-						break;
-					case Type_GenerateCode.Table:
-						{
-							folder = Path.Combine(dirPath, FilePath.TABLE_FOLDER);
-						}
-						break;
-				}
-                
+                switch (type)
+                {
+                    case Type_GenerateCode.Type:
+                        {
+                            folder = Path.Combine(dirPath, FilePath.TYPE_FOLDER);
+                        }
+                        break;
+                    case Type_GenerateCode.Configuration:
+                        {
+                            folder = Path.Combine(dirPath, FilePath.CONFIG_FOLDER);
+                        }
+                        break;
+                    case Type_GenerateCode.Table:
+                        {
+                            folder = Path.Combine(dirPath, FilePath.TABLE_FOLDER);
+                        }
+                        break;
+                }
+
                 // Create directory, add folder information.
                 if (false == string.IsNullOrEmpty(folder))
                 {
-				    Directory.CreateDirectory(folder);
+                    Directory.CreateDirectory(folder);
                     folderDict.Add(type, folder);
                 }
-			}
-            
-            return folderDict;
-		}
+            }
 
-		/// <summary>
-		/// Flush types.
-		/// </summary>
-		private bool FlushTypes(CompilationUnitSyntax compilationSyntax)
+            return folderDict;
+        }
+
+        /// <summary>
+        /// Flush types.
+        /// </summary>
+        private bool FlushTypes()
         {
-            _compilation = _compilation.AddSyntaxTrees(compilationSyntax.SyntaxTree);
+            // Create compilation.
+            var dllFile = typeof(CodeGenerator).Name + ".dll";
+
+            // Csharp compilation.
+            var compilation = CSharpCompilation.Create(
+                assemblyName: dllFile,
+                references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            // Add class tree.
+            foreach (var pair in _classUnitSyntaxDict)
+            {
+                var codeUnitSyntax = pair.Value;
+
+                compilation = compilation.AddSyntaxTrees(codeUnitSyntax.UnitSyntax.SyntaxTree);
+            }
+
+            // Add enum tree.
+            foreach (var pair in _enumUnitSyntaxDict)
+            {
+                var codeUnitSyntax = pair.Value;
+
+                compilation = compilation.AddSyntaxTrees(codeUnitSyntax.UnitSyntax.SyntaxTree);
+            }
 
             using (var ms = new MemoryStream())
             {
                 // emit compilation to memory stream.
-                var result = _compilation.Emit(ms);
+                var result = compilation.Emit(ms);
 
                 if (result.Success)
                 {
@@ -377,7 +408,6 @@ namespace DataDesignerServer.Core.Generator
                 // Add member.
                 declareClass = declareClass.AddMembers(propSyntax);
             }
-
 
             // Add using.
             foreach (var name in namespaceList)

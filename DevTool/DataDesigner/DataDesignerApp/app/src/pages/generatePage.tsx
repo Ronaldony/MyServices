@@ -12,8 +12,7 @@ import React, {
   Fragment,
   useCallback,
   useEffect,
-  useRef,
-  useState,
+  useState
 } from 'react';
 import { Request_Get, Request_Post } from '../apis/restAPI.ts';
 import { Profile, Profile_FilePath } from '../classes/shared/profile.ts';
@@ -51,9 +50,6 @@ export default function GeneratePage() {
 
   // tab value
   const [value, setValue] = React.useState(0);
-
-  // Folder button
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // handle change of tab
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -95,34 +91,21 @@ export default function GeneratePage() {
   }, [target, profile, onError]);
 
   // Function to trigger the hidden file input
-  const handleButtonClick = () => {
-    inputRef.current?.click();
+  const onSelectDirectory = async (handleIndex) => {
+    const directory = await (window as any).electronAPI.selectDirectory();
+
+    // set selection directory.
+    if (directory) 
+    {
+      setProfile({
+        ...profile,
+        filePathList: profile.filePathList.map((filePath, index) => {
+          if (index === handleIndex) filePath.projectPath = directory;
+          return filePath;
+        }),
+      });
+    }
   };
-
-  // Handler for when the folder is selected
-  const handleFolderChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>, handleIndex: number) => {
-      const files = event.currentTarget.attributes;
-
-      console.log(`files`)
-      console.log(files)
-      if (files && files.length > 0) {
-        // Get folder full path.
-        const firstFile = files[0] as any;
-        const fileLength = firstFile.name.length + 1; // +1은 '/' 포함
-        const projectPath = firstFile.path.slice(0, fileLength * -1);
-
-        setProfile({
-          ...profile,
-          filePathList: profile.filePathList.map((filePath, index) => {
-            if (index === handleIndex) filePath.projectPath = projectPath;
-            return filePath;
-          }),
-        });
-      }
-    },
-    [profile, setProfile]
-  );
 
   // request profile
   useEffect(() => {
@@ -220,16 +203,9 @@ export default function GeneratePage() {
                     })
                   }
                 />
-                {/* Folder picker */}
-                <input
-                  type="file"
-                  style={{ display: 'none' }}
-                  ref={inputRef}
-                  onChange={(e) => handleFolderChange(e, index)}
-                  {...({ webkitdirectory: 'true', directory: 'true', mozdirectory: 'true' } as any)}
-                />
+
                 <IconButton
-                  onClick={handleButtonClick}
+                  onClick={() => onSelectDirectory(index)}
                   style={{ padding: 15, margin: 0 }}
                 >
                   <FolderIcon />

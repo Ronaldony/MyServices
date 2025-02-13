@@ -92,11 +92,11 @@ namespace DataDesignerServer.Core.DataManager.TableData
         }
 
         /// <summary>
-        /// Get all schema names.
+        /// Get all type.
         /// </summary>
-        public IEnumerable<string> GetSchemaNames()
+        public IEnumerable<Type> GetAllType()
         {
-            return _schemaDict.Keys;
+            return _tbDict.Values.Select(d => d.AsType());
         }
 
         /// <summary>

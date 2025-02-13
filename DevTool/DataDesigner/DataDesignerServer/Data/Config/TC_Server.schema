@@ -1,7 +1,7 @@
 {
-  "Name": "TC_Game",
+  "Name": "TC_Server",
   "Category": "",
-  "Description": null,
+  "Description": "",
   "Columns": [
     {
       "Idx": 1,
@@ -16,6 +16,14 @@
       "Name": "Summary",
       "IsIndexed": false,
       "Type": "string",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "dae",
+      "IsIndexed": false,
+      "Type": "date",
       "RefTable": "",
       "Summary": ""
     }

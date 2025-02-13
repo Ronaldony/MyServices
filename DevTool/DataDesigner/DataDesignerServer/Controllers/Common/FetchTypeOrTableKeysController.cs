@@ -40,11 +40,11 @@ namespace DataDesignerServer.Controllers.Common
 			};
 
 			// find from type.
-			var typeSchemas = _typeDataManager.GetTypeSchemasWithPrimitive();
+			var typeNames = _typeDataManager.GetTypeSchemasWithPrimitive();
 
-			foreach (var schema in typeSchemas)
+			foreach (var typeName in typeNames)
 			{
-				var rows = _typeDataManager.GetRowsOrDefault(schema);
+				var rows = _typeDataManager.GetRowsOrDefault(typeName);
 
 				if (default == rows)
 				{
@@ -52,25 +52,25 @@ namespace DataDesignerServer.Controllers.Common
 					continue;
 				}
 
-				res.SchemaKeysDict.Add(schema, rows.Select(d => d.Name).ToList());
+				res.SchemaKeysDict.Add(typeName, rows.Select(d => d.Name).ToList());
 			}
 
 			// find from table.
-			var tableSchemas = _tableDataManager.GetSchemaNames();
+			var tableNames = _tableDataManager.GetAllType().Select(d => d.Name);
 
-			foreach (var schema in  tableSchemas)
+			foreach (var tableName in  tableNames)
 			{
-				var findRows = _tableDataManager.FindRowsOrDefault(schema);
+				var findRows = _tableDataManager.FindRowsOrDefault(tableName);
 
 				if (default == findRows)
 				{
-					throw new ServerException(ServerErrorCode.Common_NotExistSchema, $"not exist schema. name: {schema}");
+					throw new ServerException(ServerErrorCode.Common_NotExistSchema, $"not exist schema. name: {tableName}");
 				}
 
 				// filter rows.
 				var rows = FilterIdFromTable(findRows);
 
-				res.SchemaKeysDict.Add(schema, rows);
+				res.SchemaKeysDict.Add(tableName, rows);
 			}
 
 			return res;

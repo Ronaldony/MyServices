@@ -19,7 +19,7 @@ namespace DataDesignerServer.Controllers.Common
         [Route("/common/fetch-ref-tables")]
         public RES_FetchRefTables Process()
         {
-            var tables = _tableDataManager.GetSchemaNames().ToList();
+            var tables = _tableDataManager.GetAllType().Select(d => d.Name).ToList();
 
             return new RES_FetchRefTables
             {
