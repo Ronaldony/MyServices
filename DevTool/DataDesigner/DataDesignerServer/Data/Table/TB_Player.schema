@@ -13,8 +13,8 @@
     },
     {
       "Idx": 2,
-      "Name": "Item",
-      "IsIndexed": true,
+      "Name": "ItemType",
+      "IsIndexed": false,
       "Type": "Type_Item",
       "RefTable": "",
       "Summary": ""
@@ -24,14 +24,6 @@
       "Name": "Summary",
       "IsIndexed": false,
       "Type": "string",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 4,
-      "Name": "LoginTime",
-      "IsIndexed": false,
-      "Type": "date",
       "RefTable": "",
       "Summary": ""
     }

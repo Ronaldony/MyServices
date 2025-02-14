@@ -2,20 +2,21 @@
 using System.Collections;
 using System.Reflection.Emit;
 
-namespace DataDesignerServer.Core.DataManager.TableData
+namespace DataDesignerServer.Core.DataManager.ClassData
 {
     using DataDesignerServer.Core.Data;
+    using DataDesignerServer.Core.Types;
 
     /// <summary>
     /// TableManager.
     /// Desc: Manage table types.
     /// </summary>
-    public sealed partial class TableDataManager
+    public sealed partial class ClassDataManager
     {
         /// <summary>
         /// Create schema.
         /// </summary>
-        public bool CreateSchema(string schemaName, ClassSchema schema)
+        public bool CreateSchema(string schemaName, Type_ClassData classDataType, ClassSchema schema)
         {
             // Schema.
             var oldSchema = FindSchemaOrDefault(schemaName);
@@ -25,18 +26,10 @@ namespace DataDesignerServer.Core.DataManager.TableData
                 return false;
             }
 
-            // Schema.
-            if (default == SetSchema(schemaName, schema))
-            {
-                return false;
-            }
-
             // TypeBuilder.
             var tb = CreateTypeBuilder(schemaName, schema);
 
-            // Set row, builder.
-            SetRows(schemaName, new List<object>());
-            SetTypeBuilder(schemaName, tb);
+            AddOrUpdateClassGroup(schemaName, classDataType, rows: new List<object>(), tb: tb, schema: schema);
 
             // Flush.
             if (false == FlushFiles(schemaName))
@@ -62,7 +55,7 @@ namespace DataDesignerServer.Core.DataManager.TableData
             // Check column.
             if (IsColumnChanged(oldSchema.Columns, schema.Columns))
             {
-                var oldTB = GetTypeBuilder(oldSchema.Name);
+                var oldTB = FindTypeBuilder(oldSchema.Name);
                 var newTB = CreateTypeBuilder(schema.Name, schema);
 
                 // 컬럼이 변경된 경우.
@@ -72,7 +65,7 @@ namespace DataDesignerServer.Core.DataManager.TableData
                 }
 
                 // Update type buidler.
-                SetTypeBuilder(schema.Name, newTB);
+                AddOrUpdateClassGroup(schemaName, tb: newTB);
             }
 
             // Reset schema Idx.
@@ -83,11 +76,8 @@ namespace DataDesignerServer.Core.DataManager.TableData
             }
 
             // Set schema.
-            if (default == SetSchema(schemaName, schema))
-            {
-                return false;
-            }
-            
+            AddOrUpdateClassGroup(schemaName, schema: schema);
+
             // Refresh schema file.
             if (false == FlushFiles(schemaName))
             {
@@ -110,16 +100,7 @@ namespace DataDesignerServer.Core.DataManager.TableData
 			}
 
             // remove rows.
-            if (false == RemoveRows(schemaName))
-            {
-                return false;
-            }
-
-			// remove schema.
-			if (false == RemoveSchema(schemaName))
-			{
-				return false;
-			}
+            RemoveClassGroup(schemaName);
 
             // Refresh schema file.
             RemoveFiles(schemaName);
@@ -167,11 +148,11 @@ namespace DataDesignerServer.Core.DataManager.TableData
         /// </summary>
         private bool UpdateSchemaRows(TypeBuilder oldTB, TypeBuilder newTB, ClassSchema newSchema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
         {
-            var addCols = GetAddCols(newCols);
+            var addCols = newCols.Where(d => d.Idx == 0).Select(d => d.Name).ToList();
             var updateCols = GetUpdateCols(oldCols, newCols);
 
             // Get rows.
-            var oriRows = GetRowsOrDefault(newSchema.Name);
+            var oriRows = FindRowsOrDefault(newSchema.Name);
             if (default == oriRows)
             {
                 return false;
@@ -234,18 +215,10 @@ namespace DataDesignerServer.Core.DataManager.TableData
             }
 
             // Class datas.
-            var classDatas = classList.OfType<object>().ToList();
-            SetRows(newSchema.Name, classDatas);
+            var rows = classList.OfType<object>().ToList();
+            AddOrUpdateClassGroup(newSchema.Name, rows: rows);
 
             return true;
-        }
-
-        /// <summary>
-        /// Add rows for added column.
-        /// </summary>
-        private List<string> GetAddCols(List<ClassSchemaColumn> newCols)
-        {
-            return newCols.Where(d => d.Idx == 0).Select(d => d.Name).ToList();
         }
 
         /// <summary>

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Configuration
 {
     using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.DataManager.ClassData;
     using DataDesignerServer.Core.Http.Configuration;
 
     /// <summary>
@@ -12,19 +12,19 @@ namespace DataDesignerServer.Controllers.Configuration
     /// </summary>
     public class FindSchemaController : Controller
     {
-        private readonly ConfigDataManager _configDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public FindSchemaController(
-            ConfigDataManager configDataManager)
+            ClassDataManager classDataManager)
         {
-            _configDataManager = configDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpGet]
         [Route("/config/find-schema")]
         public RES_FindConfigSchema Process(string schema)
         {
-            var findSchema = _configDataManager.FindSchemaOrDefault(schema);
+            var findSchema = _classDataManager.FindSchemaOrDefault(schema);
             if (null == findSchema)
             {
                 throw new ServerException(ServerErrorCode.ConfigData_NotExistSchema, "not exist schema");

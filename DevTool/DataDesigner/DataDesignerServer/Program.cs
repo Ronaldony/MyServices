@@ -6,16 +6,15 @@ using System.Net;
 
 namespace DataDesignerServerServer
 {
-	using DataDesignerServer;
-	using DataDesignerServer.Core.DataManager.ConfigData;
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.DataManager.TypeData;
-	using DataDesignerServer.Core.Filter;
-	using DataDesignerServer.Core.Generator;
-	using DataDesignerServer.Core.Services;
-	using DataDesignerServer.Core.Services.Interfaces;
+    using DataDesignerServer;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.DataManager.TypeData;
+    using DataDesignerServer.Core.Filter;
+    using DataDesignerServer.Core.Generator;
+    using DataDesignerServer.Core.Services;
+    using DataDesignerServer.Core.Services.Interfaces;
 
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -57,10 +56,11 @@ namespace DataDesignerServerServer
 			// Add services to the container.
 			builder.Services.AddSingleton<CodeGenerator>();
 			builder.Services.AddSingleton<DBGenerator>();
+
             builder.Services.AddSingleton<TypeDataManager>();
-			builder.Services.AddSingleton<ConfigDataManager>();
-			builder.Services.AddSingleton<TableDataManager>();
-			builder.Services.AddSingleton<ProfileService>();
+            builder.Services.AddSingleton<ClassDataManager>();
+
+            builder.Services.AddSingleton<ProfileService>();
             builder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
 
 			// Web host.

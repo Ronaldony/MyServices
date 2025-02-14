@@ -3,28 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Table
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.Http.Table;
 
-	/// <summary>
-	/// FindSchemaController.
-	/// </summary>
+    /// <summary>
+    /// FindSchemaController.
+    /// </summary>
 	public class FindSchemaController : Controller
     {
-        private readonly TableDataManager _tableDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public FindSchemaController(
-			TableDataManager tableDataManager)
+            ClassDataManager classDataManager)
         {
-            _tableDataManager = tableDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpGet]
         [Route("/table/find-schema")]
         public RES_FindTableSchema Process(string schema)
         {
-            var findSchema = _tableDataManager.FindSchemaOrDefault(schema);
+            var findSchema = _classDataManager.FindSchemaOrDefault(schema);
             if (null == findSchema)
             {
                 throw new ServerException(ServerErrorCode.TableData_NotExistSchema, "not exist schema");

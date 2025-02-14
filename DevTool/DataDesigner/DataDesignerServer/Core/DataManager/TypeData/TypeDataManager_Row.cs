@@ -10,20 +10,20 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// <summary>
         /// Update class members.
         /// </summary>
-        public bool UpdateRows(string enumName, List<TypeSchemaRow> rows)
+        public bool UpdateRows(string typeName, List<TypeSchemaRow> rows)
         {
             // Find type.
-            var type = GetEnumType(enumName);
+            var type = FindTypeOrDefault(typeName);
             if (null == type)
             {
                 return false;
             }
 
             // Update builder.
-            UpdateEnumBuiler(enumName, rows);
+            UpdateType(typeName, rows);
 
             // Write update rows to the file.
-            if (false == FlushFiles(enumName))
+            if (false == FlushFiles(typeName))
             {
                 return false;
             }

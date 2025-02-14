@@ -4,20 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Configuration
 {
     using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.DataManager.ClassData;
     using DataDesignerServer.Core.Http.Configuration;
 
-	/// <summary>
-	/// UpdateSchemaController.
-	/// </summary>
-	public class UpdateSchemaController : Controller
+    /// <summary>
+    /// UpdateSchemaController.
+    /// </summary>
+    public class UpdateSchemaController : Controller
     {
-        private readonly ConfigDataManager _configDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public UpdateSchemaController(
-            ConfigDataManager configDataManager)
+            ClassDataManager classDataManager)
         {
-            _configDataManager = configDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpPost]
@@ -31,7 +31,7 @@ namespace DataDesignerServer.Controllers.Configuration
             }
 
             // check existance for schema
-            if (default == _configDataManager.FindSchemaOrDefault(req.Schema.Name))
+            if (default == _classDataManager.FindSchemaOrDefault(req.Schema.Name))
             {
                 throw new ServerException(ServerErrorCode.ConfigData_NotExistSchema, "not exist schema");
             }
@@ -51,7 +51,7 @@ namespace DataDesignerServer.Controllers.Configuration
 			}
 
 			// update schema    
-			if (false == _configDataManager.UpdateSchema(req.Schema.Name, req.Schema))
+			if (false == _classDataManager.UpdateSchema(req.Schema.Name, req.Schema))
             {
 				throw new ServerException(ServerErrorCode.ConfigData_UpdateSchema, "fail to update schema");
 			}

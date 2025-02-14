@@ -1,7 +1,11 @@
-﻿using DataDesignerServer.Core.Data;
-
+﻿
 namespace DataDesignerServer.Core.DataManager.TypeData
 {
+    using DataDesignerServer.Core.Data;
+
+    /// <summary>
+    /// TypeDataManager.
+    /// </summary>
     public partial class TypeDataManager
     {
         /// <summary>
@@ -17,15 +21,12 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 return false;
             }
 
-            // Schema.
-            if (default == SetSchema(schemaName, schema))
-            {
-                return false;
-            }
+            // Update type group.
+            AddOrUpdateTypeGroup(schemaName, schema: schema);
 
             // EnumBuilder.
             var rows = new List<TypeSchemaRow>();
-            UpdateEnumBuiler(schemaName, rows);
+            UpdateType(schemaName, rows);
             
             // Flush.
             if (false == FlushFiles(schemaName))
@@ -48,11 +49,8 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 return false;
             }
 
-            // Set schema.
-            if (default == SetSchema(schemaName, schema))
-            {
-                return false;
-            }
+            // Update type group.
+            AddOrUpdateTypeGroup(schemaName, schema: schema);
 
             // Refresh schema file.
             if (false == FlushFiles(schemaName))
@@ -75,14 +73,14 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 return false;
             }
 
-            // remove schema
-            if (false == RemoveSchema(schemaName))
+            // remove type group.
+            if (false == RemoveTypeGroup(schemaName))
             {
                 return false;
             }
 
             // remove builder
-            RemoveEnumBuiler(schemaName);
+            RemoveType(schemaName);
 
             // Refresh schema file.
             RemoveFiles(schemaName);

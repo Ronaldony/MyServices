@@ -5,7 +5,6 @@ namespace DataDesignerServer.Controllers.Type
 {
     using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
-    using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Http.Configuration;
     using DataDesignerServer.Core.Services.Interfaces;

@@ -17,7 +17,7 @@ import CheckModal from '../modals/checkModal.tsx';
 import ConfigurationEditSchema from './configurationEditSchema.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
 
-export default function ConfigurationHeaderbar({ schemaName, description }) {
+export default function ConfigurationHeaderbar({ schemaName, description, dataGridApiRef }) {
   const navigate = useNavigate();
 
   // schema
@@ -39,6 +39,16 @@ export default function ConfigurationHeaderbar({ schemaName, description }) {
     },
     [setErrorMsg, setOpenErrorModal]
   );
+
+  // onResizeColumn
+  const onResizeColumn = useCallback(() => {
+    dataGridApiRef.current.autosizeColumns({
+      includeHeaders: true,
+      includeOutliers: true,
+      outliersFactor:1,
+      expand: false,
+    });
+  }, [dataGridApiRef]);
 
   // on edit
   const onEdit = useCallback(() => {
@@ -89,9 +99,15 @@ export default function ConfigurationHeaderbar({ schemaName, description }) {
 
         {/* CardActions */}
         <CardActions>
+          {/* Auto size column */}
+          <Button size="small" variant="outlined" onClick={onResizeColumn}>
+            Resize column
+          </Button>
+          {/* Edit */}
           <Button size="small" variant="outlined" onClick={onEdit}>
             Edit
           </Button>
+          {/* Remove */}
           <Button
             size="small"
             variant="outlined"

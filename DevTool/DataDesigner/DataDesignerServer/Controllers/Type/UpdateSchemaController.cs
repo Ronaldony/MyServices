@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Type
 {
     using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.DataManager.ConfigData;
     using DataDesignerServer.Core.DataManager.TypeData;
-    using DataDesignerServer.Core.Http.Configuration;
     using DataDesignerServer.Core.Http.Type;
 
     /// <summary>

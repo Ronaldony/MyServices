@@ -1,20 +1,27 @@
 import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Typography,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
 } from '@mui/material';
 import React, { Fragment, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Request_Delete } from '../../apis/restAPI.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
-import { REQ_DeleteTypeSchema, RES_DeleteTypeSchema } from '../../classes/shared/protocols/type.ts';
+import {
+  REQ_DeleteTypeSchema,
+  RES_DeleteTypeSchema,
+} from '../../classes/shared/protocols/type.ts';
 import CheckModal from '../modals/checkModal.tsx';
 import ErrorModal from '../modals/errorModal.tsx';
 import TypeEditSchema from './typeEditSchema.tsx';
 
-export default function TypeHeaderbar({ schemaName, description }) {
+export default function TypeHeaderbar({
+  schemaName,
+  description,
+  dataGridApiRef,
+}) {
   const navigate = useNavigate();
 
   // schema
@@ -36,6 +43,16 @@ export default function TypeHeaderbar({ schemaName, description }) {
     },
     [setErrorMsg, setOpenErrorModal]
   );
+
+  // onResizeColumn
+  const onResizeColumn = useCallback(() => {
+    dataGridApiRef.current.autosizeColumns({
+      includeHeaders: true,
+      includeOutliers: true,
+      outliersFactor: 1,
+      expand: false,
+    });
+  }, [dataGridApiRef]);
 
   // on edit
   const onEdit = useCallback(() => {
@@ -86,9 +103,15 @@ export default function TypeHeaderbar({ schemaName, description }) {
 
         {/* CardActions */}
         <CardActions>
+          {/* Resize column */}
+          <Button size="small" variant="outlined" onClick={onResizeColumn}>
+            Resize column
+          </Button>
+          {/* Edit */}
           <Button size="small" variant="outlined" onClick={onEdit}>
             Edit
           </Button>
+          {/* Remove */}
           <Button
             size="small"
             variant="outlined"

@@ -5,14 +5,12 @@ namespace DataDesignerServer.Controllers.Generate
 {
     using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
-    using DataDesignerServer.Core.DataManager.ConfigData;
-    using DataDesignerServer.Core.DataManager.TableData;
+    using DataDesignerServer.Core.DataManager.ClassData;
     using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Generator;
     using DataDesignerServer.Core.Http.Generate;
     using DataDesignerServer.Core.Services;
     using DataDesignerServer.Core.Types;
-    using System.Runtime;
 
     /// <summary>
     /// GenerateController .
@@ -21,24 +19,21 @@ namespace DataDesignerServer.Controllers.Generate
     {
         private const string GENERATE_NAMESPACE = "GameCore";
 
+        private readonly ClassDataManager _classDataManager;
         private readonly TypeDataManager _typeDataManager;
-        private readonly TableDataManager _tableDataManager;
-        private readonly ConfigDataManager _configDataManager;
 
         private readonly CodeGenerator _codeGenerator;
         private readonly DBGenerator _dbGenerator;
 
         public GenerateController(
             TypeDataManager typeDataManager,
-            TableDataManager tableDataManager,
-            ConfigDataManager configDataManager,
+            ClassDataManager classDataManager,
             ProfileService profileService,
             CodeGenerator codeGenerator,
             DBGenerator dbGenerator)
         {
             _typeDataManager = typeDataManager;
-            _tableDataManager = tableDataManager;
-            _configDataManager = configDataManager;
+            _classDataManager = classDataManager;
 
             _codeGenerator = codeGenerator;
             _dbGenerator = dbGenerator;
@@ -71,15 +66,9 @@ namespace DataDesignerServer.Controllers.Generate
             }
 
             // Generate Table.
-            if (false == GenerateTables(filePath.DatabaseFilePath))
+            if (false == GenerateClass(filePath.DatabaseFilePath))
             {
-                throw new ServerException(ServerErrorCode.Generate_Data, "fail to generate table code");
-            }
-
-            // Generate Table.
-            if (false == GenerateContiruations(filePath.DatabaseFilePath))
-            {
-                throw new ServerException(ServerErrorCode.Generate_Data, "fail to generate configuration code");
+                throw new ServerException(ServerErrorCode.Generate_Data, "fail to generate class code");
             }
 
             // Data code.
@@ -124,7 +113,7 @@ namespace DataDesignerServer.Controllers.Generate
         private bool GenerateTypes(string dbFilePath)
         {
             // types.
-            var types = _typeDataManager.GetAllType();
+            var types = _typeDataManager.GetEnumTypes();
             foreach (var type in types)
             {
                 // Generate Code.
@@ -143,42 +132,32 @@ namespace DataDesignerServer.Controllers.Generate
         /// <summary>
         /// Generate code for table data.
         /// </summary>
-        private bool GenerateTables(string dbFilePath)
+        private bool GenerateClass(string dbFilePath)
         {
             // Generate Type.
-            var types = _tableDataManager.GetAllType();
+            var types = _classDataManager.GetAllClassType();
             foreach (var type in types)
             {
                 // Generate code.
-                var schema = _tableDataManager.FindSchemaOrDefault(type.Name);
+                var schema = _classDataManager.FindSchemaOrDefault(type.Name);
 
-                _codeGenerator.AddClass(Type_GenerateCode.Table, GENERATE_NAMESPACE, schema.Name, schema.Columns);
+                // Get GenerateCodeType.
+                var genCodeType = _classDataManager.GetClassDataType(type.Name) switch
+                {
+                    Type_ClassData.Table => Type_GenerateCode.Table,
+                    Type_ClassData.Configuration => Type_GenerateCode.Configuration,
+                    _ => Type_GenerateCode.None
+                };
 
-                // Generate Database.
-                var rows = _tableDataManager.FindRowsOrDefault(type.Name);
+                if (Type_GenerateCode.None == genCodeType)
+                {
+                    return false;
+                }
 
-                _dbGenerator.GenerateClass(dbFilePath, type, schema, rows);
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Generate code for configuration data.
-        /// </summary>
-        private bool GenerateContiruations(string dbFilePath)
-        {
-            // Generate Type.
-            var types = _configDataManager.GetAllType();
-            foreach (var type in types)
-            {
-                // Generate code.
-                var schema = _configDataManager.FindSchemaOrDefault(type.Name);
-
-                _codeGenerator.AddClass(Type_GenerateCode.Configuration, GENERATE_NAMESPACE, schema.Name, schema.Columns);
+                _codeGenerator.AddClass(genCodeType, GENERATE_NAMESPACE, schema.Name, schema.Columns);
 
                 // Generate Database.
-                var rows = _configDataManager.FindRowsOrDefault(type.Name);
+                var rows = _classDataManager.FindRowsOrDefault(type.Name);
 
                 _dbGenerator.GenerateClass(dbFilePath, type, schema, rows);
             }

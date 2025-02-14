@@ -179,6 +179,7 @@ export default function TableGridTable({
       <TableHeaderbar
         schemaName={schemaName}
         description={schemaList.at(schemaIndex).schema.description}
+        dataGridApiRef={apiRef}
       />
 
       {/* Grid table */}
@@ -191,6 +192,7 @@ export default function TableGridTable({
           editMode="row"
           getRowId={getRowId}
           processRowUpdate={processRowUpdate}
+          density="compact"
           hideFooter
           showCellVerticalBorder
         />

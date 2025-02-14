@@ -176,6 +176,7 @@ export default function TypeGridTable({
       <TypeHeaderbar
         schemaName={schemaName}
         description={schemaList.at(schemaIndex).schema.description}
+        dataGridApiRef={apiRef}
       />
 
       {/* Grid table */}
@@ -188,6 +189,7 @@ export default function TypeGridTable({
           editMode="row"
           getRowId={getRowId}
           processRowUpdate={processRowUpdate}
+          density="compact"
           hideFooter
         />
 

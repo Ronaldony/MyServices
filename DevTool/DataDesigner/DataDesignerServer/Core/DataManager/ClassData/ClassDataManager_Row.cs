@@ -1,38 +1,33 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace DataDesignerServer.Core.DataManager.TableData
+﻿
+namespace DataDesignerServer.Core.DataManager.ClassData
 {
-	/// <summary>
-	/// TableDataManager.
-	/// Desc: Manage table types.
-	/// </summary>
-	public sealed partial class TableDataManager
+    /// <summary>
+    /// TableDataManager.
+    /// Desc: Manage table types.
+    /// </summary>
+    public sealed partial class ClassDataManager
     {
         public bool UpdateRows(string className, List<object> rows)
         {
             // Find type.
-            var type = GetClassType(className);
-            if (null == type)
+            var tb = FindTypeBuilder(className);
+            if (null == tb)
             {
                 return false;
             }
 
-            // Get type rows.
-            var oriRows = GetRowsOrDefault(type.Name);
-            if (oriRows == default)
-            {
-                // Fail.
-                return false;
-            }
+            // Create type.
+            var type = tb.CreateType();
 
-            oriRows.Clear();
-
+            var newRows = new List<object>();
             foreach (var row in rows)
             {
                 // Add row.
                 var rowData = GetRowData(type, row);
-                oriRows.Add(rowData);
+                newRows.Add(rowData);
             }
+
+            AddOrUpdateClassGroup(className, rows: newRows);
 
             if (false == FlushFiles(type.Name))
             {

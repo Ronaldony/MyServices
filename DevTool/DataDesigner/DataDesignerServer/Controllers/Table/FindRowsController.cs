@@ -3,23 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Table
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.Http.Configuration;
-	using DataDesignerServer.Core.Http.Table;
-	using DataDesignerServer.Core.Services.Interfaces;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.Services.Interfaces;
 
-	public class FindRowsController : Controller
+    public class FindRowsController : Controller
     {
-        private readonly TableDataManager _tableDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         private readonly IJsonSerializer _jsonSerializer;
 
         public FindRowsController(
-			TableDataManager tableDataManager,
+            ClassDataManager classDataManager,
             IJsonSerializer jsonSerializer)
         {
-            _tableDataManager = tableDataManager;
+            _classDataManager = classDataManager;
             _jsonSerializer = jsonSerializer;
         }
 
@@ -28,14 +27,14 @@ namespace DataDesignerServer.Controllers.Table
         public RES_FindTableRows Process(string schema)
         {
             // check schema.
-            var findSchema = _tableDataManager.FindSchemaOrDefault(schema);
+            var findSchema = _classDataManager.FindSchemaOrDefault(schema);
             if (default == findSchema)
             {
                 throw new ServerException(ServerErrorCode.TableData_NotExistSchema, "not exist schema");
             }
 
             // rows.
-            var oriRows = _tableDataManager.FindRowsOrDefault(schema);
+            var oriRows = _classDataManager.FindRowsOrDefault(schema);
             if (default == oriRows)
             {
                 throw new ServerException(ServerErrorCode.TableData_NotExistRow, "not exist row even one");

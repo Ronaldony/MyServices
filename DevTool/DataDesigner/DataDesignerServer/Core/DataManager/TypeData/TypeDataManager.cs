@@ -32,23 +32,11 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         private List<TypeSchemaColumn> _typeSchemaColumns;
 
         /// <summary>
-        /// Enum value dict.
-        /// key: enum name.
-        /// value: enum datas.
-        /// </summary>
-        private ConcurrentDictionary<string, List<TypeSchemaRow>> _typeRowDict;
-
-        /// <summary>
+        /// TypeGenerateGroup dictionary.
         /// key: type name.
-        /// value: EnumBuilder.
+        /// value: TypeGenerateGroup.
         /// </summary>
-        private ConcurrentDictionary<string, EnumBuilder> _ebDict { get; set; }
-
-        /// <summary>
-        /// key: type name.
-        /// value: schema string.
-        /// </summary>
-        private ConcurrentDictionary<string, TypeSchema> _schemaDict;
+        private ConcurrentDictionary<string, GenerateTypeGroup> _typeGroupDict;
 
         /// <summary>
         /// key: type name.
@@ -61,9 +49,9 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             _logger = serviceProvider.GetRequiredService<ILogger<TypeDataManager>>();
             _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
 
-            _typeRowDict = new ConcurrentDictionary<string, List<TypeSchemaRow>>();
-            _ebDict = new ConcurrentDictionary<string, EnumBuilder>();
-            _schemaDict = new ConcurrentDictionary<string, TypeSchema>();
+            _typeSchemaColumns = new List<TypeSchemaColumn>();
+
+            _typeGroupDict = new ConcurrentDictionary<string, GenerateTypeGroup>();
             _primitiveSchemaDict = new ConcurrentDictionary<string, TypeSchema>();
         }
 
@@ -87,7 +75,11 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                 return false;
             }
 
-            _typeSchemaColumns = Initialize_SchemaColumns();
+            // initialize type columns.
+            _typeSchemaColumns.Clear();
+            _typeSchemaColumns.Add(new TypeSchemaColumn { Name = "Id", Type = "int" });
+            _typeSchemaColumns.Add(new TypeSchemaColumn { Name = "Name", Type = "string" });
+            _typeSchemaColumns.Add(new TypeSchemaColumn { Name = "Summary", Type = "string" });
 
             _logger.LogInformation($"EnumManager initialized.");
 
@@ -99,31 +91,38 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// </summary>
         public Type FindTypeOrDefault(string typeName)
         {
-            if (_ebDict.ContainsKey(typeName))
+            // check key.
+            if (false == _typeGroupDict.ContainsKey(typeName))
             {
-                return _ebDict[typeName].CreateType();
+                return default;
             }
 
-            return default;
+            // check builer.
+            if (default == _typeGroupDict[typeName].Builder)
+            {
+                return default;
+            }
+
+            return _typeGroupDict[typeName].Builder.CreateType();
         }
 
         /// <summary>
-        /// Get schema names only custom type.
+        /// Get enum types.
         /// </summary>
-        public IEnumerable<Type> GetAllType()
+        public IEnumerable<Type> GetEnumTypes()
         {
-            return _ebDict.Values.Select(d => d.AsType());
+            return _typeGroupDict.Values.Select(d => d.Builder?.CreateType());
         }
 
         /// <summary>
         /// Get schema names with primitive types(int, float, bool, string etc..).
         /// </summary>
-        public IEnumerable<string> GetTypeSchemasWithPrimitive()
+        public IEnumerable<string> GetAllType()
         {
             var typeSchemas = new List<string>();
 
             typeSchemas.AddRange(_primitiveSchemaDict.Keys);
-            typeSchemas.AddRange(_schemaDict.Keys);
+            typeSchemas.AddRange(_typeGroupDict.Keys);
 
             return typeSchemas;
         }
@@ -133,7 +132,12 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// </summary>
         public TypeSchema FindSchemaOrDefault(string schemaName)
         {
-            return _schemaDict.GetValueOrDefault(schemaName);
+            if (false == _typeGroupDict.ContainsKey(schemaName))
+            {
+                return default;
+            }
+
+            return _typeGroupDict[schemaName].Schema;
         }
 
         /// <summary>
@@ -141,7 +145,12 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         /// </summary>
         public List<TypeSchemaRow> GetRowsOrDefault(string typeName)
         {
-            return _typeRowDict.GetValueOrDefault(typeName);
+            if (false == _typeGroupDict.ContainsKey(typeName))
+            {
+                return default;
+            }
+
+            return _typeGroupDict[typeName].Rows;
         }
 
         /// <summary>
@@ -211,36 +220,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
 
             return typeDict;
         }
-
-        /// <summary>
-        /// Initialize SchemaColumns
-        /// </summary>
-        /// <returns></returns>
-        private List<TypeSchemaColumn> Initialize_SchemaColumns()
-        {
-            var columns = new List<TypeSchemaColumn>();
-
-            columns.Add(new TypeSchemaColumn
-            {
-                Name = "Id",
-                Type = "int"
-            });
-
-            columns.Add(new TypeSchemaColumn
-            {
-                Name = "Name",
-                Type = "string"
-            });
-
-            columns.Add(new TypeSchemaColumn
-            {
-                Name = "Summary",
-                Type = "string"
-            });
-
-            return columns;
-        }
-
+        
         /// <summary>
         /// Load enums.
         /// </summary>
@@ -249,10 +229,10 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             _logger.LogDebug($"//-------------------------------------------");
             _logger.LogDebug($"// Loading types.");
 
-            var enumFiles = Directory.GetFiles(basePath, ALL_TYPE_FILES, SearchOption.AllDirectories);
+            var dataFiles = Directory.GetFiles(basePath, ALL_TYPE_FILES, SearchOption.AllDirectories);
             var schemaFiles = Directory.GetFiles(basePath, ALL_SCHEMA_FILE, SearchOption.AllDirectories);
 
-            _typeRowDict.Clear();
+            _typeGroupDict.Clear();
 
             // add primitive types.
             var primitiveTypes = Initialize_PrimitiveTypes();
@@ -266,7 +246,7 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             }
 
             // add enum types.
-            foreach (var file in enumFiles)
+            foreach (var file in dataFiles)
             {
                 var enumName = Path.GetFileNameWithoutExtension(file);
 
@@ -277,31 +257,30 @@ namespace DataDesignerServer.Core.DataManager.TypeData
                     return false;
                 }
 
+                // Read schema.
+                var schemaText = File.ReadAllText(schemaFile);
+                var schema = _jsonSerializer.Deserialize<TypeSchema>(schemaText);
+
                 // Read rows.
                 var rowText = File.ReadAllText(file);
                 var rowDatas = _jsonSerializer.Deserialize<List<TypeSchemaRow>>(rowText);
 
-                // Create TypeBuilder.
-                UpdateEnumBuiler(enumName, rowDatas);
-
-                var eb = _ebDict[enumName];
+                // Enum builder.
+                var eb = CreateEnumBuilder(enumName, rowDatas);
                 if (null == eb)
                 {
                     return false;
                 }
 
-                // Update TypeBuilder.
-                var enumType = eb.CreateType();
-
-                // Read schema.
-                var schemaText = File.ReadAllText(schemaFile);
-                var schema = _jsonSerializer.Deserialize<TypeSchema>(schemaText);
-
-                // Add schema.
-                if (false == _schemaDict.TryAdd(enumType.Name, schema))
+                // Add GenerateTypeGroup.
+                var typeGroup = new GenerateTypeGroup
                 {
-                    return false;
-                }
+                    Rows = rowDatas,
+                    Builder = eb,
+                    Schema = schema,
+                };
+
+                AddOrUpdateTypeGroup(typeGroup);
 
                 _logger.LogDebug($"Load enum: {enumName}");
             }
@@ -310,90 +289,131 @@ namespace DataDesignerServer.Core.DataManager.TypeData
         }
 
         /// <summary>
+        /// Add or update type group.
+        /// </summary>
+        private void AddOrUpdateTypeGroup(GenerateTypeGroup typeGroup)
+        {
+            var typeName = typeGroup.Builder.Name;
+
+            _typeGroupDict.AddOrUpdate(typeName, typeGroup, (key, old) => typeGroup);
+        }
+
+        /// <summary>
+        /// Add or update type group.
+        /// </summary>
+        private void AddOrUpdateTypeGroup(string typeName, List<TypeSchemaRow> rows = default, EnumBuilder tb = default, TypeSchema schema = default)
+        {
+            // Check type group.
+            if (false == _typeGroupDict.ContainsKey(typeName))
+            {
+                var newTypeGroup = new GenerateTypeGroup();
+                _typeGroupDict.AddOrUpdate(typeName, newTypeGroup, (key, old) => newTypeGroup);
+            }
+
+            // Update if data is not default.
+            var typeGroup = _typeGroupDict[typeName];
+
+            if (default != rows)
+            {
+                typeGroup.Rows = rows;
+            }
+
+            if (default != tb)
+            {
+                typeGroup.Builder = tb;
+            }
+
+            if (default != schema)
+            {
+                typeGroup.Schema = schema;
+            }
+
+            _typeGroupDict.AddOrUpdate(typeName, typeGroup, (key, old) => typeGroup);
+        }
+
+        /// <summary>
+        /// Add or update type group.
+        /// </summary>
+        private bool RemoveTypeGroup(string typeName)
+        {
+            if (false == _typeGroupDict.ContainsKey(typeName))
+            {
+                return false;
+            }
+
+            var findTypeGroup = _typeGroupDict[typeName];
+
+            return _typeGroupDict.Remove(typeName, out findTypeGroup);
+        }
+
+        /// <summary>
         /// Remove enum buidler.
         /// </summary>
-        private void RemoveEnumBuiler(string typeName)
+        private void RemoveType(string typeName)
         {
-            // Reset module builder.
-            _moduleBuilder = CreateModuleBuilder();
-
-            foreach (var pair in _typeRowDict)
-            {
-                // 삭제 Enum 제외한 다른 Enum builder 갱신.
-                if (!pair.Key.Equals(typeName))
-                {
-                    CreateEnumBuilder(pair.Key, pair.Value);
-                }
-            }
+            RefreshEnumBuilder(typeName);
         }
 
         /// <summary>
         /// Update enum buidler.
         /// </summary>
-        private void UpdateEnumBuiler(string typeName, List<TypeSchemaRow> rows)
+        private void UpdateType(string typeName, List<TypeSchemaRow> rows)
         {
             // check existance of type.
             if (default != FindTypeOrDefault(typeName))
             {
-                // Reset module builder.
-                _moduleBuilder = CreateModuleBuilder();
-
-                foreach (var pair in _typeRowDict)
-                {
-                    // 업데이트 Enum 제외한 다른 Enum builder 갱신.
-                    if (!pair.Key.Equals(typeName))
-                    {
-                        CreateEnumBuilder(pair.Key, pair.Value);
-                    }
-                }
+                RefreshEnumBuilder(typeName);
             }
 
             // Define type.
-            CreateEnumBuilder(typeName, rows);
+            var eb = CreateEnumBuilder(typeName, rows);
+
+            // Update enum builder.
+            AddOrUpdateTypeGroup(typeName, rows: rows, tb: eb);
         }
 
         /// <summary>
         /// Create enum builder.
         /// </summary>
-        private void CreateEnumBuilder(string typeName, List<TypeSchemaRow> rows)
+        private EnumBuilder CreateEnumBuilder(string typeName, List<TypeSchemaRow> rows)
         {
-            var eb = _moduleBuilder.DefineEnum(typeName, TypeAttributes.Public, typeof(int));
-
-            // Id.
-            foreach (var row in rows)
+            try
             {
-                eb.DefineLiteral(row.Name, row.Id);
-            }
+                var eb = _moduleBuilder.DefineEnum(typeName, TypeAttributes.Public, typeof(int));
 
-            // Set row, builder.
-            SetEnumBuilder(typeName, eb);
-            SetRows(typeName, rows);
+                // Id.
+                foreach (var row in rows)
+                {
+                    eb.DefineLiteral(row.Name, row.Id);
+                }
+
+                return eb;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{ex.Message}");
+                return null;
+            }
         }
 
         /// <summary>
-        /// Add or update EnumBuidler.
+        /// Refresh 
         /// </summary>
-        private void SetEnumBuilder(string enumName, EnumBuilder eb)
+        private void RefreshEnumBuilder(string exceptTypeName = null)
         {
-            if (false == _ebDict.ContainsKey(enumName))
+            // Reset module builder.
+            _moduleBuilder = CreateModuleBuilder();
+
+            foreach (var pair in _typeGroupDict)
             {
-                _ebDict.TryAdd(enumName, null);
+                var typeGroup = pair.Value;
+                
+                if (false == pair.Key.Equals(exceptTypeName))
+                {
+                    var eb = CreateEnumBuilder(pair.Key, typeGroup.Rows);
+                    AddOrUpdateTypeGroup(pair.Key, tb: eb);
+                }
             }
-
-            _ebDict.AddOrUpdate(enumName, eb, (key, old) => eb);
-        }
-
-        /// <summary>
-        /// Set rows for type.
-        /// </summary>
-        private void SetRows(string typeName, List<TypeSchemaRow> list)
-        {
-            if (false == _typeRowDict.ContainsKey(typeName))
-            {
-                _typeRowDict.TryAdd(typeName, null);
-            }
-
-            _typeRowDict.AddOrUpdate(typeName, list, (key, old) => list);
         }
 
         /// <summary>
@@ -405,41 +425,6 @@ namespace DataDesignerServer.Core.DataManager.TypeData
             _assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(abName, AssemblyBuilderAccess.Run);
 
             return _assemblyBuilder.DefineDynamicModule(abName.Name);
-        }
-
-        /// <summary>
-        /// Get schema for type.
-        /// </summary>
-        private TypeSchema SetSchema(string typeName, TypeSchema schema)
-        {
-            return _schemaDict.AddOrUpdate(typeName, schema, (key, old) => schema);
-        }
-
-        /// <summary>
-        /// Get schema for type.
-        /// </summary>
-        private bool RemoveSchema(string typeName)
-        {
-            var schema = FindSchemaOrDefault(typeName);
-            if (default == schema)
-            {
-                return false;
-            }
-
-            return _schemaDict.Remove(typeName, out schema);
-        }
-
-        /// <summary>
-        /// Get primitive type or enum from name.
-        /// </summary>
-        private Type GetEnumType(string enumName)
-        {
-            if (false == _ebDict.ContainsKey(enumName))
-            {
-                return null;
-            }
-
-            return _ebDict[enumName].CreateType();
         }
 
         /// <summary>

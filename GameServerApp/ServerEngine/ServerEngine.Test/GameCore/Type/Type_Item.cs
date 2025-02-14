@@ -5,6 +5,18 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Normal = 1
+        None = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        Normal = 2,
+        /// <summary>
+        /// 
+        /// </summary>
+        Rare = 3,
+        /// <summary>
+        /// 
+        /// </summary>
+        Unique = 4
     }
 }

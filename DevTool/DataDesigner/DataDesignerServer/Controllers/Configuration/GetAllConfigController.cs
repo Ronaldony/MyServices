@@ -2,17 +2,18 @@
 
 namespace DataDesignerServer.Controllers.Configuration
 {
-    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.DataManager.ClassData;
     using DataDesignerServer.Core.Http.Configuration;
+    using DataDesignerServer.Core.Types;
 
     public sealed class GetAllConfigController : Controller
     {
-        private readonly ConfigDataManager _configDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public GetAllConfigController(
-            ConfigDataManager configDataManager)
+            ClassDataManager classDataManager)
         {
-            _configDataManager = configDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpGet]
@@ -21,7 +22,7 @@ namespace DataDesignerServer.Controllers.Configuration
         {
             return new RES_GetAllConfig
             {
-                SchemaNames = _configDataManager.GetAllType().Select(d => d.Name).ToList(),
+                SchemaNames = _classDataManager.GetClassTypes(Type_ClassData.Configuration).Select(d => d.Name).ToList(),
             };
         }
     }

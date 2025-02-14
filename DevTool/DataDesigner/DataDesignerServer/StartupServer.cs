@@ -1,7 +1,6 @@
 ﻿namespace DataDesignerServer
 {
-    using DataDesignerServer.Core.DataManager.ConfigData;
-    using DataDesignerServer.Core.DataManager.TableData;
+    using DataDesignerServer.Core.DataManager.ClassData;
     using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Generator;
     using DataDesignerServer.Core.Services;
@@ -25,13 +24,9 @@
             var enumManager = _serviceProvider.GetRequiredService<TypeDataManager>();
             enumManager.Initialize(Directory.GetCurrentDirectory());
 
-            // ClassManager.
-            var classManager = _serviceProvider.GetRequiredService<TableDataManager>();
-            classManager.Initialize(Directory.GetCurrentDirectory());
-
-            // ConfigDataManager.
-            var configDataManager = _serviceProvider.GetRequiredService<ConfigDataManager>();
-            configDataManager.Initialize(Directory.GetCurrentDirectory());
+            // ClassDataManager.
+            var classDataManager = _serviceProvider.GetRequiredService<ClassDataManager>();
+            classDataManager.Initialize(Directory.GetCurrentDirectory());
 
             // ProfileService.
             var profileService = _serviceProvider.GetRequiredService<ProfileService>();

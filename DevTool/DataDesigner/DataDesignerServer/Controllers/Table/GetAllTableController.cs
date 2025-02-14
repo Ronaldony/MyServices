@@ -2,17 +2,18 @@
 
 namespace DataDesignerServer.Controllers.Table
 {
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.Types;
 
-	public sealed class GetAllTableController : Controller
+    public sealed class GetAllTableController : Controller
     {
-        private readonly TableDataManager _tableDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public GetAllTableController(
-			TableDataManager tableDataManager)
+            ClassDataManager classDataManager)
         {
-            _tableDataManager = tableDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpGet]
@@ -21,7 +22,7 @@ namespace DataDesignerServer.Controllers.Table
         {
             return new RES_GetAllTable
 			{
-                SchemaNames = _tableDataManager.GetAllType().Select(d => d.Name).ToList(),
+                SchemaNames = _classDataManager.GetClassTypes(Type_ClassData.Table).Select(d => d.Name).ToList(),
             };
         }
     }

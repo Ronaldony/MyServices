@@ -4,22 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Table
 {
     using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.DataManager.ConfigData;
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.Http.Configuration;
-	using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.Http.Table;
 
-	/// <summary>
-	/// DeleteSchemaController.
-	/// </summary>
-	public class DeleteSchemaController : Controller
+    /// <summary>
+    /// DeleteSchemaController.
+    /// </summary>
+    public class DeleteSchemaController : Controller
     {
-        private readonly TableDataManager _tableDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public DeleteSchemaController(
-			TableDataManager tableDataManager)
+            ClassDataManager classDataManager)
         {
-            _tableDataManager = tableDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpDelete]
@@ -33,13 +31,13 @@ namespace DataDesignerServer.Controllers.Table
             }
 
             // check existance for schema
-            if (default == _tableDataManager.FindSchemaOrDefault(req.Schema))
+            if (default == _classDataManager.FindSchemaOrDefault(req.Schema))
             {
                 throw new ServerException(ServerErrorCode.TableData_NotExistSchema, "not exist schema");
             }
 
             // delete schema.
-            if (false == _tableDataManager.DeleteSchema(req.Schema))
+            if (false == _classDataManager.DeleteSchema(req.Schema))
             {
 				throw new ServerException(ServerErrorCode.TableData_DeleteSchema, "not exist schema");
 			}

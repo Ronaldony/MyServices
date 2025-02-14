@@ -3,21 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Table
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.Types;
 
-	/// <summary>
-	/// CreateSchemaController.
-	/// </summary>
-	public class CreateSchemaController : Controller
+    /// <summary>
+    /// CreateSchemaController.
+    /// </summary>
+    public class CreateSchemaController : Controller
     {
-        private readonly TableDataManager _tableDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public CreateSchemaController(
-			TableDataManager tableDataManager)
+            ClassDataManager classDataManager)
         {
-            _tableDataManager = tableDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpPost]
@@ -31,7 +32,7 @@ namespace DataDesignerServer.Controllers.Table
             }
 
             // check existance for schema
-            if (default != _tableDataManager.FindSchemaOrDefault(req.Schema.Name))
+            if (default != _classDataManager.FindSchemaOrDefault(req.Schema.Name))
             {
                 throw new ServerException(ServerErrorCode.TableData_AlreadyExistSchema, "already exist schema");
             }
@@ -57,7 +58,7 @@ namespace DataDesignerServer.Controllers.Table
             }
 
             // Create.
-            if (false == _tableDataManager.CreateSchema(req.Schema.Name, req.Schema))
+            if (false == _classDataManager.CreateSchema(req.Schema.Name, Type_ClassData.Table, req.Schema))
             {
                 throw new ServerException(ServerErrorCode.TableData_CreateSchema, "not exist configuration");
             }

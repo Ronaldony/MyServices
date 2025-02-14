@@ -24,7 +24,7 @@ namespace DataDesignerServer.Controllers.Configuration
         {
             return new RES_GetAllType
             {
-                SchemaNames = _typeDataManager.GetAllType().Select(d => d.Name).ToList(),
+                SchemaNames = _typeDataManager.GetEnumTypes().Select(d => d.Name).ToList(),
             };
         }
     }

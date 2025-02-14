@@ -12,14 +12,14 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        public Type_Item Item { get; set; }
+        public string Region { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Type_Item ItemType { get; set; }
         /// <summary>
         /// 
         /// </summary>
         public string Summary { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public date LoginTime { get; set; }
     }
 }

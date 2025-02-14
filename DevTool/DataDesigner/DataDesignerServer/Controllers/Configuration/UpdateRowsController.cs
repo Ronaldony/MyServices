@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Configuration
 {
     using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.DataManager.ClassData;
     using DataDesignerServer.Core.Http.Configuration;
     using DataDesignerServer.Core.Services.Interfaces;
 
@@ -18,14 +18,14 @@ namespace DataDesignerServer.Controllers.Configuration
 
         private readonly IJsonSerializer _jsonSerializer;
 
-        private readonly ConfigDataManager _configDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public UpdateRowsController(
             IJsonSerializer jsonSerializer,
-            ConfigDataManager configDataManager) 
+            ClassDataManager classDataManager)
         {
             _jsonSerializer = jsonSerializer;
-            _configDataManager = configDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpPatch]
@@ -34,7 +34,7 @@ namespace DataDesignerServer.Controllers.Configuration
         {
             var filteredRows = FilterInternalId(req.Rows);
 
-            if (false == _configDataManager.UpdateRows(req.Schema, filteredRows))
+            if (false == _classDataManager.UpdateRows(req.Schema, filteredRows))
             {
                 throw new ServerException(ServerErrorCode.ConfigData_UpdateRow, "failed to update row");
             }

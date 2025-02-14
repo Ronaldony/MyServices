@@ -4,21 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataDesignerServer.Controllers.Configuration
 {
     using DataDesignerServer.Core.Common;
-    using DataDesignerServer.Core.DataManager.ConfigData;
+    using DataDesignerServer.Core.DataManager.ClassData;
     using DataDesignerServer.Core.Http.Configuration;
     using DataDesignerServer.Core.Services.Interfaces;
 
     public class FindRowsController : Controller
     {
-        private readonly ConfigDataManager _configDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         private readonly IJsonSerializer _jsonSerializer;
 
         public FindRowsController(
-            ConfigDataManager configDataManager,
+            ClassDataManager classDataManager,
             IJsonSerializer jsonSerializer)
         {
-            _configDataManager = configDataManager;
+            _classDataManager = classDataManager;
             _jsonSerializer = jsonSerializer;
 
         }
@@ -28,14 +28,14 @@ namespace DataDesignerServer.Controllers.Configuration
         public RES_FindConfigRows Process(string schema)
         {
             // check schema.
-            var findSchema = _configDataManager.FindSchemaOrDefault(schema);
+            var findSchema = _classDataManager.FindSchemaOrDefault(schema);
             if (default == findSchema)
             {
                 throw new ServerException(ServerErrorCode.ConfigData_NotExistSchema, "not exist schema");
             }
 
             // rows.
-            var oriRows = _configDataManager.FindRowsOrDefault(schema);
+            var oriRows = _classDataManager.FindRowsOrDefault(schema);
             if (default == oriRows)
             {
                 throw new ServerException(ServerErrorCode.ConfigData_NotExistRow, "not exist row even one");

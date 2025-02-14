@@ -1,12 +1,11 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
-  Box,
   Button,
   ListItemIcon,
   Menu,
   MenuItem,
-  Stack,
+  Stack
 } from '@mui/material';
 import {
   DataGrid,
@@ -15,6 +14,7 @@ import {
   GridRowId,
   GridRowModel,
   useGridApiRef,
+  DEFAULT_GRID_AUTOSIZE_OPTIONS
 } from '@mui/x-data-grid';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -183,6 +183,7 @@ export default function ConfigurationGridTable({
       <ConfigurationHeaderbar
         schemaName={schemaName}
         description={schemaList.at(schemaIndex).schema.description}
+        dataGridApiRef={apiRef}
       />
 
       {/* Grid table */}
@@ -195,11 +196,12 @@ export default function ConfigurationGridTable({
           editMode="row"
           getRowId={getRowId}
           processRowUpdate={processRowUpdate}
+          density="compact"
           hideFooter
           showCellVerticalBorder
         />
 
-        {/* Context Menu */}
+        {/* Context Menu */} 
         <Menu
           open={isContextOpen}
           onClose={onContextMenuClose}

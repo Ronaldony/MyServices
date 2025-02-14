@@ -3,30 +3,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Common
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.DataManager.TypeData;
-	using DataDesignerServer.Core.Http.Common;
-	using DataDesignerServer.Core.Services.Interfaces;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.DataManager.TypeData;
+    using DataDesignerServer.Core.Http.Common;
+    using DataDesignerServer.Core.Services.Interfaces;
+    using DataDesignerServer.Core.Types;
 
-	/// <summary>
-	/// FetchTypeOrTableKeysController.
-	/// </summary>
-	public class FetchTypeOrTableKeysController : Controller
+    /// <summary>
+    /// FetchTypeOrTableKeysController.
+    /// </summary>
+    public class FetchTypeOrTableKeysController : Controller
 	{
 		private readonly IJsonSerializer _jsonSerializer;
 
-		private readonly TableDataManager _tableDataManager;
+		private readonly ClassDataManager _classDataManager;
 		private readonly TypeDataManager _typeDataManager;
 
 		public FetchTypeOrTableKeysController(
 			IJsonSerializer jsonSerializer,
-			TableDataManager tableDataManager,
+            ClassDataManager classDataManager,
 			TypeDataManager typeDataManager) 
 		{
 			_jsonSerializer = jsonSerializer;
 
-			_tableDataManager = tableDataManager;
+			_classDataManager = classDataManager;
 			_typeDataManager = typeDataManager;
 		}
 
@@ -40,7 +41,7 @@ namespace DataDesignerServer.Controllers.Common
 			};
 
 			// find from type.
-			var typeNames = _typeDataManager.GetTypeSchemasWithPrimitive();
+			var typeNames = _typeDataManager.GetAllType();
 
 			foreach (var typeName in typeNames)
 			{
@@ -56,11 +57,11 @@ namespace DataDesignerServer.Controllers.Common
 			}
 
 			// find from table.
-			var tableNames = _tableDataManager.GetAllType().Select(d => d.Name);
+			var tableNames = _classDataManager.GetClassTypes(Type_ClassData.Table).Select(d => d.Name);
 
 			foreach (var tableName in  tableNames)
 			{
-				var findRows = _tableDataManager.FindRowsOrDefault(tableName);
+				var findRows = _classDataManager.FindRowsOrDefault(tableName);
 
 				if (default == findRows)
 				{

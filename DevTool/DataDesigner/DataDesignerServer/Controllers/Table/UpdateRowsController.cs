@@ -3,30 +3,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataDesignerServer.Controllers.Table
 {
-	using DataDesignerServer.Core.Common;
-	using DataDesignerServer.Core.DataManager.ConfigData;
-	using DataDesignerServer.Core.DataManager.TableData;
-	using DataDesignerServer.Core.Http.Table;
-	using DataDesignerServer.Core.Services.Interfaces;
+    using DataDesignerServer.Core.Common;
+    using DataDesignerServer.Core.DataManager.ClassData;
+    using DataDesignerServer.Core.Http.Table;
+    using DataDesignerServer.Core.Services.Interfaces;
 
-	/// <summary>
-	/// UpdateRowsController.
-	/// </summary>
-	public class UpdateRowsController : Controller
+    /// <summary>
+    /// UpdateRowsController.
+    /// </summary>
+    public class UpdateRowsController : Controller
     {
         // internal id key for MUI Data grid.
         private const string INTERNAL_ID_KEY = "internalId";
 
         private readonly IJsonSerializer _jsonSerializer;
 
-        private readonly TableDataManager _tableDataManager;
+        private readonly ClassDataManager _classDataManager;
 
         public UpdateRowsController(
             IJsonSerializer jsonSerializer,
-			TableDataManager tableDataManager) 
+            ClassDataManager classDataManager) 
         {
             _jsonSerializer = jsonSerializer;
-            _tableDataManager = tableDataManager;
+            _classDataManager = classDataManager;
         }
 
         [HttpPatch]
@@ -35,7 +34,7 @@ namespace DataDesignerServer.Controllers.Table
         {
             var filteredRows = FilterInternalId(req.Rows);
 
-            if (false == _tableDataManager.UpdateRows(req.Schema, filteredRows))
+            if (false == _classDataManager.UpdateRows(req.Schema, filteredRows))
             {
                 throw new ServerException(ServerErrorCode.TableData_UpdateRow, "failed to update row");
             }
