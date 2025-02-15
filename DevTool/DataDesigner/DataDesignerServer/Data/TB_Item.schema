@@ -1,7 +1,7 @@
 {
-  "Name": "TC_Game",
-  "Category": "",
-  "Description": "",
+  "Name": "TB_Item",
+  "Category": "Item",
+  "Description": "Item table",
   "Columns": [
     {
       "Idx": 1,
@@ -13,22 +13,38 @@
     },
     {
       "Idx": 2,
-      "Name": "Port",
-      "IsIndexed": false,
-      "Type": "int",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 3,
-      "Name": "Region",
+      "Name": "Name",
       "IsIndexed": false,
       "Type": "string",
       "RefTable": "",
       "Summary": ""
     },
     {
+      "Idx": 3,
+      "Name": "ItemType",
+      "IsIndexed": false,
+      "Type": "Type_Item",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
       "Idx": 4,
+      "Name": "ReqLevel",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "Power",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 6,
       "Name": "Summary",
       "IsIndexed": false,
       "Type": "string",

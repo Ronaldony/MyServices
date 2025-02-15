@@ -356,31 +356,31 @@ function ColumnsTable({ columns, setColumns }: any) {
           <TableHead>
             <TableRow>
               <TableCell
-                align="right"
+                align="left"
                 style={{ paddingTop: 0, paddingBottom: 0 }}
               >
                 Name
               </TableCell>
               <TableCell
-                align="right"
+                align="left"
                 style={{ paddingTop: 0, paddingBottom: 0 }}
               >
                 Index
               </TableCell>
               <TableCell
-                align="right"
+                align="left"
                 style={{ paddingTop: 0, paddingBottom: 0 }}
               >
                 Type
               </TableCell>
               <TableCell
-                align="right"
+                align="left"
                 style={{ paddingTop: 0, paddingBottom: 0 }}
               >
                 RefTable
               </TableCell>
               <TableCell
-                align="right"
+                align="left"
                 style={{ paddingTop: 0, paddingBottom: 0 }}
               >
                 Summary

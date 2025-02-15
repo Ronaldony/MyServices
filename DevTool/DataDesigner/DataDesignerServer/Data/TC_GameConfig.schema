@@ -1,6 +1,6 @@
 {
-  "Name": "TB_Player",
-  "Category": "",
+  "Name": "TC_GameConfig",
+  "Category": "GameConfig",
   "Description": "",
   "Columns": [
     {
@@ -13,25 +13,33 @@
     },
     {
       "Idx": 2,
-      "Name": "Region",
-      "IsIndexed": false,
+      "Name": "NameKey",
+      "IsIndexed": true,
       "Type": "string",
       "RefTable": "",
       "Summary": ""
     },
     {
       "Idx": 3,
-      "Name": "ItemType",
+      "Name": "Value",
       "IsIndexed": false,
-      "Type": "Type_Item",
+      "Type": "int",
       "RefTable": "",
       "Summary": ""
     },
     {
       "Idx": 4,
-      "Name": "Summary",
+      "Name": "ConfigType",
       "IsIndexed": false,
-      "Type": "string",
+      "Type": "Type_GameConfig",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "IsCheck",
+      "IsIndexed": false,
+      "Type": "bool",
       "RefTable": "",
       "Summary": ""
     }

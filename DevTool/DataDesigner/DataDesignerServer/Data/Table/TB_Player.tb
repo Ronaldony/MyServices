@@ -1,12 +1,12 @@
 [
   {
     "Id": 1,
-    "ItemType": "Basic",
+    "ItemType": "Normal",
     "Summary": null
   },
   {
     "Id": 2,
-    "ItemType": "Basic",
+    "ItemType": "Normal",
     "Summary": null
   }
 ]

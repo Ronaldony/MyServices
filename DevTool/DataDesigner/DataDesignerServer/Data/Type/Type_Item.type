@@ -18,5 +18,15 @@
     "Id": 4,
     "Name": "Unique",
     "Summary": ""
+  },
+  {
+    "Id": 5,
+    "Name": "Special",
+    "Summary": ""
+  },
+  {
+    "Id": 6,
+    "Name": "Legend",
+    "Summary": ""
   }
 ]

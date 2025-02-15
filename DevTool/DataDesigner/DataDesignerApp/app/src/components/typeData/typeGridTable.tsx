@@ -191,6 +191,7 @@ export default function TypeGridTable({
           processRowUpdate={processRowUpdate}
           density="compact"
           hideFooter
+          showCellVerticalBorder
         />
 
         {/* Context Menu */}
