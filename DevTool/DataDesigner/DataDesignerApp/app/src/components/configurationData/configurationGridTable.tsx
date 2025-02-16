@@ -13,8 +13,7 @@ import {
   GridColType,
   GridRowId,
   GridRowModel,
-  useGridApiRef,
-  DEFAULT_GRID_AUTOSIZE_OPTIONS
+  useGridApiRef
 } from '@mui/x-data-grid';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

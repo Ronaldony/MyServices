@@ -16,15 +16,6 @@ export default function SideList() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Update menu
-  const updateMenu = React.useCallback(
-    (index, redirectTo) => {
-      setIndex(index);
-      navigate(redirectTo);
-    },
-    [setIndex, navigate]
-  );
-
   // initialize index.
   useEffect(() => {
     switch (location.pathname) {
@@ -41,7 +32,7 @@ export default function SideList() {
         setIndex(3)
         break;
     }
-  }, [])
+  }, [location.pathname])
 
   return (
     <Fragment>
@@ -50,7 +41,7 @@ export default function SideList() {
         {/* Configuration */}
         <ListItemButton
           selected={index === 0}
-          onClick={() => updateMenu(0, '/data/configuration')}
+          onClick={() => navigate('/data/configuration')}
         >
           <ListItemIcon>
             <SettingsApplicationsIcon />
@@ -60,7 +51,7 @@ export default function SideList() {
         {/* Type */}
         <ListItemButton
           selected={index === 1}
-          onClick={() => updateMenu(1, '/data/type')}
+          onClick={() => navigate('/data/type')}
         >
           <ListItemIcon>
             <TypeSpecimenIcon />
@@ -70,7 +61,7 @@ export default function SideList() {
         {/* Table */}
         <ListItemButton
           selected={index === 2}
-          onClick={() => updateMenu(2, '/data/table')}
+          onClick={() => navigate('/data/table')}
         >
           <ListItemIcon>
             <DataObjectIcon />
@@ -80,7 +71,7 @@ export default function SideList() {
         {/* Generate */}
         <ListItemButton
           selected={index === 3}
-          onClick={() => updateMenu(3, '/generate')}
+          onClick={() => navigate('/generate')}
         >
           <ListItemIcon>
             <SaveAltIcon />

@@ -4,11 +4,9 @@ import { Request_Get } from '../apis/restAPI.ts';
 import { ClassData } from '../classes/shared/classSchema.ts';
 import { RES_Error } from '../classes/shared/protocols/error.ts';
 import { RES_FindTableRows } from '../classes/shared/protocols/table.ts';
-import ConfigurationGridTable from '../components/configurationData/configurationGridTable.tsx';
-import ConfigurationMenu from '../components/configurationData/configurationMenu.tsx';
 import ErrorModal from '../components/modals/errorModal.tsx';
-import TableMenu from '../components/tableData/tableMenu.tsx';
 import TableGridTable from '../components/tableData/tableGridTable.tsx';
+import TableMenu from '../components/tableData/tableMenu.tsx';
 
 export default function ConfigurationPage() {
   // configuration

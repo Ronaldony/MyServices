@@ -9,9 +9,6 @@ import {
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Request_Get, Request_Post } from '../../apis/restAPI.ts';
-import {
-  ClassSchemaColumn
-} from '../../classes/shared/classSchema.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
 import { REQ_UpdateTypeSchema, RES_FindTypeSchema, RES_UpdateTypeSchema } from '../../classes/shared/protocols/type.ts';
 import { TypeSchema } from '../../classes/shared/typeSchema.ts';
@@ -38,9 +35,6 @@ export default function TypeEditSchema({ openSchemaModal, setOpenSchemaModal, sc
   const [schema, setSchema] = useState<TypeSchema>(
     new TypeSchema('', '', '')
   );
-
-  // columns
-  const [columns, setColumns] = useState<ClassSchemaColumn[] | null>([]);
 
   // error
   const [errorMsg, setErrorMsg] = useState('');
@@ -109,13 +103,7 @@ export default function TypeEditSchema({ openSchemaModal, setOpenSchemaModal, sc
     })
   }, [openSchemaModal, onError, schemaName])
 
-  // update schema
-  useEffect(() => {
-    setSchema((prev) => {
-      return { ...prev, columns: columns };
-    });
-  }, [columns, setSchema]);
-
+  // render
   return (
     <Fragment>
       {/* Schema modal */}

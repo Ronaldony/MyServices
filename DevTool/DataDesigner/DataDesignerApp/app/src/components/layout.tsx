@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import React, { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import ConfigurationPage from '../pages/configurationPage.tsx';
 import GeneratePage from '../pages/generatePage.tsx';
 import Tablepage from '../pages/tablepage.tsx';

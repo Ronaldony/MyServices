@@ -11,10 +11,10 @@
       },
       {
         "Target": "Server",
-        "ProjectPath": "",
-        "ProtocolPath": "",
-        "DataCodePath": "",
-        "DatabaseFilePath": ""
+        "ProjectPath": "C:\\Users\\boba1\\Downloads\\Generate",
+        "ProtocolPath": "C:\\Users\\boba1\\Downloads\\Generate\\Protocol",
+        "DataCodePath": "C:\\Users\\boba1\\Downloads\\Generate\\Code",
+        "DatabaseFilePath": "C:\\Users\\boba1\\Downloads\\Generate\\Database"
       }
     ]
   }

@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from '@mui/material';
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Request_Delete, Request_Patch } from '../../apis/restAPI.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
@@ -65,7 +65,7 @@ export default function GenerateHeaderbar({ profileName, profile }: any) {
 
         // reset modal
         setOpenEditModal(false)
-    }, [profile, navigate, onError])
+    }, [profile, navigate, onError, oriProfileName])
 
     // on request delete
     const onRequestDelete = useCallback(() => {
