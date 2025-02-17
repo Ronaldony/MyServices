@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LiteNetLib\LiteNetLib.csproj" />
     <ProjectReference Include="..\ServerEngine.AsciiBanner\ServerEngine.AsciiBanner.csproj" />
     <ProjectReference Include="..\ServerEngine.Config\ServerEngine.Config.csproj" />
     <ProjectReference Include="..\ServerEngine.Core\ServerEngine.Core.csproj" />

@@ -59,7 +59,6 @@ namespace ServerEngine.Test
             // Build WebApplication.
             WebApp = _webAppBuilder.Build();
 
-            //WebApp.UseHttpsRedirection();
             WebApp.UseAuthorization();
             //WebApp.UseEnyimMemcached();
             WebApp.MapControllers();
