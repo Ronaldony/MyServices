@@ -2,12 +2,16 @@
 
 namespace ServerEngine.Test
 {
-    using LiteNetLib;
-    using LiteNetLib.Utils;
-    using ServerEngine.AsciiBanner;
-    using System.Net;
+	using LiteNetLib;
+	using LiteNetLib.Utils;
+	using MaxMind.Db;
+	using ServerEngine.AsciiBanner;
+	using System.Diagnostics;
+	using System.Net;
+	using System.Net.Sockets;
+	using System.Xml.Schema;
 
-    public class Program
+	public class Program
     {
         private const string PROGRAM_NAME = "ServerEngine.Test"; 
 
@@ -48,20 +52,31 @@ namespace ServerEngine.Test
             }
         }
 
+        /// <summary>
+        /// Test code.
+        /// </summary>
         public static void TestCode()
         {
+            var port = 9050;
             var listener = new EventBasedNetListener();
             var server = new NetManager(listener);
-            server.Start(9050 /* port */);
 
-            listener.ConnectionRequestEvent += request =>
+            server.UnsyncedEvents = true;
+			server.Start(port);
+
+            // Request connection
+			listener.ConnectionRequestEvent += request =>
             {
-                if (server.ConnectedPeersCount < 10 /* max connections */)
-                    request.AcceptIfKey("SomeConnectionKey");
-                else
-                    request.Reject();
-            };
+                //if (server.ConnectedPeersCount < 10 /* max connections */)
+                //                request.AcceptIfKey("SomeConnectionKey");
+                //            else
+                request.Reject();
 
+                request.AcceptIfKey("SomeConnectionKey");
+				Console.WriteLine($"Peer count: {server.ConnectedPeersCount}");
+			};
+
+            // Connected
             listener.PeerConnectedEvent += peer =>
             {
                 Console.WriteLine("We got connection: {0}", peer);  // Show peer ip
@@ -70,18 +85,34 @@ namespace ServerEngine.Test
                 peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
             };
 
+            // Receive packet
             listener.NetworkReceiveEvent += (peer, reader, channel, deliveryMethod) =>
             {
-                Console.WriteLine($"peer - Id: {peer.Id}, MTU: {peer.Mtu}, Addr: {peer.Address}, Port: {peer.Port}, State: {peer.ConnectionState}");
-                Console.WriteLine($"Channel - {channel}");
-                Console.WriteLine($"Delivery - {deliveryMethod}");
-                Console.WriteLine($"reader - Id: {reader.RawData}");
+                var readString = reader.GetString();
+				Console.WriteLine($"peer - Id: {peer}");
+				Console.WriteLine($"Send string - {readString}");
+
+				var writer = new NetDataWriter();         // Create writer class
+				writer.Put(readString);                        // Put some string
+                server.SendToAll(writer, DeliveryMethod.ReliableOrdered, peer);
             };
 
-            while (!Console.KeyAvailable)
+            // Disconnected
+            listener.PeerDisconnectedEvent += (NetPeer peer, DisconnectInfo disconnectInfo) =>
             {
-                server.PollEvents();
-                Thread.Sleep(15);
+				Console.WriteLine($"disconnected - {disconnectInfo.Reason} / {peer} / {peer.Id}");
+			};
+
+            // Network error.
+            listener.NetworkErrorEvent += (IPEndPoint endPoint, SocketError socketError) =>
+            {
+				Console.WriteLine($"Error event - {endPoint} / {socketError}");
+            };
+
+			while (!Console.KeyAvailable)
+            {
+                //server.PollEvents();
+                Thread.Sleep(1000000000);
             }
 
             server.Stop();

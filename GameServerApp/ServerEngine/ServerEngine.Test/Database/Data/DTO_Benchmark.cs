@@ -8,7 +8,7 @@ namespace ServerEngine.Test.Database.Data
     /// </summary>
     public class DTO_Benchmark : DataObjectBase
     {
-        public DTO_Benchmark() 
+        public DTO_Benchmark()
         {
             Dummy1 = new DummyData();
             Dummy2 = new DummyData();

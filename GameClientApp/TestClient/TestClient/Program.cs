@@ -1,4 +1,5 @@
 ﻿using LiteNetLib;
+using LiteNetLib.Utils;
 
 namespace TestClient
 {
@@ -8,23 +9,43 @@ namespace TestClient
         {
             var listener = new EventBasedNetListener();
             var client = new NetManager(listener);
+            client.UnsyncedEvents = true;
+
+            var sendString = string.Empty;
 
             client.Start();
             client.Connect("localhost" , 9050, "SomeConnectionKey");
             listener.NetworkReceiveEvent += (fromPeer, dataReader, deliveryMethod, channel) =>
             {
-                Console.WriteLine("We got: {0}", dataReader.GetString(100 /* max length of string */));
-                dataReader.Recycle();
+                Console.WriteLine("We got: {0}", dataReader.GetString());
+				dataReader.Recycle();
             };
 
-            while (!Console.KeyAvailable)
+            listener.PeerConnectedEvent += (peer) =>
+			{
+                Console.WriteLine($"Connected to server.");
+				// Send to server.
+				var writer = new NetDataWriter();         // Create writer class
+				var guid = Guid.NewGuid();
+
+				writer.Put($"To server. Guid: {guid}");
+				//peer.Send(writer, DeliveryMethod.ReliableOrdered);
+			};
+
+            while (true)
             {
-                client.PollEvents();
-                Thread.Sleep(15);
+                //client.PollEvents();
+                sendString = Console.ReadLine();
+
+                var writer = new NetDataWriter();
+                writer.Put(sendString);
+
+                client.FirstPeer.Send(writer, DeliveryMethod.ReliableOrdered);
+
+				Thread.Sleep(15);
             }
 
             client.Stop();
-
         }
     }
 }
