@@ -2,16 +2,13 @@
 
 namespace ServerEngine.Test
 {
-	using LiteNetLib;
-	using LiteNetLib.Utils;
-	using MaxMind.Db;
-	using ServerEngine.AsciiBanner;
-	using System.Diagnostics;
-	using System.Net;
-	using System.Net.Sockets;
-	using System.Xml.Schema;
+    using LiteNetLib;
+    using LiteNetLib.Utils;
+    using ServerEngine.AsciiBanner;
+    using System.Net;
+    using System.Net.Sockets;
 
-	public class Program
+    public class Program
     {
         private const string PROGRAM_NAME = "ServerEngine.Test"; 
 
@@ -24,7 +21,7 @@ namespace ServerEngine.Test
                 return;
             }
 
-            TestCode();
+            ThreadPool.QueueUserWorkItem(TestCode);
 
             var startup = new Startup(args, arguments);
             startup.Configure();
@@ -55,7 +52,7 @@ namespace ServerEngine.Test
         /// <summary>
         /// Test code.
         /// </summary>
-        public static void TestCode()
+        private static void TestCode(object param)
         {
             var port = 9050;
             var listener = new EventBasedNetListener();
@@ -67,12 +64,8 @@ namespace ServerEngine.Test
             // Request connection
 			listener.ConnectionRequestEvent += request =>
             {
-                //if (server.ConnectedPeersCount < 10 /* max connections */)
-                //                request.AcceptIfKey("SomeConnectionKey");
-                //            else
-                request.Reject();
-
-                request.AcceptIfKey("SomeConnectionKey");
+                //request.AcceptIfKey("SomeConnectionKey");
+                request.Accept();
 				Console.WriteLine($"Peer count: {server.ConnectedPeersCount}");
 			};
 
