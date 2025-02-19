@@ -13,11 +13,11 @@ namespace ServerEngine.Test.Controllers.Test
 	public class Test_ObjectPoolController : ControllerBase
 	{
 		private readonly ILogger<Test_ObjectPoolController> _logger;
-		private readonly IObjectPoolService _objectPoolService;
+		private readonly IMemoryPoolService _objectPoolService;
 
 		public Test_ObjectPoolController(
 			ILogger<Test_ObjectPoolController> logger,
-			IObjectPoolService objectPoolService)
+			IMemoryPoolService objectPoolService)
 		{
 			_logger = logger;
 			_objectPoolService = objectPoolService;

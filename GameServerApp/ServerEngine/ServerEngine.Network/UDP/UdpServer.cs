@@ -1,4 +1,5 @@
 ﻿using LiteNetLib;
+using LiteNetLib.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
@@ -6,18 +7,23 @@ using System.Net;
 
 namespace ServerEngine.Network.UDP
 {
-    using ServerEngine.Network.Interfaces;
+	using ServerEngine.Network.Interfaces;
 
-    /// <summary>
-    /// UdpServer.
-    /// </summary>
-    public abstract class UdpServer
+	/// <summary>
+	/// UdpServer.
+	/// </summary>
+	public abstract class UdpServer
     {
         private readonly ILogger<UdpServer> _logger;
 
+        // Network.
+        private NetPacketProcessor _packetProcessor;
         private EventBasedNetListener _listener;
         private NetManager _netManager;
 
+        /// <summary>
+        /// White list.
+        /// </summary>
         private readonly List<IPAddress> _whiteList;
 
         /// <summary>
@@ -30,15 +36,15 @@ namespace ServerEngine.Network.UDP
         // Call back Delegates for network listener.
         protected abstract void OnRequestConnection();
         protected abstract void OnConnected(IUdpSession session);
-        protected abstract void OnReceivePackt(IUdpSession session);
         protected abstract void OnNetError();
         protected abstract void OnDisconnected(IUdpSession session);
 
-        public UdpServer(IServiceProvider serviceProvider)
+		public UdpServer(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpServer>>();
 
             // Initialize network.
+            _packetProcessor = new NetPacketProcessor();
             _listener = new EventBasedNetListener();
             _netManager = new NetManager(_listener)
             {
@@ -47,8 +53,8 @@ namespace ServerEngine.Network.UDP
                 UnsyncedEvents = true,
             };
 
-            // Black list.
-            _whiteList = new List<IPAddress>();
+			// Black list.
+			_whiteList = new List<IPAddress>();
         }
 
         /// <summary>
@@ -56,67 +62,14 @@ namespace ServerEngine.Network.UDP
         /// </summary>
         public void Start()
         {
-            // OnRequestConnection.
-            _listener.ConnectionRequestEvent += (request) =>
-            {
-                request.Accept();
-                OnRequestConnection();
-            };
+			// Initialize listener.
+			Initialize_Listener();
 
-            // OnConnected.
-            _listener.PeerConnectedEvent += (peer) =>
-            {
-                // Check white list.
-                if (_whiteList.Any())
-                {
-                    // Disconnect if not in white list.
-                    if (default == _whiteList.FirstOrDefault(d => d.Equals(peer.Address)))
-                    {
-                        peer.Disconnect();
-                    }
-                }
+			// Register UDP packet.
+			_packetProcessor.SubscribeReusable<UdpPacket, IUdpSession>(HandlePacket);
 
-                // Add session.
-                var session = new UdpSession
-                {
-                    SessionId = peer.Id,
-                    Address = peer.Address,
-                    Peer = peer,
-                };
-
-                // Check session id duplicate.
-                _sessionDict.AddOrUpdate(peer.Id, session, (key, old) => session);
-
-                // OnConnected.
-                OnConnected(session);
-            };
-
-            // OnNetError.
-            _listener.NetworkErrorEvent += (endPoint, socketError) =>
-            {
-                OnNetError();
-            };
-
-            // OnDisconnected.
-            _listener.PeerDisconnectedEvent += (peer, disconnectInfo) =>
-            {
-                OnDisconnected(new UdpSession
-                {
-                    SessionId = peer.Id,
-                    Address = peer.Address,
-                });
-            };
-
-            // Start server.
-            _netManager.Start();
-        }
-
-        /// <summary>
-        /// Add receive packet handler.
-        /// </summary>
-        public bool AddReceivePacketHandler()
-        {
-            return true;
+			// Start server.
+			_netManager.Start();
         }
 
         /// <summary>
@@ -147,6 +100,85 @@ namespace ServerEngine.Network.UDP
             }
 
             return session;
+        }
+
+		/// <summary>
+		/// Initialize listener.
+		/// </summary>
+        private void Initialize_Listener()
+		{
+			// OnRequestConnection.
+			_listener.ConnectionRequestEvent += (request) =>
+			{
+				request.Accept();
+				OnRequestConnection();
+			};
+
+			// OnConnected.
+			_listener.PeerConnectedEvent += (peer) =>
+			{
+				// Check white list.
+				if (_whiteList.Any())
+				{
+					// Disconnect if not in white list.
+					if (default == _whiteList.FirstOrDefault(d => d.Equals(peer.Address)))
+					{
+						peer.Disconnect();
+					}
+				}
+
+				// Add session.
+				var session = new UdpSession
+				{
+					SessionId = peer.Id,
+					Address = peer.Address,
+					Peer = peer,
+				};
+
+				// Check session id duplicate.
+				_sessionDict.AddOrUpdate(peer.Id, session, (key, old) => session);
+
+				// OnConnected.
+				OnConnected(session);
+			};
+
+			// OnReceive.
+			_listener.NetworkReceiveEvent += (NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod) =>
+			{
+				if (false == _sessionDict.TryGetValue(peer.Id, out var session))
+				{
+					_logger.LogError($"Session not found. id: {peer.Id} / peer: {peer}");
+					peer.Disconnect();
+					return;
+				}
+
+				// Read all packets.
+				_packetProcessor.ReadAllPackets(reader, session);
+			};
+
+			// OnNetError.
+			_listener.NetworkErrorEvent += (endPoint, socketError) =>
+			{
+				OnNetError();
+			};
+
+			// OnDisconnected.
+			_listener.PeerDisconnectedEvent += (peer, disconnectInfo) =>
+			{
+				OnDisconnected(new UdpSession
+				{
+					SessionId = peer.Id,
+					Address = peer.Address,
+				});
+			};
+		}
+        
+        /// <summary>
+        /// Handle udp packet.
+        /// </summary>
+		private void HandlePacket(UdpPacket packet, IUdpSession session)
+        {
+
         }
     }
 }

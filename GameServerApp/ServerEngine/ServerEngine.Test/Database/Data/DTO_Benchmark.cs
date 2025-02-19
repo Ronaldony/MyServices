@@ -6,7 +6,7 @@ namespace ServerEngine.Test.Database.Data
     /// <summary>
     /// DTO for Benchmark.
     /// </summary>
-    public class DTO_Benchmark : DataObjectBase
+    public class DTO_Benchmark : MemoryPoolBase
     {
         public DTO_Benchmark()
         {

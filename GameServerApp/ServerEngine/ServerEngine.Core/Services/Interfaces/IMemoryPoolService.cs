@@ -6,7 +6,7 @@ namespace ServerEngine.Core.Services.Interfaces
     /// <summary>
     /// Object pool interface.
     /// </summary>
-    public interface IObjectPoolService
+    public interface IMemoryPoolService
     {
         /// <summary>
         /// Initialize.
@@ -16,11 +16,11 @@ namespace ServerEngine.Core.Services.Interfaces
         /// <summary>
         /// Acquire.
         /// </summary>
-        T Acquire<T>() where T: DataObjectBase, new ();
+        T Acquire<T>() where T: MemoryPoolBase, new ();
 
         /// <summary>
         /// Release.
         /// </summary>
-        bool Release<T>(T obj) where T: DataObjectBase, new ();
+        bool Release<T>(T obj) where T: MemoryPoolBase, new ();
     }
 }

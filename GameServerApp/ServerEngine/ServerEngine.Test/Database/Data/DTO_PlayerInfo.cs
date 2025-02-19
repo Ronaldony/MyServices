@@ -10,7 +10,7 @@ namespace ServerEngine.Test.Database.Data
     /// DTO_PlayerInfo.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_PlayerInfo : DataObjectBase
+    public partial class DTO_PlayerInfo : MemoryPoolBase
     {
         /// <summary>
         /// Pid.

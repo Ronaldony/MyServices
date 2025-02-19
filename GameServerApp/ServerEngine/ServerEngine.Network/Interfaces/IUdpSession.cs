@@ -13,10 +13,5 @@ namespace ServerEngine.Network.Interfaces
         /// Session address.
         /// </summary>
         public IPAddress Address { get; }
-
-        /// <summary>
-        /// Disconnect.
-        /// </summary>
-        public void DisConnect();
     }
 }

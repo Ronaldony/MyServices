@@ -25,13 +25,5 @@ namespace ServerEngine.Network.UDP
         /// Peer.
         /// </summary>
         public NetPeer Peer { get; set; }
-
-        /// <summary>
-        /// Disconnect.
-        /// </summary>
-        public void DisConnect()
-        {
-            Peer.Disconnect();
-        }
     }
 }

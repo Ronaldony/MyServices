@@ -9,8 +9,6 @@ namespace ServerEngine.Test.Controllers.Test
 	/// </summary>
 	public class Test_GeoIPController
 	{
-		private readonly ILogger<Test_GeoIPController> _logger;
-
 		private readonly IGeoIPService _geoIPService;
 
 		public Test_GeoIPController(IGeoIPService geoIPService)

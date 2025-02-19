@@ -10,7 +10,7 @@ namespace ServerEngine.Test.Database.Data
     /// DTO_ShopInfo.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_ShopInfo : DataObjectBase
+    public partial class DTO_ShopInfo : MemoryPoolBase
     {
         /// <summary>
         /// ShopInfo RefId.

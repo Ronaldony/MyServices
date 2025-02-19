@@ -4,16 +4,16 @@
     using ServerEngine.Core.ObejctPool;
     using ServerEngine.Core.Services.Interfaces;
 
-    /// <summary>
-    /// DataObjectPoolService.
-    /// </summary>
-    public sealed class DataObjectPoolService : IObjectPoolService
+	/// <summary>
+	/// CustomMemoryPoolService.
+	/// </summary>
+	public sealed class CustomMemoryPoolService : IMemoryPoolService
     {
-        private readonly Dictionary<Type, DataObjectPool> _objectPoolDic;
+        private readonly Dictionary<Type, CustomMemoryPool> _memoryPoolDict;
 
-        public DataObjectPoolService(IServiceProvider serviceProvider)
+        public CustomMemoryPoolService(IServiceProvider serviceProvider)
         {
-            _objectPoolDic = new Dictionary<Type, DataObjectPool>();
+            _memoryPoolDict = new Dictionary<Type, CustomMemoryPool>();
         }
 
         /// <summary>
@@ -22,33 +22,33 @@
         public void Initialize()
         {
             // Get DataObjectbase type.
-            var baseType = typeof(DataObjectBase);
+            var baseType = typeof(MemoryPoolBase);
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(t => t.IsSubclassOf(baseType));
 
             // DataObjectBase 상속 클래스 오브젝트 풀 생성
             foreach (var type in types)
             {
-                var objectPool = new DataObjectPool(type);
-                _objectPoolDic.Add(type, objectPool);
+                var objectPool = new CustomMemoryPool();
+                _memoryPoolDict.Add(type, objectPool);
             }
         }
 
         /// <summary>
         /// Acquire object pool.
         /// </summary>
-        public T Acquire<T>() where T : DataObjectBase, new()
+        public T Acquire<T>() where T : MemoryPoolBase, new()
         {
-            return _objectPoolDic[typeof(T)].Get<T>();
+            return _memoryPoolDict[typeof(T)].Get<T>();
         }
 
         /// <summary>
         /// Release object pool.
         /// </summary>
-        public bool Release<T>(T obj) where T : DataObjectBase, new()
+        public bool Release<T>(T obj) where T : MemoryPoolBase, new()
         {
             try
             {
-                _objectPoolDic[typeof(T)].Return(obj);
+                _memoryPoolDict[typeof(T)].Return(obj);
 
                 return true;
             }

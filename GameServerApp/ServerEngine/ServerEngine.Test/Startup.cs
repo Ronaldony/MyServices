@@ -45,7 +45,7 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<IMemcachedService, MemcachedService>();
 
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-            _webAppBuilder.Services.AddSingleton<IObjectPoolService, DataObjectPoolService>();
+            _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
 
 			// scoped.

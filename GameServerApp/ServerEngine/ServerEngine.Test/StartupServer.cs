@@ -3,10 +3,10 @@
 
 namespace ServerEngine.Test
 {
-    using ServerEngine.Config.Consul;
-    using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Config.Consul;
+	using ServerEngine.Core.Services.Interfaces;
 
-    internal class StartupServer
+	internal class StartupServer
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -22,11 +22,13 @@ namespace ServerEngine.Test
             // Get appsettins.
             var configConsul = configuration.GetSection("Config_Consul").Get<Config_Consul>();
 
-			var consulConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
-            consulConfigureService.Initialize(configConsul);
+			/// RemoteConfigureService.
+			var remoteConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
+            remoteConfigureService.Initialize(configConsul);
 
-            var objectPoolService = _serviceProvider.GetRequiredService<IObjectPoolService>();
-            objectPoolService.Initialize();
+			// MemoryPoolService
+			var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
+            memoryPoolService.Initialize();
 
 #if! TEST_LOCAL
             var configGame = await consulConfigureService.GetConfigData<Config_Game>("Development");

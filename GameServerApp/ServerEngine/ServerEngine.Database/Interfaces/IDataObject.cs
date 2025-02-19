@@ -8,11 +8,11 @@ namespace ServerEngine.Database.Interfaces
         /// <summary>
         /// Get blob data.
         /// </summary>
-        T Select<T>(string key) where T : DataObjectBase;
+        T Select<T>(string key) where T : MemoryPoolBase;
 
         /// <summary>
         /// Update blob data.
         /// </summary>
-        bool Upsert<T>(string key, T dataObject) where T : DataObjectBase;
+        bool Upsert<T>(string key, T dataObject) where T : MemoryPoolBase;
     }
 }

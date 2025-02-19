@@ -2,7 +2,11 @@
 
 namespace ServerEngine.Core.DataObject
 {
-    public abstract class DataObjectBase
+	/// <summary>
+	/// MemoryPoolBase.
+    /// Description: The class for the memory pool class.
+	/// </summary>
+	public abstract class MemoryPoolBase
     {
         /// <summary>
         /// Reset by ObjectPoolService.
