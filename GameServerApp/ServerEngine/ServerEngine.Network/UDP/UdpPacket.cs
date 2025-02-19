@@ -1,10 +1,12 @@
-﻿namespace ServerEngine.Network.UDP
+﻿using LiteNetLib.Utils;
+
+namespace ServerEngine.Network.UDP
 {
 	/// <summary>
 	/// UdpPacket.
 	/// </summary>
 	public class UdpPacket
-	{
+    {
 		/// <summary>
 		/// Packet Code.
 		/// </summary>
@@ -14,5 +16,5 @@
 		/// Packet data.
 		/// </summary>
 		public byte[] Data { get; set; }
-	}
+    }
 }

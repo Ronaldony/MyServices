@@ -1,9 +1,36 @@
-﻿namespace ServerEngine.Network.Interfaces
+﻿
+namespace ServerEngine.Network.Interfaces
 {
-    public interface IUdpServer
-    {
-        void Initialize();
+    using ServerEngine.Network.UDP;
 
-        void Send();
+    /// <summary>
+    /// IUdpServer.
+    /// </summary>
+    public interface IUdpServer<TSession>
+    {
+        /// <summary>
+        /// Start server.
+        /// </summary>
+        void Start(int port);
+
+        /// <summary>
+        /// Send.
+        /// </summary>
+        bool Send(int sessionId, UdpPacket packet);
+
+        /// <summary>
+        /// Broadcast packet.
+        /// </summary>
+        bool BroadCast(int sessionId, UdpPacket packet);
+
+        /// <summary>
+        /// Get session.
+        /// </summary>
+        TSession GetSessionOrDefault(int sessionId);
+
+        /// <summary>
+        /// Add white list.
+        /// </summary>
+        bool AddWhiteList(string addressString);
     }
 }

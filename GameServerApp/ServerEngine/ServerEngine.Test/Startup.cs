@@ -8,7 +8,10 @@ namespace ServerEngine.Test
     using ServerEngine.Database.Cache;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.GeoIP;
+    using ServerEngine.Network.Interfaces;
     using ServerEngine.Test.Database.DataObject;
+    using ServerEngine.Test.Network;
+    using ServerEngine.Test.Server;
 
     public class Startup
     {
@@ -47,9 +50,10 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+            _webAppBuilder.Services.AddSingleton<IUdpServer<GameSession>, TestServer>();
 
-			// scoped.
-			_webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+            // scoped.
+            _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
 
 			_webAppBuilder.WebHost.UseKestrel(configs =>
             {

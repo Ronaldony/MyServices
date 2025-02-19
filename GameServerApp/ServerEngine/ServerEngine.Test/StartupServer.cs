@@ -5,8 +5,10 @@ namespace ServerEngine.Test
 {
 	using ServerEngine.Config.Consul;
 	using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Network.Interfaces;
+    using ServerEngine.Test.Network;
 
-	internal class StartupServer
+    internal class StartupServer
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -29,6 +31,10 @@ namespace ServerEngine.Test
 			// MemoryPoolService
 			var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
             memoryPoolService.Initialize();
+
+            // TestServer
+            var testServer = _serviceProvider.GetRequiredService<IUdpServer<GameSession>>();
+            testServer.Start(9050);
 
 #if! TEST_LOCAL
             var configGame = await consulConfigureService.GetConfigData<Config_Game>("Development");

@@ -1,15 +1,14 @@
 ﻿
-using ServerEngine.Network.Interfaces;
+using LiteNetLib;
+using LiteNetLib.Utils;
 using System.Net;
 
 namespace ServerEngine.Network.UDP
 {
-    using LiteNetLib;
-
     /// <summary>
     /// UdpSession.
     /// </summary>
-    public class UdpSession : IUdpSession
+    public class UdpSession
     {
         /// <summary>
         /// Session id.
@@ -25,5 +24,7 @@ namespace ServerEngine.Network.UDP
         /// Peer.
         /// </summary>
         public NetPeer Peer { get; set; }
+
+        public NetDataWriter DataWriter { get; set; }
     }
 }

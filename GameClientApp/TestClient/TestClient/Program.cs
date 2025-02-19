@@ -1,7 +1,9 @@
 ﻿using LiteNetLib;
 using LiteNetLib.Utils;
+using ServerEngine.Core.Services;
+using ServerEngine.Network.UDP;
+using ServerEngine.Test.Database.Data;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace TestClient
 {
@@ -9,8 +11,6 @@ namespace TestClient
     {
         public static void Main(string[] args)
         {
-			MeasurePerformance();
-
 			var listener = new EventBasedNetListener();
             var client = new NetManager(listener);
             client.UnsyncedEvents = true;
@@ -21,20 +21,38 @@ namespace TestClient
             client.Connect("localhost" , 9050, "SomeConnectionKey");
             listener.NetworkReceiveEvent += (fromPeer, dataReader, deliveryMethod, channel) =>
             {
-                Console.WriteLine("We got: {0}", dataReader.GetString());
+                //Console.WriteLine("We got: {0}", dataReader.GetString());
 				dataReader.Recycle();
             };
 
             listener.PeerConnectedEvent += (peer) =>
 			{
                 Console.WriteLine($"Connected to server.");
-				// Send to server.
-				var writer = new NetDataWriter();         // Create writer class
-				var guid = Guid.NewGuid();
 
-				writer.Put($"To server. Guid: {guid}");
-				//peer.Send(writer, DeliveryMethod.ReliableOrdered);
-			};
+				// PlayerInfo.
+				var netSerilizer = new NetSerializer();
+                var serilizer = new MemoryPackDataSerializer();
+                var playerInfo = new DTO_PlayerInfo
+				{
+					Pid = Guid.NewGuid().ToString(),
+                    PlayerName = Guid.NewGuid().ToString(),
+                    RegTime = DateTime.Now,
+					Uid = Guid.NewGuid().ToString(),
+                };
+
+				var packet = new UdpPacket
+				{
+					PacketCode = 1000,
+					Data = serilizer.Serialize(playerInfo)
+				};
+
+                var writer = new NetDataWriter();
+				var processor = new NetPacketProcessor();
+				processor.Write(writer, packet);
+
+                // Send to server.
+				peer.Send(writer, DeliveryMethod.ReliableOrdered);
+            };
 
             while (true)
             {

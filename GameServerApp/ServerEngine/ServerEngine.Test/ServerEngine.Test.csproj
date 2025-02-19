@@ -27,6 +27,7 @@
     <ProjectReference Include="..\ServerEngine.Core\ServerEngine.Core.csproj" />
     <ProjectReference Include="..\ServerEngine.Database\ServerEngine.Database.csproj" />
     <ProjectReference Include="..\ServerEngine.GeoIP\ServerEngine.GeoIP.csproj" />
+    <ProjectReference Include="..\ServerEngine.Network\ServerEngine.Network.csproj" />
   </ItemGroup>
 
   <ItemGroup>

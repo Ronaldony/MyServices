@@ -7,8 +7,11 @@ namespace ServerEngine.Test
 	using LiteNetLib;
 	using LiteNetLib.Utils;
 	using ServerEngine.AsciiBanner;
+    using ServerEngine.Network.Interfaces;
+    using ServerEngine.Test.Network;
+    using ServerEngine.Test.Server;
 
-	public class Program
+    public class Program
     {
         private const string PROGRAM_NAME = "ServerEngine.Test"; 
 
@@ -20,8 +23,6 @@ namespace ServerEngine.Test
                 Console.WriteLine("Arguments is null.");
                 return;
             }
-
-            ThreadPool.QueueUserWorkItem(TestCode);
 
             var startup = new Startup(args, arguments);
             startup.Configure();
