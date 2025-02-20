@@ -8,5 +8,14 @@ namespace ServerEngine.Test.Network
     /// </summary>
     public class GameSession : UdpSession
     {
+        /// <summary>
+        /// Uid.
+        /// </summary>
+        public string Uid { get; set; }
+
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        public string Pid { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
-            _webAppBuilder.Services.AddSingleton<IUdpServer<GameSession>, TestServer>();
+            _webAppBuilder.Services.AddSingleton<IUdpServer, TestServer>();
 
             // scoped.
             _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();

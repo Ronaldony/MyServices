@@ -1,10 +1,9 @@
 ﻿
-
 namespace ServerEngine.Test.Network
 {
     using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Network.Interfaces;
     using ServerEngine.Network.UDP;
-    using ServerEngine.Test.Database.Data;
 
     /// <summary>
     /// UdpHandler_Test.
@@ -22,11 +21,12 @@ namespace ServerEngine.Test.Network
         /// <summary>s
         /// Handle packet.
         /// </summary>
-        public override void HandlePacket<TSession>(UdpPacket packet, TSession session)
+        public override void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, UdpPacket, bool> sendFunc)
         {
-            Console.WriteLine($"Packet - code: {packet.PacketCode}");
+            //Console.WriteLine($"Packet - code: {packet.PacketCode} / session: {session.SessionId}");
 
-            var playerInfo = _dataSerializer.Deserialize<DTO_PlayerInfo>(packet.Data);
+            // Send to session.
+            sendFunc(session.SessionId, packet);
         }
     }
 }

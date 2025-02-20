@@ -3,7 +3,7 @@ using LiteNetLib.Utils;
 using ServerEngine.Core.Services;
 using ServerEngine.Network.UDP;
 using ServerEngine.Test.Database.Data;
-using System.Diagnostics;
+using TestClient.Test;
 
 namespace TestClient
 {
@@ -11,47 +11,54 @@ namespace TestClient
     {
         public static void Main(string[] args)
         {
-			var listener = new EventBasedNetListener();
+            var networkTestData = new Network_DataIntegrity(1000, 9050);
+            networkTestData.Test();
+        }
+
+        public static void TestNetwork()
+        {
+
+            var listener = new EventBasedNetListener();
             var client = new NetManager(listener);
             client.UnsyncedEvents = true;
 
             var sendString = string.Empty;
 
             client.Start();
-            client.Connect("localhost" , 9050, "SomeConnectionKey");
+            client.Connect("localhost", 9050, "SomeConnectionKey");
             listener.NetworkReceiveEvent += (fromPeer, dataReader, deliveryMethod, channel) =>
             {
                 //Console.WriteLine("We got: {0}", dataReader.GetString());
-				dataReader.Recycle();
+                dataReader.Recycle();
             };
 
             listener.PeerConnectedEvent += (peer) =>
-			{
+            {
                 Console.WriteLine($"Connected to server.");
 
-				// PlayerInfo.
-				var netSerilizer = new NetSerializer();
+                // PlayerInfo.
+                var netSerilizer = new NetSerializer();
                 var serilizer = new MemoryPackDataSerializer();
                 var playerInfo = new DTO_PlayerInfo
-				{
-					Pid = Guid.NewGuid().ToString(),
+                {
+                    Pid = Guid.NewGuid().ToString(),
                     PlayerName = Guid.NewGuid().ToString(),
                     RegTime = DateTime.Now,
-					Uid = Guid.NewGuid().ToString(),
+                    Uid = Guid.NewGuid().ToString(),
                 };
 
-				var packet = new UdpPacket
-				{
-					PacketCode = 1000,
-					Data = serilizer.Serialize(playerInfo)
-				};
+                var packet = new UdpPacket
+                {
+                    PacketCode = 1000,
+                    Data = serilizer.Serialize(playerInfo)
+                };
 
                 var writer = new NetDataWriter();
-				var processor = new NetPacketProcessor();
-				processor.Write(writer, packet);
+                var processor = new NetPacketProcessor();
+                processor.Write(writer, packet);
 
                 // Send to server.
-				peer.Send(writer, DeliveryMethod.ReliableOrdered);
+                peer.Send(writer, DeliveryMethod.ReliableOrdered);
             };
 
             while (true)
@@ -64,113 +71,11 @@ namespace TestClient
 
                 client.FirstPeer.Send(writer, DeliveryMethod.ReliableOrdered);
 
-				Thread.Sleep(15);
+                Thread.Sleep(15);
             }
 
             client.Stop();
         }
 
-        private static void MeasurePerformance()
-        {
-            int testTotal = 100000;
-            
-            var list = new List<AAA>();
-            var listCopy = list;
-			var hashSet = new HashSet<AAA>();
-			var hashSetCopy = hashSet;
-
-			// Stop watchs
-			var sw = new Stopwatch();
-			var hashSW = new Stopwatch();
-
-			//////////////////////////////////////////////
-			/// Add
-			sw.Start();
-            for (int cnt = 0; cnt < testTotal; cnt++)
-            {
-				list.Add(new AAA
-                {
-                    TestInt = cnt,
-                    TestDouble = cnt,
-                    TestDate = DateTime.Now,
-                    TestBool = true,
-                    TestString = cnt.ToString()
-                });
-			}
-            sw.Stop();
-
-			hashSW.Start();
-			for (int cnt = 0; cnt < testTotal; cnt++)
-			{
-				hashSet.Add(new AAA
-				{
-					TestInt = cnt,
-					TestDouble = cnt,
-					TestDate = DateTime.Now,
-					TestBool = true,
-					TestString = cnt.ToString()
-				});
-			}
-			hashSW.Stop();
-
-			// Add
-			Console.WriteLine($"List Add - ms: {sw.ElapsedMilliseconds}");
-			Console.WriteLine($"Hash Add - ms: {hashSW.ElapsedMilliseconds}");
-
-			sw.Reset();
-			hashSW.Reset();
-
-			/////////////////////////////////////////////////////////////
-			/// Search.
-
-			sw.Start();
-            foreach (var item in listCopy)
-            {
-                if (default == list.Contains(item))
-                {
-                    Console.WriteLine($"Find list failed. {item.TestInt}");
-                }
-            }
-            sw.Stop();
-
-
-			hashSW.Start();
-			foreach (var item in hashSetCopy)
-			{
-                if (default == hashSet.Contains(item))
-				{
-					Console.WriteLine($"Find hashSet failed. {item.TestInt}");
-				}
-			}
-			hashSW.Stop();
-
-			// Search
-			Console.WriteLine($"List Search - ms: {sw.ElapsedMilliseconds}");
-			Console.WriteLine($"Hash Search - ms: {hashSW.ElapsedMilliseconds}");
-
-			sw.Reset();
-			hashSW.Reset();
-
-			/////////////////////////////////////////////////////////////
-			/// Remove.
-
-			sw.Start();
-            for (int cnt = 0; cnt < testTotal; cnt++)
-			{
-				list.Remove(list.Last());
-			}
-			sw.Stop();
-
-			hashSW.Start();
-            for (int cnt = 0; cnt < testTotal; cnt++)
-			{
-				hashSet.Remove(hashSet.Last());
-			}
-			hashSW.Stop();
-
-			// Search
-			Console.WriteLine($"List Remove - ms: {sw.ElapsedMilliseconds}");
-			Console.WriteLine($"Hash Remove - ms: {hashSW.ElapsedMilliseconds}");
-		}
 	}
 }

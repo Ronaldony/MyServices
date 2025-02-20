@@ -14,10 +14,17 @@ namespace ServerEngine.Test.Server
     {
         private readonly ILogger<UdpServer<GameSession>> _logger;
 
+        /// <summary>
+        /// Session id list.
+        /// </summary>
+        private readonly HashSet<int> _sessionIds;
+
         public TestServer(IServiceProvider serviceProvider) 
             : base(serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpServer<GameSession>>>();
+
+            _sessionIds = new HashSet<int>();
         }
 
         /// <summary>
@@ -25,7 +32,7 @@ namespace ServerEngine.Test.Server
         /// </summary>
         protected override void OnRequestConnection()
         {
-            _logger.LogDebug($"[TestServer] Request connection.");
+            //_logger.LogInformation($"[TestServer] Request connection.");
         }
 
         /// <summary>
@@ -39,6 +46,12 @@ namespace ServerEngine.Test.Server
                 Address = ipAddr,
             };
 
+            // Sesson duplicated.
+            if (false == _sessionIds.Add(sessionId))
+            {
+                return null;
+            }
+
             // TODO: Monitoring user indicator.
 
             return session;
@@ -50,6 +63,11 @@ namespace ServerEngine.Test.Server
         protected override void OnDisconnected(GameSession session)
         {
             _logger.LogDebug($"[TestServer] Disconneted. sid: {session.SessionId}");
+
+            if (false == _sessionIds.Remove(session.SessionId))
+            {
+                _logger.LogError($"[TestServer] Disconnection failed. sid: {session.SessionId}");
+            }
 
             // TODO: Monitoring user indicator.
         }

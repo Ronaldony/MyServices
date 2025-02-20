@@ -6,7 +6,7 @@ namespace ServerEngine.Network.Interfaces
     /// <summary>
     /// IUdpServer.
     /// </summary>
-    public interface IUdpServer<TSession>
+    public interface IUdpServer
     {
         /// <summary>
         /// Start server.
@@ -26,11 +26,16 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Get session.
         /// </summary>
-        TSession GetSessionOrDefault(int sessionId);
+        IUdpSession GetSessionOrDefault(int sessionId);
 
         /// <summary>
         /// Add white list.
         /// </summary>
         bool AddWhiteList(string addressString);
+
+        /// <summary>
+        /// Disconnect.
+        /// </summary>
+        bool Disconnect(int sessionId);
     }
 }

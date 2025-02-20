@@ -14,7 +14,7 @@ namespace ServerEngine.Network.UDP
     /// <summary>
     /// UdpServer.
     /// </summary>
-    public abstract class UdpServer<TSession> : IUdpServer<TSession>
+    public abstract class UdpServer<TSession> : IUdpServer
         where TSession : UdpSession
     {
         private readonly ILogger<UdpServer<TSession>> _logger;
@@ -36,7 +36,7 @@ namespace ServerEngine.Network.UDP
         /// key: packet code.
         /// value: UDP handler.
         /// </summary>
-        private Dictionary<int, (UdpHandler, MethodInfo)> _handlerDict;
+        private Dictionary<int, (UdpHandler, MethodInfo, object[])> _handlerDict;
 
         /// <summary>
         /// Session dictonary.
@@ -67,7 +67,7 @@ namespace ServerEngine.Network.UDP
             };
 
             // Handler.
-            _handlerDict = new Dictionary<int, (UdpHandler, MethodInfo)>();
+            _handlerDict = new Dictionary<int, (UdpHandler, MethodInfo, object[])>();
             _sessionDict = new ConcurrentDictionary<int, TSession>();
 
             // Black list.
@@ -89,10 +89,7 @@ namespace ServerEngine.Network.UDP
             _packetProcessor.SubscribeReusable<UdpPacket, TSession>(HandlePacket);
 
             // Start server.
-            ThreadPool.QueueUserWorkItem((param) =>
-            {
-                _netManager.Start(port);
-            });
+            _netManager.Start(port);
         }
 
         /// <summary>
@@ -100,19 +97,22 @@ namespace ServerEngine.Network.UDP
         /// </summary>
         public bool Send(int sessionId, UdpPacket packet)
         {
-            if (false == _sessionDict.TryGetValue(sessionId, out var session))
+            var session = GetSessionOrDefault(sessionId);
+            if (default == session)
             {
                 return false;
             }
 
+            var udpSession = session as UdpSession;
+
             // Write packet.
-            var writer = session.DataWriter;
+            var writer = udpSession.DataWriter;
 
             writer.Reset();
             _packetProcessor.Write(writer, packet);
 
             // Send.
-            session.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
+            udpSession.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
 
             return true;
         }
@@ -122,19 +122,38 @@ namespace ServerEngine.Network.UDP
         /// </summary>
         public bool BroadCast(int sessionId, UdpPacket packet)
         {
-            if (false == _sessionDict.TryGetValue(sessionId, out var session))
+            var session = GetSessionOrDefault(sessionId);
+            if (default == session)
             {
                 return false;
             }
 
+            var udpSession = session as UdpSession;
+
             // Write packet.
-            var writer = session.DataWriter;
+            var writer = udpSession.DataWriter;
 
             writer.Reset();
             _packetProcessor.Write(writer, packet);
 
-            // Send.
-            _netManager.SendToAll(writer, DeliveryMethod.ReliableOrdered, session.Peer);
+            // Send all.
+            _netManager.SendToAll(writer, DeliveryMethod.ReliableOrdered, udpSession.Peer);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Disconnect.
+        /// </summary>
+        public bool Disconnect(int sessionId)
+        {
+            // remvoe.
+            if (false == _sessionDict.TryRemove(sessionId, out var session))
+            {
+                return false;
+            }
+
+            session.Peer.Disconnect();
 
             return true;
         }
@@ -142,7 +161,7 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Get session.
         /// </summary>
-        public TSession GetSessionOrDefault(int sessionId)
+        public IUdpSession GetSessionOrDefault(int sessionId)
         {
             if (false == _sessionDict.TryGetValue(sessionId, out var session))
             {
@@ -177,7 +196,7 @@ namespace ServerEngine.Network.UDP
 			// OnRequestConnection.
 			_listener.ConnectionRequestEvent += (request) =>
 			{
-				request.Accept();
+                request.Accept();
 				OnRequestConnection();
 			};
 
@@ -214,7 +233,7 @@ namespace ServerEngine.Network.UDP
 			};
 
 			// OnReceive.
-			_listener.NetworkReceiveEvent += (NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod) =>
+			_listener.NetworkReceiveEvent += (peer, reader, channel, deliveryMethod) =>
 			{
 				if (false == _sessionDict.TryGetValue(peer.Id, out var session))
 				{
@@ -262,10 +281,9 @@ namespace ServerEngine.Network.UDP
             foreach (var type in handlerTypes)
             {
                 var handler = Activator.CreateInstance(type, _serviceProvider) as UdpHandler;
-                var baseMethod = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
-                var method = baseMethod.MakeGenericMethod(typeof(TSession));
+                var method = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
 
-                _handlerDict.Add(handler.PacketCode, (handler, method));
+                _handlerDict.Add(handler.PacketCode, (handler, method, new object[3]));
             }
         }
         
@@ -279,9 +297,15 @@ namespace ServerEngine.Network.UDP
             {
                 var handler = value.Item1;
                 var method = value.Item2;
+                var objectList = value.Item3;
+
+                var send = this.Send;
+                objectList[0] = packet;
+                objectList[1] = session;
+                objectList[2] = send;
 
                 // Invoke method.
-                method?.Invoke(handler, new object [] { packet, session } );
+                method?.Invoke(handler, objectList);
             }
         }
     }

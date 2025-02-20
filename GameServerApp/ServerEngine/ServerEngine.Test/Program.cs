@@ -1,15 +1,13 @@
-﻿using PowerArgs;
+﻿
+using LiteNetLib;
+using LiteNetLib.Utils;
+using PowerArgs;
 using System.Net;
 using System.Net.Sockets;
 
 namespace ServerEngine.Test
 {
-	using LiteNetLib;
-	using LiteNetLib.Utils;
-	using ServerEngine.AsciiBanner;
-    using ServerEngine.Network.Interfaces;
-    using ServerEngine.Test.Network;
-    using ServerEngine.Test.Server;
+    using ServerEngine.AsciiBanner;
 
     public class Program
     {

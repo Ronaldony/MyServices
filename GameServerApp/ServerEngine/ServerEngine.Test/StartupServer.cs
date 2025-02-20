@@ -33,7 +33,7 @@ namespace ServerEngine.Test
             memoryPoolService.Initialize();
 
             // TestServer
-            var testServer = _serviceProvider.GetRequiredService<IUdpServer<GameSession>>();
+            var testServer = _serviceProvider.GetRequiredService<IUdpServer>();
             testServer.Start(9050);
 
 #if! TEST_LOCAL

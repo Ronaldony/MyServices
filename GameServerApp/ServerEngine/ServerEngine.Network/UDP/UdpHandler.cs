@@ -1,10 +1,12 @@
 ﻿
 namespace ServerEngine.Network.UDP
 {
+    using ServerEngine.Network.Interfaces;
+
     /// <summary>
     /// UdpHandler.
     /// </summary>
-    public abstract class UdpHandler
+    public abstract class UdpHandler 
     {
         /// <summary>
         /// Packet code.
@@ -14,7 +16,7 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Handle packet.
         /// </summary>
-        public abstract void HandlePacket<TSession>(UdpPacket packet, TSession session);
+        public abstract void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, UdpPacket, bool> sendFunc);
 
         /// <summary>
         /// Initialize packet code.
