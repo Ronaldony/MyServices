@@ -23,7 +23,7 @@ namespace ServerEngine.Test.Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, UdpPacket, bool> sendFunc)
         {
-            //Console.WriteLine($"Packet - code: {packet.PacketCode} / session: {session.SessionId}");
+            Console.WriteLine($"Packet - code: {packet.PacketCode} / session: {session.SessionId}");
 
             // Send to session.
             sendFunc(session.SessionId, packet);

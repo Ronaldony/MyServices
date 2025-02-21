@@ -1,11 +1,9 @@
-﻿using LiteNetLib.Utils;
-
-namespace ServerEngine.Network.UDP
+﻿namespace ServerEngine.Network.UDP
 {
-	/// <summary>
-	/// UdpPacket.
-	/// </summary>
-	public class UdpPacket
+    /// <summary>
+    /// UdpPacket.
+    /// </summary>
+    public class UdpPacket
     {
 		/// <summary>
 		/// Packet Code.

@@ -32,7 +32,7 @@ namespace ServerEngine.Test.Server
         /// </summary>
         protected override void OnRequestConnection()
         {
-            //_logger.LogInformation($"[TestServer] Request connection.");
+            _logger.LogInformation($"[TestServer] Request connection.");
         }
 
         /// <summary>
@@ -51,6 +51,8 @@ namespace ServerEngine.Test.Server
             {
                 return null;
             }
+
+            _logger.LogInformation($"[TestServer] Connection. sesion: {sessionId}");
 
             // TODO: Monitoring user indicator.
 

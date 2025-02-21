@@ -1,7 +1,7 @@
 ﻿using MemoryPack;
 using MemoryPack.Compression;
 
-namespace ServerEngine.Core.Services
+namespace TestClientApp.Services
 {
     /// <summary>
     /// MemoryPackDataSerializer.
