@@ -1,4 +1,5 @@
 
+using Microsoft.Build.Locator;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NLog.Extensions.Logging;
@@ -68,6 +69,9 @@ namespace DataDesignerServerServer
 			{
 				options.Listen(IPAddress.Any, 7000);
 			});
+
+			// Default MSBuild.
+			MSBuildLocator.RegisterDefaults();
 
 			// builder.
 			var app = builder.Build();

@@ -39,7 +39,7 @@ namespace TestClientApp
         public static void Clear()
         {
             _log.Clear();
-            _textBox.Invoke(new MethodInvoker(delegate { _textBox.Text = _log.ToString(); }));
+            _textBox.Invoke(new MethodInvoker(delegate { _textBox.Text = ""; }));
         }
     }
 }

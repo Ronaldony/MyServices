@@ -10,7 +10,6 @@ namespace ServerEngine.Test
     using ServerEngine.GeoIP;
     using ServerEngine.Network.Interfaces;
     using ServerEngine.Test.Database.DataObject;
-    using ServerEngine.Test.Network;
     using ServerEngine.Test.Server;
 
     public class Startup

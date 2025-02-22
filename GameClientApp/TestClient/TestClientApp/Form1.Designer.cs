@@ -49,7 +49,7 @@ namespace TestClientApp
             TestNetwork_DataIntegrity.Name = "TestNetwork_DataIntegrity";
             TestNetwork_DataIntegrity.Size = new Size(170, 47);
             TestNetwork_DataIntegrity.TabIndex = 0;
-            TestNetwork_DataIntegrity.Text = "TestNetwork_DataIntegrity";
+            TestNetwork_DataIntegrity.Text = "Test_Network_DataIntegrity";
             TestNetwork_DataIntegrity.UseVisualStyleBackColor = true;
             TestNetwork_DataIntegrity.Click += buttonTestNetwork_DataIntegrity;
             // 

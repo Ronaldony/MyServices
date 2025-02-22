@@ -3,10 +3,9 @@
 
 namespace ServerEngine.Test
 {
-	using ServerEngine.Config.Consul;
-	using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Config.Consul;
+    using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Network.Interfaces;
-    using ServerEngine.Test.Network;
 
     internal class StartupServer
     {
@@ -36,6 +35,10 @@ namespace ServerEngine.Test
             var testServer = _serviceProvider.GetRequiredService<IUdpServer>();
             testServer.Start(9050);
 
+            // IJsonSerializer.
+            var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
+            jsonSerializer.Initialize();
+
 #if! TEST_LOCAL
             var configGame = await consulConfigureService.GetConfigData<Config_Game>("Development");
             var configDatabase = await consulConfigureService.GetConfigData<List<Config_Database>>("Development_Database");
@@ -47,9 +50,6 @@ namespace ServerEngine.Test
             // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, 1, 2);
-
-            var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
-            jsonSerializer.Initialize();
 
             var memcachedService = _serviceProvider.GetRequiredService<IMemcachedService>();
             memcachedService.Initialize(_serviceProvider, configCache, 1000);

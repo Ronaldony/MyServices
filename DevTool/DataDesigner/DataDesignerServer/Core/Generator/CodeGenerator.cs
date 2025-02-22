@@ -66,7 +66,6 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         public void Initialize()
         {
-
             // Setup all types.
             _typeList.Clear();
 

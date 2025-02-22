@@ -12,7 +12,7 @@ namespace TestClientApp.Test
     /// NetworkTest_DataIntegrity.
     /// Description: Test class to check integrity for network data.
     /// </summary>
-    public class TestNetwork_DataIntegrity
+    public class Test_Network_DataIntegrity
     {
         /// <summary>
         /// NetworkGroup.
@@ -46,7 +46,7 @@ namespace TestClientApp.Test
 
         private readonly int _clientNum;
 
-        public TestNetwork_DataIntegrity(int clientNum, int port, int maxTestCount)
+        public Test_Network_DataIntegrity(int clientNum, int port, int maxTestCount)
         {
             _clientNum = clientNum;
             _testGroupDict = new Dictionary<int, NetworkTestGroup>();
@@ -138,7 +138,7 @@ namespace TestClientApp.Test
             {
                 return false;
             }
-        
+
             return true;
         }
 

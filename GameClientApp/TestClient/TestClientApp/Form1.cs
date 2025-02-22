@@ -4,14 +4,14 @@ namespace TestClientApp
 {
     public partial class Form1 : Form
     {
-        private readonly TestNetwork_DataIntegrity testNetwork_DataIntegrity;
+        private readonly Test_Network_DataIntegrity testNetworkDataIntegrity;
 
         public Form1()
         {
             InitializeComponent();
 
             // Initializer test objects.
-            testNetwork_DataIntegrity = new TestNetwork_DataIntegrity(10, 9050, 10000);
+            testNetworkDataIntegrity = new Test_Network_DataIntegrity(10, 9050, 10000);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -21,9 +21,15 @@ namespace TestClientApp
 
         private void buttonTestNetwork_DataIntegrity(object sender, EventArgs e)
         {
-            if (testNetwork_DataIntegrity.IsTestEnd())
+            if (testNetworkDataIntegrity.IsTestEnd())
             {
-                testNetwork_DataIntegrity.Start();
+                CustomLogger.Log($"Test network dataIntegrity start");
+
+                testNetworkDataIntegrity.Start();
+            }
+            else
+            {
+                CustomLogger.Log($"Network dataIntegrity is testing...");
             }
         }
 

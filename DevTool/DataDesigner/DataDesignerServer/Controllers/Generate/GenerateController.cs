@@ -1,5 +1,8 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Evaluation;
+using Microsoft.Build.Execution;
+using System;
+using System.IO;
 
 namespace DataDesignerServer.Controllers.Generate
 {
@@ -11,6 +14,7 @@ namespace DataDesignerServer.Controllers.Generate
     using DataDesignerServer.Core.Http.Generate;
     using DataDesignerServer.Core.Services;
     using DataDesignerServer.Core.Types;
+    using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// GenerateController .
@@ -19,11 +23,18 @@ namespace DataDesignerServer.Controllers.Generate
     {
         private const string GENERATE_NAMESPACE = "GameCore";
 
+        private const string PROTOCOL_PROJECT = "GameCore.csproj";
+        private const string PROTOCOL_FOLDER = "DataDesignerProtocol";
+
         private readonly ClassDataManager _classDataManager;
         private readonly TypeDataManager _typeDataManager;
 
         private readonly CodeGenerator _codeGenerator;
         private readonly DBGenerator _dbGenerator;
+
+        // Name of files and folders to exclude from generating protocol.
+        private string[] _exclueFiles = [".sln", ".csproj"];
+        private string[] _exclueFolders = [".vs", "bin", "obj"];
 
         public GenerateController(
             TypeDataManager typeDataManager,
@@ -56,7 +67,10 @@ namespace DataDesignerServer.Controllers.Generate
                 throw new ServerException(ServerErrorCode.Generate_WrongTarget, "no target");
             }
 
-            CreateFiles(filePath);
+            CreateFolders(filePath);
+
+            // Build protocol.
+            BuildAndCreateProtocolFiles(filePath.ProtocolPath);
 
             ///////////////////////////////////////////////////////////
             // Generate Type.
@@ -71,16 +85,126 @@ namespace DataDesignerServer.Controllers.Generate
                 throw new ServerException(ServerErrorCode.Generate_Data, "fail to generate class code");
             }
 
-            // Data code.
+            // Create code.
             _codeGenerator.CreateFiles(filePath.DataCodePath);
+
+            // Create protocols.
 
             return new RES_Generate();
         }
 
         /// <summary>
+        /// Build protocol project.
+        /// </summary>
+        private void BuildAndCreateProtocolFiles(string dstProtocolPath)
+        {
+            var currentDir = Directory.GetCurrentDirectory();
+            var protocolFolder = Path.Combine(currentDir, PROTOCOL_FOLDER);
+
+            // Compile.
+            if (Directory.Exists(protocolFolder))
+            {
+                // Protocol exist in Current folder.
+                if (false == CompileProejct(protocolFolder))
+                {
+                    throw new ServerException(ServerErrorCode.Generate_ProtocolCompile, "failed to compile protocol project!");
+                }
+
+                CreateProtocolFiles(protocolFolder, dstProtocolPath);
+            }
+            else
+            {
+                // Protocol exist in Current folder.
+                var parentDir = Directory.GetParent(currentDir).FullName;
+                protocolFolder = Path.Combine(parentDir, PROTOCOL_FOLDER);
+
+                if (Directory.Exists(protocolFolder))
+                {
+                    if (false == CompileProejct(protocolFolder))
+                    {
+                        throw new ServerException(ServerErrorCode.Generate_ProtocolCompile, "failed to compile protocol project!");
+                    }
+
+                    CreateProtocolFiles(protocolFolder, dstProtocolPath);
+                }
+                else
+                {
+                    throw new ServerException(ServerErrorCode.Generate_NotExistProtocol, "not exist protocol project");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compile project.
+        /// </summary>
+        private bool CompileProejct(string directory)
+        {
+            string projectPath = Path.Combine(directory, PROTOCOL_PROJECT);
+
+            var projectCollection = new ProjectCollection();
+            var buildParameters = new BuildParameters(projectCollection);
+            var buildRequest = new BuildRequestData(projectPath, new Dictionary<string, string>(), null, new[] { "Build" }, null);
+            var buildResult = BuildManager.DefaultBuildManager.Build(buildParameters, buildRequest);
+
+            if (buildResult.OverallResult != BuildResultCode.Success)
+            {
+                // Fail.
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Create protocol files.
+        /// </summary>
+        private void CreateProtocolFiles(string srcDirectory, string dstProtocolPath)
+        {
+            // Files.
+            var files = Directory.GetFiles(srcDirectory).Where(d => default == _exclueFiles.FirstOrDefault(e => d.Contains(e)));
+            
+            foreach (var file in files)
+            {
+                var newFile = Path.Combine(dstProtocolPath, Path.GetFileName(file));
+                System.IO.File.Copy(file, newFile, true);
+            }
+
+            // Directories.
+            var directories = Directory.GetDirectories(srcDirectory).Where(d => default == _exclueFolders.FirstOrDefault(e => d.Contains(e)));
+
+            foreach (var directory in directories)
+            {
+                var dirName = Path.GetFileName(directory);
+                var dstDirName = Path.Combine(dstProtocolPath, dirName);
+
+                CopyDirectory(directory, dstDirName);
+            }
+        }
+
+        /// <summary>
+        /// CopyDirectory.
+        /// </summary>
+        private void CopyDirectory(string curDirectory, string dstProtocolPath)
+        {
+            Directory.CreateDirectory(dstProtocolPath);
+
+            foreach (var file in Directory.GetFiles(curDirectory))
+            {
+                var newFile = Path.Combine(dstProtocolPath, Path.GetFileName(file));
+                System.IO.File.Copy(file, newFile, true);
+            }
+
+            foreach (var directory in Directory.GetDirectories(curDirectory))
+            {
+                var newDir = Path.Combine(dstProtocolPath, Path.GetFileName(directory));
+                CopyDirectory(directory, newDir);
+            }
+        }
+
+        /// <summary>
         /// Create files.
         /// </summary>
-        private void CreateFiles(Profile_FilePath filePath)
+        private void CreateFolders(Profile_FilePath filePath)
         {
             // Project path.
             if (false == Directory.Exists(filePath.ProjectPath))

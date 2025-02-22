@@ -11,10 +11,10 @@
       },
       {
         "Target": "Server",
-        "ProjectPath": "C:\\Users\\boba1\\Downloads\\Generate",
-        "ProtocolPath": "C:\\Users\\boba1\\Downloads\\Generate\\Protocol",
-        "DataCodePath": "C:\\Users\\boba1\\Downloads\\Generate\\Code",
-        "DatabaseFilePath": "C:\\Users\\boba1\\Downloads\\Generate\\Database"
+        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
+        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Code",
+        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Database"
       }
     ]
   }

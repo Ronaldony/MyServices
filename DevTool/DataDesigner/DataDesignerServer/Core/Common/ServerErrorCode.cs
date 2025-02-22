@@ -10,8 +10,8 @@
 		// Common
 		public const int Common_NotExistSchema = 100;               // 스키마가 존재하지 않음.
 
-		// Configuration
-		public const int ConfigData_CreateSchema = 200;             // 200. 스키마 생성 실패.
+        // Configuration
+        public const int ConfigData_CreateSchema = 200;             // 200. 스키마 생성 실패.
 		public const int ConfigData_UpdateSchema = 201;             // 201. 스키마 갱신 실패.
 		public const int ConfigData_DeleteSchema = 202;             // 202. 스키마 제거 실패.
 		public const int ConfigData_AlreadyExistSchema = 203;       // 203. 이미 스키마 존재.
@@ -50,6 +50,7 @@
 		public const int Generate_NotExistProfile = 504;            // 504. 프로파일 존재하지 않음.
 		public const int Generate_Data = 505;						// 505. 코드 생성 실패.
 		public const int Generate_WrongTarget = 506;				// 506. 코드 생성 타겟 없음.
-
+		public const int Generate_NotExistProtocol = 507;			// 507. 프로토콜 프로젝트 없음.
+		public const int Generate_ProtocolCompile = 508;			// 508. 프로토콜 컴파일 실패.
     }
 }

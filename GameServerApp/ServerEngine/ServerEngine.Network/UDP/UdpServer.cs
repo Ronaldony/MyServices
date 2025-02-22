@@ -242,6 +242,8 @@ namespace ServerEngine.Network.UDP
 					return;
 				}
 
+                _logger.LogInformation($"[UDP NetworkReceiveEvent] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+
                 // Read all packets.
                 _packetProcessor.ReadAllPackets(reader, session);
 			};
@@ -299,13 +301,19 @@ namespace ServerEngine.Network.UDP
                 var method = value.Item2;
                 var objectList = value.Item3;
 
-                var send = this.Send;
                 objectList[0] = packet;
                 objectList[1] = session;
+
+                var send = this.Send;
                 objectList[2] = send;
 
+                _logger.LogInformation($"[UDP HandlePacket] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+
                 // Invoke method.
-                method?.Invoke(handler, objectList);
+                ThreadPool.QueueUserWorkItem((param) =>
+                {
+                    method?.Invoke(handler, objectList);
+                });
             }
         }
     }
