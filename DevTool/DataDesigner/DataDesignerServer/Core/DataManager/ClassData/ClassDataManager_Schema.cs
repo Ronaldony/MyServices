@@ -99,13 +99,19 @@ namespace DataDesignerServer.Core.DataManager.ClassData
 				return false;
 			}
 
-            // remove rows.
-            RemoveClassGroup(schemaName);
-
             // Refresh schema file.
-            RemoveFiles(schemaName);
+            if (false == RemoveFiles(schemaName))
+            {
+                return false;
+            }
 
-			return true;
+            // remove rows.
+            if (false == RemoveClassGroup(schemaName))
+            {
+                return false;
+            }
+
+            return true;
 		}
 
 		/// <summary>

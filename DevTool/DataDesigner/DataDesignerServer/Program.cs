@@ -14,23 +14,24 @@ namespace DataDesignerServerServer
     using DataDesignerServer.Core.Generator;
     using DataDesignerServer.Core.Services;
     using DataDesignerServer.Core.Services.Interfaces;
+    using PowerArgs;
 
+    /// <summary>
+    /// Program.
+    /// </summary>
     public class Program
 	{
 		public static void Main(string[] args)
 		{
-			// Set configuration file.
-			var configRoot = new ConfigurationBuilder()
-				.AddJsonFile("appsettings.json")
-				.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-				.Build();
+			var arguments = ParseCommand(args);
+			if (null == arguments)
+			{
+				Console.WriteLine($"invalid arguments.");
+				return;
+			}
 
-			// WebApplicationBuilder.
-			var builder = WebApplication.CreateBuilder(args);
-
-			// Configuration.
-			builder.Configuration.AddConfiguration(configRoot);
-			//builder.Configuration.AddEnvironmentVariables();
+            // WebApplicationBuilder.
+            var builder = WebApplication.CreateBuilder(args);
 
 			// Logging.
 			builder.Logging.ClearProviders();
@@ -67,7 +68,7 @@ namespace DataDesignerServerServer
 			// Web host.
 			builder.WebHost.UseKestrel(options =>
 			{
-				options.Listen(IPAddress.Any, 7000);
+				options.Listen(IPAddress.Any, arguments.Port);
 			});
 
 			// Default MSBuild.
@@ -89,5 +90,22 @@ namespace DataDesignerServerServer
 
 			app.Run();
 		}
-	}
+
+        /// <summary>
+        /// ParseCommand.
+        /// </summary>
+        private static Arguments ParseCommand(string[] args)
+        {
+            try
+            {
+                var arguments = Args.Parse<Arguments>(args);
+                return arguments;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+    }
 }

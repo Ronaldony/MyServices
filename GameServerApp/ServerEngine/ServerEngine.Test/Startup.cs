@@ -3,6 +3,7 @@ using System.Net;
 
 namespace ServerEngine.Test
 {
+    using NLog.Extensions.Logging;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Cache;
@@ -31,6 +32,11 @@ namespace ServerEngine.Test
 
         public void Configure()
         {
+            // logging.
+            _webAppBuilder.Logging.ClearProviders();
+            _webAppBuilder.Logging.AddNLog();
+            _webAppBuilder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+
             _webAppBuilder.Services.AddControllers();
 
             // cache.

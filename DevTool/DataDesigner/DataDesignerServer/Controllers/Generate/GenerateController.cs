@@ -213,19 +213,31 @@ namespace DataDesignerServer.Controllers.Generate
             }
 
             // Protocol path.
-            if (false == Directory.Exists(filePath.ProtocolPath))
+            if (Directory.Exists(filePath.ProtocolPath))
+            {
+                Directory.Delete(filePath.ProtocolPath, true);
+            }
+            else
             {
                 Directory.CreateDirectory(filePath.ProtocolPath);
             }
 
             // Data code path.
-            if (false == Directory.Exists(filePath.DataCodePath))
+            if (Directory.Exists(filePath.DataCodePath))
+            {
+                Directory.Delete(filePath.DataCodePath, true);
+            }
+            else
             {
                 Directory.CreateDirectory(filePath.DataCodePath);
             }
 
             // Database path
-            if (false == Directory.Exists(filePath.DatabaseFilePath))
+            if (Directory.Exists(filePath.DatabaseFilePath))
+            {
+                Directory.Delete(filePath.DatabaseFilePath, true);
+            }
+            else
             {
                 Directory.CreateDirectory(filePath.DatabaseFilePath);
             }

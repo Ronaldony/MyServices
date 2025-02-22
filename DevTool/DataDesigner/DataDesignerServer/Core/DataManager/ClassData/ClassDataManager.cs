@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 
 namespace DataDesignerServer.Core.DataManager.ClassData
 {
+    using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.DataManager.TypeData;
     using DataDesignerServer.Core.Services.Interfaces;
@@ -177,14 +178,26 @@ namespace DataDesignerServer.Core.DataManager.ClassData
                 {
                     case Type_ClassData.Configuration:
                         {
-                            var folder = Path.Combine(basePath, "Config");
+                            var folder = Path.Combine(basePath, FilePath.CONFIG_FOLDER);
+
+                            if (false == Directory.Exists(folder))
+                            {
+                                Directory.CreateDirectory(folder);
+                            }
+
                             dataFiles = Directory.GetFiles(folder, "*.conf", SearchOption.AllDirectories);
                             schemaFiles = Directory.GetFiles(folder, "*.schema", SearchOption.AllDirectories);
                         }
                         break;
                     case Type_ClassData.Table:
                         {
-                            var folder = Path.Combine(basePath, "Table");
+                            var folder = Path.Combine(basePath, FilePath.TABLE_FOLDER);
+
+                            if (false == Directory.Exists(folder))
+                            {
+                                Directory.CreateDirectory(folder);
+                            }
+
                             dataFiles = Directory.GetFiles(folder, "*.tb", SearchOption.AllDirectories);
                             schemaFiles = Directory.GetFiles(folder, "*.schema", SearchOption.AllDirectories);
                         }
@@ -242,6 +255,19 @@ namespace DataDesignerServer.Core.DataManager.ClassData
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Add or update type group.
+        /// </summary>
+        private GenerateClassGroup GetClassGroup(string className)
+        {
+            if (false == _classGroupDict.TryGetValue(className, out var classGroup))
+            {
+                return null;
+            }
+
+            return classGroup;
         }
 
         /// <summary>
@@ -419,15 +445,40 @@ namespace DataDesignerServer.Core.DataManager.ClassData
         /// </summary>
         private bool FlushFiles(string className)
         {
+            var classGroup = GetClassGroup(className);
+
+            if (classGroup == null)
+            {
+                _logger.LogError($"failed to flush files.");
+                return false;
+            }
+
             // Check data file.
             var dataFile = Path.Combine(_srcFolderPath, $"{className}.conf");
+
+            // Check data file.
+            var schemaFile = Path.Combine(_srcFolderPath, $"{className}.schema");
+
+            switch (classGroup.ClassDataType)
+            {
+                case Type_ClassData.Configuration:
+                    dataFile = Path.Combine(_srcFolderPath, FilePath.CONFIG_FOLDER, $"{className}.conf");
+                    schemaFile = Path.Combine(_srcFolderPath, FilePath.CONFIG_FOLDER, $"{className}.schema");
+                    break;
+                case Type_ClassData.Table:
+                    dataFile = Path.Combine(_srcFolderPath, FilePath.TABLE_FOLDER, $"{className}.tb");
+                    schemaFile = Path.Combine(_srcFolderPath, FilePath.TABLE_FOLDER, $"{className}.schema");
+                    break;
+                default:
+                    return false;
+            }
+
+            // File check existance.
             if (false == File.Exists(dataFile))
             {
                 File.Create(dataFile).Dispose();
             }
 
-            // Check data file.
-            var schemaFile = Path.Combine(_srcFolderPath, $"{className}.schema");
             if (false == File.Exists(schemaFile))
             {
                 File.Create(schemaFile).Dispose();
@@ -461,13 +512,29 @@ namespace DataDesignerServer.Core.DataManager.ClassData
         /// <summary>
         /// Delete files.
         /// </summary>
-        private void RemoveFiles(string schemaName)
+        private bool RemoveFiles(string className)
         {
-            var dataFile = Path.Combine(_srcFolderPath, $"{schemaName}.conf");
-            File.Delete(dataFile);
+            var classGroup = GetClassGroup(className);
 
-            var schemaFile = Path.Combine(_srcFolderPath, $"{schemaName}.schema");
-            File.Delete(schemaFile);
+            if (classGroup == null)
+            {
+                _logger.LogError($"failed to remove files.");
+                return false;
+            }
+
+            switch (classGroup.ClassDataType)
+            {
+                case Type_ClassData.Configuration:
+                    File.Delete(Path.Combine(_srcFolderPath, FilePath.CONFIG_FOLDER, $"{className}.conf"));
+                    File.Delete(Path.Combine(_srcFolderPath, FilePath.CONFIG_FOLDER, $"{className}.schema"));
+                    break;
+                case Type_ClassData.Table:
+                    File.Delete(Path.Combine(_srcFolderPath, FilePath.TABLE_FOLDER, $"{className}.tb"));
+                    File.Delete(Path.Combine(_srcFolderPath, FilePath.TABLE_FOLDER, $"{className}.schema"));
+                    break;
+            }
+
+            return true;
         }
     }
 }

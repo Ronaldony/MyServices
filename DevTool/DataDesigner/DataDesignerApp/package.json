@@ -1,30 +1,89 @@
 {
-  "name": "electronapp",
+  "name": "datadesignerapp",
   "version": "0.0.1",
   "description": "This is a dummy app",
-  "main": "main.js",
+  "main": "public/electron.js",
+  "private": true,
+  "homepage": ".",
+  "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/roboto": "^5.1.1",
+    "@mui/icons-material": "^6.4.1",
+    "@mui/material": "^6.4.2",
+    "@mui/styled-engine-sc": "^6.4.0",
+    "@mui/x-data-grid": "^7.25.0",
+    "@mui/x-data-grid-generator": "^7.25.0",
+    "@mui/x-data-grid-pro": "^7.26.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.9",
+    "concurrently": "^9.1.2",
+    "cra-template-typescript": "1.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^22.3.27",
+    "electron-builder": "^25.1.8",
+    "form-data": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.1",
+    "react-scripts": "5.0.1",
+    "react-uuid": "^2.0.0",
+    "styled-components": "^6.1.14",
+    "wait-on": "^8.0.2",
+    "web-vitals": "^4.2.4",
+    "electron-log": "^5.3.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "dev:watch": "cross-env NODE_ENV=dev npx electronmon --trace-warnings ."
+    "start": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && npm run dev:watch\"",
+    "dev:watch": "cross-env NODE_ENV=dev npx electronmon --trace-warnings .",
+    "react-start": "cross-env NODE_ENV=dev react-scripts start",
+    "react-build": "cross-env NODE_ENV=prod react-scripts build",
+    "electron-build": "electron-builder",
+    "build": "npm run react-build && npm run electron-build"
   },
   "keywords": [
     "electron",
     "reactjs",
     "typescript"
   ],
-  "author": "Amitav Roy",
+  "author": "Jaeseung kim",
   "license": "MIT",
-  "dependencies": {
-    "axios": "^1.2.3",
-    "cross-env": "^7.0.3",
-    "electron": "^22.3.27",
-    "form-data": "^4.0.0"
-  },
   "electronmon": {
     "patterns": [
       "!node_modules/**",
       "!app/node_modules/**"
+    ]
+  },
+  "build": {
+    "appId": "com.datadesigner-app.id",
+    "productName": "DataDesignerApp",
+    "files": [
+      "public/electron.js",
+      "build/**/*",
+      "preload.js"
+    ],
+    "directories": {
+      "output": "../publish"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

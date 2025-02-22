@@ -162,8 +162,6 @@ namespace DataDesignerServer.Core.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
-
 				// overwrite file.
 				File.Create(profilePath).Dispose();
 

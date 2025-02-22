@@ -2,6 +2,7 @@
   "profiles": {
     "http": {
       "commandName": "Project",
+      "commandLineArgs": "-p 7000",
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:8010"
     }
