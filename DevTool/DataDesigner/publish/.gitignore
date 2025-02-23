@@ -1,0 +1,18 @@
+## ignore ##
+
+## Folder
+logs/
+win-unpacked/
+
+## Files
+aspnetcorev2_inprocess.dll
+builder-debug.yml
+builder-effective-config.yaml
+DataDesignerApp Setup 0.0.1.exe
+DataDesignerApp Setup 0.0.1.exe.blockmap
+DataDesignerServer.exe
+DataDesignerServer.pdb
+DataDesignerServer.staticwebassets.endpoints.json
+e_sqlite3.dll
+NLog.config
+web.config

@@ -19,19 +19,19 @@ function createMainWindow() {
   });
 
   const startUrl = url.format({
-    pathname: path.join(__dirname, '../build/index.html'),
+    pathname: path.join(__dirname, 'index.html'),
     protocol: 'file',
   });
+
   
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'dev') {
     // development.
     mainWindow.webContents.openDevTools();
     mainWindow.loadURL('http://localhost:3000');
   } 
   else {
     // Production
-    mainWindow.loadURL('http://localhost:3000');
-    // mainWindow.loadURL(startUrl);
+    mainWindow.loadURL(startUrl);
   }
 }
 
@@ -55,14 +55,35 @@ app.whenReady().then(() => {
   
   // select directory
   ipcMain.handle('setup-api-base', async () => {
-    let spawn = require("child_process").spawn;
+    const { detect } = require('detect-port');
+    const { spawn } = require('child_process');
 
-    let bat = spawn("cmd.exe", [
-      ""
-    ]);
+    // development.
+    if (process.env.NODE_ENV === 'dev')
+      return 'http://localhost:7000';
+    
+    // find server path.
+    const path = require('path');
+    
+    // Set server path.
+    const folderPath = path.resolve(__dirname, '..', '..', '..', '..');
+    const exePath = 'DataDesignerServer.exe';
+    console.log(`dir: ${folderPath}`)
+    console.log(`dir: ${__dirname}`)
+    
+    // Get port.
+    const port = await detect(7000);
+    const apiBase = `http://localhost:${port}`;
+    
+    // execute program.
+    const args = ['-p', port.toString()];
+    const child = spawn(exePath, args, { cwd: folderPath});
 
-    return 'http://localhost:7000';
+    console.log(`API base: ${apiBase}`);
+
+    return apiBase; 
   });
+
 });
 
 // Mac인 경우 모든 창이 닫히면 앱 종료.

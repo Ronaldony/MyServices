@@ -148,7 +148,6 @@ namespace DataDesignerServer.Core.Services
 			if (false == File.Exists(profilePath))
 			{
 				File.Create(profilePath).Dispose();
-				File.WriteAllText(profilePath, "[]");
 
                 return new ConcurrentDictionary<string, Profile>();
 			}
@@ -158,14 +157,21 @@ namespace DataDesignerServer.Core.Services
 
 			try
 			{
-				return _jsonSerializer.Deserialize<ConcurrentDictionary<string, Profile>>(profileText);
+				if (string.IsNullOrEmpty(profileText))
+				{
+                    return new ConcurrentDictionary<string, Profile>();
+                }
+
+                return _jsonSerializer.Deserialize<ConcurrentDictionary<string, Profile>>(profileText);
 			}
 			catch (Exception ex)
 			{
+				_logger.LogWarning(ex.Message);
+
 				// overwrite file.
 				File.Create(profilePath).Dispose();
 
-				return new ConcurrentDictionary<string, Profile>();
+                return new ConcurrentDictionary<string, Profile>();
 			}
 		}
 

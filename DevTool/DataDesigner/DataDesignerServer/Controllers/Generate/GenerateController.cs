@@ -1,8 +1,5 @@
-﻿
-using Microsoft.Build.Evaluation;
-using Microsoft.Build.Execution;
-using System;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace DataDesignerServer.Controllers.Generate
 {
@@ -14,7 +11,6 @@ namespace DataDesignerServer.Controllers.Generate
     using DataDesignerServer.Core.Http.Generate;
     using DataDesignerServer.Core.Services;
     using DataDesignerServer.Core.Types;
-    using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// GenerateController .
@@ -141,15 +137,31 @@ namespace DataDesignerServer.Controllers.Generate
         {
             string projectPath = Path.Combine(directory, PROTOCOL_PROJECT);
 
-            var projectCollection = new ProjectCollection();
-            var buildParameters = new BuildParameters(projectCollection);
-            var buildRequest = new BuildRequestData(projectPath, new Dictionary<string, string>(), null, new[] { "Build" }, null);
-            var buildResult = BuildManager.DefaultBuildManager.Build(buildParameters, buildRequest);
-
-            if (buildResult.OverallResult != BuildResultCode.Success)
+            var psi = new ProcessStartInfo
             {
-                // Fail.
-                return false;
+                FileName = "dotnet",
+                Arguments = $"build \"{projectPath}\"",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (Process process = new Process { StartInfo = psi })
+            {
+                process.OutputDataReceived += (sender, e) => Console.WriteLine(e.Data);
+                process.ErrorDataReceived += (sender, e) => Console.WriteLine(e.Data);
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+
+                if (0 != process.ExitCode)
+                {
+                    // Error.
+                    return false;
+                }
             }
 
             return true;

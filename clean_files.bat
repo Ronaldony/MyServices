@@ -1,5 +1,5 @@
 @echo off
-set "folder_delete=.vs bin obj .vscode node_modules publish"
+set "folder_delete=.vs bin obj .vscode node_modules build"
 
 for %%f in (%folder_delete%) do (
 	for /d /r %%d in (*) do (

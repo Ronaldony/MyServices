@@ -1,10 +1,11 @@
-﻿using DataDesignerServer.Core.Data;
-using SQLite;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Data;
 
 namespace DataDesignerServer.Core.DBGenerator
 {
+    using DataDesignerServer.Core.Data;
+    using SQLite;
+
     /// <summary>
     /// DBSQLite.
     /// </summary>
@@ -38,14 +39,14 @@ namespace DataDesignerServer.Core.DBGenerator
             foreach (var column in columns.Skip(1))
             {
                 // 타입 변환.
-                var type = column.Type switch 
+                var type = column.Type switch
                 {
                     "int" or "bool" or "long" => "INTEGER",                 // int
                     "float" or "double" or "string" => "TEXT",              // Text
                     "date" => "DATE",                                       // DateTime
                     _ => "TEXT"                                             // otherwise
                 };
-                
+
                 // 마지막 컬럼인 경우 "," 없음.
                 if (column.Equals(columns.Last()))
                 {

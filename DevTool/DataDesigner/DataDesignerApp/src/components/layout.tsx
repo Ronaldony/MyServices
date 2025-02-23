@@ -18,6 +18,7 @@ export default function Layout() {
     if (apiBase === null) {
       GetApiBase().then(res => {
         window.sessionStorage.setItem(process.env.REACT_APP_API_BASE_SESSION ?? "", res);
+        console.log(`res: ${res}`)
       });
     }
   }, []);

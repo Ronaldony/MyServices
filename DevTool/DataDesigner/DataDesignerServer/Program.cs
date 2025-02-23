@@ -1,8 +1,7 @@
-
-using Microsoft.Build.Locator;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NLog.Extensions.Logging;
+using PowerArgs;
 using System.Net;
 
 namespace DataDesignerServerServer
@@ -14,7 +13,6 @@ namespace DataDesignerServerServer
     using DataDesignerServer.Core.Generator;
     using DataDesignerServer.Core.Services;
     using DataDesignerServer.Core.Services.Interfaces;
-    using PowerArgs;
 
     /// <summary>
     /// Program.
@@ -70,9 +68,6 @@ namespace DataDesignerServerServer
 			{
 				options.Listen(IPAddress.Any, arguments.Port);
 			});
-
-			// Default MSBuild.
-			MSBuildLocator.RegisterDefaults();
 
 			// builder.
 			var app = builder.Build();
