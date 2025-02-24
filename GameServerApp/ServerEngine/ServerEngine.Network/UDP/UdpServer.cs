@@ -9,12 +9,12 @@ using System.Reflection;
 
 namespace ServerEngine.Network.UDP
 {
-    using ServerEngine.Network.Interfaces;
+	using ServerEngine.Network.Interfaces;
 
-    /// <summary>
-    /// UdpServer.
-    /// </summary>
-    public abstract class UdpServer<TSession> : IUdpServer
+	/// <summary>
+	/// UdpServer.
+	/// </summary>
+	public abstract class UdpServer<TSession> : IUdpServer
         where TSession : UdpSession
     {
         private readonly ILogger<UdpServer<TSession>> _logger;
@@ -36,7 +36,7 @@ namespace ServerEngine.Network.UDP
         /// key: packet code.
         /// value: UDP handler.
         /// </summary>
-        private Dictionary<int, (UdpHandler, MethodInfo, object[])> _handlerDict;
+        private Dictionary<int, (UdpHandler handler, MethodInfo method, object[] args)> _handlerDict;
 
         /// <summary>
         /// Session dictonary.
@@ -88,8 +88,10 @@ namespace ServerEngine.Network.UDP
             // Register UDP packet.
             _packetProcessor.SubscribeReusable<UdpPacket, TSession>(HandlePacket);
 
+			_logger.LogDebug($"[UDP Start] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+
             // Start server.
-            _netManager.Start(port);
+			_netManager.Start(port);
         }
 
         /// <summary>
@@ -128,6 +130,7 @@ namespace ServerEngine.Network.UDP
                 return false;
             }
 
+            // Marshall session.
             var udpSession = session as UdpSession;
 
             // Write packet.
@@ -176,9 +179,7 @@ namespace ServerEngine.Network.UDP
         /// </summary>
         public bool AddWhiteList(string addressString)
         {
-            IPAddress ipAddr;
-
-            if (false == IPAddress.TryParse(addressString, out ipAddr))
+            if (false == IPAddress.TryParse(addressString, out var ipAddr))
             {
                 return false;
             }
@@ -242,10 +243,13 @@ namespace ServerEngine.Network.UDP
 					return;
 				}
 
-                _logger.LogInformation($"[UDP NetworkReceiveEvent] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+                _logger.LogDebug($"[UDP NetworkReceiveEvent] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
 
                 // Read all packets.
-                _packetProcessor.ReadAllPackets(reader, session);
+                ThreadPool.QueueUserWorkItem(param =>
+                {
+                    _packetProcessor.ReadAllPackets(reader, session);
+                });
 			};
 
 			// OnNetError.
@@ -266,8 +270,8 @@ namespace ServerEngine.Network.UDP
 
 				OnDisconnected(session);
 
-                // Remove session.
-                _sessionDict.Remove(peer.Id, out _);
+				// Remove session.
+				_sessionDict.Remove(peer.Id, out _);
             };
 		}
 
@@ -297,23 +301,16 @@ namespace ServerEngine.Network.UDP
             // Handle udp packet.
             if (_handlerDict.TryGetValue(packet.PacketCode, out var value))
             {
-                var handler = value.Item1;
-                var method = value.Item2;
-                var objectList = value.Item3;
-
-                objectList[0] = packet;
-                objectList[1] = session;
+				value.args[0] = packet;
+				value.args[1] = session;
 
                 var send = this.Send;
-                objectList[2] = send;
+				value.args[2] = send;
 
-                _logger.LogInformation($"[UDP HandlePacket] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+				_logger.LogDebug($"[UDP HandlePacket] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
 
                 // Invoke method.
-                ThreadPool.QueueUserWorkItem((param) =>
-                {
-                    method?.Invoke(handler, objectList);
-                });
+                value.method?.Invoke(value.handler, value.args);
             }
         }
     }

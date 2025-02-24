@@ -22,7 +22,9 @@ namespace ServerEngine.Test
                 return;
             }
 
-            var startup = new Startup(args, arguments);
+			Console.WriteLine($"[Main Thread] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+
+			var startup = new Startup(args, arguments);
             startup.Configure();
 
             var startupServer = new StartupServer(startup.WebApp.Services);

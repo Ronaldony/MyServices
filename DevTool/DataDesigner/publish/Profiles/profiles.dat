@@ -4,17 +4,17 @@
     "FilePathList": [
       {
         "Target": "Client",
-        "ProjectPath": "",
-        "ProtocolPath": "",
-        "DataCodePath": "",
-        "DatabaseFilePath": ""
+        "ProjectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameClientApp\\TestClient\\TestClientApp\\GameCore",
+        "ProtocolPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameClientApp\\TestClient\\TestClientApp\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameClientApp\\TestClient\\TestClientApp\\GameCore\\Data",
+        "DatabaseFilePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameClientApp\\TestClient\\TestClientApp\\GameCore\\Database"
       },
       {
         "Target": "Server",
-        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
-        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Code",
-        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Database"
+        "ProjectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore",
+        "ProtocolPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Data",
+        "DatabaseFilePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\GameServerApp\\ServerEngine\\ServerEngine.Test\\GameCore\\Database"
       }
     ]
   }
