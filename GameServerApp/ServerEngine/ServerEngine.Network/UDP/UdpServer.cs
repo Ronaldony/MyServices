@@ -9,17 +9,19 @@ using System.Reflection;
 
 namespace ServerEngine.Network.UDP
 {
-	using ServerEngine.Network.Interfaces;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Network.Interfaces;
 
-	/// <summary>
-	/// UdpServer.
-	/// </summary>
-	public abstract class UdpServer<TSession> : IUdpServer
+    /// <summary>
+    /// UdpServer.
+    /// </summary>
+    public abstract class UdpServer<TSession> : IUdpServer
         where TSession : UdpSession
     {
         private readonly ILogger<UdpServer<TSession>> _logger;
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly IUniqueIdService _uniqueIdService;
 
         // Network.
         private NetPacketProcessor _packetProcessor;
@@ -46,8 +48,8 @@ namespace ServerEngine.Network.UDP
         private readonly ConcurrentDictionary<int, TSession> _sessionDict;
 
         // Call back Delegates for network listener.
-        protected abstract void OnRequestConnection();
-        protected abstract TSession OnConnected(int sessionId, IPAddress ipAddr);
+        protected abstract TSession OnRequestConnection(int sessionId, IPAddress ipAddr);
+        protected abstract void OnConnected();
         protected abstract void OnNetError(SocketError sockError);
         protected abstract void OnDisconnected(TSession session);
 
@@ -61,9 +63,10 @@ namespace ServerEngine.Network.UDP
             _listener = new EventBasedNetListener();
             _netManager = new NetManager(_listener)
             {
-                BroadcastReceiveEnabled = true,     // Broadcast
                 ReuseAddress = false,               // Reuse address.
-                UnsyncedEvents = true,              // Event base network.
+                //UnsyncedEvents = true,            // Event base network.
+                AutoRecycle = true,                 // Auto NetPacketReader Recycle.
+                UnsyncedReceiveEvent = true,        // Receive event will be called own thread.
             };
 
             // Handler.
@@ -77,7 +80,9 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Start server.
         /// </summary>
-        public void Start(int port)
+        /// <param name="port">Server port</param>
+        /// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
+        public void Start(int port, bool allowPeerAddrChange)
         {
 			// Initialize listener.
 			Initialize_Listener();
@@ -88,10 +93,19 @@ namespace ServerEngine.Network.UDP
             // Register UDP packet.
             _packetProcessor.SubscribeReusable<UdpPacket, TSession>(HandlePacket);
 
-			_logger.LogDebug($"[UDP Start] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
-
             // Start server.
-			_netManager.Start(port);
+            _netManager.AllowPeerAddressChange = allowPeerAddrChange;
+            _netManager.Start(port);
+
+            // Polling events.
+            ThreadPool.QueueUserWorkItem(param =>
+            {
+                while(true)
+                {
+                    _netManager.PollEvents();
+                    Thread.Sleep(20);
+                }
+            });
         }
 
         /// <summary>
@@ -197,12 +211,27 @@ namespace ServerEngine.Network.UDP
 			// OnRequestConnection.
 			_listener.ConnectionRequestEvent += (request) =>
 			{
-                request.Accept();
-				OnRequestConnection();
+                var peer = request.Accept();
+                if (null != peer)
+                {
+                    // OnConnected.
+                    var session = OnRequestConnection(peer.Id, peer.Address);
+                    if (null == session)
+                    {
+                        _logger.LogError($"[UDP OnRequest] Session not created. id: {peer.Id} / peer: {peer}");
+                        return;
+                    }
+
+                    session.Peer = peer;
+                    session.DataWriter = new NetDataWriter();
+
+                    // Check session id duplicate.
+                    _sessionDict.AddOrUpdate(peer.Id, session, (key, old) => session);
+                }
 			};
 
-			// OnConnected.
-			_listener.PeerConnectedEvent += (peer) =>
+            // OnConnected.
+            _listener.PeerConnectedEvent += (peer) =>
 			{
 				// Check white list.
 				if (_whiteList.Any())
@@ -214,43 +243,24 @@ namespace ServerEngine.Network.UDP
                         peer.Disconnect();
                         return;
 					}
-				}
-
-                // Add session.
-                // OnConnected.
-                var session = OnConnected(peer.Id, peer.Address);
-                if (null == session)
-                {
-                    _logger.LogError($"[UDP Receive] Session not created. id: {peer.Id} / peer: {peer}");
-                    peer.Disconnect();
-                    return;
                 }
 
-                session.Peer = peer;
-                session.DataWriter = new NetDataWriter();
-
-                // Check session id duplicate.
-                _sessionDict.AddOrUpdate(peer.Id, session, (key, old) => session);
+                OnConnected();
 			};
 
 			// OnReceive.
 			_listener.NetworkReceiveEvent += (peer, reader, channel, deliveryMethod) =>
 			{
-				if (false == _sessionDict.TryGetValue(peer.Id, out var session))
+                if (false == _sessionDict.TryGetValue(peer.Id, out var session))
 				{
 					_logger.LogError($"[UDP Receive] Session not found. id: {peer.Id} / peer: {peer}");
 					peer.Disconnect();
 					return;
 				}
 
-                _logger.LogDebug($"[UDP NetworkReceiveEvent] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
-
                 // Read all packets.
-                ThreadPool.QueueUserWorkItem(param =>
-                {
-                    _packetProcessor.ReadAllPackets(reader, session);
-                });
-			};
+                _packetProcessor.ReadAllPackets(reader, session);
+            };
 
 			// OnNetError.
 			_listener.NetworkErrorEvent += (endPoint, socketError) =>
@@ -270,8 +280,10 @@ namespace ServerEngine.Network.UDP
 
 				OnDisconnected(session);
 
-				// Remove session.
-				_sessionDict.Remove(peer.Id, out _);
+                _logger.LogDebug($"[UDP disconnect] Thread id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+
+                // Remove session.
+                _sessionDict.Remove(peer.Id, out _);
             };
 		}
 
@@ -301,16 +313,15 @@ namespace ServerEngine.Network.UDP
             // Handle udp packet.
             if (_handlerDict.TryGetValue(packet.PacketCode, out var value))
             {
-				value.args[0] = packet;
-				value.args[1] = session;
-
                 var send = this.Send;
-				value.args[2] = send;
+                var args = value.args;
 
-				_logger.LogDebug($"[UDP HandlePacket] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+                args[0] = packet;
+                args[1] = session;
+                args[2] = send;
 
                 // Invoke method.
-                value.method?.Invoke(value.handler, value.args);
+                value.method?.Invoke(value.handler, args);
             }
         }
     }

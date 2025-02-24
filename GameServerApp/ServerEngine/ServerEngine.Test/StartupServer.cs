@@ -33,7 +33,7 @@ namespace ServerEngine.Test
 
             // TestServer
             var testServer = _serviceProvider.GetRequiredService<IUdpServer>();
-            testServer.Start(9050);
+            testServer.Start(9050, false);
 
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();

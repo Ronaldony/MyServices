@@ -30,15 +30,7 @@ namespace ServerEngine.Test.Server
         /// <summary>
         /// OnRequestConnection.
         /// </summary>
-        protected override void OnRequestConnection()
-        {
-            _logger.LogInformation($"[TestServer] Request connection.");
-        }
-
-        /// <summary>
-        /// OnConnected.
-        /// </summary>
-        protected override GameSession OnConnected(int sessionId, IPAddress ipAddr)
+        protected override GameSession OnRequestConnection(int sessionId, IPAddress ipAddr)
         {
             var session = new GameSession
             {
@@ -52,11 +44,16 @@ namespace ServerEngine.Test.Server
                 return null;
             }
 
-            _logger.LogInformation($"[TestServer] Connection. sesion: {sessionId}");
-
             // TODO: Monitoring user indicator.
 
             return session;
+        }
+
+        /// <summary>
+        /// OnConnected.
+        /// </summary>
+        protected override void OnConnected()
+        {
         }
 
         /// <summary>

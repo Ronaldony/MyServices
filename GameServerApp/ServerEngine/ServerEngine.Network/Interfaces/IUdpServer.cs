@@ -11,7 +11,7 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Start server.
         /// </summary>
-        void Start(int port);
+        void Start(int port, bool allowPeerAddrChange);
 
         /// <summary>
         /// Send.

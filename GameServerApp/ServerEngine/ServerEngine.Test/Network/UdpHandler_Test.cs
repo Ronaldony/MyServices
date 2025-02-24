@@ -25,8 +25,8 @@ namespace ServerEngine.Test.Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, UdpPacket, bool> sendFunc)
         {
-			//Console.WriteLine($"Packet - code: {packet.PacketCode} / session: {session.SessionId}");
-			_logger.LogDebug($"[UdpHandler_Test] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+            //Console.WriteLine($"Packet - code: {packet.PacketCode} / session: {session.SessionId}");
+            _logger.LogDebug($"[UdpHandler_Test] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
 
             // Send to session.
             sendFunc(session.SessionId, packet);

@@ -4,7 +4,10 @@ using System.Text.Json;
 
 namespace TestClientApp.Test
 {
+    using GameCore.Http.Auth;
     using ServerEngine.Network.UDP;
+    using System.Net.Sockets;
+    using System.Net;
     using TestClient.Test.Data;
     using TestClientApp.Services;
 
@@ -29,11 +32,15 @@ namespace TestClientApp.Test
 
             public NetPacketProcessor Processor { get; set; }
 
+            public DateTime SendTime { get; set; }
+
+            public double TotalRTT_MS { get; set; }
+
             public int MaxTestCount { get; set; }
 
             public int TestCount { get; set; }
 
-            public bool IsTesting { get; set; } 
+            public bool IsTesting { get; set; }
         }
 
         private const int TestPacketCode = 1000;
@@ -101,6 +108,12 @@ namespace TestClientApp.Test
                     testGroup.Processor.ReadAllPackets(dataReader, sessionId);
                 };
 
+                testGroup.Listener.PeerDisconnectedEvent += (peer, disconnectInfo) =>
+                {
+                    testGroup.IsTesting = false;
+                    CustomLogger.Log($"Disconnected. session id: {sessionId}");
+                };
+
                 testGroup.Client.Start();
 
                 _testGroupDict.Add(i, testGroup);
@@ -123,6 +136,8 @@ namespace TestClientApp.Test
             foreach (var pair in _testGroupDict)
             {
                 var group = pair.Value;
+
+                group.SendTime = DateTime.Now;
                 group.IsTesting = true;
                 group.Client.Connect("localhost", _port, "");
             }
@@ -147,10 +162,13 @@ namespace TestClientApp.Test
         /// </summary>
         private void HandlePacket(UdpPacket packet, int sessionId)
         {
+            var recvTime = DateTime.Now;
+
             if (packet.PacketCode == TestPacketCode)
             {
                 if (_testGroupDict.TryGetValue(sessionId, out var group))
                 {
+
                     var oriData = _serializer.Deserialize<Network_TestData>(group.Packet.Data);
                     var recvData = _serializer.Deserialize<Network_TestData>(packet.Data);
 
@@ -161,9 +179,23 @@ namespace TestClientApp.Test
                     if (false == oriJson.Equals(recvJson))
                     {
                         CustomLogger.Log($"Pakcet not matching against original. session id: {sessionId}");
+                        group.IsTesting = false;
+                        return;
                     }
 
                     group.TestCount++;
+
+                    var rtt = (recvTime - group.SendTime).TotalMilliseconds;
+                    group.TotalRTT_MS += rtt;
+
+                    // 평균 RTT 계산.
+                    if ((group.TestCount & 0x7F) == 0x7F)
+                    {
+                        // 15번마다 출력.
+                        var avgRTT = Math.Round(group.TotalRTT_MS / group.TestCount, 2);
+                        CustomLogger.Log($"[RTT] session id: {sessionId}. avg(ms): {avgRTT}");
+                        CustomLogger.Log($"[RTT] session id: {sessionId}. RTT(ms): {group.Peer.RoundTripTime}");
+                    }
 
                     // 최대 테스트 시 클라이언트 종료.
                     if (group.TestCount < group.MaxTestCount)
@@ -171,11 +203,13 @@ namespace TestClientApp.Test
                         // Send packet.
                         var writer = new NetDataWriter();
 
+                        group.SendTime = DateTime.Now;
                         group.Processor.Write(writer, group.Packet);
                         group.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
                     }
                     else
                     {
+                        // 테스트 종료.
                         group.IsTesting = false;
                     }
                 }
