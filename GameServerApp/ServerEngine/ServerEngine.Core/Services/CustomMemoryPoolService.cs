@@ -1,54 +1,58 @@
-﻿namespace ServerEngine.Core.Services
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
+
+namespace ServerEngine.Core.Services
 {
-    using ServerEngine.Core.DataObject;
-    using ServerEngine.Core.ObejctPool;
-    using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Core.ObejctPool;
+	using ServerEngine.Core.Services.Interfaces;
 
 	/// <summary>
 	/// CustomMemoryPoolService.
 	/// </summary>
 	public sealed class CustomMemoryPoolService : IMemoryPoolService
     {
-        private readonly Dictionary<Type, CustomMemoryPool> _memoryPoolDict;
+		private readonly ILogger<CustomMemoryPoolService> _logger;
+
+        private readonly ConcurrentDictionary<Type, CustomMemoryPool> _memoryPoolDict;
 
         public CustomMemoryPoolService(IServiceProvider serviceProvider)
         {
-            _memoryPoolDict = new Dictionary<Type, CustomMemoryPool>();
+			_logger = serviceProvider.GetRequiredService<ILogger<CustomMemoryPoolService>>();
+
+			_memoryPoolDict = new ConcurrentDictionary<Type, CustomMemoryPool>();
         }
 
-        /// <summary>
-        /// Initialize.
-        /// </summary>
-        public void Initialize()
-        {
-            // Get DataObjectbase type.
-            var baseType = typeof(MemoryPoolBase);
-            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(t => t.IsSubclassOf(baseType));
+		/// <summary>
+		/// Initialize.
+		/// </summary>
+		public void Initialize()
+		{
+			_logger.LogInformation($"CustomMemoryPoolService initialized.");
+		}
 
-            // DataObjectBase 상속 클래스 오브젝트 풀 생성
-            foreach (var type in types)
-            {
-                var objectPool = new CustomMemoryPool();
-                _memoryPoolDict.Add(type, objectPool);
-            }
-        }
+		/// <summary>
+		/// Acquire object pool.
+		/// </summary>
+		public T Rent<T>() where T : class, new()
+		{
+			if (false == _memoryPoolDict.TryGetValue(typeof(T), out _))
+			{
+				var type = typeof(T);
+				_memoryPoolDict.TryAdd(type, new CustomMemoryPool(type));
+			}
 
-        /// <summary>
-        /// Acquire object pool.
-        /// </summary>
-        public T Acquire<T>() where T : MemoryPoolBase, new()
-        {
-            return _memoryPoolDict[typeof(T)].Get<T>();
-        }
+			return _memoryPoolDict[typeof(T)].Rent<T>();
+		}
 
-        /// <summary>
-        /// Release object pool.
-        /// </summary>
-        public bool Release<T>(T obj) where T : MemoryPoolBase, new()
+		/// <summary>
+		/// Release object pool.
+		/// </summary>
+		public bool Release<T>(T obj) where T : class, new()
         {
             try
             {
-                _memoryPoolDict[typeof(T)].Return(obj);
+                _memoryPoolDict[typeof(T)].Release(obj);
 
                 return true;
             }

@@ -2,8 +2,6 @@
 
 namespace ServerEngine.Core.ObejctPool
 {
-    using ServerEngine.Core.DataObject;
-
 	/// <summary>
 	/// CustomMemoryPool.
 	/// </summary>
@@ -11,17 +9,17 @@ namespace ServerEngine.Core.ObejctPool
     {
         private readonly ConcurrentStack<object> _memoryPoolStack;
 
-        public CustomMemoryPool()
+        public CustomMemoryPool(Type type)
         {
             _memoryPoolStack = new ConcurrentStack<object>();
-        }
+		}
 
         /// <summary>
         /// Get data object from pool.
         /// </summary>
-        public T Get<T>() where T : MemoryPoolBase, new ()
+        public T Rent<T>() where T : class, new ()
         {
-            if (false == _memoryPoolStack.TryPop(out object dataObejct))
+            if (false == _memoryPoolStack.TryPop(out var dataObejct))
             {
                 return new T();
             }
@@ -32,10 +30,8 @@ namespace ServerEngine.Core.ObejctPool
         /// <summary>
         /// Return data object to pool.
         /// </summary>
-        public void Return<T>(T dataObject) where T : MemoryPoolBase, new ()
+        public void Release<T>(T dataObject) where T : class, new ()
         {
-            dataObject.TryReset();
-
             _memoryPoolStack.Push(dataObject);
         }
     }

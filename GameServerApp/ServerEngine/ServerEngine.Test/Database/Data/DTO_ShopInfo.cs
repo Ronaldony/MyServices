@@ -4,13 +4,11 @@ using System.Runtime.InteropServices;
 
 namespace ServerEngine.Test.Database.Data
 {
-    using ServerEngine.Core.DataObject;
-
-    /// <summary>
-    /// DTO_ShopInfo.
-    /// </summary>
-    [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_ShopInfo : MemoryPoolBase
+	/// <summary>
+	/// DTO_ShopInfo.
+	/// </summary>
+	[MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    public partial class DTO_ShopInfo
     {
         /// <summary>
         /// ShopInfo RefId.
@@ -29,15 +27,5 @@ namespace ServerEngine.Test.Database.Data
         /// </summary>
         [MemoryPackOrder(2)]
         public DateTime RegTime { get; set; }
-
-        /// <summary>
-        /// Reset by ObjectPoolService.
-        /// </summary>
-        public override void TryReset()
-        {
-            RefId = 0;
-            ScheduleRefId = 0;
-            RegTime = DateTime.MinValue;
-        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ServerEngine.Test.Database.Data
 {
-    public sealed class DummyData
+	public sealed class DummyData
     {
         public int Dummy_Int { get; set; }
 

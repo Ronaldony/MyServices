@@ -44,7 +44,7 @@ namespace ServerEngine.Database.DataObject
         /// <summary>
         /// Select.
         /// </summary>
-        public T Select<T>(string key) where T : MemoryPoolBase
+        public T Select<T>(string key) where T : class, new()
         {
             // Get from memory cache.
             var cachingData = _cacheService.Get<T>(key);
@@ -95,7 +95,7 @@ namespace ServerEngine.Database.DataObject
         /// <summary>
         /// Upsert.
         /// </summary>
-        public bool Upsert<T>(string key, T dataObject) where T : MemoryPoolBase
+        public bool Upsert<T>(string key, T dataObject) where T : class, new()
         {
             var dataBytes = _dataSerializer.Serialize(dataObject);
 

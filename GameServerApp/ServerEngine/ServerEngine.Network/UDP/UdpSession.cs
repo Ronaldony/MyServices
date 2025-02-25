@@ -1,25 +1,31 @@
 ﻿
 using LiteNetLib;
 using LiteNetLib.Utils;
-using ServerEngine.Network.Interfaces;
 using System.Net;
 
 namespace ServerEngine.Network.UDP
 {
-    /// <summary>
-    /// UdpSession.
-    /// </summary>
-    public class UdpSession : IUdpSession
+	using ServerEngine.Network.Interfaces;
+
+	/// <summary>
+	/// UdpSession.
+	/// </summary>
+	public class UdpSession : IUdpSession
     {
-        /// <summary>
-        /// Session id.
-        /// </summary>
-        public int SessionId { get; set;  }
+		/// <summary>
+		/// Session id.
+		/// </summary>
+		public int SessionId { get; set; }
 
         /// <summary>
-        /// Session address.
+        /// Session uid.
         /// </summary>
-        public IPAddress Address { get; set; }
+		public ulong SessionUid { get; set; }
+
+		/// <summary>
+		/// Session address.
+		/// </summary>
+		public IPAddress Address { get; set; }
 
         /// <summary>
         /// Peer.
@@ -30,5 +36,5 @@ namespace ServerEngine.Network.UDP
         /// Network data writer.
         /// </summary>
         public NetDataWriter DataWriter { get; set; }
-    }
+	}
 }

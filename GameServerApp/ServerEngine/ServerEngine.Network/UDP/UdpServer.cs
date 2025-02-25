@@ -9,19 +9,19 @@ using System.Reflection;
 
 namespace ServerEngine.Network.UDP
 {
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Network.Interfaces;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Network.Interfaces;
 
-    /// <summary>
-    /// UdpServer.
-    /// </summary>
-    public abstract class UdpServer<TSession> : IUdpServer
-        where TSession : UdpSession
+	/// <summary>
+	/// UdpServer.
+	/// </summary>
+	public abstract class UdpServer<TSession> : IUdpServer
+        where TSession : UdpSession, new()
     {
         private readonly ILogger<UdpServer<TSession>> _logger;
 
         private readonly IServiceProvider _serviceProvider;
-        private readonly IUniqueIdService _uniqueIdService;
+        private readonly IMemoryPoolService _poolService;
 
         // Network.
         private NetPacketProcessor _packetProcessor;
@@ -47,9 +47,15 @@ namespace ServerEngine.Network.UDP
         /// </summary>
         private readonly ConcurrentDictionary<int, TSession> _sessionDict;
 
+        /// <summary>
+        /// Polling event time (milliseconds).
+        /// </summary>
+        private int _pollingEventTime;
+
+        private ulong _sessionUid;
+
         // Call back Delegates for network listener.
-        protected abstract TSession OnRequestConnection(int sessionId, IPAddress ipAddr);
-        protected abstract void OnConnected();
+        protected abstract void OnConnected(ref TSession session, IPAddress ipAddr);
         protected abstract void OnNetError(SocketError sockError);
         protected abstract void OnDisconnected(TSession session);
 
@@ -58,8 +64,10 @@ namespace ServerEngine.Network.UDP
             _serviceProvider = serviceProvider;
             _logger = _serviceProvider.GetRequiredService<ILogger<UdpServer<TSession>>>();
 
-            // Initialize network.
-            _packetProcessor = new NetPacketProcessor();
+            _poolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
+
+			// Initialize network.
+			_packetProcessor = new NetPacketProcessor();
             _listener = new EventBasedNetListener();
             _netManager = new NetManager(_listener)
             {
@@ -77,12 +85,13 @@ namespace ServerEngine.Network.UDP
             _whiteList = new List<IPAddress>();
         }
 
-        /// <summary>
-        /// Start server.
-        /// </summary>
-        /// <param name="port">Server port</param>
-        /// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
-        public void Start(int port, bool allowPeerAddrChange)
+		/// <summary>
+		/// Start server.
+		/// </summary>
+		/// <param name="port">Server port</param>
+		/// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
+		/// <param name="pollingMilliseconds">Polling event time. Default time: 33ms (about 30 fps) </param>
+		public void Start(int port, bool allowPeerAddrChange, int pollingMilliseconds = 33)
         {
 			// Initialize listener.
 			Initialize_Listener();
@@ -96,14 +105,15 @@ namespace ServerEngine.Network.UDP
             // Start server.
             _netManager.AllowPeerAddressChange = allowPeerAddrChange;
             _netManager.Start(port);
+            _pollingEventTime = pollingMilliseconds;
 
             // Polling events.
             ThreadPool.QueueUserWorkItem(param =>
             {
-                while(true)
+                while (true)
                 {
                     _netManager.PollEvents();
-                    Thread.Sleep(20);
+                    Thread.Sleep(_pollingEventTime);
                 }
             });
         }
@@ -111,15 +121,21 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Send packet.
         /// </summary>
-        public bool Send(int sessionId, UdpPacket packet)
+        public bool Send(IUdpSession session, UdpPacket packet)
         {
-            var session = GetSessionOrDefault(sessionId);
-            if (default == session)
-            {
-                return false;
-            }
+			var findSession = GetSessionOrDefault(session.SessionId);
+			if (default == findSession)
+			{
+				return false;
+			}
 
-            var udpSession = session as UdpSession;
+			// 만약 세션 Uid가 다른 경우, 세션 ID가 같아도 이미 Disconnection된 세션임.
+			if (!findSession.SessionUid.Equals(session.SessionUid))
+			{
+				return false;
+			}
+
+            var udpSession = findSession as UdpSession;
 
             // Write packet.
             var writer = udpSession.DataWriter;
@@ -136,16 +152,22 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Broadcast packet.
         /// </summary>
-        public bool BroadCast(int sessionId, UdpPacket packet)
+        public bool BroadCast(IUdpSession session, UdpPacket packet)
         {
-            var session = GetSessionOrDefault(sessionId);
-            if (default == session)
+            var findSession = GetSessionOrDefault(session.SessionId);
+            if (default == findSession)
+            {
+                return false;
+            }
+
+            // 만약 세션 RefId 다른 경우, 세션 ID가 같아도 이미 Disconnection된 세션임.
+            if (!findSession.SessionUid.Equals(session.SessionUid))
             {
                 return false;
             }
 
             // Marshall session.
-            var udpSession = session as UdpSession;
+            var udpSession = findSession as UdpSession;
 
             // Write packet.
             var writer = udpSession.DataWriter;
@@ -162,15 +184,18 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Disconnect.
         /// </summary>
-        public bool Disconnect(int sessionId)
+        public bool Disconnect(IUdpSession session)
         {
-            // remvoe.
-            if (false == _sessionDict.TryRemove(sessionId, out var session))
+            // remove.
+            var findSession = _sessionDict.GetValueOrDefault(session.SessionId);
+
+            // 이미 Disconnection된 세션인지 검사.
+            if (!session.Equals(findSession))
             {
                 return false;
             }
 
-            session.Peer.Disconnect();
+            findSession.Peer.Disconnect();
 
             return true;
         }
@@ -201,51 +226,60 @@ namespace ServerEngine.Network.UDP
             _whiteList.Add(ipAddr);
 
             return true;
-        }
+		}
 
-        /// <summary>
-        /// Initialize listener.
-        /// </summary>
-        private void Initialize_Listener()
+		/// <summary>
+		/// Set polling interval time.
+		/// </summary>
+		public void SetPollingEventTime(int milliseconds)
+		{
+			_pollingEventTime = milliseconds;
+		}
+
+		/// <summary>
+		/// Initialize listener.
+		/// </summary>
+		private void Initialize_Listener()
 		{
 			// OnRequestConnection.
 			_listener.ConnectionRequestEvent += (request) =>
 			{
-                var peer = request.Accept();
-                if (null != peer)
-                {
-                    // OnConnected.
-                    var session = OnRequestConnection(peer.Id, peer.Address);
-                    if (null == session)
-                    {
-                        _logger.LogError($"[UDP OnRequest] Session not created. id: {peer.Id} / peer: {peer}");
-                        return;
-                    }
+				// Check white list.
+				if (_whiteList.Any())
+				{
+					// Disconnect if not in white list.
+					if (default == _whiteList.FirstOrDefault(d => d.Equals(request.RemoteEndPoint.Address)))
+					{
+						_logger.LogError($"[UDP request connection] Session not found. id: {request.RemoteEndPoint.Address}");
+						return;
+					}
+				}
 
-                    session.Peer = peer;
-                    session.DataWriter = new NetDataWriter();
+                // Accept peer.
+				var peer = request.Accept();
+
+				if (null != peer)
+                {
+                    var newSession = _poolService.Rent<TSession>();
+
+                    newSession.SessionId = peer.Id;
+                    newSession.SessionUid = _sessionUid++;
+					newSession.Peer = peer;
+					newSession.Address = peer.Address;
+					newSession.DataWriter = newSession.DataWriter ??= new NetDataWriter();
+                    newSession.DataWriter.Reset();
 
                     // Check session id duplicate.
-                    _sessionDict.AddOrUpdate(peer.Id, session, (key, old) => session);
+                    _sessionDict.AddOrUpdate(peer.Id, newSession, (key, old) => newSession);
                 }
 			};
 
             // OnConnected.
             _listener.PeerConnectedEvent += (peer) =>
 			{
-				// Check white list.
-				if (_whiteList.Any())
-				{
-					// Disconnect if not in white list.
-					if (default == _whiteList.FirstOrDefault(d => d.Equals(peer.Address)))
-                    {
-                        _logger.LogError($"[UDP Receive] Session not found. id: {peer.Id} / peer: {peer}");
-                        peer.Disconnect();
-                        return;
-					}
-                }
-
-                OnConnected();
+                var session = _sessionDict[peer.Id];
+				
+                OnConnected(ref session, session.Address);
 			};
 
 			// OnReceive.
@@ -271,17 +305,12 @@ namespace ServerEngine.Network.UDP
 			// OnDisconnected.
 			_listener.PeerDisconnectedEvent += (peer, disconnectInfo) =>
 			{
-                if (false == _sessionDict.TryGetValue(peer.Id, out var session))
-                {
-                    _logger.LogError($"[UDP Disconnect] not found. id: {peer.Id} / peer: {peer}");
-                    peer.Disconnect();
-                    return;
-                }
+                var session = _sessionDict[peer.Id];
 
 				OnDisconnected(session);
 
                 _logger.LogDebug($"[UDP disconnect] Thread id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
-
+ 
                 // Remove session.
                 _sessionDict.Remove(peer.Id, out _);
             };

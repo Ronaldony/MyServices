@@ -1,12 +1,10 @@
 ﻿
 namespace ServerEngine.Test.Database.Data
 {
-    using ServerEngine.Core.DataObject;
-
-    /// <summary>
-    /// DTO for Benchmark.
-    /// </summary>
-    public class DTO_Benchmark : MemoryPoolBase
+	/// <summary>
+	/// DTO for Benchmark.
+	/// </summary>
+	public class DTO_Benchmark 
     {
         public DTO_Benchmark()
         {
@@ -47,9 +45,5 @@ namespace ServerEngine.Test.Database.Data
         /// Dummy 6.
         /// </summary>
         public DummyData Dummy6 { get; set; }
-
-        public override void TryReset()
-        {
-        }
     }
 }

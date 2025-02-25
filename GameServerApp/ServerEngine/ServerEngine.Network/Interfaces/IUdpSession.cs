@@ -12,9 +12,14 @@ namespace ServerEngine.Network.Interfaces
         /// </summary>
         int SessionId { get; }
 
-        /// <summary>
-        /// IP Address.
-        /// </summary>
-        IPAddress Address { get; }
+		/// <summary>
+		/// Session uid.
+		/// </summary>
+		ulong SessionUid { get; }
+
+		/// <summary>
+		/// IP Address.
+		/// </summary>
+		IPAddress Address { get; }
     }
 }

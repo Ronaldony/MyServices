@@ -30,30 +30,20 @@ namespace ServerEngine.Test.Server
         /// <summary>
         /// OnRequestConnection.
         /// </summary>
-        protected override GameSession OnRequestConnection(int sessionId, IPAddress ipAddr)
+
+		protected override void OnConnected(ref GameSession session, IPAddress ipAddr)
         {
-            var session = new GameSession
-            {
-                SessionId = sessionId,
-                Address = ipAddr,
-            };
+            // initialize session.
+			session.Uid = string.Empty;
+			session.Pid = string.Empty;
 
             // Sesson duplicated.
-            if (false == _sessionIds.Add(sessionId))
+            if (false == _sessionIds.Add(session.SessionId))
             {
-                return null;
+                return;
             }
 
             // TODO: Monitoring user indicator.
-
-            return session;
-        }
-
-        /// <summary>
-        /// OnConnected.
-        /// </summary>
-        protected override void OnConnected()
-        {
         }
 
         /// <summary>

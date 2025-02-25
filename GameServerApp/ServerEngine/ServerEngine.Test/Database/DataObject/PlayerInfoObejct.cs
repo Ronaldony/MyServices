@@ -1,12 +1,12 @@
 ﻿
 namespace ServerEngine.Test.Database.DataObject
 {
-    using ServerEngine.Config.ConfigManager;
-    using ServerEngine.Core.DataObject;
-    using ServerEngine.Database.DataObject;
-    using ServerEngine.Test.Database.Data;
+	using GameCore.Datas.Player;
+	using ServerEngine.Config.ConfigManager;
+	using ServerEngine.Core.DataObject;
+	using ServerEngine.Database.DataObject;
 
-    public class PlayerInfoObejct : DataObject_PSQL
+	public class PlayerInfoObejct : DataObject_PSQL
     {
         private readonly ILogger<PlayerInfoObejct> _logger;
 
@@ -26,7 +26,7 @@ namespace ServerEngine.Test.Database.DataObject
         /// <summary>
         /// Select.
         /// </summary>s
-        public new T Select<T>(string pid) where T : DTO_PlayerInfo
+        public new T Select<T>(string pid) where T : DTO_PlayerInfo, new()
         {
             var playerInfo = base.Select<T>(pid);
             if (null == playerInfo)
@@ -42,7 +42,7 @@ namespace ServerEngine.Test.Database.DataObject
         /// <summary>
         /// Upsert.
         /// </summary>
-        public new bool Upsert<T>(string pid, T dataObject) where T : DTO_PlayerInfo
+        public new bool Upsert<T>(string pid, T dataObject) where T : DTO_PlayerInfo, new()
         {
             var isUpsert = base.Upsert(pid, dataObject);
             if (false == isUpsert)

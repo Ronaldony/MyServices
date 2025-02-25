@@ -16,11 +16,11 @@ namespace ServerEngine.Core.Services.Interfaces
         /// <summary>
         /// Acquire.
         /// </summary>
-        T Acquire<T>() where T: MemoryPoolBase, new ();
+        T Rent<T>() where T: class, new ();
 
         /// <summary>
         /// Release.
         /// </summary>
-        bool Release<T>(T obj) where T: MemoryPoolBase, new ();
+        bool Release<T>(T obj) where T: class, new ();
     }
 }

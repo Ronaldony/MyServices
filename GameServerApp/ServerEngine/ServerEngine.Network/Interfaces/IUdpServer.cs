@@ -11,17 +11,17 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Start server.
         /// </summary>
-        void Start(int port, bool allowPeerAddrChange);
+        void Start(int port, bool allowPeerAddrChange, int pollingMilliseconds);
 
         /// <summary>
         /// Send.
         /// </summary>
-        bool Send(int sessionId, UdpPacket packet);
+        bool Send(IUdpSession session, UdpPacket packet);
 
         /// <summary>
         /// Broadcast packet.
         /// </summary>
-        bool BroadCast(int sessionId, UdpPacket packet);
+        bool BroadCast(IUdpSession session, UdpPacket packet);
 
         /// <summary>
         /// Get session.
@@ -31,11 +31,11 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Add white list.
         /// </summary>
-        bool AddWhiteList(string addressString);
+        bool AddWhiteList(string address);
 
         /// <summary>
         /// Disconnect.
         /// </summary>
-        bool Disconnect(int sessionId);
+        bool Disconnect(IUdpSession session);
     }
 }
