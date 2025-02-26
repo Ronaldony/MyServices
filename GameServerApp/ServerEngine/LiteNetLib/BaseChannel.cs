@@ -31,6 +31,10 @@ namespace LiteNetLib
             {
                 Peer.AddToReliableChannelSendQueue(this);
             }
+            else
+            {
+                int i = 3;
+            }
         }
 
         public bool SendAndCheckQueue()

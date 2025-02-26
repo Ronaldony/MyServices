@@ -4,15 +4,16 @@ using System.Text.Json;
 
 namespace TestClientApp.Test
 {
-    using ServerEngine.Network.UDP;
-    using TestClient.Test.Data;
-    using TestClientApp.Services;
+	using GameCore.Http.Auth;
+	using ServerEngine.Network.UDP;
+	using TestClient.Test.Data;
+	using TestClientApp.Services;
 
-    /// <summary>
-    /// NetworkTest_DataIntegrity.
-    /// Description: Test class to check integrity for network data.
-    /// </summary>
-    public class Test_Network_DataIntegrity
+	/// <summary>
+	/// NetworkTest_DataIntegrity.
+	/// Description: Test class to check integrity for network data.
+	/// </summary>
+	public class Test_Network_DataIntegrity
     {
         /// <summary>
         /// NetworkGroup.
@@ -28,14 +29,6 @@ namespace TestClientApp.Test
             public NetPeer Peer { get; set; }
 
             public NetPacketProcessor Processor { get; set; }
-
-            public DateTime SendTime { get; set; }
-
-            public double TotalRTT_MS { get; set; }
-
-            public int MaxTestCount { get; set; }
-
-            public int TestCount { get; set; }
 
             public int SendCount { get; set; }
 
@@ -54,12 +47,12 @@ namespace TestClientApp.Test
 
         private readonly int _port;
 
-        private readonly int _clientNum;
+        private readonly int _maxTestCount;
 
         public Test_Network_DataIntegrity(int clientNum, int port, int maxTestCount)
         {
-            _clientNum = clientNum;
-            _testGroupDict = new Dictionary<int, NetworkTestGroup>();
+			_maxTestCount = maxTestCount;
+			_testGroupDict = new Dictionary<int, NetworkTestGroup>();
             _serializer = new MemoryPackDataSerializer();
             _port = port;
 
@@ -71,7 +64,6 @@ namespace TestClientApp.Test
                     Listener = new EventBasedNetListener(),
                     Packet = new UdpPacket(),
                     Processor = new NetPacketProcessor(),
-                    MaxTestCount = maxTestCount,
                     SessionId = sessionId
                 };
 
@@ -79,10 +71,12 @@ namespace TestClientApp.Test
                 testGroup.Client = new NetManager(testGroup.Listener);
                 testGroup.Client.UnsyncedEvents = true;
                 testGroup.Client.AutoRecycle = true;
-                testGroup.Client.PacketPoolSize = 1000000;
+                testGroup.Client.ReuseAddress = false;
+				testGroup.Client.SimulatePacketLoss = false;
+				testGroup.Client.EnableStatistics = true;
 
-                // Packet.
-                testGroup.Packet.PacketCode = TestPacketCode;
+				// Packet.
+				testGroup.Packet.PacketCode = TestPacketCode;
                 testGroup.Packet.Data = _serializer.Serialize(new Network_TestData
                 {
                     Birth = DateTime.Now.AddDays(i),
@@ -112,16 +106,17 @@ namespace TestClientApp.Test
 
                 testGroup.Listener.NetworkReceiveEvent += (fromPeer, dataReader, deliveryMethod, channel) =>
                 {
+                    if (dataReader.RawData.Length < 93)
+                    {
+                        CustomLogger.Log($"Length: {dataReader.RawData.Length}, session id: {sessionId}");
+                    }
+
                     testGroup.Processor.ReadAllPackets(dataReader, sessionId);
                 };
 
                 testGroup.Listener.PeerDisconnectedEvent += (peer, disconnectInfo) =>
                 {
-                    testGroup.TestCount = 0;
-                    //testGroup.IsTesting = true;
-                    //testGroup.Client.Connect("localhost", _port, "");
-
-                    CustomLogger.Log($"Disconnected. session id: {sessionId}");
+					CustomLogger.Log($"Disconnected. session id: {sessionId}");
                 };
 
                 testGroup.Client.Start();
@@ -139,7 +134,11 @@ namespace TestClientApp.Test
             foreach (var pair in _testGroupDict)
             {
                 var group = pair.Value;
-                group.Client.DisconnectAll();
+
+                if (group.Client.ConnectedPeersCount != 0 )
+                {
+                    group.Client.DisconnectAll();
+                }
             }
 
             // Connection.
@@ -147,11 +146,24 @@ namespace TestClientApp.Test
             {
                 var group = pair.Value;
 
-                group.SendTime = DateTime.Now;
                 group.IsTesting = true;
                 group.Client.Connect("localhost", _port, "");
+
+                //ThreadPool.QueueUserWorkItem(param =>
+                //{
+                //    group.Client.Connect("localhost", _port, "");
+
+                //    while (true)
+                //    {
+                //        group.Client.PollEvents();
+                //        Thread.Sleep(30);
+
+                //        if (group.IsTesting == false)
+                //            break;
+                //    }
+                //});
             }
-        }
+		}
 
         /// <summary>
         /// Check test is end.
@@ -171,10 +183,8 @@ namespace TestClientApp.Test
         /// <summary>
         /// HandlePacket.
         /// </summary>
-        private void HandlePacket(UdpPacket packet, int sessionId)
+        private async void HandlePacket(UdpPacket packet, int sessionId)
         {
-            var recvTime = DateTime.Now;
-
             if (packet.PacketCode == TestPacketCode)
             {
                 if (_testGroupDict.TryGetValue(sessionId, out var group))
@@ -193,42 +203,46 @@ namespace TestClientApp.Test
                         return;
                     }
 
-                    group.TestCount++;
-                    group.RecvCount++;
+                    ThreadPool.QueueUserWorkItem(parma =>
+					{
+                        Thread.Sleep(100);
 
-                    var rtt = (recvTime - group.SendTime).TotalMilliseconds;
-                    group.TotalRTT_MS += rtt;
+						group.RecvCount++;
 
-                    if (group.TestCount % 500 == 0)
-                    {
-                        CustomLogger.Log($"[Testing] session id: {group.SessionId}, test count: {group.TestCount}");
-                    }
+						if (group.RecvCount % 1000 == 0)
+						{
+							//CustomLogger.Log($"[Testing] session id: {group.SessionId}, test count: {group.RecvCount}");
+						}
 
-                    // 최대 테스트 시 클라이언트 종료.
-                    if (group.TestCount < group.MaxTestCount)
-                    {
-                        // Send packet.
-                        var writer = new NetDataWriter();
+						// 최대 테스트 시 클라이언트 종료.
+						if (group.RecvCount < _maxTestCount)
+						{
+							// Send packet.
+							var writer = new NetDataWriter();
 
-                        group.SendTime = DateTime.Now;
-                        group.SendCount++;
-                        group.Processor.Write(writer, group.Packet);
-
-                        Thread.Sleep(10);
-                        group.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
-                    }
-                    else
-                    {
-                        // 테스트 종료.
-                        group.IsTesting = false;
-                        //group.Peer.Disconnect();
-                    }
-                }
+							group.SendCount++;
+							group.Processor.Write(writer, group.Packet);
+							group.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
+						}
+						else
+						{
+							// 테스트 종료.
+							group.RecvCount = 0;
+							group.IsTesting = false;
+							group.Client.DisconnectAll();
+							CustomLogger.Log($"[Test end] session id: {group.SessionId}");
+						}
+					});
+				}
                 else
                 {
                     CustomLogger.Log($"Not exist session. session id: {sessionId}");
                 }
             }
-        }
+            else
+            {
+                CustomLogger.Log($"Packet code is wrong. recv code: {packet.PacketCode}");
+			}
+		}
     }
 }

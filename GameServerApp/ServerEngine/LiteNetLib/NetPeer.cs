@@ -1311,6 +1311,11 @@ namespace LiteNetLib
             if (_mergePos + mergedPacketSize > _mtu)
                 SendMerged();
 
+            if (packet.Size < 20)
+            {
+                int i = 3;
+            }
+
             FastBitConverter.GetBytes(_mergeData.RawData, _mergePos + NetConstants.HeaderSize, (ushort)packet.Size);
             Buffer.BlockCopy(packet.RawData, 0, _mergeData.RawData, _mergePos + NetConstants.HeaderSize + 2, packet.Size);
             _mergePos += packet.Size + 2;

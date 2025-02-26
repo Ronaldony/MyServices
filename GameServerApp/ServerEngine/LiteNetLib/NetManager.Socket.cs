@@ -522,6 +522,11 @@ namespace LiteNetLib
             if (!_isRunning)
                 return 0;
 
+            if (length == 13)
+            {
+                int i = 3;
+            }
+
             NetPacket expandedPacket = null;
             if (_extraPacketLayer != null)
             {
@@ -608,6 +613,11 @@ namespace LiteNetLib
             {
                 if (expandedPacket != null)
                     PoolRecycle(expandedPacket);
+            }
+
+            if (13 == result)
+            {
+                int i = 3;
             }
 
             if (result <= 0)

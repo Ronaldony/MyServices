@@ -96,6 +96,11 @@ namespace LiteNetLib
             _remoteSequence = 0;
             _remoteWindowStart = 0;
             _outgoingAcks = new NetPacket(PacketProperty.Ack, (_windowSize - 1) / BitsInByte + 2) {ChannelId = id};
+
+            if (_outgoingAcks.Size == 13)
+            {
+                int i = 3;
+            }
         }
 
         //ProcessAck in packet
@@ -206,7 +211,14 @@ namespace LiteNetLib
                 }
             }
 
-            return hasPendingPackets || _mustSendAcks || OutgoingQueue.Count > 0;
+            var sss = hasPendingPackets || _mustSendAcks || OutgoingQueue.Count > 0;
+
+            if (sss == false)
+            {
+                int i = 3;
+            }
+
+			return sss;
         }
 
         //Process incoming packet

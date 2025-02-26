@@ -8,13 +8,13 @@ using System.Reflection;
 
 namespace ServerEngine.Network.UDP
 {
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Network.Interfaces;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Network.Interfaces;
 
-    /// <summary>
-    /// UdpServer.
-    /// </summary>
-    public abstract class UdpServer<TSession> : IUdpServer
+	/// <summary>
+	/// UdpServer.
+	/// </summary>
+	public abstract class UdpServer<TSession> : IUdpServer
         where TSession : UdpSession, new()
     {
         private readonly ILogger<UdpServer<TSession>> _logger;
@@ -74,7 +74,11 @@ namespace ServerEngine.Network.UDP
                 UnsyncedEvents = true,              // Event base network.
                 AutoRecycle = true,                 // Auto NetPacketReader Recycle.
                 //UnsyncedReceiveEvent = true,        // Receive event will be called own thread.
-                PacketPoolSize = 1000000,
+                PacketPoolSize = 100000,
+                SimulateLatency = false,
+                SimulatePacketLoss = false,
+                MtuOverride = 1500,
+                EnableStatistics = true,
             };
 
             // Handler.
@@ -313,7 +317,7 @@ namespace ServerEngine.Network.UDP
                 lock (session)
                 {
                     // Release session memory.
-                    session.Peer = null;
+                    //session.Peer = null;
                     session.Address = null;
                     session.IsDisconn = true;
 

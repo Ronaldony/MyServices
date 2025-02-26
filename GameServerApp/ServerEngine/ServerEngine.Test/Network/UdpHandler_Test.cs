@@ -20,13 +20,11 @@ namespace ServerEngine.Test.Network
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_Test>>();
         }
 
-        /// <summary>s
+        /// <summary>
         /// Handle packet.
         /// </summary>
         public override void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, ulong, UdpPacket, bool> sendFunc)
         {
-            //Console.WriteLine($"Packet - code: {packet.PacketCode} / session: {session.SessionId}");
-
             var gameSession = session as GameSession;
 
             // Send to session.
