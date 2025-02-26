@@ -11,22 +11,17 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Start server.
         /// </summary>
-        void Start(int port, bool allowPeerAddrChange, int pollingMilliseconds);
+        void Start(int port, bool allowPeerAddrChange);
 
         /// <summary>
         /// Send.
         /// </summary>
-        bool Send(IUdpSession session, UdpPacket packet);
+        bool Send(int sessionId, ulong sessionUid, UdpPacket packet);
 
         /// <summary>
         /// Broadcast packet.
         /// </summary>
-        bool BroadCast(IUdpSession session, UdpPacket packet);
-
-        /// <summary>
-        /// Get session.
-        /// </summary>
-        IUdpSession GetSessionOrDefault(int sessionId);
+        bool BroadCast(int sessionId, ulong sessionUid, UdpPacket packet);
 
         /// <summary>
         /// Add white list.
@@ -36,6 +31,6 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Disconnect.
         /// </summary>
-        bool Disconnect(IUdpSession session);
+        void Disconnect(int sessionId, ulong sessionUid);
     }
 }

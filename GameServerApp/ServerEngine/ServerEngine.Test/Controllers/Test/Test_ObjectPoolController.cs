@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GameCore.Datas.Player;
+using Microsoft.AspNetCore.Mvc;
 using ServerEngine.Core.Profile;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Test.Database.Data;
@@ -21,39 +22,6 @@ namespace ServerEngine.Test.Controllers.Test
 		{
 			_logger = logger;
 			_objectPoolService = objectPoolService;
-		}
-
-		/// <summary>
-		/// Test_Working.
-		/// Desc: DataObjectPoolService로부터 Acquire과 Release가 정상적(=순차적)으로 처리되는지 확인하는 프로세스.
-		/// </summary>
-		[HttpGet]
-		[Route("test-objectpool/working")]
-		public string Test_Working()
-		{
-			TestCounter.ObjectPool_Acquire = 0;
-			TestCounter.ObjectPool_Release = 0;
-
-			var playerInfos = new List<DTO_PlayerInfo>();
-
-			for (int cnt2 = 0; cnt2 < 10; cnt2++)
-			{
-				// Acquire.
-				for (int cnt = 0; cnt < 400000; cnt++)
-				{
-					playerInfos.Add(_objectPoolService.Acquire<DTO_PlayerInfo>());
-				}
-
-				// Release.
-				foreach (var playerInfo in playerInfos)
-				{
-					_objectPoolService.Release(playerInfo);
-				}
-
-				playerInfos.Clear();
-			}
-
-			return $"Acquire count: {TestCounter.ObjectPool_Acquire} / Release count: {TestCounter.ObjectPool_Release}";
 		}
 
 		/// <summary>
@@ -88,7 +56,7 @@ namespace ServerEngine.Test.Controllers.Test
 			// Acquire DataObejct.
 			for (int cnt = 0; cnt < 1000000; cnt++)
 			{
-				var playerInfo = _objectPoolService.Acquire<DTO_PlayerInfo>();
+				var playerInfo = _objectPoolService.Rent<DTO_PlayerInfo>();
 				playerInfos.Add(playerInfo);
 
 				playerInfo.Pid = (cnt + threadId).ToString();
@@ -144,7 +112,7 @@ namespace ServerEngine.Test.Controllers.Test
 			var dtoBenchmarks = new List<DTO_Benchmark>();
 			for (int acquireCount = 0; acquireCount < dataObjectCount; acquireCount++)
 			{
-				dtoBenchmarks.Add(_objectPoolService.Acquire<DTO_Benchmark>());
+				dtoBenchmarks.Add(_objectPoolService.Rent<DTO_Benchmark>());
 			}
 
 			// Release DataObject.
@@ -165,7 +133,7 @@ namespace ServerEngine.Test.Controllers.Test
 				{
 					sw.Start();
 
-					var dtoBenchmark = _objectPoolService.Acquire<DTO_Benchmark>();
+					var dtoBenchmark = _objectPoolService.Rent<DTO_Benchmark>();
 
 					sw.Stop();
 

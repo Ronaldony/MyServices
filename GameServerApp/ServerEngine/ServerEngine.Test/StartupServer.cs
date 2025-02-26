@@ -33,7 +33,7 @@ namespace ServerEngine.Test
 
             // TestServer
             var testServer = _serviceProvider.GetRequiredService<IUdpServer>();
-            testServer.Start(9050, false, 33);    // port, peer address changable, polling interval.
+            testServer.Start(9050, false);    // port, peer address changable, polling interval.
 
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();

@@ -2,26 +2,26 @@
 using LiteNetLib.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 
 namespace ServerEngine.Network.UDP
 {
-	using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Network.Interfaces;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Network.Interfaces;
 
-	/// <summary>
-	/// UdpServer.
-	/// </summary>
-	public abstract class UdpServer<TSession> : IUdpServer
+    /// <summary>
+    /// UdpServer.
+    /// </summary>
+    public abstract class UdpServer<TSession> : IUdpServer
         where TSession : UdpSession, new()
     {
         private readonly ILogger<UdpServer<TSession>> _logger;
 
         private readonly IServiceProvider _serviceProvider;
-        private readonly IMemoryPoolService _poolService;
+        private readonly IMemoryPoolService _memoryPoolService;
+        private readonly IDataSerializer _serializer;
 
         // Network.
         private NetPacketProcessor _packetProcessor;
@@ -45,13 +45,11 @@ namespace ServerEngine.Network.UDP
         /// key: session id.
         /// value: UDP Session interface.
         /// </summary>
-        private readonly ConcurrentDictionary<int, TSession> _sessionDict;
+        private readonly Dictionary<int, TSession> _sessionDict;
 
         /// <summary>
-        /// Polling event time (milliseconds).
+        /// Session uid.
         /// </summary>
-        private int _pollingEventTime;
-
         private ulong _sessionUid;
 
         // Call back Delegates for network listener.
@@ -64,22 +62,24 @@ namespace ServerEngine.Network.UDP
             _serviceProvider = serviceProvider;
             _logger = _serviceProvider.GetRequiredService<ILogger<UdpServer<TSession>>>();
 
-            _poolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
+            _memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
+            _serializer = _serviceProvider.GetRequiredService<IDataSerializer>();
 
-			// Initialize network.
-			_packetProcessor = new NetPacketProcessor();
+            // Initialize network.
+            _packetProcessor = new NetPacketProcessor();
             _listener = new EventBasedNetListener();
             _netManager = new NetManager(_listener)
             {
                 ReuseAddress = false,               // Reuse address.
-                //UnsyncedEvents = true,            // Event base network.
+                UnsyncedEvents = true,              // Event base network.
                 AutoRecycle = true,                 // Auto NetPacketReader Recycle.
-                UnsyncedReceiveEvent = true,        // Receive event will be called own thread.
+                //UnsyncedReceiveEvent = true,        // Receive event will be called own thread.
+                PacketPoolSize = 1000000,
             };
 
             // Handler.
             _handlerDict = new Dictionary<int, (UdpHandler, MethodInfo, object[])>();
-            _sessionDict = new ConcurrentDictionary<int, TSession>();
+            _sessionDict = new Dictionary<int, TSession>();
 
             // Black list.
             _whiteList = new List<IPAddress>();
@@ -91,7 +91,7 @@ namespace ServerEngine.Network.UDP
 		/// <param name="port">Server port</param>
 		/// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
 		/// <param name="pollingMilliseconds">Polling event time. Default time: 33ms (about 30 fps) </param>
-		public void Start(int port, bool allowPeerAddrChange, int pollingMilliseconds = 33)
+		public void Start(int port, bool allowPeerAddrChange)
         {
 			// Initialize listener.
 			Initialize_Listener();
@@ -105,46 +105,44 @@ namespace ServerEngine.Network.UDP
             // Start server.
             _netManager.AllowPeerAddressChange = allowPeerAddrChange;
             _netManager.Start(port);
-            _pollingEventTime = pollingMilliseconds;
-
-            // Polling events.
-            ThreadPool.QueueUserWorkItem(param =>
-            {
-                while (true)
-                {
-                    _netManager.PollEvents();
-                    Thread.Sleep(_pollingEventTime);
-                }
-            });
         }
 
         /// <summary>
         /// Send packet.
         /// </summary>
-        public bool Send(IUdpSession session, UdpPacket packet)
+        public bool Send(int sessionId, ulong sessionUid, UdpPacket packet)
         {
-			var findSession = GetSessionOrDefault(session.SessionId);
-			if (default == findSession)
-			{
-				return false;
-			}
+            if (false == _sessionDict.TryGetValue(sessionId, out var session))
+            {
+                return false;
+            }
 
-			// 만약 세션 Uid가 다른 경우, 세션 ID가 같아도 이미 Disconnection된 세션임.
-			if (!findSession.SessionUid.Equals(session.SessionUid))
-			{
-				return false;
-			}
+            // Sesison lock: 세션 풀을 사용하기 때문에, 이미 Disconnection된 세션 메모리가 사용되는 것을 방지.
+            lock (session)
+            {
+                // Check disconnection.
+                if (session.IsDisconn)
+                {
+                    return false;
+                }
 
-            var udpSession = findSession as UdpSession;
+                // Check session uid.
+                if (sessionUid != session.SessionUid)
+                {
+                    return false;
+                }
 
-            // Write packet.
-            var writer = udpSession.DataWriter;
+                // Write packet.
+                var writer = session.DataWriter;
 
-            writer.Reset();
-            _packetProcessor.Write(writer, packet);
+                writer.Reset();
+                //_packetProcessor.Write(writer, packet);
+                session.PacketProcessor.Write(writer, packet);
 
-            // Send.
-            udpSession.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
+                // Send.
+                session.SendCount++;
+                session.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
+            }
 
             return true;
         }
@@ -152,65 +150,69 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Broadcast packet.
         /// </summary>
-        public bool BroadCast(IUdpSession session, UdpPacket packet)
+        public bool BroadCast(int sessionId, ulong sessionUid, UdpPacket packet)
         {
-            var findSession = GetSessionOrDefault(session.SessionId);
-            if (default == findSession)
+            if (false == _sessionDict.TryGetValue(sessionId, out var session))
             {
                 return false;
             }
 
-            // 만약 세션 RefId 다른 경우, 세션 ID가 같아도 이미 Disconnection된 세션임.
-            if (!findSession.SessionUid.Equals(session.SessionUid))
+            // Sesison lock: 세션 풀을 사용하기 때문에, 이미 Disconnection된 세션 메모리가 사용되는 것을 방지.
+            lock(session)
             {
-                return false;
+                // Check disconnection.
+                if (session.IsDisconn)
+                {
+                    return false;
+                }
+
+                // Check sesion uid.
+                if (session.SessionUid != sessionUid)
+                {
+                    return false;
+                }
+
+                // Write packet.
+                var writer = session.DataWriter;
+
+                writer.Reset();
+                //_packetProcessor.Write(writer, packet);
+                session.PacketProcessor.Write(writer, packet);
+
+                // Send all.
+                _netManager.SendToAll(writer, DeliveryMethod.ReliableOrdered, session.Peer);
+
+                return true;
             }
-
-            // Marshall session.
-            var udpSession = findSession as UdpSession;
-
-            // Write packet.
-            var writer = udpSession.DataWriter;
-
-            writer.Reset();
-            _packetProcessor.Write(writer, packet);
-
-            // Send all.
-            _netManager.SendToAll(writer, DeliveryMethod.ReliableOrdered, udpSession.Peer);
-
-            return true;
         }
 
         /// <summary>
         /// Disconnect.
         /// </summary>
-        public bool Disconnect(IUdpSession session)
-        {
-            // remove.
-            var findSession = _sessionDict.GetValueOrDefault(session.SessionId);
-
-            // 이미 Disconnection된 세션인지 검사.
-            if (!session.Equals(findSession))
-            {
-                return false;
-            }
-
-            findSession.Peer.Disconnect();
-
-            return true;
-        }
-
-        /// <summary>
-        /// Get session.
-        /// </summary>
-        public IUdpSession GetSessionOrDefault(int sessionId)
+        public void Disconnect(int sessionId, ulong sessionUid)
         {
             if (false == _sessionDict.TryGetValue(sessionId, out var session))
             {
-                return default;
+                return;
             }
 
-            return session;
+            // Sesison lock: 세션 풀을 사용하기 때문에, 이미 Disconnection된 세션 메모리가 사용되는 것을 방지.
+            lock (session)
+            {
+                // Check connection.
+                if (session.IsDisconn)
+                {
+                    return;
+                }
+
+                // Check session uid.
+                if (session.SessionUid != sessionUid)
+                {
+                    return;
+                }
+
+                session.Peer.Disconnect();
+            }
         }
 
         /// <summary>
@@ -226,14 +228,6 @@ namespace ServerEngine.Network.UDP
             _whiteList.Add(ipAddr);
 
             return true;
-		}
-
-		/// <summary>
-		/// Set polling interval time.
-		/// </summary>
-		public void SetPollingEventTime(int milliseconds)
-		{
-			_pollingEventTime = milliseconds;
 		}
 
 		/// <summary>
@@ -255,45 +249,47 @@ namespace ServerEngine.Network.UDP
 					}
 				}
 
-                // Accept peer.
-				var peer = request.Accept();
-
-				if (null != peer)
-                {
-                    var newSession = _poolService.Rent<TSession>();
-
-                    newSession.SessionId = peer.Id;
-                    newSession.SessionUid = _sessionUid++;
-					newSession.Peer = peer;
-					newSession.Address = peer.Address;
-					newSession.DataWriter = newSession.DataWriter ??= new NetDataWriter();
-                    newSession.DataWriter.Reset();
-
-                    // Check session id duplicate.
-                    _sessionDict.AddOrUpdate(peer.Id, newSession, (key, old) => newSession);
-                }
+                request.Accept();
 			};
 
             // OnConnected.
             _listener.PeerConnectedEvent += (peer) =>
 			{
-                var session = _sessionDict[peer.Id];
-				
-                OnConnected(ref session, session.Address);
+                var newSession = _memoryPoolService.Rent<TSession>();
+
+                lock (newSession)
+                {
+                    newSession.SessionId = peer.Id;
+                    newSession.SessionUid = _sessionUid++;
+                    newSession.IsDisconn = false;
+                    newSession.Peer = peer;
+                    newSession.Address = peer.Address;
+                    newSession.DataWriter = newSession.DataWriter ??= new NetDataWriter();
+                    newSession.DataWriter.Reset();
+
+                    // Register packet processor.
+                    if (null == newSession.PacketProcessor)
+                    {
+                        newSession.PacketProcessor = new NetPacketProcessor();
+                        newSession.PacketProcessor.SubscribeReusable<UdpPacket, TSession>(HandlePacket);
+                    }
+                }
+
+                // Check session id duplicate.
+                _sessionDict.Add(newSession.SessionId, newSession);
+
+                OnConnected(ref newSession, newSession.Address);
 			};
 
 			// OnReceive.
 			_listener.NetworkReceiveEvent += (peer, reader, channel, deliveryMethod) =>
 			{
-                if (false == _sessionDict.TryGetValue(peer.Id, out var session))
-				{
-					_logger.LogError($"[UDP Receive] Session not found. id: {peer.Id} / peer: {peer}");
-					peer.Disconnect();
-					return;
-				}
+                var session = _sessionDict[peer.Id];
+
+                session.RecvCount++;
 
                 // Read all packets.
-                _packetProcessor.ReadAllPackets(reader, session);
+                session.PacketProcessor.ReadAllPackets(reader, session);
             };
 
 			// OnNetError.
@@ -309,10 +305,20 @@ namespace ServerEngine.Network.UDP
 
 				OnDisconnected(session);
 
-                _logger.LogDebug($"[UDP disconnect] Thread id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
- 
                 // Remove session.
-                _sessionDict.Remove(peer.Id, out _);
+                //_sessionDict.Remove(peer.Id);
+
+                _logger.LogDebug("[UDP disconnect] Session id: {0, -3}, Send: {1, -5}, Recv: {2, -5}, HandleCount: {3, -5}", session.SessionId, session.SendCount, session.RecvCount, session.HandleCount);
+
+                lock (session)
+                {
+                    // Release session memory.
+                    session.Peer = null;
+                    session.Address = null;
+                    session.IsDisconn = true;
+
+                    _memoryPoolService.Release(session);
+                }
             };
 		}
 
@@ -339,18 +345,28 @@ namespace ServerEngine.Network.UDP
         /// </summary>
 		private void HandlePacket(UdpPacket packet, TSession session)
         {
+            session.HandleCount++;
+
             // Handle udp packet.
             if (_handlerDict.TryGetValue(packet.PacketCode, out var value))
             {
                 var send = this.Send;
-                var args = value.args;
+                var args = new object[3];
 
-                args[0] = packet;
+                args[0] = new UdpPacket
+                {
+                    PacketCode = packet.PacketCode,
+                    Data = packet.Data,
+                };
+
                 args[1] = session;
                 args[2] = send;
 
                 // Invoke method.
-                value.method?.Invoke(value.handler, args);
+                ThreadPool.QueueUserWorkItem(param =>
+                {
+                    value.method.Invoke(value.handler, args);
+                });
             }
         }
     }

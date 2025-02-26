@@ -1,0 +1,12 @@
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\bin\Debug\net471\LiteNetLib.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\bin\Debug\net471\LiteNetLib.pdb
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\bin\Debug\net471\LiteNetLib.xml
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.csproj.AssemblyReference.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.AssemblyInfoInputs.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.AssemblyInfo.cs
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.csproj.CoreCompileInputs.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.sourcelink.json
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.xml
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\LiteNetLib\obj\Debug\net471\LiteNetLib.pdb

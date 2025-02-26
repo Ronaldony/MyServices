@@ -4,8 +4,8 @@ using System.Collections.Concurrent;
 
 namespace ServerEngine.Core.Services
 {
-	using ServerEngine.Core.ObejctPool;
-	using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Core.MemoryPool;
+    using ServerEngine.Core.Services.Interfaces;
 
 	/// <summary>
 	/// CustomMemoryPoolService.

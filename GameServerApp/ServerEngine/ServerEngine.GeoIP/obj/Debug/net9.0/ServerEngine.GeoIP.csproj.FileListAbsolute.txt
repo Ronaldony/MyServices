@@ -1,0 +1,14 @@
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\MaxMind\GeoLite2-Country.mmdb
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.deps.json
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.pdb
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.csproj.AssemblyReference.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.AssemblyInfoInputs.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.AssemblyInfo.cs
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.csproj.CoreCompileInputs.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.sourcelink.json
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\refint\ServerEngine.GeoIP.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.pdb
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ref\ServerEngine.GeoIP.dll

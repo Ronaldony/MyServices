@@ -4,10 +4,7 @@ using System.Text.Json;
 
 namespace TestClientApp.Test
 {
-    using GameCore.Http.Auth;
     using ServerEngine.Network.UDP;
-    using System.Net.Sockets;
-    using System.Net;
     using TestClient.Test.Data;
     using TestClientApp.Services;
 
@@ -40,7 +37,13 @@ namespace TestClientApp.Test
 
             public int TestCount { get; set; }
 
+            public int SendCount { get; set; }
+
+            public int RecvCount { get; set; }
+
             public bool IsTesting { get; set; }
+            
+            public int SessionId { get; set; }
         }
 
         private const int TestPacketCode = 1000;
@@ -68,12 +71,15 @@ namespace TestClientApp.Test
                     Listener = new EventBasedNetListener(),
                     Packet = new UdpPacket(),
                     Processor = new NetPacketProcessor(),
-                    MaxTestCount = maxTestCount
+                    MaxTestCount = maxTestCount,
+                    SessionId = sessionId
                 };
 
                 // Client.
                 testGroup.Client = new NetManager(testGroup.Listener);
                 testGroup.Client.UnsyncedEvents = true;
+                testGroup.Client.AutoRecycle = true;
+                testGroup.Client.PacketPoolSize = 1000000;
 
                 // Packet.
                 testGroup.Packet.PacketCode = TestPacketCode;
@@ -100,6 +106,7 @@ namespace TestClientApp.Test
                     testGroup.Processor.Write(writer, testGroup.Packet);
 
                     // Send to server.
+                    testGroup.SendCount++;
                     peer.Send(writer, DeliveryMethod.ReliableOrdered);
                 };
 
@@ -110,7 +117,10 @@ namespace TestClientApp.Test
 
                 testGroup.Listener.PeerDisconnectedEvent += (peer, disconnectInfo) =>
                 {
-                    testGroup.IsTesting = false;
+                    testGroup.TestCount = 0;
+                    //testGroup.IsTesting = true;
+                    //testGroup.Client.Connect("localhost", _port, "");
+
                     CustomLogger.Log($"Disconnected. session id: {sessionId}");
                 };
 
@@ -148,8 +158,9 @@ namespace TestClientApp.Test
         /// </summary>
         public bool IsTestEnd()
         {
-            var testingCount = _testGroupDict.Values.Where(d => d.IsTesting == true).Count();
-            if (testingCount != 0)
+            var testGroups = _testGroupDict.Values.Where(d => d.IsTesting == true);
+            CustomLogger.Log($"Group count: {testGroups.Count()}");
+            if (testGroups.Count() != 0)
             {
                 return false;
             }
@@ -168,7 +179,6 @@ namespace TestClientApp.Test
             {
                 if (_testGroupDict.TryGetValue(sessionId, out var group))
                 {
-
                     var oriData = _serializer.Deserialize<Network_TestData>(group.Packet.Data);
                     var recvData = _serializer.Deserialize<Network_TestData>(packet.Data);
 
@@ -184,17 +194,14 @@ namespace TestClientApp.Test
                     }
 
                     group.TestCount++;
+                    group.RecvCount++;
 
                     var rtt = (recvTime - group.SendTime).TotalMilliseconds;
                     group.TotalRTT_MS += rtt;
 
-                    // 평균 RTT 계산.
-                    if ((group.TestCount & 0x7F) == 0x7F)
+                    if (group.TestCount % 500 == 0)
                     {
-                        // 15번마다 출력.
-                        var avgRTT = Math.Round(group.TotalRTT_MS / group.TestCount, 2);
-                        CustomLogger.Log($"[RTT] session id: {sessionId}. avg(ms): {avgRTT}");
-                        CustomLogger.Log($"[RTT] session id: {sessionId}. RTT(ms): {group.Peer.RoundTripTime}");
+                        CustomLogger.Log($"[Testing] session id: {group.SessionId}, test count: {group.TestCount}");
                     }
 
                     // 최대 테스트 시 클라이언트 종료.
@@ -204,13 +211,17 @@ namespace TestClientApp.Test
                         var writer = new NetDataWriter();
 
                         group.SendTime = DateTime.Now;
+                        group.SendCount++;
                         group.Processor.Write(writer, group.Packet);
+
+                        Thread.Sleep(10);
                         group.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
                     }
                     else
                     {
                         // 테스트 종료.
                         group.IsTesting = false;
+                        //group.Peer.Disconnect();
                     }
                 }
                 else

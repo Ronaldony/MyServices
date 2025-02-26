@@ -12,14 +12,19 @@ namespace ServerEngine.Network.Interfaces
         /// </summary>
         int SessionId { get; }
 
-		/// <summary>
-		/// Session uid.
-		/// </summary>
-		ulong SessionUid { get; }
+        /// <summary>
+        /// Disconnction check.
+        /// </summary>
+        public ulong SessionUid { get; set; }
 
-		/// <summary>
-		/// IP Address.
-		/// </summary>
-		IPAddress Address { get; }
+        /// <summary>
+        /// Disconnction check.
+        /// </summary>
+        public bool IsDisconn { get; set; }
+
+        /// <summary>
+        /// IP Address.
+        /// </summary>
+        IPAddress Address { get; }
     }
 }

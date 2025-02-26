@@ -1,0 +1,17 @@
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.csproj.AssemblyReference.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.AssemblyInfoInputs.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.AssemblyInfo.cs
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.csproj.CoreCompileInputs.cache
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.sourcelink.json
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\bin\Debug\net9.0\NLog.config
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\bin\Debug\net9.0\ServerEngine.Core.deps.json
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\bin\Debug\net9.0\ServerEngine.Core.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\bin\Debug\net9.0\ServerEngine.Core.pdb
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\bin\Debug\net9.0\ServerEngine.Config.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\bin\Debug\net9.0\ServerEngine.Config.pdb
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEn.4F1A17B5.Up2Date
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\refint\ServerEngine.Core.dll
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ServerEngine.Core.pdb
+C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.Core\obj\Debug\net9.0\ref\ServerEngine.Core.dll

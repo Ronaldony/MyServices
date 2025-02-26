@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace ServerEngine.Test.Controllers.Test
 {
+    using GameCore.Datas.Player;
     using ServerEngine.Core.Util;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Test.Database.Data;

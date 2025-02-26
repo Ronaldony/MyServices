@@ -5,27 +5,32 @@ using System.Net;
 
 namespace ServerEngine.Network.UDP
 {
-	using ServerEngine.Network.Interfaces;
+    using ServerEngine.Network.Interfaces;
 
-	/// <summary>
-	/// UdpSession.
-	/// </summary>
-	public class UdpSession : IUdpSession
+    /// <summary>
+    /// UdpSession.
+    /// </summary>
+	public partial class UdpSession : IUdpSession
     {
-		/// <summary>
-		/// Session id.
-		/// </summary>
+        /// <summary>
+        /// Session id.
+        /// </summary>
 		public int SessionId { get; set; }
 
         /// <summary>
-        /// Session uid.
+        /// Disconnction check.
         /// </summary>
-		public ulong SessionUid { get; set; }
+        public ulong SessionUid { get; set; }
 
-		/// <summary>
-		/// Session address.
-		/// </summary>
-		public IPAddress Address { get; set; }
+        /// <summary>
+        /// Disconnction check.
+        /// </summary>
+		public bool IsDisconn { get; set; }
+
+        /// <summary>
+        /// Session address.
+        /// </summary>
+        public IPAddress Address { get; set; }
 
         /// <summary>
         /// Peer.
@@ -36,5 +41,14 @@ namespace ServerEngine.Network.UDP
         /// Network data writer.
         /// </summary>
         public NetDataWriter DataWriter { get; set; }
-	}
+
+        /// <summary>
+        /// Network packet processor.
+        /// </summary>
+        public NetPacketProcessor PacketProcessor { get; set; }
+
+        public int RecvCount { get; set; }
+        public int SendCount { get; set; }
+        public int HandleCount { get; set; }
+    }
 }

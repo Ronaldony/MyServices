@@ -23,13 +23,14 @@ namespace ServerEngine.Test.Network
         /// <summary>s
         /// Handle packet.
         /// </summary>
-        public override void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, UdpPacket, bool> sendFunc)
+        public override void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, ulong, UdpPacket, bool> sendFunc)
         {
             //Console.WriteLine($"Packet - code: {packet.PacketCode} / session: {session.SessionId}");
-            _logger.LogDebug($"[UdpHandler_Test] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+
+            var gameSession = session as GameSession;
 
             // Send to session.
-            sendFunc(session.SessionId, packet);
+            sendFunc(session.SessionId, session.SessionUid, packet);
         }
     }
 }

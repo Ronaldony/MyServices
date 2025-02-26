@@ -2,6 +2,7 @@
 
 namespace ServerEngine.Test.Controllers.Test
 {
+    using GameCore.Datas.Player;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Core.Util;
     using ServerEngine.Test.Database.Data;

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ServerEngine.AsciiBanner</id>
+    <version>1.1.0</version>
+    <authors>ServerEngine.AsciiBanner</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="f956d6fca8a8a92b854acbed9bceb0e86348cf57" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Figgle" version="0.5.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Depot_Jaesueng\MyServices\GameServerApp\ServerEngine\ServerEngine.AsciiBanner\bin\Debug\net9.0\ServerEngine.AsciiBanner.dll" target="lib\net9.0\ServerEngine.AsciiBanner.dll" />
+  </files>
+</package>
