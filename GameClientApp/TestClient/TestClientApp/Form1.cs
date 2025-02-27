@@ -11,7 +11,7 @@ namespace TestClientApp
             InitializeComponent();
 
             // Initializer test objects.
-            testNetworkDataIntegrity = new Test_Network_DataIntegrity(100, 9050, 10000);
+            testNetworkDataIntegrity = new Test_Network_DataIntegrity(100, 9050, 2000);
         }
 
         private void Form1_Load(object sender, EventArgs e)

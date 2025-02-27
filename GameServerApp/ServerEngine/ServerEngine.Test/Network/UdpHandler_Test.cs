@@ -1,34 +1,36 @@
 ﻿
 namespace ServerEngine.Test.Network
 {
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Network.Interfaces;
-    using ServerEngine.Network.UDP;
+	using Microsoft.Extensions.DependencyInjection;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Network.UDP;
+	using ServerEngine.Test.Server;
 
-    /// <summary>
-    /// UdpHandler_Test.
-    /// </summary>
-    public class UdpHandler_Test : UdpHandler
+	/// <summary>
+	/// UdpHandler_Test.
+	/// </summary>
+	public class UdpHandler_Test : UdpHandler
     {
         private readonly ILogger<UdpHandler_Test> _logger;
 		private readonly IDataSerializer _dataSerializer;
+        private readonly TestServer _testServer;
 
         public UdpHandler_Test(IServiceProvider serviceProvider)
             : base(UdpPacketCode.Test)
         {
-            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_Test>>();
+
+            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
+            _testServer = serviceProvider.GetRequiredService<TestServer>();
         }
 
         /// <summary>
         /// Handle packet.
         /// </summary>
-        public override void HandlePacket(UdpPacket packet, IUdpSession session, Func<int, ulong, UdpPacket, bool> sendFunc)
-        {
-            var gameSession = session as GameSession;
-
-            // Send to session.
-            sendFunc(session.SessionId, session.SessionUid, packet);
+        public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
+		{
+			// Send to session.
+			_testServer.Send(sessionId, sessionUid, packet);
         }
     }
 }

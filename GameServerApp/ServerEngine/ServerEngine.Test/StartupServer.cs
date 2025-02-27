@@ -6,8 +6,10 @@ namespace ServerEngine.Test
     using ServerEngine.Config.Consul;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Network.Interfaces;
+	using ServerEngine.Network.UDP;
+	using ServerEngine.Test.Server;
 
-    internal class StartupServer
+	internal class StartupServer
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -32,7 +34,7 @@ namespace ServerEngine.Test
             memoryPoolService.Initialize();
 
             // TestServer
-            var testServer = _serviceProvider.GetRequiredService<IUdpServer>();
+            var testServer = _serviceProvider.GetRequiredService<TestServer>();
             testServer.Start(9050, false);    // port, peer address changable, polling interval.
 
             // IJsonSerializer.

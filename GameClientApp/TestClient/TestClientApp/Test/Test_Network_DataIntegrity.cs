@@ -4,7 +4,6 @@ using System.Text.Json;
 
 namespace TestClientApp.Test
 {
-	using GameCore.Http.Auth;
 	using ServerEngine.Network.UDP;
 	using TestClient.Test.Data;
 	using TestClientApp.Services;
@@ -148,20 +147,6 @@ namespace TestClientApp.Test
 
                 group.IsTesting = true;
                 group.Client.Connect("localhost", _port, "");
-
-                //ThreadPool.QueueUserWorkItem(param =>
-                //{
-                //    group.Client.Connect("localhost", _port, "");
-
-                //    while (true)
-                //    {
-                //        group.Client.PollEvents();
-                //        Thread.Sleep(30);
-
-                //        if (group.IsTesting == false)
-                //            break;
-                //    }
-                //});
             }
 		}
 
@@ -183,7 +168,7 @@ namespace TestClientApp.Test
         /// <summary>
         /// HandlePacket.
         /// </summary>
-        private async void HandlePacket(UdpPacket packet, int sessionId)
+        private void HandlePacket(UdpPacket packet, int sessionId)
         {
             if (packet.PacketCode == TestPacketCode)
             {

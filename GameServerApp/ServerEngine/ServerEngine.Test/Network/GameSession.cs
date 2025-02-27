@@ -1,13 +1,21 @@
 ﻿
 namespace ServerEngine.Test.Network
 {
-    using ServerEngine.Network.UDP;
-
-    /// <summary>
-    /// GameSession.
-    /// </summary>
-    public class GameSession : UdpSession
+	/// <summary>
+	/// GameSession.
+	/// </summary>
+	public class GameSession
     {
+        /// <summary>
+        /// Session id.
+        /// </summary>
+        public int SessionId { get; set; }
+
+        /// <summary>
+        /// Session uid.
+        /// </summary>
+        public ulong SessionUid { get; set; }
+
         /// <summary>
         /// Uid.
         /// </summary>

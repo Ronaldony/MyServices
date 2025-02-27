@@ -47,8 +47,9 @@ namespace ServerEngine.Network.UDP
         /// </summary>
         public NetPacketProcessor PacketProcessor { get; set; }
 
-        public int RecvCount { get; set; }
-        public int SendCount { get; set; }
-        public int HandleCount { get; set; }
+        /// <summary>
+        /// Packet.
+        /// </summary>
+        public UdpPacket Packet { get; set; }
     }
 }

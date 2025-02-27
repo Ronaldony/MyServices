@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.ObjectPool;
+using NLog.Extensions.Logging;
 using System.Net;
 
 namespace ServerEngine.Test
 {
-    using NLog.Extensions.Logging;
-    using ServerEngine.Core.Services;
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Database.Cache;
-    using ServerEngine.Database.Interfaces;
-    using ServerEngine.GeoIP;
-    using ServerEngine.Network.Interfaces;
-    using ServerEngine.Test.Database.DataObject;
-    using ServerEngine.Test.Server;
+	using ServerEngine.Core.Services;
+	using ServerEngine.Core.Services.Interfaces;
+	using ServerEngine.Database.Cache;
+	using ServerEngine.Database.Interfaces;
+	using ServerEngine.GeoIP;
+	using ServerEngine.Network.Interfaces;
+	using ServerEngine.Test.Database.DataObject;
+	using ServerEngine.Test.Server;
 
-    public class Startup
+	public class Startup
     {
         public WebApplication WebApp { get; set; }
 
@@ -55,7 +55,7 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
-            _webAppBuilder.Services.AddSingleton<IUdpServer, TestServer>();
+            _webAppBuilder.Services.AddSingleton<TestServer>();
 
             // scoped.
             _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
