@@ -4,8 +4,9 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 22f;
     [SerializeField] private GameObject particleOnPrefabVFX;
+    [SerializeField] private bool isEnemyProjectile = false;
+    [SerializeField] private float projectileRange = 10f;
 
-    private WeaponInfo weaponInfo;
     private Vector3 startPosition;
 
     private void Start()
@@ -19,21 +20,25 @@ public class Projectile : MonoBehaviour
         DetectFireDistance();
     }
 
-    public void UpdateWeaponInfo(WeaponInfo weaponInfo)
+    public void UpdateProjectileRange(float projectileRange)
     {
-        this.weaponInfo = weaponInfo;
+        this.projectileRange = projectileRange;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
         Indestructible indestructible = collision.gameObject.GetComponent<Indestructible>();
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
 
         // Cond 1. Trigger 속성이 아닌 오브젝트.
         // Cond 2. EnemyHealth나 Indestructible 오브젝트인 경우.
-        if (!collision.isTrigger && (enemyHealth || indestructible))
+        if (!collision.isTrigger && (enemyHealth || indestructible || playerHealth))
         {
-            enemyHealth?.TakeDamage(weaponInfo.weaponDamage);
+            if (playerHealth && isEnemyProjectile)
+            {
+                playerHealth.TakeDamage(1, transform);
+            }
 
             // 파티클 생성.
             Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
@@ -46,7 +51,7 @@ public class Projectile : MonoBehaviour
     private void DetectFireDistance()
     {
         // 무기 범위 초과 시 투사체 파괴.
-        if (Vector3.Distance(transform.position, startPosition) > weaponInfo.weaponRange)
+        if (Vector3.Distance(transform.position, startPosition) > projectileRange)
         {
             Destroy(gameObject);
         }

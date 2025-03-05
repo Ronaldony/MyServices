@@ -52,8 +52,9 @@ public class ActiveInventory : MonoBehaviour
             Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
         }
 
-        // Inventory 슬롯이 있는 경우, 해당 스롯에 무기 비우기. (장착 효과)
-        if (!transform.GetChild(activeSlotIndexNum).GetComponentInChildren<InventorySlot>())
+        // 장착 무기가 있는 경우, 해당 스롯에 무기 비우기. (무기 교체)
+        var weaponInfo = transform.GetChild(activeSlotIndexNum).GetComponentInChildren<InventorySlot>().GetWeaponInfo();
+        if (!weaponInfo)
         {
             ActiveWeapon.Instance.WeaponNull();
             return;

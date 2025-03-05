@@ -8,7 +8,7 @@ public class Staff : MonoBehaviour, IWeapon
 
     private Animator myAnimator;
 
-    private readonly int attackHash = Animator.StringToHash("Attack");
+    readonly int ATTACK_HASh = Animator.StringToHash("Attack");
 
     private void Awake()
     {
@@ -22,13 +22,18 @@ public class Staff : MonoBehaviour, IWeapon
 
     public void Attack()
     {
-        Debug.Log("Staff attack");
-        //myAnimator.SetTrigger(attackHash);
+        myAnimator.SetTrigger(ATTACK_HASh);
     }
 
     public void SpawnStaffProjectileAnimEvent()
     {
         GameObject newLaser = Instantiate(magicLaser, magicLaserSpawnPoint.position, Quaternion.identity);
+        newLaser.GetComponent<MagicLaser>().UpdateLaserRange(weaponInfo.weaponRange);
+    }
+
+    public WeaponInfo GetWeaponInfo()
+    {
+        return weaponInfo;
     }
 
     private void MouseFollowWithOffset()
@@ -46,10 +51,5 @@ public class Staff : MonoBehaviour, IWeapon
         {
             ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
-    }
-
-    public WeaponInfo GetWeaponInfo()
-    {
-        return weaponInfo;
     }
 }
