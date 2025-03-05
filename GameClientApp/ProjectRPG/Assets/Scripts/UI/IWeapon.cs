@@ -5,4 +5,5 @@
 interface IWeapon
 {
     void Attack();
+    WeaponInfo GetWeaponInfo();
 }

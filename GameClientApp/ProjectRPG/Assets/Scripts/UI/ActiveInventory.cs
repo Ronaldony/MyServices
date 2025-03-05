@@ -68,6 +68,8 @@ public class ActiveInventory : MonoBehaviour
         // 새로운 무기
         var newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);
 
+        ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, 0, 0);
+
         // 무기 위치 조정.
         newWeapon.transform.parent = ActiveWeapon.Instance.transform;
 

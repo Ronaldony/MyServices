@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour, IWeapon
 {
+    [SerializeField] private WeaponInfo weaponInfo;
     [SerializeField] private GameObject slashAnimPrefab;
     [SerializeField] private Transform slashAnimSpawnPoint;
-    [SerializeField] private float swordAttackCD = .5f;
 
     private Transform weaponCollider;
     private Animator myAnimator;
@@ -28,6 +28,11 @@ public class Sword : MonoBehaviour, IWeapon
         MouseFollowWithOffeset();
     }
 
+    public WeaponInfo GetWeaponInfo()
+    {
+        return weaponInfo;
+    }
+
     public void Attack()
     {
         // set animation.
@@ -39,17 +44,6 @@ public class Sword : MonoBehaviour, IWeapon
         // Slash prefab 积己.
         slashAnim = Instantiate(slashAnimPrefab, slashAnimSpawnPoint.position, Quaternion.identity);
         slashAnim.transform.parent = this.transform.parent;
-
-        // Attack coroutine 积己.
-        StartCoroutine(AttackCDRoutine());
-    }
-
-    private IEnumerator AttackCDRoutine()
-    {
-        yield return new WaitForSeconds(swordAttackCD);
-
-        // 楷加 傍拜 规瘤.
-        ActiveWeapon.Instance.ToggleIsAttacking(false);
     }
 
     public void DoneAttackingAnimEvent()

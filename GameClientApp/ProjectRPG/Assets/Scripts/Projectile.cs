@@ -1,0 +1,59 @@
+using UnityEngine;
+
+public class Projectile : MonoBehaviour
+{
+    [SerializeField] private float moveSpeed = 22f;
+    [SerializeField] private GameObject particleOnPrefabVFX;
+
+    private WeaponInfo weaponInfo;
+    private Vector3 startPosition;
+
+    private void Start()
+    {
+        startPosition = transform.position;
+    }
+
+    private void Update()
+    {
+        MoveProjectile();
+        DetectFireDistance();
+    }
+
+    public void UpdateWeaponInfo(WeaponInfo weaponInfo)
+    {
+        this.weaponInfo = weaponInfo;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+        Indestructible indestructible = collision.gameObject.GetComponent<Indestructible>();
+
+        // Cond 1. Trigger 속성이 아닌 오브젝트.
+        // Cond 2. EnemyHealth나 Indestructible 오브젝트인 경우.
+        if (!collision.isTrigger && (enemyHealth || indestructible))
+        {
+            enemyHealth?.TakeDamage(weaponInfo.weaponDamage);
+
+            // 파티클 생성.
+            Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
+
+            // 투사체 파괴.
+            Destroy(gameObject);
+        }
+    }
+
+    private void DetectFireDistance()
+    {
+        // 무기 범위 초과 시 투사체 파괴.
+        if (Vector3.Distance(transform.position, startPosition) > weaponInfo.weaponRange)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void MoveProjectile()
+    {
+        transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
+    }
+}
