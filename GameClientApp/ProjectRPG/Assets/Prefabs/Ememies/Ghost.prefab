@@ -18,6 +18,9 @@ GameObject:
   - component: {fileID: 7636745889458891279}
   - component: {fileID: 3679951922834852855}
   - component: {fileID: 2980224103637563294}
+  - component: {fileID: -7311424843269296981}
+  - component: {fileID: 7598905128158785874}
+  - component: {fileID: -1006927318150034633}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -39,7 +42,7 @@ Transform:
   m_Children:
   - {fileID: 6397519873617346980}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5063367762025667712
 SpriteRenderer:
@@ -143,7 +146,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -181,6 +184,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roamChangeDirFloat: 2
+  attackRange: 5
+  enemyType: {fileID: -7311424843269296981}
+  attackCooldown: 2
+  stopMovingWhileAttacking: 1
 --- !u!114 &7148950691776375057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +242,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1d6a7c2748adc43bdb797646ba7631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7311424843269296981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464340256960616465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aca912bcb98977498fb08977538319d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 4772483820718664203, guid: 8288e94025a40c8448b1b839a5c3c571, type: 3}
+  bulletMoveSpeed: 6
+  burstCount: 1
+  projectilesPerBurst: 3
+  angleSpread: 25
+  startingDistance: 0.3
+  timeBetweenBursts: 1
+  restTime: 0.1
+  stagger: 1
+  oscillate: 1
+--- !u!210 &7598905128158785874
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464340256960616465}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+--- !u!114 &-1006927318150034633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464340256960616465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16bd5f4a656bba74586c74fd0a5b4ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldCoin: {fileID: 7658257155594380743, guid: 12ea0dc6e799dba4c94734492416f346, type: 3}
+  healthGlobe: {fileID: 7658257155594380743, guid: 48d5d090079c84f428d3991e1d9b55db, type: 3}
+  staminaGlobe: {fileID: 7658257155594380743, guid: 9a227dd265d33934d9b6eea598086e3f, type: 3}
 --- !u!1 &6642038844564480677
 GameObject:
   m_ObjectHideFlags: 0

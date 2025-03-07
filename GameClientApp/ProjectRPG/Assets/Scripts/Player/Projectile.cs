@@ -20,6 +20,11 @@ public class Projectile : MonoBehaviour
         DetectFireDistance();
     }
 
+    public void UpdateMoveSpeed(float speed)
+    {
+        this.moveSpeed = speed;
+    }
+
     public void UpdateProjectileRange(float projectileRange)
     {
         this.projectileRange = projectileRange;
@@ -35,16 +40,24 @@ public class Projectile : MonoBehaviour
         // Cond 2. EnemyHealth나 Indestructible 오브젝트인 경우.
         if (!collision.isTrigger && (enemyHealth || indestructible || playerHealth))
         {
-            if (playerHealth && isEnemyProjectile)
+            if ((playerHealth && isEnemyProjectile) || (enemyHealth && !isEnemyProjectile))
             {
-                playerHealth.TakeDamage(1, transform);
+                playerHealth?.TakeDamage(1, transform);
+
+                // 파괴 파티클 생성.
+                Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
+
+                // 투사체 파괴.
+                Destroy(gameObject);
             }
+            else if (!collision.isTrigger && indestructible)
+            {
+                // 파괴 파티클 생성.
+                Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
 
-            // 파티클 생성.
-            Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
-
-            // 투사체 파괴.
-            Destroy(gameObject);
+                // 투사체 파괴.
+                Destroy(gameObject);
+            }
         }
     }
 

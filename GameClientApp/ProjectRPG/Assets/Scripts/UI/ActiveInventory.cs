@@ -52,19 +52,17 @@ public class ActiveInventory : MonoBehaviour
             Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
         }
 
+        Transform childTransform = transform.GetChild(activeSlotIndexNum);
+        InventorySlot slot = childTransform.GetComponentInChildren<InventorySlot>();
+        WeaponInfo weaponInfo = slot.GetWeaponInfo();
+        GameObject weaponToSpawn = weaponInfo.weaponPrefab;
+
         // 장착 무기가 있는 경우, 해당 스롯에 무기 비우기. (무기 교체)
-        var weaponInfo = transform.GetChild(activeSlotIndexNum).GetComponentInChildren<InventorySlot>().GetWeaponInfo();
         if (!weaponInfo)
         {
             ActiveWeapon.Instance.WeaponNull();
             return;
         }
-
-        // WeaponInfo 프리팹 불러오기.
-        var weaponToSpawn = transform
-            .GetChild(activeSlotIndexNum)
-            .GetComponentInChildren<InventorySlot>()
-            .GetWeaponInfo().weaponPrefab;
 
         // 새로운 무기
         var newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);

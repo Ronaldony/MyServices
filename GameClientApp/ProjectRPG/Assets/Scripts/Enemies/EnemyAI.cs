@@ -4,11 +4,21 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private float roamChangeDirFloat = 2f;
+    [SerializeField] private float attackRange = 0f;
+    [SerializeField] private MonoBehaviour enemyType;
+    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private bool stopMovingWhileAttacking = false;
+
+    private bool canAttack = true;
 
     private enum State
     {
-        Roaming
+        Roaming,
+        Attacking
     }
+
+    private Vector2 roamPos;
+    private float timeRoaming = 0f;
 
     private State state;
     private EnemyPathfinding enemyPathfinding;
@@ -21,27 +31,82 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(RoamingRoutine());
+        roamPos = GetRoamingPosition();
     }
 
-    /// <summary>
-    /// Enemy 움직임 제어.
-    /// </summary>
-    private IEnumerator RoamingRoutine()
+    private void Update()
     {
-        while (state == State.Roaming)
-        {
-            // 랜던 위치로 이동.
-            Vector2 roamPosition = GetRoamingPosition();
-            enemyPathfinding.MoveTo(roamPosition);
+        MovementStateControl();
+    }
 
-            // 2초 동안 Unity에 제어권 넘김.
-            yield return new WaitForSeconds(roamChangeDirFloat);
+    private void MovementStateControl()
+    {
+        switch (state)
+        {
+            default:
+            case State.Roaming:
+                Roaming();
+                break;
+            case State.Attacking:
+                Attacking();
+                break;
+
         }
+    }
+
+    private void Roaming()
+    {
+        timeRoaming += Time.deltaTime;
+
+        enemyPathfinding.MoveTo(roamPos);
+        
+        // 플레이어가 공격 사정거리 안에 있는 경우, 공격 상태로 전환.
+        if (Vector2.Distance(transform.position, PlayerController.Instance.transform.position) < attackRange)
+        {
+            state = State.Attacking;
+        }
+        
+        if (timeRoaming > roamChangeDirFloat)
+        {
+            roamPos = GetRoamingPosition();
+        }
+    }
+
+    private void Attacking()
+    {
+        // 플레이어가 공격 사정거리 밖인 경우, 로밍 상태로 전환.
+        if (Vector2.Distance(transform.position, PlayerController.Instance.transform.position) > attackRange)
+        {
+            state = State.Roaming;
+        }
+
+        if (attackRange != 0 && canAttack)
+        {
+            canAttack = false;
+            (enemyType as IEnemy)?.Attack();
+
+            if (stopMovingWhileAttacking)
+            {
+                enemyPathfinding.StopMoving();
+            }
+            else
+            {
+                enemyPathfinding.MoveTo(roamPos);
+            }
+
+            StartCoroutine(AttackCooldownRoutine());
+        }
+    }
+
+    private IEnumerator AttackCooldownRoutine()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 
     private Vector2 GetRoamingPosition()
     {
+        timeRoaming = 0f;
         return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
     }
 }
