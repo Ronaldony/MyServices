@@ -8,6 +8,7 @@
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<PackageOutputPath>$(SolutionDir)Packages</PackageOutputPath>
 	<PackageVersion>1.1.0</PackageVersion>
+	<BaseOutputPath></BaseOutputPath>
 	
   </PropertyGroup>
 

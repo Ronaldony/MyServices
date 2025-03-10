@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Framework.Config\Framework.Config.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ServerEngine.Config">
+      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="ServerEngine.Core">
+      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

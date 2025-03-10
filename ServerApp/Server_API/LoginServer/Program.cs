@@ -1,23 +1,49 @@
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+using PowerArgs;
+using ServerEngine.AsciiBanner;
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace LoginServer
 {
-    app.MapOpenApi();
+    public class Program
+    {
+        private const string PROGRAM_NAME = "ServerEngine.Test";
+
+        public static async Task Main(string[] args)
+        {
+            var arguments = ParseCommand(args);
+            if (arguments == null)
+            {
+                Console.WriteLine("Arguments is null.");
+                return;
+            }
+
+            Console.WriteLine($"[Main Thread] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
+
+            var startup = new Startup(args, arguments);
+            startup.Configure();
+
+            var startupServer = new StartupServer(startup.WebApp.Services);
+            await startupServer.ConfigureAsync();
+
+            var asciiBannerWriter = new AsciiBannerWriter("slant.flf");
+            Console.WriteLine(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
+
+            await startup.WebApp.RunAsync();
+        }
+
+        private static Arguments ParseCommand(string[] args)
+        {
+            try
+            {
+                var arguments = Args.Parse<Arguments>(args);
+                return arguments;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
