@@ -8,7 +8,8 @@ using System.Reflection;
 
 namespace ServerEngine.Network.UDP
 {
-	using ServerEngine.Core.Services.Interfaces;
+    using LiteNetLib.Layers;
+    using ServerEngine.Core.Services.Interfaces;
 	using ServerEngine.Network.Interfaces;
 
 	/// <summary>
@@ -67,7 +68,11 @@ namespace ServerEngine.Network.UDP
             // Initialize network.
             _packetProcessor = new NetPacketProcessor();
             _listener = new EventBasedNetListener();
-            _netManager = new NetManager(_listener)
+
+            // Encryption layer.
+            var xorEncryptLayer = new XorEncryptLayer("ProjectRPG");
+
+            _netManager = new NetManager(_listener, xorEncryptLayer)
             {
                 ReuseAddress = false,               // Reuse address.
                 UnsyncedEvents = true,              // Event base network.

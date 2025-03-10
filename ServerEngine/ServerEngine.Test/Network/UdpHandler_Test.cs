@@ -1,15 +1,13 @@
-﻿
-namespace ServerEngine.Test.Network
+﻿namespace ServerEngine.Test.Network
 {
-	using Microsoft.Extensions.DependencyInjection;
-	using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Network.UDP;
-	using ServerEngine.Test.Server;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Network.UDP;
+    using ServerEngine.Test.Server;
 
-	/// <summary>
-	/// UdpHandler_Test.
-	/// </summary>
-	public class UdpHandler_Test : UdpHandler
+    /// <summary>
+    /// UdpHandler_Test.
+    /// </summary>
+    public class UdpHandler_Test : UdpHandler
     {
         private readonly ILogger<UdpHandler_Test> _logger;
 		private readonly IDataSerializer _dataSerializer;

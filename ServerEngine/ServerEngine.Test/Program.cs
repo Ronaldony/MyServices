@@ -106,7 +106,6 @@ namespace ServerEngine.Test
 			while (!Console.KeyAvailable)
             {
                 //server.PollEvents();
-                Thread.Sleep(1000000000);
             }
 
             server.Stop();

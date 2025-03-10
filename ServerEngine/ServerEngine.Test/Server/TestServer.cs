@@ -2,13 +2,13 @@
 
 namespace ServerEngine.Test.Server
 {
-	using ServerEngine.Network.UDP;
-	using ServerEngine.Test.Network;
+    using ServerEngine.Network.UDP;
+    using ServerEngine.Test.Network;
 
-	/// <summary>
-	/// TestServer.
-	/// </summary>
-	public class TestServer : UdpServer
+    /// <summary>
+    /// TestServer.
+    /// </summary>
+    public class TestServer : UdpServer
 	{
 		private readonly ILogger<UdpServer> _logger;
 
