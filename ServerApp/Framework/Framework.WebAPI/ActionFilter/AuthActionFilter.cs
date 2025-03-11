@@ -6,14 +6,14 @@ using System.Reflection;
 
 namespace Framework.Core.WebAPI.ActionFilter
 {
-    using Framework.WebAPI;
-    using Framework.WebAPI.Attributes;
-    using Framework.WebAPI.Controllers;
+	using Framework.WebAPI;
+	using Framework.WebAPI.Attributes;
+	using Framework.WebAPI.Controllers;
 
-    /// <summary>
-    /// auth service action filter
-    /// </summary>
-    public sealed class AuthActionFilter : IActionFilter
+	/// <summary>
+	/// auth service action filter
+	/// </summary>
+	public sealed class AuthActionFilter : IActionFilter
     {
         /// <summary>
         /// header list
@@ -83,8 +83,14 @@ namespace Framework.Core.WebAPI.ActionFilter
                 if (false == _headers.ContainsKey("act"))
                 {
                     // Exception.
-                }
-            }
+                    throw new ServerException(1, "not exist access token");
+				}
+
+				//var accessTokenString = _headers["act"].ToString();
+				//var accessToken = _gameSessionService.ResolveAccessTokenFromString(accessTokenString);
+
+                // TODO: Access token 정보 비교.
+			}
         }
 
         /// <summary>

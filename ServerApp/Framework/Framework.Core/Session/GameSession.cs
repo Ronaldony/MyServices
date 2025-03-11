@@ -1,7 +1,7 @@
 ﻿using MemoryPack;
 using System.Runtime.InteropServices;
 
-namespace Framework.WebAPI.Session
+namespace Framwork.Core.Session
 {
     /// <summary>
     /// GameSession.
