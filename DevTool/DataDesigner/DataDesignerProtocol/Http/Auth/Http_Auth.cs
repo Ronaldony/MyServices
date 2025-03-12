@@ -6,27 +6,24 @@ namespace GameCore.Http.Auth
     using GameCore.Datas.Player;
 
     /// <summary>
-    /// REQ_Login.
+    /// REQ_Auth.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class REQ_Login
+    public partial class REQ_Auth
     {
         /// <summary>
         /// user id.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Id { get; set; }
-        
-        [MemoryPackOrder(1)]
-        public byte[] Pass { get; set; }
+        public string UserId { get; set; }
     }
 
     /// <summary>
-    /// RES_Login.
+    /// RES_Auth.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class RES_Login : ResponseBase
+    public partial class RES_Auth : ResponseBase
     {
         [MemoryPackOrder(1)]
         public DTO_PlayerInfo PlayerInfo { get; set; }

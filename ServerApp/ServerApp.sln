@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Core", "Framework
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.WebAPI", "Framework\Framework.WebAPI\Framework.WebAPI.csproj", "{FBA5288E-8BA6-4425-85BE-B93A8E125784}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCore", "Framework\GameCore\GameCore.csproj", "{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FBA5288E-8BA6-4425-85BE-B93A8E125784}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBA5288E-8BA6-4425-85BE-B93A8E125784}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBA5288E-8BA6-4425-85BE-B93A8E125784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +54,9 @@ Global
 		{D005F2B4-8F61-4683-9D65-84B63A20EA67} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
 		{11346519-561B-4102-90F6-A1D1F79E872D} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
 		{FBA5288E-8BA6-4425-85BE-B93A8E125784} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
+		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78DA1A54-3F98-4B84-9CCE-E1B93E7B8E05}
 	EndGlobalSection
 EndGlobal

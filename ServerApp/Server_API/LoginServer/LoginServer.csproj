@@ -39,6 +39,7 @@
     <ProjectReference Include="..\..\Framework\Framework.Config\Framework.Config.csproj" />
     <ProjectReference Include="..\..\Framework\Framework.Core\Framework.Core.csproj" />
     <ProjectReference Include="..\..\Framework\Framework.WebAPI\Framework.WebAPI.csproj" />
+    <ProjectReference Include="..\..\Framework\GameCore\GameCore.csproj" />
   </ItemGroup>
 
 </Project>

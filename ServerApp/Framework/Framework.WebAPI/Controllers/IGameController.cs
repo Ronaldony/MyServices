@@ -1,6 +1,4 @@
-﻿using Framework.WebAPI.Session;
-
-namespace Framework.WebAPI.Controllers
+﻿namespace Framework.WebAPI.Controllers
 {
     /// <summary>
     /// IGameController.
