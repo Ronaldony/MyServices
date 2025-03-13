@@ -1,18 +1,30 @@
 ﻿
-#define TEST_LOCAL
+//#define TEST_LOCAL
+
+using Dapper;
+using System.Data;
 
 namespace LoginServer
 {
-    using ServerEngine.Config.Consul;
+    using Dapper.ColumnMapper;
+    using Framework.Core.Database.DBO;
+    using Microsoft.AspNetCore.DataProtection.XmlEncryption;
+    using ServerEngine.Config;
+    using ServerEngine.Config.ConfigManager;
+    using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
 
     internal class StartupServer
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public StartupServer(IServiceProvider serviceProvider)
+        private Arguments _arguments;
+
+        public StartupServer(IServiceProvider serviceProvider, Arguments arguments)
         {
             _serviceProvider = serviceProvider;
+
+            _arguments = arguments;
         }
 
         public async Task ConfigureAsync()
@@ -20,11 +32,11 @@ namespace LoginServer
             var configuration = _serviceProvider.GetRequiredService<IConfiguration>();
 
             // Get appsettins.
-            var configConsul = configuration.GetSection("Config_Consul").Get<Config_Consul>();
+            var configStrapi = configuration.GetSection("Config_Strapi").Get<Config_Strapi>();
 
 			/// RemoteConfigureService.
 			var remoteConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
-            remoteConfigureService.Initialize(configConsul);
+            remoteConfigureService.Initialize(configStrapi);
 
 			// MemoryPoolService
 			var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
@@ -34,21 +46,20 @@ namespace LoginServer
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
 
-#if! TEST_LOCAL
-            var configGame = await consulConfigureService.GetConfigData<Config_Game>("Development");
-            var configDatabase = await consulConfigureService.GetConfigData<List<Config_Database>>("Development_Database");
-            var configCache = await consulConfigureService.GetConfigData<IEnumerable<CacheHost>>("Development_Cache");
+#if !TEST_LOCAL
+            var configGame = await remoteConfigureService.GetConfigData<Config_Game>("Development_Game");
+            var configDatabase = await remoteConfigureService.GetConfigData<List<Config_Database>>("Development_Database");
 
             GameConfigManager.Initialize(configGame, configDatabase);
 
             /////////////////////////////////////////////////////////////////////////////
             // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
-            snowFlakeService.Initialize(configGame.SnowflakeBaseTime, 1, 2);
-
-            var memcachedService = _serviceProvider.GetRequiredService<IMemcachedService>();
-            memcachedService.Initialize(_serviceProvider, configCache, 1000);
+            snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 #endif
+
+            // Dapper mapping.
+            SqlMapper.SetTypeMap(typeof(DBO_User), new ColumnTypeMapper(typeof(DBO_User)));
         }
     }
 }

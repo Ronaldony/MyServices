@@ -1,10 +1,10 @@
-﻿
+﻿using Dapper.ColumnMapper;
+
 namespace Framework.Core.Database.DBO
 {
-	using Dapper.ColumnMapper;
-	using Framework.Core.Database.Attributes;
+    using Framework.Core.Database.Attributes;
 
-	[DapperMapping]
+    [DapperMapping]
     public class DBO_User
 	{
 		/// <summary>
@@ -19,10 +19,10 @@ namespace Framework.Core.Database.DBO
 		[ColumnMapping("uid")]
 		public string Uid { get; set; }
 
-		/// <summary>
-		/// 생성시간
-		/// </summary>
-		[ColumnMapping("regtime")]
+        /// <summary>
+        /// 생성시간
+        /// </summary>
+        [ColumnMapping("regtime")]
 		public DateTime RegTime { get; set; }
 	}
 }

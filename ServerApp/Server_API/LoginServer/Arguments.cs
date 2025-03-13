@@ -7,8 +7,8 @@ namespace LoginServer
         /// <summary>
         /// Server name.
         /// </summary>
-        [ArgRequired(PromptIfMissing = true), ArgDescription("Server")]
-        public string Server { get; set; }
+        [ArgRequired(PromptIfMissing = true), ArgDescription("Name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Configuration file name.
@@ -16,7 +16,22 @@ namespace LoginServer
         [ArgRequired(PromptIfMissing = true), ArgDescription("Configuration file")]
         public string ConfigFile { get; set; }
 
+        /// <summary>
+        /// Port.
+        /// </summary>
         [ArgRequired(PromptIfMissing = true), ArgDescription("Port")]
         public int Port { get; set; }
+
+        /// <summary>
+        /// DataCenter.
+        /// </summary>
+        [ArgRequired(PromptIfMissing = true), ArgDescription("DataCenter")]
+        public int DataCenter { get; set; }
+
+        /// <summary>
+        /// ServerId.
+        /// </summary>
+        [ArgRequired(PromptIfMissing = true), ArgDescription("ServerId")]
+        public int ServerId { get; set; }
     }
 }

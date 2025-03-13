@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<PackageOutputPath>$(SolutionDir)Packages</PackageOutputPath>
+	<PackageOutputPath>../Packages/</PackageOutputPath>
 	<PackageVersion>1.1.0</PackageVersion>
 	<BaseOutputPath></BaseOutputPath>
 	

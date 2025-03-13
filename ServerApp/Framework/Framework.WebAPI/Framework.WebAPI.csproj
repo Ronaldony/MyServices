@@ -9,20 +9,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.3.0" />
+    <PackageReference Include="ServerEngine.Config" Version="1.0.0" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Framework.Config\Framework.Config.csproj" />
     <ProjectReference Include="..\Framework.Core\Framework.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ServerEngine.Config">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Config.dll</HintPath>
-    </Reference>
-    <Reference Include="ServerEngine.Core">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

@@ -22,8 +22,6 @@ namespace ServerEngine.Test
                 return;
             }
 
-			Console.WriteLine($"[Main Thread] Thread id. id: {Thread.CurrentThread.ManagedThreadId} / isPooled: {Thread.CurrentThread.IsThreadPoolThread}");
-
 			var startup = new Startup(args, arguments);
             startup.Configure();
 
@@ -31,7 +29,9 @@ namespace ServerEngine.Test
             await startupServer.ConfigureAsync();
 
             var asciiBannerWriter = new AsciiBannerWriter("slant.flf");
-            Console.WriteLine(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
+            var logger = startup.WebApp.Services.GetRequiredService<ILogger<Program>>();
+
+            logger.LogInformation(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
 
             await startup.WebApp.RunAsync();
         }

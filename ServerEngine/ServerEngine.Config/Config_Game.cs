@@ -21,11 +21,6 @@
         public string Language { get; set; }
 
         /// <summary>
-        /// Server region.
-        /// </summary>
-        public string Region { get; set; }
-
-        /// <summary>
         /// SnowflakeBaseTime.
         /// </summary>
         public DateTime SnowflakeBaseTime { get; set; }

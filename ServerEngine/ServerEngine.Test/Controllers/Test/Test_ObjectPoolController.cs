@@ -1,6 +1,5 @@
 ﻿using GameCore.Datas.Player;
 using Microsoft.AspNetCore.Mvc;
-using ServerEngine.Core.Profile;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Test.Database.Data;
 using System.Diagnostics;
@@ -8,10 +7,10 @@ using System.Text;
 
 namespace ServerEngine.Test.Controllers.Test
 {
-	/// <summary>
-	/// Test_ObjectPoolController.
-	/// </summary>
-	public class Test_ObjectPoolController : ControllerBase
+    /// <summary>
+    /// Test_ObjectPoolController.
+    /// </summary>
+    public class Test_ObjectPoolController : ControllerBase
 	{
 		private readonly ILogger<Test_ObjectPoolController> _logger;
 		private readonly IMemoryPoolService _objectPoolService;

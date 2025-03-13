@@ -9,30 +9,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="PowerArgs" Version="4.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="LiteNetLib">
-      <HintPath>..\..\..\ServerEngine\DLLs\LiteNetLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ServerEngine.AsciiBanner">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.AsciiBanner.dll</HintPath>
-    </Reference>
-    <Reference Include="ServerEngine.Config">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Config.dll</HintPath>
-    </Reference>
-    <Reference Include="ServerEngine.Core">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ServerEngine.Database">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Database.dll</HintPath>
-    </Reference>
-    <Reference Include="ServerEngine.GeoIP">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.GeoIP.dll</HintPath>
-    </Reference>
-    <Reference Include="ServerEngine.Network">
-      <HintPath>..\..\..\ServerEngine\DLLs\ServerEngine.Network.dll</HintPath>
-    </Reference>
+    <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.0" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.0" />
+    <PackageReference Include="ServerEngine.GeoIP" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,11 +4,10 @@ using System.Net;
 
 namespace LoginServer
 {
+    using Framework.Core.Database.DAO;
     using Framework.WebAPI;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Database.Cache;
-    using ServerEngine.Database.Interfaces;
     using ServerEngine.GeoIP;
 
     public class Startup
@@ -41,15 +40,17 @@ namespace LoginServer
             });
 
             // services
-            _webAppBuilder.Services.AddSingleton<IRemoteConfigureService, ConsulConfigureService>();
+            _webAppBuilder.Services.AddSingleton<IRemoteConfigureService, StrapiConfigureService>();
             _webAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
             _webAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
-            _webAppBuilder.Services.AddSingleton<IMemcachedService, MemcachedService>();
 
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+
+            // Scoped
+            _webAppBuilder.Services.AddScoped<DBUser>();
 
             // scoped.
             _webAppBuilder.WebHost.UseKestrel(configs =>
