@@ -1,9 +1,9 @@
-﻿namespace ServerEngine.Config
+﻿namespace ServerEngine.Config.Database
 {
     /// <summary>
     /// ConsulDatabase.
     /// </summary>
-    public class Config_Database
+    public class Config_MySQLConnection
     {
         /// <summary>
         /// DB Alias.

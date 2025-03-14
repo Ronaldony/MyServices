@@ -1,4 +1,6 @@
-﻿namespace ServerEngine.Config
+﻿using ServerEngine.Config.Database;
+
+namespace ServerEngine.Config
 {
     /// <summary>
     /// Configuration for Game server.
@@ -24,5 +26,10 @@
         /// SnowflakeBaseTime.
         /// </summary>
         public DateTime SnowflakeBaseTime { get; set; }
+
+        /// <summary>
+        /// ConfigCouchbase.
+        /// </summary>
+        public Config_Couchbase Couchbase { get; set; }
     }
 }

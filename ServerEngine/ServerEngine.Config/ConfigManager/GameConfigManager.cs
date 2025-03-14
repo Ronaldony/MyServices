@@ -2,6 +2,7 @@
 namespace ServerEngine.Config.ConfigManager
 {
     using ServerEngine.Config;
+    using ServerEngine.Config.Database;
 
     /// <summary>
     /// Game configuration manager.
@@ -11,46 +12,77 @@ namespace ServerEngine.Config.ConfigManager
         /// <summary>
         /// Game configuration.
         /// </summary>
-        public static Config_Game _consulGame { get; private set; }
+        public static Config_Game _configGame { get; private set; }
 
         /// <summary>
-        /// DB connections.
-        /// key: DB alias.
-        /// value: DB connection string.
+        /// MySQL connections.
+        /// key: MySQL alias.
+        /// value: MySQL connection string.
         /// </summary>
-        private static Dictionary<string, string> _connectStringDic;
+        private static Dictionary<string, string> _mysqlConnectStringDict;
+
+        /// <summary>
+        /// Couchbase connections.
+        /// key: Couchbase alias.
+        /// value: Couchbase connection string.
+        /// </summary>
+        private static Dictionary<string, Config_CouchbaseConnection> _couchbaseConnectionDict;
 
         /// <summary>
         /// Initialize.
         /// </summary>
-        public static bool Initialize(Config_Game consulGame, List<Config_Database> consulDatabase)
+        public static bool Initialize(
+            Config_Game consulGame, 
+            List<Config_MySQLConnection> mysqlConnections, 
+            List<Config_CouchbaseConnection> couchbaseConnections)
         {
             // ConsuleGame.
-            _consulGame = consulGame;
+            _configGame = consulGame;
 
-            // Database.
-            _connectStringDic = new Dictionary<string, string>();
+            // MySQL.
+            _mysqlConnectStringDict = new Dictionary<string, string>();
 
-            foreach (var databse in consulDatabase)
+            foreach (var connection in mysqlConnections)
             {
-                _connectStringDic.Add(databse.Alias, databse.ConnectString);
+                _mysqlConnectStringDict.Add(connection.Alias, connection.ConnectString);
+            }
+
+            // Couchbase.
+
+            foreach (var connection in couchbaseConnections)
+            {
+                _couchbaseConnectionDict.Add(connection.Alias, connection);
             }
 
             return false;
         }
 
         /// <summary>
-        /// Get connection string of alias.
+        /// Get MySQL connection.
         /// </summary>
-        public static string GetDBConnectString(string alias)
+        public static string GetMySQLConnectString(string alias)
         {
-            if (true == _connectStringDic.ContainsKey(alias))
+            if (true == _mysqlConnectStringDict.ContainsKey(alias))
             {
                 // exist.
-                return _connectStringDic[alias];
+                return _mysqlConnectStringDict[alias];
             }
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Get couchbase connection.
+        /// </summary>
+        public static Config_CouchbaseConnection GetCouchbaseConnection(string alias)
+        {
+            if (true == _couchbaseConnectionDict.ContainsKey(alias))
+            {
+                // exist.
+                return _couchbaseConnectionDict[alias];
+            }
+
+            return null;
         }
     }
 }

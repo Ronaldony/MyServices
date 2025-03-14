@@ -18,7 +18,7 @@ namespace Framework.Core.Database.DAO
         {
             _logger = logger;
 
-            _connectString = GameConfigManager.GetDBConnectString("Identity");
+            _connectString = GameConfigManager.GetMySQLConnectString("Identity");
         }
 
         /// <summary>

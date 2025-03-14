@@ -188,5 +188,21 @@ namespace ServerEngine.Database.DataObject
 
             return false;
         }
+
+        /// <summary>
+        /// Not implemented.
+        /// </summary>
+        public Task<T> SelectAsync<T>(string key) where T : class, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Not implemented.
+        /// </summary>
+        public Task<bool> UpsertAsync<T>(string key, T dataObject) where T : class, new()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LiteNetLib;
+using LiteNetLib.Layers;
 using LiteNetLib.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -8,14 +9,13 @@ using System.Reflection;
 
 namespace ServerEngine.Network.UDP
 {
-    using LiteNetLib.Layers;
     using ServerEngine.Core.Services.Interfaces;
-	using ServerEngine.Network.Interfaces;
+    using ServerEngine.Network.Interfaces;
 
-	/// <summary>
-	/// UdpServer.
-	/// </summary>
-	public abstract class UdpServer : IUdpServer
+    /// <summary>
+    /// UdpServer.
+    /// </summary>
+    public abstract class UdpServer : IUdpServer
     {
         private readonly ILogger<UdpServer> _logger;
 
@@ -77,10 +77,8 @@ namespace ServerEngine.Network.UDP
                 ReuseAddress = false,               // Reuse address.
                 UnsyncedEvents = true,              // Event base network.
                 AutoRecycle = true,                 // Auto NetPacketReader Recycle.
-                PacketPoolSize = 100000,
                 SimulateLatency = false,
                 SimulatePacketLoss = false,
-                MtuOverride = 1500,
                 EnableStatistics = true,
             };
 
@@ -363,10 +361,12 @@ namespace ServerEngine.Network.UDP
                 args[2] = session.Packet;
 
                 // Invoke method.
-                ThreadPool.QueueUserWorkItem(param =>
-                {
-                    value.method.Invoke(value.handler, args);
-                });
+                //ThreadPool.QueueUserWorkItem(param =>
+                //{
+                //    value.method.Invoke(value.handler, args);
+                //});
+                
+                value.method.Invoke(value.handler, args);
             }
         }
     }

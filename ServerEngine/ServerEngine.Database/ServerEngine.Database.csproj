@@ -6,13 +6,14 @@
 		<Nullable>disable</Nullable>
 		<Platforms>AnyCPU;x64</Platforms>
 		<PackageOutputPath>../Packages/</PackageOutputPath>
+		<Version>1.0.1</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CouchbaseNetClient" Version="3.6.6" />
 		<PackageReference Include="Dapper" Version="2.1.35" />
 		<PackageReference Include="EnyimMemcachedCore" Version="3.2.3" />
-		<PackageReference Include="MessagePack" Version="2.5.192" />
 		<PackageReference Include="Npgsql" Version="8.0.3" />
 		<PackageReference Include="System.Text.Encodings.Web" Version="9.0.0" />
 		<PackageReference Include="System.Text.Json" Version="9.0.0" />

@@ -5,6 +5,7 @@ namespace ServerEngine.Test
 {
     using ServerEngine.Config;
     using ServerEngine.Config.ConfigManager;
+    using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Test.Server;
@@ -42,10 +43,11 @@ namespace ServerEngine.Test
             jsonSerializer.Initialize();
 
 #if! TEST_LOCAL
-            var configGame = await remoteConfigureService.GetConfigData<Config_Game>("Development_Game");
-            var configDatabase = await remoteConfigureService.GetConfigData<List<Config_Database>>("Development_Database");
+            var configGame = await remoteConfigureService.GetConfigData<Config_Game>("Devel_Game");
+            var mysqlConnections = await remoteConfigureService.GetConfigData<List<Config_MySQLConnection>>("Devel_MySQL");
+            var couchbaseConnections = await remoteConfigureService.GetConfigData<List<Config_CouchbaseConnection>>("Devel_Couchbase");
 
-            GameConfigManager.Initialize(configGame, configDatabase);
+            GameConfigManager.Initialize(configGame, mysqlConnections, couchbaseConnections);
 
             /////////////////////////////////////////////////////////////////////////////
             // Initialize servivces.

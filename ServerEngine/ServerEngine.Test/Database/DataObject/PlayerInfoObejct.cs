@@ -18,7 +18,7 @@ namespace ServerEngine.Test.Database.DataObject
                       Document = "Game",
                       Bucket = "TBL_PlayerInfo"
                   },
-                  GameConfigManager.GetDBConnectString("Game"))
+                  GameConfigManager.GetMySQLConnectString("Game"))
         {
             _logger = serviceProvider.GetRequiredService<ILogger<PlayerInfoObejct>>();
         }
