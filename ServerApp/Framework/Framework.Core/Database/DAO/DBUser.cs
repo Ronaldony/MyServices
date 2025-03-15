@@ -41,8 +41,10 @@ namespace Framework.Core.Database.DAO
             }
         }
 
-        public bool UpdateUid(string userId, string uid)
+        public async Task<bool> UpdateUidAsync(string userId, string uid)
         {
+            await Task.Delay(1);
+
             return default;
         }
 	}

@@ -10,16 +10,16 @@ namespace GameCore.Datas.Player
     public partial class DTO_PlayerInfo
     {
         /// <summary>
-        /// Pid.
-        /// </summary>
-        [MemoryPackOrder(0)]
-        public string Pid { get; set; }
-
-        /// <summary>
         /// Uid.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
         public string Uid { get; set; }
+
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public string Pid { get; set; }
 
         /// <summary>
         /// PlayerName.

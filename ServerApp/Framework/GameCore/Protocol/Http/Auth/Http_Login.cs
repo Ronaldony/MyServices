@@ -3,14 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace GameCore.Http.Auth
 {
-    using GameCore.Datas.Player;
-
     /// <summary>
-    /// REQ_Auth.
+    /// REQ_Login.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class REQ_Auth
+    public partial class REQ_Login
     {
         /// <summary>
         /// user id.
@@ -20,12 +18,15 @@ namespace GameCore.Http.Auth
     }
 
     /// <summary>
-    /// RES_Auth.
+    /// REQ_Login.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class RES_Auth : ResponseBase
+    public partial class RES_Login : ResponseBase
     {
-        [MemoryPackOrder(1)]
-        public DTO_PlayerInfo PlayerInfo { get; set; }
+        [MemoryPackOrder(2)]
+        public string AccessToken { get; set; }
+
+        [MemoryPackOrder(3)]
+        public string RefreshToken { get; set; }
     }
 }

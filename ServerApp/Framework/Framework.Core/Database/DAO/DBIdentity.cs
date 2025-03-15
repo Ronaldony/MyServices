@@ -34,7 +34,7 @@ namespace Framework.Core.Database.DAO
 		/// <summary>
 		/// UpdateIdentity_AccessTokenAsync.
 		/// </summary>
-		public async Task<bool> UpdateIdentity_AccessTokenAsync(string uid, string token)
+		public async Task<bool> UpdateAccessTokenAsync(string uid, string token)
         {
 
             await Task.Delay(1);

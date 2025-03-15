@@ -5,10 +5,7 @@
     /// </summary>
     interface IGameController
     {
-        string UserId { get; }
 
-        string Pid { get; }
-
-        string Uid { get; }
+        string Address { get; set; }
     }
 }

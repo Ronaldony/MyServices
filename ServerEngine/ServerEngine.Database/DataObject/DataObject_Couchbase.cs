@@ -4,11 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace ServerEngine.Database.DataObject
 {
-    using Newtonsoft.Json.Linq;
     using ServerEngine.Config.Database;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Interfaces;
-    using System.Text;
 
     public class DataObject_Couchbase : IDataObject
     {
