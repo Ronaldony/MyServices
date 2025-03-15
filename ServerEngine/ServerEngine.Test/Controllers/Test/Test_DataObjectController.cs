@@ -5,7 +5,6 @@ namespace ServerEngine.Test.Controllers.Test
     using GameCore.Datas.Player;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Core.Util;
-    using ServerEngine.Test.Database.Data;
     using ServerEngine.Test.Database.DataObject;
 
     /// <summary>
@@ -28,17 +27,17 @@ namespace ServerEngine.Test.Controllers.Test
         }
 
         [HttpGet]
-        [Route("test")]
-        public string Process()
+        [Route("test-dataobject")]
+        public async Task<string> Process()
         {
-            var isUpsert = _playerInfoObject.Upsert("Test", new DTO_PlayerInfo
+            var isUpsert = await _playerInfoObject.UpsertAsync("TestPid", new DTO_PlayerInfo
             { 
-                Pid = "Test pid",
+                Pid = "TestPid",
                 PlayerName = "Test name",
                 RegTime = TimeUtil.Now,
             });
                 
-            var playerInfo = _playerInfoObject.Select<DTO_PlayerInfo>("Test");
+            var playerInfo = await _playerInfoObject.SelectAsync<DTO_PlayerInfo>("TestPid");
 
             return "Ok";
         }

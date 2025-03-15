@@ -2,12 +2,12 @@
 
 namespace ServerEngine.Test.Controllers.Test
 {
-	using ServerEngine.GeoIP;
+    using ServerEngine.GeoIP;
 
-	/// <summary>
-	/// Test_GeoIPController.
-	/// </summary>
-	public class Test_GeoIPController
+    /// <summary>
+    /// Test_GeoIPController.
+    /// </summary>
+    public class Test_GeoIPController
 	{
 		private readonly IGeoIPService _geoIPService;
 

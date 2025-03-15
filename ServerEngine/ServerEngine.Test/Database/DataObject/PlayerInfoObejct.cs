@@ -1,50 +1,47 @@
 ﻿
 namespace ServerEngine.Test.Database.DataObject
 {
-	using GameCore.Datas.Player;
-	using ServerEngine.Config.ConfigManager;
-	using ServerEngine.Core.DataObject;
-	using ServerEngine.Database.DataObject;
+    using GameCore.Datas.Player;
+    using ServerEngine.Config.ConfigManager;
+    using ServerEngine.Database.DataObject;
 
-	public class PlayerInfoObejct : DataObject_PSQL
+    public class PlayerInfoObejct : DataObject_Couchbase
     {
         private readonly ILogger<PlayerInfoObejct> _logger;
 
         public PlayerInfoObejct(IServiceProvider serviceProvider)
-            : base (
+            : base(
                   serviceProvider,
-                  new DataObjectInfo
-                  {
-                      Document = "Game",
-                      Bucket = "TBL_PlayerInfo"
-                  },
-                  GameConfigManager.GetMySQLConnectString("Game"))
+                  configCouchbase: GameConfigManager._configGame.Couchbase,
+                  connection: GameConfigManager.GetCouchbaseConnection("PlayerInfo")
+                  )
         {
             _logger = serviceProvider.GetRequiredService<ILogger<PlayerInfoObejct>>();
         }
 
         /// <summary>
-        /// Select.
+        /// Select async.
         /// </summary>s
-        public new T Select<T>(string pid) where T : DTO_PlayerInfo, new()
+        public new async Task<T> SelectAsync<T>(string pid) where T : DTO_PlayerInfo, new()
         {
-            var playerInfo = base.Select<T>(pid);
+            var playerInfo = await base.SelectAsync<T>(pid);
+
             if (null == playerInfo)
             {
                 _logger.LogError("failed to select PlayerInfo.");
                 return null;
             }
-            
+
             return playerInfo;
         }
 
-
         /// <summary>
-        /// Upsert.
+        /// Upsert async.
         /// </summary>
-        public new bool Upsert<T>(string pid, T dataObject) where T : DTO_PlayerInfo, new()
+        public new async Task<bool> UpsertAsync<T>(string pid, T dataObject) where T : DTO_PlayerInfo, new()
         {
-            var isUpsert = base.Upsert(pid, dataObject);
+            var isUpsert = await base.UpsertAsync(pid, dataObject);
+
             if (false == isUpsert)
             {
                 _logger.LogError("failed to upsert PlayerInfo.");

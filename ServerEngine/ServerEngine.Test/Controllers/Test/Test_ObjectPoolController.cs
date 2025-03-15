@@ -1,12 +1,13 @@
-﻿using GameCore.Datas.Player;
-using Microsoft.AspNetCore.Mvc;
-using ServerEngine.Core.Services.Interfaces;
-using ServerEngine.Test.Database.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text;
 
 namespace ServerEngine.Test.Controllers.Test
 {
+    using GameCore.Datas.Player;
+    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Test.Database.Data;
+
     /// <summary>
     /// Test_ObjectPoolController.
     /// </summary>

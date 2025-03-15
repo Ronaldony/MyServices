@@ -48,6 +48,7 @@ namespace ServerEngine.Config.ConfigManager
             }
 
             // Couchbase.
+            _couchbaseConnectionDict = new Dictionary<string, Config_CouchbaseConnection>();
 
             foreach (var connection in couchbaseConnections)
             {
