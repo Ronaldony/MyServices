@@ -1,45 +1,116 @@
-﻿using Framework.Core.Database.DBO;
-using Microsoft.Extensions.Logging;
+﻿using Dapper;
+using MySqlConnector;
+using System.Data;
 
 namespace Framework.Core.Database.DAO
 {
+    using Framework.Core.Database.DBO;
+    using ServerEngine.Config.ConfigManager;
+
+    /// <summary>
+    /// DBIdentity.
+    /// </summary>
     public class DBIdentity
     {
-        private ILogger<DBIdentity> _logger;
+        private readonly string _connectString;
 
-        public DBIdentity(ILogger<DBIdentity> logger)
+        public DBIdentity()
         {
-            _logger = logger;
-		}
-
-		/// <summary>
-		/// CreateIdentityAsync.
-		/// </summary>
-		public async Task<bool> CreateIdentityAsync(string uid, string token, string refreshToken, DateTime tokenExpireTime)
-        {
-
-            await Task.Delay(2);
-
-			return default;
+            _connectString = GameConfigManager.GetMySQLConnectString("Identity");
         }
 
-		/// <summary>
-		/// GetIdentity.
-		/// </summary>
-		public DBO_Identity GetIdentity(string uid)
+        /// <summary>
+        /// CreateIdentityAsync.
+        /// </summary>
+        public async Task<bool> CreateIdentityAsync(string uid, string token, string refreshToken, DateTime tokenExpireTime)
         {
-            return default;
-		}
+            const string SQL = """
+                                INSERT INTO TBL_Identity 
+                                    (uid, token, refresh_token, token_expire, regtime) 
+                                    VALUES (@Uid, @Token, @RefreshToken, @TokenExpire, NOW())
+                                """;
 
-		/// <summary>
-		/// UpdateIdentity_AccessTokenAsync.
-		/// </summary>
-		public async Task<bool> UpdateAccessTokenAsync(string uid, string token)
-        {
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                var rowAffect = await connection.ExecuteAsync(
+                    sql: SQL,
+                    param: new
+                    {
+                        Uid = uid,
+                        Token = token,
+                        RefreshToken = refreshToken,
+                        TokenExpire = tokenExpireTime,
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
 
-            await Task.Delay(1);
+                if (rowAffect < 1)
+                {
+                    return false;
+                }
 
-            return default;
+                return true;
+            }
         }
-	}
+
+        /// <summary>
+        /// GetIdentity.
+        /// </summary>
+        public async Task<DBO_Identity> SelectIdentityOrDefaultAsync(string uid)
+        {
+            const string SQL = """
+                                SELECT * FROM TBL_Identity 
+                                    WHERE uid=@Uid
+                                """;
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                return await connection.QueryFirstOrDefaultAsync<DBO_Identity>(
+                    sql: SQL,
+                    param: new
+                    {
+                        Uid = uid,
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+            }
+        }
+
+        /// <summary>
+        /// UpdateIdentity_AccessTokenAsync.
+        /// </summary>
+        public async Task<bool> UpdateTokenAsync(string uid, string token, string refreshToken, DateTime tokenExpireTime)
+        {
+            const string SQL = """
+                                UPDATE TBL_Identity SET 
+                                    token=@Token, refresh_token=@RefreshToken, token_expire=@TokenExpire 
+                                    WHERE uid=@Uid
+                                """;
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                var rowAffect = await connection.ExecuteAsync(
+                    sql: SQL,
+                    param: new
+                    {
+                        Uid = uid,
+                        Token = token,
+                        refreshToken = refreshToken,
+                        TokenExpire = tokenExpireTime
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+
+                if (rowAffect < 1)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+    }
 }

@@ -178,7 +178,16 @@ namespace DataDesignerServer.Controllers.Generate
             foreach (var file in files)
             {
                 var newFile = Path.Combine(dstProtocolPath, Path.GetFileName(file));
-                System.IO.File.Copy(file, newFile, true);
+
+                try
+                {
+                    System.IO.File.Create(newFile).Dispose();
+                    System.IO.File.Copy(file, newFile, true);
+                }
+                catch (Exception ex)
+                {
+                    throw new ServerException(ServerErrorCode.Generate_ProtocolCompile, ex.Message);
+                }
             }
 
             // Directories.
@@ -203,7 +212,16 @@ namespace DataDesignerServer.Controllers.Generate
             foreach (var file in Directory.GetFiles(curDirectory))
             {
                 var newFile = Path.Combine(dstProtocolPath, Path.GetFileName(file));
-                System.IO.File.Copy(file, newFile, true);
+
+                try
+                {
+                    System.IO.File.Create(newFile).Dispose();
+                    System.IO.File.Copy(file, newFile, true);
+                }
+                catch (Exception ex)
+                {
+                    throw new ServerException(ServerErrorCode.Generate_ProtocolCompile, ex.Message);
+                }
             }
 
             foreach (var directory in Directory.GetDirectories(curDirectory))
@@ -218,41 +236,29 @@ namespace DataDesignerServer.Controllers.Generate
         /// </summary>
         private void CreateFolders(Profile_FilePath filePath)
         {
-            // Project path.
-            if (false == Directory.Exists(filePath.ProjectPath))
-            {
-                Directory.CreateDirectory(filePath.ProjectPath);
-            }
-
             // Protocol path.
             if (Directory.Exists(filePath.ProtocolPath))
             {
                 Directory.Delete(filePath.ProtocolPath, true);
             }
-            else
-            {
-                Directory.CreateDirectory(filePath.ProtocolPath);
-            }
+
+            Directory.CreateDirectory(filePath.ProtocolPath);
 
             // Data code path.
             if (Directory.Exists(filePath.DataCodePath))
             {
                 Directory.Delete(filePath.DataCodePath, true);
             }
-            else
-            {
-                Directory.CreateDirectory(filePath.DataCodePath);
-            }
+
+             Directory.CreateDirectory(filePath.DataCodePath);
 
             // Database path
             if (Directory.Exists(filePath.DatabaseFilePath))
             {
                 Directory.Delete(filePath.DatabaseFilePath, true);
             }
-            else
-            {
-                Directory.CreateDirectory(filePath.DatabaseFilePath);
-            }
+
+            Directory.CreateDirectory(filePath.DatabaseFilePath);
         }
 
         /// <summary>
@@ -262,6 +268,7 @@ namespace DataDesignerServer.Controllers.Generate
         {
             // types.
             var types = _typeDataManager.GetEnumTypes();
+
             foreach (var type in types)
             {
                 // Generate Code.
@@ -307,7 +314,14 @@ namespace DataDesignerServer.Controllers.Generate
                 // Generate Database.
                 var rows = _classDataManager.FindRowsOrDefault(type.Name);
 
-                _dbGenerator.GenerateClass(dbFilePath, type, schema, rows);
+                try
+                {
+                    _dbGenerator.GenerateClass(dbFilePath, type, schema, rows);
+                }
+                catch (Exception ex)
+                {
+                    throw new ServerException(ServerErrorCode.Generate_NotCreateDatbase, ex.Message);
+                }
             }
 
             return true;

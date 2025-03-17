@@ -261,7 +261,7 @@ namespace DataDesignerServer.Core.Generator
             // Csharp compilation.
             var compilation = CSharpCompilation.Create(
                 assemblyName: dllFile,
-                references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+                //references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             // Add class tree.

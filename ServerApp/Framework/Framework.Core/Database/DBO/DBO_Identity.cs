@@ -3,9 +3,9 @@ using Dapper.ColumnMapper;
 
 namespace Framework.Core.Database.DBO
 {
-	using Framework.Core.Database.Attributes;
+    using Framework.Core.Database.Attributes;
 
-	[DapperMapping]
+    [DapperMapping]
     public class DBO_Identity
 	{
 		/// <summary>
@@ -21,21 +21,21 @@ namespace Framework.Core.Database.DBO
 		public string Token { get; set; }
 
 		/// <summary>
-		/// 생성시간
-		/// </summary>
-		[ColumnMapping("token_expiretime")]
-		public DateTime TokenExpireTime { get; set; }
-
-		/// <summary>
 		/// RefreshToken
 		/// </summary>
 		[ColumnMapping("refresh_token")]
 		public string RefreshToken { get; set; }
 
-		/// <summary>
-		/// 생성시간
-		/// </summary>
-		[ColumnMapping("regtime")]
+        /// <summary>
+        /// 생성시간
+        /// </summary>
+        [ColumnMapping("token_expire")]
+        public DateTime TokenExpireTime { get; set; }
+
+        /// <summary>
+        /// 생성시간
+        /// </summary>
+        [ColumnMapping("regtime")]
 		public DateTime RegTime { get; set; }
 	}
 }

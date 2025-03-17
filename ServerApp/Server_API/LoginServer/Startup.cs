@@ -45,12 +45,13 @@ namespace LoginServer
             _webAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
 
-            _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
 
             // Scoped
+            _webAppBuilder.Services.AddScoped<DBIdentity>();
             _webAppBuilder.Services.AddScoped<DBUser>();
+            _webAppBuilder.Services.AddScoped<DBPlayerData>();
 
             // scoped.
             _webAppBuilder.WebHost.UseKestrel(configs =>

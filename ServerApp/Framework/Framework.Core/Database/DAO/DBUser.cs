@@ -10,14 +10,10 @@ namespace Framework.Core.Database.DAO
 
     public class DBUser
     {
-        private readonly ILogger<DBUser> _logger;
-
         private readonly string _connectString;
 
-        public DBUser(ILogger<DBUser> logger)
+        public DBUser()
         {
-            _logger = logger;
-
             _connectString = GameConfigManager.GetMySQLConnectString("Identity");
         }
 
@@ -26,7 +22,10 @@ namespace Framework.Core.Database.DAO
         /// </summary>
         public async Task<DBO_User> SelectUserOrDefualtAsync(string userId)
         {
-            const string SQL = "SELECT * FROM TBL_User WHERE user_id=@UserId";
+            const string SQL = """
+                                SELECT * FROM TBL_User 
+                                    WHERE user_id=@UserId
+                                """;
 
             using (var connection = new MySqlConnection(_connectString))
             {
@@ -36,16 +35,76 @@ namespace Framework.Core.Database.DAO
                     {
                         UserId = userId,
                     },
-                    commandTimeout: 15,
-                    commandType: CommandType.Text);
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
             }
         }
 
+        /// <summary>
+        /// Create user.
+        /// </summary>
+        public async Task<bool> CreateUserAsync(string userId, string uid)
+        {
+            const string SQL = """
+                                INSERT INTO TBL_User 
+                                    (user_id, uid, regtime) 
+                                    VALUES (@UserId, @Uid, NOW())
+                                """;
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                var rowAffect = await connection.ExecuteAsync(
+                    sql: SQL,
+                    param: new
+                    {
+                        UserId = userId,
+                        Uid = uid
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+
+                if (rowAffect < 1)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Update uid.
+        /// </summary>
         public async Task<bool> UpdateUidAsync(string userId, string uid)
         {
-            await Task.Delay(1);
+            const string SQL = """
+                                UPDATE TBL_User 
+                                    SET uid=@Uid 
+                                    WHERE user_id=@UserId
+                                """;
 
-            return default;
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                var rowAffect = await connection.ExecuteAsync(
+                    sql: SQL,
+                    param: new
+                    {
+                        UserId = userId,
+                        Uid = uid
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+
+                if (rowAffect < 1)
+                {
+                    return false;
+                }
+
+                return true;
+            }
         }
-	}
+    }
 }

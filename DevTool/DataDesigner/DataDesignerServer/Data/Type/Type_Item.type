@@ -6,27 +6,17 @@
   },
   {
     "Id": 2,
-    "Name": "Normal",
+    "Name": "Gold",
     "Summary": ""
   },
   {
     "Id": 3,
-    "Name": "Rare",
+    "Name": "Stamina",
     "Summary": ""
   },
   {
     "Id": 4,
-    "Name": "Unique",
-    "Summary": ""
-  },
-  {
-    "Id": 5,
-    "Name": "Special",
-    "Summary": ""
-  },
-  {
-    "Id": 6,
-    "Name": "Legend",
+    "Name": "Heart",
     "Summary": ""
   }
 ]

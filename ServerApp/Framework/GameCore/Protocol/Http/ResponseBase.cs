@@ -11,8 +11,5 @@ namespace GameCore.Http
     {
         [MemoryPackOrder(0)]
         public string Uid { get; set; }
-
-        [MemoryPackOrder(1)]
-        public string Pid { get; set; }
     }
 }

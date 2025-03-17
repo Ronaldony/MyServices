@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server_API", "Server_API", "{042A43C8-7E96-491F-94F6-3DDA89B65422}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server_NEt", "Server_NEt", "{438E15F2-A682-4369-8BAA-3D35F4E75FDD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginServer", "Server_API\LoginServer\LoginServer.csproj", "{D9329F77-D197-4E5B-97B2-1CD49351DFC4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}"
@@ -18,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.WebAPI", "Framework\Framework.WebAPI\Framework.WebAPI.csproj", "{FBA5288E-8BA6-4425-85BE-B93A8E125784}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCore", "Framework\GameCore\GameCore.csproj", "{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server_Net", "Server_Net", "{4F3C2510-E964-4200-ACE9-7104D508714E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server_Game", "Server_Net\Server_Game\Server_Game.csproj", "{C5E7C257-02B7-4A5A-B8B9-26608B8990FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5E7C257-02B7-4A5A-B8B9-26608B8990FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E7C257-02B7-4A5A-B8B9-26608B8990FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5E7C257-02B7-4A5A-B8B9-26608B8990FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E7C257-02B7-4A5A-B8B9-26608B8990FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{11346519-561B-4102-90F6-A1D1F79E872D} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
 		{FBA5288E-8BA6-4425-85BE-B93A8E125784} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
 		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
+		{C5E7C257-02B7-4A5A-B8B9-26608B8990FC} = {4F3C2510-E964-4200-ACE9-7104D508714E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78DA1A54-3F98-4B84-9CCE-E1B93E7B8E05}

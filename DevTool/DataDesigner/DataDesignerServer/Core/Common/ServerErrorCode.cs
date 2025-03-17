@@ -52,5 +52,6 @@
 		public const int Generate_WrongTarget = 506;				// 506. 코드 생성 타겟 없음.
 		public const int Generate_NotExistProtocol = 507;			// 507. 프로토콜 프로젝트 없음.
 		public const int Generate_ProtocolCompile = 508;			// 508. 프로토콜 컴파일 실패.
+		public const int Generate_NotCreateDatbase = 509;			// 509. 프로토콜 컴파일 실패.
     }
 }

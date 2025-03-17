@@ -8,7 +8,7 @@ namespace Framework.Core.Database.DBO
     public class DBO_User
 	{
 		/// <summary>
-		/// 유저 로그인 Id
+		/// 유저 로그인 고유 Id (절대 불변)
 		/// </summary>
 		[ColumnMapping("user_id")]
 		public string UserId { get; set; }

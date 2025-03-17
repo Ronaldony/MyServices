@@ -9,6 +9,11 @@ namespace GameCore.Datas.Player
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class DTO_PlayerInfo
     {
+        public DTO_PlayerInfo()
+        {
+
+        }
+
         /// <summary>
         /// Uid.
         /// </summary>

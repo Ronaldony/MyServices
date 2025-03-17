@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Primitives;
 
 namespace Framework.WebAPI
 {
@@ -11,7 +12,6 @@ namespace Framework.WebAPI
         /// <summary>
         /// OnException.
         /// </summary>
-        /// <param name="context"></param>
         public void OnException(ExceptionContext context)
         {
             if (context.Exception is ServerException)
@@ -23,7 +23,7 @@ namespace Framework.WebAPI
                 }
 
                 // Input error.
-                context.HttpContext.Response.Headers.Add("error-code", serverException.ErrorCode.ToString());
+                context.HttpContext.Response.Headers.Append(new KeyValuePair<string, StringValues>("error-code", serverException.ErrorCode.ToString()));
                 context.HttpContext.Features.Get<IHttpResponseFeature>().ReasonPhrase = serverException.ErrorMsg;
             }
         }

@@ -16,6 +16,11 @@
         public string Uid { get; init; }
 
         /// <summary>
+        /// Pid.
+        /// </summary>
+        public string Pid { get; init; }
+
+        /// <summary>
         /// IP Address.
         /// </summary>
         public string Address { get; init; }
@@ -33,6 +38,6 @@
         /// <summary>
         /// Uid.
         /// </summary>
-        public DateTime ExpireTokenTIme { get; init; }
+        public DateTime TokenExpireTime { get; init; }
     }
 }

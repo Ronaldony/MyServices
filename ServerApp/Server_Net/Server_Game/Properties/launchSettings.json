@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Server_Game": {
+      "commandName": "Project",
+      "commandLineArgs": "-N LoginServer -C appsettings.Development.json -P 9010 -D 1 -S 2"
+    }
+  }
+}

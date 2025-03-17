@@ -6,17 +6,17 @@
   },
   {
     "Id": 2,
-    "Name": "Game",
+    "Name": "Village",
     "Summary": ""
   },
   {
     "Id": 3,
-    "Name": "Configuration",
+    "Name": "BattleGround1",
     "Summary": ""
   },
   {
     "Id": 4,
-    "Name": "Maintenance",
+    "Name": "BattleGround2",
     "Summary": ""
   }
 ]
