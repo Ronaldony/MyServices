@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Player
 {
+    using GameCore.Datas.Inventory;
+
     /// <summary>
     /// DTO_PlayerInfo.
     /// </summary>
@@ -11,7 +13,7 @@ namespace GameCore.Datas.Player
     {
         public DTO_PlayerInfo()
         {
-
+            InventoryInfo = new DTO_InventoryInfo();
         }
 
         /// <summary>
@@ -33,9 +35,15 @@ namespace GameCore.Datas.Player
         public string PlayerName { get; set; }
 
         /// <summary>
-        /// 생성 시간.
+        /// InventoryInfo.
         /// </summary>
         [MemoryPackOrder(3)]
+        public DTO_InventoryInfo InventoryInfo { get; set; }
+
+        /// <summary>
+        /// 생성 시간.
+        /// </summary>
+        [MemoryPackOrder(4)]
         public DateTime RegTime { get; set; }
     }
 }

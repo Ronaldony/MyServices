@@ -128,8 +128,18 @@ namespace DataDesignerServer.Core.Services
 				return false;
 			}
 
-			// remove.
-			return _profileDict.Remove(profileName, out profile);
+			if (false == _profileDict.Remove(profileName, out profile))
+			{
+				return false;
+			}
+
+            if (false == FlushFile())
+            {
+                return false;
+            }
+
+            // remove.
+            return true;
 		}
 
 		/// <summary>

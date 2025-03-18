@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "Name": "Sword",
+    "Attack": 3,
+    "Range": 1,
+    "CoolTime": 2,
+    "Summary": null
+  },
+  {
+    "Id": 2,
+    "Name": "Staff",
+    "Attack": 5,
+    "Range": 6,
+    "CoolTime": 4,
+    "Summary": null
+  },
+  {
+    "Id": 3,
+    "Name": "Bow",
+    "Attack": 2,
+    "Range": 5,
+    "CoolTime": 2,
+    "Summary": null
+  }
+]

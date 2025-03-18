@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using PowerArgs;
 
 namespace Server_Game
@@ -23,7 +24,9 @@ namespace Server_Game
             }
 
             // Host builder.
-            var hostBuilder = new HostApplicationBuilder();
+            var hostBuilder = Host.CreateApplicationBuilder();
+
+            hostBuilder.Configuration.AddJsonFile(arguments.ConfigFile, optional: false, reloadOnChange: false);
 
             // Startup.
             var startup = new Startup();

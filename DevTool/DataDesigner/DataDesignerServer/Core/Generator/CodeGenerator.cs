@@ -9,6 +9,9 @@ namespace DataDesignerServer.Core.Generator
     using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.Types;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// CodeGenerator.
@@ -255,49 +258,53 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         private bool FlushTypes()
         {
-            // Create compilation.
-            var dllFile = typeof(CodeGenerator).Name + ".dll";
-
-            // Csharp compilation.
-            var compilation = CSharpCompilation.Create(
-                assemblyName: dllFile,
-                //references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-            // Add class tree.
-            foreach (var pair in _classUnitSyntaxDict)
+            
+            try
             {
-                var codeUnitSyntax = pair.Value;
+                // Create compilation.
+                var coreLib = Assembly.GetExecutingAssembly().GetManifestResourceNames().FirstOrDefault();
+                MetadataReference metadataReference;
 
-                compilation = compilation.AddSyntaxTrees(codeUnitSyntax.UnitSyntax.SyntaxTree);
-            }
-
-            // Add enum tree.
-            foreach (var pair in _enumUnitSyntaxDict)
-            {
-                var codeUnitSyntax = pair.Value;
-
-                compilation = compilation.AddSyntaxTrees(codeUnitSyntax.UnitSyntax.SyntaxTree);
-            }
-
-            using (var ms = new MemoryStream())
-            {
-                // emit compilation to memory stream.
-                var result = compilation.Emit(ms);
-
-                if (result.Success)
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(coreLib))
                 {
-                    ms.Seek(0, SeekOrigin.Begin);
+                    byte[] bytes = new byte[stream.Length];
+                    stream.ReadExactly(bytes);
 
-                    // Load assembly.
-                    var assembly = Assembly.Load(ms.ToArray());
-
-                    _generatedTypes = assembly.GetTypes().ToList();
+                    metadataReference = MetadataReference.CreateFromStream(new MemoryStream(bytes));
                 }
-                else
+
+                // Csharp compilation.
+                var dllFile = typeof(CodeGenerator).Name + ".dll";
+                var compilation = CSharpCompilation.Create(
+                    assemblyName: dllFile,
+                    references: new[] { metadataReference },
+                    options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+                // Add class tree.
+                foreach (var pair in _classUnitSyntaxDict)
+                {
+                    var codeUnitSyntax = pair.Value;
+
+                    compilation = compilation.AddSyntaxTrees(codeUnitSyntax.UnitSyntax.SyntaxTree);
+                }
+
+                // Add enum tree.
+                foreach (var pair in _enumUnitSyntaxDict)
+                {
+                    var codeUnitSyntax = pair.Value;
+
+                    compilation = compilation.AddSyntaxTrees(codeUnitSyntax.UnitSyntax.SyntaxTree);
+                }
+
+                // Emit into dll.
+                var targetDir = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+                string dllPath = Path.Combine(targetDir, "DataDesignerProtocol", dllFile);
+                var dllResult = compilation.Emit(dllPath);
+
+                if (false == dllResult.Success)
                 {
                     // Fail.
-                    var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
+                    var failures = dllResult.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
 
                     foreach (var fail in failures)
                     {
@@ -306,9 +313,42 @@ namespace DataDesignerServer.Core.Generator
 
                     return false;
                 }
-            }
 
-            return true;
+                // Emit into memory.
+                using (var ms = new MemoryStream())
+                {
+                    // emit compilation to memory stream.
+                    var result = compilation.Emit(ms);
+
+                    if (result.Success)
+                    {
+                        ms.Seek(0, SeekOrigin.Begin);
+
+                        // Load assembly.
+                        var assembly = Assembly.Load(ms.ToArray());
+
+                        _generatedTypes = assembly.GetTypes().ToList();
+                    }
+                    else
+                    {
+                        // Fail.
+                        var failures = result.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
+
+                        foreach (var fail in failures)
+                        {
+                            _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
+                        }
+
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new ServerException(1, ex.Message);
+            }
         }
 
         /// <summary>

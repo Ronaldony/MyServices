@@ -11,7 +11,7 @@
       },
       {
         "Target": "Server",
-        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp\\Framework\\GameCore\\GameCore",
+        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp\\Framework\\GameCore",
         "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp\\Framework\\GameCore\\Protocol",
         "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp\\Framework\\GameCore\\Code",
         "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp\\Framework\\GameCore\\Database"

@@ -23,11 +23,7 @@
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
-            // 로그인 유저가 아닌 경우, 패킷 무시.
-            if (_gameServer.IsLogin(sessionUid))
-            {
-                return;
-            }
+
         }
     }
 }

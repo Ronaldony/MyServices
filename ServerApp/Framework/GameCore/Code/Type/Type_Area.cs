@@ -13,10 +13,14 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        BattleGround1 = 3,
+        HuntZone = 3,
         /// <summary>
         /// 
         /// </summary>
-        BattleGround2 = 4
+        BattleHuntZone = 4,
+        /// <summary>
+        /// 
+        /// </summary>
+        Dungeon = 5
     }
 }

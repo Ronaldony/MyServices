@@ -1,14 +1,30 @@
-﻿namespace GameCore.Packet
+﻿using MemoryPack;
+using System.Runtime.InteropServices;
+
+namespace GameCore.Packet
 {
     /// <summary>
     /// Packet_Login.
     /// </summary>
-    public class Packet_Login
+    [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    public partial record Packet_Login
     {
-        public string Uid { get; set; }
+        /// <summary>
+        /// Uid.
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public string Uid { get; init; }
 
-        public string PId { get; set; }
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public string PId { get; init; }
 
-        public string Token { get; set; }
+        /// <summary>
+        /// Token.
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string Token { get; init; }
     }
 }

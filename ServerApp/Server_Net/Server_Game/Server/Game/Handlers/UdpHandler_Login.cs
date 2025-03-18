@@ -51,7 +51,11 @@
                     return;
                 }
 
-                _gameServer.LoginSession(sessionUid);
+                // Pid 등록.
+                _gameServer.RegisterPid(sessionUid, packetLogin.PId);
+
+                // TODO: 플레이 오브젝트 로드.
+
             });
         }
     }

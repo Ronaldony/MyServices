@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 
 namespace Server_Game.Server.Game
 {
     using Server_Game.Core.Utilities;
     using ServerEngine.Network.UDP;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// Game server.
@@ -17,11 +17,9 @@ namespace Server_Game.Server.Game
         /// <summary>
         /// Sessoin dictionary.
         /// key: session uid.
-        /// value: authentication.
+        /// value: pid.
         /// </summary>
-        private ConcurrentDictionary<ulong, bool> SessionAuthDict;
-
-        private Lock _lock;
+        private ConcurrentDictionary<ulong, string> _sessionDict;
 
         public GameServer()
             : base(ServiceUtility.GetServiceProvider())
@@ -29,47 +27,54 @@ namespace Server_Game.Server.Game
             _logger = ServiceUtility.GetService<ILogger<GameServer>>();
         }
 
+        /// <summary>
+        /// OnConnected.
+        /// </summary>
         protected override void OnConnected(int sessionId, ulong sessionUid)
         {
             // Add session uid.
-            SessionAuthDict.AddOrUpdate(sessionUid, false, (old, isAuth) => false);
+            _sessionDict.AddOrUpdate(sessionUid, string.Empty, (_, _) => string.Empty);
         }
 
+        /// <summary>
+        /// OnDisconnected.
+        /// </summary>
         protected override void OnDisconnected(int sessionId, ulong sessionUid)
         {
-            lock (_lock)
-            {
-                SessionAuthDict.TryRemove(sessionUid, out _);
-            }
+            _sessionDict.TryRemove(sessionUid, out _);
         }
 
+        /// <summary>
+        /// OnNetError.
+        /// </summary>
         protected override void OnNetError(SocketError sockError)
         {
-            throw new NotImplementedException();
+            _logger.LogError($"GameServer error. code: {sockError}");
         }
 
         /// <summary>
-        /// Login session.
+        /// Register pid.
         /// </summary>
-        public void LoginSession(ulong sessoinUid)
+        public bool RegisterPid(ulong sessionUid, string pid)
         {
-            lock(_lock)
+            if (false == _sessionDict.ContainsKey(sessionUid))
             {
-                SessionAuthDict.AddOrUpdate(sessoinUid, true, (_, _) => false);
+                return false;
             }
+
+            _sessionDict.AddOrUpdate(sessionUid, pid, (_, _) => pid);
+
+            return true;
         }
 
         /// <summary>
-        /// Check login.
+        /// Get pid.
         /// </summary>
-        public bool IsLogin(ulong sessionUid)
+        public string GetPid(ulong sessionUid)
         {
-            if (SessionAuthDict.ContainsKey(sessionUid))
-            {
-                return true;
-            }
+            _sessionDict.TryGetValue(sessionUid, out var pid);
 
-            return false;
+            return pid;
         }
     }
 }

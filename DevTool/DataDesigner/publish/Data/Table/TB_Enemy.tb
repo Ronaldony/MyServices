@@ -1,0 +1,29 @@
+[
+  {
+    "Id": 1,
+    "Name": "Slime",
+    "Health": 10,
+    "Attack": 1,
+    "DropItem": "Gold",
+    "ItemCount": 0,
+    "Summary": null
+  },
+  {
+    "Id": 2,
+    "Name": "Ghost",
+    "Health": 6,
+    "Attack": 3,
+    "DropItem": "Heart",
+    "ItemCount": 0,
+    "Summary": null
+  },
+  {
+    "Id": 3,
+    "Name": "BuleSlime",
+    "Health": 15,
+    "Attack": 2,
+    "DropItem": "Gold",
+    "ItemCount": 0,
+    "Summary": null
+  }
+]
