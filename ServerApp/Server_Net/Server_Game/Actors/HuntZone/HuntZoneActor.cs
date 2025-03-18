@@ -9,7 +9,7 @@ namespace Server_Game.Actors.HuntZone
     /// <summary>
     /// HuntZoneActor.
     /// </summary>
-    public sealed class HuntZoneActor : ReceiveActor 
+    public class HuntZoneActor : ReceiveActor
     {
         private readonly ILogger<HuntZoneActor> _logger;
 
@@ -18,15 +18,32 @@ namespace Server_Game.Actors.HuntZone
             _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
 
             // Receive.
-            Receive<Packet_Move>(packet =>
-            {
-
-            });
+            Receive<Packet_Move>(packet => Move(packet));
+            Receive<Packet_Attack>(packet => Attack(packet));
         }
 
         public static Props Props()
         {
             return Akka.Actor.Props.Create(() => new HuntZoneActor());
+        }
+        
+        /////////////////////////////////////////////////////////////////////////
+        /// 패키 처리.
+        
+        /// <summary>
+        /// 플레이어 이동 처리.
+        /// </summary>
+        public void Move(Packet_Move packet)
+        {
+
+        }
+
+        /// <summary>
+        /// 플레이어 이동 처리.
+        /// </summary>
+        public void Attack(Packet_Attack packet)
+        {
+
         }
     }
 }

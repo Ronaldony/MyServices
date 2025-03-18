@@ -5,7 +5,9 @@ using NLog.Extensions.Logging;
 
 namespace Server_Game
 {
+    using Akka.Actor;
     using Framework.Core.Database.DAO;
+    using Server_Game.Actors.HuntZone;
     using Server_Game.Server.Game;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
@@ -31,6 +33,17 @@ namespace Server_Game
 
             hostAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             hostAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+
+            // Actors.
+            hostAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
+            hostAppBuilder.Services.AddSingleton<HuntZoneActor>(provider =>
+            {
+                var actorSystem = provider.GetService<ActorSystem>();
+
+                var actor = actorSystem.ActorOf(Props.Create(() => new HuntZoneActor()));
+
+                return () => actor;
+            });
 
             // servers.
             hostAppBuilder.Services.AddSingleton<GameServer>();
