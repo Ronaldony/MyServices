@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
     <PackageReference Include="MySqlConnector" Version="2.4.0" />
     <PackageReference Include="ServerEngine.Config" Version="1.0.2" />
-    <PackageReference Include="ServerEngine.Database" Version="1.0.2" />
+    <PackageReference Include="ServerEngine.Database" Version="1.0.5" />
   </ItemGroup>
 
   <ItemGroup>

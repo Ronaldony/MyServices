@@ -30,7 +30,7 @@ namespace DataDesignerServer.Controllers.Generate
 
         // Name of files and folders to exclude from generating protocol.
         private string[] _exclueFiles = [".sln", ".csproj"];
-        private string[] _exclueFolders = [".vs", "bin", "obj"];
+        private string[] _exclueFolders = [".vs", "bin", "obj", "CodeGen"];
 
         public GenerateController(
             TypeDataManager typeDataManager,

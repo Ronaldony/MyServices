@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.Datas.Inventory
 {
     /// <summary>
-    /// DTO_InventoryInfo.
+    /// 인벤토리 정보.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class DTO_InventoryInfo

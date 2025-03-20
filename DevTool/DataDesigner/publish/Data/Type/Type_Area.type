@@ -1,26 +1,26 @@
 [
   {
-    "Id": 1,
+    "Id": 0,
     "Name": "None",
     "Summary": ""
   },
   {
-    "Id": 2,
+    "Id": 1,
     "Name": "Village",
     "Summary": ""
   },
   {
-    "Id": 3,
+    "Id": 2,
     "Name": "HuntZone",
     "Summary": ""
   },
   {
-    "Id": 4,
-    "Name": "BattleHuntZone",
+    "Id": 3,
+    "Name": "BattleZone",
     "Summary": ""
   },
   {
-    "Id": 5,
+    "Id": 4,
     "Name": "Dungeon",
     "Summary": ""
   }

@@ -45,6 +45,14 @@
     },
     {
       "Idx": 6,
+      "Name": "ItemCount",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 7,
       "Name": "Summary",
       "IsIndexed": false,
       "Type": "string",

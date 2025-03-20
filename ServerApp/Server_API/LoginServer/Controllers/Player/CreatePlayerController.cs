@@ -9,6 +9,7 @@ namespace LoginServer.Controllers.Auth
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
     using GameCore;
+    using GameCore.Datas.Player;
     using GameCore.Http.Auth;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Core.Util;
@@ -91,13 +92,14 @@ namespace LoginServer.Controllers.Auth
 
             // PlayerInfoObject.
             var playerInfoObejct = GetObject<PlayerInfoObject>();
-            var newPlayerInfo = playerInfoObejct.CreateObject();
+            var newPlayerInfo = new DTO_PlayerInfo();
 
+            // PlayerInfo 초기화.
             newPlayerInfo.Uid = uid;
             newPlayerInfo.Pid = newPid;
-            newPlayerInfo.PlayerName = newPid;
+            newPlayerInfo.RegTime = nowTime;
 
-            // PlayerInfo 생성.
+            // PlayerInfo 저장.
             if (false == await playerInfoObejct.UpsertAsync(newPid, newPlayerInfo))
             {
                 throw new ServerException(GameErrorCode.CreatePlayer_NotMatchToken, $"upsert PlayerInfo error.");

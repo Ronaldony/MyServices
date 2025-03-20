@@ -9,9 +9,6 @@ namespace DataDesignerServer.Core.Generator
     using DataDesignerServer.Core.Common;
     using DataDesignerServer.Core.Data;
     using DataDesignerServer.Core.Types;
-    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// CodeGenerator.
@@ -183,6 +180,15 @@ namespace DataDesignerServer.Core.Generator
         public void CreateFiles(string dirPath)
         {
             var folderDict = CreateFolders(dirPath);
+            var protocolDirectory = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "DataDesignerProtocol", "CodeGen");
+
+            // 프로토콜 프로젝트 디렉토리 초기화.
+            if (Directory.Exists(protocolDirectory))
+            {
+                Directory.Delete(protocolDirectory, true);
+            }
+
+            Directory.CreateDirectory(protocolDirectory);
 
             // Create enum.
             foreach (var pair in _enumUnitSyntaxDict)
@@ -191,8 +197,13 @@ namespace DataDesignerServer.Core.Generator
 
                 var folder = folderDict[codeUnitSyntax.GenCodeType];
                 var filePath = Path.Combine(folder, codeUnitSyntax.FileName);
+                var syntaxString = codeUnitSyntax.UnitSyntax.ToFullString();
 
-                File.WriteAllText(filePath, codeUnitSyntax.UnitSyntax.ToFullString());
+                // 프로젝트 폴더.
+                File.WriteAllText(filePath, syntaxString);
+
+                // 프로토콜 폴더.
+                File.WriteAllText(Path.Combine(protocolDirectory, codeUnitSyntax.FileName), syntaxString);
             }
 
             // Check folder.
@@ -206,8 +217,13 @@ namespace DataDesignerServer.Core.Generator
 
                 var folder = folderDict[codeUnitSyntax.GenCodeType];
                 var filePath = Path.Combine(folder, codeUnitSyntax.FileName);
+                var syntaxString = codeUnitSyntax.UnitSyntax.ToFullString();
 
-                File.WriteAllText(filePath, codeUnitSyntax.UnitSyntax.ToFullString());
+                // 프로젝트 폴더.
+                File.WriteAllText(filePath, syntaxString);
+
+                // 프로토콜 폴더.
+                File.WriteAllText(Path.Combine(protocolDirectory, codeUnitSyntax.FileName), syntaxString);
             }
         }
 
@@ -258,7 +274,7 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         private bool FlushTypes()
         {
-            
+
             try
             {
                 // Create compilation.
@@ -294,24 +310,6 @@ namespace DataDesignerServer.Core.Generator
                     var codeUnitSyntax = pair.Value;
 
                     compilation = compilation.AddSyntaxTrees(codeUnitSyntax.UnitSyntax.SyntaxTree);
-                }
-
-                // Emit into dll.
-                var targetDir = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
-                string dllPath = Path.Combine(targetDir, "DataDesignerProtocol", dllFile);
-                var dllResult = compilation.Emit(dllPath);
-
-                if (false == dllResult.Success)
-                {
-                    // Fail.
-                    var failures = dllResult.Diagnostics.Where(d => d.IsWarningAsError || d.Severity == DiagnosticSeverity.Error);
-
-                    foreach (var fail in failures)
-                    {
-                        _logger.LogError($"enum code compilation failed. msg: {fail.ToString()}");
-                    }
-
-                    return false;
                 }
 
                 // Emit into memory.

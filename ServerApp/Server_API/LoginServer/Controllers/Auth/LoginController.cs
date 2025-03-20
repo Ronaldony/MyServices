@@ -107,11 +107,6 @@ namespace LoginServer.Controllers.Auth
             var playerInfoObejct = GetObject<PlayerInfoObject>();
             var playerInfo = await playerInfoObejct.SelectAsync<DTO_PlayerInfo>(req.Pid);
 
-            if (null == playerInfo)
-            {
-                throw new ServerException(GameErrorCode.Auth_NotCreatedSession, $"not match accesstoken.");
-            }
-
             return new RES_Login
             {
                 Uid = uid,

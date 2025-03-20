@@ -55,5 +55,13 @@ namespace Framework.Core.Database.DataObject
 
             return false;
         }
+
+        /// <summary>
+        /// Create first object.
+        /// </summary>
+        protected override T FirstCreateObject<T>()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

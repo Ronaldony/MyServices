@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.Datas.Player.Inventory
 {
     /// <summary>
-    /// DTO_ItemSlot.
+    /// 아이템 슬롯 정보.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class DTO_ItemSlot

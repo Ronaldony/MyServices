@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "Summary": ""
+  },
+  {
+    "Id": 1,
+    "Name": "Top",
+    "Summary": ""
+  },
+  {
+    "Id": 2,
+    "Name": "Down",
+    "Summary": ""
+  },
+  {
+    "Id": 3,
+    "Name": "Right",
+    "Summary": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Left",
+    "Summary": ""
+  },
+  {
+    "Id": 5,
+    "Name": "RightTop",
+    "Summary": ""
+  },
+  {
+    "Id": 6,
+    "Name": "LeftTop",
+    "Summary": ""
+  },
+  {
+    "Id": 7,
+    "Name": "RightDown",
+    "Summary": ""
+  },
+  {
+    "Id": 8,
+    "Name": "LeftDown",
+    "Summary": ""
+  }
+]

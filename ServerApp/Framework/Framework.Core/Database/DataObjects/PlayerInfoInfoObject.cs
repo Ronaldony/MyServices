@@ -6,7 +6,6 @@ namespace Framework.Core.Database.DataObject
 {
     using GameCore.Datas.Player;
     using ServerEngine.Config.ConfigManager;
-    using ServerEngine.Core.Util;
     using ServerEngine.Database.DataObject;
 
     /// <summary>
@@ -58,14 +57,11 @@ namespace Framework.Core.Database.DataObject
         }
 
         /// <summary>
-        /// Create object.
+        /// Create first object.
         /// </summary>
-        public DTO_PlayerInfo CreateObject()
+        protected override T FirstCreateObject<T>()
         {
-            return new DTO_PlayerInfo
-            {
-                RegTime = TimeUtil.Now
-            };
+            throw new NotImplementedException();
         }
     }
 }

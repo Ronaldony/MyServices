@@ -3,21 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+	  <Platforms>AnyCPU;x64</Platforms>
+	  <Nullable>disable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="CodeGenerator.dll" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MemoryPack" Version="1.21.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="CodeGenerator.dll">
-      <HintPath>CodeGenerator.dll</HintPath>
-    </Reference>
+    <Folder Include="Datas\Enemy\" />
   </ItemGroup>
 
 </Project>

@@ -5,22 +5,22 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        None = 1,
+        None = 0,
         /// <summary>
         /// 
         /// </summary>
-        Village = 2,
+        Village = 1,
         /// <summary>
         /// 
         /// </summary>
-        HuntZone = 3,
+        HuntZone = 2,
         /// <summary>
         /// 
         /// </summary>
-        BattleHuntZone = 4,
+        BattleZone = 3,
         /// <summary>
         /// 
         /// </summary>
-        Dungeon = 5
+        Dungeon = 4
     }
 }
