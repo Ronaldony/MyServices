@@ -1,7 +1,7 @@
 ﻿
 namespace Server_World.Actors.HuntZone.Message
 {
-    using GameCore.Datas.Player;
+    using GameCore.Datas.Play;
 
     /// <summary>
     /// HuntZoneMsg_LoadPlayer.
@@ -11,6 +11,6 @@ namespace Server_World.Actors.HuntZone.Message
         /// <summary>
         /// PlayInfo.
         /// </summary>
-        public DTO_PlayerInfo PlayInfo { get; init; }
+        public DTO_PlayInfo PlayInfo { get; set; }
     }
 }

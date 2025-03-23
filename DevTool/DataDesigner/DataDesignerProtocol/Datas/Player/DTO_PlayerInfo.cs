@@ -3,14 +3,11 @@ using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Player
 {
-    using GameCore.Datas.Player.Inventory;
-    using GameCore.Datas.Player.Status;
-
     /// <summary>
     /// 플레이어 정보.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_PlayerInfo
+    public partial class DTO_PlayerInfo : DTO_InfoBase
     {
         public DTO_PlayerInfo()
         {

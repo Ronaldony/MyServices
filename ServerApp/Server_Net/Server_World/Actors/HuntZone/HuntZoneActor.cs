@@ -3,8 +3,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Server_World.Actors.HuntZone
 {
-    using GameCore.Packet;
+    using GameCore.NetPacket;
+    using Server_World.Actors.HuntZone.Message;
     using Server_World.Core.Utilities;
+    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
     /// HuntZoneActor.
@@ -13,14 +15,18 @@ namespace Server_World.Actors.HuntZone
     {
         private readonly ILogger<HuntZoneActor> _logger;
 
+        private readonly IMemoryPoolService _memoryPoolService;
+
         public HuntZoneActor()
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
 
+            _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
+
             ///////////////////////////////// Receive.
 
             // Initlaize.
-            Receive<NetPacketCS_Login>(packet => LoadPlayer(packet));
+            Receive<HuntZoneMsg_LoadPlayer>(packet => LoadPlayer(packet));
 
             // Move.
             Receive<NetPacketCS_MoveStart>(packet => MoveStart(packet));

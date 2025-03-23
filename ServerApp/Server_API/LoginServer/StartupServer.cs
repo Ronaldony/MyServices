@@ -2,13 +2,13 @@
 //#define TEST_LOCAL
 
 using Dapper;
-using System.Data;
 
 namespace LoginServer
 {
     using Dapper.ColumnMapper;
     using Framework.Core.Database.DBO;
-    using Microsoft.AspNetCore.DataProtection.XmlEncryption;
+    using GameCore;
+    using GameCore.Interfaces;
     using ServerEngine.Config;
     using ServerEngine.Config.ConfigManager;
     using ServerEngine.Config.Database;
@@ -46,6 +46,10 @@ namespace LoginServer
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
+
+            // TDBserviced.
+            var tdbService = _serviceProvider.GetRequiredService<ITDBService>();
+            tdbService.Initialize();
 
 #if !TEST_LOCAL
             var configGame = await remoteConfigureService.GetConfigData<Config_Game>("Devel_Game");

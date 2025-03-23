@@ -65,9 +65,6 @@ namespace DataDesignerServer.Controllers.Generate
 
             CreateFolders(filePath);
 
-            // Build protocol.
-            BuildAndCreateProtocolFiles(filePath.ProtocolPath);
-
             ///////////////////////////////////////////////////////////
             // Generate Type.
             if (false == GenerateTypes(filePath.DatabaseFilePath))
@@ -84,7 +81,9 @@ namespace DataDesignerServer.Controllers.Generate
             // Create code.
             _codeGenerator.CreateFiles(filePath.DataCodePath);
 
+
             // Create protocols.
+            BuildAndCreateProtocolFiles(filePath.ProtocolPath);
 
             return new RES_Generate();
         }

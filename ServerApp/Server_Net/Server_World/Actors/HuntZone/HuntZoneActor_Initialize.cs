@@ -1,6 +1,6 @@
 ﻿namespace Server_World.Actors.HuntZone
 {
-    using GameCore.Packet;
+    using Server_World.Actors.HuntZone.Message;
 
     /// <summary>
     /// HuntZoneActor.
@@ -10,7 +10,7 @@
         /// <summary>
         /// 플레이어 이동 처리.
         /// </summary>
-        public void LoadPlayer(NetPacketCS_Login packet)
+        public void LoadPlayer(HuntZoneMsg_LoadPlayer packet)
         {
 
         }

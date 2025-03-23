@@ -1,11 +1,13 @@
-﻿using Microsoft.Extensions.ObjectPool;
-using NLog.Extensions.Logging;
+﻿using NLog.Extensions.Logging;
 using System.Net;
 
 namespace LoginServer
 {
     using Framework.Core.Database.DAO;
+    using Framework.Core.Database.DataObject;
     using Framework.WebAPI;
+    using GameCore;
+    using GameCore.Interfaces;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.GeoIP;
@@ -47,6 +49,13 @@ namespace LoginServer
 
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+            _webAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
+
+            // Data objects.
+            _webAppBuilder.Services.AddSingleton<SessionInfoObject>();
+            _webAppBuilder.Services.AddSingleton<PlayerInfoObject>();
+            _webAppBuilder.Services.AddSingleton<PlayInfoObject>();
+            _webAppBuilder.Services.AddSingleton<InventoryInfoObject>();
 
             // Scoped
             _webAppBuilder.Services.AddScoped<DBIdentity>();

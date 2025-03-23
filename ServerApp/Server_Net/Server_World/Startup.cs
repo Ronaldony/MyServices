@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Akka.Actor;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 
 namespace Server_World
 {
-    using Akka.Actor;
     using Framework.Core.Database.DAO;
+    using Framework.Core.Database.DataObject;
     using Server_World.Actors.HuntZone;
     using Server_World.Server.World;
     using ServerEngine.Core.Services;
@@ -33,6 +34,12 @@ namespace Server_World
 
             hostAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             hostAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+
+            // Data objects.
+            hostAppBuilder.Services.AddSingleton<SessionInfoObject>();
+            hostAppBuilder.Services.AddSingleton<PlayerInfoObject>();
+            hostAppBuilder.Services.AddSingleton<PlayInfoObject>();
+            hostAppBuilder.Services.AddSingleton<InventoryInfoObject>();
 
             // Actors.
             hostAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));

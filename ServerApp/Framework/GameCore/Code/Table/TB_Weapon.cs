@@ -2,7 +2,7 @@ namespace GameCore
 {
     using System;
 
-    public class TB_Weapon
+    public class TB_Weapon : ITableBase
     {
         /// <summary>
         /// Schema ID

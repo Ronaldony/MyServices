@@ -1,7 +1,7 @@
-﻿namespace Server_World.Actors.HuntZone
-{
-    using GameCore.Packet;
+﻿using GameCore.NetPacket;
 
+namespace Server_World.Actors.HuntZone
+{
     /// <summary>
     /// HuntZoneActor.
     /// </summary>

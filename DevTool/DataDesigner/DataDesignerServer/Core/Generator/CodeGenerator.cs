@@ -90,6 +90,17 @@ namespace DataDesignerServer.Core.Generator
             _classUnitSyntaxDict.Clear();
             _enumUnitSyntaxDict.Clear();
 
+            // Add TableBase.
+            // Add table base.s
+            var tableBaseSyntax = CreateTableBaseUnitSyntax();
+
+            _classUnitSyntaxDict.Add("TableBase", new CodeUnitSyntax
+            {
+                FileName = $"TableBase.cs",
+                UnitSyntax = tableBaseSyntax,
+                GenCodeType = Type_GenerateCode.Table,
+            });
+
             // Initialize.
             _logger.LogInformation("CodeGenerator initialized.");
         }
@@ -274,7 +285,6 @@ namespace DataDesignerServer.Core.Generator
         /// </summary>
         private bool FlushTypes()
         {
-
             try
             {
                 // Create compilation.
@@ -403,6 +413,7 @@ namespace DataDesignerServer.Core.Generator
             // Create class declare.
             var declareClass = SyntaxFactory
                 .ClassDeclaration(className)
+                .AddBaseListTypes(SyntaxFactory.SimpleBaseType(SyntaxFactory.IdentifierName("ITableBase")))   // Add base class.
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
 
             var namespaceList = new HashSet<string>();
@@ -460,6 +471,27 @@ namespace DataDesignerServer.Core.Generator
             declareNamespace = declareNamespace.AddMembers(declareClass);
 
             return SyntaxFactory.CompilationUnit().AddMembers(declareNamespace).NormalizeWhitespace();
+        }
+
+        /// <summary>
+        /// Create TableBase class.
+        /// </summary>
+        private CompilationUnitSyntax CreateTableBaseUnitSyntax()
+        {
+            var code = @"
+                namespace GameCore
+                {
+                    /// <summary>
+                    /// Table Id.
+                    /// </summary>
+                    public interface ITableBase
+                    {
+                        int Id { get; set; }
+                    }
+                }
+                ";
+
+            return CSharpSyntaxTree.ParseText(code).GetCompilationUnitRoot().NormalizeWhitespace();
         }
 
         /// <summary>

@@ -14,6 +14,7 @@
     <PackageReference Include="MySqlConnector" Version="2.4.0" />
     <PackageReference Include="ServerEngine.Config" Version="1.0.2" />
     <PackageReference Include="ServerEngine.Database" Version="1.0.5" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
   </ItemGroup>
 
   <ItemGroup>

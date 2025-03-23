@@ -26,6 +26,7 @@
         public const int Auth_NotExistPid = 1006;                       // Pid가 존재하지 않음.
         public const int Auth_NotCreatedSession = 1007;                 // Session 생성 실패.
         public const int Auth_NotExistPlayerInfo = 1008;                // PlayerInfo가 존재하지 않음.
+        public const int Auth_NotCreateOrUpdatePlayer = 1009;           // 플레이어 객체 생성 혹은 업데이트 실패.
 
 
         // Player.

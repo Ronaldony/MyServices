@@ -1,8 +1,7 @@
-﻿using GameCore.NetPacket;
-using MemoryPack;
+﻿using MemoryPack;
 using System.Runtime.InteropServices;
 
-namespace GameCore.Packet
+namespace GameCore.NetPacket
 {
     /// <summary>
     /// NetPacket_MoveStart from client to server.

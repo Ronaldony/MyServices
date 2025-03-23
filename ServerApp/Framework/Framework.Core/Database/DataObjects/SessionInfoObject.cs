@@ -1,8 +1,4 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-namespace Framework.Core.Database.DataObject
+﻿namespace Framework.Core.Database.DataObject
 {
     using Framwork.Core.Session;
     using ServerEngine.Config.ConfigManager;
@@ -13,15 +9,12 @@ namespace Framework.Core.Database.DataObject
     /// </summary>
     public class SessionInfoObject : DataObject_Couchbase
     {
-        private readonly ILogger<SessionInfoObject> _logger;
-
         public SessionInfoObject(IServiceProvider serviceProvider)
             : base(
                   serviceProvider,
                   GameConfigManager._configGame.Couchbase,
                   GameConfigManager.GetCouchbaseConnection("SessionInfo"))
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<SessionInfoObject>>();
         }
 
         /// <summary>
@@ -33,7 +26,6 @@ namespace Framework.Core.Database.DataObject
 
             if (null == playerInfo)
             {
-                _logger.LogError("failed to select GameSession.");
                 return null;
             }
 
@@ -49,7 +41,6 @@ namespace Framework.Core.Database.DataObject
 
             if (false == isUpsert)
             {
-                _logger.LogError("failed to upsert GameSession.");
                 return false;
             }
 

@@ -11,7 +11,7 @@ namespace GameCore.Datas.Play
     /// 플레이 정보.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_PlayInfo
+    public partial class DTO_PlayInfo : DTO_InfoBase
     {
         public DTO_PlayInfo()
         {

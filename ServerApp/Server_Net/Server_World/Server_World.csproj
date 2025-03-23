@@ -37,7 +37,8 @@
 
   <ItemGroup>
     <Folder Include="Actors\BattleZone\" />
-    <Folder Include="Actors\World\" />
+    <Folder Include="Actors\Inventory\" />
+    <Folder Include="Actors\Village\" />
   </ItemGroup>
 
 </Project>

@@ -4,15 +4,15 @@ using System.Text.Json;
 
 namespace TestClientApp.Test
 {
-	using ServerEngine.Network.UDP;
-	using TestClient.Test.Data;
-	using TestClientApp.Services;
+    using ServerEngine.Network.UDP;
+    using TestClient.Test.Data;
+    using TestClientApp.Services;
 
-	/// <summary>
-	/// NetworkTest_DataIntegrity.
-	/// Description: Test class to check integrity for network data.
-	/// </summary>
-	public class Test_Network_DataIntegrity
+    /// <summary>
+    /// NetworkTest_DataIntegrity.
+    /// Description: Test class to check integrity for network data.
+    /// </summary>
+    public class Test_Network_DataIntegrity
     {
         /// <summary>
         /// NetworkGroup.

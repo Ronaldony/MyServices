@@ -1,289 +1,215 @@
-﻿//using Microsoft.Extensions.Logging;
-//using System.Collections;
-//using System.Reflection;
-//using System.Runtime.Loader;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using SQLite;
+using System.Collections;
 
-//namespace GameCore
-//{
-//	public sealed class TDBService 
-//	{
-//		private readonly ILogger<TDBService> _logger;
-//		private readonly Dictionary<string, SqliteConnection> _databaseConnection;
-//		private readonly Hashtable _dataCacheHashTable;
-//		private readonly Dictionary<Type, ITDBConfigTable> _configTables;
+namespace GameCore
+{
+    using GameCore.Interfaces;
+    using System.Threading;
 
-//		private readonly string _rootPath;
-//		private readonly string _databasePath;
+    /// <summary>
+    /// TDBService.
+    /// </summary>
+    public sealed class TDBService : ITDBService
+	{
+		private readonly ILogger<TDBService> _logger;
+		private readonly Dictionary<string, SQLiteConnection> _dbConnectionDict;
+		private readonly Hashtable _dataCacheHashTable;
+        private readonly Lock _lock;
 
-//		public const string DATABASE_PATH = "Data";
-//		public const string CONFIG_FILENAME = "config.db";
-//		public const string ASSEMBLY_DLL = "GameCore.dll";
-//		public const string ASSEMBLY_NAME = "GameCore";
+        private readonly string _rootPath;
+		private readonly string _databasePath;
 
-//		public TDBService(ILogger<TDBService> logger)
-//		{
-//			_logger = logger;
+		public const string DB_PATH = "Database";
+		public const string DB_FILES = "*.db";
 
-//			_dataCacheHashTable = new Hashtable();
-//			_databaseConnection = new Dictionary<string, SqliteConnection>();
-//			_configTables = new Dictionary<Type, ITDBConfigTable>();
+		public TDBService(IServiceProvider serviceProvider)
+		{
+			_logger = serviceProvider.GetRequiredService<ILogger<TDBService>>();
 
-//			_rootPath = Path.GetDirectoryName(System.AppContext.BaseDirectory);
-//			_databasePath = Path.Combine(_rootPath, DATABASE_PATH);
-//		}
+			_dataCacheHashTable = new Hashtable();
+			_dbConnectionDict = new Dictionary<string, SQLiteConnection>();
+            _lock = new Lock();
 
-//		public bool Initialize()
-//		{
-//			var filePaths = Directory.GetFiles(_databasePath, "*.db", SearchOption.AllDirectories);
+            _rootPath = Path.GetDirectoryName(System.AppContext.BaseDirectory);
+			_databasePath = Path.Combine(_rootPath, DB_PATH);
+		}
 
-//			Assembly asm = null;
-//			if (true == File.Exists(Path.Combine(_rootPath, ASSEMBLY_DLL)))
-//			{
-//				asm = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(_rootPath, ASSEMBLY_DLL));
-//			}
-//			else
-//			{
-//				asm = Assembly.GetExecutingAssembly();
-//			}
+		public bool Initialize()
+		{
+			var totalTable = 0;
+			var filePaths = Directory.GetFiles(_databasePath, DB_FILES, SearchOption.AllDirectories);
 
-//			int tableTotal = 0;
+			foreach (var filePath in filePaths)
+			{
+				// Type 무시.
+				if (filePath.Contains("Type"))
+				{
+					continue;
+				}
 
-//			if (filePaths == null)
-//			{
-//				_logger.LogInformation($"::: Table Prepare Complete, Total: {tableTotal} ");
-//				return false;
-//			}
+                var tableName = Path.GetFileNameWithoutExtension(filePath);
+                var connection = new SQLiteConnection(filePath);
 
-//			foreach (var filePath in filePaths)
-//			{
-//				if (true == filePath.Contains(CONFIG_FILENAME))
-//				{
-//					LoadConfigTable(filePath);
-//					continue;
-//				}
+                _dbConnectionDict.Add(tableName, connection);
 
-//				var connectionString = $"Data Source={filePath};";
-//				var connection = new Microsoft.Data.Sqlite.SqliteConnection(connectionString);
-//				SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
+                totalTable++;
+            }
 
-//				var tableName = Path.GetFileNameWithoutExtension(filePath);
+			_logger.LogInformation($"TDBService initialzed. total: {totalTable}");
 
-//				var tableType = asm.GetType($"{ASSEMBLY_NAME}.{tableName}");
+			return true;
+		}
 
-//				_databaseConnection.Add(tableName, connection);
+        /// <summary>
+        /// Get by id.
+        /// </summary>
+		public T GetById<T>(int id) where T : class, ITableBase, new()
+        {
+            if (_dataCacheHashTable.ContainsKey(typeof(T).Name))
+            {
+                return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).GetById(id);
+            }
 
-//				try
-//				{
-//					var method = this.GetType().GetMethod("CreateDataCacheTable");
-//					var generic = method.MakeGenericMethod(tableType);
-//					generic.Invoke(this, null);
-//				}
-//				catch (Exception ex)
-//				{
-//					_logger.LogInformation($"table:{tableName}, type:{tableType}, {ex.Message}");
-//				}
+            // Create table.
+            lock (_lock)
+            {
+                // double check.
+                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
+                {
+                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
 
-//				tableTotal++;
-//			}
+                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
+                }
+            }
 
-//			_logger.LogInformation($"::: Table Prepare Complete, Total: {tableTotal}");
-//			_logger.LogInformation($"::: Config Prepare Complete, Total: {_configTables.Count}");
-//			return true;
-//		}
+            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).GetById(id);
+        }
 
-//		private void LoadConfigTable(string filePath)
-//		{
-//			var connectionString = $"Data Source={filePath};";
-//			var connection = new Microsoft.Data.Sqlite.SqliteConnection(connectionString);
-//			SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
+		/// <summary>
+		/// retreive first data from predicate
+		/// </summary>
+		public T First<T>(Func<T, bool> predExpr) where T : class, ITableBase, new()
+        {
+            if (_dataCacheHashTable.ContainsKey(typeof(T).Name))
+            {
+                return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).First(predExpr);
+            }
 
-//			var tableName = "ConfigTableBase";
-//			var configDatas = connection.Query<ConfigTableBase>($"SELECT * FROM {tableName}");
+            // Create table.
+            lock (_lock)
+            {
+                // double check.
+                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
+                {
+                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
 
-//			Assembly asm = null;
-//			if (true == File.Exists(Path.Combine(_rootPath, ASSEMBLY_DLL)))
-//			{
-//				asm = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(_rootPath, ASSEMBLY_DLL));
-//			}
-//			else
-//			{
-//				asm = Assembly.GetExecutingAssembly();
-//			}
+                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
+                }
+            }
 
-//			foreach (var configData in configDatas)
-//			{
-//				var classType = asm.GetType($"{ASSEMBLY_NAME}.{configData.TableName}");
+            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).First(predExpr);
+        }
 
-//				try
-//				{
-//					var method = this.GetType().GetMethod("CreateConfigTable");
-//					var generic = method.MakeGenericMethod(classType);
-//					generic.Invoke(this, new object[] { configData.JsonData });
-//				}
-//				catch (Exception ex)
-//				{
-//					_logger.LogError($"config table:{tableName}, type:{classType}, {ex.Message}");
-//				}
-//			}
-//		}
+		/// <summary>
+		/// retreive first data from predicate
+		/// </summary>
+		public T Last<T>(Func<T, bool> predExpr) where T : class, ITableBase, new()
+        {
+            if (_dataCacheHashTable.ContainsKey(typeof(T).Name))
+            {
+                return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Last(predExpr);
+            }
 
-//		public void CreateConfigTable<T>(string json) where T : class, ITDBConfigTable
-//		{
-//			var config = JsonConvert.DeserializeObject<T>(json);
+            // Create table.
+            lock (_lock)
+            {
+                // double check.
+                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
+                {
+                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
 
-//			if (true == _configTables.ContainsKey(typeof(T)))
-//			{
-//				_logger.LogError($"config table:{typeof(T)}, already added.");
-//				return;
-//			}
+                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
+                }
+            }
 
-//			_configTables.Add(typeof(T), config);
-//		}
+            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Last(predExpr);
+        }
 
-//		public T GetConfig<T>() where T : class, ITDBConfigTable
-//		{
-//			if (false == _configTables.ContainsKey(typeof(T)))
-//			{
-//				_logger.LogError($"config table:{typeof(T)}, not exist config table.");
-//				return null;
-//			}
+		/// <summary>
+		/// select data from predicate
+		/// </summary>
+		public IEnumerable<T> Select<T>(Func<T, bool> predExpr) where T : class, ITableBase, new()
+        {
+            if (_dataCacheHashTable.ContainsKey(typeof(T).Name))
+            {
+                return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Select(predExpr);
+            }
 
-//			return _configTables[typeof(T)] as T;
-//		}
+            // Create table.
+            lock (_lock)
+            {
+                // double check.
+                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
+                {
+                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
 
-//		/// <summary>
-//		/// create DataCacheTable
-//		/// </summary>
-//		public DataCacheTable<T> CreateDataCacheTable<T>() where T : class, ITDBDataTable, new()
-//		{
-//			var allList = SelectAllFromSQL<T>();
-//			var dataCache = new DataCacheTable<T>(allList);
-//			if (true == _dataCacheHashTable.ContainsKey(typeof(T).Name))
-//			{
-//				return _dataCacheHashTable[typeof(T).Name] as DataCacheTable<T>;
-//			}
+                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
+                }
+            }
 
-//			_dataCacheHashTable.Add(typeof(T).Name, dataCache);
+            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Select(predExpr);
+        }
 
-//			//Console.WriteLine($"TableCreate : {typeof(T).Name} - {dataCache.Count()}");
+        /// <summary>
+        /// select all data
+        /// </summary>
+        public IEnumerable<T> SelectAll<T>() where T : class, ITableBase, new()
+        {
+            if (_dataCacheHashTable.ContainsKey(typeof(T).Name))
+            {
+                return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).SelectAll();
+            }
 
-//			return dataCache;
-//		}
+            // Create table.
+            lock (_lock)
+            {
+                // double check.
+                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
+                {
+                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
 
-//		/// <summary>
-//		/// Retreive DataCacheTable
-//		/// </summary>
-//		private DataCacheTable<T> GetDataCacheTable<T>() where T : class, ITDBDataTable, new()
-//		{
-//			if (true == _dataCacheHashTable.ContainsKey(typeof(T).Name))
-//			{
-//				return _dataCacheHashTable[typeof(T).Name] as DataCacheTable<T>;
-//			}
+                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
+                }
+            }
 
-//			return CreateDataCacheTable<T>();
-//		}
+            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).SelectAll();
+        }
 
-//		/// <summary>
-//		/// select all data
-//		/// </summary>
-//		public List<T> SelectAllFromSQL<T>() where T : class, new()
-//		{
-//			if (_databaseConnection.ContainsKey(typeof(T).Name))
-//			{
-//				var conn = _databaseConnection[typeof(T).Name];
-//				if (null == conn)
-//				{
-//					return null;
-//				}
+        /// <summary>
+        /// Count.
+        /// </summary>
+        public int Count<T>() where T : class, ITableBase, new()
+        {
+            if (_dataCacheHashTable.ContainsKey(typeof(T).Name))
+            {
+                return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Count();
+            }
 
-//				return conn.Query<T>($"SELECT * FROM {typeof(T).Name}").ToList();
-//			}
+            // Create table.
+            lock (_lock)
+            {
+                // double check.
+                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
+                {
+                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
 
-//			return null;
-//		}
+                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
+                }
+            }
 
-
-//		/// <summary>
-//		/// select all data
-//		/// </summary>
-//		public List<T> SelectAllFromSQL<T>(string tableName) where T : class, new()
-//		{
-//			if (_databaseConnection.ContainsKey(tableName))
-//			{
-//				var conn = _databaseConnection[tableName];
-//				if (null == conn)
-//				{
-//					return null;
-//				}
-
-//				return conn.Query<T>($"SELECT * FROM {tableName}").ToList();
-//			}
-
-//			return null;
-//		}
-
-//		/// <summary>
-//		/// select all data
-//		/// </summary>
-//		public List<T> SelectFromSQL<T>(string tableName, string statement) where T : class, new()
-//		{
-//			if (_databaseConnection.ContainsKey(tableName))
-//			{
-//				var conn = _databaseConnection[tableName];
-//				if (null == conn)
-//				{
-//					return null;
-//				}
-
-//				return conn.Query<T>($"SELECT * FROM {tableName} {statement}").ToList();
-//			}
-
-//			return null;
-//		}
-
-//		/// <summary>
-//		/// select all data
-//		/// </summary>
-//		public IEnumerable<T> SelectAll<T>() where T : class, ITDBDataTable, new()
-//		{
-//			return GetDataCacheTable<T>().SelectAll();
-//		}
-
-//		public T GetById<T>(int id) where T : class, ITDBDataTable, new()
-//		{
-//			var tb = GetDataCacheTable<T>();
-//			if (null == tb)
-//			{
-//				Console.WriteLine($"tb is null - {typeof(T).Name}, {id}");
-//				return null;
-//			}
-
-//			return tb.GetById(id);
-//		}
-
-//		/// <summary>
-//		/// retreive first data from predicate
-//		/// </summary>
-//		public T First<T>(Func<T, bool> predExpr) where T : class, ITDBDataTable, new()
-//		{
-//			return GetDataCacheTable<T>()?.First(predExpr);
-//		}
-
-//		/// <summary>
-//		/// retreive first data from predicate
-//		/// </summary>
-//		public T Last<T>(Func<T, bool> predExpr) where T : class, ITDBDataTable, new()
-//		{
-//			return GetDataCacheTable<T>()?.Last(predExpr);
-//		}
-
-//		/// <summary>
-//		/// select data from predicate
-//		/// </summary>
-//		public IEnumerable<T> Select<T>(Func<T, bool> predExpr) where T : class, ITDBDataTable, new()
-//		{
-//			return GetDataCacheTable<T>()?.Select(predExpr);
-//		}
-
-//	}
-//}
+            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Count();
+        }
+    }
+}

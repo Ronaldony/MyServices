@@ -28,9 +28,17 @@ namespace Server_World.Core.Utilities
         /// <summary>
         /// GetService.
         /// </summary>
-        public static T GetService<T>()
+        public static T GetService<T>() where T : class
         {
             return _serviceProvider.GetService<T>();
+        }
+
+        /// <summary>
+        /// GetService.
+        /// </summary>
+        public static object GetService(Type type)
+        {
+            return _serviceProvider.GetService(type);
         }
     }
 }

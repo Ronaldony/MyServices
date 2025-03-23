@@ -2,11 +2,10 @@
 using MemoryPack;
 using System.Runtime.InteropServices;
 
-namespace GameCore.Packet
+namespace GameCore.NetPacket
 {
     using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
-    using GameCore.NetPacket;
 
     /// <summary>
     /// NetPacket_Login from client to server.

@@ -2,6 +2,7 @@
 
 namespace Framework.WebAPI.Controllers
 {
+    using Microsoft.Extensions.DependencyInjection;
     using ServerEngine.Database.Interfaces;
 
     /// <summary>
@@ -42,7 +43,7 @@ namespace Framework.WebAPI.Controllers
 				return _dataObjectDict[type] as T;
             }
 
-			var dataObject = Activator.CreateInstance(type, _serviceProvider) as T;
+			var dataObject = _serviceProvider.GetRequiredService<T>();
 			_dataObjectDict.Add(type, dataObject);
 
             return dataObject;

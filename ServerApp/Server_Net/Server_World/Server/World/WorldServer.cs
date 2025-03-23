@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 
 namespace Server_World.Server.World
 {
-    using Server_World.Core.Utilities;
     using ServerEngine.Network.UDP;
 
     /// <summary>
@@ -21,10 +21,10 @@ namespace Server_World.Server.World
         /// </summary>
         private ConcurrentDictionary<ulong, string> _sessionDict;
 
-        public WorldServer()
-            : base(ServiceUtility.GetServiceProvider())
+        public WorldServer(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
-            _logger = ServiceUtility.GetService<ILogger<WorldServer>>();
+            _logger = serviceProvider.GetService<ILogger<WorldServer>>();
 
             _sessionDict = new ConcurrentDictionary<ulong, string>();
         }
@@ -57,7 +57,7 @@ namespace Server_World.Server.World
         /// <summary>
         /// Add pid.
         /// </summary>
-        public bool AddPid(ulong sessionUid, string pid)
+        public bool RegisterPid(ulong sessionUid, string pid)
         {
             if (false == _sessionDict.ContainsKey(sessionUid))
             {
