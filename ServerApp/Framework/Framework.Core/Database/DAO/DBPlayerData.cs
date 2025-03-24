@@ -61,7 +61,7 @@ namespace Framework.Core.Database.DAO
         {
             const string SQL = """
                                 SELECT * FROM TBL_PlayerData
-                                    WHERE uid=@Uid
+                                    WHERE pid=@Pid
                                 """;
 
             using (var connection = new MySqlConnection(_connectString))

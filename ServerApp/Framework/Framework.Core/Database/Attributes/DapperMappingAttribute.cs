@@ -3,7 +3,7 @@
 	/// <summary>
 	/// DapperMappingAttribute.
 	/// </summary>
-	class DapperMappingAttribute : Attribute
+	public class DapperMappingAttribute : Attribute
     {
     }
 }

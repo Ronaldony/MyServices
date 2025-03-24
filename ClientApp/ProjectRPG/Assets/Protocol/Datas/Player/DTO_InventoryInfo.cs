@@ -1,5 +1,6 @@
 ﻿using MemoryPack;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace GameCore.Datas.Inventory
 {

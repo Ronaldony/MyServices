@@ -5,6 +5,9 @@ namespace Framework.Core.Database.DBO
 {
     using Framework.Core.Database.Attributes;
 
+	/// <summary>
+	/// DBO_Identity.
+	/// </summary>
     [DapperMapping]
     public class DBO_Identity
 	{

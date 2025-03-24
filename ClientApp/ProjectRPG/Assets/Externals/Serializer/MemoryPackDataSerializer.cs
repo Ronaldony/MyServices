@@ -8,16 +8,12 @@ namespace Externals.Serializer
     /// MemoryPackDataSerializer.
     /// Data serializer using memorypack and brotli.
     /// </summary>
-    public sealed class MemoryPackDataSerializer : Singleton<MemoryPackDataSerializer>
+    public static class MemoryPackDataSerializer
     {
-        public MemoryPackDataSerializer()
-        {
-        }
-
         /// <summary>
         /// Serialize.
         /// </summary>
-        public byte[] Serialize<T>(T data) where T : class
+        public static byte[] Serialize<T>(T data) where T : class
         {
             using (var compressor = new BrotliCompressor())
             {
@@ -29,7 +25,7 @@ namespace Externals.Serializer
         /// <summary>
         /// Deserialize.
         /// </summary>
-        public T Deserialize<T>(byte[] dataObj) where T : class
+        public static T Deserialize<T>(byte[] dataObj) where T : class
         {
             using (var decompressor = new BrotliDecompressor())
             {

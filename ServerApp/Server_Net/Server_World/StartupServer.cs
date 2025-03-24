@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Server_World
 {
+    using Framework.Core.Database.Attributes;
     using Framework.Core.Database.DBO;
     using Server_World.Core.Utilities;
     using ServerEngine.Config;
@@ -15,6 +16,7 @@ namespace Server_World
     using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
+    using System.Reflection;
 
     internal class StartupServer
     {
@@ -65,7 +67,25 @@ namespace Server_World
 #endif
 
             // Dapper mapping.
-            SqlMapper.SetTypeMap(typeof(DBO_User), new ColumnTypeMapper(typeof(DBO_User)));
+            MappingDapper();
+        }
+
+        /// <summary>
+        /// Mapping dapper.
+        /// </summary>
+        private void MappingDapper()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var asm in assemblies)
+            {
+                var types = asm.GetTypes().Where(t => t.GetCustomAttribute<DapperMappingAttribute>() != null);
+
+                foreach (var type in types)
+                {
+                    SqlMapper.SetTypeMap(type, new ColumnTypeMapper(type));
+                }
+            }
         }
     }
 }

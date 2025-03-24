@@ -3,11 +3,13 @@
 
 namespace ServerEngine.Test
 {
+    using GameCore.Datas.Player;
     using ServerEngine.Config;
     using ServerEngine.Config.ConfigManager;
     using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Test.Database.DataObject;
     using ServerEngine.Test.Server;
 
     internal class StartupServer
@@ -54,6 +56,15 @@ namespace ServerEngine.Test
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, 1, 2);
 #endif
+
+            var playerInfoObject = _serviceProvider.GetRequiredService<PlayerInfoObejct>();
+            await playerInfoObject.UpsertAsync<DTO_PlayerInfo>("0000018CFDF36A52", new DTO_PlayerInfo
+            {
+                Pid  = "0000018CFDF36A52",
+                RegTime = DateTime.Now,
+                PlayerName = "0000018CFDF36A52",
+                Uid = "0000018CFDF36A52"
+            });
         }
     }
 }

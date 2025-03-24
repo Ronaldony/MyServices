@@ -1,6 +1,7 @@
 ﻿
 //#define TEST_LOCAL
 
+    using System.Reflection;
 using Dapper;
 
 namespace LoginServer
@@ -14,6 +15,7 @@ namespace LoginServer
     using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
+    using Framework.Core.Database.Attributes;
 
     internal class StartupServer
     {
@@ -63,9 +65,25 @@ namespace LoginServer
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 #endif
+            MappingDapper();
+        }
 
-            // Dapper mapping.
-            SqlMapper.SetTypeMap(typeof(DBO_User), new ColumnTypeMapper(typeof(DBO_User)));
+        /// <summary>
+        /// Mapping dapper.
+        /// </summary>
+        private void MappingDapper()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var asm in assemblies)
+            {
+                var types = asm.GetTypes().Where(t => t.GetCustomAttribute<DapperMappingAttribute>() != null);
+
+                foreach (var type in types)
+                {
+                    SqlMapper.SetTypeMap(type, new ColumnTypeMapper(type));
+                }
+            }
         }
     }
 }

@@ -5,9 +5,13 @@ namespace LoginServer
 {
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObject;
+    using Framework.Core.WebAPI.ActionFilter;
+    using Framework.Core.WebAPI.Formatters;
     using Framework.WebAPI;
+    using Framework.WebAPI.Controllers;
     using GameCore;
     using GameCore.Interfaces;
+    using Google.Api;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.GeoIP;
@@ -36,6 +40,20 @@ namespace LoginServer
             _webAppBuilder.Logging.AddNLog();
             _webAppBuilder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
 
+            // MVC
+            _webAppBuilder.Services.AddMvcCore(option =>
+            {
+                option.InputFormatters.Clear();
+                option.OutputFormatters.Clear();
+
+                // memorypack formatter
+                option.InputFormatters.Add(new BrotliMemorypackInputFormatter());
+                option.OutputFormatters.Add(new BrotliMemorypackOutputFormatter());
+
+                option.EnableEndpointRouting = false;
+            })
+            .AddApplicationPart(typeof(GameController).Assembly);
+
             _webAppBuilder.Services.AddControllers(options =>
             {
                 options.Filters.Add<ErrorExceptionFilter>();
@@ -61,6 +79,7 @@ namespace LoginServer
             _webAppBuilder.Services.AddScoped<DBIdentity>();
             _webAppBuilder.Services.AddScoped<DBUser>();
             _webAppBuilder.Services.AddScoped<DBPlayerData>();
+            _webAppBuilder.Services.AddScoped<AuthActionFilter>();
 
             // scoped.
             _webAppBuilder.WebHost.UseKestrel(configs =>

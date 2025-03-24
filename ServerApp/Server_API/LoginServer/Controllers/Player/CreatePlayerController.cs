@@ -83,9 +83,10 @@ namespace LoginServer.Controllers.Auth
 
             // Pid 발급.
             var newPid = _uniqueIdService.GenerateId();
+            var playerName = newPid;
 
             // Create PlayerData.
-            if (false == await _dbPlayerData.CreatePlayerDataAsync(uid, newPid, newPid))
+            if (false == await _dbPlayerData.CreatePlayerDataAsync(uid, newPid, playerName))
             {
                 throw new ServerException(GameErrorCode.CreatePlayer_NotCreatedPlayer, $"create PlayerData error.");
             }
@@ -108,7 +109,8 @@ namespace LoginServer.Controllers.Auth
             return new RES_CreatePlayer
             {
                 Uid = uid,
-                PlayerInfo = newPlayerInfo
+                Pid = newPid,
+                PlayerName = playerName,
             };
         }
     }

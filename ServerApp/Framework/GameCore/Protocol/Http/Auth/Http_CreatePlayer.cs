@@ -41,6 +41,12 @@ namespace GameCore.Http.Auth
         /// PlayerInfo.
         /// </summary>
         [MemoryPackOrder(1)]
-        public DTO_PlayerInfo PlayerInfo { get; set; }
+        public string Pid { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string PlayerName { get; set; }
     }
 }

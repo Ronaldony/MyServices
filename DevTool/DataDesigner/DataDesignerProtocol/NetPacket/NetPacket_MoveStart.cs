@@ -1,5 +1,6 @@
 ﻿using MemoryPack;
 using System.Runtime.InteropServices;
+using System;
 
 namespace GameCore.NetPacket
 {
@@ -14,13 +15,13 @@ namespace GameCore.NetPacket
         /// MoveDirection.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Type_MoveDirection MoveDirection { get; init; }
+        public Type_MoveDirection MoveDirection { get; set; }
 
         /// <summary>
         /// Packet time.
         /// </summary>
         [MemoryPackOrder(2)]
-        public DateTime PacketTime { get; init; }
+        public DateTime PacketTime { get; set; }
     }
 
     /// <summary>
@@ -34,12 +35,12 @@ namespace GameCore.NetPacket
         /// MoveDirection.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Type_MoveDirection MoveDirection { get; init; }
+        public Type_MoveDirection MoveDirection { get; set; }
 
         /// <summary>
         /// Packet time.
         /// </summary>
         [MemoryPackOrder(2)]
-        public DateTime PacketTime { get; init; }
+        public DateTime PacketTime { get; set; }
     }
 }

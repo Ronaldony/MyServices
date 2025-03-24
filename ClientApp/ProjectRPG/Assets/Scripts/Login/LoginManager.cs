@@ -1,62 +1,182 @@
 using Externals.Serializer;
 using GameCore.Http.Auth;
 using System.Collections;
-using System.IO;
-using System.Text;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
-public class LoginManager
+public class LoginManager : MonoBehaviour
 {
+    [SerializeField] private TMP_Text _noticeText;
 	[SerializeField] private string _url;
-	[SerializeField] private string _userId;
-	private MemoryPackDataSerializer _serializer;
+    [SerializeField] private string _loadScene;
+    private PlayerDataManager _playerDataManager;
 
-	public LoginManager()
+    private void Start()
+    {
+        _playerDataManager = PlayerDataManager.Instance;
+    }
+
+    /// <summary>
+    /// Request auth.
+    /// </summary>
+	public IEnumerator WebReq_Auth(string userId)
 	{
-		_serializer = MemoryPackDataSerializer.Instance;
-	}
+        _noticeText.text = "Requesting log in";
 
-	public IEnumerable Req_Auth()
-	{
-		const string path = "auth/auth";
+        const string path = "auth/auth";
 
-		var req = new REQ_Auth
+		var postData = MemoryPackDataSerializer.Serialize(new REQ_Auth
+        {
+            UserId = userId
+        });
+
+        using (var request = new UnityWebRequest($"{_url}/{path}", UnityWebRequest.kHttpVerbPOST))
 		{
-			UserId = _userId
-		};
+            request.uploadHandler = new UploadHandlerRaw(postData);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/x-memorypack");
 
-		using (UnityWebRequest request = UnityWebRequest.Post(Path.Combine(_url, path)))
-		{
-			//Ω∫∆Æ∏µ¿∏∑Œ ≥—±‚∏È json ±∏º∫¿Ã ±˙¡ˆ±‚ ∂ßπÆø° byte∑Œ ∫Ø»Ø »ƒ ∆ƒ¿œ∑Œ æ˜∑ŒµÂ«ÿ¡ÿ¥Ÿ
-			byte[] jsonToSend = new UTF8Encoding().GetBytes(parameter);
-			request.uploadHandler = new UploadHandlerRaw(jsonToSend);
-			//json «Ï¥ı √ﬂ∞°
-			request.SetRequestHeader("Content-Type", "application/json");
-			yield return request.SendWebRequest();
-			Debug.Log(request.result);
+            // request.
+            yield return request.SendWebRequest();
+
+            Debug.Log($"msg: {request.result}, error: {request.error}, code: {request.responseCode}");
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                // ÏùëÎãµ Í∞ÄÏ†∏Ïò§Í∏∞.
+                byte[] responseData = request.downloadHandler.data;
+                var resData = MemoryPackDataSerializer.Deserialize<RES_Auth>(responseData);
+
+                if (resData.PlayerDataDict != null)
+                {
+                    // Í∏∞Ï°¥ ÌîåÎ†àÏù¥Ïñ¥
+                    var pair = resData.PlayerDataDict.First();
+
+                    _playerDataManager.SetPlayer(userId, resData.Uid, pair.Key, pair.Value);
+                    _playerDataManager.SetAuthProcess(resData.AccessToken, resData.RefreshToken, resData.RefrshTokenExpire);
+
+                    StartCoroutine(WebReq_Login(_playerDataManager.UserId, _playerDataManager.Uid, _playerDataManager.Pid, _playerDataManager.AccessToken));
+                }
+                else
+                {
+                    // ÏÉàÎ°úÏö¥ ÌîåÎ†àÏù¥Ïñ¥
+                    _playerDataManager.SetPlayer(userId, resData.Uid);
+                    _playerDataManager.SetAuthProcess(resData.AccessToken, resData.RefreshToken, resData.RefrshTokenExpire);
+
+                    StartCoroutine(WebReq_CreatePlayer(_playerDataManager.UserId, _playerDataManager.Uid, _playerDataManager.AccessToken));
+                }
+            }
+            else
+            {
+                _noticeText.text = "Failed to authentice";
+
+                yield return new WaitForSeconds(5f);
+
+                _noticeText.text = string.Empty;
+            }
 		}
 	}
 
-	public bool Req_CreatePlayer()
-	{
-		using (UnityWebRequest request = UnityWebRequest.Get("https://my-website.com"))
-		{
-			yield return request.Send();
-			Debug.Log("Server responded: " + request.downloadHandler.text);
-		}
+    /// <summary>
+    /// Request create player.
+    /// </summary>
+    public IEnumerator WebReq_CreatePlayer(string userId, string uid, string accessToken)
+    {
+        const string path = "player/create";
 
-		return true;
-	}
+        var postData = MemoryPackDataSerializer.Serialize(new REQ_CreatePlayer
+        {
+            UserId = userId,
+            AccessToken = accessToken,
+            Uid = uid,
+        });
 
-	public bool Req_Login()
-	{
-		using (UnityWebRequest request = UnityWebRequest.Get("https://my-website.com"))
-		{
-			yield return request.Send();
-			Debug.Log("Server responded: " + request.downloadHandler.text);
-		}
+        using (var request = new UnityWebRequest($"{_url}/{path}", UnityWebRequest.kHttpVerbPOST))
+        {
+            request.uploadHandler = new UploadHandlerRaw(postData);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/x-memorypack");
 
-		return true;
-	}
+            // request.
+            yield return request.SendWebRequest();
+
+            Debug.Log($"msg: {request.result}, error: {request.error}, code: {request.responseCode}");
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                // ÏùëÎãµ Í∞ÄÏ†∏Ïò§Í∏∞.
+                byte[] responseData = request.downloadHandler.data;
+                var resData = MemoryPackDataSerializer.Deserialize<RES_CreatePlayer>(responseData);
+
+                _playerDataManager.SetPlayer(userId, uid, resData.Pid, resData.PlayerName);
+
+                StartCoroutine(WebReq_Login(_playerDataManager.UserId, _playerDataManager.Uid, resData.Pid, _playerDataManager.AccessToken));
+            }
+            else
+            {
+                _noticeText.text = "Failed to create player";
+
+                yield return new WaitForSeconds(5f);
+
+                _noticeText.text = string.Empty;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Request create player.
+    /// </summary>
+    public IEnumerator WebReq_Login(string userId, string uid, string pid, string accessToken)
+    {
+        const string path = "auth/login";
+
+        var postData = MemoryPackDataSerializer.Serialize(new REQ_Login
+        {
+            UserId = userId,
+            Uid = uid,
+            Pid = pid,
+            AccessToken = accessToken,
+        });
+
+        using (var request = new UnityWebRequest($"{_url}/{path}", UnityWebRequest.kHttpVerbPOST))
+        {
+            request.uploadHandler = new UploadHandlerRaw(postData);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/x-memorypack");
+
+            // request.
+            yield return request.SendWebRequest();
+
+            Debug.Log($"msg: {request.result}, error: {request.error}, code: {request.responseCode}");
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                // ÏùëÎãµ Îç∞Ïù¥ÌÑ∞ Î∞õÏïÑÏò§Í∏∞
+                byte[] responseData = request.downloadHandler.data;
+                // ÏùëÎãµ Îç∞Ïù¥ÌÑ∞Î•º MemoryPackÏùÑ ÏÇ¨Ïö©ÌïòÏó¨ Ïó≠ÏßÅÎ†¨Ìôî
+                var resData = MemoryPackDataSerializer.Deserialize<RES_Login>(responseData);
+
+                _playerDataManager.SetPlayerInfo(resData.PlayerInfo);
+
+                _noticeText.text = "Success to log in";
+
+                yield return new WaitForSeconds(5f);
+
+                // Load scene.
+                SceneManager.LoadScene(_loadScene);
+            }
+            else
+            {
+                _noticeText.text = "Failed to log in";
+
+                yield return new WaitForSeconds(5f);
+
+                _noticeText.text = string.Empty;
+            }
+        }
+    }
 }

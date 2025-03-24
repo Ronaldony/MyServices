@@ -13,6 +13,6 @@ namespace GameCore.NetPacket
         /// Pid.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; init; }
+        public string Pid { get; set; }
     }
 }

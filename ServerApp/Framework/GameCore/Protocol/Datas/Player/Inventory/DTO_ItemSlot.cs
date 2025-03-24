@@ -18,12 +18,12 @@ namespace GameCore.Datas.Player.Inventory
         /// TB_Item id.
         /// </summary>
         [MemoryPackOrder(0)]
-        public int RefId { get; init; }
+        public int RefId { get; set; }
 
         /// <summary>
         /// Count.
         /// </summary>
         [MemoryPackOrder(1)]
-        public int Count { get; init; }
+        public int Count { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MemoryPack;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System;
 
 namespace GameCore.NetPacket
 {
@@ -15,13 +16,13 @@ namespace GameCore.NetPacket
         /// Last position.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 LastPos { get; init; }
+        public Vector2 LastPos { get; set; }
 
         /// <summary>
         /// PacketTime.
         /// </summary>
         [MemoryPackOrder(2)]
-        public DateTime PacketTime { get; init; }
+        public DateTime PacketTime { get; set; }
     }
 
     /// <summary>
@@ -35,6 +36,6 @@ namespace GameCore.NetPacket
         /// 마지막 위치.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 EndPos { get; init; }
+        public Vector2 EndPos { get; set; }
     }
 }

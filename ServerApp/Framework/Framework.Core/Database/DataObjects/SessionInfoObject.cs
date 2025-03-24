@@ -44,7 +44,7 @@
                 return false;
             }
 
-            return false;
+            return true;
         }
 
         /// <summary>

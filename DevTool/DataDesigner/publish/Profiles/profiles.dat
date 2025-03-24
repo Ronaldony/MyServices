@@ -4,10 +4,10 @@
     "FilePathList": [
       {
         "Target": "Client",
-        "ProjectPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\ClientApp\\ProjectRPG",
-        "ProtocolPath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Protocol",
-        "DataCodePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Code",
-        "DatabaseFilePath": "C:\\Users\\gande\\OneDrive\\Documents\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Database"
+        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG",
+        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Protocol",
+        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Code",
+        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Database"
       },
       {
         "Target": "Server",

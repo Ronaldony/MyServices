@@ -1,6 +1,7 @@
 ﻿using MemoryPack;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System;
 
 namespace GameCore.Datas.Play
 {

@@ -13,13 +13,13 @@ namespace GameCore.NetPacket
         /// Attack id.
         /// </summary>
         [MemoryPackOrder(1)]
-        public int AttackId { get; init; }
+        public int AttackId { get; set; }
 
         /// <summary>
         /// Attack id.
         /// </summary>
         [MemoryPackOrder(2)]
-        public Type_MoveDirection MoveDirection { get; init; }
+        public Type_MoveDirection MoveDirection { get; set; }
     }
 
     /// <summary>
@@ -32,18 +32,18 @@ namespace GameCore.NetPacket
         /// Attack id.
         /// </summary>
         [MemoryPackOrder(1)]
-        public int AttackId { get; init; }
+        public int AttackId { get; set; }
 
         /// <summary>
         /// Attack id.
         /// </summary>
         [MemoryPackOrder(2)]
-        public int Damage { get; init; }
+        public int Damage { get; set; }
 
         /// <summary>
         /// Attack id.
         /// </summary>
         [MemoryPackOrder(3)]
-        public Type_MoveDirection MoveDirection { get; init; }
+        public Type_MoveDirection MoveDirection { get; set; }
     }
 }

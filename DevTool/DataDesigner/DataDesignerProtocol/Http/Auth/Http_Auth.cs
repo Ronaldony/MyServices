@@ -1,5 +1,7 @@
 ﻿using MemoryPack;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System;
 
 namespace GameCore.Http.Auth
 {
