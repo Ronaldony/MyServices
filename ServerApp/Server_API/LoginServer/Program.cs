@@ -7,7 +7,7 @@ namespace LoginServer
 {
     public class Program
     {
-        private const string PROGRAM_NAME = "ServerEngine.Test";
+        private const string PROGRAM_NAME = "LoginServer";
 
         public static async Task Main(string[] args)
         {
@@ -21,11 +21,15 @@ namespace LoginServer
             var startup = new Startup(args, arguments);
             startup.Configure();
 
-            var startupServer = new StartupServer(startup.WebApp.Services, arguments);
+            var services = startup.WebApp.Services;
+
+            var startupServer = new StartupServer(services, arguments);
             await startupServer.ConfigureAsync();
 
             var asciiBannerWriter = new AsciiBannerWriter("slant.flf");
-            Console.WriteLine(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
+            var logger = services.GetRequiredService<ILogger<Program>>();
+
+            logger.LogInformation(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
 
             await startup.WebApp.RunAsync();
         }

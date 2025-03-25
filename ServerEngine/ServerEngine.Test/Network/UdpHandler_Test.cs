@@ -28,7 +28,7 @@
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
 			// Send to session.
-			_testServer.Send(sessionId, sessionUid, packet);
+			_testServer.Send(sessionId, sessionUid, packet.PacketCode, packet.Data);
         }
     }
 }

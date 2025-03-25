@@ -1,6 +1,7 @@
 using LiteNetLib;
 using LiteNetLib.Layers;
 using LiteNetLib.Utils;
+using ServerEngine.Network.UDP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Externals.UDP
     /// <summary>
     /// UdpServer.
     /// </summary>
-    public abstract class UdpClient : Singleton<UdpClient>
+    public class UdpClient
     {
         // Network.
         private NetPacketProcessor _packetProcessor;
@@ -71,10 +72,18 @@ namespace Externals.UDP
         /// <summary>
         /// Connect.
         /// </summary>
-        public void Start(string server, int port)
+        public bool Connect(string server, int port)
         {
             _netManager.Start();
-            _netManager.Connect(server, port, "");
+            
+            _peer = _netManager.Connect(server, port, "");
+
+            if (_peer == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -166,16 +175,17 @@ namespace Externals.UDP
         /// </summary>
         private void Initialize_Handlers()
         {
-            var handlerTypes = Assembly.GetEntryAssembly().GetTypes().Where(d => d.IsSubclassOf(typeof(UdpHandler)));
-
             _handlerDict.Clear();
 
-            foreach (var type in handlerTypes)
+            foreach (var asm in System.AppDomain.CurrentDomain.GetAssemblies())
             {
-                var handler = Activator.CreateInstance(type) as UdpHandler;
-                var method = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
+                foreach (var type in asm.GetTypes().Where(d => d.IsSubclassOf(typeof(UdpHandler))))
+                {
+                    var handler = Activator.CreateInstance(type) as UdpHandler;
+                    var method = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
 
-                _handlerDict.Add(handler.PacketCode, (handler, method, new object[1]));
+                    _handlerDict.Add(handler.PacketCode, (handler, method, new object[1]));
+                }
             }
         }
 

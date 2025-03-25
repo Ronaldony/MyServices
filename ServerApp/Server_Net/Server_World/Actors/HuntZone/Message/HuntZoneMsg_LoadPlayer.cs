@@ -1,6 +1,7 @@
 ﻿
 namespace Server_World.Actors.HuntZone.Message
 {
+    using Framwork.Core.Session;
     using GameCore.Datas.Play;
 
     /// <summary>
@@ -8,6 +9,11 @@ namespace Server_World.Actors.HuntZone.Message
     /// </summary>
     public record HuntZoneMsg_LoadPlayer
     {
+        /// <summary>
+        /// GameSession.
+        /// </summary>
+        public GameSession GameSession { get; set; }
+
         /// <summary>
         /// PlayInfo.
         /// </summary>

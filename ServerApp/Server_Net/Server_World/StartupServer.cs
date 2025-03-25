@@ -11,6 +11,7 @@ namespace Server_World
     using Framework.Core.Database.Attributes;
     using Framework.Core.Database.DBO;
     using Server_World.Core.Utilities;
+    using Server_World.Server.World;
     using ServerEngine.Config;
     using ServerEngine.Config.ConfigManager;
     using ServerEngine.Config.Database;
@@ -66,8 +67,12 @@ namespace Server_World
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 #endif
 
-            // Dapper mapping.
+            // Database data mapping.
             MappingDapper();
+
+            // Start server.
+            var worldServer = _serviceProvider.GetRequiredService<WorldServer>();
+            worldServer.Start(_arguments.Port, false);
         }
 
         /// <summary>

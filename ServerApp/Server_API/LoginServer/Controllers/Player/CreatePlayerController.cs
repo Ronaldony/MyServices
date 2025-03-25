@@ -9,6 +9,8 @@ namespace LoginServer.Controllers.Auth
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
     using GameCore;
+    using GameCore.Datas.Inventory;
+    using GameCore.Datas.Play;
     using GameCore.Datas.Player;
     using GameCore.Http.Auth;
     using ServerEngine.Core.Services.Interfaces;
@@ -91,19 +93,10 @@ namespace LoginServer.Controllers.Auth
                 throw new ServerException(GameErrorCode.CreatePlayer_NotCreatedPlayer, $"create PlayerData error.");
             }
 
-            // PlayerInfoObject.
-            var playerInfoObejct = GetObject<PlayerInfoObject>();
-            var newPlayerInfo = new DTO_PlayerInfo();
-
-            // PlayerInfo 초기화.
-            newPlayerInfo.Uid = uid;
-            newPlayerInfo.Pid = newPid;
-            newPlayerInfo.RegTime = nowTime;
-
-            // PlayerInfo 저장.
-            if (false == await playerInfoObejct.UpsertAsync(newPid, newPlayerInfo))
+            // 플레이어 객체 생성.
+            if (false == await CreateOrUpdatePlayerAsync(uid, newPid, nowTime))
             {
-                throw new ServerException(GameErrorCode.CreatePlayer_NotMatchToken, $"upsert PlayerInfo error.");
+                throw new ServerException(GameErrorCode.Auth_NotCreateOrUpdatePlayer, $"not create or update player.");
             }
 
             return new RES_CreatePlayer
@@ -112,6 +105,54 @@ namespace LoginServer.Controllers.Auth
                 Pid = newPid,
                 PlayerName = playerName,
             };
+        }
+
+        /// <summary>
+        /// Create or update player.
+        /// </summary>
+        private async Task<bool> CreateOrUpdatePlayerAsync(string uid, string pid, DateTime nowTime)
+        {
+            // PlayInfo.
+            var playInfoObject = GetObject<PlayInfoObject>();
+            var playInfo = new DTO_PlayInfo
+            {
+                Pid = pid,
+                PlayerName = pid,
+                Area = Type_Area.HuntZone,
+                UpdateTime = nowTime,
+                Pos = new System.Numerics.Vector2(0, 0)
+            };
+
+            if (false == await playInfoObject.UpsertAsync<DTO_PlayInfo>(pid, playInfo))
+            {
+                return false;
+            }
+
+            // InventoryInfo.
+            var inventoryInfoObject = GetObject<InventoryInfoObject>();
+            var inventoryInfo = new DTO_InventoryInfo();
+
+            if (false == await inventoryInfoObject.UpsertAsync<DTO_InventoryInfo>(pid, inventoryInfo))
+            {
+                return false;
+            }
+
+            // PlayerInfoObject.
+            var playerInfoObejct = GetObject<PlayerInfoObject>();
+            var newPlayerInfo = new DTO_PlayerInfo
+            {
+                Uid = uid,
+                Pid = pid,
+                RegTime = nowTime
+            };
+
+            // PlayerInfo 저장.
+            if (false == await playerInfoObejct.UpsertAsync(pid, newPlayerInfo))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

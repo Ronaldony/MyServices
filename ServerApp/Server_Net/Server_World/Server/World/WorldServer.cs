@@ -16,8 +16,8 @@ namespace Server_World.Server.World
 
         /// <summary>
         /// Sessoin dictionary.
-        /// key: session uid.
-        /// value: pid.
+        /// key: Session uid.
+        /// value: PId.
         /// </summary>
         private ConcurrentDictionary<ulong, string> _sessionDict;
 
@@ -34,8 +34,6 @@ namespace Server_World.Server.World
         /// </summary>
         protected override void OnConnected(int sessionId, ulong sessionUid)
         {
-            // Add session uid.
-            _sessionDict.AddOrUpdate(sessionUid, string.Empty, (_, _) => string.Empty);
         }
 
         /// <summary>
@@ -59,19 +57,19 @@ namespace Server_World.Server.World
         /// </summary>
         public bool RegisterPid(ulong sessionUid, string pid)
         {
-            if (false == _sessionDict.ContainsKey(sessionUid))
+            if (_sessionDict.ContainsKey(sessionUid))
             {
                 return false;
             }
 
-            _sessionDict.AddOrUpdate(sessionUid, pid, (_, _) => pid);
+            _sessionDict.AddOrUpdate(sessionUid, pid, (key, old) => pid);
 
             return true;
         }
 
         /// <summary>
         /// Get pid.
-        /// </summary>s
+        /// </summary>
         public string GetPid(ulong sessionUid)
         {
             _sessionDict.TryGetValue(sessionUid, out var pid);

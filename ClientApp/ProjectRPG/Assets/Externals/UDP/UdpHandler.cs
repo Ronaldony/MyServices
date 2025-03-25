@@ -1,4 +1,6 @@
 ﻿
+using ServerEngine.Network.UDP;
+
 namespace Externals.UDP
 {
     /// <summary>
@@ -14,7 +16,7 @@ namespace Externals.UDP
         /// <summary>
         /// Handle packet.
         /// </summary>
-        public abstract void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet);
+        public abstract void HandlePacket(UdpPacket packet);
 
         /// <summary>
         /// Initialize packet code.

@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace Server_World.Server.World.Handlers
 {
@@ -6,11 +8,9 @@ namespace Server_World.Server.World.Handlers
     using Framework.Core.Database.DataObject;
     using Framwork.Core.Session;
     using GameCore;
+    using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
-    using Server_World.Actors.HuntZone;
-    using Server_World.Actors.HuntZone.Message;
-    using Server_World.Core.Utilities;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Network.UDP;
@@ -20,6 +20,8 @@ namespace Server_World.Server.World.Handlers
     /// </summary>
     public class UdpHandler_Login : UdpHandler
     {
+        private readonly ILogger<UdpHandler_Login> _logger;
+
         private readonly WorldServer _worldServer;
         private readonly IDataSerializer _dataSerializer;
 
@@ -36,36 +38,33 @@ namespace Server_World.Server.World.Handlers
         /// </summary>
         private readonly Dictionary<Type, IDataObject> _dataObjectDict;
 
-        /// <summary>
-        /// HuntzoneActor provider.
-        /// </summary>
-        private readonly HuntZoneActorProvider _huntZoneActorProvider;
-
-        public UdpHandler_Login()
+        public UdpHandler_Login(IServiceProvider serviceProvider)
             : base(GamePacketCode.CS_Login)
         {
-            _worldServer = ServiceUtility.GetService<WorldServer>();
-            _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
+            _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_Login>>();
+
+            _worldServer = serviceProvider.GetRequiredService<WorldServer>();
+            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             // Session object.
-            _sessionInfoObject = ServiceUtility.GetService<SessionInfoObject>();
+            _sessionInfoObject = serviceProvider.GetRequiredService<SessionInfoObject>();
 
             // MemoryPoolService.
-            _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
+            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
             // Data object 생성.
             _dataObjectDict = new Dictionary<Type, IDataObject>();
 
             // InfoObjectAttribute를 포함한 DataObject 가져오기.
-            foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(d => d.GetCustomAttribute<DataInfoObjectAttribute>() != null))
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                var dataObject = ServiceUtility.GetService(type) as IDataObject;
+                foreach (var type in asm.GetTypes().Where(d => d.GetCustomAttribute<DataInfoObjectAttribute>() != null))
+                {
+                    var dataObject = serviceProvider.GetRequiredService(type) as IDataObject;
 
-                _dataObjectDict.Add(type, dataObject);
+                    _dataObjectDict.Add(type, dataObject);
+                }
             }
-
-            // Actor 생성.
-            _huntZoneActorProvider = ServiceUtility.GetService<HuntZoneActorProvider>();
         }
 
         /// <summary>
@@ -78,7 +77,7 @@ namespace Server_World.Server.World.Handlers
                 var packetLogin = _dataSerializer.Deserialize<NetPacketCS_Login>(packet.Data);
 
                 // 세션.
-                var sessionInfo = await _sessionInfoObject.SelectAsync<SessionInfo>(packetLogin.PId);
+                var sessionInfo = await _sessionInfoObject.SelectAsync<SessionInfo>(packetLogin.Pid);
 
                 if (sessionInfo == null)
                 {
@@ -94,42 +93,50 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // Pid 등록.
-                if (false == _worldServer.RegisterPid(sessionUid, packetLogin.PId))
+                if (false == _worldServer.RegisterPid(sessionUid, packetLogin.Pid))
                 {
                     _worldServer.Disconnect(sessionId, sessionUid);
-                }
-
-                // Load infos.
-                if (false == await LoadPlayerToHuntZoneAsync(packetLogin.PId))
-                {
                     return;
                 }
+
+                ////////////////////////////////////////////////////////////////////
+                /// Load info datas.
+
+                // PlayInfo.
+                var playInfo = await _dataObjectDict[typeof(PlayInfoObject)].SelectAsync<DTO_PlayInfo>(packetLogin.Pid);
+
+                if (null == playInfo)
+                {
+                    _worldServer.Disconnect(sessionId, sessionUid);
+                    return;
+                }
+
+                // InventoryInfo.
+                var inventoryInfo = await _dataObjectDict[typeof(InventoryInfoObject)].SelectAsync<DTO_InventoryInfo>(packetLogin.Pid);
+
+                if (null == inventoryInfo)
+                {
+                    _worldServer.Disconnect(sessionId, sessionUid);
+                    return;
+                }
+
+                SendLoginPacket(sessionId, sessionUid, playInfo, inventoryInfo);
             });
         }
 
         /// <summary>
-        /// Load player to hunt zone actor.
+        /// Send login packet.
         /// </summary>
-        private async Task<bool> LoadPlayerToHuntZoneAsync(string pid)
+        private void SendLoginPacket(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo, DTO_InventoryInfo inventoryInfo)
         {
-            // PlayInfo 로드.
-            var playInfoObject = _dataObjectDict[typeof(PlayInfoObject)];
-            var playInfo = await playInfoObject.SelectAsync<DTO_PlayInfo>(pid);
+            var loginPacket = _memoryPoolService.Rent<NetPacketSC_Login>();
 
-            if (null == playInfo)
-            {
-                return false;
-            }
+            loginPacket.PlayInfo = playInfo;
+            loginPacket.InventoryInfo = inventoryInfo;
 
-            // Actor msg.
-            var actorMsg = _memoryPoolService.Rent<HuntZoneMsg_LoadPlayer>();
+            _worldServer.Send(sessionId, sessionUid, GamePacketCode.SC_Login, _dataSerializer.Serialize(loginPacket));
 
-            actorMsg.PlayInfo = playInfo;
-
-            // Delivery msg.
-            _huntZoneActorProvider.Tell<HuntZoneMsg_LoadPlayer>(actorMsg);
-
-            return true;
+            _memoryPoolService.Release(loginPacket);
         }
     }
 }

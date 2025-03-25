@@ -10,8 +10,6 @@ namespace LoginServer.Controllers.Auth
     using Framework.WebAPI.Controllers;
     using Framwork.Core.Session;
     using GameCore;
-    using GameCore.Datas.Inventory;
-    using GameCore.Datas.Play;
     using GameCore.Datas.Player;
     using GameCore.Http.Auth;
     using ServerEngine.Core.Util;
@@ -86,12 +84,6 @@ namespace LoginServer.Controllers.Auth
                 throw new ServerException(GameErrorCode.Auth_NotExistPlayerInfo, $"not match accesstoken.");
             }
 
-            // 플레이어 객체 생성.
-            if (false == await CreateOrUpdatePlayerAsync(req.Pid))
-            {
-                throw new ServerException(GameErrorCode.Auth_NotCreateOrUpdatePlayer, $"not create or update player.");
-            }
-
             // Save session.
             var newSessionInfo = new SessionInfo
             {
@@ -120,43 +112,6 @@ namespace LoginServer.Controllers.Auth
                 Uid = uid,
                 PlayerInfo = playerInfo,
             };
-        }
-
-        /// <summary>
-        /// Create or update player.
-        /// </summary>
-        private async Task<bool> CreateOrUpdatePlayerAsync(string pid)
-        {
-            // PlayInfo.
-            var playInfoObject = GetObject<PlayInfoObject>();
-            var playInfo = await playInfoObject.SelectAsync<DTO_PlayInfo>(pid);
-
-            if (null == playInfo)
-            {
-                playInfo = new DTO_PlayInfo();
-                
-                if (false == await playInfoObject.UpsertAsync<DTO_PlayInfo>(pid, playInfo))
-                {
-                    return false;
-                }
-            }
-
-            // InventoryInfo.
-            var inventoryInfoObject = GetObject<InventoryInfoObject>();
-            var inventoryInfo = await inventoryInfoObject.SelectAsync<DTO_InventoryInfo>(pid);
-
-            if (null == inventoryInfo)
-            {
-                inventoryInfo = new DTO_InventoryInfo();
-
-                if (false == await inventoryInfoObject.UpsertAsync<DTO_InventoryInfo>(pid, inventoryInfo))
-                {
-                    return false;
-                }
-            }
-
-
-            return true;
         }
     }
 }

@@ -11,7 +11,7 @@
     {
         private readonly WorldServer _gameServer;
 
-        public UdpHandler_MoveStart()
+        public UdpHandler_MoveStart(IServiceProvider serviceProvider)
             : base(GamePacketCode.CS_MoveStart)
         {
             _gameServer = ServiceUtility.GetService<WorldServer>();

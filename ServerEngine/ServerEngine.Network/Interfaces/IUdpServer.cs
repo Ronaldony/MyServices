@@ -16,12 +16,12 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Send.
         /// </summary>
-        bool Send(int sessionId, ulong sessionUid, UdpPacket packet);
+        bool Send(int sessionId, ulong sessionUid, int packetCode, byte[] packetData);
 
         /// <summary>
         /// Broadcast packet.
         /// </summary>
-        bool BroadCast(int sessionId, ulong sessionUid, UdpPacket packet);
+        bool BroadCast(int sessionId, ulong sessionUid, int packetCode, byte[] packetData);
 
         /// <summary>
         /// Add white list.

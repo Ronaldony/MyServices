@@ -15,21 +15,15 @@ namespace GameCore.NetPacket
     public partial record NetPacketCS_Login
     {
         /// <summary>
-        /// Uid.
-        /// </summary>
-        [MemoryPackOrder(0)]
-        public string Uid { get; set; }
-
-        /// <summary>
         /// Pid.
         /// </summary>
-        [MemoryPackOrder(1)]
-        public string PId { get; set; }
+        [MemoryPackOrder(0)]
+        public string Pid { get; set; }
 
         /// <summary>
         /// Token.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(1)]
         public string Token { get; set; }
     }
 
@@ -37,26 +31,18 @@ namespace GameCore.NetPacket
     /// NetPacket_Login from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_Login
+    public partial record NetPacketSC_Login : NetPacketBase
     {
         /// <summary>
         /// 플레이 정보.
         /// </summary>
-        [MemoryPackOrder(0)]
+        [MemoryPackOrder(1)]
         public DTO_PlayInfo PlayInfo { get; set; }
 
         /// <summary>
         /// 인벤토리 정보.
         /// </summary>
-        [MemoryPackOrder(1)]
-        public DTO_InventoryInfo InventoryInfo { get; set; }
-
-        /// <summary>
-        /// 유저 플레이 정보.
-        /// </summary>
         [MemoryPackOrder(2)]
-        public List<DTO_PlayInfo> Users { get; set; }
-
-        // 맵 정보 전달 필요.
+        public DTO_InventoryInfo InventoryInfo { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-namespace Externals.UDP
+namespace ServerEngine.Network.UDP
 {
     /// <summary>
     /// UdpPacket.

@@ -1,5 +1,7 @@
 using Externals.Serializer;
+using GameCore;
 using GameCore.Http.Auth;
+using GameCore.NetPacket;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -12,11 +14,14 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private TMP_Text _noticeText;
 	[SerializeField] private string _url;
     [SerializeField] private string _loadScene;
+
     private PlayerDataManager _playerDataManager;
+    private NetPacketManager _netPacketManager;
 
     private void Start()
     {
         _playerDataManager = PlayerDataManager.Instance;
+        _netPacketManager = NetPacketManager.Instance;
     }
 
     /// <summary>
@@ -155,22 +160,43 @@ public class LoginManager : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
+                // Success.
+
                 // 응답 데이터 받아오기
                 byte[] responseData = request.downloadHandler.data;
                 // 응답 데이터를 MemoryPack을 사용하여 역직렬화
                 var resData = MemoryPackDataSerializer.Deserialize<RES_Login>(responseData);
 
-                _playerDataManager.SetPlayerInfo(resData.PlayerInfo);
+                _playerDataManager.PlayerInfo = resData.PlayerInfo;
 
-                _noticeText.text = "Success to log in";
+                // Net packet login.
+                var isConnected = _netPacketManager.Connect();
+                if (isConnected == false)
+                {
+                    _noticeText.text = "Fail to connect to server";
+                    yield return null;
+                }
 
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(2f);
 
-                // Load scene.
-                SceneManager.LoadScene(_loadScene);
+                // Send Login packet.
+                var packet = new NetPacketCS_Login
+                {
+                    Pid = pid,
+                    Token = accessToken,
+                };
+
+                if (false == _netPacketManager.Send<NetPacketCS_Login>(GamePacketCode.CS_Login, packet))
+                {
+                    _noticeText.text = "Fail to send pakcet login.";
+                    yield return null;
+                }
+
+                _noticeText.text = "Success to log in. Loading scene...";
             }
             else
             {
+                // Fail.
                 _noticeText.text = "Failed to log in";
 
                 yield return new WaitForSeconds(5f);

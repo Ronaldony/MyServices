@@ -115,7 +115,7 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Send packet.
         /// </summary>
-        public bool Send(int sessionId, ulong sessionUid, UdpPacket packet)
+        public bool Send(int sessionId, ulong sessionUid, int packetCode, byte[] packetData)
         {
             if (false == _sessionDict.TryGetValue(sessionId, out var session))
             {
@@ -124,7 +124,7 @@ namespace ServerEngine.Network.UDP
 
             // 핑퐁 테스트 간 전송 직전 최소한의 딜레이를 주어
             // 네트워크 라이브러리 네트워크 버퍼에서 발생할 수 있는 Race condition 문제를 없앰.
-            Thread.Sleep(5);
+            //Thread.Sleep(5);
 
             // Sesison lock: 세션 풀을 사용하기 때문에, 이미 Disconnection된 세션 메모리가 사용되는 것을 방지.
             lock (session)
@@ -143,9 +143,16 @@ namespace ServerEngine.Network.UDP
 
                 // Write packet.
                 var writer = session.DataWriter;
-                
                 writer.Reset();
-				session.PacketProcessor.Write(writer, packet);
+
+                // Packet.
+                var packet = _memoryPoolService.Rent<UdpPacket>();
+                packet.PacketCode = packetCode;
+                packet.Data = packetData;
+
+                session.PacketProcessor.Write(writer, packet);
+
+                _memoryPoolService.Release(packet);
 
                 // Send.
                 session.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
@@ -157,7 +164,7 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Broadcast packet.
         /// </summary>
-        public bool BroadCast(int sessionId, ulong sessionUid, UdpPacket packet)
+        public bool BroadCast(int sessionId, ulong sessionUid, int packetCode, byte[] packetData)
         {
             if (false == _sessionDict.TryGetValue(sessionId, out var session))
             {
@@ -181,9 +188,16 @@ namespace ServerEngine.Network.UDP
 
                 // Write packet.
                 var writer = session.DataWriter;
-
                 writer.Reset();
+
+                // Packet.
+                var packet =_memoryPoolService.Rent<UdpPacket>();
+
+                packet.PacketCode = packetCode;
+                packet.Data = packetData;
                 session.PacketProcessor.Write(writer, packet);
+
+                _memoryPoolService.Release(packet);
 
                 // Send all.
                 _netManager.SendToAll(writer, DeliveryMethod.ReliableOrdered, session.Peer);
@@ -328,16 +342,17 @@ namespace ServerEngine.Network.UDP
         /// </summary>
         private void Initialize_Handlers()
         {
-            var handlerTypes = Assembly.GetEntryAssembly().GetTypes().Where(d => d.IsSubclassOf(typeof(UdpHandler)));
-
             _handlerDict.Clear();
 
-            foreach (var type in handlerTypes)
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                var handler = Activator.CreateInstance(type, _serviceProvider) as UdpHandler;
-                var method = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
+                foreach (var type in asm.GetTypes().Where(d => d.IsSubclassOf(typeof(UdpHandler))))
+                {
+                    var handler = Activator.CreateInstance(type, _serviceProvider) as UdpHandler;
+                    var method = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
 
-                _handlerDict.Add(handler.PacketCode, (handler, method, new object[3]));
+                    _handlerDict.Add(handler.PacketCode, (handler, method, new object[3]));
+                }
             }
         }
         
@@ -361,11 +376,6 @@ namespace ServerEngine.Network.UDP
                 args[2] = session.Packet;
 
                 // Invoke method.
-                //ThreadPool.QueueUserWorkItem(param =>
-                //{
-                //    value.method.Invoke(value.handler, args);
-                //});
-                
                 value.method.Invoke(value.handler, args);
             }
         }

@@ -39,5 +39,10 @@
         /// Uid.
         /// </summary>
         public DateTime TokenExpireTime { get; init; }
+
+        /// <summary>
+        /// GameSession.
+        /// </summary>
+        public GameSession GameSession { get; set; }
     }
 }

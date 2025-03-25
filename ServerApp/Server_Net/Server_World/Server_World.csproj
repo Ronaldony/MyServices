@@ -7,6 +7,14 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -27,7 +35,7 @@
     <PackageReference Include="PowerArgs" Version="4.0.3" />
     <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.0" />
     <PackageReference Include="ServerEngine.GeoIP" Version="1.0.0" />
-    <PackageReference Include="ServerEngine.Network" Version="1.0.1" />
+    <PackageReference Include="ServerEngine.Network" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +47,7 @@
     <Folder Include="Actors\BattleZone\" />
     <Folder Include="Actors\Inventory\" />
     <Folder Include="Actors\Village\" />
+    <Folder Include="Core\Session\" />
   </ItemGroup>
 
 </Project>

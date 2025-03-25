@@ -1,11 +1,14 @@
 ﻿
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using PowerArgs;
 
 namespace Server_World
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using ServerEngine.AsciiBanner;
+    using System.Text;
 
     /// <summary>
     /// Program.
@@ -39,7 +42,9 @@ namespace Server_World
             await startupServer.ConfigureAsync();
 
             var asciiBannerWriter = new AsciiBannerWriter("slant.flf");
-            Console.WriteLine(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
+            var logger = host.Services.GetRequiredService<ILogger<Program>>();
+
+            logger.LogInformation(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
 
             await host.RunAsync();
         }

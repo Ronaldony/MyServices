@@ -1,3 +1,5 @@
+using GameCore.Datas.Inventory;
+using GameCore.Datas.Play;
 using GameCore.Datas.Player;
 using System;
 
@@ -16,6 +18,8 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
 
     // Infos.
     public DTO_PlayerInfo PlayerInfo;
+    public DTO_InventoryInfo InventoryInfo;
+    public DTO_PlayInfo PlayInfo;
 
     /// <summary>
     /// Set authentication process.
@@ -36,13 +40,5 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
         Uid = uid;
         Pid = pid;
         PlayerName = playerName;
-    }
-
-    /// <summary>
-    /// Set player.
-    /// </summary>
-    public void SetPlayerInfo(DTO_PlayerInfo playerInfo)
-    {
-        PlayerInfo = playerInfo;
     }
 }
