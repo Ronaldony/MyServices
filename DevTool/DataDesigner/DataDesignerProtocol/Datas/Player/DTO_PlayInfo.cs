@@ -16,8 +16,9 @@ namespace GameCore.Datas.Play
     {
         public DTO_PlayInfo()
         {
+            Position = new DTO_Position();
             Equipment = new DTO_Equipment();
-            Status = new DTO_PlayerStat();
+            Stat = new DTO_PlayerStat();
         }
 
         /// <summary>
@@ -39,27 +40,21 @@ namespace GameCore.Datas.Play
         public DateTime UpdateTime { get; set; }
 
         /// <summary>
-        /// Area.
+        /// 위치 정보.
         /// </summary>
         [MemoryPackOrder(3)]
-        public Type_Area Area  { get; set; }
-
-        /// <summary>
-        /// Pos.
-        /// </summary>
-        [MemoryPackOrder(4)]
-        public Vector2 Pos { get; set; }
+        public DTO_Position Position { get; set; }
 
         /// <summary>
         /// 장비.
         /// </summary>
-        [MemoryPackOrder(5)]
+        [MemoryPackOrder(4)]
         public DTO_Equipment Equipment { get; set; }
 
         /// <summary>
         /// 플레이어 능력치.
         /// </summary>
-        [MemoryPackOrder(6)]
-        public DTO_PlayerStat Status { get; set; }
+        [MemoryPackOrder(5)]
+        public DTO_PlayerStat Stat { get; set; }
     }
 }

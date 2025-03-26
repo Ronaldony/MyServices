@@ -186,7 +186,7 @@ public class LoginManager : MonoBehaviour
                     Token = accessToken,
                 };
 
-                if (false == _netPacketManager.Send<NetPacketCS_Login>(GamePacketCode.CS_Login, packet))
+                if (false == _netPacketManager.Send<NetPacketCS_Login>(NetPacketCode.CS_Login, packet))
                 {
                     _noticeText.text = "Fail to send pakcet login.";
                     yield return null;

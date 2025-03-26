@@ -4,10 +4,23 @@ using System.Runtime.InteropServices;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacketBase.
+    /// NetPacketReqBase.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketBase
+    public partial record NetPacketReqBase
+    {
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public string Pid { get; set; }
+    }
+
+    /// <summary>
+    /// NetPacketResBase.
+    /// </summary>
+    [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    public partial record NetPacketResBase
     {
         /// <summary>
         /// Pid.

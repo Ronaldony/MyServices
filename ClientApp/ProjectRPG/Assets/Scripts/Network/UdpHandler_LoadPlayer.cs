@@ -5,7 +5,6 @@ using GameCore;
 using GameCore.NetPacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Server_World.Server.World.Handlers
 {
@@ -16,7 +15,7 @@ namespace Server_World.Server.World.Handlers
     public class UdpHandler_LoadPlayer : UdpHandler
     {
         public UdpHandler_LoadPlayer()
-            : base(GamePacketCode.SC_LoadPlayer)
+            : base(NetPacketCode.SC_LoadPlayer)
         {
         }
 
@@ -36,7 +35,7 @@ namespace Server_World.Server.World.Handlers
             areaDataManager.SetPlayInfos(packetData.Users);
 
             // Load scene.
-            switch (playerDataManager.PlayInfo.Area)
+            switch (playerDataManager.PlayInfo.Position.Area)
             {
                 case Type_Area.HuntZone:
                     loginActor.LoadScene(Type_Area.HuntZone.ToString());

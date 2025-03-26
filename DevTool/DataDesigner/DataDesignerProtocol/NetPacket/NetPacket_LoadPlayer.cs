@@ -19,7 +19,7 @@ namespace GameCore.NetPacket
     /// NetPacket_LoadPlayer from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_LoadPlayer : NetPacketBase
+    public partial record NetPacketSC_LoadPlayer : NetPacketResBase
     {
         /// <summary>
         /// 유저 플레이 정보.

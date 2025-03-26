@@ -1,9 +1,9 @@
 ﻿namespace GameCore
 {
     /// <summary>
-    /// 게임 패킷 코드.
+    /// 네트워크 패킷 코드.
     /// </summary>
-    public static class GamePacketCode
+    public static class NetPacketCode
     {
         //////////////////////////////////////////////////////////////////////
         /// UDP 

@@ -51,8 +51,9 @@ namespace Server_World
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
 
-            // HostService.
+            // Utilies.
             ServiceUtility.Initialize(_serviceProvider);
+            NetPacketUtility.Initialize(_serviceProvider);
 
 #if !TEST_LOCAL
             var configGame = await remoteConfigureService.GetConfigData<Config_Game>("Devel_Game");

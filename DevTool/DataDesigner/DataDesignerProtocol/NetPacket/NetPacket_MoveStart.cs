@@ -9,7 +9,7 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_MoveStart : NetPacketBase
+    public partial record NetPacketCS_MoveStart : NetPacketReqBase
     {
         /// <summary>
         /// MoveDirection.
@@ -29,18 +29,12 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_MoveStart : NetPacketBase
+    public partial record NetPacketSC_MoveStart : NetPacketResBase
     {
         /// <summary>
         /// MoveDirection.
         /// </summary>
         [MemoryPackOrder(1)]
         public Type_MoveDirection MoveDirection { get; set; }
-
-        /// <summary>
-        /// Packet time.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public DateTime PacketTime { get; set; }
     }
 }

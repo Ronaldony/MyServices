@@ -31,7 +31,7 @@ namespace GameCore.NetPacket
     /// NetPacket_Login from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_Login : NetPacketBase
+    public partial record NetPacketSC_Login : NetPacketResBase
     {
         /// <summary>
         /// 플레이 정보.

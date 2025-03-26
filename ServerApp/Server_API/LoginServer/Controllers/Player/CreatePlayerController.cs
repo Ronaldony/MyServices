@@ -114,14 +114,13 @@ namespace LoginServer.Controllers.Auth
         {
             // PlayInfo.
             var playInfoObject = GetObject<PlayInfoObject>();
-            var playInfo = new DTO_PlayInfo
-            {
-                Pid = pid,
-                PlayerName = pid,
-                Area = Type_Area.HuntZone,
-                UpdateTime = nowTime,
-                Pos = new System.Numerics.Vector2(0, 0)
-            };
+            var playInfo = new DTO_PlayInfo();
+
+            playInfo.Pid = pid;
+            playInfo.PlayerName = pid;
+            playInfo.UpdateTime = nowTime;
+            playInfo.Position.Area = Type_Area.HuntZone;
+            playInfo.Stat.Velocity = 1;
 
             if (false == await playInfoObject.UpsertAsync<DTO_PlayInfo>(pid, playInfo))
             {
@@ -139,15 +138,14 @@ namespace LoginServer.Controllers.Auth
 
             // PlayerInfoObject.
             var playerInfoObejct = GetObject<PlayerInfoObject>();
-            var newPlayerInfo = new DTO_PlayerInfo
-            {
-                Uid = uid,
-                Pid = pid,
-                RegTime = nowTime
-            };
+            var playerInfo = new DTO_PlayerInfo();
+
+            playerInfo.Uid = uid;
+            playerInfo.Pid = pid;
+            playerInfo.RegTime = nowTime;
 
             // PlayerInfo 저장.
-            if (false == await playerInfoObejct.UpsertAsync(pid, newPlayerInfo))
+            if (false == await playerInfoObejct.UpsertAsync(pid, playerInfo))
             {
                 return false;
             }

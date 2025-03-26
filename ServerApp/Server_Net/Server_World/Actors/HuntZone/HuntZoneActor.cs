@@ -4,10 +4,8 @@ using Microsoft.Extensions.Logging;
 namespace Server_World.Actors.HuntZone
 {
     using Framwork.Core.Session;
-    using GameCore.Datas;
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
-    using Microsoft.AspNetCore.Authentication;
     using Server_World.Actors.HuntZone.Message;
     using Server_World.Core.Utilities;
     using Server_World.Server.World;
@@ -54,11 +52,11 @@ namespace Server_World.Actors.HuntZone
             ///////////////////////////////// Receive.
 
             // Messages.
-            Receive<HuntZoneMsg_LoadPlayer>(packet =>
+            Receive<HuntZoneMsg_LoadPlayer>(msg =>
             {
-                LoadPlayer(packet);
+                LoadPlayer(msg);
 
-                _memoryPoolService.Release(packet);
+                _memoryPoolService.Release(msg);
             });
 
             // Move.
@@ -75,6 +73,43 @@ namespace Server_World.Actors.HuntZone
         public static Props Props()
         {
             return Akka.Actor.Props.Create(() => new HuntZoneActor());
+        }
+
+        /// <summary>
+        /// Get play info.
+        /// </summary>
+        private DTO_PlayInfo GetPlayInfo(string pid)
+        {
+            _playInfoDict.TryGetValue(pid, out var playInfo);
+
+            return playInfo;
+        }
+
+        /// <summary>
+        /// Send packet.
+        /// </summary>
+        private bool SendPacket(string pid, int packetCode, byte[] packetData)
+        {
+            if (false == _sessionDict.TryGetValue(pid, out var gameSession))
+            {
+                return false;
+            }
+
+            // Send.
+            return _worldServer.Send(gameSession.SessionId, gameSession.SessionUid, packetCode, packetData);
+        }
+
+        /// <summary>
+        /// Broadcast packet.
+        /// </summary>
+        private bool BroadCast<T>(string pid, int packetCode, byte[] packetData)
+        {
+            if (false == _sessionDict.TryGetValue(pid, out var gameSession))
+            {
+                return false;
+            }
+
+            return _worldServer.BroadCast(gameSession.SessionId, gameSession.SessionUid, packetCode, packetData);
         }
     }
 }

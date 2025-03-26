@@ -17,7 +17,7 @@ namespace Server_World.Server.World.Handlers
         private readonly NetPacketCS_LoadPlayer _sendPacket;
 
         public UdpHandler_Login()
-            : base(GamePacketCode.SC_Login)
+            : base(NetPacketCode.SC_Login)
         {
             _sendPacket = new NetPacketCS_LoadPlayer();
         }
@@ -37,7 +37,7 @@ namespace Server_World.Server.World.Handlers
             playerDataManager.PlayInfo = packetData.PlayInfo;
             playerDataManager.InventoryInfo = packetData.InventoryInfo;
 
-            netPacketManager.Send<NetPacketCS_LoadPlayer>(GamePacketCode.CS_LoadPlayer, _sendPacket);
+            netPacketManager.Send<NetPacketCS_LoadPlayer>(NetPacketCode.CS_LoadPlayer, _sendPacket);
         }
     }
 }

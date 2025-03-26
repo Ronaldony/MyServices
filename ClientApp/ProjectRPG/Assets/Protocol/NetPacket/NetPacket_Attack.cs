@@ -7,7 +7,7 @@ namespace GameCore.NetPacket
     /// NetPacket_Attack from client to server.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_Attack : NetPacketBase
+    public partial record NetPacketCS_Attack : NetPacketReqBase
     {
         /// <summary>
         /// Attack id.
@@ -26,7 +26,7 @@ namespace GameCore.NetPacket
     /// NetPacket_Attack from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_Attack : NetPacketBase
+    public partial record NetPacketSC_Attack : NetPacketResBase
     {
         /// <summary>
         /// Attack id.

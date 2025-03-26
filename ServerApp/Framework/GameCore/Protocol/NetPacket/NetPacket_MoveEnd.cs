@@ -10,19 +10,25 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_MoveEnd : NetPacketBase
+    public partial record NetPacketCS_MoveEnd : NetPacketReqBase
     {
         /// <summary>
         /// Last position.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 LastPos { get; set; }
+        public Vector2 EndPos { get; set; }
 
         /// <summary>
         /// PacketTime.
         /// </summary>
         [MemoryPackOrder(2)]
         public DateTime PacketTime { get; set; }
+
+        /// <summary>
+        /// DeltaTimeSec.
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public float DeltaTimeSec { get; set; }
     }
 
     /// <summary>
@@ -30,7 +36,7 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_MoveEnd : NetPacketBase
+    public partial record NetPacketSC_MoveEnd : NetPacketResBase
     {
         /// <summary>
         /// 마지막 위치.

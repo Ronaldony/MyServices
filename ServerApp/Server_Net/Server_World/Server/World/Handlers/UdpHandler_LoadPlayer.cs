@@ -42,7 +42,7 @@ namespace Server_World.Server.World.Handlers
         private readonly HuntZoneActorProvider _huntZoneActorProvider;
 
         public UdpHandler_LoadPlayer(IServiceProvider serviceProvider)
-            : base(GamePacketCode.CS_LoadPlayer)
+            : base(NetPacketCode.CS_LoadPlayer)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_LoadPlayer>>();
 

@@ -11,6 +11,7 @@ namespace Server_World.Server.World.Handlers
     using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
+    using Server_World.Core.Utilities;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Network.UDP;
@@ -28,9 +29,6 @@ namespace Server_World.Server.World.Handlers
         // Data objects.
         private readonly SessionInfoObject _sessionInfoObject;
 
-        // MemoryPoolService.
-        private readonly IMemoryPoolService _memoryPoolService;
-
         /// <summary>
         /// Data object dictionary.
         /// key: Data object type.
@@ -39,7 +37,7 @@ namespace Server_World.Server.World.Handlers
         private readonly Dictionary<Type, IDataObject> _dataObjectDict;
 
         public UdpHandler_Login(IServiceProvider serviceProvider)
-            : base(GamePacketCode.CS_Login)
+            : base(NetPacketCode.CS_Login)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_Login>>();
 
@@ -48,9 +46,6 @@ namespace Server_World.Server.World.Handlers
 
             // Session object.
             _sessionInfoObject = serviceProvider.GetRequiredService<SessionInfoObject>();
-
-            // MemoryPoolService.
-            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
             // Data object 생성.
             _dataObjectDict = new Dictionary<Type, IDataObject>();
@@ -74,10 +69,10 @@ namespace Server_World.Server.World.Handlers
 		{
             ThreadPool.QueueUserWorkItem(async param => 
             {
-                var packetLogin = _dataSerializer.Deserialize<NetPacketCS_Login>(packet.Data);
+                var netPacket = _dataSerializer.Deserialize<NetPacketCS_Login>(packet.Data);
 
                 // 세션.
-                var sessionInfo = await _sessionInfoObject.SelectAsync<SessionInfo>(packetLogin.Pid);
+                var sessionInfo = await _sessionInfoObject.SelectAsync<SessionInfo>(netPacket.Pid);
 
                 if (sessionInfo == null)
                 {
@@ -86,14 +81,14 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // 세션 토큰 검사.
-                if (false == sessionInfo.AccessToken.Equals(packetLogin.Token))
+                if (false == sessionInfo.AccessToken.Equals(netPacket.Token))
                 {
                     _worldServer.Disconnect(sessionId, sessionUid);
                     return;
                 }
 
                 // Pid 등록.
-                if (false == _worldServer.RegisterPid(sessionUid, packetLogin.Pid))
+                if (false == _worldServer.RegisterPid(sessionUid, netPacket.Pid))
                 {
                     _worldServer.Disconnect(sessionId, sessionUid);
                     return;
@@ -103,7 +98,7 @@ namespace Server_World.Server.World.Handlers
                 /// Load info datas.
 
                 // PlayInfo.
-                var playInfo = await _dataObjectDict[typeof(PlayInfoObject)].SelectAsync<DTO_PlayInfo>(packetLogin.Pid);
+                var playInfo = await _dataObjectDict[typeof(PlayInfoObject)].SelectAsync<DTO_PlayInfo>(netPacket.Pid);
 
                 if (null == playInfo)
                 {
@@ -112,7 +107,7 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // InventoryInfo.
-                var inventoryInfo = await _dataObjectDict[typeof(InventoryInfoObject)].SelectAsync<DTO_InventoryInfo>(packetLogin.Pid);
+                var inventoryInfo = await _dataObjectDict[typeof(InventoryInfoObject)].SelectAsync<DTO_InventoryInfo>(netPacket.Pid);
 
                 if (null == inventoryInfo)
                 {
@@ -120,23 +115,15 @@ namespace Server_World.Server.World.Handlers
                     return;
                 }
 
-                SendLoginPacket(sessionId, sessionUid, playInfo, inventoryInfo);
+                // Send Login packet.
+                NetPacketUtility.SendPacket<NetPacketSC_Login>(packet =>
+                {
+                    packet.PlayInfo = playInfo;
+                    packet.InventoryInfo = inventoryInfo;
+
+                    _worldServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login, _dataSerializer.Serialize(packet));
+                });
             });
-        }
-
-        /// <summary>
-        /// Send login packet.
-        /// </summary>
-        private void SendLoginPacket(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo, DTO_InventoryInfo inventoryInfo)
-        {
-            var loginPacket = _memoryPoolService.Rent<NetPacketSC_Login>();
-
-            loginPacket.PlayInfo = playInfo;
-            loginPacket.InventoryInfo = inventoryInfo;
-
-            _worldServer.Send(sessionId, sessionUid, GamePacketCode.SC_Login, _dataSerializer.Serialize(loginPacket));
-
-            _memoryPoolService.Release(loginPacket);
         }
     }
 }
