@@ -4,6 +4,7 @@ using System.Net;
 
 namespace ServerEngine.Test
 {
+    using Akka.Actor;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.GeoIP;
@@ -41,6 +42,7 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
             _webAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
+            _webAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
 
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();

@@ -482,7 +482,7 @@ namespace DataDesignerServer.Core.Generator
                 namespace GameCore
                 {
                     /// <summary>
-                    /// Table Id.
+                    /// ITableBase.
                     /// </summary>
                     public interface ITableBase
                     {
@@ -491,7 +491,7 @@ namespace DataDesignerServer.Core.Generator
                 }
                 ";
 
-            return CSharpSyntaxTree.ParseText(code).GetCompilationUnitRoot().NormalizeWhitespace();
+            return CSharpSyntaxTree.ParseText(code).GetCompilationUnitRoot();
         }
 
         /// <summary>

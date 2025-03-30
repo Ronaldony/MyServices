@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using Akka.Actor;
+using System.Net.Sockets;
 
 namespace ServerEngine.Test.Server
 {
@@ -20,7 +21,7 @@ namespace ServerEngine.Test.Server
 		private readonly Dictionary<ulong, GameSession> _gameSessionDict;
 
 		public TestServer(IServiceProvider serviceProvider)
-			: base(serviceProvider)
+			: base(serviceProvider, serviceProvider.GetRequiredService<ActorSystem>())
 		{
 			_logger = serviceProvider.GetRequiredService<ILogger<UdpServer>>();
 

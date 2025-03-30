@@ -64,9 +64,6 @@ namespace Externals.UDP
 
             // Register UDP packet.
             _packetProcessor.SubscribeReusable<UdpPacket>(HandlePacket);
-
-            // Start server.
-            //_netManager.AllowPeerAddressChange = allowPeerAddrChange;
         }
 
         /// <summary>
@@ -177,7 +174,7 @@ namespace Externals.UDP
         {
             _handlerDict.Clear();
 
-            foreach (var asm in System.AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (var type in asm.GetTypes().Where(d => d.IsSubclassOf(typeof(UdpHandler))))
                 {

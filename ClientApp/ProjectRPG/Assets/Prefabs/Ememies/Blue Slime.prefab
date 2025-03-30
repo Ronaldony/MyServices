@@ -34,6 +34,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2288677416517812029}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.59, y: -0.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,7 +42,6 @@ Transform:
   m_Children:
   - {fileID: 3860620869319404276}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6899945493844062322
 SpriteRenderer:
@@ -120,11 +120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215b98a501887834487ccbe2fd1b8274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roamChangeDirFloat: 2
-  attackRange: 3
-  enemyType: {fileID: 7818308863507339917}
-  attackCooldown: 2
-  stopMovingWhileAttacking: 0
+  _roamChangeDirFloat: 2
+  _attackRange: 0
+  _enemyType: {fileID: 0}
+  _attackCooldown: 2
+  _stopMovingWhileAttacking: 0
+  _enemyId: 3
 --- !u!114 &-5053909688831029357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,13 +303,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8023084837672669338}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.018, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3097956704246463523}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4211464183336234504
 SpriteRenderer:

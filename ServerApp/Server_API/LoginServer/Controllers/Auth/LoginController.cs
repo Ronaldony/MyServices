@@ -66,7 +66,7 @@ namespace LoginServer.Controllers.Auth
             }
 
             // Token 검사.
-            if (TimeUtil.IsPastTime(nowTime, dboIdentity.TokenExpireTime))
+            if (TimeUtil.IsPastTime(dboIdentity.TokenExpireTime, nowTime))
             {
                 throw new ServerException(GameErrorCode.Auth_ExpiredToken, $"expire accesstoken.");
             }

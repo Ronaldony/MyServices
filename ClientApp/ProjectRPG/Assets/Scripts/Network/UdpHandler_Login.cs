@@ -6,7 +6,7 @@ using GameCore.NetPacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
-namespace Server_World.Server.World.Handlers
+namespace Network
 {
 
     /// <summary>
@@ -14,12 +14,12 @@ namespace Server_World.Server.World.Handlers
     /// </summary>
     public class UdpHandler_Login : UdpHandler
     {
-        private readonly NetPacketCS_LoadPlayer _sendPacket;
+        private readonly NetPacketCS_SpawnPlayer _sendPacket;
 
         public UdpHandler_Login()
             : base(NetPacketCode.SC_Login)
         {
-            _sendPacket = new NetPacketCS_LoadPlayer();
+            _sendPacket = new NetPacketCS_SpawnPlayer();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Server_World.Server.World.Handlers
             playerDataManager.PlayInfo = packetData.PlayInfo;
             playerDataManager.InventoryInfo = packetData.InventoryInfo;
 
-            netPacketManager.Send<NetPacketCS_LoadPlayer>(NetPacketCode.CS_LoadPlayer, _sendPacket);
+            netPacketManager.Send<NetPacketCS_SpawnPlayer>(NetPacketCode.CS_SpawnPlayer, _sendPacket);
         }
     }
 }

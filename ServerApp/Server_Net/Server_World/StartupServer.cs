@@ -5,11 +5,13 @@ using Dapper;
 using Dapper.ColumnMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Server_World
 {
     using Framework.Core.Database.Attributes;
-    using Framework.Core.Database.DBO;
+    using GameCore.Interfaces;
+    using Server_World.Actors.HuntZone;
     using Server_World.Core.Utilities;
     using Server_World.Server.World;
     using ServerEngine.Config;
@@ -17,7 +19,6 @@ namespace Server_World
     using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
-    using System.Reflection;
 
     internal class StartupServer
     {
@@ -51,6 +52,10 @@ namespace Server_World
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
 
+            // ITDBService.
+            var tdbService = _serviceProvider.GetRequiredService<ITDBService>();
+            tdbService.Initialize();
+
             // Utilies.
             ServiceUtility.Initialize(_serviceProvider);
             NetPacketUtility.Initialize(_serviceProvider);
@@ -71,9 +76,7 @@ namespace Server_World
             // Database data mapping.
             MappingDapper();
 
-            // Start server.
-            var worldServer = _serviceProvider.GetRequiredService<WorldServer>();
-            worldServer.Start(_arguments.Port, false);
+            BootstrapServer();
         }
 
         /// <summary>
@@ -92,6 +95,16 @@ namespace Server_World
                     SqlMapper.SetTypeMap(type, new ColumnTypeMapper(type));
                 }
             }
+        }
+
+        /// <summary>
+        /// Bootstrap server.
+        /// </summary>
+        private void BootstrapServer()
+        {
+            // Start server.
+            var worldServer = _serviceProvider.GetRequiredService<WorldServer>();
+            worldServer.Start(_arguments.Port, false);
         }
     }
 }

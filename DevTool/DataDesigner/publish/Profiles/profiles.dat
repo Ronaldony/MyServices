@@ -5,9 +5,9 @@
       {
         "Target": "Client",
         "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG",
-        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Protocol",
-        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Code",
-        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\Database"
+        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Code",
+        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Database"
       },
       {
         "Target": "Server",

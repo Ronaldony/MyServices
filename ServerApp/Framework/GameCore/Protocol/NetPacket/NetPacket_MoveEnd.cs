@@ -23,12 +23,6 @@ namespace GameCore.NetPacket
         /// </summary>
         [MemoryPackOrder(2)]
         public DateTime PacketTime { get; set; }
-
-        /// <summary>
-        /// DeltaTimeSec.
-        /// </summary>
-        [MemoryPackOrder(3)]
-        public float DeltaTimeSec { get; set; }
     }
 
     /// <summary>
@@ -36,8 +30,14 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_MoveEnd : NetPacketResBase
+    public partial record NetPacketSC_MoveEnd
     {
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public string Pid { get; set; }
+
         /// <summary>
         /// 마지막 위치.
         /// </summary>

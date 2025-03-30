@@ -73,7 +73,7 @@ namespace LoginServer.Controllers.Auth
             }
 
             // Token 검사.
-            if (TimeUtil.IsPastTime(nowTime, dboIdentity.TokenExpireTime))
+            if (TimeUtil.IsPastTime(dboIdentity.TokenExpireTime, nowTime))
             {
                 throw new ServerException(GameErrorCode.CreatePlayer_ExpiredToken, $"expire accesstoken.");
             }
@@ -120,7 +120,7 @@ namespace LoginServer.Controllers.Auth
             playInfo.PlayerName = pid;
             playInfo.UpdateTime = nowTime;
             playInfo.Position.Area = Type_Area.HuntZone;
-            playInfo.Stat.Velocity = 1;
+            playInfo.Stat.Velocity = 4;
 
             if (false == await playInfoObject.UpsertAsync<DTO_PlayInfo>(pid, playInfo))
             {

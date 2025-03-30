@@ -5,6 +5,7 @@ using System.Net.Sockets;
 
 namespace Server_World.Server.World
 {
+    using Akka.Actor;
     using ServerEngine.Network.UDP;
 
     /// <summary>
@@ -22,7 +23,7 @@ namespace Server_World.Server.World
         private ConcurrentDictionary<ulong, string> _sessionDict;
 
         public WorldServer(IServiceProvider serviceProvider)
-            : base(serviceProvider)
+            : base(serviceProvider, serviceProvider.GetRequiredService<ActorSystem>())
         {
             _logger = serviceProvider.GetService<ILogger<WorldServer>>();
 

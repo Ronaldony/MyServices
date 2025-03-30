@@ -28,6 +28,11 @@ namespace ServerEngine.Config
         public DateTime SnowflakeBaseTime { get; set; }
 
         /// <summary>
+        /// Frame rate.
+        /// </summary>s
+        public int FrameRate { get; set; }
+
+        /// <summary>
         /// ConfigCouchbase.
         /// </summary>
         public Config_Couchbase Couchbase { get; set; }

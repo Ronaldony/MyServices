@@ -44,8 +44,11 @@
                 return false;
             }
 
-            if (dst.CompareTo(src) > 0 )
+            var compareValue = src.CompareTo(dst);
+
+            if (compareValue > 0 || compareValue == 0)
             {
+                // src가 dst보다 더 뒤의 시간인 경우. (즉, src이 미래인 경우)
                 return false;
             }
 

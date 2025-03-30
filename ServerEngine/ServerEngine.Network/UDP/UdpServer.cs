@@ -6,10 +6,12 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using Akka.Actor;
 
 namespace ServerEngine.Network.UDP
 {
     using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Network.Actors.Udp;
     using ServerEngine.Network.Interfaces;
 
     /// <summary>
@@ -48,16 +50,23 @@ namespace ServerEngine.Network.UDP
         private readonly Dictionary<int, UdpSession> _sessionDict;
 
         /// <summary>
+        /// UdpSendActorProvider dictionary.
+        /// key: hash for session id.
+        /// value: UdpSendActorProvider.
+        /// </summary>
+        private readonly Dictionary<int, UdpSendActorProvider> _udpSendActorDict;
+
+        /// <summary>
         /// Session uid.
         /// </summary>
         private ulong _sessionUid;
-
+        
         // Call back Delegates for network listener.
         protected abstract void OnConnected(int sessionId, ulong sessionUid);
 		protected abstract void OnNetError(SocketError sockError);
         protected abstract void OnDisconnected(int sessionId, ulong sessionUid);
 
-		public UdpServer(IServiceProvider serviceProvider)
+		public UdpServer(IServiceProvider serviceProvider, ActorSystem actorSystem)
         {
             _serviceProvider = serviceProvider;
             _logger = _serviceProvider.GetRequiredService<ILogger<UdpServer>>();
@@ -88,15 +97,42 @@ namespace ServerEngine.Network.UDP
 
             // Black list.
             _whiteList = new List<IPAddress>();
+
+            // Initialize udp actor.
+            _udpSendActorDict = Initialize_UpdSendActor(_serviceProvider, actorSystem, _netManager);
         }
 
-		/// <summary>
-		/// Start server.
-		/// </summary>
-		/// <param name="port">Server port</param>
-		/// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
-		/// <param name="pollingMilliseconds">Polling event time. Default time: 33ms (about 30 fps) </param>
-		public void Start(int port, bool allowPeerAddrChange)
+        /// <summary>
+        /// Initialize udp send actors.
+        /// </summary>
+        private Dictionary<int, UdpSendActorProvider> Initialize_UpdSendActor(IServiceProvider serviceProvider, ActorSystem actorSystem, NetManager netManager)
+        {
+            // 논리 프로세서 개수의 1/4 만큼 액터 색성.
+            var actorCount = Environment.ProcessorCount / 2;
+
+            if (actorCount == 0)
+            {
+                actorCount = 1;
+            }
+
+            // 액터 생성.
+            var actorDict = new Dictionary<int, UdpSendActorProvider>();
+
+            for (var cnt = 0; cnt < actorCount; ++cnt)
+            {
+                actorDict.Add(cnt, new UdpSendActorProvider(actorSystem.ActorOf(UdpSendActor.Props(serviceProvider, netManager))));
+            }
+
+            return actorDict;
+        }
+
+        /// <summary>
+        /// Start server.
+        /// </summary>
+        /// <param name="port">Server port</param>
+        /// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
+        /// <param name="pollingMilliseconds">Polling event time. Default time: 33ms (about 30 fps) </param>
+        public void Start(int port, bool allowPeerAddrChange)
         {
 			// Initialize listener.
 			Initialize_Listener();
@@ -126,37 +162,16 @@ namespace ServerEngine.Network.UDP
             // 네트워크 라이브러리 네트워크 버퍼에서 발생할 수 있는 Race condition 문제를 없앰.
             //Thread.Sleep(5);
 
-            // Sesison lock: 세션 풀을 사용하기 때문에, 이미 Disconnection된 세션 메모리가 사용되는 것을 방지.
-            lock (session)
-            {
-                // Check disconnection.
-                if (session.IsDisconn)
-                {
-                    return false;
-                }
+            // 세션 Id에 해당하는 UdpSendActor에 메시지 전달.
+            var actorMsg = _memoryPoolService.Rent<UdpSendActorMsg_Send>();
 
-                // Check session uid.
-                if (sessionUid != session.SessionUid)
-                {
-                    return false;
-                }
+            actorMsg.Session = session;
+            actorMsg.SessionId = sessionId;
+            actorMsg.SessionUid = sessionUid;
+            actorMsg.PacketCode = packetCode;
+            actorMsg.PacketData = packetData;
 
-                // Write packet.
-                var writer = session.DataWriter;
-                writer.Reset();
-
-                // Packet.
-                var packet = _memoryPoolService.Rent<UdpPacket>();
-                packet.PacketCode = packetCode;
-                packet.Data = packetData;
-
-                session.PacketProcessor.Write(writer, packet);
-
-                _memoryPoolService.Release(packet);
-
-                // Send.
-                session.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
-            }
+            _udpSendActorDict[sessionId % _udpSendActorDict.Count].Tell<UdpSendActorMsg_Send>(actorMsg);
 
             return true;
         }
@@ -171,39 +186,22 @@ namespace ServerEngine.Network.UDP
                 return false;
             }
 
-            // Sesison lock: 세션 풀을 사용하기 때문에, 이미 Disconnection된 세션 메모리가 사용되는 것을 방지.
-            lock(session)
-            {
-                // Check disconnection.
-                if (session.IsDisconn)
-                {
-                    return false;
-                }
+            // 핑퐁 테스트 간 전송 직전 최소한의 딜레이를 주어
+            // 네트워크 라이브러리 네트워크 버퍼에서 발생할 수 있는 Race condition 문제를 없앰.
+            //Thread.Sleep(5);
 
-                // Check sesion uid.
-                if (session.SessionUid != sessionUid)
-                {
-                    return false;
-                }
+            // 세션 Id에 해당하는 UdpSendActor에 메시지 전달.
+            var actorMsg = _memoryPoolService.Rent<UdpSendActorMsg_Broadcast>();
 
-                // Write packet.
-                var writer = session.DataWriter;
-                writer.Reset();
+            actorMsg.Session = session;
+            actorMsg.SessionId = sessionId;
+            actorMsg.SessionUid = sessionUid;
+            actorMsg.PacketCode = packetCode;
+            actorMsg.PacketData = packetData;
 
-                // Packet.
-                var packet =_memoryPoolService.Rent<UdpPacket>();
+            _udpSendActorDict[sessionId % _udpSendActorDict.Count].Tell<UdpSendActorMsg_Broadcast>(actorMsg);
 
-                packet.PacketCode = packetCode;
-                packet.Data = packetData;
-                session.PacketProcessor.Write(writer, packet);
-
-                _memoryPoolService.Release(packet);
-
-                // Send all.
-                _netManager.SendToAll(writer, DeliveryMethod.ReliableOrdered, session.Peer);
-
-                return true;
-            }
+            return true;
         }
 
         /// <summary>

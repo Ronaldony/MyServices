@@ -8,6 +8,8 @@ namespace Server_World
 {
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObject;
+    using GameCore;
+    using GameCore.Interfaces;
     using Server_World.Actors.HuntZone;
     using Server_World.Server.World;
     using ServerEngine.Core.Services;
@@ -31,6 +33,7 @@ namespace Server_World
             hostAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
             hostAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             hostAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
+            hostAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
 
             hostAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             hostAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
@@ -43,14 +46,14 @@ namespace Server_World
 
             // Actors.
             hostAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
-            hostAppBuilder.Services.AddSingleton<HuntZoneActorProvider>(provider =>
-            {
-                var actorSystem = provider.GetService<ActorSystem>();
+            hostAppBuilder.Services.AddSingleton<HuntZoneActorProvider>();
+            //hostAppBuilder.Services.AddSingleton<HuntZoneActorProvider>(provider =>
+            //{
+            //    var actorSystem = provider.GetService<ActorSystem>();
+            //    var actor = actorSystem.ActorOf<HuntZoneActor>();
 
-                var actor = actorSystem.ActorOf<HuntZoneActor>();
-
-                return new HuntZoneActorProvider(actor);
-            });
+            //    return new HuntZoneActorProvider(actor);
+            //});
 
             // servers.
             hostAppBuilder.Services.AddSingleton<WorldServer>();

@@ -9,9 +9,9 @@ namespace Server_World.Actors.HuntZone
     {
         private IActorRef _huntzoneAcotr;
 
-        public HuntZoneActorProvider(IActorRef actorRef)
+        public HuntZoneActorProvider(ActorSystem actorSystem)
         {
-            _huntzoneAcotr = actorRef;
+            _huntzoneAcotr = actorSystem.ActorOf<HuntZoneActor>();
         }
 
         /// <summary>

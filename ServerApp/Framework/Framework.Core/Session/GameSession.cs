@@ -6,6 +6,11 @@
     public class GameSession
     {
         /// <summary>
+        /// Pid.
+        /// </summary>
+        public string Pid { get; set; }
+
+        /// <summary>
         /// SessionId.
         /// </summary>
         public int SessionId { get; set; }   

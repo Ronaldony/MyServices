@@ -29,8 +29,14 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_MoveStart : NetPacketResBase
+    public partial record NetPacketSC_MoveStart
     {
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public string Pid { get; set; }
+
         /// <summary>
         /// MoveDirection.
         /// </summary>

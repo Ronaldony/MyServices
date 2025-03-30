@@ -4,7 +4,7 @@ using GameCore.NetPacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
-namespace Server_World.Server.World.Handlers
+namespace Network
 {
 
     /// <summary>
@@ -15,7 +15,7 @@ namespace Server_World.Server.World.Handlers
         private readonly NetPacketCS_MoveEnd _sendPacket;
 
         public UdpHandler_MoveEnd()
-            : base(NetPacketCode.SC_MoveStart)
+            : base(NetPacketCode.SC_MoveEnd)
         {
             _sendPacket = new NetPacketCS_MoveEnd();
         }

@@ -1,0 +1,27 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "Summary": ""
+  },
+  {
+    "Id": 1,
+    "Name": "Moving",
+    "Summary": ""
+  },
+  {
+    "Id": 2,
+    "Name": "Attack",
+    "Summary": ""
+  },
+  {
+    "Id": 3,
+    "Name": "Chase",
+    "Summary": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Dead",
+    "Summary": ""
+  }
+]

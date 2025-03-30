@@ -69,6 +69,8 @@ namespace Server_World.Server.World.Handlers
 		{
             ThreadPool.QueueUserWorkItem(async param => 
             {
+                _logger.LogDebug($"Player Login");
+
                 var netPacket = _dataSerializer.Deserialize<NetPacketCS_Login>(packet.Data);
 
                 // 세션.

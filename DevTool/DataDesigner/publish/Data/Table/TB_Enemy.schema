@@ -45,7 +45,7 @@
     },
     {
       "Idx": 6,
-      "Name": "ItemCount",
+      "Name": "AttackRange",
       "IsIndexed": false,
       "Type": "int",
       "RefTable": "",
@@ -53,6 +53,22 @@
     },
     {
       "Idx": 7,
+      "Name": "AttackCooldown",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 8,
+      "Name": "MoveSpeed",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 9,
       "Name": "Summary",
       "IsIndexed": false,
       "Type": "string",

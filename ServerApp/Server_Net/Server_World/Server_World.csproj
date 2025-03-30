@@ -29,13 +29,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.5.39" />
+    <PackageReference Include="Akka" Version="1.5.40" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     <PackageReference Include="PowerArgs" Version="4.0.3" />
     <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.0" />
+    <PackageReference Include="ServerEngine.Config" Version="1.0.3" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.2" />
     <PackageReference Include="ServerEngine.GeoIP" Version="1.0.0" />
-    <PackageReference Include="ServerEngine.Network" Version="1.0.3" />
+    <PackageReference Include="ServerEngine.Network" Version="1.0.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,10 +46,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ActorMessage\" />
     <Folder Include="Actors\BattleZone\" />
     <Folder Include="Actors\Inventory\" />
     <Folder Include="Actors\Village\" />
-    <Folder Include="Core\Session\" />
   </ItemGroup>
 
 </Project>

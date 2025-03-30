@@ -26,24 +26,24 @@ namespace GameCore.NetPacket
     /// NetPacket_Attack from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_Attack : NetPacketResBase
+    public partial record NetPacketSC_Attack
     {
         /// <summary>
         /// Attack id.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
         public int AttackId { get; set; }
 
         /// <summary>
         /// Attack id.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(1)]
         public int Damage { get; set; }
 
         /// <summary>
         /// Attack id.
         /// </summary>
-        [MemoryPackOrder(3)]
+        [MemoryPackOrder(2)]
         public Type_MoveDirection MoveDirection { get; set; }
     }
 }

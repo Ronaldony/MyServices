@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "Summary": ""
+  },
+  {
+    "Id": 1,
+    "Name": "Pattern1",
+    "Summary": ""
+  },
+  {
+    "Id": 2,
+    "Name": "Pattern2",
+    "Summary": ""
+  },
+  {
+    "Id": 3,
+    "Name": "Pattern3",
+    "Summary": ""
+  }
+]

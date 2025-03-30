@@ -5,7 +5,7 @@
     "Health": 10,
     "Attack": 1,
     "DropItem": "Gold",
-    "ItemCount": 0,
+    "ItemCount": 2,
     "Summary": null
   },
   {
@@ -14,7 +14,7 @@
     "Health": 6,
     "Attack": 3,
     "DropItem": "Heart",
-    "ItemCount": 0,
+    "ItemCount": 4,
     "Summary": null
   },
   {
@@ -23,7 +23,7 @@
     "Health": 15,
     "Attack": 2,
     "DropItem": "Gold",
-    "ItemCount": 0,
+    "ItemCount": 2,
     "Summary": null
   }
 ]

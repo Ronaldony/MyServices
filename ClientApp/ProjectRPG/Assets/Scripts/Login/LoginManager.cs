@@ -2,12 +2,12 @@ using Externals.Serializer;
 using GameCore;
 using GameCore.Http.Auth;
 using GameCore.NetPacket;
+using Network;
 using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 
 public class LoginManager : MonoBehaviour
 {

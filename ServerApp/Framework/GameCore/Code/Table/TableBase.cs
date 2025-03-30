@@ -1,10 +1,12 @@
-namespace GameCore
-{
-    /// <summary>
-    /// Table Id.
-    /// </summary>
-    public interface ITableBase
-    {
-        int Id { get; set; }
-    }
-}
+
+                namespace GameCore
+                {
+                    /// <summary>
+                    /// ITableBase.
+                    /// </summary>
+                    public interface ITableBase
+                    {
+                        int Id { get; set; }
+                    }
+                }
+                

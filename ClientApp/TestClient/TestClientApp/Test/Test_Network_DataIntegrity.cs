@@ -4,6 +4,7 @@ using System.Text.Json;
 
 namespace TestClientApp.Test
 {
+    using LiteNetLib.Layers;
     using ServerEngine.Network.UDP;
     using TestClient.Test.Data;
     using TestClientApp.Services;
@@ -67,7 +68,9 @@ namespace TestClientApp.Test
                 };
 
                 // Client.
-                testGroup.Client = new NetManager(testGroup.Listener);
+                var xorEncryptLayer = new XorEncryptLayer("ProjectRPG");
+
+                testGroup.Client = new NetManager(testGroup.Listener, xorEncryptLayer);
                 testGroup.Client.UnsyncedEvents = true;
                 testGroup.Client.AutoRecycle = true;
                 testGroup.Client.ReuseAddress = false;

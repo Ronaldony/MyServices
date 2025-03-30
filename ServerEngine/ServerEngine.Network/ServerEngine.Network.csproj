@@ -7,11 +7,15 @@
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageOutputPath>../Packages/</PackageOutputPath>
-	  <Version>1.0.3</Version>
+	  <Version>1.0.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="UDP\IUdpSession.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Akka" Version="1.5.40" />
   </ItemGroup>
 
   <ItemGroup>
