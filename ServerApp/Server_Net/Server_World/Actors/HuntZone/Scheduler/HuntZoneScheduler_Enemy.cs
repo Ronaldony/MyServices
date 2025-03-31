@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PowerArgs;
 using System.Numerics;
 using System.Timers;
 
@@ -8,7 +9,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
-    using PowerArgs;
     using Server_World.Core.WorldMsg;
     using ServerEngine.Config.ConfigManager;
     using ServerEngine.Core.Services.Interfaces;
@@ -42,8 +42,9 @@ namespace Server_World.Actors.HuntZone.Scheduler
         private Dictionary<Type_MovePattern, DateTime> _moveUpdateTimeDict;
 
         // 타이머.
-        private readonly System.Timers.Timer _spawnTimer;
-        private readonly System.Timers.Timer _updateFrameTimer;
+        private System.Timers.Timer _spawnTimer;
+        private System.Timers.Timer _updateFrameTimer;
+        private System.Timers.Timer _updateMovePattern;
 
         // 임의 섹션 생성기.
         private readonly Random _randomSection;
@@ -67,15 +68,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
             _randomSection = new Random((int)DateTime.Now.Ticks);
 
-            // 스폰 타이머 설정.
-            _spawnTimer = new System.Timers.Timer(TimeSpan.FromSeconds(_confEnemy.SpawnTimeSec));
-            _spawnTimer.Elapsed += OnSpawnElapsed;
-            _spawnTimer.AutoReset = true;
-
-            // 프레임 업데이트 타이머 설정. (기본 30 프레임)
-            _updateFrameTimer = new System.Timers.Timer(TimeSpan.FromSeconds(GameConfigManager._configGame.FrameRate / 1000f));
-            _updateFrameTimer.Elapsed += OnUpdateFrameElapsed;
-            _updateFrameTimer.AutoReset = true;
+            Initialize_Timer();
 
             // Setup move patterns.
             _movePatterns = Enum.GetValues<Type_MovePattern>().ToList();
@@ -88,14 +81,34 @@ namespace Server_World.Actors.HuntZone.Scheduler
             };
         }
 
+        private void Initialize_Timer()
+        {
+            // 스폰 타이머 설정.
+            _spawnTimer = new System.Timers.Timer(TimeSpan.FromSeconds(_confEnemy.SpawnTimeSec));
+            _spawnTimer.Elapsed += OnSpawnElapsed;
+            _spawnTimer.AutoReset = true;
+
+            // 프레임 업데이트 타이머 설정. (기본 30 프레임)
+            _updateFrameTimer = new System.Timers.Timer(TimeSpan.FromSeconds(GameConfigManager._configGame.FrameRate / 1000f));
+            _updateFrameTimer.Elapsed += OnUpdateFrameElapsed;
+            _updateFrameTimer.AutoReset = true;
+
+            // 이동 패턴 변경 타이머 설정.
+            _updateMovePattern = new System.Timers.Timer(TimeSpan.FromSeconds(1));
+            _updateMovePattern.Elapsed += OnUpdateMovePattern;
+            _updateMovePattern.AutoReset = true;
+        }
+
         /// <summary>
         /// 스폰 타이머 시작.
         /// </summary>
         public void Start()
         {
-            _logger.LogInformation("Start HuntZone enemy spawn.");
             _spawnTimer.Start();
             _updateFrameTimer.Start();
+            _updateMovePattern.Start();
+
+            _logger.LogInformation("Start HuntZone enemy spawn.");
         }
 
         /// <summary>
@@ -103,9 +116,11 @@ namespace Server_World.Actors.HuntZone.Scheduler
         /// </summary>
         public void Stop()
         {
-            _logger.LogInformation("Stop HuntZone enemy spawn.");
             _spawnTimer.Stop();
             _updateFrameTimer.Stop();
+            _updateMovePattern.Stop();
+
+            _logger.LogInformation("Stop HuntZone enemy spawn.");
         }
 
         /// <summary>
@@ -113,12 +128,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
         /// </summary>
         private void OnSpawnElapsed(object sender, ElapsedEventArgs e)
         {
-            if (_enemyUid > 0)
-            {
-                Stop();
-                return;
-            }
-
             try
             {
                 _logger.LogInformation("Elapse HuntZoneScheduler_Enemy.");
@@ -134,10 +143,8 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 foreach (var enemy in _tbEnemies)
                 {
                     // Generate random section.
-                    //var x = _randomSection.Next(_huntzoneArea.MinX, _huntzoneArea.MaxX);
-                    //var y = _randomSection.Next(_huntzoneArea.MinY, _huntzoneArea.MaxY);
-                    var x = 3;
-                    var y = 3;
+                    var x = _randomSection.Next(_confArea.MinX , _confArea.MaxX );
+                    var y = _randomSection.Next(_confArea.MinY , _confArea.MaxY);
 
                     // 적 생성.
                     var dtoEnemy = _memoryPoolService.Rent<DTO_Enemy>();
@@ -153,7 +160,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
                     position.Veltocity = enemy.MoveSpeed;
                     position.MovePattern = pattern;
-                    position.FrameDeltaTime = 0;
 
                     // 로밍 위치 개수가 3개 이하인 경우 3개 생성.
                     if (dtoEnemy.Position.RoamingPos.Count < 3)
@@ -173,6 +179,9 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     var nextPos = position.NextPos;
                     nextPos.X = spawnPos.X + _randomSection.Next(-6, 6);
                     nextPos.Y = spawnPos.Y + _randomSection.Next(-6, 6);
+
+                    // Set direction.
+                    position.NextPosDir = Vector2.Normalize(nextPos - spawnPos);
 
                     // Roaming position.
                     var firstRoaming = position.RoamingPos[0];
@@ -216,24 +225,43 @@ namespace Server_World.Actors.HuntZone.Scheduler
             {
                 //_logger.LogInformation("Elapse HuntZoneScheduler_Enemy.");
 
+                // UpdateFrame 메시지 생성.
+                var updateFrameMsg = new WorldMsg_UpdateFrame();
+                updateFrameMsg.FrameDeltaTime = GameConfigManager._configGame.FrameRate / 1000f;
+
+                _huntZoneActorProvider.Tell<WorldMsg_UpdateFrame>(updateFrameMsg);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 이동 패턴 업데이트 타이머.
+        /// </summary>
+        private void OnUpdateMovePattern(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
                 // 마지막 이동 패턴 업데이트 시간이 5초 이상 경과한 이동 패턴 가져오기.
                 var nowTime = TimeUtil.Now;
                 var updateMovePair = _moveUpdateTimeDict.FirstOrDefault(d => TimeUtil.IsPastTime(nowTime, d.Value.AddSeconds(5)));
 
                 // 이동 패턴 업데이트 시간 갱신.
-                if (updateMovePair.Key != default)
+                if (updateMovePair.Key == default)
                 {
-                    _moveUpdateTimeDict[updateMovePair.Key] = nowTime;
+                    return;
                 }
 
-                // UpdateFrame 메시지 생성.
-                var updateFrameMsg = new WorldMsg_UpdateFrame();
-                updateFrameMsg.MovePattern = updateMovePair.Key;
-                updateFrameMsg.FrameDeltaTime = GameConfigManager._configGame.FrameRate / 1000f;
+                _moveUpdateTimeDict[updateMovePair.Key] = nowTime;
 
-                // 메시지 전달.
-                _huntZoneActorProvider.Tell<WorldMsg_UpdateFrame>(updateFrameMsg);
+                var msg = new WorldMsg_UpdateMovePattern
+                {
+                    MovePattern = updateMovePair.Key
+                };
 
+                _huntZoneActorProvider.Tell<WorldMsg_UpdateMovePattern>(msg);
             }
             catch (Exception ex)
             {

@@ -6,6 +6,7 @@ namespace Server_World.Server.World.Handlers
 {
     using Framework.Core.Database.Attributes;
     using Framework.Core.Database.DataObject;
+    using Framework.Core.Session;
     using Framwork.Core.Session;
     using GameCore;
     using GameCore.Datas.Inventory;

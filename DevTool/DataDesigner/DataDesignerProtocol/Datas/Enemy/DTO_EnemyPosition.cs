@@ -1,6 +1,7 @@
 ﻿
 using MemoryPack;
 using System.Numerics;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Enemy
@@ -37,21 +38,21 @@ namespace GameCore.Datas.Enemy
         public Vector2 NextPos { get; set; }
 
         /// <summary>
-        /// 로밍 위치.
+        /// 다음 이동 위치 방향.
         /// </summary>
         [MemoryPackOrder(3)]
+        public Vector2 NextPosDir { get; set; }
+
+        /// <summary>
+        /// 로밍 위치.
+        /// </summary>
+        [MemoryPackOrder(4)]
         public List<Vector2> RoamingPos { get; set; }
 
         /// <summary>
         /// 이동 패턴.
         /// </summary>
-        [MemoryPackOrder(4)]
-        public Type_MovePattern MovePattern { get; set; }
-
-        /// <summary>
-        /// 프레임 변동 시간.
-        /// </summary>
         [MemoryPackOrder(5)]
-        public float FrameDeltaTime { get; set; }
+        public Type_MovePattern MovePattern { get; set; }
     }
 }

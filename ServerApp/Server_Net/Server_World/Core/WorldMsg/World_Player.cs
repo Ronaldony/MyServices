@@ -1,6 +1,6 @@
 ﻿namespace Server_World.Core.WorldMsg
 {
-    using Framwork.Core.Session;
+    using Framework.Core.Session;
     using GameCore.Datas.Play;
 
     /// <summary>

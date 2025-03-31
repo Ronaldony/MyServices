@@ -1,4 +1,4 @@
-﻿namespace Framwork.Core.Session
+﻿namespace Framework.Core.Session
 {
     /// <summary>
     /// GameSession.
@@ -6,17 +6,12 @@
     public class GameSession
     {
         /// <summary>
-        /// Pid.
+        /// Session id.
         /// </summary>
-        public string Pid { get; set; }
+        public int SessionId { get; set; }
 
         /// <summary>
-        /// SessionId.
-        /// </summary>
-        public int SessionId { get; set; }   
-
-        /// <summary>
-        /// SessionUid.
+        /// Session uid.
         /// </summary>
         public ulong SessionUid { get; set; }
     }

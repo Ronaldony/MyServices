@@ -1,6 +1,5 @@
 ﻿using MemoryPack;
-using System.Collections.Generic;
-using System.Numerics;
+using System;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Enemy
@@ -13,7 +12,7 @@ namespace GameCore.Datas.Enemy
     {
         public DTO_Enemy()
         {
-            RoamingPos = new List<Vector2>();
+            Position = new DTO_EnemyPosition();
         }
 
         /// <summary>
@@ -35,27 +34,27 @@ namespace GameCore.Datas.Enemy
         public int Health { get; set; }
 
         /// <summary>
-        /// 체력.
+        /// 업데이트 시간.
         /// </summary>
         [MemoryPackOrder(3)]
-        public int MoveSpeed { get; set; }
+        public DateTime UpdateTime { get; set; }
+
+        /// <summary>
+        /// Position.
+        /// </summary>
+        [MemoryPackOrder(4)]
+        public DTO_EnemyPosition Position { get; set; }
 
         /// <summary>
         /// 드랍 아이템.
         /// </summary>
-        [MemoryPackOrder(4)]
+        [MemoryPackOrder(5)]
         public Type_Item DropItem { get; set; }
 
         /// <summary>
-        /// 현재 위치.
-        /// </summary>
-        [MemoryPackOrder(5)]
-        public Vector2 Pos { get; set; }
-
-        /// <summary>
-        /// 로밍 위치.
+        /// 행동 유형.
         /// </summary>
         [MemoryPackOrder(6)]
-        public List<Vector2> RoamingPos { get; set; }
+        public Type_Action ActionType { get; set; }
     }
 }

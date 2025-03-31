@@ -1,10 +1,9 @@
-﻿namespace Server_World.Actors.HuntZone
+﻿using System.Numerics;
+
+namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using Server_World.Core.WorldMsg;
-    using ServerEngine.Core.Util;
-    using System.Linq;
-    using System.Numerics;
 
     /// <summary>
     /// HuntZoneActor.
@@ -14,7 +13,7 @@
         /// <summary>
         /// 프레임 업데이트.
         /// </summary>
-        private void UpdateFrmae(WorldMsg_UpdateFrame msg)
+        private void UpdateFrame(WorldMsg_UpdateFrame msg)
         {
             // TODO: 몬스터 이동 처리.
             UpdateFrame_Move(msg);
@@ -27,20 +26,13 @@
         /// </summary>s
         private void UpdateFrame_Move(WorldMsg_UpdateFrame msg)
         {
-            foreach (var sectionPlayerPair in _sectionPlayerDict)
+            // 섹션을 루프하여 플레이어, 적 이동 처리.
+            Parallel.ForEach(_sectionPlayerDict, sectionPlayerPair =>
             {
-                // 플레이어가 1명이라도 존재하는 섹션 업데이트.
-                if (0 == sectionPlayerPair.Value.Count)
-                {
-                    return;
-                }
-
                 // 섹션의 적, 플레이어 데이터 가져오기.
                 var section = sectionPlayerPair.Key;
                 var enemies = _sectionEnemyDict[section];
                 var players = _sectionPlayerDict[section];
-
-                var nowTime = TimeUtil.Now;
 
                 // 플레이어 이동 처리.
                 foreach (var worldPlayer in players.Values)
@@ -53,34 +45,43 @@
 
                     var playInfo = worldPlayer.PlayInfo;
                     var pos = playInfo.Position.Pos;
-                    var deltaTime = (nowTime - playInfo.UpdateTime).TotalSeconds;
 
-                    Calc_PlayerPosition(ref pos, playInfo.Position.MoveDirection, deltaTime, playInfo.Stat.Velocity);
+                    // Calculation.
+                    Calc_PlayerPosition(ref pos, playInfo.Position.MoveDirection, msg.FrameDeltaTime, playInfo.Stat.Velocity);
+
+                    // Section 업데이트.
+                    var updateSection = ((int)pos.X / GameData.SECTION_WIDTH, (int)pos.Y / GameData.SECTION_HEIGHT);
+
+                    if (section != updateSection)
+                    {
+                        _sectionPlayerDict[section].Remove(worldPlayer.PlayInfo.Pid, out var _);
+                        _sectionPlayerDict[updateSection].AddOrUpdate(worldPlayer.PlayInfo.Pid, worldPlayer, (_, _) => worldPlayer);
+                    }
                 }
 
                 // 적 이동 처리.
-                nowTime = TimeUtil.Now;
-
-                // 프레임 시간.
-                var frameDeltaTime = msg.FrameDeltaTime;
-
                 foreach (var enemy in enemies.Values)
                 {
                     var position = enemy.Position;
+                    var pos = position.Pos;
 
-                    position.FrameDeltaTime += frameDeltaTime;
+                    // Calculation.
+                    var isUpdateSection = Calc_EnemyPosition(ref pos, position.NextPos, position.NextPosDir, msg.FrameDeltaTime, position.Veltocity, section);
 
-                    // 이동.
-                    Vector2.Lerp(position.Pos, position.NextPos, position.FrameDeltaTime * position.Veltocity / _confEnemy.RoamTimeSec);
-
-                    // 다음 이동 패턴 업데이트.
-                    if (position.MovePattern == msg.MovePattern)
+                    // 섹션 업데이트.
+                    if (isUpdateSection)
                     {
-                        var index = position.RoamingPos.IndexOf(position.NextPos);
-                        position.NextPos = position.RoamingPos[(index + 1) % position.RoamingPos.Count];
+                        // Section 업데이트.
+                        var updateSection = ((int)pos.X / GameData.SECTION_WIDTH, (int)pos.Y / GameData.SECTION_HEIGHT);
+
+                        if (section != updateSection)
+                        {
+                            _sectionEnemyDict[section].Remove(enemy.EnemeyUid, out var _);
+                            _sectionEnemyDict[updateSection].AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);
+                        }
                     }
                 }
-            }
+            });
         }
 
         /// <summary>
@@ -148,6 +149,60 @@
                     }
                     break;
             }
+        }
+
+        /// <summary>
+        /// Calculation position of enemy.
+        /// </summary>
+        private bool Calc_EnemyPosition(ref Vector2 oriPos, Vector2 nextPos, Vector2 moveDir, float frameDeltaTime, int velocity, (int x, int y) section)
+        {
+            var isUpdateSection = false;
+
+            // X 이동.
+            if (moveDir.X > 0)
+            {
+                // 목표 위치가 오른쪽인 경우.
+                // 현재 위치가 더 왼쪽인 경우만 처리.
+                if (oriPos.X < nextPos.X)
+                { 
+                    oriPos.X += moveDir.X * frameDeltaTime * velocity;
+                    isUpdateSection = true;
+                }
+            }
+            else if (moveDir.X < 0)
+            {
+                // 목표 위치가 왼쪽인 경우.
+                // 현재 위치가 더 오른쪽인 경우만 처리.
+                if (oriPos.X > nextPos.X) 
+                { 
+                    oriPos.X += moveDir.X * frameDeltaTime * velocity; 
+                    isUpdateSection = true;
+                }
+            }
+
+            // Y 이동.
+            if (moveDir.Y > 0)
+            {
+                // 목표 위치가 위인 경우.
+                // 현재 위치가 더 아래인 경우만 처s리.
+                if (oriPos.Y < nextPos.Y) 
+                { 
+                    oriPos.Y += moveDir.Y * frameDeltaTime * velocity; 
+                    isUpdateSection = true;
+                }
+            }
+            else if (moveDir.Y < 0)
+            {
+                // 목표 위치가 아래인 경우.
+                // 현재 위치가 더 위인 경우만 처리.
+                if (oriPos.Y > nextPos.Y) 
+                { 
+                    oriPos.Y += moveDir.Y * frameDeltaTime * velocity; 
+                    isUpdateSection = true;
+                }
+            }
+
+            return isUpdateSection;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using MemoryPack;
-using System.Collections.Generic;
-using System.Numerics;
+using System;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Enemy

@@ -6,6 +6,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore;
     using GameCore.NetPacket;
     using Server_World.Core.Utilities;
+    using Server_World.Core.WorldMsg;
     using ServerEngine.Core.Util;
 
     /// <summary>
@@ -18,13 +19,15 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private void MoveStart(NetPacketCS_MoveStart packet)
         {
-            var playInfo = GetPlayInfo(packet.Pid);
+            var worldPlayer = GetPlayerOrDefault(packet.Pid);
 
-            if (playInfo == null)
+            if (default == worldPlayer)
             {
-                _logger.LogError($"not exist pid. {packet.Pid}"); 
+                _logger.LogError($"not exist player. pid: {packet.Pid}"); 
                 return;
             }
+
+            var playInfo = worldPlayer.PlayInfo;
 
             // 업데이트 시간보다 패킷 시간이 과거인 경우 패킷 무시.
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
@@ -33,17 +36,33 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            // 업데이트 시간 갱신.
+            // PlayInfo 갱신.
             playInfo.UpdateTime = packet.PacketTime;
-
-            // 이동 방향 저장.
             playInfo.Position.MoveDirection = packet.MoveDirection;
 
-            // Send load player pakcet.
-            NetPacketUtility.SendPacket<NetPacketSC_MoveStart>(sendPacket =>
+            // 근처 플레이어 세션 가져오기.
+            var section = ((int)playInfo.Position.Pos.X / GameData.SECTION_WIDTH, (int)playInfo.Position.Pos.Y / GameData.SECTION_HEIGHT);
+            var aroundSessions = GetAroundSessions(section);
+
+            // 현재 플레이어 제외.
+            aroundSessions.Remove(worldPlayer.GameSession);
+
+            if (false == aroundSessions.Any())
             {
-                sendPacket.Pid = packet.Pid;
-                SendPacket(sendPacket.Pid, NetPacketCode.SC_MoveStart, _dataSerializer.Serialize(sendPacket));
+                return;
+            }
+
+            // Send load player pakcet.
+            NetPacketUtility.SendPacket<NetPacketSC_MoveStart>(packet =>
+            {
+                packet.Pid = packet.Pid;
+
+                var packetBytes = _dataSerializer.Serialize(packet);
+
+                foreach (var otherSession in aroundSessions)
+                {
+                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveStart, packetBytes);
+                }
             });
 
             // Log.
@@ -55,15 +74,17 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private void MoveEnd(NetPacketCS_MoveEnd packet)
         {
-            var playInfo = GetPlayInfo(packet.Pid);
-            var position = playInfo.Position;
+            var worldPlayer = GetPlayerOrDefault(packet.Pid);
 
-            if (playInfo == null)
+            if (default == worldPlayer)
             {
-                _logger.LogError($"not exist pid. {packet.Pid}");
-                SendMoveFixed(playInfo.Pid, position.Pos);
+                _logger.LogError($"not exist player. pid: {packet.Pid}"); 
                 return;
             }
+
+            // 플레이어 정보.
+            var playInfo = worldPlayer.PlayInfo;
+            var position = playInfo.Position;
 
             // 업데이트 시간보다 패킷 시간이 과거인 경우 패킷 무시.
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
@@ -73,7 +94,7 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            // 이동 거리 계산 및 유효성 검사.
+            // 이동 거리 계산 및 유효성 검사.s
             var deltaTime = (packet.PacketTime - playInfo.UpdateTime).TotalSeconds;
             var isValidPosition = IsValidPosition(position.MoveDirection, deltaTime, playInfo.Stat.Velocity, position.Pos, packet.EndPos);
 
@@ -91,12 +112,30 @@ namespace Server_World.Actors.HuntZone
             position.Pos = packet.EndPos;
             position.MoveDirection = Type_MoveDirection.None;
 
-            // Send load player pakcet.
-            NetPacketUtility.SendPacket<NetPacketSC_MoveEnd>(sendPacket =>
+            // 근처 플레이어 세션 가져오기.
+            var section = ((int)playInfo.Position.Pos.X / GameData.SECTION_WIDTH, (int)playInfo.Position.Pos.Y / GameData.SECTION_HEIGHT);
+            var aroundSessions = GetAroundSessions(section);
+
+            // 현재 플레이어 제외.
+            aroundSessions.Remove(worldPlayer.GameSession);
+
+            if (false == aroundSessions.Any())
             {
-                sendPacket.Pid = packet.Pid;
-                sendPacket.EndPos = packet.EndPos;
-                BroadCast(packet.Pid, NetPacketCode.SC_MoveEnd, _dataSerializer.Serialize(sendPacket));
+                return;
+            }
+
+            // Send load player pakcet.
+            NetPacketUtility.SendPacket<NetPacketSC_MoveEnd>(packet =>
+            {
+                packet.Pid = packet.Pid;
+                packet.EndPos = packet.EndPos;
+
+                var packetBytes = _dataSerializer.Serialize(packet);
+
+                foreach (var otherSession in aroundSessions)
+                {
+                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveEnd, packetBytes);
+                }
             });
         }
 

@@ -5,7 +5,6 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.Datas.Enemy;
-    using GameCore.Datas.Play;
     using GameCore.Interfaces;
     using GameCore.NetPacket;
     using Server_World.Actors.HuntZone.Scheduler;
@@ -13,6 +12,7 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.WorldMsg;
     using Server_World.Server.World;
     using ServerEngine.Core.Services.Interfaces;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// HuntZoneActor.
@@ -38,18 +38,25 @@ namespace Server_World.Actors.HuntZone
         private readonly Dictionary<string, World_Player> _playerDict;
 
         /// <summary>
-        /// Section Player dictionary.
+        /// 섹션 단위 플레이어 정보.
         /// key: Section.
         /// value: Player dictionary (key: pid).
         /// </summary>
-        private readonly Dictionary<(int sectionX, int sectionY), Dictionary<string, World_Player>> _sectionPlayerDict;
+        private readonly Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<string, World_Player>> _sectionPlayerDict;
 
         /// <summary>
-        /// Section enemy dictionary.
+        /// 섹션 단위 적 정보.
         /// key: Section.
         /// value: DTO_Enemy dictionary (key: EnemeyUId).
         /// </summary>
-        private readonly Dictionary<(int sectionX, int sectionY), Dictionary<ulong, DTO_Enemy>> _sectionEnemyDict;
+        private readonly Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<ulong, DTO_Enemy>> _sectionEnemyDict;
+
+        /// <summary>
+        /// 근처 섹션 정보.
+        /// key: Section.
+        /// value: Around sections.
+        /// </summary>
+        private readonly Dictionary<(int sectionX, int sectionY), List<(int sectionX, int sectionY)>> _aroundSectionDict;
 
         public HuntZoneActor()
         {
@@ -63,20 +70,22 @@ namespace Server_World.Actors.HuntZone
 
             _worldServer = ServiceUtility.GetService<WorldServer>();
             _schedulerEnemy = new HuntZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
-            _schedulerEnemy.Start();
 
             _playerDict = new Dictionary<string, World_Player>();
 
-            _sectionPlayerDict = new Dictionary<(int sectionX, int sectionY), Dictionary<string, World_Player>>();
-            _sectionEnemyDict = new Dictionary<(int sectionX, int sectionY), Dictionary<ulong, DTO_Enemy>>();
-            Initialize_Sections(ref _sectionPlayerDict, ref _sectionEnemyDict);
+            // initilzie sections.
+            (_sectionPlayerDict, _sectionEnemyDict, _aroundSectionDict) = Initialize_Sections();
 
             ///////////////////////////////// Receive.
 
             // Spanws.
             Receive<World_Player>(msg => SpawnPlayer(msg));
 
-            Receive<WorldMsg_SpawnEnemy>(msg =>SpawnEnemy(msg));
+            Receive<WorldMsg_SpawnEnemy>(msg => SpawnEnemy(msg));
+
+            // Update frame.
+            Receive<WorldMsg_UpdateFrame>(msg => UpdateFrame(msg));
+            Receive<WorldMsg_UpdateMovePattern>(msg => UpdateMovePattern(msg));
 
             // Move.
             Receive<NetPacketCS_MoveStart>(packet => MoveStart(packet));
@@ -84,6 +93,9 @@ namespace Server_World.Actors.HuntZone
 
             // Attack.
             Receive<NetPacketCS_Attack>(packet => Attack(packet));
+
+            // Enemy shceduler start.
+            _schedulerEnemy.Start();
         }
 
         /// <summary>
@@ -97,11 +109,9 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Get play info.
         /// </summary>
-        private DTO_PlayInfo GetPlayInfo(string pid)
+        private World_Player GetPlayerOrDefault(string pid)
         {
-            _playerDict.TryGetValue(pid, out var player);
-
-            return player.PlayInfo;
+            return _playerDict.GetValueOrDefault(pid);
         }
 
         /// <summary>
@@ -148,6 +158,33 @@ namespace Server_World.Actors.HuntZone
         private bool BroadCast(int sessionId, ulong sessionuid, int packetCode, byte[] packetData)
         {
             return _worldServer.BroadCast(sessionId, sessionuid, packetCode, packetData);
+        }
+
+        /// <summary>
+        /// Add player to section.
+        /// </summary>
+        private bool AddPlayerIntoWorld(string pid, World_Player player, int sectionX, int sectionY)
+        {
+            // 유저 좌표 검사.
+            var section = (sectionX, sectionY);
+
+            // 섹션에 플레이어 추가.
+            if (false == _sectionPlayerDict[section].TryAdd(pid, player))
+            {
+                return false;
+            }
+
+            ///////////////////////////////////////////////////////
+            // 플레이어 정보 저장.
+            if (false == _playerDict.ContainsKey(pid))
+            {
+                // 중복 플레이어 처리.
+                _playerDict.Add(pid, player);
+            }
+
+            _playerDict[pid] = player;
+
+            return true;
         }
     }
 }
