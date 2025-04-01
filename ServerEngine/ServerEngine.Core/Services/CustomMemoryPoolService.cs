@@ -27,39 +27,37 @@ namespace ServerEngine.Core.Services
 		/// Initialize.
 		/// </summary>
 		public void Initialize()
-		{
-			_logger.LogInformation($"CustomMemoryPoolService initialized.");
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var asm in assemblies)
+            {
+                // IMemoryPool 클래스 추가.
+                var types = asm.GetTypes().Where(t => t.GetInterface(typeof(IMemoryPool).Name) != null);
+
+                foreach (var type in types)
+                {
+                    _memoryPoolDict.AddOrUpdate(type, new CustomMemoryPool(), (key, old) => new CustomMemoryPool());
+                }
+            }
+
+            _logger.LogInformation($"CustomMemoryPoolService initialized.");
 		}
 
 		/// <summary>
 		/// Acquire object pool.
 		/// </summary>
-		public T Rent<T>() where T : class, new()
+		public T Rent<T>() where T : class, IMemoryPool, new()
 		{
-			if (false == _memoryPoolDict.TryGetValue(typeof(T), out _))
-			{
-				var type = typeof(T);
-				_memoryPoolDict.TryAdd(type, new CustomMemoryPool(type));
-			}
-
-			return _memoryPoolDict[typeof(T)].Rent<T>();
+            return _memoryPoolDict[typeof(T)].Rent<T>();
 		}
 
 		/// <summary>
 		/// Release object pool.
 		/// </summary>
-		public bool Release<T>(T obj) where T : class, new()
+		public void Release<T>(T obj) where T : class, IMemoryPool, new()
         {
-            try
-            {
-                _memoryPoolDict[typeof(T)].Release(obj);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            _memoryPoolDict[typeof(T)].Release(obj);
         }
     }
 }

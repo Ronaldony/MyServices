@@ -2,6 +2,7 @@
 
 namespace Server_World.Core.Utilities
 {
+    using ServerEngine.Core.MemoryPool;
     using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
@@ -19,7 +20,7 @@ namespace Server_World.Core.Utilities
         /// <summary>
         /// Make packet.
         /// </summary>
-        public static void SendPacket<T>(Action<T> action) where T : class , new()
+        public static void SendPacket<T>(Action<T> action) where T : class , IMemoryPool, new()
         {
             var netPacket = _memoryPoolService.Rent<T>();
 

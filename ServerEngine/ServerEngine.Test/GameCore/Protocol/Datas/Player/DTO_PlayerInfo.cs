@@ -3,11 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Player
 {
+    using ServerEngine.Core.MemoryPool;
+
     /// <summary>
     /// DTO_PlayerInfo.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_PlayerInfo
+    public partial class DTO_PlayerInfo : IMemoryPool
     {
         /// <summary>
         /// Pid.

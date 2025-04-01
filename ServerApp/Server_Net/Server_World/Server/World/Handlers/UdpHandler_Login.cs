@@ -118,13 +118,13 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // Send Login packet.
-                NetPacketUtility.SendPacket<NetPacketSC_Login>(packet =>
+                var sendPacket = new NetPacketSC_Login
                 {
-                    packet.PlayInfo = playInfo;
-                    packet.InventoryInfo = inventoryInfo;
+                    PlayInfo = playInfo,
+                    InventoryInfo = inventoryInfo
+                };
 
-                    _worldServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login, _dataSerializer.Serialize(packet));
-                });
+                _worldServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login, _dataSerializer.Serialize(sendPacket));
             });
         }
     }

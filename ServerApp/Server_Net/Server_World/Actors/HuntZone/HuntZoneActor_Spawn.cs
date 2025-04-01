@@ -8,7 +8,6 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Datas.Enemy;
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
-    using Server_World.Core.Utilities;
     using Server_World.Core.WorldMsg;
 
     /// <summary>
@@ -32,27 +31,26 @@ namespace Server_World.Actors.HuntZone
             if (aroundSessions.Any())
             {
                 // Send others.
-                NetPacketUtility.SendPacket<NetPacketSC_SpawnPlayer>(pakcet =>
+                var otherPlayerPacket = new NetPacketSC_SpawnPlayer
                 {
-                    // Send player.
-                    pakcet.Users = new List<DTO_PlayInfo> { player.PlayInfo };
+                    Users = new List<DTO_PlayInfo> { player.PlayInfo }
+                };
 
-                    var packetBytes = _dataSerializer.Serialize(pakcet);
+                var packetBytes = _dataSerializer.Serialize(otherPlayerPacket);
 
-                    foreach (var otherSession in aroundSessions)
-                    {
-                        SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_SpawnPlayer, packetBytes);
-                    }
-                });
+                foreach (var otherSession in aroundSessions)
+                {
+                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_SpawnPlayer, packetBytes);
+                }
             }
 
             // send this player.
-            NetPacketUtility.SendPacket<NetPacketSC_SpawnPlayer>(pakcet =>
+            var packet = new NetPacketSC_SpawnPlayer
             {
-                // Send player.
-                pakcet.Users = _playerDict.Values.Select(d => d.PlayInfo).AsList();
-                SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(pakcet));
-            });
+                Users = _playerDict.Values.Select(d => d.PlayInfo).AsList()
+            };
+
+            SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
 
             // 섹션에 플레이어 저장.
             if (false == AddPlayerIntoWorld(pid, player, section.Item1, section.Item2))
@@ -105,14 +103,13 @@ namespace Server_World.Actors.HuntZone
 
             Parallel.ForEach(sessionEnemyDict, pair =>
             {
-                
-
-                // 각 플레이어에게 적 스폰 정보 전송.
-                NetPacketUtility.SendPacket<NetPacketSC_SpawnEnemy>(packet =>
+                var packet = new NetPacketSC_SpawnEnemy
                 {
-                    packet.Enemies = pair.Value;
-                    SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(packet));
-                });
+                    Enemies = pair.Value
+                };
+
+                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(packet));
+
             });
         }
     }

@@ -164,8 +164,13 @@ namespace ServerEngine.Test.Controllers.Test
 			const int maxBenchmarkCount = 10;
 			const int dataObjectCount = 4000000;
 
-			// Create obejct by ObjectPool.
-			var sw = new Stopwatch();
+            for (int cnt = 0; cnt < dataObjectCount; cnt++)
+            {
+                var playerInfo = new DTO_Benchmark();
+            }
+
+            // Create obejct by ObjectPool.
+            var sw = new Stopwatch();
 
 			// Acquire DataObejct.
 			for (int benchmarkCount = 0; benchmarkCount < maxBenchmarkCount; benchmarkCount++)

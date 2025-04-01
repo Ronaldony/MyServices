@@ -147,7 +147,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     var y = _randomSection.Next(_confArea.MinY , _confArea.MaxY);
 
                     // 적 생성.
-                    var dtoEnemy = _memoryPoolService.Rent<DTO_Enemy>();
+                    var dtoEnemy = new DTO_Enemy();
 
                     dtoEnemy.EnemeyUid = ++_enemyUid;
                     dtoEnemy.EnemyId = enemy.Id;
@@ -162,13 +162,9 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     position.MovePattern = pattern;
 
                     // 로밍 위치 개수가 3개 이하인 경우 3개 생성.
-                    if (dtoEnemy.Position.RoamingPos.Count < 3)
-                    {
-                        position.RoamingPos.Clear();
-                        position.RoamingPos.Add(new Vector2());
-                        position.RoamingPos.Add(new Vector2());
-                        position.RoamingPos.Add(new Vector2());
-                    }   
+                    position.RoamingPos.Add(new Vector2());
+                    position.RoamingPos.Add(new Vector2());
+                    position.RoamingPos.Add(new Vector2());
 
                     // Spawn pos.
                     var spawnPos = position.Pos;

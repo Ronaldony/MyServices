@@ -6,7 +6,6 @@ namespace Server_World.Actors.HuntZone
     using GameCore;
     using GameCore.NetPacket;
     using Server_World.Core.Utilities;
-    using Server_World.Core.WorldMsg;
     using ServerEngine.Core.Util;
 
     /// <summary>
@@ -53,17 +52,17 @@ namespace Server_World.Actors.HuntZone
             }
 
             // Send load player pakcet.
-            NetPacketUtility.SendPacket<NetPacketSC_MoveStart>(packet =>
+            var sendPacket = new NetPacketSC_MoveStart
             {
-                packet.Pid = packet.Pid;
+                Pid = packet.Pid
+            };
 
-                var packetBytes = _dataSerializer.Serialize(packet);
+            var packetBytes = _dataSerializer.Serialize(sendPacket);
 
-                foreach (var otherSession in aroundSessions)
-                {
-                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveStart, packetBytes);
-                }
-            });
+            foreach (var otherSession in aroundSessions)
+            {
+                SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveStart, packetBytes);
+            }
 
             // Log.
             //_logger.LogDebug($"MoveStart - pid: {packet.Pid}, pos: {playInfo.Position.Pos}, move: {packet.MoveDirection}, time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
@@ -125,18 +124,18 @@ namespace Server_World.Actors.HuntZone
             }
 
             // Send load player pakcet.
-            NetPacketUtility.SendPacket<NetPacketSC_MoveEnd>(packet =>
+            var sendPacket = new NetPacketSC_MoveEnd
             {
-                packet.Pid = packet.Pid;
-                packet.EndPos = packet.EndPos;
+                Pid = packet.Pid,
+                EndPos = packet.EndPos
+            };
 
-                var packetBytes = _dataSerializer.Serialize(packet);
+            var packetBytes = _dataSerializer.Serialize(sendPacket);
 
-                foreach (var otherSession in aroundSessions)
-                {
-                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveEnd, packetBytes);
-                }
-            });
+            foreach (var otherSession in aroundSessions)
+            {
+                SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveEnd, packetBytes);
+            }
         }
 
         /// <summary>
@@ -259,12 +258,13 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private void SendMoveFixed(string pid, Vector2 fixedPos)
         {
-            NetPacketUtility.SendPacket<NetPacketSC_MoveFixed>(sendPacket =>
+            var packet = new NetPacketSC_MoveFixed
             {
-                sendPacket.Pid = pid;
-                sendPacket.FixedPos = fixedPos;
-                SendPacket(sendPacket.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(sendPacket));
-            });
+                Pid = pid,
+                FixedPos = fixedPos
+            };
+
+            SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(packet));
         }
     }
 }

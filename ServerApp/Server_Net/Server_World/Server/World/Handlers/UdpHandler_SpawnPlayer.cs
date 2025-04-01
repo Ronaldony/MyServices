@@ -127,10 +127,11 @@ namespace Server_World.Server.World.Handlers
         private void LoadPlayerToHuntZone(string pid, GameSession gameSession, DTO_PlayInfo playInfo)
         {
             // Actor msg.
-            var actorMsg = _memoryPoolService.Rent<World_Player>();
-
-            actorMsg.PlayInfo = playInfo;
-            actorMsg.GameSession = gameSession;
+            var actorMsg = new World_Player
+            {
+                PlayInfo = playInfo,
+                GameSession = gameSession
+            };
 
             // Delivery msg.
             _huntZoneActorProvider.Tell<World_Player>(actorMsg);

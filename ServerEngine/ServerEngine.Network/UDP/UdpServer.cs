@@ -163,13 +163,14 @@ namespace ServerEngine.Network.UDP
             //Thread.Sleep(5);
 
             // 세션 Id에 해당하는 UdpSendActor에 메시지 전달.
-            var actorMsg = _memoryPoolService.Rent<UdpSendActorMsg_Send>();
-
-            actorMsg.Session = session;
-            actorMsg.SessionId = sessionId;
-            actorMsg.SessionUid = sessionUid;
-            actorMsg.PacketCode = packetCode;
-            actorMsg.PacketData = packetData;
+            var actorMsg = new UdpSendActorMsg_Send
+            {
+                Session = session,
+                SessionId = sessionId,
+                SessionUid = sessionUid,
+                PacketCode = packetCode,
+                PacketData = packetData
+            };
 
             _udpSendActorDict[sessionId % _udpSendActorDict.Count].Tell<UdpSendActorMsg_Send>(actorMsg);
 
@@ -191,13 +192,14 @@ namespace ServerEngine.Network.UDP
             //Thread.Sleep(5);
 
             // 세션 Id에 해당하는 UdpSendActor에 메시지 전달.
-            var actorMsg = _memoryPoolService.Rent<UdpSendActorMsg_Broadcast>();
-
-            actorMsg.Session = session;
-            actorMsg.SessionId = sessionId;
-            actorMsg.SessionUid = sessionUid;
-            actorMsg.PacketCode = packetCode;
-            actorMsg.PacketData = packetData;
+            var actorMsg = new UdpSendActorMsg_Broadcast
+            {
+                Session = session,
+                SessionId = sessionId,
+                SessionUid = sessionUid,
+                PacketCode = packetCode,
+                PacketData = packetData
+            };
 
             _udpSendActorDict[sessionId % _udpSendActorDict.Count].Tell<UdpSendActorMsg_Broadcast>(actorMsg);
 

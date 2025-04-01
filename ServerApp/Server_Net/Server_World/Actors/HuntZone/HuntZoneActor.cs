@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
@@ -12,7 +13,6 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.WorldMsg;
     using Server_World.Server.World;
     using ServerEngine.Core.Services.Interfaces;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// HuntZoneActor.
@@ -21,7 +21,6 @@ namespace Server_World.Actors.HuntZone
     {
         private readonly ILogger<HuntZoneActor> _logger;
 
-        private readonly IMemoryPoolService _memoryPoolService;
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
 
@@ -62,7 +61,6 @@ namespace Server_World.Actors.HuntZone
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
 
-            _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
 

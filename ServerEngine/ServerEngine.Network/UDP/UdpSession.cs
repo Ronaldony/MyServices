@@ -5,12 +5,13 @@ using System.Net;
 
 namespace ServerEngine.Network.UDP
 {
+    using ServerEngine.Core.MemoryPool;
     using ServerEngine.Network.Interfaces;
 
     /// <summary>
     /// UdpSession.
     /// </summary>
-	public partial class UdpSession : IUdpSession
+	public partial class UdpSession : IUdpSession, IMemoryPool
     {
         /// <summary>
         /// Session id.

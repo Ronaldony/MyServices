@@ -9,7 +9,7 @@ namespace ServerEngine.Core.MemoryPool
     {
         private readonly ConcurrentQueue<object> _memoryPoolStack;
 
-        public CustomMemoryPool(Type type)
+        public CustomMemoryPool()
         {
             _memoryPoolStack = new ConcurrentQueue<object>();
 		}
@@ -17,7 +17,7 @@ namespace ServerEngine.Core.MemoryPool
         /// <summary>
         /// Get data object from pool.
         /// </summary>
-        public T Rent<T>() where T : class, new ()
+        public T Rent<T>() where T : class, IMemoryPool, new () 
         {
             if (false == _memoryPoolStack.TryDequeue(out var dataObejct))
             {
@@ -30,7 +30,7 @@ namespace ServerEngine.Core.MemoryPool
         /// <summary>
         /// Return data object to pool.
         /// </summary>
-        public void Release<T>(T dataObject) where T : class, new ()
+        public void Release<T>(T dataObject) where T : class, IMemoryPool, new()
         {
             _memoryPoolStack.Enqueue(dataObject);
         }

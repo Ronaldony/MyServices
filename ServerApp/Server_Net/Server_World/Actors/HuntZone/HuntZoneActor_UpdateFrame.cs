@@ -93,7 +93,6 @@ namespace Server_World.Actors.HuntZone
             // 1. 이동 방향 확인.
             // 2. 이동 방향에 따라 이동 오차 범위 값 계산.
             // 3. x, y 좌표에 이동 오차 범위 값을 더하여 범위 내인 경우 true, 범위 밖인 경우 false.
-
             switch (moveDir)
             {
                 case Type_MoveDirection.Top:

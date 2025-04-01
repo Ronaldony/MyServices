@@ -20,17 +20,8 @@ namespace ServerEngine.Network.Actors.Udp
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
             _netManager = netManager;
 
-            Receive<UdpSendActorMsg_Send>(packet =>
-            {
-                SendPacket(packet);
-                _memoryPoolService.Release<UdpSendActorMsg_Send>(packet);
-            });
-
-            Receive<UdpSendActorMsg_Broadcast>(packet =>
-            {
-                Broadcast(packet);
-                _memoryPoolService.Release<UdpSendActorMsg_Broadcast>(packet);
-            });
+            Receive<UdpSendActorMsg_Send>(packet => SendPacket(packet));
+            Receive<UdpSendActorMsg_Broadcast>(packet => Broadcast(packet));
         }
 
         /// <summary>
@@ -68,13 +59,11 @@ namespace ServerEngine.Network.Actors.Udp
                 writer.Reset();
 
                 // Packet.
-                var packet = _memoryPoolService.Rent<UdpPacket>();
+                var packet = new UdpPacket();
                 packet.PacketCode = msg.PacketCode;
                 packet.Data = msg.PacketData;
 
                 session.PacketProcessor.Write(writer, packet);
-
-                _memoryPoolService.Release(packet);
 
                 // Send.
                 session.Peer.Send(writer, DeliveryMethod.ReliableOrdered);
@@ -108,13 +97,13 @@ namespace ServerEngine.Network.Actors.Udp
                 writer.Reset();
 
                 // Packet.
-                var packet = _memoryPoolService.Rent<UdpPacket>();
-                packet.PacketCode = msg.PacketCode;
-                packet.Data = msg.PacketData;
+                var packet = new UdpPacket
+                {
+                    PacketCode = msg.PacketCode,
+                    Data = msg.PacketData
+                };
 
                 session.PacketProcessor.Write(writer, packet);
-
-                _memoryPoolService.Release(packet);
 
                 // Send.
                 _netManager.SendToAll(writer, DeliveryMethod.ReliableOrdered, session.Peer);

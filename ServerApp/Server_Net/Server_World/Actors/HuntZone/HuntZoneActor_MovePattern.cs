@@ -4,7 +4,6 @@
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
-    using Server_World.Core.Utilities;
     using Server_World.Core.WorldMsg;
 
     /// <summary>
@@ -63,14 +62,14 @@
             // 네트워크 전송.
             Parallel.ForEach(updateSessions, pair =>
             {
-                NetPacketUtility.SendPacket<NetPacketSC_UpdateMovePattern>(packet =>
+                var packet = new NetPacketSC_UpdateMovePattern
                 {
-                    packet.Enemies = pair.Value;
+                    Enemies = pair.Value
+                };
 
-                    var packetBytes = _dataSerializer.Serialize(packet);
+                var packetBytes = _dataSerializer.Serialize(packet);
 
-                    SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_UpdateMovePattern, packetBytes);
-                });
+                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_UpdateMovePattern, packetBytes);
             });
         }
     }

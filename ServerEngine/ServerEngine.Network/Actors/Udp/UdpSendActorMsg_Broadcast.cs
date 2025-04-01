@@ -1,7 +1,4 @@
-﻿
-using LiteNetLib;
-
-namespace ServerEngine.Network.Actors.Udp
+﻿namespace ServerEngine.Network.Actors.Udp
 {
     using ServerEngine.Network.UDP;
 
