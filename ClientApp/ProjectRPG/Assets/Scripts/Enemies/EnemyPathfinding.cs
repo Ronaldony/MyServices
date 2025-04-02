@@ -2,27 +2,23 @@ using UnityEngine;
 
 public class EnemyPathfinding : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 1f;
+    [SerializeField] private float _velocity = 1f;
 
     private Rigidbody2D _rb;
 
-    private Vector2 _prevPos;
     private Vector2 _nextPos;
     private Vector2 _nextDir;
-    private float _roamChangeTime;
-    private float _roamChangeDirSum;
 
     private Knockback _knockBack;
     private SpriteRenderer _spriteRenderer;
 
     private void Awake()
-    {
+    { 
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _knockBack = GetComponent<Knockback>();
         _rb = GetComponent<Rigidbody2D>();
 
-        _prevPos = new Vector2(_rb.position.x, _rb.position.y);
-        _nextPos = _prevPos;
+        _nextPos = _rb.position;
     }
 
     private void FixedUpdate()
@@ -30,12 +26,10 @@ public class EnemyPathfinding : MonoBehaviour
         // 넉백중인 경우
         if (_knockBack.GettingKnockedBack) { return; }
 
-        //rb.MovePosition(rb.position + moveDir * (moveSpeed * Time.fixedDeltaTime));
-
-        if (_roamChangeDirSum < _roamChangeTime)
+        // 다음 이동 위치와 같을 때까지 이동.
+        if (false == _rb.position.Equals(_nextPos))
         {
-            _roamChangeDirSum += Time.deltaTime;
-            _rb.MovePosition(Vector2.Lerp(_prevPos, _nextPos, _roamChangeDirSum * _moveSpeed / _roamChangeTime));
+            _rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);
         }
 
         if (_nextDir.x < 0) { _spriteRenderer.flipX = true; }
@@ -45,13 +39,10 @@ public class EnemyPathfinding : MonoBehaviour
     /// <summary>
     /// Move to.
     /// </summary>
-    public void MoveTo(Vector2 nextPos, float roamChangTime)
+    public void MoveTo(Vector2 nextPos)
     {
-        _prevPos = _nextPos;
         _nextPos = nextPos;
         _nextDir = nextPos.normalized;
-        _roamChangeTime = roamChangTime;
-        _roamChangeDirSum = 0;
     }
 
     /// <summary>
@@ -65,8 +56,8 @@ public class EnemyPathfinding : MonoBehaviour
     /// <summary>
     /// Initialize spawn.
     /// </summary>
-    public void Initialize_Spawn(int moveSpeed)
+    public void Initialize_Spawn(int velocity)
     {
-        _moveSpeed = moveSpeed;
+        _velocity = velocity;
     }
 }

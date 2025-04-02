@@ -1,6 +1,8 @@
+using GameCore;
+using Network;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -11,7 +13,6 @@ public class EnemyAI : MonoBehaviour
         Attacking
     }
 
-    [SerializeField] private int _enemyId;
     [SerializeField] private MonoBehaviour _enemyType;
 
     [SerializeField] private float _attackRange = 0f;
@@ -19,43 +20,35 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool _stopMovingWhileAttacking = false;
 
     // Status.
+    private int _enemyId;
     private bool _canAttack = true;
 
     // Roaming.
-    private float _roamChangeTime = 5f;
     private List<Vector2> _roamingPos;
-    private Vector2 _movePos;
-    private float _timeRoaming = 0f;
+    private Vector2 _nextPos;
 
     // Path.
     private State _state;
     private EnemyPathfinding _enemyPathfinding;
 
+    // Update Packet.
+    private ConcurrentQueue<UpdatePacket> _updatePacketQ;
+
     private void Awake()
     {
-        _enemyPathfinding = GetComponent<EnemyPathfinding>();
         _state = State.Roaming;
+        _enemyPathfinding = GetComponent<EnemyPathfinding>();
+        _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
     }
 
     private void Start()
     {
-        _movePos = GetRoamingPosition();
+        //_nextPos = GetRoamingPosition();
     }
 
     private void Update()
     {
         MovementStateControl();
-    }
-
-    /// <summary>
-    /// Initailize spawn.
-    /// </summary>
-    public void Initialize_Spawn(int attackRange, int attackCooldown, List<Vector2> roaminPosList)
-    {
-        _attackRange = attackRange;
-        _attackCooldown = attackCooldown;
-        _roamingPos = roaminPosList;
-        _movePos = roaminPosList.First();
     }
 
     /// <summary>
@@ -76,22 +69,54 @@ public class EnemyAI : MonoBehaviour
     }
 
     /// <summary>
+    /// Initailize spawn.
+    /// </summary>
+    public void Initialize_Spawn(
+        int enemyId,
+        int attackRange, 
+        int attackCooldown, 
+        System.Numerics.Vector2 nextPos,
+        List<System.Numerics.Vector2> roamingPositions)
+    {
+        _enemyId = enemyId;
+        _attackRange = attackRange;
+        _attackCooldown = attackCooldown;
+
+        // Convert roaming.
+        _roamingPos = new List<Vector2>();
+        foreach (var pos in roamingPositions)
+        {
+            _roamingPos.Add(new Vector2(pos.X, pos.Y));
+        }
+
+        // Set next position.
+        _nextPos = new Vector2(nextPos.X, nextPos.Y);
+    }
+
+    /// <summary>
     /// Roaming.
     /// </summary>
     private void Roaming()
     {
-        _timeRoaming += Time.deltaTime;
-
         // 플레이어가 공격 사정거리 안에 있는 경우, 공격 상태로 전환.
         if (Vector2.Distance(transform.position, PlayerController.Instance.transform.position) < _attackRange)
         {
             _state = State.Attacking;
         }
-        
-        if (_timeRoaming > _roamChangeTime)
+
+        // Update packet.
+        if (_updatePacketQ.TryDequeue(out var updatePacket))
         {
-            _enemyPathfinding.MoveTo(_movePos, _roamChangeTime);
-            _movePos = GetRoamingPosition();
+            switch (updatePacket.PacketCode)
+            {
+                case NetPacketCode.SC_MoveStart:
+                    {
+                        // TODO: Set next position. 
+                        // _nextPos = updatePacket.NextPos;
+                        _enemyPathfinding.MoveTo(_nextPos);
+                    }
+                    break;
+            }
         }
     }
 
@@ -134,22 +159,15 @@ public class EnemyAI : MonoBehaviour
     }
 
     /// <summary>
-    /// Get romaing position.
+    /// Get enemy id.
     /// </summary>
-    private Vector2 GetRoamingPosition()
-    {
-        _timeRoaming = 0f;
-
-        var index = _roamingPos.IndexOf(_movePos);
-
-        return _roamingPos.ElementAt((index + 1) % _roamingPos.Count);
-    }
+    public int GetEnemyId() => _enemyId;
 
     /// <summary>
-    /// Get enemy id.
-    /// <returns></returns>
-    public int GetEnemyId()
+    /// Enqueue update packet.
+    /// </summary>
+    public void EnqueueUpdatePacket(UpdatePacket updatePacket)
     {
-        return _enemyId;
+        _updatePacketQ.Enqueue(updatePacket);
     }
 }

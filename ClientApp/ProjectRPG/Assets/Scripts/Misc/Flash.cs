@@ -3,27 +3,35 @@ using UnityEngine;
 
 public class Flash : MonoBehaviour
 {
-    [SerializeField] private Material whiteFlashMat;
-    [SerializeField] private float restoreDefaultMatTime = .2f;
+    [SerializeField] private Material _whiteFlashMat;
+    [SerializeField] private float _restoreDefaultMatTime = .2f;
 
-    private Material defaultMat;
-    private SpriteRenderer spriteRenderer;
+    private Material _defaultMat;
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        defaultMat = spriteRenderer.material;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _defaultMat = _spriteRenderer.material;
     }
 
+    /// <summary>
+    /// Get restore matarial.
+    /// </summary>
     public float GetRestoreMatTime()
     {
-        return restoreDefaultMatTime;
+        return _restoreDefaultMatTime;
     }
 
+    /// <summary>
+    /// Flash routine.
+    /// </summary>
     public IEnumerator FlashRoutine()
     {
-        spriteRenderer.material = whiteFlashMat;
-        yield return new WaitForSeconds(restoreDefaultMatTime);
-        spriteRenderer.material = defaultMat;
+        _spriteRenderer.material = _whiteFlashMat;
+
+        yield return new WaitForSeconds(_restoreDefaultMatTime);
+
+        _spriteRenderer.material = _defaultMat;
     }
 }

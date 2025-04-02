@@ -1,29 +1,36 @@
 using GameCore;
-using GameCore.Datas.Enemy;
 using GameCore.NetPacket;
 using Network;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class EnemyManagement : Singleton<EnemyManagement>
 {
     [SerializeField] private List<GameObject> _enemyPrefabs;
+    
+    // Table datas.
+    private IEnumerable<TB_Enemy> _tbEnemies;
 
     // Packet.
     private NetPacketManager _netPacketManager;
     private ConcurrentQueue<UpdatePacket> _updatePacketQ;
+    private ConcurrentQueue<ulong> _killedEnemyQ;
 
-    private Dictionary<ulong, DTO_Enemy> _enemyDict;
-    private IEnumerable<TB_Enemy> _tbEnemies;
+    /// <summary>
+    /// Enemy GameObject dictionary.
+    /// key: Enemy uid.
+    /// value: Enemy GameObject.
+    /// </summary>
+    private ConcurrentDictionary<ulong, GameObject> _enemyObjectDict;
 
     public EnemyManagement()
     {
         _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
         _netPacketManager = NetPacketManager.Instance;
-        _enemyDict = new Dictionary<ulong, DTO_Enemy>();
+        _enemyObjectDict = new ConcurrentDictionary<ulong, GameObject>();
+        _killedEnemyQ = new ConcurrentQueue<ulong>();
     }
 
     protected override void Awake()
@@ -39,9 +46,23 @@ public class EnemyManagement : Singleton<EnemyManagement>
     // Update is called once per frame
     void Update()
     {
+        // Process update packet.
         Proc_UpdatePacket();
+
+        // Update section.
     }
 
+    /// <summary>
+    /// Enqueue update packet.
+    /// </summary>
+    public void EnqueueUpdatePacket(UpdatePacket updatePacket)
+    {
+        _updatePacketQ.Enqueue(updatePacket);
+    }
+
+    /// <summary>
+    /// Process update packet.
+    /// </summary>
     private void Proc_UpdatePacket()
     {
         // Process update pakcet.
@@ -81,26 +102,23 @@ public class EnemyManagement : Singleton<EnemyManagement>
                 continue;
             }
 
-            // Instance enemy object.
-            var enemyObject = Instantiate(findEnemyPrefab, new Vector3(enemy.Pos.X, enemy.Pos.Y), Quaternion.identity);
+            // Create enemy object.
+            var enemyObject = Instantiate(findEnemyPrefab, new Vector3(enemy.Position.Pos.X, enemy.Position.Pos.Y), Quaternion.identity);
+
+            // Add Enemy chunk.
+            _enemyObjectDict.AddOrUpdate(enemy.EnemeyUid, enemyObject, (_, _) => enemyObject);
+
+            // Set Enemy AI.
             var enemyAI = enemyObject.GetComponent<EnemyAI>();
-            var roamingPos = new List<Vector2>();
-
-            foreach (var pos in enemy.RoamingPos)
-            {
-                roamingPos.Add(new Vector2(pos.X, pos.Y));
-            }
-
-            enemyAI.Initialize_Spawn(tbEnemy.Attack, tbEnemy.AttackCooldown, roamingPos);
+            enemyAI.Initialize_Spawn(enemy.EnemyId, tbEnemy.Attack, tbEnemy.AttackCooldown, enemy.Position.NextPos, enemy.Position.RoamingPos);
 
             // Set Enemy path.
             var enemyPathfinding = enemyObject.GetComponent<EnemyPathfinding>();
-            enemyPathfinding.Initialize_Spawn(enemy.MoveSpeed);
+            enemyPathfinding.Initialize_Spawn(enemy.Position.Veltocity);
 
             // Set Enemy Health.
             var enemyHealth = enemyObject.GetComponent<EnemyHealth>();
-
-            enemyHealth.Initialize_Spawn(enemy.Health);
+            enemyHealth.Initialize_Spawn(enemy.Health, enemy.EnemeyUid);
 
             // Set Pick up spawner.
             var pickupSpawner = enemyObject.GetComponent<PickUpSpawner>();
@@ -109,10 +127,19 @@ public class EnemyManagement : Singleton<EnemyManagement>
     }
 
     /// <summary>
-    /// Enqueue update packet.
+    /// Remove enemy from enemy dictionary.
     /// </summary>
-    public void EnqueueUpdatePacket(UpdatePacket updatePacket)
+    public void RemoveEnemyFromField(ulong enemyUid)
     {
-        _updatePacketQ.Enqueue(updatePacket);
+        _enemyObjectDict.TryRemove(enemyUid, out _);
+    }
+
+    /// <summary>
+    /// Kill enemy.
+    /// </summary>
+    public void KillEnemy(ulong enemyUid)
+    {
+        _killedEnemyQ.Enqueue(enemyUid);
+        _enemyObjectDict.TryRemove(enemyUid, out _);
     }
 }

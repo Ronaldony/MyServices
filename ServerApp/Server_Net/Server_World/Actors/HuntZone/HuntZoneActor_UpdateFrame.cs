@@ -74,7 +74,7 @@ namespace Server_World.Actors.HuntZone
                         // Section 업데이트.
                         var updateSection = ((int)pos.X / GameData.SECTION_WIDTH, (int)pos.Y / GameData.SECTION_HEIGHT);
 
-                        if (section != updateSection)
+                        if (section != updateSection) 
                         {
                             _sectionEnemyDict[section].Remove(enemy.EnemeyUid, out var _);
                             _sectionEnemyDict[updateSection].AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);
