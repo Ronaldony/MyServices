@@ -8,6 +8,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Datas.Enemy;
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
+    using Microsoft.Extensions.Logging;
     using Server_World.Core.WorldMsg;
 
     /// <summary>
@@ -25,7 +26,12 @@ namespace Server_World.Actors.HuntZone
             var session = player.GameSession;
 
             // 세션 정보 가져오기.
-            var section = ((int)player.PlayInfo.Position.Pos.X / GameData.SECTION_WIDTH, (int)player.PlayInfo.Position.Pos.Y / GameData.SECTION_HEIGHT);
+            if (false == IsValidSection((int)player.PlayInfo.Position.Pos.X, (int)player.PlayInfo.Position.Pos.Y, out var section))
+            {
+                _logger.LogError($"Invalid section.");
+                return;
+            }
+
             var aroundSessions = GetAroundSessions(section);
 
             if (aroundSessions.Any())
@@ -44,16 +50,14 @@ namespace Server_World.Actors.HuntZone
                 }
             }
 
-            // send this player.
-            var packet = new NetPacketSC_SpawnPlayer
+            // 다른 플레이어 정보 전송.
+            SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(new NetPacketSC_SpawnPlayer
             {
                 Users = _playerDict.Values.Select(d => d.PlayInfo).AsList()
-            };
-
-            SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
+            }));
 
             // 섹션에 플레이어 저장.
-            if (false == AddPlayerIntoWorld(pid, player, section.Item1, section.Item2))
+            if (false == AddPlayerIntoWorld(pid, player, section))
             {
                 return;
             }

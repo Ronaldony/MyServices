@@ -9,6 +9,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Interfaces;
     using GameCore.NetPacket;
     using Server_World.Actors.HuntZone.Scheduler;
+    using Server_World.Core.Datas;
     using Server_World.Core.Utilities;
     using Server_World.Core.WorldMsg;
     using Server_World.Server.World;
@@ -57,6 +58,13 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private readonly Dictionary<(int sectionX, int sectionY), List<(int sectionX, int sectionY)>> _aroundSectionDict;
 
+        /// <summary>
+        /// 섹션 정보.
+        /// key: Section.
+        /// value: Section class.
+        /// </summary>
+        private readonly Dictionary<(int sectionX, int sectionY), Section> _sectionDict;
+
         public HuntZoneActor()
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
@@ -72,7 +80,7 @@ namespace Server_World.Actors.HuntZone
             _playerDict = new Dictionary<string, World_Player>();
 
             // initilzie sections.
-            (_sectionPlayerDict, _sectionEnemyDict, _aroundSectionDict) = Initialize_Sections();
+            (_sectionPlayerDict, _sectionEnemyDict, _aroundSectionDict, _sectionDict) = Initialize_Sections();
 
             ///////////////////////////////// Receive.
 
@@ -161,11 +169,8 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Add player to section.
         /// </summary>
-        private bool AddPlayerIntoWorld(string pid, World_Player player, int sectionX, int sectionY)
+        private bool AddPlayerIntoWorld(string pid, World_Player player, (int sectionX, int sectionY) section)
         {
-            // 유저 좌표 검사.
-            var section = (sectionX, sectionY);
-
             // 섹션에 플레이어 추가.
             if (false == _sectionPlayerDict[section].TryAdd(pid, player))
             {

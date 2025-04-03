@@ -1,13 +1,14 @@
 ﻿
 using Dapper;
+using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
     using Framework.Core.Session;
     using GameCore;
     using GameCore.Datas.Enemy;
+    using Server_World.Core.Datas;
     using Server_World.Core.WorldMsg;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// HuntZoneActor.
@@ -69,19 +70,13 @@ namespace Server_World.Actors.HuntZone
         }
 
         /// <summary>
-        /// Change player section.
+        /// Get section or default.
         /// </summary>
-        private bool ChangePlayerSection()
+        private bool IsValidSection(int posX, int posY, out (int sectionX, int sectionY) outSection)
         {
-            return true;
-        }
+            outSection = (posX / GameData.SECTION_WIDTH, posY / GameData.SECTION_HEIGHT);
 
-        /// <summary>
-        /// Change enemy section.
-        /// </summary>
-        private bool ChangeEnemySection()
-        {
-            return true;
+            return _sectionDict.ContainsKey(outSection);
         }
 
         /// <summary>
@@ -90,13 +85,15 @@ namespace Server_World.Actors.HuntZone
         private (
             Dictionary<(int, int), ConcurrentDictionary<string, World_Player>>,
             Dictionary<(int, int), ConcurrentDictionary<ulong, DTO_Enemy>>,
-            Dictionary<(int, int), List<(int, int)>>
+            Dictionary<(int, int), List<(int, int)>>,
+            Dictionary<(int sectionX, int sectionY), Section>
             ) 
             Initialize_Sections()
         {
             var sectionPlayerDict = new Dictionary<(int, int), ConcurrentDictionary<string, World_Player>>();
             var sectionEnemyDict = new Dictionary<(int, int), ConcurrentDictionary<ulong, DTO_Enemy>>();
             var aroundSessionDict = new Dictionary<(int sectionX, int sectionY), List<(int, int)>>();
+            var sectionDict = new Dictionary<(int sectionX, int sectionY), Section>();
 
             // 지역 정보 불러오기.
             var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
@@ -120,6 +117,11 @@ namespace Server_World.Actors.HuntZone
                     sectionPlayerDict.Add(section, new ConcurrentDictionary<string, World_Player>());
                     sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, DTO_Enemy>());
                     aroundSessionDict.Add(section, new List<(int, int)>());
+                    sectionDict.Add(section, new Section
+                    {
+                        X = sectionX,
+                        Y = sectionY,
+                    });
                 }
             }
 
@@ -135,7 +137,7 @@ namespace Server_World.Actors.HuntZone
                 aroundSections.AddRange(calcAroundSections);
             }
 
-            return (sectionPlayerDict, sectionEnemyDict, aroundSessionDict);
+            return (sectionPlayerDict, sectionEnemyDict, aroundSessionDict, sectionDict);
         }
 
         /// <summary>

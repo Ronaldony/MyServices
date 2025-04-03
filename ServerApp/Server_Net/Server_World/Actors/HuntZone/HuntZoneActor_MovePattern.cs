@@ -62,12 +62,10 @@
             // 네트워크 전송.
             Parallel.ForEach(updateSessions, pair =>
             {
-                var packet = new NetPacketSC_UpdateMovePattern
+                var packetBytes = _dataSerializer.Serialize(new NetPacketSC_UpdateMovePattern
                 {
                     Enemies = pair.Value
-                };
-
-                var packetBytes = _dataSerializer.Serialize(packet);
+                });
 
                 SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_UpdateMovePattern, packetBytes);
             });

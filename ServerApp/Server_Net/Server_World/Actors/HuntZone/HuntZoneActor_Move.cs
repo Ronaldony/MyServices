@@ -5,7 +5,6 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.NetPacket;
-    using Server_World.Core.Utilities;
     using ServerEngine.Core.Util;
 
     /// <summary>
@@ -27,6 +26,14 @@ namespace Server_World.Actors.HuntZone
             }
 
             var playInfo = worldPlayer.PlayInfo;
+            var position = worldPlayer.PlayInfo.Position;
+
+            // 섹션 검사.
+            if (false == IsValidSection((int)position.Pos.X, (int)position.Pos.Y, out var section))
+            {
+                _logger.LogError($"Invalid section. x: {position.Pos.X}, y: {position.Pos.Y}");
+                return;
+            }
 
             // 업데이트 시간보다 패킷 시간이 과거인 경우 패킷 무시.
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
@@ -37,10 +44,8 @@ namespace Server_World.Actors.HuntZone
 
             // PlayInfo 갱신.
             playInfo.UpdateTime = packet.PacketTime;
-            playInfo.Position.MoveDirection = packet.MoveDirection;
+            position.MoveDirection = packet.MoveDirection;
 
-            // 근처 플레이어 세션 가져오기.
-            var section = ((int)playInfo.Position.Pos.X / GameData.SECTION_WIDTH, (int)playInfo.Position.Pos.Y / GameData.SECTION_HEIGHT);
             var aroundSessions = GetAroundSessions(section);
 
             // 현재 플레이어 제외.
@@ -85,6 +90,13 @@ namespace Server_World.Actors.HuntZone
             var playInfo = worldPlayer.PlayInfo;
             var position = playInfo.Position;
 
+            // 섹션 검사.
+            if (false == IsValidSection((int)packet.EndPos.X, (int)packet.EndPos.Y, out var section))
+            {
+                _logger.LogError($"Invalid section. x: {position.Pos.X}, y: {position.Pos.Y}");
+                return;
+            }
+
             // 업데이트 시간보다 패킷 시간이 과거인 경우 패킷 무시.
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
             {
@@ -93,13 +105,12 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            // 이동 거리 계산 및 유효성 검사.s
+            // 이동 거리 계산 및 유효성 검사.
             var deltaTime = (packet.PacketTime - playInfo.UpdateTime).TotalSeconds;
-            var isValidPosition = IsValidPosition(position.MoveDirection, deltaTime, playInfo.Stat.Velocity, position.Pos, packet.EndPos);
 
             //_logger.LogInformation($"MoveEnd - pid: {packet.Pid}, end pos: {packet.EndPos}, last pos: {playInfo.Position.Pos}, packet delta: {packet.DeltaTimeSec}, calc delta: {deltaTime}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}, packet time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
 
-            if (false == isValidPosition)
+            if (false == IsValidPosition(position.MoveDirection, deltaTime, playInfo.Stat.Velocity, position.Pos, packet.EndPos))
             {
                 _logger.LogError($"position error.");
                 SendMoveFixed(playInfo.Pid, position.Pos);
@@ -112,7 +123,6 @@ namespace Server_World.Actors.HuntZone
             position.MoveDirection = Type_MoveDirection.None;
 
             // 근처 플레이어 세션 가져오기.
-            var section = ((int)playInfo.Position.Pos.X / GameData.SECTION_WIDTH, (int)playInfo.Position.Pos.Y / GameData.SECTION_HEIGHT);
             var aroundSessions = GetAroundSessions(section);
 
             // 현재 플레이어 제외.
@@ -130,6 +140,7 @@ namespace Server_World.Actors.HuntZone
                 EndPos = packet.EndPos
             };
 
+            // 패킷 전송.
             var packetBytes = _dataSerializer.Serialize(sendPacket);
 
             foreach (var otherSession in aroundSessions)

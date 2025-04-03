@@ -16,6 +16,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ActorMessage\**" />
+    <Compile Remove="Actors\BattleZone\**" />
+    <Compile Remove="Actors\Inventory\**" />
+    <Compile Remove="Actors\Village\**" />
+    <EmbeddedResource Remove="ActorMessage\**" />
+    <EmbeddedResource Remove="Actors\BattleZone\**" />
+    <EmbeddedResource Remove="Actors\Inventory\**" />
+    <EmbeddedResource Remove="Actors\Village\**" />
+    <None Remove="ActorMessage\**" />
+    <None Remove="Actors\BattleZone\**" />
+    <None Remove="Actors\Inventory\**" />
+    <None Remove="Actors\Village\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -35,21 +50,14 @@
     <PackageReference Include="PowerArgs" Version="4.0.3" />
     <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.0" />
     <PackageReference Include="ServerEngine.Config" Version="1.0.3" />
-    <PackageReference Include="ServerEngine.Core" Version="1.0.3" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.4" />
     <PackageReference Include="ServerEngine.GeoIP" Version="1.0.0" />
-    <PackageReference Include="ServerEngine.Network" Version="1.0.6" />
+    <PackageReference Include="ServerEngine.Network" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Framework.Config\Framework.Config.csproj" />
     <ProjectReference Include="..\..\Framework\Framework.Core\Framework.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ActorMessage\" />
-    <Folder Include="Actors\BattleZone\" />
-    <Folder Include="Actors\Inventory\" />
-    <Folder Include="Actors\Village\" />
   </ItemGroup>
 
 </Project>
