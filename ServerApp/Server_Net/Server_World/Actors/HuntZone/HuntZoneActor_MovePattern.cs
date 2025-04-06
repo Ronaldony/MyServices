@@ -1,10 +1,12 @@
-﻿namespace Server_World.Actors.HuntZone
+﻿using System.Numerics;
+
+namespace Server_World.Actors.HuntZone
 {
     using Framework.Core.Session;
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
-    using Server_World.Core.WorldMsg;
+    using Server_World.Core.Worlds;
 
     /// <summary>
     /// HuntZoneActor.
@@ -37,6 +39,7 @@
                     var index = position.RoamingPos.IndexOf(position.NextPos);
 
                     position.NextPos = position.RoamingPos[(index + 1) % position.RoamingPos.Count];
+                    position.NextPosDir = Vector2.Normalize(position.NextPos - position.Pos);
 
                     // 업데이트 대상 리스트업.
                     updateEnemies.Add(enemy);

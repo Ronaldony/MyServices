@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Network
 {
     /// <summary>
-    /// UdpHandler_Move.
+    /// UdpHandler_MoveStart.
     /// </summary>
     public class UdpHandler_MoveStart : UdpHandler
     {

@@ -12,7 +12,7 @@ namespace Server_World.Server.World.Handlers
     using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
     using Server_World.Actors.HuntZone;
-    using Server_World.Core.WorldMsg;
+    using Server_World.Core.Worlds;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Network.UDP;

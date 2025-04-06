@@ -37,5 +37,9 @@
         // 공격.
         public const int CS_Attack = 130;                   // 공격.
         public const int SC_Attack = 131;                   // 공격.
+
+        // 섹션.
+        public const int CS_UpdateSection = 140;            // 섹션 업데이트.
+        public const int SC_UpdateSection = 141;            // 섹션 업데이트.
     }
 }

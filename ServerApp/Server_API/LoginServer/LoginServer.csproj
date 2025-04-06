@@ -11,7 +11,7 @@
     <PackageReference Include="PowerArgs" Version="4.0.3" />
     <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.0" />
     <PackageReference Include="ServerEngine.Config" Version="1.0.3" />
-    <PackageReference Include="ServerEngine.Core" Version="1.0.4" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.5" />
     <PackageReference Include="ServerEngine.GeoIP" Version="1.0.0" />
   </ItemGroup>
 

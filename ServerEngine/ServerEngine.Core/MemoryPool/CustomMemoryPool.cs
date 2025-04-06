@@ -17,7 +17,7 @@ namespace ServerEngine.Core.MemoryPool
         /// <summary>
         /// Get data object from pool.
         /// </summary>
-        public T Rent<T>() where T : class, IMemoryPool, new () 
+        public T Rent<T>() where T : class, new () 
         {
             if (false == _memoryPoolStack.TryDequeue(out var dataObejct))
             {
@@ -30,7 +30,7 @@ namespace ServerEngine.Core.MemoryPool
         /// <summary>
         /// Return data object to pool.
         /// </summary>
-        public void Release<T>(T dataObject) where T : class, IMemoryPool, new()
+        public void Release<T>(T dataObject) where T : class, new()
         {
             _memoryPoolStack.Enqueue(dataObject);
         }

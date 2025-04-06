@@ -27,11 +27,19 @@
         public const int SC_MoveFixed = 105;                // 이동 수정.
 
         // 지역 이동.
-        public const int CS_Move_Area = 110;                // 장소 이동.
-        public const int SC_Move_Area = 111;                // 장소 이동.
+        public const int CS_MoveArea = 110;                 // 장소 이동.
+        public const int SC_MoveArea = 111;                 // 장소 이동.
+
+        // 이동 패턴.
+        public const int CS_UpdateMovePattern = 120;        // 이동 패턴 업데이트.
+        public const int SC_UpdateMovePattern = 121;        // 이동 패턴 업데이트.
 
         // 공격.
-        public const int CS_Attack = 120;                   // 공격.
-        public const int SC_Attack = 121;                   // 공격.
+        public const int CS_Attack = 130;                   // 공격.
+        public const int SC_Attack = 131;                   // 공격.
+
+        // 섹션.
+        public const int CS_UpdateSection = 140;            // 섹션 업데이트.
+        public const int SC_UpdateSection = 141;            // 섹션 업데이트.
     }
 }

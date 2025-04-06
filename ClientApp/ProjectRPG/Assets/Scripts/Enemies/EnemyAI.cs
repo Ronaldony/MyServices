@@ -1,8 +1,4 @@
-using GameCore;
-using Network;
 using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -18,32 +14,19 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float _attackRange = 0f;
     [SerializeField] private float _attackCooldown = 2f;
     [SerializeField] private bool _stopMovingWhileAttacking = false;
+    [SerializeField] private int _enemyId;
 
     // Status.
-    private int _enemyId;
     private bool _canAttack = true;
-
-    // Roaming.
-    private List<Vector2> _roamingPos;
-    private Vector2 _nextPos;
 
     // Path.
     private State _state;
     private EnemyPathfinding _enemyPathfinding;
 
-    // Update Packet.
-    private ConcurrentQueue<UpdatePacket> _updatePacketQ;
-
     private void Awake()
     {
         _state = State.Roaming;
         _enemyPathfinding = GetComponent<EnemyPathfinding>();
-        _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
-    }
-
-    private void Start()
-    {
-        //_nextPos = GetRoamingPosition();
     }
 
     private void Update()
@@ -72,25 +55,12 @@ public class EnemyAI : MonoBehaviour
     /// Initailize spawn.
     /// </summary>
     public void Initialize_Spawn(
-        int enemyId,
         int attackRange, 
         int attackCooldown, 
-        System.Numerics.Vector2 nextPos,
-        List<System.Numerics.Vector2> roamingPositions)
+        System.Numerics.Vector2 nextPos)
     {
-        _enemyId = enemyId;
         _attackRange = attackRange;
         _attackCooldown = attackCooldown;
-
-        // Convert roaming.
-        _roamingPos = new List<Vector2>();
-        foreach (var pos in roamingPositions)
-        {
-            _roamingPos.Add(new Vector2(pos.X, pos.Y));
-        }
-
-        // Set next position.
-        _nextPos = new Vector2(nextPos.X, nextPos.Y);
     }
 
     /// <summary>
@@ -102,21 +72,6 @@ public class EnemyAI : MonoBehaviour
         if (Vector2.Distance(transform.position, PlayerController.Instance.transform.position) < _attackRange)
         {
             _state = State.Attacking;
-        }
-
-        // Update packet.
-        if (_updatePacketQ.TryDequeue(out var updatePacket))
-        {
-            switch (updatePacket.PacketCode)
-            {
-                case NetPacketCode.SC_MoveStart:
-                    {
-                        // TODO: Set next position. 
-                        // _nextPos = updatePacket.NextPos;
-                        _enemyPathfinding.MoveTo(_nextPos);
-                    }
-                    break;
-            }
         }
     }
 
@@ -140,10 +95,6 @@ public class EnemyAI : MonoBehaviour
             {
                 _enemyPathfinding.StopMoving();
             }
-            else
-            {
-                //_enemyPathfinding.MoveTo(_movePos, _movePos.normalized, _roamChangeDir);
-            }
 
             StartCoroutine(AttackCooldownRoutine());
         }
@@ -162,12 +113,4 @@ public class EnemyAI : MonoBehaviour
     /// Get enemy id.
     /// </summary>
     public int GetEnemyId() => _enemyId;
-
-    /// <summary>
-    /// Enqueue update packet.
-    /// </summary>
-    public void EnqueueUpdatePacket(UpdatePacket updatePacket)
-    {
-        _updatePacketQ.Enqueue(updatePacket);
-    }
 }

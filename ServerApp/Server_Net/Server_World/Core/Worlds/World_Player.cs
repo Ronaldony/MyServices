@@ -1,4 +1,4 @@
-﻿namespace Server_World.Core.WorldMsg
+﻿namespace Server_World.Core.Worlds
 {
     using Framework.Core.Session;
     using GameCore.Datas.Play;

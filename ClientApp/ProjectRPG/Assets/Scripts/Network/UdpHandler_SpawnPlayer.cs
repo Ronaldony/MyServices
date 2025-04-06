@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Network
 {
     /// <summary>
-    /// UdpHandler_Move.
+    /// UdpHandler_SpawnPlayer.
     /// </summary>
     public class UdpHandler_SpawnPlayer : UdpHandler
     {

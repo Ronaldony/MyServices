@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
+    using Framework.Core.Session;
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
@@ -11,7 +12,7 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Actors.HuntZone.Scheduler;
     using Server_World.Core.Datas;
     using Server_World.Core.Utilities;
-    using Server_World.Core.WorldMsg;
+    using Server_World.Core.Worlds;
     using Server_World.Server.World;
     using ServerEngine.Core.Services.Interfaces;
 
@@ -24,6 +25,7 @@ namespace Server_World.Actors.HuntZone
 
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
+        private readonly IMemoryPoolService _memoryPoolService;
 
         private readonly WorldServer _worldServer;
         private readonly HuntZoneScheduler_Enemy _schedulerEnemy;
@@ -71,6 +73,7 @@ namespace Server_World.Actors.HuntZone
 
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
+            _memoryPoolService =  ServiceUtility.GetService<IMemoryPoolService>();
 
             _confEnemy = _tdbService.First<CONF_Enemy>(d => d.Area.Equals(Type_Area.HuntZone));
 
@@ -144,26 +147,16 @@ namespace Server_World.Actors.HuntZone
         }
 
         /// <summary>
-        /// Broadcast packet.
+        /// Get session.
         /// </summary>
-        private bool BroadCast(string pid, int packetCode, byte[] packetData)
+        private GameSession GetSession(string pid)
         {
-            if (false == _playerDict.TryGetValue(pid, out var player))
+            if (_playerDict.ContainsKey(pid))
             {
-                return false;
+                return _playerDict[pid].GameSession;
             }
 
-            var gameSession = player.GameSession;
-
-            return _worldServer.BroadCast(gameSession.SessionId, gameSession.SessionUid, packetCode, packetData);
-        }
-
-        /// <summary>
-        /// Broadcast packet.
-        /// </summary>
-        private bool BroadCast(int sessionId, ulong sessionuid, int packetCode, byte[] packetData)
-        {
-            return _worldServer.BroadCast(sessionId, sessionuid, packetCode, packetData);
+            return null;
         }
 
         /// <summary>

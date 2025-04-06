@@ -1,10 +1,11 @@
-﻿using GameCore.Datas.Enemy;
-using MemoryPack;
-using System;
+﻿using MemoryPack;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace GameCore.NetPacket
 {
+    using GameCore.Datas.Enemy;
+
     /// <summary>
     /// NetPacketSC_UpdateMovePattern.
     /// </summary>

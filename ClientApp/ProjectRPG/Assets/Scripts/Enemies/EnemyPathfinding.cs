@@ -46,6 +46,15 @@ public class EnemyPathfinding : MonoBehaviour
     }
 
     /// <summary>
+    /// Move to.
+    /// </summary>
+    public void MoveTo(System.Numerics.Vector2 nextPos)
+    {
+        _nextPos = new Vector2(nextPos.X, nextPos.Y);
+        _nextDir = _nextPos.normalized;
+    }
+
+    /// <summary>
     /// Stop moving.
     /// </summary>
     public void StopMoving()
@@ -56,8 +65,15 @@ public class EnemyPathfinding : MonoBehaviour
     /// <summary>
     /// Initialize spawn.
     /// </summary>
-    public void Initialize_Spawn(int velocity)
+    public void Initialize_Spawn(int velocity, System.Numerics.Vector2 nextPos)
     {
         _velocity = velocity;
+        _nextPos = new Vector2(nextPos.X, nextPos.Y);
+        _nextDir = _nextPos.normalized;
     }
+
+    /// <summary>
+    /// Get position.
+    /// </summary>
+    public Vector2 GetPosition() => _rb.position;
 }

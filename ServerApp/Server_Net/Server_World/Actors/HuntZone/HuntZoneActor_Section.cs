@@ -8,7 +8,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore;
     using GameCore.Datas.Enemy;
     using Server_World.Core.Datas;
-    using Server_World.Core.WorldMsg;
+    using Server_World.Core.Worlds;
 
     /// <summary>
     /// HuntZoneActor.
@@ -16,7 +16,7 @@ namespace Server_World.Actors.HuntZone
     public partial class HuntZoneActor
     {
         /// <summary>
-        /// 섹션 세션 가져오기.
+        /// 특정 섹션의 세션 가져오기.
         /// </summary>
         private List<GameSession> GetGameSessions((int, int) section)
         {
@@ -34,12 +34,48 @@ namespace Server_World.Actors.HuntZone
         }
 
         /// <summary>
+        /// 특정 섹션의 플레이 정보 가져오기.
+        /// </summary>
+        private List<World_Player> GetWorldPlayers((int, int) section)
+        {
+            if (false == _sectionPlayerDict.TryGetValue(section, out var playerDict))
+            {
+                return null;
+            }
+
+            if (false == playerDict.Any())
+            {
+                return null;
+            }
+
+            return playerDict.Values.AsList();
+        }
+
+        /// <summary>
+        /// 특정 섹션의 적 정보 가져오기.
+        /// </summary>
+        private List<DTO_Enemy> GetEnemies((int, int) section)
+        {
+            if (false == _sectionEnemyDict.TryGetValue(section, out var enemies))
+            {
+                return null;
+            }
+
+            if (false == enemies.Any())
+            {
+                return null;
+            }
+
+            return enemies.Values.AsList();
+        }
+
+        /// <summary>
         /// 섹션 세션 가져오기.
         /// </summary>
         private List<GameSession> GetAroundSessions((int, int) section)
         {
-            var aroundSections = GetAroundSections(section);
             var aroundGameSessions = new List<GameSession>();
+            var aroundSections = GetAroundSections(section);
 
             foreach (var findSession in aroundSections)
             {
@@ -132,7 +168,7 @@ namespace Server_World.Actors.HuntZone
                 var sectionX = pair.Key.sectionX;
                 var sectionY = pair.Key.sectionY;
 
-                var calcAroundSections = CalcAroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
+                var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
 
                 aroundSections.AddRange(calcAroundSections);
             }
@@ -143,7 +179,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Calculate around sections.
         /// </summary>
-        private List<(int, int)> CalcAroundSections(int sectionMinX, int sectionMaxX, int sectionMinY, int sectionMaxY, int sectionX, int sectionY)
+        private List<(int, int)> Calc_AroundSections(int sectionMinX, int sectionMaxX, int sectionMinY, int sectionMaxY, int sectionX, int sectionY)
         {
             var aroundSections = new List<(int, int)>();
 

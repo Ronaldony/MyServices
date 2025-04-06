@@ -1,11 +1,9 @@
-﻿using ServerEngine.Core.MemoryPool;
-
-namespace ServerEngine.Test.Database.Data
+﻿namespace ServerEngine.Test.Database.Data
 {
 	/// <summary>
 	/// DTO for Benchmark.
 	/// </summary>
-	public class DTO_Benchmark : IMemoryPool
+	public class DTO_Benchmark 
     {
         public DTO_Benchmark()
         {

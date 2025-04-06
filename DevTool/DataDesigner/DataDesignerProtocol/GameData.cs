@@ -10,6 +10,6 @@
 
         // 섹션.
         public const int SECTION_WIDTH = 5;              // 섹션 가로 길이.
-        public const int SECTION_HEIGHT = 5;             // 섹션 세로 길이.
+        public const int SECTION_HEIGHT = 4;             // 섹션 세로 길이.
     }
 }

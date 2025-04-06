@@ -1,16 +1,5 @@
 [
   {
-    "Id": 1,
-    "Name": "Slime",
-    "Health": 10,
-    "Attack": 1,
-    "DropItem": "Gold",
-    "AttackRange": 1,
-    "AttackCooldown": 0,
-    "MoveSpeed": 2,
-    "Summary": null
-  },
-  {
     "Id": 2,
     "Name": "Ghost",
     "Health": 6,

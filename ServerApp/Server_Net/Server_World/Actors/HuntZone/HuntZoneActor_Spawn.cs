@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Logging;
 using PowerArgs;
 
 namespace Server_World.Actors.HuntZone
@@ -8,8 +9,8 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Datas.Enemy;
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
-    using Microsoft.Extensions.Logging;
-    using Server_World.Core.WorldMsg;
+    using Server_World.Core.Worlds;
+    using System.Collections.Generic;
 
     /// <summary>
     /// HuntZoneActor.
@@ -31,30 +32,51 @@ namespace Server_World.Actors.HuntZone
                 _logger.LogError($"Invalid section.");
                 return;
             }
+            
+            // 인근 섹션 플레이어, 적 정보 전달.
+            var aroundSections = GetAroundSections(section);
+            var packet = new NetPacketSC_SpawnPlayer
+            {
+                Users = new List<DTO_PlayInfo>(),
+                Enemies = new List<DTO_Enemy>()
+            };
 
+            foreach (var targetSection in aroundSections)
+            {
+                // Player.
+                var players = GetWorldPlayers(targetSection);
+                if (null != players) { packet.Users.AddRange(GetWorldPlayers(targetSection).Select(d => d.PlayInfo)); }
+
+                // Enemies.
+                var enemies = GetEnemies(targetSection);
+                if (null != enemies) { packet.Enemies.AddRange(); }
+            }
+
+            // 인근 세션 적, 플레이어 정보 전송.
+            SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
+
+            // 근처 섹션 검색.
             var aroundSessions = GetAroundSessions(section);
 
             if (aroundSessions.Any())
             {
                 // Send others.
-                var otherPlayerPacket = new NetPacketSC_SpawnPlayer
+                var otherPlayerPacketBytes = _dataSerializer.Serialize(new NetPacketSC_SpawnPlayer
                 {
-                    Users = new List<DTO_PlayInfo> { player.PlayInfo }
-                };
+                    Users = new List<DTO_PlayInfo>
+                    {
+                        player.PlayInfo
+                    }
+                });
 
-                var packetBytes = _dataSerializer.Serialize(otherPlayerPacket);
-
+                // 인근 세션에 패킷 전송.
                 foreach (var otherSession in aroundSessions)
                 {
-                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_SpawnPlayer, packetBytes);
+
+                    // 다른 플레이어에게 패킷 전송.
+                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_SpawnPlayer, otherPlayerPacketBytes);
                 }
             }
-
-            // 다른 플레이어 정보 전송.
-            SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(new NetPacketSC_SpawnPlayer
-            {
-                Users = _playerDict.Values.Select(d => d.PlayInfo).AsList()
-            }));
 
             // 섹션에 플레이어 저장.
             if (false == AddPlayerIntoWorld(pid, player, section))
@@ -90,7 +112,7 @@ namespace Server_World.Actors.HuntZone
                 // 플레이어 세션에 전송할 스폰 적 저장.
                 foreach (var session in aroundSessions)
                 {
-                    if (sessionEnemyDict.ContainsKey(session))
+                    if (false == sessionEnemyDict.ContainsKey(session))
                     {
                         sessionEnemyDict.Add(session, new List<DTO_Enemy>());
                     }
@@ -107,13 +129,11 @@ namespace Server_World.Actors.HuntZone
 
             Parallel.ForEach(sessionEnemyDict, pair =>
             {
-                var packet = new NetPacketSC_SpawnEnemy
+                _logger.LogDebug($"Send spawn enemy.");
+                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(new NetPacketSC_SpawnEnemy
                 {
                     Enemies = pair.Value
-                };
-
-                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(packet));
-
+                }));
             });
         }
     }

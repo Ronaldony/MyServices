@@ -11,7 +11,7 @@ namespace GameCore
     /// </summary>
     public class TDBManagement : Singleton<TDBManagement>
 	{
-		private readonly Dictionary<string, SQLiteConnection> _dbConnectionDict;
+		private readonly Dictionary<string, string> _dbPathDict;
 		private readonly Hashtable _dataCacheHashTable;
         private readonly object _lock;
 
@@ -23,7 +23,7 @@ namespace GameCore
 		public TDBManagement()
 		{
 			_dataCacheHashTable = new Hashtable();
-			_dbConnectionDict = new Dictionary<string, SQLiteConnection>();
+			_dbPathDict = new Dictionary<string, string>();
             _lock = new object();
 
             var currentDirectory = Directory.GetCurrentDirectory();
@@ -46,9 +46,7 @@ namespace GameCore
                 }
 
                 var tableName = Path.GetFileNameWithoutExtension(filePath);
-                var connection = new SQLiteConnection(filePath);
-
-                _dbConnectionDict.Add(tableName, connection);
+                _dbPathDict.Add(tableName, filePath);
 
                 totalTable++;
             }
@@ -70,7 +68,8 @@ namespace GameCore
                 // double check.
                 if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
                 {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
+                    using var connection = new SQLiteConnection(_dbPathDict[typeof(T).Name]);
+                    var datas = connection.Query<T>($"SELECT * FROM {typeof(T).Name}");
 
                     _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
                 }
@@ -95,7 +94,8 @@ namespace GameCore
                 // double check.
                 if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
                 {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
+                    using var connection = new SQLiteConnection(_dbPathDict[typeof(T).Name]);
+                    var datas = connection.Query<T>($"SELECT * FROM {typeof(T).Name}");
 
                     _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
                 }
@@ -120,7 +120,8 @@ namespace GameCore
                 // double check.
                 if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
                 {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
+                    using var connection = new SQLiteConnection(_dbPathDict[typeof(T).Name]);
+                    var datas = connection.Query<T>($"SELECT * FROM {typeof(T).Name}");
 
                     _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
                 }
@@ -145,7 +146,8 @@ namespace GameCore
                 // double check.
                 if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
                 {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
+                    using var connection = new SQLiteConnection(_dbPathDict[typeof(T).Name]);
+                    var datas = connection.Query<T>($"SELECT * FROM {typeof(T).Name}");
 
                     _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
                 }
@@ -170,7 +172,8 @@ namespace GameCore
                 // double check.
                 if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
                 {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
+                    using var connection = new SQLiteConnection(_dbPathDict[typeof(T).Name]);
+                    var datas = connection.Query<T>($"SELECT * FROM {typeof(T).Name}");
 
                     _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
                 }
@@ -195,7 +198,8 @@ namespace GameCore
                 // double check.
                 if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
                 {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
+                    using var connection = new SQLiteConnection(_dbPathDict[typeof(T).Name]);
+                    var datas = connection.Query<T>($"SELECT * FROM {typeof(T).Name}");
 
                     _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
                 }

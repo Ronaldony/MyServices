@@ -9,7 +9,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
-    using Server_World.Core.WorldMsg;
+    using Server_World.Core.Worlds;
     using ServerEngine.Config.ConfigManager;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Core.Util;
@@ -128,6 +128,11 @@ namespace Server_World.Actors.HuntZone.Scheduler
         /// </summary>
         private void OnSpawnElapsed(object sender, ElapsedEventArgs e)
         {
+            if (_enemyUid > 0)
+            {
+                return;
+            }
+
             try
             {
                 _logger.LogInformation("Elapse HuntZoneScheduler_Enemy.");
@@ -139,13 +144,9 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 var spawnMsg = new WorldMsg_SpawnEnemy();
                 spawnMsg.Enemies = new Dictionary<(int sectionX, int sectionY), List<DTO_Enemy>>();
 
-                //var enemy = _tbEnemies.Last();
-                foreach (var enemy in _tbEnemies)
+                var enemy = _tbEnemies.First();
+                //foreach (var enemy in _tbEnemies)
                 {
-                    // Generate random section.
-                    var x = _randomSection.Next(_confArea.MinX , _confArea.MaxX );
-                    var y = _randomSection.Next(_confArea.MinY , _confArea.MaxY);
-
                     // 적 생성.
                     var dtoEnemy = new DTO_Enemy();
 
@@ -161,36 +162,28 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     position.Veltocity = enemy.MoveSpeed;
                     position.MovePattern = pattern;
 
-                    // 로밍 위치 개수가 3개 이하인 경우 3개 생성.
-                    position.RoamingPos.Add(new Vector2());
-                    position.RoamingPos.Add(new Vector2());
-                    position.RoamingPos.Add(new Vector2());
+                    // Generate random section.
+                    //var x = _randomSection.Next(_confArea.MinX, _confArea.MaxX);
+                    //var y = _randomSection.Next(_confArea.MinY, _confArea.MaxY);
+                    var x = -1;
+                    var y = 0;
+
+                    _logger.LogDebug($"Spawn enemy. pos: ({x}, {y})");
 
                     // Spawn pos.
-                    var spawnPos = position.Pos;
-                    spawnPos.X = x;
-                    spawnPos.Y = y;
+                    position.Pos = new Vector2(x, y);
 
                     // Next pos.
-                    var nextPos = position.NextPos;
-                    nextPos.X = spawnPos.X + _randomSection.Next(-6, 6);
-                    nextPos.Y = spawnPos.Y + _randomSection.Next(-6, 6);
+                    //position.NextPos = new Vector2(position.Pos.X + _randomSection.Next(-3, 3), position.Pos.Y + _randomSection.Next(-3, 3));
+                    position.NextPos = new Vector2(-12, 0);
 
                     // Set direction.
-                    position.NextPosDir = Vector2.Normalize(nextPos - spawnPos);
+                    position.NextPosDir = Vector2.Normalize(position.NextPos - position.Pos);
 
-                    // Roaming position.
-                    var firstRoaming = position.RoamingPos[0];
-                    firstRoaming.X = spawnPos.X;
-                    firstRoaming.Y = spawnPos.Y;
-
-                    var secondRoaming = position.RoamingPos[1];
-                    secondRoaming.X = nextPos.X;
-                    secondRoaming.Y = nextPos.Y;
-
-                    var thirdRoaming = position.RoamingPos[2];
-                    thirdRoaming.X = spawnPos.X + _randomSection.Next(-6, 6);
-                    thirdRoaming.Y = spawnPos.Y + _randomSection.Next(-6, 6);
+                    // 로밍 위치 개수가 3개 이하인 경우 3개 생성.
+                    position.RoamingPos.Add(position.Pos);
+                    position.RoamingPos.Add(position.NextPos);
+                    position.RoamingPos.Add(new Vector2(position.Pos.X + _randomSection.Next(-3, 3), position.Pos.Y + _randomSection.Next(-3, 3)));
 
                     // Get section.
                     var section = (x / GameData.SECTION_WIDTH, y / GameData.SECTION_HEIGHT);
@@ -223,6 +216,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
                 // UpdateFrame 메시지 생성.
                 var updateFrameMsg = new WorldMsg_UpdateFrame();
+
                 updateFrameMsg.FrameDeltaTime = GameConfigManager._configGame.FrameRate / 1000f;
 
                 _huntZoneActorProvider.Tell<WorldMsg_UpdateFrame>(updateFrameMsg);
@@ -242,7 +236,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
             {
                 // 마지막 이동 패턴 업데이트 시간이 5초 이상 경과한 이동 패턴 가져오기.
                 var nowTime = TimeUtil.Now;
-                var updateMovePair = _moveUpdateTimeDict.FirstOrDefault(d => TimeUtil.IsPastTime(nowTime, d.Value.AddSeconds(5)));
+                var updateMovePair = _moveUpdateTimeDict.FirstOrDefault(d => TimeUtil.IsPastTime(d.Value.AddSeconds(5), nowTime));
 
                 // 이동 패턴 업데이트 시간 갱신.
                 if (updateMovePair.Key == default)
@@ -252,6 +246,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
                 _moveUpdateTimeDict[updateMovePair.Key] = nowTime;
 
+                // 메시지.
                 var msg = new WorldMsg_UpdateMovePattern
                 {
                     MovePattern = updateMovePair.Key

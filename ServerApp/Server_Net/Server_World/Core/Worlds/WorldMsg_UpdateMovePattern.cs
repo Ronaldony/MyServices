@@ -1,5 +1,5 @@
 ﻿
-namespace Server_World.Core.WorldMsg
+namespace Server_World.Core.Worlds
 {
     using GameCore;
 

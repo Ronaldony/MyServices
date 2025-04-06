@@ -16,11 +16,15 @@ namespace ServerEngine.Core.Services
 
         private readonly ConcurrentDictionary<Type, CustomMemoryPool> _memoryPoolDict;
 
+        private readonly Lock _lock;
+
         public CustomMemoryPoolService(IServiceProvider serviceProvider)
         {
 			_logger = serviceProvider.GetRequiredService<ILogger<CustomMemoryPoolService>>();
 
 			_memoryPoolDict = new ConcurrentDictionary<Type, CustomMemoryPool>();
+
+            _lock = new Lock();
         }
 
 		/// <summary>
@@ -28,35 +32,34 @@ namespace ServerEngine.Core.Services
 		/// </summary>
 		public void Initialize()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            foreach (var asm in assemblies)
-            {
-                // IMemoryPool 클래스 추가.
-                var types = asm.GetTypes().Where(t => t.GetInterface(typeof(IMemoryPool).Name) != null);
-
-                foreach (var type in types)
-                {
-                    _memoryPoolDict.AddOrUpdate(type, new CustomMemoryPool(), (key, old) => new CustomMemoryPool());
-                }
-            }
-
             _logger.LogInformation($"CustomMemoryPoolService initialized.");
 		}
 
 		/// <summary>
 		/// Acquire object pool.
 		/// </summary>
-		public T Rent<T>() where T : class, IMemoryPool, new()
-		{
-            return _memoryPoolDict[typeof(T)].Rent<T>();
-		}
+		public T Rent<T>() where T : class, new()
+        {
+            if (false == _memoryPoolDict.TryGetValue(typeof(T), out var pool))
+            {
+                _memoryPoolDict.TryAdd(typeof(T), new CustomMemoryPool());
+
+                return new T();
+            }
+
+            return pool.Rent<T>();
+        }
 
 		/// <summary>
 		/// Release object pool.
 		/// </summary>
-		public void Release<T>(T obj) where T : class, IMemoryPool, new()
+		public void Release<T>(T obj) where T : class, new()
         {
+            if (false == _memoryPoolDict.TryGetValue(typeof(T), out var pool))
+            {
+                _memoryPoolDict.TryAdd(typeof(T), new CustomMemoryPool());
+            }
+
             _memoryPoolDict[typeof(T)].Release(obj);
         }
     }

@@ -9,7 +9,7 @@ namespace GameCore.Datas.Player
     /// DTO_PlayerInfo.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_PlayerInfo : IMemoryPool
+    public partial class DTO_PlayerInfo 
     {
         /// <summary>
         /// Pid.

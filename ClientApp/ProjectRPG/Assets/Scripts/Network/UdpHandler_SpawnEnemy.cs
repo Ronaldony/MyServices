@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Network
 {
     /// <summary>
-    /// UdpHandler_Move.
+    /// UdpHandler_SpawnEnemy.
     /// </summary>
     public class UdpHandler_SpawnEnemy : UdpHandler
     {
@@ -28,7 +28,7 @@ namespace Network
             var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_SpawnEnemy>(packet.Data);
             var enemyManagement = EnemyManagement.Instance;
 
-            enemyManagement.EnqueueUpdatePacket(new UpdatePacket
+            enemyManagement.AddUpdatePacket(new UpdatePacket
             {
                 PacketCode = NetPacketCode.SC_SpawnEnemy,
                 Data = packetData,

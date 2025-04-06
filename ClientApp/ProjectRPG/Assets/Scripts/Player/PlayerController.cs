@@ -123,6 +123,11 @@ public class PlayerController : Singleton<PlayerController>
     {
         return weaponCollider;
     }
+    
+    /// <summary>
+    /// Get position.
+    /// </summary>
+    public Vector2 GetPosition() => _rb.position;
 
     /// <summary>
     /// Update animator.
