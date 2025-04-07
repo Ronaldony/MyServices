@@ -1,6 +1,4 @@
-﻿using Dapper;
-using Microsoft.Extensions.Logging;
-using PowerArgs;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Server_World.Actors.HuntZone
 {
@@ -45,11 +43,11 @@ namespace Server_World.Actors.HuntZone
             {
                 // Player.
                 var players = GetWorldPlayers(targetSection);
-                if (null != players) { packet.Users.AddRange(GetWorldPlayers(targetSection).Select(d => d.PlayInfo)); }
+                if (null != players) { packet.Users.AddRange(players.Select(d => d.PlayInfo)); }
 
                 // Enemies.
                 var enemies = GetEnemies(targetSection);
-                if (null != enemies) { packet.Enemies.AddRange(); }
+                if (null != enemies) { packet.Enemies.AddRange(enemies); }
             }
 
             // 인근 세션 적, 플레이어 정보 전송.
@@ -129,7 +127,6 @@ namespace Server_World.Actors.HuntZone
 
             Parallel.ForEach(sessionEnemyDict, pair =>
             {
-                _logger.LogDebug($"Send spawn enemy.");
                 SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(new NetPacketSC_SpawnEnemy
                 {
                     Enemies = pair.Value

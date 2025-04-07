@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace GameCore.NetPacket
 {
+    using GameCore.Datas.Enemy;
     using GameCore.Datas.Play;
 
     /// <summary>
@@ -26,5 +27,11 @@ namespace GameCore.NetPacket
         /// </summary>
         [MemoryPackOrder(0)]
         public List<DTO_PlayInfo> Users { get; set; }
+
+        /// <summary>
+        /// 적 정보.
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<DTO_Enemy> Enemies { get; set; }
     }
 }

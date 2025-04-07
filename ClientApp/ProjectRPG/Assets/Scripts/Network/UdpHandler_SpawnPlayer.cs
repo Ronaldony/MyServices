@@ -26,26 +26,13 @@ namespace Network
             Debug.Log("HandlePacket - SpawnPlayer");
 
             var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_SpawnPlayer>(packet.Data);
+            var enemyManagement = EnemyManagement.Instance;
 
-            var areaDataManager = AreaDataManager.Instance;
-            var playerDataManager = PlayerDataManager.Instance;
-            var loginActor = LoginActor.Instance;
-
-            areaDataManager.SetPlayInfos(packetData.Users);
-
-            // Load scene.
-            switch (playerDataManager.PlayInfo.Position.Area)
+            enemyManagement.AddUpdatePacket(new UpdatePacket
             {
-                case Type_Area.HuntZone:
-                    loginActor.LoadScene(Type_Area.HuntZone.ToString());
-                    break;
-                case Type_Area.BattleZone:
-                    loginActor.LoadScene(Type_Area.BattleZone.ToString());
-                    break;
-                case Type_Area.Village:
-                    loginActor.LoadScene(Type_Area.Village.ToString());
-                    break;
-            }
+                PacketCode = NetPacketCode.SC_SpawnPlayer,
+                Data = packetData,
+            });
         }
     }
 }

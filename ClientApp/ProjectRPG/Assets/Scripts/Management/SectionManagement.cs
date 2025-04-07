@@ -1,6 +1,5 @@
 using GameCore;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class SectionManagement : Singleton<SectionManagement>
 {
@@ -87,6 +86,8 @@ public class SectionManagement : Singleton<SectionManagement>
         // 현재 섹션 추가.
         aroundSections.Add((sectionX, sectionY));
 
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
         // Top.
         var topSection = (sectionX, sectionY + 1);
         if (topSection.Item2 <= sectionMaxY)
@@ -119,6 +120,8 @@ public class SectionManagement : Singleton<SectionManagement>
             aroundSections.Add(rightSection);
         }
 
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
         // LeftTop.
         var leftTopSection = (sectionX - 1, sectionY + 1);
         if (leftTopSection.Item1 >= sectionMinX && leftTopSection.Item2 <= sectionMaxY)
@@ -149,6 +152,136 @@ public class SectionManagement : Singleton<SectionManagement>
         {
             // 최대 X 섹션 이하, 최소 Y 섹션 이상인 경우.
             aroundSections.Add(rightDownSection);
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+        // LeftTopEdge.
+        var leftTopEdgeSection = (sectionX - 2, sectionY + 2);
+        if (leftTopEdgeSection.Item1 >= sectionMinX && leftTopEdgeSection.Item2 <= sectionMaxY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(leftTopEdgeSection);
+        }
+
+        // LeftTopTop.
+        var leftTopTopSection = (sectionX - 1, sectionY + 2);
+        if (leftTopTopSection.Item1 >= sectionMinX && leftTopTopSection.Item2 <= sectionMaxY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(leftTopTopSection);
+        }
+
+        // TopTop.
+        var topTopSection = (sectionX, sectionY + 2);
+        if (topTopSection.Item2 <= sectionMaxY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(topTopSection);
+        }
+
+        // RightTopTop.
+        var rightTopTopSection = (sectionX + 1, sectionY + 2);
+        if (rightTopTopSection.Item1 <= sectionMaxX && rightTopTopSection.Item2 <= sectionMaxY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(rightTopTopSection);
+        }
+
+        // RightTopEdge.
+        var rightTopEdgeSection = (sectionX + 2, sectionY + 2);
+        if (rightTopEdgeSection.Item1 <= sectionMaxX && rightTopEdgeSection.Item2 <= sectionMaxY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(rightTopEdgeSection);
+        }
+
+        // RightRightTop.
+        var rightRightTopSection = (sectionX + 2, sectionY + 1);
+        if (rightRightTopSection.Item1 <= sectionMaxX && rightRightTopSection.Item2 <= sectionMaxY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(rightRightTopSection);
+        }
+
+        // RightRight.
+        var rightRightSection = (sectionX + 2, sectionY);
+        if (rightRightSection.Item1 <= sectionMaxX)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(rightRightSection);
+        }
+
+        // RightRightDown.
+        var rightRightDownSection = (sectionX + 2, sectionY - 1);
+        if (rightRightDownSection.Item1 <= sectionMaxX && rightRightDownSection.Item2 >= sectionMinY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(rightRightDownSection);
+        }
+
+        // LeftLeftTop.
+        var leftLeftTopSection = (sectionX - 2, sectionY + 1);
+        if (leftLeftTopSection.Item1 >= sectionMinX && leftLeftTopSection.Item2 <= sectionMaxY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(leftLeftTopSection);
+        }
+
+        // LeftLeft.
+        var leftLeftSection = (sectionX - 2, sectionY);
+        if (leftLeftSection.Item1 >= sectionMinX)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(leftLeftSection);
+        }
+
+        // LeftLeftDown.
+        var leftLeftDownSection = (sectionX - 2, sectionY - 1);
+        if (leftLeftDownSection.Item1 >= sectionMinX && leftLeftDownSection.Item2 >= sectionMinY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(leftLeftDownSection);
+        }
+
+        // LeftDownEdge.
+        var leftDownEdgeSection = (sectionX - 2, sectionY - 2);
+        if (leftDownEdgeSection.Item1 >= sectionMinX && leftDownEdgeSection.Item2 >= sectionMinY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(leftDownEdgeSection);
+        }
+
+        // LeftDownDown.
+        var leftDownDownSection = (sectionX - 1, sectionY - 2);
+        if (leftDownDownSection.Item1 >= sectionMinX && leftDownDownSection.Item2 >= sectionMinY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(leftDownDownSection);
+        }
+
+        // DownDown.
+        var downDownSection = (sectionX , sectionY - 2);
+        if (downDownSection.Item2 >= sectionMinY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(downDownSection);
+        }
+
+        // RightDownDown.
+        var rightDownDownSection = (sectionX + 1, sectionY - 2);
+        if (rightDownDownSection.Item1 <= sectionMaxX && rightDownDownSection.Item2 >= sectionMinY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(rightDownDownSection);
+        }
+
+        // RightDownEdge.
+        var rightDownEdgeSection = (sectionX + 2, sectionY - 2);
+        if (rightDownEdgeSection.Item1 <= sectionMaxX && rightDownEdgeSection.Item2 >= sectionMinY)
+        {
+            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
+            aroundSections.Add(rightDownEdgeSection);
         }
 
         return aroundSections;

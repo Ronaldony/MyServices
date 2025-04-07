@@ -7,7 +7,7 @@
     "DropItem": "Heart",
     "AttackRange": 4,
     "AttackCooldown": 0,
-    "MoveSpeed": 4,
+    "MoveSpeed": 2,
     "Summary": null
   },
   {

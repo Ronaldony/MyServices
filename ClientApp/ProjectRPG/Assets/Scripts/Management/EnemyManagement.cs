@@ -71,13 +71,27 @@ public class EnemyManagement : Singleton<EnemyManagement>
             switch (updatePacket.PacketCode)
             {
                 case NetPacketCode.SC_SpawnEnemy:
-                    UpdateSpawn(updatePacket.Data as NetPacketSC_SpawnEnemy);
+                    {
+                        var packet = updatePacket.Data as NetPacketSC_SpawnEnemy;
+                        SpawnEnemies(packet.Enemies);
+                    }
                     break;
                 case NetPacketCode.SC_UpdateMovePattern:
-                    UpdateMovePattern(updatePacket.Data as NetPacketSC_UpdateMovePattern);
+                    {
+                        UpdateMovePattern(updatePacket.Data as NetPacketSC_UpdateMovePattern);
+                    }
                     break;
                 case NetPacketCode.SC_UpdateSection:
-                    UpdateSection(updatePacket.Data as NetPacketSC_UpdateSection);
+                    {
+                        var packet = updatePacket.Data as NetPacketSC_UpdateSection;
+                        SpawnEnemies(packet.Enemies);
+                    }
+                    break;
+                case NetPacketCode.SC_SpawnPlayer:
+                    {
+                        var packet = updatePacket.Data as NetPacketSC_SpawnPlayer;
+                        SpawnEnemies(packet.Enemies);
+                    }
                     break;
             }
         }
@@ -118,21 +132,6 @@ public class EnemyManagement : Singleton<EnemyManagement>
     }
 
     /// <summary>
-    /// Spawn enemy.
-    /// </summary>
-    private void UpdateSpawn(NetPacketSC_SpawnEnemy packetData)
-    {
-        foreach (var enemy in packetData.Enemies)
-        {
-            // Spawn enemy.
-            if (false == SpawnEnemy(enemy))
-            {
-                continue;
-            }
-        }
-    }
-
-    /// <summary>
     /// Update move pattern.
     /// </summary>
     private void UpdateMovePattern(NetPacketSC_UpdateMovePattern packetData)
@@ -155,14 +154,13 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// <summary>
     /// Update section.
     /// </summary>
-    private void UpdateSection(NetPacketSC_UpdateSection packetData)
+    private void SpawnEnemies(List<DTO_Enemy> enemies)
     {
-        foreach (var enemy in packetData.Enemies)
+        foreach (var enemy in enemies)
         {
             // Spawn enemy.
             if (false == SpawnEnemy(enemy))
             {
-                Debug.LogError($"Fail to spawn enemy. {enemy.EnemeyUid}");
                 continue;
             }
         }
@@ -190,15 +188,15 @@ public class EnemyManagement : Singleton<EnemyManagement>
             return false;
         }
 
-        // Create enemy object.
-        var enemyObject = Instantiate(findEnemyPrefab, new Vector3(enemy.Position.Pos.X, enemy.Position.Pos.Y), Quaternion.identity);
-
         // Add Enemy chunk.
         if (_enemyObjectDict.ContainsKey(enemy.EnemeyUid))
         {
-            Debug.LogError($"Fail to spawn enemy. 3");
+            Debug.Log($"Already exist enemy. uid: {enemy.EnemeyUid}, id: {enemy.EnemyId}");
             return false;
         }
+
+        // Create enemy object.
+        var enemyObject = Instantiate(findEnemyPrefab, new Vector3(enemy.Position.Pos.X, enemy.Position.Pos.Y), Quaternion.identity);
 
         _enemyObjectDict.Add(enemy.EnemeyUid, enemyObject);
 

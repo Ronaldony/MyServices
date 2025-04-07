@@ -33,9 +33,24 @@ namespace Network
 
             var playerDataManager = PlayerDataManager.Instance;
             var netPacketManager = NetPacketManager.Instance;
+            var loginActor = LoginActor.Instance;
 
             playerDataManager.PlayInfo = packetData.PlayInfo;
             playerDataManager.InventoryInfo = packetData.InventoryInfo;
+
+            // Load scene.
+            switch (playerDataManager.PlayInfo.Position.Area)
+            {
+                case Type_Area.HuntZone:
+                    loginActor.LoadScene(Type_Area.HuntZone.ToString());
+                    break;
+                case Type_Area.BattleZone:
+                    loginActor.LoadScene(Type_Area.BattleZone.ToString());
+                    break;
+                case Type_Area.Village:
+                    loginActor.LoadScene(Type_Area.Village.ToString());
+                    break;
+            }
 
             netPacketManager.Send<NetPacketCS_SpawnPlayer>(NetPacketCode.CS_SpawnPlayer, _sendPacket);
         }

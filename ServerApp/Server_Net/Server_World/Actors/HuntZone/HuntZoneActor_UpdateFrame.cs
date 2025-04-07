@@ -101,8 +101,6 @@ namespace Server_World.Actors.HuntZone
                     // 섹션 업데이트.
                     if (false == section.Equals(moveSection))
                     {
-                        _logger.LogDebug($"Enemy new section. ori: {section}, new: {moveSection}");
-
                         _sectionEnemyDict[section].Remove(enemy.EnemeyUid, out var _);
                         _sectionEnemyDict[moveSection].AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);
 
@@ -207,7 +205,6 @@ namespace Server_World.Actors.HuntZone
             // 섹션 업데이트 패킷 전송.
             foreach (var pair in sessionDict)
             {
-                _logger.LogDebug($"Send update frame packet.");
                 SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(new NetPacketSC_UpdateSection
                 {
                     Enemies = pair.Value.Enemies,

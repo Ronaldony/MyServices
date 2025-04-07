@@ -11,7 +11,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
     using GameCore.Interfaces;
     using Server_World.Core.Worlds;
     using ServerEngine.Config.ConfigManager;
-    using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Core.Util;
 
     /// <summary>
@@ -21,7 +20,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
     {
         private readonly ILogger<HuntZoneScheduler_Enemy> _logger;
 
-        private readonly IMemoryPoolService _memoryPoolService;
         private readonly HuntZoneActorProvider _huntZoneActorProvider;
 
         // 지역 정보.
@@ -56,7 +54,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
         {
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_Enemy>>();
 
-            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
             _huntZoneActorProvider = serviceProvider.GetRequiredService<HuntZoneActorProvider>();
 
             var tdbService = serviceProvider.GetRequiredService<ITDBService>();
@@ -128,11 +125,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
         /// </summary>
         private void OnSpawnElapsed(object sender, ElapsedEventArgs e)
         {
-            if (_enemyUid > 0)
-            {
-                return;
-            }
-
             try
             {
                 _logger.LogInformation("Elapse HuntZoneScheduler_Enemy.");
@@ -144,8 +136,8 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 var spawnMsg = new WorldMsg_SpawnEnemy();
                 spawnMsg.Enemies = new Dictionary<(int sectionX, int sectionY), List<DTO_Enemy>>();
 
-                var enemy = _tbEnemies.First();
-                //foreach (var enemy in _tbEnemies)
+                //var enemy = _tbEnemies.First();
+                foreach (var enemy in _tbEnemies)
                 {
                     // 적 생성.
                     var dtoEnemy = new DTO_Enemy();
@@ -163,10 +155,8 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     position.MovePattern = pattern;
 
                     // Generate random section.
-                    //var x = _randomSection.Next(_confArea.MinX, _confArea.MaxX);
-                    //var y = _randomSection.Next(_confArea.MinY, _confArea.MaxY);
-                    var x = -1;
-                    var y = 0;
+                    var x = _randomSection.Next(_confArea.MinX, _confArea.MaxX);
+                    var y = _randomSection.Next(_confArea.MinY, _confArea.MaxY);
 
                     _logger.LogDebug($"Spawn enemy. pos: ({x}, {y})");
 
@@ -174,8 +164,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     position.Pos = new Vector2(x, y);
 
                     // Next pos.
-                    //position.NextPos = new Vector2(position.Pos.X + _randomSection.Next(-3, 3), position.Pos.Y + _randomSection.Next(-3, 3));
-                    position.NextPos = new Vector2(-12, 0);
+                    position.NextPos = new Vector2(position.Pos.X + _randomSection.Next(-3, 3), position.Pos.Y + _randomSection.Next(-3, 3));
 
                     // Set direction.
                     position.NextPosDir = Vector2.Normalize(position.NextPos - position.Pos);
