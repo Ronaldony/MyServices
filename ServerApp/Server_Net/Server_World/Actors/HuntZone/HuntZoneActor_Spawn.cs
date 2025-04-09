@@ -8,7 +8,6 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
     using Server_World.Core.Worlds;
-    using System.Collections.Generic;
 
     /// <summary>
     /// HuntZoneActor.
@@ -21,7 +20,6 @@ namespace Server_World.Actors.HuntZone
         private void SpawnPlayer(World_Player player)
         {
             // 섹션.
-            var pid = player.PlayInfo.Pid;
             var session = player.GameSession;
 
             // 세션 정보 가져오기.
@@ -33,7 +31,7 @@ namespace Server_World.Actors.HuntZone
             
             // 인근 섹션 플레이어, 적 정보 전달.
             var aroundSections = GetAroundSections(section);
-            var packet = new NetPacketSC_SpawnPlayer
+            var packet =  new NetPacketSC_SpawnPlayer
             {
                 Users = new List<DTO_PlayInfo>(),
                 Enemies = new List<DTO_Enemy>()
@@ -58,26 +56,20 @@ namespace Server_World.Actors.HuntZone
 
             if (aroundSessions.Any())
             {
-                // Send others.
-                var otherPlayerPacketBytes = _dataSerializer.Serialize(new NetPacketSC_SpawnPlayer
-                {
-                    Users = new List<DTO_PlayInfo>
-                    {
-                        player.PlayInfo
-                    }
-                });
+                packet.Users.Clear();
+                packet.Users.Add(player.PlayInfo);
+                packet.Enemies.Clear();
 
                 // 인근 세션에 패킷 전송.
                 foreach (var otherSession in aroundSessions)
                 {
-
                     // 다른 플레이어에게 패킷 전송.
-                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_SpawnPlayer, otherPlayerPacketBytes);
+                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
                 }
             }
 
             // 섹션에 플레이어 저장.
-            if (false == AddPlayerIntoWorld(pid, player, section))
+            if (false == AddPlayer(player.PlayInfo.Pid, player, section))
             {
                 return;
             }
@@ -101,7 +93,7 @@ namespace Server_World.Actors.HuntZone
 
                 foreach (var enemy in enemies)
                 {
-                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, enemy, (key, old) => enemy);
+                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);
                 }
 
                 // 근처 세션 가져오기.
@@ -125,13 +117,22 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            Parallel.ForEach(sessionEnemyDict, pair =>
+
+            foreach (var pair in sessionEnemyDict)
             {
                 SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(new NetPacketSC_SpawnEnemy
                 {
                     Enemies = pair.Value
                 }));
-            });
+            }
+
+            // Check spawn count.
+            _enemyCount += msg.Enemies.Count();
+
+            if (_enemyCount >= GameData.MAX_ENEMY_SPAWN)
+            {
+                _schedulerEnemy.StopSpawn();
+            }
         }
     }
 }

@@ -23,19 +23,12 @@ namespace Server_World.Actors.HuntZone
 
             if (default == worldPlayer)
             {
-                _logger.LogError($"not exist player. pid: {packet.Pid}"); 
+                _logger.LogError($"not exist player. pid: {packet.Pid}");
                 return;
             }
 
             var playInfo = worldPlayer.PlayInfo;
             var position = worldPlayer.PlayInfo.Position;
-
-            // 섹션 검사.
-            if (false == IsValidSection((int)position.Pos.X, (int)position.Pos.Y, out var section))
-            {
-                _logger.LogError($"Invalid section. x: {position.Pos.X}, y: {position.Pos.Y}");
-                return;
-            }
 
             // 업데이트 시간보다 패킷 시간이 과거인 경우 패킷 무시.
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
@@ -49,15 +42,8 @@ namespace Server_World.Actors.HuntZone
             position.MoveDirection = packet.MoveDirection;
 
             // 근처 섹션의 플레이어.
+            var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
             var aroundSessions = GetAroundSessions(section);
-
-            // 현재 플레이어 제외.
-            aroundSessions.Remove(worldPlayer.GameSession);
-
-            if (false == aroundSessions.Any())
-            {
-                return;
-            }
 
             // 패킷.
             var packetBytes = _dataSerializer.Serialize(
@@ -66,10 +52,14 @@ namespace Server_World.Actors.HuntZone
                     Pid = packet.Pid
                 });
 
+            // 패킷 전송.
+            var gameSession = worldPlayer.GameSession;
 
-            // 근처 섹션 플레이어들에게 패킷 전송.
             foreach (var otherSession in aroundSessions)
             {
+                // 현재 플레이어 제외.
+                if (gameSession.Equals(otherSession)) { continue; }
+
                 SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveStart, packetBytes);
             }
 
@@ -86,7 +76,7 @@ namespace Server_World.Actors.HuntZone
 
             if (default == worldPlayer)
             {
-                _logger.LogError($"not exist player. pid: {packet.Pid}"); 
+                _logger.LogError($"not exist player. pid: {packet.Pid}");
                 return;
             }
 
@@ -121,7 +111,7 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            // 기존 섹션. 
+            // 기존 섹션.
             var oriSection = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
 
             // 업데이트 시간 및 좌표 갱신.
@@ -132,14 +122,6 @@ namespace Server_World.Actors.HuntZone
             // 근처 섹션 플레이어.
             var aroundSessions = GetAroundSessions(section);
 
-            // 현재 플레이어 제외.
-            aroundSessions.Remove(worldPlayer.GameSession);
-
-            if (false == aroundSessions.Any())
-            {
-                return;
-            }
-
             // 패킷.
             var packetBytes = _dataSerializer.Serialize(
                 new NetPacketSC_MoveEnd
@@ -149,56 +131,42 @@ namespace Server_World.Actors.HuntZone
                 });
 
             // 근처 섹션 플레이어에 패킷 전송.
+            var gameSession = worldPlayer.GameSession;
+
             foreach (var otherSession in aroundSessions)
             {
+                // 현재 플레이어 제외.
+                if (gameSession.Equals(otherSession)) { continue; }
+
                 SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveEnd, packetBytes);
             }
 
             // 섹션을 이동한 경우, 새로운 섹션의 플레이어, 적 정보 전송.
             if (false == oriSection.Equals(section))
             {
+                // Around sections.
+                var oriAroundSections = GetAroundSections(oriSection);
+                var aroundSections = GetAroundSections(section);
+                var newAroundSections = aroundSections.Where(d => false == oriAroundSections.Contains(d));
+
+                // Packet.
                 var packetUpdateSection = new NetPacketSC_UpdateSection
                 {
                     Enemies = new List<DTO_Enemy>(),
                     PlayInfos = new List<DTO_PlayInfo>()
                 };
 
-                // Around sections.
-                var oriAroundSections = GetAroundSections(oriSection);
-                var aroundSections = GetAroundSections(section);
-
-                // 플레이어 상태를 보낼 새로운 섹션 검색.
-                var newAroundSections =
-                    from left in aroundSections
-                    join right in oriAroundSections on left equals right into joined
-                    from oldSection in joined.DefaultIfEmpty()
-                    select new
-                    {
-                        NewSection = left,
-                        OldSection = oldSection
-                    };
-
                 // 새로운 섹션의 적, 플레이어 정보 저장.
-                foreach (var pair in newAroundSections)
+                foreach (var newSection in newAroundSections)
                 {
-                    // 인근 섹션이 겹치는 경우 패스.
-                    if (pair.NewSection.Equals(pair.OldSection))
-                    {
-                        // 0, 0이 아닌 경우만 해당.
-                        if (pair.NewSection != (0, 0))
-                        {
-                            continue;
-                        }
-                    }
-
-                    var enemies = GetEnemies(pair.NewSection);
-                    var worldPlayers = GetWorldPlayers(pair.NewSection);
-
-                    packetUpdateSection.Enemies.AddRange(enemies);
-                    packetUpdateSection.PlayInfos.AddRange(worldPlayers.Select(d => d.PlayInfo));
+                    var enemies = GetEnemies(newSection);
+                    var worldPlayers = GetWorldPlayers(newSection);
+                    
+                    if (null != enemies) { packetUpdateSection.Enemies.AddRange(enemies); }
+                    if (null != worldPlayers) { packetUpdateSection.PlayInfos.AddRange(worldPlayers?.Select(d => d.PlayInfo)); }
                 }
 
-                SendPacket(worldPlayer.GameSession.SessionId, worldPlayer.GameSession.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(packetUpdateSection));
+                SendPacket(gameSession.SessionId, gameSession.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(packetUpdateSection));
             }
         }
 

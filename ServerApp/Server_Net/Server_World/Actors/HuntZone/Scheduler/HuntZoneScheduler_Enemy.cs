@@ -121,6 +121,22 @@ namespace Server_World.Actors.HuntZone.Scheduler
         }
 
         /// <summary>
+        /// Start spawn.
+        /// </summary>
+        public void StartSpawn()
+        {
+            _spawnTimer.Start();
+        }
+
+        /// <summary>
+        /// Stop spawn.
+        /// </summary>
+        public void StopSpawn()
+        {
+            _spawnTimer.Stop();
+        }
+
+        /// <summary>
         /// 주기적으로 적 스폰.
         /// </summary>
         private void OnSpawnElapsed(object sender, ElapsedEventArgs e)
@@ -201,8 +217,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
         {
             try
             {
-                //_logger.LogInformation("Elapse HuntZoneScheduler_Enemy.");
-
                 // UpdateFrame 메시지 생성.
                 var updateFrameMsg = new WorldMsg_UpdateFrame();
 

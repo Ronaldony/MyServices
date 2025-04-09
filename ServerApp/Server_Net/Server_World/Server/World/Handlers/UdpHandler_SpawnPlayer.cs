@@ -7,7 +7,6 @@ namespace Server_World.Server.World.Handlers
     using Framework.Core.Database.Attributes;
     using Framework.Core.Database.DataObject;
     using Framework.Core.Session;
-    using Framwork.Core.Session;
     using GameCore;
     using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
@@ -25,7 +24,6 @@ namespace Server_World.Server.World.Handlers
         private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
 
         private readonly WorldServer _worldServer;
-        private readonly IDataSerializer _dataSerializer;
 
         // MemoryPoolService.
         private readonly IMemoryPoolService _memoryPoolService;
@@ -48,7 +46,6 @@ namespace Server_World.Server.World.Handlers
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
 
             _worldServer = serviceProvider.GetRequiredService<WorldServer>();
-            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             // MemoryPoolService.
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();

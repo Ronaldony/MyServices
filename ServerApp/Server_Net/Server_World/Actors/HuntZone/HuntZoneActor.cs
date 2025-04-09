@@ -30,8 +30,6 @@ namespace Server_World.Actors.HuntZone
         private readonly WorldServer _worldServer;
         private readonly HuntZoneScheduler_Enemy _schedulerEnemy;
 
-        private readonly CONF_Enemy _confEnemy;
-
         /// <summary>
         /// HuntZone_Player dictionary.
         /// key: Pid.
@@ -67,6 +65,11 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private readonly Dictionary<(int sectionX, int sectionY), Section> _sectionDict;
 
+        /// <summary>
+        /// 필드 적 수.
+        /// </summary>
+        private int _enemyCount;
+
         public HuntZoneActor()
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
@@ -74,8 +77,6 @@ namespace Server_World.Actors.HuntZone
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
             _memoryPoolService =  ServiceUtility.GetService<IMemoryPoolService>();
-
-            _confEnemy = _tdbService.First<CONF_Enemy>(d => d.Area.Equals(Type_Area.HuntZone));
 
             _worldServer = ServiceUtility.GetService<WorldServer>();
             _schedulerEnemy = new HuntZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
@@ -140,10 +141,10 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Send packet.
         /// </summary>
-        private bool SendPacket(int sessionId, ulong sessionuid, int packetCode, byte[] packetData)
+        private bool SendPacket(int sessionId, ulong sessionUid, int packetCode, byte[] packetData)
         {
             // Send.
-            return _worldServer.Send(sessionId, sessionuid, packetCode, packetData);
+            return _worldServer.Send(sessionId, sessionUid, packetCode, packetData);
         }
 
         /// <summary>
@@ -162,7 +163,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Add player to section.
         /// </summary>
-        private bool AddPlayerIntoWorld(string pid, World_Player player, (int sectionX, int sectionY) section)
+        private bool AddPlayer(string pid, World_Player player, (int sectionX, int sectionY) section)
         {
             // 섹션에 플레이어 추가.
             if (false == _sectionPlayerDict[section].TryAdd(pid, player))
@@ -181,6 +182,23 @@ namespace Server_World.Actors.HuntZone
             _playerDict[pid] = player;
 
             return true;
+        }
+
+        /// <summary>
+        /// Out player.
+        /// </summary>
+        private void OutPlayer(string pid)
+        {
+            if (_playerDict.TryGetValue(pid, out var worldPlayer))
+            {
+                _playerDict.Remove(pid);
+                return;
+            }
+
+            var pos = worldPlayer.PlayInfo.Position.Pos;
+            var section = ((int)pos.X / GameData.SECTION_WIDTH, (int)pos.Y / GameData.SECTION_HEIGHT);
+
+            _sectionPlayerDict[section].TryRemove(pid, out _);
         }
     }
 }

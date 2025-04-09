@@ -18,6 +18,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private void UpdateMovePattern(WorldMsg_UpdateMovePattern msg)
         {
+            var movePattern = msg.MovePattern;
             var updateSessions = new Dictionary<GameSession, List<DTO_Enemy>>();
 
             // 이동 패턴 업데이트.
@@ -29,7 +30,7 @@ namespace Server_World.Actors.HuntZone
 
                 foreach (var enemy in enemies)
                 {
-                    if (msg.MovePattern != enemy.Position.MovePattern)
+                    if (movePattern != enemy.Position.MovePattern)
                     {
                         continue;
                     }
@@ -63,15 +64,17 @@ namespace Server_World.Actors.HuntZone
             }
 
             // 네트워크 전송.
-            Parallel.ForEach(updateSessions, pair =>
+            foreach (var pair in updateSessions)
             {
-                var packetBytes = _dataSerializer.Serialize(new NetPacketSC_UpdateMovePattern
-                {
-                    Enemies = pair.Value
-                });
-
-                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_UpdateMovePattern, packetBytes);
-            });
+                SendPacket(
+                    sessionId: pair.Key.SessionId,
+                    sessionUid: pair.Key.SessionUid,
+                    packetCode: NetPacketCode.SC_UpdateMovePattern,
+                    packetData: _dataSerializer.Serialize(new NetPacketSC_UpdateMovePattern
+                    {
+                        Enemies = pair.Value
+                    }));
+            }
         }
     }
 }

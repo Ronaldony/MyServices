@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Numerics;
 
 namespace Server_World.Actors.HuntZone
@@ -35,12 +34,11 @@ namespace Server_World.Actors.HuntZone
             var moveWorldSection = new ConcurrentDictionary<((int sectionX, int sectionY) oriSection, (int sectionX, int sectionY) section), World_Section>();
 
             // 섹션을 루프하여 플레이어, 적 이동 처리.
-            Parallel.ForEach(_sectionPlayerDict, sectionPlayerPair =>
+            Parallel.ForEach(_sectionPlayerDict, pair =>
             {
                 // 섹션의 적, 플레이어 데이터 가져오기.
-                var section = sectionPlayerPair.Key;
-                var players = sectionPlayerPair.Value;
-                var enemies = _sectionEnemyDict[section];
+                var section = pair.Key;
+                var players = pair.Value;
 
                 // 플레이어 이동 처리.
                 foreach (var worldPlayer in players.Values)
@@ -68,7 +66,7 @@ namespace Server_World.Actors.HuntZone
                     if (false == section.Equals(moveSection))
                     {
                         _sectionPlayerDict[section].Remove(worldPlayer.PlayInfo.Pid, out var _);
-                        _sectionPlayerDict[moveSection].AddOrUpdate(worldPlayer.PlayInfo.Pid, worldPlayer, (_, _) => worldPlayer);
+                        _sectionPlayerDict[moveSection].AddOrUpdate(worldPlayer.PlayInfo.Pid, worldPlayer, (key, old) => worldPlayer);
 
                         // 섹션이 이동된 플레이어 정보는 이동된 섹션 주변에 이동 정보를 보냄.
                         var keySection = (section, moveSection);
@@ -83,12 +81,13 @@ namespace Server_World.Actors.HuntZone
                 }
 
                 // 적 이동 처리.
+                var enemies = _sectionEnemyDict[section];
+
                 foreach (var enemy in enemies.Values)
                 {
                     var position = enemy.Position;
                     var pos = enemy.Position.Pos;
 
-                    // Set original position.
                     // 적 위치 계산.
                     if (false == Calc_EnemyPosition(ref pos, position.NextPos, position.NextPosDir, worldMsg.FrameDeltaTime, position.Veltocity, out var moveSection))
                     {
@@ -106,6 +105,7 @@ namespace Server_World.Actors.HuntZone
 
                         // 섹션이 이동된 적 정보는 이동된 섹션 주변 플레이어에 이동 정보를 보냄.
                         var keySection = (section, moveSection);
+
                         if (false == moveWorldSection.ContainsKey(keySection))
                         {
                             moveWorldSection.AddOrUpdate(keySection, new World_Section(), (_, _) => new World_Section());
