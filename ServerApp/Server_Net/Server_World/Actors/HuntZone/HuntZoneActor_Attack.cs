@@ -13,6 +13,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private void Attack(NetPacketCS_Attack packet)
         {
+
         }
     }
 }

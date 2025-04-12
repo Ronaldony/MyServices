@@ -1,10 +1,10 @@
+using GameCore;
 using System.Collections;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private GameObject _deathVFXPrefab;
-    [SerializeField] private float _knockBackThrust = 10f;
 
     private int _health;
     private Knockback _knockback;
@@ -30,7 +30,7 @@ public class EnemyHealth : MonoBehaviour
         _health -= damage;
 
         // 面倒 贸府 埃 乘归 贸府.
-        _knockback.GetKnockedBack(PlayerController.Instance.transform, _knockBackThrust);
+        _knockback.GetKnockedBack(PlayerController.Instance.transform, GameData.KNOCKBACK_THRUST);
 
         StartCoroutine(_flash.FlashRoutine());
         StartCoroutine(CheckDetectDeathRoutine());

@@ -41,5 +41,9 @@
         // 섹션.
         public const int CS_UpdateSection = 140;            // 섹션 업데이트.
         public const int SC_UpdateSection = 141;            // 섹션 업데이트.
+
+        // 넉백.
+        public const int CS_KnockBack = 150;                // 넉백.
+        public const int SC_KnockBack = 151;                // 넉백.
     }
 }

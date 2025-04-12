@@ -1,12 +1,17 @@
+using GameCore;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static Knockback;
 
 public class Knockback : MonoBehaviour
 {
     public bool GettingKnockedBack { get; private set; }
 
-    [SerializeField] private float knockBackTime = .2f;
+    // Callback.
+    public delegate void OnKnockBack();
+    public event OnKnockBack KnockBack;
+    public delegate void OnFinishKnockBack();
+    public event OnFinishKnockBack FinishKnockBack;
 
     private Rigidbody2D rb;
 
@@ -20,15 +25,21 @@ public class Knockback : MonoBehaviour
         GettingKnockedBack = true;
 
         // mass: 질량, mass에 비례하여 넉백되게 하기 위함.
-        Vector2 difference = (transform.position - damageSource.position).normalized * knockBackThrust * rb.mass;
-        rb.AddForce(difference, ForceMode2D.Impulse);
+        Vector2 momentum = (transform.position - damageSource.position).normalized * knockBackThrust * rb.mass;
+        rb.AddForce(momentum, ForceMode2D.Impulse);
+
+        Debug.Log($"KnockBack Mass: {rb.mass}, normalized: {(transform.position - damageSource.position).normalized}, difference: {momentum}");
 
         StartCoroutine(KnockRoutine());
     }
-
     private IEnumerator KnockRoutine()
     {
-        yield return new WaitForSeconds(knockBackTime);
+        KnockBack();
+
+        yield return new WaitForSeconds(GameData.KNOCKBACK_TIME);
+
+        FinishKnockBack();
+
         rb.velocity = Vector2.zero;
         GettingKnockedBack = false;
     }

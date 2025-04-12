@@ -52,6 +52,19 @@ public class PlayerController : Singleton<PlayerController>
 
         // Setup position.
         _rb.position = new Vector2(_playerDataManager.PlayInfo.Position.Pos.X, _playerDataManager.PlayInfo.Position.Pos.Y);
+
+        Initialize_CallBack();
+    }
+
+    /// <summary>
+    /// Initialize callback.
+    /// </summary>
+    private void Initialize_CallBack()
+    {
+        // Knockback.
+        _knockback.KnockBack += KnockingBack;
+        _knockback.FinishKnockBack += AfterKnockBack;
+        
     }
 
     private void Start()
@@ -97,23 +110,24 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
+        // 죽음.
+        if (PlayerHealth.Instance.isDead) { return; }
+
+        // 넉백.
+        if (_knockback.GettingKnockedBack)
+        {
+            return;
+        }
+
         // Update movement.
         _movement = _playerControls.Movement.Move.ReadValue<Vector2>();
 
         AdjustPlayerFacingDirection();
 
-        // 플레이어가 넉백 상태이거나 죽은 경우 이동 처리하지 않음.
-        if (_knockback.GettingKnockedBack || PlayerHealth.Instance.isDead)
-        {
-            MoveStop();
-        }
-        else
-        {
-            // 이동 처리.
-            BeforeMove();
-            Move();
-            AfterMove();
-        }
+        // 이동 처리.
+        BeforeMove();
+        Move();
+        AfterMove();
     }
 
     /// <summary>
@@ -290,6 +304,9 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    /// <summary>
+    /// Adjust player facing.
+    /// </summary>
     private void AdjustPlayerFacingDirection()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -307,6 +324,9 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    /// <summary>
+    /// Dash.
+    /// </summary>
     private void Dash()
     {
         if (!_isDashing && Stamina.Instance.CurrentStamina > 0)
@@ -320,6 +340,9 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    /// <summary>
+    /// End dash routine.
+    /// </summary>
     private IEnumerator EndDashRoutine()
     {
         float dashTime = .2f;
@@ -331,5 +354,45 @@ public class PlayerController : Singleton<PlayerController>
 
         yield return new WaitForSeconds(dashCD);
         _isDashing = false;
+    }
+
+    /// <summary>
+    /// Knocking back.
+    /// </summary>
+    private void KnockingBack()
+    {
+        _playerDataManager.PlayInfo.Position.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+
+        if (_isMoving)
+        {
+            var pakcetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
+
+            // Move end.
+            _netPacketManager.Send<NetPacketCS_MoveEnd>(
+                NetPacketCode.CS_MoveEnd,
+                new NetPacketCS_MoveEnd
+                {
+                    Pid = _playerDataManager.Pid,
+                    EndPos = _playerDataManager.PlayInfo.Position.Pos,
+                    PacketTime = pakcetTime,
+                });
+
+            _isMoving = false;
+            _moveDeltaTime = 0;
+        }
+    }
+
+    /// <summary>
+    /// After knockback.
+    /// </summary>
+    private void AfterKnockBack()
+    {
+        _netPacketManager.Send<NetPacketCS_KnockBack>(
+            NetPacketCode.CS_KnockBack,
+            new NetPacketCS_KnockBack
+            {
+                Pid = _playerDataManager.Pid,
+                Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y)
+            });
     }
 }

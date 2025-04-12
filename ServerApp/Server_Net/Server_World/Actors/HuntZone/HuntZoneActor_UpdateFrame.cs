@@ -177,17 +177,6 @@ namespace Server_World.Actors.HuntZone
                             continue;
                         }
 
-                        // 새로운 섹션 플레이어.
-                        if (null != sectionPlayers)
-                        {
-                            if (false == sessionDict.ContainsKey(session))
-                            {
-                                sessionDict.Add(session, new World_Section());
-                            }
-
-                            sessionDict[session].PlayInfos.AddRange(sectionPlayers.Select(d => d.PlayInfo));
-                        }
-
                         // 새로운 섹션 적.
                         if (null != enemies)
                         {
@@ -197,6 +186,17 @@ namespace Server_World.Actors.HuntZone
                             }
 
                             sessionDict[session].Enemies.AddRange(enemies);
+                        }
+
+                        // 새로운 섹션 플레이어.
+                        if (null != sectionPlayers)
+                        {
+                            if (false == sessionDict.ContainsKey(session))
+                            {
+                                sessionDict.Add(session, new World_Section());
+                            }
+
+                            sessionDict[session].PlayInfos.AddRange(sectionPlayers.Select(d => d.PlayInfo));
                         }
                     }
                 }

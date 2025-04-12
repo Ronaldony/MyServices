@@ -6,6 +6,8 @@ using System.Net.Sockets;
 
 namespace Server_World.Server.World
 {
+    using Server_World.Actors.HuntZone;
+    using Server_World.Core.Worlds;
     using ServerEngine.Network.UDP;
 
     /// <summary>
@@ -14,6 +16,8 @@ namespace Server_World.Server.World
     public sealed class WorldServer : UdpServer
     {
         private readonly ILogger<WorldServer> _logger;
+
+        private readonly HuntZoneActorProvider _huntZoneProvider;
 
         /// <summary>
         /// Sessoin dictionary.
@@ -28,6 +32,8 @@ namespace Server_World.Server.World
             _logger = serviceProvider.GetService<ILogger<WorldServer>>();
 
             _sessionDict = new ConcurrentDictionary<ulong, string>();
+
+            _huntZoneProvider = serviceProvider.GetService<HuntZoneActorProvider>();
         }
 
         /// <summary>
@@ -35,6 +41,7 @@ namespace Server_World.Server.World
         /// </summary>
         protected override void OnConnected(int sessionId, ulong sessionUid)
         {
+
         }
 
         /// <summary>
@@ -42,9 +49,14 @@ namespace Server_World.Server.World
         /// </summary>
         protected override void OnDisconnected(int sessionId, ulong sessionUid)
         {
-            _sessionDict.TryRemove(sessionUid, out _);
+            // Remove session.
+            _sessionDict.TryRemove(sessionUid, out var pid);
 
-            // TODO: 
+            // Send message.
+            _huntZoneProvider.Tell<WorldMsg_OutPlayer>(new WorldMsg_OutPlayer
+            {
+                Pid = pid
+            });
         }
 
         /// <summary>

@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 namespace Server_World.Actors.HuntZone
 {
     using Framework.Core.Session;
-    using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
     using GameCore.NetPacket;
@@ -88,10 +87,12 @@ namespace Server_World.Actors.HuntZone
 
             ///////////////////////////////// Receive.
 
-            // Spanws.
-            Receive<World_Player>(msg => SpawnPlayer(msg));
-
+            // Spanw.
+            Receive<World_Player>(player => SpawnPlayer(player));
             Receive<WorldMsg_SpawnEnemy>(msg => SpawnEnemy(msg));
+
+            // Out player.
+            Receive<WorldMsg_OutPlayer>(msg => OutPlayer(msg));
 
             // Update frame.
             Receive<WorldMsg_UpdateFrame>(msg => UpdateFrame(msg));
@@ -103,6 +104,9 @@ namespace Server_World.Actors.HuntZone
 
             // Attack.
             Receive<NetPacketCS_Attack>(packet => Attack(packet));
+
+            // KnockBack.
+            Receive<NetPacketCS_KnockBack>(packet => KnockBack(packet));
 
             // Enemy shceduler start.
             _schedulerEnemy.Start();
@@ -152,9 +156,9 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private GameSession GetSession(string pid)
         {
-            if (_playerDict.ContainsKey(pid))
+            if (_playerDict.TryGetValue(pid, out var player))
             {
-                return _playerDict[pid].GameSession;
+                return player.GameSession;
             }
 
             return null;
@@ -182,23 +186,6 @@ namespace Server_World.Actors.HuntZone
             _playerDict[pid] = player;
 
             return true;
-        }
-
-        /// <summary>
-        /// Out player.
-        /// </summary>
-        private void OutPlayer(string pid)
-        {
-            if (_playerDict.TryGetValue(pid, out var worldPlayer))
-            {
-                _playerDict.Remove(pid);
-                return;
-            }
-
-            var pos = worldPlayer.PlayInfo.Position.Pos;
-            var section = ((int)pos.X / GameData.SECTION_WIDTH, (int)pos.Y / GameData.SECTION_HEIGHT);
-
-            _sectionPlayerDict[section].TryRemove(pid, out _);
         }
     }
 }

@@ -14,5 +14,11 @@
 
         // Mob.
         public const int MAX_ENEMY_SPAWN = 50;          // 최대 적 스폰 수.
+
+        // KnockBack.
+        public const float KNOCKBACK_THRUST = 10f;
+        public const float KNOCKBACK_TIME = 0.2f;
+        public const float KNOCKBACK_MASS = 1f;
+        public const float KNOCKBACK_ERROR_DISTANCE = 3f;
     }
 }

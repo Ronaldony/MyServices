@@ -12,14 +12,8 @@ namespace GameCore.NetPacket
     /// NetPacket_Login from client to server.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_Login
+    public partial record NetPacketCS_Login : NetPacketReqBase
     {
-        /// <summary>
-        /// Pid.
-        /// </summary>
-        [MemoryPackOrder(0)]
-        public string Pid { get; set; }
-
         /// <summary>
         /// Token.
         /// </summary>

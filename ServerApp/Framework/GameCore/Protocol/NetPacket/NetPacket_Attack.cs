@@ -1,4 +1,5 @@
 ﻿using MemoryPack;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace GameCore.NetPacket
@@ -10,16 +11,16 @@ namespace GameCore.NetPacket
     public partial record NetPacketCS_Attack : NetPacketReqBase
     {
         /// <summary>
-        /// Attack id.
+        /// Damage.
         /// </summary>
         [MemoryPackOrder(1)]
-        public int AttackId { get; set; }
+        public int Damage { get; set; }
 
         /// <summary>
-        /// Attack id.
+        /// Attack angle.
         /// </summary>
         [MemoryPackOrder(2)]
-        public Type_MoveDirection MoveDirection { get; set; }
+        public Vector2 AttackAngle { get; set; }
     }
 
     /// <summary>
@@ -29,21 +30,9 @@ namespace GameCore.NetPacket
     public partial record NetPacketSC_Attack
     {
         /// <summary>
-        /// Attack id.
+        /// 공격 취소 여부.
         /// </summary>
         [MemoryPackOrder(0)]
-        public int AttackId { get; set; }
-
-        /// <summary>
-        /// Attack id.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public int Damage { get; set; }
-
-        /// <summary>
-        /// Attack id.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public Type_MoveDirection MoveDirection { get; set; }
+        public bool IsCanceled { get; set; }
     }
 }

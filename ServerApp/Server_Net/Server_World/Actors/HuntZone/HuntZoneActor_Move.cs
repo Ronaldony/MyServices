@@ -102,11 +102,11 @@ namespace Server_World.Actors.HuntZone
             // 이동 거리 계산 및 유효성 검사.
             var deltaTime = (packet.PacketTime - playInfo.UpdateTime).TotalSeconds;
 
-            //_logger.LogInformation($"MoveEnd - pid: {packet.Pid}, end pos: {packet.EndPos}, last pos: {playInfo.Position.Pos}, packet delta: {packet.DeltaTimeSec}, calc delta: {deltaTime}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}, packet time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
+            _logger.LogInformation($"MoveEnd - pid: {packet.Pid}, end pos: {packet.EndPos}, last pos: {playInfo.Position.Pos}, calc delta: {deltaTime}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}, packet time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
 
             if (false == IsValidPosition(position.MoveDirection, deltaTime, playInfo.Stat.Velocity, position.Pos, packet.EndPos))
             {
-                _logger.LogError($"position error.");
+                _logger.LogError($"Move end position error. ");
                 SendMoveFixed(playInfo.Pid, position.Pos);
                 return;
             }

@@ -1,3 +1,5 @@
+using GameCore;
+using Network;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +10,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
     public bool isDead { get; private set; }
 
     [SerializeField] private int maxHealth = 3;
-    [SerializeField] private float knockBackThrustAmount = 10f;
     [SerializeField] private float damageRecoveryTime = 1f;
 
     private Slider healthSlider;
@@ -16,6 +17,8 @@ public class PlayerHealth : Singleton<PlayerHealth>
     private bool canTakeDamage = true;
     private Knockback knockback;
     private Flash flash;
+
+    private NetPacketManager _netPacketManager;
 
     const string HEALTH_SLIDER_TEXT = "Health Slider";
     const string TOWN_TEXT = "Scene1";
@@ -27,6 +30,8 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();
+
+        _netPacketManager = NetPacketManager.Instance;
     }
 
     private void Start()
@@ -64,7 +69,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
         ScreenSnakeManager.Instance.SnakeScreen();
 
         // ³Ë¹é.
-        knockback.GetKnockedBack(hitTransform, knockBackThrustAmount);
+        knockback.GetKnockedBack(hitTransform, GameData.KNOCKBACK_THRUST);
 
         // flash.
         StartCoroutine(flash.FlashRoutine());
