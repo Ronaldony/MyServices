@@ -40,21 +40,27 @@ namespace GameCore.Datas.Play
         public DateTime UpdateTime { get; set; }
 
         /// <summary>
-        /// 위치 정보.
+        /// Action type.
         /// </summary>
         [MemoryPackOrder(3)]
+        public Type_Action ActionType { get; set; }
+
+        /// <summary>
+        /// 위치 정보.
+        /// </summary>
+        [MemoryPackOrder(4)]
         public DTO_Position Position { get; set; }
 
         /// <summary>
         /// 장비.
         /// </summary>
-        [MemoryPackOrder(4)]
+        [MemoryPackOrder(5)]
         public DTO_Equipment Equipment { get; set; }
 
         /// <summary>
         /// 플레이어 능력치.
         /// </summary>
-        [MemoryPackOrder(5)]
+        [MemoryPackOrder(6)]
         public DTO_PlayerStat Stat { get; set; }
     }
 }

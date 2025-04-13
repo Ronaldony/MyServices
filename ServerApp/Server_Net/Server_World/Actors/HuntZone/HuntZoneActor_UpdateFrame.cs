@@ -43,8 +43,10 @@ namespace Server_World.Actors.HuntZone
                 // 플레이어 이동 처리.
                 foreach (var worldPlayer in players.Values)
                 {
-                    // 플레이어가 이동 중이지 않은 경우, 처리하지 않음.
-                    if (worldPlayer.PlayInfo.Position.MoveDirection == GameCore.Type_MoveDirection.None)
+                    var moveDirection = worldPlayer.PlayInfo.Position.MoveDirection;
+
+                    // 정지, 대시인 경우, 처리하지 않음.
+                    if (moveDirection == Type_MoveDirection.None)
                     {
                         continue;
                     }
@@ -203,13 +205,14 @@ namespace Server_World.Actors.HuntZone
             }
 
             // 섹션 업데이트 패킷 전송.
+            var sendPacket = new NetPacketSC_UpdateSection();
+
             foreach (var pair in sessionDict)
             {
-                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(new NetPacketSC_UpdateSection
-                {
-                    Enemies = pair.Value.Enemies,
-                    PlayInfos = pair.Value.PlayInfos
-                }));
+                sendPacket.Enemies = pair.Value.Enemies;
+                sendPacket.PlayInfos = pair.Value.PlayInfos;
+
+                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(sendPacket));
             }
         }
 

@@ -32,17 +32,23 @@ namespace Server_World.Actors.HuntZone
 
             // 넉백 예상 위치 = 현재 위치 + (운동량 * 움직인 시간)
             var calcPosition = playerPos.Pos + (momentum * GameData.KNOCKBACK_TIME);
-
             var sendPacket = new NetPacketSC_KnockBack();
 
             // 계산된 위치와 전달 받은 위치의 거리가 오차 허용 범위 내인지 검사.
             var errorPos = Vector2.Distance(calcPosition, packet.Position);
 
+            // 오차 허용 범위 검사.
             if (GameData.KNOCKBACK_ERROR_DISTANCE < errorPos)
             {
-                // 오차 허용 범위 밖.
-                sendPacket.IsCanceled = true;
+                // Move fixed.
+                SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+                {
+                    Pid = packet.Pid,
+                    FixedPos = playerPos.Pos
+                }));
+
                 _logger.LogError($"KnockBack - calc: {calcPosition}, recv: {packet.Position}, momentum: {momentum} error: {errorPos}");
+                return;
             }
             else
             {
@@ -51,7 +57,7 @@ namespace Server_World.Actors.HuntZone
                 playerPos.MoveDirection = Type_MoveDirection.None;
             }
 
-            // Send pakcet.
+            // 주변 섹션에 넉백 전송.
             SendPacket(worldPlayer.GameSession.SessionId, worldPlayer.GameSession.SessionUid, NetPacketCode.SC_KnockBack, _dataSerializer.Serialize(sendPacket));
         }
     }

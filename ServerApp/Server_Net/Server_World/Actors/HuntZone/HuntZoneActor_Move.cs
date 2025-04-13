@@ -94,20 +94,32 @@ namespace Server_World.Actors.HuntZone
             // 업데이트 시간보다 패킷 시간이 과거인 경우 패킷 무시.
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
             {
+                // Move fixed.
+                SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+                {
+                    Pid = playInfo.Pid,
+                    FixedPos = position.Pos
+                }));
+
                 _logger.LogError($"Packe time error. packet: {packet.PacketTime.ToString("hh:mm:ss.fff")}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}");
-                SendMoveFixed(playInfo.Pid, position.Pos);
                 return;
             }
 
             // 이동 거리 계산 및 유효성 검사.
             var deltaTime = (packet.PacketTime - playInfo.UpdateTime).TotalSeconds;
 
-            _logger.LogInformation($"MoveEnd - pid: {packet.Pid}, end pos: {packet.EndPos}, last pos: {playInfo.Position.Pos}, calc delta: {deltaTime}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}, packet time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
+            //_logger.LogInformation($"MoveEnd - pid: {packet.Pid}, end pos: {packet.EndPos}, last pos: {playInfo.Position.Pos}, calc delta: {deltaTime}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}, packet time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
 
             if (false == IsValidPosition(position.MoveDirection, deltaTime, playInfo.Stat.Velocity, position.Pos, packet.EndPos))
             {
+                // Move fixed.
+                SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+                {
+                    Pid = playInfo.Pid,
+                    FixedPos = position.Pos
+                }));
+
                 _logger.LogError($"Move end position error. ");
-                SendMoveFixed(playInfo.Pid, position.Pos);
                 return;
             }
 
@@ -150,11 +162,7 @@ namespace Server_World.Actors.HuntZone
                 var newAroundSections = aroundSections.Where(d => false == oriAroundSections.Contains(d));
 
                 // Packet.
-                var packetUpdateSection = new NetPacketSC_UpdateSection
-                {
-                    Enemies = new List<DTO_Enemy>(),
-                    PlayInfos = new List<DTO_PlayInfo>()
-                };
+                var packetUpdateSection = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
 
                 // 새로운 섹션의 적, 플레이어 정보 저장.
                 foreach (var newSection in newAroundSections)
@@ -167,6 +175,9 @@ namespace Server_World.Actors.HuntZone
                 }
 
                 SendPacket(gameSession.SessionId, gameSession.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(packetUpdateSection));
+
+                // Release pool.
+                _memoryPoolService.Release(packetUpdateSection);
             }
         }
 
@@ -296,7 +307,11 @@ namespace Server_World.Actors.HuntZone
                 FixedPos = fixedPos
             };
 
-            SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(packet));
+            SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+            {
+                Pid = pid,
+                FixedPos = fixedPos
+            }));
         }
     }
 }

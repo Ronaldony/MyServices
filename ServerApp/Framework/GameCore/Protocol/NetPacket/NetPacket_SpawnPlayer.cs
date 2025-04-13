@@ -22,6 +22,12 @@ namespace GameCore.NetPacket
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial record NetPacketSC_SpawnPlayer
     {
+        public NetPacketSC_SpawnPlayer()
+        {
+            Users = new List<DTO_PlayInfo>();
+            Enemies = new List<DTO_Enemy>();
+        }
+
         /// <summary>
         /// 유저 플레이 정보.
         /// </summary>

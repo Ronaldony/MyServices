@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "QL2ncJzEhxjrUBSKF/0lK+gzl6Fv5ZYi8qha1+95maE=",
+  "Source": "LoginServer",
+  "BasePath": "_content/LoginServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

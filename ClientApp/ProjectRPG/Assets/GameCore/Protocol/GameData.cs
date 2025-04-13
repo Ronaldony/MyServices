@@ -18,7 +18,12 @@
         // KnockBack.
         public const float KNOCKBACK_THRUST = 10f;
         public const float KNOCKBACK_TIME = 0.2f;
-        public const float KNOCKBACK_MASS = 0.4f;
-        public const float KNOCKBACK_ERROR_DISTANCE = 2f;
+        public const float KNOCKBACK_MASS = 1f;
+        public const float KNOCKBACK_ERROR_DISTANCE = 3f;
+
+        // Dash.
+        public const float DASH_TIME = 0.2f;
+        public const float DASH_COOLDOWN = 0.25f;
+        public const float DASH_SPEED = 0.25f;
     }
 }

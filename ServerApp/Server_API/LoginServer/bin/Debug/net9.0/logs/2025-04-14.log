@@ -1,0 +1,32 @@
+2025-04-14 01:12:50.7321 ServerEngine.Core.Services.StrapiConfigureService.Initialize [INFO] StrapiConfigureService initialize. 
+2025-04-14 01:12:50.7563 ServerEngine.Core.Services.CustomMemoryPoolService.Initialize [INFO] CustomMemoryPoolService initialized. 
+2025-04-14 01:12:50.7563 ServerEngine.Core.Services.NewtonsoftJsonSerializer.Initialize [INFO] CustomJsonSerializer initialize. 
+2025-04-14 01:12:51.0747 GameCore.TDBService.Initialize [INFO] TDBService initialzed. total: 4 
+2025-04-14 01:12:51.9949 LoginServer.Program.Main [INFO]     __                _      _____                          
+   / /   ____  ____ _(_)___ / ___/___  ______   _____  _____
+  / /   / __ \/ __ `/ / __ \\__ \/ _ \/ ___/ | / / _ \/ ___/
+ / /___/ /_/ / /_/ / / / / /__/ /  __/ /   | |/ /  __/ /    
+/_____/\____/\__, /_/_/ /_/____/\___/_/    |___/\___/_/     
+            /____/                                          
+ 
+2025-04-14 01:12:52.0279 Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder+OverrideWithEndpointsStrategy.BindAsync [WARN] Overriding address(es) 'https://localhost:7197, http://localhost:5144'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. 
+2025-04-14 01:12:52.0279 Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync [INFO] Now listening on: http://0.0.0.0:9001 
+2025-04-14 01:12:52.0595 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
+2025-04-14 01:12:52.0595 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Development 
+2025-04-14 01:12:52.0595 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\LoginServer 
+2025-04-14 01:13:30.4110 ServerEngine.Core.Services.StrapiConfigureService.Initialize [INFO] StrapiConfigureService initialize. 
+2025-04-14 01:13:30.4316 ServerEngine.Core.Services.CustomMemoryPoolService.Initialize [INFO] CustomMemoryPoolService initialized. 
+2025-04-14 01:13:30.4316 ServerEngine.Core.Services.NewtonsoftJsonSerializer.Initialize [INFO] CustomJsonSerializer initialize. 
+2025-04-14 01:13:30.4316 GameCore.TDBService.Initialize [INFO] TDBService initialzed. total: 4 
+2025-04-14 01:13:30.7661 LoginServer.Program.Main [INFO]     __                _      _____                          
+   / /   ____  ____ _(_)___ / ___/___  ______   _____  _____
+  / /   / __ \/ __ `/ / __ \\__ \/ _ \/ ___/ | / / _ \/ ___/
+ / /___/ /_/ / /_/ / / / / /__/ /  __/ /   | |/ /  __/ /    
+/_____/\____/\__, /_/_/ /_/____/\___/_/    |___/\___/_/     
+            /____/                                          
+ 
+2025-04-14 01:13:30.7918 Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder+OverrideWithEndpointsStrategy.BindAsync [WARN] Overriding address(es) 'https://localhost:7197, http://localhost:5144'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead. 
+2025-04-14 01:13:30.7918 Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync [INFO] Now listening on: http://0.0.0.0:9001 
+2025-04-14 01:13:30.8189 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
+2025-04-14 01:13:30.8189 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Development 
+2025-04-14 01:13:30.8189 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\LoginServer 

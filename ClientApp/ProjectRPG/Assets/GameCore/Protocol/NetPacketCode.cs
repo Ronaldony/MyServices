@@ -45,5 +45,9 @@
         // 넉백.
         public const int CS_KnockBack = 150;                // 넉백.
         public const int SC_KnockBack = 151;                // 넉백.
+
+        // 대시.
+        public const int CS_Dash = 160;                // 대시.
+        public const int SC_Dash = 161;                // 대시.
     }
 }

@@ -1,0 +1,14 @@
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\bin\Debug\net9.0\NLog.config
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\bin\Debug\net9.0\Framework.Config.deps.json
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\bin\Debug\net9.0\Framework.Config.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\bin\Debug\net9.0\Framework.Config.pdb
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.csproj.AssemblyReference.cache
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.GeneratedMSBuildEditorConfig.editorconfig
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.AssemblyInfoInputs.cache
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.AssemblyInfo.cs
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.csproj.CoreCompileInputs.cache
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.sourcelink.json
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\refint\Framework.Config.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\Framework.Config.pdb
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Config\obj\Debug\net9.0\ref\Framework.Config.dll

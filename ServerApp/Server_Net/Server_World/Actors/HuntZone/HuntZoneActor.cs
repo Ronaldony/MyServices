@@ -107,6 +107,7 @@ namespace Server_World.Actors.HuntZone
 
             // KnockBack.
             Receive<NetPacketCS_KnockBack>(packet => KnockBack(packet));
+            Receive<NetPacketCS_Dash>(packet => Dash(packet));
 
             // Enemy shceduler start.
             _schedulerEnemy.Start();

@@ -110,11 +110,8 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
-        // Á×À½.
-        if (PlayerHealth.Instance.isDead) { return; }
-
-        // ³Ë¹é.
-        if (_knockback.GettingKnockedBack)
+        // ³Ë¹é, Á×À½ Ã³¸®.
+        if (_knockback.GettingKnockedBack || PlayerHealth.Instance.isDead)
         {
             return;
         }
@@ -335,6 +332,18 @@ public class PlayerController : Singleton<PlayerController>
 
             _isDashing = true;
             moveSpeed *= dashSpeed;
+
+            // Dash.
+            var dashedPosition = _rb.position + _movement * (moveSpeed * GameData.DASH_TIME);
+
+            _netPacketManager.Send<NetPacketCS_Dash>(
+                NetPacketCode.CS_Dash,
+                new NetPacketCS_Dash
+                {
+                    Pid = _playerDataManager.Pid,
+                    Position = new System.Numerics.Vector2(dashedPosition.x, dashedPosition.y)
+                });
+
             myTrailRenderer.emitting = true;
             StartCoroutine(EndDashRoutine());
         }
@@ -345,14 +354,13 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private IEnumerator EndDashRoutine()
     {
-        float dashTime = .2f;
-        float dashCD = .25f;
-
-        yield return new WaitForSeconds(dashTime);
+        yield return new WaitForSeconds(GameData.DASH_TIME);
         moveSpeed = _startingMoveSpeed;
         myTrailRenderer.emitting = false;
 
-        yield return new WaitForSeconds(dashCD);
+        Debug.Log($"Dashed position. pos: {_rb.position}");
+
+        yield return new WaitForSeconds(GameData.DASH_COOLDOWN);
         _isDashing = false;
     }
 

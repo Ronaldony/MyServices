@@ -27,9 +27,15 @@ namespace GameCore.NetPacket
     public partial record NetPacketSC_KnockBack
     {
         /// <summary>
-        /// 넉백 취소 여부.
+        /// 넉백 유저.
         /// </summary>
         [MemoryPackOrder(0)]
-        public bool IsCanceled { get; set; }
+        public string Pid { get; set; }
+
+        /// <summary>
+        /// 넉백 위치.
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public Vector2 Position { get; set; }
     }
 }
