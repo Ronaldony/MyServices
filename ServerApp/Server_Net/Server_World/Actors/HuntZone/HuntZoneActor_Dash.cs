@@ -5,6 +5,7 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.NetPacket;
+    using System.Drawing.Printing;
 
     /// <summary>
     /// HuntZoneActor.
@@ -24,20 +25,37 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            var playInfo = worldPlayer.PlayInfo;
             var position = worldPlayer.PlayInfo.Position;
 
-            // 대시 결과 유효성 검사.
-            if (false == IsValidDash(position.MoveDirection, playInfo.Stat.Velocity, position.Pos, packet.Position))
-            {
-                _logger.LogError($"Dash - recv: {packet.Position}");
-                return;
-            }
+            //// 대시 결과 유효성 검사.
+            //if (false == IsValidDash(position.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, position.Pos, packet.Position))
+            //{
+            //    _logger.LogError($"Dash - recv: {packet.Position}");
+            //    return;
+            //}
+
+            //// 주변 섹션에 넉백 전송.
+            //var gameSession = worldPlayer.GameSession;
+            //var packetBytes = _dataSerializer.Serialize(new NetPacketSC_Dash
+            //{
+            //    Pid = packet.Pid,
+            //    DashDirection = position.MoveDirection
+            //});
+
+            //// 섹션.
+            //var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
+            //var aroundSessions = GetAroundSessions(section);
+
+            //foreach (var otherSession in aroundSessions)
+            //{
+            //    // 현재 플레이어 제외.
+            //    if (otherSession.Equals(gameSession)) { continue; }
+
+            //    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_Dash, packetBytes);
+            //}
 
             //position.Pos = packet.Position;
-
-            // 주변 섹션에 대시 전송.
-            //SendPacket(worldPlayer.GameSession.SessionId, worldPlayer.GameSession.SessionUid, NetPacketCode.SC_KnockBack, _dataSerializer.Serialize(sendPacket));
+            //position.MoveDirection = Type_MoveDirection.None;
         }
 
         /// <summary>
@@ -45,7 +63,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private bool IsValidDash(Type_MoveDirection moveDir, int velocity, Vector2 playerPos, Vector2 dashedPos)
         {
-            // 이동 방향 계산 시퀀스.
+            // 대시 방향 계산 시퀀스.
             // 1. 대시 방향 확인.
             // 2. 대시 방향에 따라 오차 범위 값 계산.
             // 3. x, y 좌표에 대시 오차 범위 값을 더하여 범위 내인 경우 true, 범위 밖인 경우 false.

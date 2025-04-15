@@ -62,14 +62,12 @@ public class PlayerController : Singleton<PlayerController>
     private void Initialize_CallBack()
     {
         // Knockback.
-        _knockback.KnockBack += KnockingBack;
-        _knockback.FinishKnockBack += AfterKnockBack;
-        
+        _knockback.KnockBack += OnKnockBack;
     }
 
     private void Start()
     {
-        _playerControls.Combat.Dash.performed += _ => Dash();
+        _playerControls.Combat.Dash.performed += _ => OnDash();
         _startingMoveSpeed = moveSpeed;
 
         ActiveInventory.Instance.EquipStartingWeapon();
@@ -324,7 +322,7 @@ public class PlayerController : Singleton<PlayerController>
     /// <summary>
     /// Dash.
     /// </summary>
-    private void Dash()
+    private void OnDash()
     {
         if (!_isDashing && Stamina.Instance.CurrentStamina > 0)
         {
@@ -367,7 +365,7 @@ public class PlayerController : Singleton<PlayerController>
     /// <summary>
     /// Knocking back.
     /// </summary>
-    private void KnockingBack()
+    private void OnKnockBack(Vector2 knockBackPos)
     {
         _playerDataManager.PlayInfo.Position.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
@@ -375,32 +373,16 @@ public class PlayerController : Singleton<PlayerController>
         {
             var pakcetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
-            // Move end.
-            _netPacketManager.Send<NetPacketCS_MoveEnd>(
-                NetPacketCode.CS_MoveEnd,
-                new NetPacketCS_MoveEnd
+            _netPacketManager.Send<NetPacketCS_KnockBack>(
+                NetPacketCode.CS_KnockBack,
+                new NetPacketCS_KnockBack
                 {
                     Pid = _playerDataManager.Pid,
-                    EndPos = _playerDataManager.PlayInfo.Position.Pos,
-                    PacketTime = pakcetTime,
+                    Position = new System.Numerics.Vector2(knockBackPos.x, knockBackPos.y)
                 });
 
             _isMoving = false;
             _moveDeltaTime = 0;
         }
-    }
-
-    /// <summary>
-    /// After knockback.
-    /// </summary>
-    private void AfterKnockBack()
-    {
-        _netPacketManager.Send<NetPacketCS_KnockBack>(
-            NetPacketCode.CS_KnockBack,
-            new NetPacketCS_KnockBack
-            {
-                Pid = _playerDataManager.Pid,
-                Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y)
-            });
     }
 }

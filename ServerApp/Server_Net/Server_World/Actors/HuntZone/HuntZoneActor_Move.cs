@@ -164,6 +164,9 @@ namespace Server_World.Actors.HuntZone
                 // Packet.
                 var packetUpdateSection = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
 
+                packetUpdateSection.Enemies.Clear();
+                packetUpdateSection.PlayInfos.Clear();
+
                 // 새로운 섹션의 적, 플레이어 정보 저장.
                 foreach (var newSection in newAroundSections)
                 {

@@ -14,6 +14,12 @@ namespace GameCore.NetPacket
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial record NetPacketSC_UpdateSection
     {
+        public NetPacketSC_UpdateSection()
+        {
+            PlayInfos = new List<DTO_PlayInfo>();
+            Enemies = new List<DTO_Enemy>();
+        }
+
         /// <summary>
         /// Play info list.
         /// </summary>

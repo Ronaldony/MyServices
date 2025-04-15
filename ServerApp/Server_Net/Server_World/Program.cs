@@ -1,17 +1,14 @@
 ﻿
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using PowerArgs;
 
 namespace Server_World
 {
     using GameCore;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using ServerEngine.AsciiBanner;
-    using System.Diagnostics;
-    using System.Numerics;
-    using System.Text;
 
     /// <summary>
     /// Program.

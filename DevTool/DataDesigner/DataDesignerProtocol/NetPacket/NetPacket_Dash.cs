@@ -11,11 +11,6 @@ namespace GameCore.NetPacket
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial record NetPacketCS_Dash : NetPacketReqBase
     {
-        /// <summary>
-        /// 대시 위치.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public Vector2 Position { get; set; }
     }
 
     /// <summary>
@@ -25,7 +20,7 @@ namespace GameCore.NetPacket
     public partial record NetPacketSC_Dash
     {
         /// <summary>
-        /// 대시 취소 여부.
+        /// 대시 플레이어.
         /// </summary>
         [MemoryPackOrder(0)]
         public string Pid { get; set; }
@@ -34,6 +29,6 @@ namespace GameCore.NetPacket
         /// 대시 위치.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 Position { get; set; }
+        public Type_MoveDirection DashDirection { get; set; }
     }
 }
