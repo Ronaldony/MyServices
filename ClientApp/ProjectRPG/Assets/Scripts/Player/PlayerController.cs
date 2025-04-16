@@ -28,6 +28,7 @@ public class PlayerController : Singleton<PlayerController>
     private Type_MoveDirection _moveDirection;
     private bool _isMoving;
     private bool _isDashing;
+    private bool _isDashCoolDown;
 
     // Data Manger.
     private NetPacketManager _netPacketManager;
@@ -114,6 +115,12 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
 
+        if (_isDashing)
+        {
+            _rb.MovePosition(_rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
+            return;
+        }
+
         // Update movement.
         _movement = _playerControls.Movement.Move.ReadValue<Vector2>();
 
@@ -179,10 +186,8 @@ public class PlayerController : Singleton<PlayerController>
         if (_moveDirection != Type_MoveDirection.None)
         {
             _rb.MovePosition(_rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
-
-            //Debug.Log($"rb: {rb.position}, DeltaTime: {Time.fixedDeltaTime}, result: {movement * (moveSpeed * Time.fixedDeltaTime)}, movement: {movement}");
-            
             _moveDeltaTime += Time.fixedDeltaTime;
+            //Debug.Log($"rb: {rb.position}, DeltaTime: {Time.fixedDeltaTime}, result: {movement * (moveSpeed * Time.fixedDeltaTime)}, movement: {movement}");
         }
     }
 
@@ -205,7 +210,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         _playerDataManager.PlayInfo.Position.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
-        var pakcetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
+        var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
         // 이동 방향이 바뀐 경우, MoveEnd를 전송.
         _netPacketManager.Send<NetPacketCS_MoveEnd>(
@@ -214,10 +219,10 @@ public class PlayerController : Singleton<PlayerController>
             {
                 Pid = _playerDataManager.Pid,
                 EndPos = _playerDataManager.PlayInfo.Position.Pos,
-                PacketTime = pakcetTime,
+                PacketTime = packetTime,
             });
 
-        //Debug.Log($"Move Stop - DateTIme: {pakcetTime}, DeltaTime: {_moveDeltaTime}");
+        //Debug.Log($"Move Stop - DateTIme: {packetTime}, DeltaTime: {_moveDeltaTime}");
 
         // initialize status.
         _isMoving = false;
@@ -231,7 +236,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         _isMoving = true;
 
-        var pakcetTime = DateTime.Now.AddSeconds(_moveDeltaTime);
+        var packetTime = DateTime.Now.AddSeconds(_moveDeltaTime);
 
         // Send MoveEnd.
         _netPacketManager.Send<NetPacketCS_MoveStart>(
@@ -240,10 +245,10 @@ public class PlayerController : Singleton<PlayerController>
             {
                 MoveDirection = _moveDirection,
                 Pid = _playerDataManager.Pid,
-                PacketTime = pakcetTime
+                PacketTime = packetTime
             });
 
-        //Debug.Log($"Move End - Dir: {_moveDirection}, DateTIme: {pakcetTime}, DeltaTime: {_moveDeltaTime}");
+        //Debug.Log($"Move End - Dir: {_moveDirection}, DateTIme: {packetTime}, DeltaTime: {_moveDeltaTime}");
     }
 
     /// <summary>
@@ -324,11 +329,12 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void OnDash()
     {
-        if (!_isDashing && Stamina.Instance.CurrentStamina > 0)
+        if (!_isDashCoolDown && Stamina.Instance.CurrentStamina > 0)
         {
             Stamina.Instance.UseStamina();
 
             _isDashing = true;
+            _isDashCoolDown = true;
             moveSpeed *= dashSpeed;
 
             // Dash.
@@ -341,6 +347,8 @@ public class PlayerController : Singleton<PlayerController>
                     Pid = _playerDataManager.Pid,
                     Position = new System.Numerics.Vector2(dashedPosition.x, dashedPosition.y)
                 });
+
+            //Debug.Log($"Dash calc position: {dashedPosition}");
 
             myTrailRenderer.emitting = true;
             StartCoroutine(EndDashRoutine());
@@ -356,10 +364,24 @@ public class PlayerController : Singleton<PlayerController>
         moveSpeed = _startingMoveSpeed;
         myTrailRenderer.emitting = false;
 
-        Debug.Log($"Dashed position. pos: {_rb.position}");
+        //Debug.Log($"Dashed position. pos: {_rb.position}, Dir: {_moveDirection}");
+        //Debug.Log($"Move Start (Dash) - Dir: {_moveDirection}, DateTIme: {DateTime.Now}");
+
+        // Send MoveStart.
+        _netPacketManager.Send<NetPacketCS_MoveStart>(
+            NetPacketCode.CS_MoveStart,
+            new NetPacketCS_MoveStart
+            {
+                MoveDirection = _moveDirection,
+                Pid = _playerDataManager.Pid,
+                PacketTime = DateTime.Now
+            });
+
+
+        _isDashing = false;
 
         yield return new WaitForSeconds(GameData.DASH_COOLDOWN);
-        _isDashing = false;
+        _isDashCoolDown = false;
     }
 
     /// <summary>

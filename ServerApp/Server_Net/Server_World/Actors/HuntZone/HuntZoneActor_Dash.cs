@@ -27,35 +27,35 @@ namespace Server_World.Actors.HuntZone
 
             var position = worldPlayer.PlayInfo.Position;
 
-            //// 대시 결과 유효성 검사.
-            //if (false == IsValidDash(position.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, position.Pos, packet.Position))
-            //{
-            //    _logger.LogError($"Dash - recv: {packet.Position}");
-            //    return;
-            //}
+            // 대시 결과 유효성 검사.
+            if (false == IsValidDash(position.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, position.Pos, packet.Position))
+            {
+                _logger.LogError($"Dash - recv: {packet.Position}");
+                return;
+            }
 
-            //// 주변 섹션에 넉백 전송.
-            //var gameSession = worldPlayer.GameSession;
-            //var packetBytes = _dataSerializer.Serialize(new NetPacketSC_Dash
-            //{
-            //    Pid = packet.Pid,
-            //    DashDirection = position.MoveDirection
-            //});
+            // 주변 섹션에 넉백 전송.
+            var gameSession = worldPlayer.GameSession;
+            var packetBytes = _dataSerializer.Serialize(new NetPacketSC_Dash
+            {
+                Pid = packet.Pid,
+                DashDirection = position.MoveDirection
+            });
 
-            //// 섹션.
-            //var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
-            //var aroundSessions = GetAroundSessions(section);
+            // 섹션.
+            var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
+            var aroundSessions = GetAroundSessions(section);
 
-            //foreach (var otherSession in aroundSessions)
-            //{
-            //    // 현재 플레이어 제외.
-            //    if (otherSession.Equals(gameSession)) { continue; }
+            foreach (var otherSession in aroundSessions)
+            {
+                // 현재 플레이어 제외.
+                if (otherSession.Equals(gameSession)) { continue; }
 
-            //    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_Dash, packetBytes);
-            //}
+                SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_Dash, packetBytes);
+            }
 
-            //position.Pos = packet.Position;
-            //position.MoveDirection = Type_MoveDirection.None;
+            position.Pos = packet.Position;
+            position.MoveDirection = Type_MoveDirection.None;
         }
 
         /// <summary>
@@ -75,11 +75,11 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * velocity + GameData.DASH_ERROR;
 
                         // Y 좌표 검사.
-                        if (playerPos.Y > dashedPos.Y + caclDist) { return false; }
+                        if (dashedPos.Y > playerPos.Y + caclDist) { return false; }
 
                         // X 좌표 검사.
-                        if (playerPos.X > dashedPos.X + GameData.MOVENT_ERROR) { return false; }
-                        if (playerPos.X + GameData.MOVENT_ERROR < dashedPos.X) { return false; }
+                        if (dashedPos.X > playerPos.X + GameData.MOVENT_ERROR) { return false; }
+                        if (dashedPos.X + GameData.MOVENT_ERROR < playerPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Down:
@@ -87,11 +87,11 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * velocity + GameData.DASH_ERROR;
 
                         // Y 좌표 검사.
-                        if (playerPos.Y + caclDist < dashedPos.Y) { return false; }
+                        if (dashedPos.Y + caclDist < playerPos.Y) { return false; }
 
                         // X 좌표 검사.
-                        if (playerPos.X > dashedPos.X + GameData.MOVENT_ERROR) { return false; }
-                        if (playerPos.X + GameData.MOVENT_ERROR < dashedPos.X) { return false; }
+                        if (dashedPos.X > playerPos.X + GameData.MOVENT_ERROR) { return false; }
+                        if (dashedPos.X + GameData.MOVENT_ERROR < playerPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Right:
@@ -99,11 +99,11 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * velocity + GameData.DASH_ERROR;
 
                         // X 좌표 검사.
-                        if (playerPos.X > dashedPos.X + caclDist) { return false; }
+                        if (dashedPos.X > playerPos.X + caclDist) { return false; }
 
                         // Y 좌표 검사.
-                        if (playerPos.Y > dashedPos.Y + GameData.MOVENT_ERROR) { return false; }
-                        if (playerPos.Y + GameData.MOVENT_ERROR < dashedPos.Y) { return false; }
+                        if (dashedPos.Y > playerPos.Y + GameData.MOVENT_ERROR) { return false; }
+                        if (dashedPos.Y + GameData.MOVENT_ERROR < playerPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Left:
@@ -111,11 +111,11 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * velocity + GameData.DASH_ERROR;
 
                         // X 좌표 검사.
-                        if (playerPos.X + caclDist < dashedPos.X) { return false; }
+                        if (dashedPos.X + caclDist < playerPos.X) { return false; }
 
                         // Y 좌표 검사.
-                        if (playerPos.Y > dashedPos.Y + GameData.MOVENT_ERROR) { return false; }
-                        if (playerPos.Y + GameData.MOVENT_ERROR < dashedPos.Y) { return false; }
+                        if (dashedPos.Y > playerPos.Y + GameData.MOVENT_ERROR) { return false; }
+                        if (dashedPos.Y + GameData.MOVENT_ERROR < playerPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.RightTop:
@@ -124,10 +124,10 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * 0.8 * velocity + GameData.DASH_ERROR;
 
                         // X 좌표 검사.
-                        if (playerPos.X > dashedPos.X + caclDist) { return false; }
+                        if (dashedPos.X > playerPos.X + caclDist) { return false; }
 
                         // Y 좌표 검사.
-                        if (playerPos.Y > dashedPos.Y + caclDist) { return false; }
+                        if (dashedPos.Y > playerPos.Y + caclDist) { return false; }
                     }
                     break;
                 case Type_MoveDirection.LeftTop:
@@ -136,10 +136,10 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * 0.8 * velocity + GameData.DASH_ERROR;
 
                         // X 좌표 검사.
-                        if (playerPos.X + caclDist < dashedPos.X) { return false; }
+                        if (dashedPos.X + caclDist < playerPos.X) { return false; }
 
                         // Y 좌표 검사.
-                        if (playerPos.Y > dashedPos.Y + caclDist) { return false; }
+                        if (dashedPos.Y > playerPos.Y + caclDist) { return false; }
                     }
                     break;
                 case Type_MoveDirection.RightDown:
@@ -148,10 +148,10 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * 0.8 * velocity + GameData.DASH_ERROR;
 
                         // X 좌표 검사.
-                        if (playerPos.X > dashedPos.X + caclDist) { return false; }
+                        if (dashedPos.X > playerPos.X + caclDist) { return false; }
 
                         // Y 좌표 검사.
-                        if (playerPos.Y + caclDist < dashedPos.Y) { return false; }
+                        if (dashedPos.Y + caclDist < playerPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.LeftDown:
@@ -160,10 +160,10 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * 0.8 * velocity + GameData.DASH_ERROR;
 
                         // X 좌표 검사.
-                        if (playerPos.X + caclDist < dashedPos.X) { return false; }
+                        if (dashedPos.X + caclDist < playerPos.X) { return false; }
 
                         // Y 좌표 검사.
-                        if (playerPos.Y + caclDist < dashedPos.Y) { return false; }
+                        if (dashedPos.Y + caclDist < playerPos.Y) { return false; }
                     }
                     break;
                 default:
