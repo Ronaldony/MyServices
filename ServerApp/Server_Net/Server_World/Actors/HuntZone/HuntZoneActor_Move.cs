@@ -1,13 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Util;
 using System.Numerics;
 
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
-    using GameCore.Datas.Enemy;
-    using GameCore.Datas.Play;
     using GameCore.NetPacket;
-    using ServerEngine.Core.Util;
 
     /// <summary>
     /// HuntZoneActor.
@@ -43,9 +41,6 @@ namespace Server_World.Actors.HuntZone
 
             // 근처 섹션의 플레이어.
             var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
-            var aroundSessions = GetAroundSessions(section);
-
-            // 패킷.
             var packetBytes = _dataSerializer.Serialize(
                 new NetPacketSC_MoveStart
                 {
@@ -53,15 +48,7 @@ namespace Server_World.Actors.HuntZone
                 });
 
             // 패킷 전송.
-            var gameSession = worldPlayer.GameSession;
-
-            foreach (var otherSession in aroundSessions)
-            {
-                // 현재 플레이어 제외.
-                if (gameSession.Equals(otherSession)) { continue; }
-
-                SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveStart, packetBytes);
-            }
+            SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_MoveStart, packetBytes);
 
             // Log.
             //_logger.LogDebug($"MoveStart - pid: {packet.Pid}, pos: {playInfo.Position.Pos}, move: {packet.MoveDirection}, time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
@@ -123,16 +110,10 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            // 기존 섹션.
-            var oriSection = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
-
             // 업데이트 시간 및 좌표 갱신.
             playInfo.UpdateTime = packet.PacketTime;
             position.Pos = packet.EndPos;
             position.MoveDirection = Type_MoveDirection.None;
-
-            // 근처 섹션 플레이어.
-            var aroundSessions = GetAroundSessions(section);
 
             // 패킷.
             var packetBytes = _dataSerializer.Serialize(
@@ -142,18 +123,12 @@ namespace Server_World.Actors.HuntZone
                     EndPos = packet.EndPos
                 });
 
-            // 근처 섹션 플레이어에 패킷 전송.
-            var gameSession = worldPlayer.GameSession;
-
-            foreach (var otherSession in aroundSessions)
-            {
-                // 현재 플레이어 제외.
-                if (gameSession.Equals(otherSession)) { continue; }
-
-                SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_MoveEnd, packetBytes);
-            }
+            // 플레이어 섹션 근처 패킷 전송.
+            SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_MoveEnd, packetBytes);
 
             // 섹션을 이동한 경우, 새로운 섹션의 플레이어, 적 정보 전송.
+            var oriSection = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
+
             if (false == oriSection.Equals(section))
             {
                 // Around sections.
@@ -177,7 +152,7 @@ namespace Server_World.Actors.HuntZone
                     if (null != worldPlayers) { packetUpdateSection.PlayInfos.AddRange(worldPlayers?.Select(d => d.PlayInfo)); }
                 }
 
-                SendPacket(gameSession.SessionId, gameSession.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(packetUpdateSection));
+                SendPacket(worldPlayer.GameSession.SessionId, worldPlayer.GameSession.SessionUid, NetPacketCode.SC_UpdateSection, _dataSerializer.Serialize(packetUpdateSection));
 
                 // Release pool.
                 _memoryPoolService.Release(packetUpdateSection);
@@ -297,24 +272,6 @@ namespace Server_World.Actors.HuntZone
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Send move fixed pakcet.
-        /// </summary>
-        private void SendMoveFixed(string pid, Vector2 fixedPos)
-        {
-            var packet = new NetPacketSC_MoveFixed
-            {
-                Pid = pid,
-                FixedPos = fixedPos
-            };
-
-            SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
-            {
-                Pid = pid,
-                FixedPos = fixedPos
-            }));
         }
     }
 }

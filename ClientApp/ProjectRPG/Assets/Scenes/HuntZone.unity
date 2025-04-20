@@ -173280,6 +173280,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8517065337138752531, guid: e7aafa71a169e92418d3f3f1a7279778, type: 3}
   m_PrefabInstance: {fileID: 49273869}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1520875865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1520875866}
+  m_Layer: 0
+  m_Name: CalcPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1520875866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520875865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1534859532
 GameObject:
   m_ObjectHideFlags: 0
@@ -174161,7 +174192,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7743389108225626720, guid: 9ff6eb7e0f34f21479e8e2ba6325604d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -174400,3 +174432,4 @@ SceneRoots:
   - {fileID: 714180459}
   - {fileID: 1534859533}
   - {fileID: 2127761239}
+  - {fileID: 1520875866}

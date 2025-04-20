@@ -17,10 +17,6 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Chase = 3,
-        /// <summary>
-        /// 
-        /// </summary>
-        Dead = 4
+        Dash = 3
     }
 }

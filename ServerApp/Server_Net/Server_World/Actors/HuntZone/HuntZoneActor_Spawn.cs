@@ -49,7 +49,7 @@ namespace Server_World.Actors.HuntZone
             // 인근 세션 적, 플레이어 정보 전송.
             SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
 
-            // 근처 섹션 검색.s
+            // 근처 섹션 검색.
             var aroundSessions = GetAroundSessions(section);
 
             if (aroundSessions.Any())

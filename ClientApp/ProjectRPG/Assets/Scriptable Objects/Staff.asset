@@ -16,3 +16,4 @@ MonoBehaviour:
   weaponCooldown: 0.2
   weaponDamage: 2
   weaponRange: 8
+  weaponId: 2

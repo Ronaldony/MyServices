@@ -11,16 +11,10 @@ namespace GameCore.NetPacket
     public partial record NetPacketCS_Attack : NetPacketReqBase
     {
         /// <summary>
-        /// Damage.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public int Damage { get; set; }
-
-        /// <summary>
         /// Attack angle.
         /// </summary>
-        [MemoryPackOrder(2)]
-        public Vector2 AttackAngle { get; set; }
+        [MemoryPackOrder(1)]
+        public Vector2 Angle { get; set; }
     }
 
     /// <summary>
@@ -30,9 +24,15 @@ namespace GameCore.NetPacket
     public partial record NetPacketSC_Attack
     {
         /// <summary>
-        /// 공격 취소 여부.
+        /// 공격 Pid.
         /// </summary>
         [MemoryPackOrder(0)]
-        public bool IsCanceled { get; set; }
+        public string Pid { get; set; }
+
+        /// <summary>
+        /// Attack angle.
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public Vector2 Angle { get; set; }
     }
 }

@@ -4,7 +4,6 @@ using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
-    using Framework.Core.Session;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
     using GameCore.NetPacket;
@@ -127,42 +126,6 @@ namespace Server_World.Actors.HuntZone
         private World_Player GetPlayerOrDefault(string pid)
         {
             return _playerDict.GetValueOrDefault(pid);
-        }
-
-        /// <summary>
-        /// Send packet.
-        /// </summary>
-        private bool SendPacket(string pid, int packetCode, byte[] packetData)
-        {
-            if (false == _playerDict.TryGetValue(pid, out var player))
-            {
-                return false;
-            }
-
-            // Send.
-            return _worldServer.Send(player.GameSession.SessionId, player.GameSession.SessionUid, packetCode, packetData);
-        }
-
-        /// <summary>
-        /// Send packet.
-        /// </summary>
-        private bool SendPacket(int sessionId, ulong sessionUid, int packetCode, byte[] packetData)
-        {
-            // Send.
-            return _worldServer.Send(sessionId, sessionUid, packetCode, packetData);
-        }
-
-        /// <summary>
-        /// Get session.
-        /// </summary>
-        private GameSession GetSession(string pid)
-        {
-            if (_playerDict.TryGetValue(pid, out var player))
-            {
-                return player.GameSession;
-            }
-
-            return null;
         }
 
         /// <summary>

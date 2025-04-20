@@ -5,7 +5,6 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.NetPacket;
-    using System.Drawing.Printing;
 
     /// <summary>
     /// HuntZoneActor.
@@ -34,25 +33,16 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            // 주변 섹션에 넉백 전송.
-            var gameSession = worldPlayer.GameSession;
+            // 패킷.
+            var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
             var packetBytes = _dataSerializer.Serialize(new NetPacketSC_Dash
             {
                 Pid = packet.Pid,
                 DashDirection = position.MoveDirection
             });
 
-            // 섹션.
-            var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
-            var aroundSessions = GetAroundSessions(section);
-
-            foreach (var otherSession in aroundSessions)
-            {
-                // 현재 플레이어 제외.
-                if (otherSession.Equals(gameSession)) { continue; }
-
-                SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_Dash, packetBytes);
-            }
+            // 주변 섹션에 넉백 전송.
+            SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_Dash, packetBytes);
 
             position.Pos = packet.Position;
             position.MoveDirection = Type_MoveDirection.None;
