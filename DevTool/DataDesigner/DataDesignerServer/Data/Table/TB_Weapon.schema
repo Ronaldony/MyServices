@@ -29,25 +29,9 @@
     },
     {
       "Idx": 4,
-      "Name": "Range",
+      "Name": "Cooltime",
       "IsIndexed": false,
       "Type": "int",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 5,
-      "Name": "CoolTime",
-      "IsIndexed": false,
-      "Type": "int",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 6,
-      "Name": "Summary",
-      "IsIndexed": false,
-      "Type": "string",
       "RefTable": "",
       "Summary": ""
     }

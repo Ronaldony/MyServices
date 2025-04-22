@@ -45,10 +45,10 @@ namespace DataDesignerServerServer
 				// Newtonsoft
 				.AddNewtonsoftJson(options =>
 				{
-					// EnumÀ» ¹®ÀÚ¿­·Î º¯È¯
+					// Enumï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 					options.SerializerSettings.Converters.Add(new StringEnumConverter());
 
-					// Null °ªÀ» JSON¿¡¼­ Á¦°Å
+					// Null ï¿½ï¿½ï¿½ï¿½ JSONï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
 				});

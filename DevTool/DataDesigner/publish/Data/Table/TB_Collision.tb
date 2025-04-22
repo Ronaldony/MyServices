@@ -1,0 +1,41 @@
+[
+  {
+    "Id": 1,
+    "Name": "Sword",
+    "Point1_x": 0.6,
+    "Point1_y": 1.6,
+    "Point2_x": 1.6,
+    "Point2_y": 1.2,
+    "Point3_x": 0.6,
+    "Point3_y": -0.4,
+    "Point4_x": 1.6,
+    "Point4_y": 0.0,
+    "Summary": "Sword collision"
+  },
+  {
+    "Id": 2,
+    "Name": "Arrow",
+    "Point1_x": 0.0,
+    "Point1_y": 0.15,
+    "Point2_x": 0.7,
+    "Point2_y": 0.15,
+    "Point3_x": 0.7,
+    "Point3_y": -0.15,
+    "Point4_x": 0.0,
+    "Point4_y": -0.15,
+    "Summary": "Arrow collision"
+  },
+  {
+    "Id": 3,
+    "Name": "MagicRasor",
+    "Point1_x": 0.0,
+    "Point1_y": 0.2,
+    "Point2_x": 0.9,
+    "Point2_y": 0.2,
+    "Point3_x": 0.9,
+    "Point3_y": -0.2,
+    "Point4_x": 0.0,
+    "Point4_y": -0.2,
+    "Summary": null
+  }
+]

@@ -23,7 +23,7 @@ public class MagicLaser : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ¹ÌÆÄ±« ¿ÀºêÁ§Æ®³ª Collider ¹ÌÆ®¸®°Å ¿ÀºêÁ§Æ®ÀÎ °æ¿ì, ·¹ÀÌÀú ÁßÁö.
+        // ï¿½ï¿½ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Collider ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         if (collision.gameObject.GetComponent<Indestructible>() && !collision.isTrigger)
         {
             isGrowing = false;

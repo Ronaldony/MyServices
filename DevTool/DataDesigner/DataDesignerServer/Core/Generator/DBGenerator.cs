@@ -36,7 +36,7 @@ namespace DataDesignerServer.Core.Generator
             // Insert datas.
             foreach (var row in rows)
             {
-                if (false == dbSQLite.Insert(classType, row))
+                if (false == dbSQLite.InsertClass(classType, row))
                 {
                     // Insert failed.
                     return false;
@@ -58,7 +58,7 @@ namespace DataDesignerServer.Core.Generator
             // Insert datas.
             foreach (var row in rows)
             {
-                if (false == dbSQLite.Insert(enumType, row))
+                if (false == dbSQLite.InsertEnum(enumType, row))
                 {
                     // Insert failed.
                     return false;

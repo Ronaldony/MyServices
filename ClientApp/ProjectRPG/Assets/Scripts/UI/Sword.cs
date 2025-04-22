@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class Sword : MonoBehaviour, IWeapon
@@ -41,7 +40,7 @@ public class Sword : MonoBehaviour, IWeapon
         // Visible weapon collider.
         weaponCollider.gameObject.SetActive(true);
 
-        // Slash prefab »ý¼º.
+        // Slash prefab.
         slashAnim = Instantiate(slashAnimPrefab, slashAnimSpawnPoint.position, Quaternion.identity);
         slashAnim.transform.parent = this.transform.parent;
     }

@@ -105,11 +105,32 @@ namespace DataDesignerServer.Core.DBGenerator
         /// <summary>
         /// Insert data.
         /// </summary>
-        public bool Insert(Type dbType, object row)
+        public bool InsertEnum(Type dbType, object row)
         {
             using var db = new SQLiteConnection(Path.Combine(_basePath, $"{dbType.Name}.db"));
 
             var rowAffected = db.Insert(row);
+
+            if (rowAffected < 1)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Insert data.
+        /// </summary>
+        public bool InsertClass(Type dbType, object row)
+        {
+            using var db = new SQLiteConnection(Path.Combine(_basePath, $"{dbType.Name}.db"));
+
+            // Refresh mappings.
+            db.GetMapping(dbType, CreateFlags.FullTextSearch4);
+            db.GetMapping(dbType, CreateFlags.ImplicitPK);
+
+            var rowAffected = db.Insert(row, dbType);
 
             if (rowAffected < 1)
             {

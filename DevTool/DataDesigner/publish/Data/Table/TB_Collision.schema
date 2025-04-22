@@ -1,0 +1,95 @@
+{
+  "Name": "TB_Collision",
+  "Category": "",
+  "Description": "The collision for object.",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "Name",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "Point1_x",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 4,
+      "Name": "Point1_y",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "Point2_x",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "Point2_y",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 7,
+      "Name": "Point3_x",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 8,
+      "Name": "Point3_y",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 9,
+      "Name": "Point4_x",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 10,
+      "Name": "Point4_y",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 11,
+      "Name": "Summary",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": ""
+    }
+  ]
+}

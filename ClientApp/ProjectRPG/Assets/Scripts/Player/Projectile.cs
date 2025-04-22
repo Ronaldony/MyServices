@@ -36,26 +36,22 @@ public class Projectile : MonoBehaviour
         Indestructible indestructible = collision.gameObject.GetComponent<Indestructible>();
         PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
 
-        // Cond 1. Trigger 속성이 아닌 오브젝트.
-        // Cond 2. EnemyHealth나 Indestructible 오브젝트인 경우.
+        // Cond 1. Trigger collision.
+        // Cond 2. EnemyHealth Indestructible.
         if (!collision.isTrigger && (enemyHealth || indestructible || playerHealth))
         {
             if ((playerHealth && isEnemyProjectile) || (enemyHealth && !isEnemyProjectile))
             {
                 playerHealth?.TakeDamage(1, transform);
 
-                // 파괴 파티클 생성.
+                // Collision.
                 Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
-
-                // 투사체 파괴.
                 Destroy(gameObject);
             }
-            else if (!collision.isTrigger && indestructible)
+            else if (indestructible)
             {
-                // 파괴 파티클 생성.
+                // Collision.
                 Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
-
-                // 투사체 파괴.
                 Destroy(gameObject);
             }
         }
@@ -63,7 +59,7 @@ public class Projectile : MonoBehaviour
 
     private void DetectFireDistance()
     {
-        // 무기 범위 초과 시 투사체 파괴.
+        // Detect fire distance.
         if (Vector3.Distance(transform.position, startPosition) > projectileRange)
         {
             Destroy(gameObject);
@@ -72,6 +68,7 @@ public class Projectile : MonoBehaviour
 
     private void MoveProjectile()
     {
+        // Move project tile.
         transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
     }
 }

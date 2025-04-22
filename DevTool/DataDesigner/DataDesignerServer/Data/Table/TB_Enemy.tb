@@ -1,20 +1,13 @@
 [
   {
-    "Id": 1,
-    "Name": "Slime",
-    "Health": 10,
-    "Attack": 1,
-    "DropItem": "Gold",
-    "ItemCount": 2,
-    "Summary": null
-  },
-  {
     "Id": 2,
     "Name": "Ghost",
     "Health": 6,
     "Attack": 3,
     "DropItem": "Heart",
-    "ItemCount": 4,
+    "AttackRange": 4,
+    "AttackCooldown": 0,
+    "MoveSpeed": 2,
     "Summary": null
   },
   {
@@ -23,7 +16,9 @@
     "Health": 15,
     "Attack": 2,
     "DropItem": "Gold",
-    "ItemCount": 2,
+    "AttackRange": 2,
+    "AttackCooldown": 0,
+    "MoveSpeed": 3,
     "Summary": null
   }
 ]

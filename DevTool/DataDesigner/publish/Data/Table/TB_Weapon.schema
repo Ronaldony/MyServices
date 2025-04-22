@@ -42,14 +42,6 @@
       "Type": "int",
       "RefTable": "",
       "Summary": ""
-    },
-    {
-      "Idx": 6,
-      "Name": "Summary",
-      "IsIndexed": false,
-      "Type": "string",
-      "RefTable": "",
-      "Summary": ""
     }
   ]
 }

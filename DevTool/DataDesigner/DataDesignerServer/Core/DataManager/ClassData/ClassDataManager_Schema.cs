@@ -53,19 +53,22 @@ namespace DataDesignerServer.Core.DataManager.ClassData
             }
 
             // Check column.
+            var rows = FindRowsOrDefault(schema.Name).ToList();
+
+            var oldTB = FindTypeBuilder(oldSchema.Name);
+            var newTB = oldTB;
+
             if (IsColumnChanged(oldSchema.Columns, schema.Columns))
             {
-                var oldTB = FindTypeBuilder(oldSchema.Name);
-                var newTB = CreateTypeBuilder(schema.Name, schema);
+                newTB = CreateTypeBuilder(schema.Name, schema);
 
                 // 컬럼이 변경된 경우.
-                if (false == UpdateSchemaRows(oldTB, newTB, schema, oldSchema.Columns, schema.Columns))
+                rows = UpdateSchemaRows(oldTB, newTB, schema, oldSchema.Columns, schema.Columns);
+
+                if (null == rows)
                 {
                     return false;
                 }
-
-                // Update type buidler.
-                AddOrUpdateClassGroup(schemaName, tb: newTB);
             }
 
             // Reset schema Idx.
@@ -76,7 +79,7 @@ namespace DataDesignerServer.Core.DataManager.ClassData
             }
 
             // Set schema.
-            AddOrUpdateClassGroup(schemaName, schema: schema);
+            AddOrUpdateClassGroup(schemaName, tb: newTB, schema: schema, rows: rows);
 
             // Refresh schema file.
             if (false == FlushFiles(schemaName))
@@ -152,7 +155,7 @@ namespace DataDesignerServer.Core.DataManager.ClassData
         /// <summary>
         /// Updat rows by columns.
         /// </summary>
-        private bool UpdateSchemaRows(TypeBuilder oldTB, TypeBuilder newTB, ClassSchema newSchema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
+        private List<object> UpdateSchemaRows(TypeBuilder oldTB, TypeBuilder newTB, ClassSchema newSchema, List<ClassSchemaColumn> oldCols, List<ClassSchemaColumn> newCols)
         {
             var addCols = newCols.Where(d => d.Idx == 0).Select(d => d.Name).ToList();
             var updateCols = GetUpdateCols(oldCols, newCols);
@@ -161,15 +164,15 @@ namespace DataDesignerServer.Core.DataManager.ClassData
             var oriRows = FindRowsOrDefault(newSchema.Name);
             if (default == oriRows)
             {
-                return false;
+                return null;
             }
 
             // Create List for new type.
-            var classListType = typeof(List<>).MakeGenericType(newTB.CreateType());
+            var newType = newTB.CreateType();
+            var classListType = typeof(List<>).MakeGenericType(newType);
             var classList = (IList)Activator.CreateInstance(classListType);
 
-            var newType = newTB.CreateType();
-            var oldProps = oldTB.CreateType().GetProperties();
+            var oldProps = oldTB.GetProperties();
 
             // Search original row.
             foreach (var oriRow in oriRows)
@@ -200,7 +203,7 @@ namespace DataDesignerServer.Core.DataManager.ClassData
                         // Check type.
                         if (false == CanTypeChanged(value, prop.PropertyType))
                         {
-                            return false;
+                            return null;
                         }
 
                         // convert value
@@ -220,11 +223,9 @@ namespace DataDesignerServer.Core.DataManager.ClassData
                 classList.Add(typeInst);
             }
 
-            // Class datas.
             var rows = classList.OfType<object>().ToList();
-            AddOrUpdateClassGroup(newSchema.Name, rows: rows);
 
-            return true;
+            return rows;
         }
 
         /// <summary>

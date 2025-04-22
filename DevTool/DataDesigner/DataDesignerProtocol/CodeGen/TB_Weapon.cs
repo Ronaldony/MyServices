@@ -19,14 +19,6 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        public int Range { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int CoolTime { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Summary { get; set; }
+        public int Cooltime { get; set; }
     }
 }
