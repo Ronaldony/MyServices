@@ -68,7 +68,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
         // Screen snake.
         ScreenSnakeManager.Instance.SnakeScreen();
 
-        // ³Ë¹é.
+        // ï¿½Ë¹ï¿½.
         knockback.GetKnockedBack(hitTransform, GameData.KNOCKBACK_THRUST);
 
         // flash.
@@ -86,7 +86,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     {
         if (currentHealth <= 0)
         {
-            // ÇÃ·¹ÀÌ¾î »ç¸Á.
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½.
             isDead = true;
             Destroy(ActiveWeapon.Instance.gameObject);
 
@@ -100,7 +100,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     {
         yield return new WaitForSeconds(2f);
 
-        // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ® ÆÄ±« ÈÄ, ¸®½ºÆù Áö¿ª ÀÌµ¿.
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ä±ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½.
         Destroy(gameObject);
         SceneManager.LoadScene(TOWN_TEXT);
     }

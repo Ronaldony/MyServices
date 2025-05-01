@@ -1,6 +1,7 @@
 namespace GameCore
 {
     using System;
+    using GameCore;
 
     public class TB_Weapon : ITableBase
     {
@@ -19,6 +20,14 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        public int Cooltime { get; set; }
+        public int Range { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int CoolTime { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Type_Collision CollisionType { get; set; }
     }
 }

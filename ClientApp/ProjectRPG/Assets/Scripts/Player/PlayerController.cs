@@ -109,7 +109,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
-        // ³Ë¹é, Á×À½ Ã³¸®.
+        // ï¿½Ë¹ï¿½, ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½.
         if (_knockback.GettingKnockedBack || PlayerHealth.Instance.isDead)
         {
             return;
@@ -126,7 +126,7 @@ public class PlayerController : Singleton<PlayerController>
 
         AdjustPlayerFacingDirection();
 
-        // ÀÌµ¿ Ã³¸®.
+        // ï¿½Ìµï¿½ Ã³ï¿½ï¿½.
         BeforeMove();
         Move();
         AfterMove();
@@ -159,21 +159,21 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void BeforeMove()
     {
-        // ÀÌµ¿ ¹æÇâ È®ÀÎ.
+        // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½.
         var moveDirection = GetMoveDirection(_movement.normalized);
 
-        // ÀÌµ¿ ¹æÇâ °Ë»ç.
+        // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½.
         if (_isMoving)
         {
-            // Cond 1. ÀÌµ¿ Á¤ÁöÇÑ °æ¿ì.
-            // Cond 2. ÇöÀç ÀÌµ¿ ¹æÇâ°ú ÀÌÀü ÀÌµ¿ ¹æÇâÀÌ ´Ù¸¥ °æ¿ì.
+            // Cond 1. ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
+            // Cond 2. ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½.
             if ((moveDirection == Type_MoveDirection.None) || (moveDirection != _moveDirection))
             {
                 MoveStop();
             }
         }
 
-        // ÀÌµ¿ ¹æÇâ °»½Å.
+        // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         _moveDirection = moveDirection;
     }
 
@@ -212,7 +212,7 @@ public class PlayerController : Singleton<PlayerController>
 
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
-        // ÀÌµ¿ ¹æÇâÀÌ ¹Ù²ï °æ¿ì, MoveEnd¸¦ Àü¼Û.
+        // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½, MoveEndï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         _netPacketManager.Send<NetPacketCS_MoveEnd>(
             NetPacketCode.CS_MoveEnd,
             new NetPacketCS_MoveEnd

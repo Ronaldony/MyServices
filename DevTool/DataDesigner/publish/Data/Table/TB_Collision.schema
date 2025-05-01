@@ -21,15 +21,15 @@
     },
     {
       "Idx": 3,
-      "Name": "Point1_x",
-      "IsIndexed": false,
-      "Type": "float",
+      "Name": "CollisionType",
+      "IsIndexed": true,
+      "Type": "Type_Collision",
       "RefTable": "",
       "Summary": ""
     },
     {
       "Idx": 4,
-      "Name": "Point1_y",
+      "Name": "Width",
       "IsIndexed": false,
       "Type": "float",
       "RefTable": "",
@@ -37,7 +37,7 @@
     },
     {
       "Idx": 5,
-      "Name": "Point2_x",
+      "Name": "Height",
       "IsIndexed": false,
       "Type": "float",
       "RefTable": "",
@@ -45,7 +45,7 @@
     },
     {
       "Idx": 6,
-      "Name": "Point2_y",
+      "Name": "OffsetX",
       "IsIndexed": false,
       "Type": "float",
       "RefTable": "",
@@ -53,41 +53,9 @@
     },
     {
       "Idx": 7,
-      "Name": "Point3_x",
+      "Name": "OffsetY",
       "IsIndexed": false,
       "Type": "float",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 8,
-      "Name": "Point3_y",
-      "IsIndexed": false,
-      "Type": "float",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 9,
-      "Name": "Point4_x",
-      "IsIndexed": false,
-      "Type": "float",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 10,
-      "Name": "Point4_y",
-      "IsIndexed": false,
-      "Type": "float",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 11,
-      "Name": "Summary",
-      "IsIndexed": false,
-      "Type": "string",
       "RefTable": "",
       "Summary": ""
     }

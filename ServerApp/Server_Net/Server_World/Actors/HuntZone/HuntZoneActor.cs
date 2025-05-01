@@ -9,6 +9,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore.NetPacket;
     using Server_World.Actors.HuntZone.Scheduler;
     using Server_World.Core.Datas;
+    using Server_World.Core.Services;
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
     using Server_World.Server.World;
@@ -24,6 +25,7 @@ namespace Server_World.Actors.HuntZone
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
+        private readonly CollisionService _collisionService;
 
         private readonly WorldServer _worldServer;
         private readonly HuntZoneScheduler_Enemy _schedulerEnemy;
@@ -75,6 +77,7 @@ namespace Server_World.Actors.HuntZone
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
             _memoryPoolService =  ServiceUtility.GetService<IMemoryPoolService>();
+            _collisionService = ServiceUtility.GetService<CollisionService>();
 
             _worldServer = ServiceUtility.GetService<WorldServer>();
             _schedulerEnemy = new HuntZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());

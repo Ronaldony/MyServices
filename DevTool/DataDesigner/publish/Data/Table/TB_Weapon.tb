@@ -4,20 +4,23 @@
     "Name": "Sword",
     "Attack": 3,
     "Range": 1,
-    "CoolTime": 2
+    "CoolTime": 2,
+    "CollisionType": "Sword"
   },
   {
     "Id": 2,
     "Name": "Staff",
     "Attack": 5,
     "Range": 6,
-    "CoolTime": 4
+    "CoolTime": 4,
+    "CollisionType": "Rasor"
   },
   {
     "Id": 3,
     "Name": "Bow",
     "Attack": 2,
     "Range": 5,
-    "CoolTime": 2
+    "CoolTime": 2,
+    "CollisionType": "Arrow"
   }
 ]

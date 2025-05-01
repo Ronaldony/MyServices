@@ -42,6 +42,14 @@
       "Type": "int",
       "RefTable": "",
       "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "CollisionType",
+      "IsIndexed": false,
+      "Type": "Type_Collision",
+      "RefTable": "",
+      "Summary": ""
     }
   ]
 }

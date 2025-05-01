@@ -1,9 +1,10 @@
 ﻿
+using Microsoft.Extensions.Logging;
+
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.NetPacket;
-    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// HuntZoneActor.
@@ -23,14 +24,23 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            var position = worldPlayer.PlayInfo.Position;
+            var playerInfo = worldPlayer.PlayInfo;
+            var playerPos = worldPlayer.PlayInfo.Position.Pos;
 
-            // TODO: 공격 범위 계산.
-            // TODO: 피격 가능 플레이어 계산.
-            // TODO: 피격 계산.
-            TB_Collision
+            // 충돌 범위 계산.
+            var collisionBox = _collisionService.CalcCollisionBox(playerInfo.Equipment.Weapon, playerPos, packet.Angle);
+
+            // 피격 가능 플레이어 계산.
+            var section = ((int)playerPos.X / GameData.SECTION_WIDTH, (int)playerPos.Y / GameData.SECTION_HEIGHT);
+            var aroundSections = GetAroundSections(section);
+
+            foreach (var hitSection in aroundSections)
+            {
+
+            }
+
+            // 피격 계산.
         }
 
-        
     }
 }

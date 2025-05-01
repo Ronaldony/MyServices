@@ -1,6 +1,7 @@
 namespace GameCore
 {
     using System;
+    using GameCore;
 
     public class TB_Collision : ITableBase
     {
@@ -15,38 +16,22 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        public float Point1_x { get; set; }
+        public Type_Collision CollisionType { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public float Point1_y { get; set; }
+        public float Width { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public float Point2_x { get; set; }
+        public float Height { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public float Point2_y { get; set; }
+        public float OffsetX { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public float Point3_x { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Point3_y { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Point4_x { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Point4_y { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Summary { get; set; }
+        public float OffsetY { get; set; }
     }
 }
