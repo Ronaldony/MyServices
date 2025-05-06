@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        MovementStateControl();
+        //MovementStateControl();
     }
 
     /// <summary>
@@ -54,10 +54,7 @@ public class EnemyAI : MonoBehaviour
     /// <summary>
     /// Initailize spawn.
     /// </summary>
-    public void Initialize_Spawn(
-        int attackRange, 
-        int attackCooldown, 
-        System.Numerics.Vector2 nextPos)
+    public void Initialize_Spawn(int attackRange, int attackCooldown)
     {
         _attackRange = attackRange;
         _attackCooldown = attackCooldown;
@@ -68,7 +65,7 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void Roaming()
     {
-        // 플레이어가 공격 사정거리 안에 있는 경우, 공격 상태로 전환.
+        // Calculate distance for attacking.
         if (Vector2.Distance(transform.position, PlayerController.Instance.transform.position) < _attackRange)
         {
             _state = State.Attacking;
@@ -80,7 +77,7 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void Attacking()
     {
-        // 플레이어가 공격 사정거리 밖인 경우, 로밍 상태로 전환.
+        // Calculate distance for attacking.
         if (Vector2.Distance(transform.position, PlayerController.Instance.transform.position) > _attackRange)
         {
             _state = State.Roaming;
@@ -89,6 +86,7 @@ public class EnemyAI : MonoBehaviour
         if (_attackRange != 0 && _canAttack)
         {
             _canAttack = false;
+
             (_enemyType as IEnemy)?.Attack();
 
             if (_stopMovingWhileAttacking)

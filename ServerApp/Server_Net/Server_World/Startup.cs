@@ -11,6 +11,7 @@ namespace Server_World
     using GameCore;
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone;
+    using Server_World.Core.Services;
     using Server_World.Server.World;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
@@ -29,14 +30,15 @@ namespace Server_World
             hostAppBuilder.Logging.SetMinimumLevel(LogLevel.Trace);
 
             // services.
+            hostAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
+            hostAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
             hostAppBuilder.Services.AddSingleton<IRemoteConfigureService, StrapiConfigureService>();
             hostAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
             hostAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             hostAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             hostAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
-
-            hostAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
-            hostAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+            hostAppBuilder.Services.AddSingleton<CollisionService>();
+            hostAppBuilder.Services.AddSingleton<WeaponService>();
 
             // Data objects.
             hostAppBuilder.Services.AddSingleton<SessionInfoObject>();

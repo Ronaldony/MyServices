@@ -5,6 +5,11 @@
     "Summary": "None"
   },
   {
+    "Id": 1,
+    "Name": "Player",
+    "Summary": "Player"
+  },
+  {
     "Id": 2,
     "Name": "Sword",
     "Summary": "Sword"
@@ -20,8 +25,8 @@
     "Summary": "Rasor"
   },
   {
-    "Id": 1,
-    "Name": "Player",
-    "Summary": "Player"
+    "Id": 5,
+    "Name": "Enemy",
+    "Summary": "Enemy"
   }
 ]

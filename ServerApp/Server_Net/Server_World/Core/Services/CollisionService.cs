@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Numerics;
 
 namespace Server_World.Core.Services
 {
     using GameCore;
     using GameCore.Interfaces;
     using Server_World.Core.Datas;
+    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
     /// CollisionService.
@@ -14,7 +14,9 @@ namespace Server_World.Core.Services
     public class CollisionService
     {
         private readonly ILogger<CollisionService> _logger;
+
         private readonly ITDBService _tdbService;
+        private readonly IMemoryPoolService _memoryPoolService;
 
         private IEnumerable<TB_Collision> _tbCollisions;
         private IEnumerable<TB_Weapon> _tbWeapons;
@@ -22,6 +24,8 @@ namespace Server_World.Core.Services
         public CollisionService(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<CollisionService>>();
+            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
+
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
         }
 
@@ -31,60 +35,86 @@ namespace Server_World.Core.Services
         public void Initialize()
         {
             _tbCollisions = _tdbService.SelectAll<TB_Collision>();
+            _tbWeapons = _tdbService.SelectAll<TB_Weapon>();
 
             _logger.LogInformation("CollisionService initialized.");
         }
 
         /// <summary>
-        /// Calculation for collision box.
+        /// Get collision box.
         /// </summary>
-        public CollisionBox CalcCollisionBox(int weapon, Vector2 playerPos, Vector2 attackAngle)
+        public CollisionBox Rent(Type_Collision collisionType)
         {
-            var tbWeapon = _tbWeapons.FirstOrDefault(d => d.Id == weapon);
+            var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == collisionType);
 
-            if (tbWeapon == default)
+            if (default == tbCollision)
             {
-                return default;
+                return null;
+            }
+
+            var collisionBox = _memoryPoolService.Rent<CollisionBox>();
+
+            collisionBox.Setup(tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
+
+            return collisionBox;
+        }
+
+        /// <summary>
+        /// Get collision box.
+        /// </summary>
+        public CollisionBox Rent_Weapon(int weapoinId)
+        {
+            var tbWeapon = _tbWeapons.FirstOrDefault(d => d.Id == weapoinId);
+
+            if (default == tbWeapon)
+            {
+                return null;
             }
 
             var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == tbWeapon.CollisionType);
 
             if (default == tbCollision)
             {
-                return default;
+                return null;
             }
 
-            var collisionBox = new CollisionBox();
+            var collisionBox = _memoryPoolService.Rent<CollisionBox>();
+
+            collisionBox.Setup(tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
 
             return collisionBox;
         }
 
         /// <summary>
-        /// Get player collision box.
+        /// Release collision box.
         /// </summary>
-        private CollisionBox GetPlayerCollisionBox(Vector2 playerPos)
+        public void Release(CollisionBox collisionBox)
         {
-            var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == Type_Collision.Player);
-
-            return new CollisionBox
-            {
-                //Point1 = new Vector2(playerPos.X + tbCollision.Point1_x, playerPos.Y + tbCollision.Point1_y),
-                //Point2 = new Vector2(playerPos.X + tbCollision.Point2_x, playerPos.Y + tbCollision.Point2_y),
-                //Point3 = new Vector2(playerPos.X + tbCollision.Point3_x, playerPos.Y + tbCollision.Point3_y),
-                //Point4 = new Vector2(playerPos.X + tbCollision.Point4_x, playerPos.Y + tbCollision.Point4_y)
-            };
+             _memoryPoolService.Release<CollisionBox>(collisionBox);
         }
 
         /// <summary>
-        /// Check collision
+        /// Check collision status.
         /// </summary>
-        public bool IsCollided(Vector2 playerPos, CollisionBox collisionBox)
+        public bool CollidesWith(BoudingBox src, BoudingBox dst)
         {
-            var playerCollisionBox = GetPlayerCollisionBox(playerPos);
+            // 가로 충돌.
+            // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
+            // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
+            if (src.Min.X > dst.Max.X || src.Max.X < dst.Min.X)
+            {
+                return false;
+            }
 
+            // 세로 충돌.
+            // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
+            // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
+            if (src.Min.Y > dst.Max.Y && src.Max.Y < dst.Min.Y)
+            {
+                return false;
+            }
 
-
-            return false;
+            return true;
         }
     }
 }

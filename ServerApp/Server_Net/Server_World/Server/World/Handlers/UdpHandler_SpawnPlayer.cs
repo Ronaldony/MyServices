@@ -11,8 +11,8 @@ namespace Server_World.Server.World.Handlers
     using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
     using Server_World.Actors.HuntZone;
+    using Server_World.Core.Services;
     using Server_World.Core.Worlds;
-    using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Interfaces;
     using ServerEngine.Network.UDP;
 
@@ -25,8 +25,7 @@ namespace Server_World.Server.World.Handlers
 
         private readonly WorldServer _worldServer;
 
-        // MemoryPoolService.
-        private readonly IMemoryPoolService _memoryPoolService;
+        private readonly CollisionService _collisionService;
 
         /// <summary>
         /// Data object dictionary.
@@ -47,8 +46,8 @@ namespace Server_World.Server.World.Handlers
 
             _worldServer = serviceProvider.GetRequiredService<WorldServer>();
 
-            // MemoryPoolService.
-            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
+            // Collision service.
+            _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
             // Data object 생성.
             _dataObjectDict = new Dictionary<Type, IDataObject>();
@@ -106,31 +105,40 @@ namespace Server_World.Server.World.Handlers
                     return;
                 }
 
-                // 게임 세션 저장.
-                var gameSession = new GameSession
-                {
-                    SessionId = sessionId,
-                    SessionUid = sessionUid
-                };
-
                 // Load player to hunt zone.
-                LoadPlayerToHuntZone(pid, gameSession, playInfo);
+                LoadPlayerToHuntZone(pid, sessionId, sessionUid, playInfo);
             });
         }
 
         /// <summary>
         /// Load player to hunt zone actor.
         /// </summary>
-        private void LoadPlayerToHuntZone(string pid, GameSession gameSession, DTO_PlayInfo playInfo)
+        private void LoadPlayerToHuntZone(string pid, int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
         {
-            // Actor msg.
+            // 세션.
+            var gameSession = new GameSession
+            {
+                SessionId = sessionId,
+                SessionUid = sessionUid
+            };
+
+            // 충돌 박스.
+            var collisionBox = _collisionService.Rent(Type_Collision.Player);
+
+            if (null == collisionBox)
+            {
+                return;
+            }
+
+            // 액터 메시지.
             var actorMsg = new World_Player
             {
                 PlayInfo = playInfo,
-                GameSession = gameSession
+                GameSession = gameSession,
+                CollisionBox = collisionBox
             };
 
-            // Delivery msg.
+            // 메시지 전달.
             _huntZoneActorProvider.Tell<World_Player>(actorMsg);
         }
     }

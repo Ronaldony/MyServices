@@ -38,11 +38,11 @@ namespace Server_World.Actors.HuntZone
             foreach (var targetSection in aroundSections)
             {
                 // Player.
-                var players = GetWorldPlayers(targetSection);
+                var players = GetSectionPlayers(targetSection);
                 if (null != players) { packet.Users.AddRange(players.Select(d => d.PlayInfo)); }
 
                 // Enemies.
-                var enemies = GetEnemies(targetSection);
+                var enemies = GetSectionEnemies(targetSection);
                 if (null != enemies) { packet.Enemies.AddRange(enemies); }
             }
 
@@ -83,7 +83,7 @@ namespace Server_World.Actors.HuntZone
         {
             var sessionEnemyDict = new Dictionary<GameSession, List<DTO_Enemy>>();
 
-            // 적 스폰 병렬 처리.
+            // Enemy 스폰.
             foreach (var pair in msg.Enemies)
             {
                 var section = pair.Key;
@@ -118,21 +118,12 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-
             foreach (var pair in sessionEnemyDict)
             {
                 SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(new NetPacketSC_SpawnEnemy
                 {
                     Enemies = pair.Value
                 }));
-            }
-
-            // Check spawn count.
-            _enemyCount += msg.Enemies.Count();
-
-            if (_enemyCount >= GameData.MAX_ENEMY_SPAWN)
-            {
-                _schedulerEnemy.StopSpawn();
             }
         }
     }

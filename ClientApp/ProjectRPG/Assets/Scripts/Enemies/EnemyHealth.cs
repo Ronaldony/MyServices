@@ -19,18 +19,17 @@ public class EnemyHealth : MonoBehaviour
 
     private void Start()
     {
-
     }
 
     /// <summary>
     /// Take damage.
     /// </summary>
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Vector3 srcPosition)
     {
         _health -= damage;
 
-        // Ãæµ¹ Ã³¸® °£ ³Ë¹é Ã³¸®.
-        _knockback.GetKnockedBack(PlayerController.Instance.transform, GameData.KNOCKBACK_THRUST);
+        // Knockback.
+        //_knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
 
         StartCoroutine(_flash.FlashRoutine());
         StartCoroutine(CheckDetectDeathRoutine());
@@ -50,19 +49,21 @@ public class EnemyHealth : MonoBehaviour
     /// </summary>
     public void DetectDeath()
     {
-        // Ã¼·ÂÀÌ 0 ÀÌÇÏÀÎ °æ¿ì Á×À½ Ã³¸®.
+        Debug.Log($"DetectDeath. health: {_health}");
+
+        // Detect death.
         if (_health <= 0)
         {
-            // µ¥½º ÀÌÆåÆ® »ý¼º.
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½.
             Instantiate(_deathVFXPrefab, transform.position, Quaternion.identity);
 
-            // µå¶ø ¾ÆÀÌÅÛ.
+            // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
             GetComponent<PickUpSpawner>().DropItems();
 
-            // Àû ¿ÀºêÁ§Æ® ÆÄ±«.
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ä±ï¿½.
             Destroy(gameObject);
 
-            // EnemyManagement¿¡ Á×Àº Àû Àü´Þ.
+            // EnemyManagementï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
             EnemyManagement.Instance.KillEnemy(_enemyUid);
         }
     }

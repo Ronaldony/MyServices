@@ -34,7 +34,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 특정 섹션의 플레이 정보 가져오기.
         /// </summary>
-        private List<World_Player> GetWorldPlayers((int, int) section)
+        private List<World_Player> GetSectionPlayers((int, int) section)
         {
             if (false == _sectionPlayerDict.TryGetValue(section, out var playerDict))
             {
@@ -52,7 +52,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 특정 섹션의 적 정보 가져오기.
         /// </summary>
-        private List<DTO_Enemy> GetEnemies((int, int) section)
+        private List<DTO_Enemy> GetSectionEnemies((int, int) section)
         {
             if (false == _sectionEnemyDict.TryGetValue(section, out var enemies))
             {

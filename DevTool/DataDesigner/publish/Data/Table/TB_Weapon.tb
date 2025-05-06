@@ -2,7 +2,7 @@
   {
     "Id": 1,
     "Name": "Sword",
-    "Attack": 3,
+    "Damage": 3,
     "Range": 1,
     "CoolTime": 2,
     "CollisionType": "Sword"
@@ -10,7 +10,7 @@
   {
     "Id": 2,
     "Name": "Staff",
-    "Attack": 5,
+    "Damage": 5,
     "Range": 6,
     "CoolTime": 4,
     "CollisionType": "Rasor"
@@ -18,7 +18,7 @@
   {
     "Id": 3,
     "Name": "Bow",
-    "Attack": 2,
+    "Damage": 2,
     "Range": 5,
     "CoolTime": 2,
     "CollisionType": "Arrow"

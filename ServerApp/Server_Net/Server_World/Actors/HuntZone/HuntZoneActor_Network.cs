@@ -60,5 +60,19 @@ namespace Server_World.Actors.HuntZone
                 SendPacket(otherSession.SessionId, otherSession.SessionUid, packetCode, packetBytes);
             }
         }
+
+        /// <summary>
+        /// Send packet for around sections.
+        /// </summary>
+        private void SendPacket_AroundSections((int x, int y) section, int packetCode, byte[] packetBytes)
+        {
+            // 섹션.
+            var aroundSessions = GetAroundSessions(section);
+
+            foreach (var otherSession in aroundSessions)
+            {
+                SendPacket(otherSession.SessionId, otherSession.SessionUid, packetCode, packetBytes);
+            }
+        }
     }
 }

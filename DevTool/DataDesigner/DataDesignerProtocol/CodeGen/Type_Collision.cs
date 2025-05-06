@@ -7,6 +7,10 @@ namespace GameCore
         /// </summary>
         None = 0,
         /// <summary>
+        /// Player
+        /// </summary>
+        Player = 1,
+        /// <summary>
         /// Sword
         /// </summary>
         Sword = 2,
@@ -19,8 +23,8 @@ namespace GameCore
         /// </summary>
         Rasor = 4,
         /// <summary>
-        /// Player
+        /// Enemy
         /// </summary>
-        Player = 1
+        Enemy = 5
     }
 }

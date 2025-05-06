@@ -21,7 +21,7 @@
     },
     {
       "Idx": 3,
-      "Name": "Attack",
+      "Name": "Damage",
       "IsIndexed": false,
       "Type": "int",
       "RefTable": "",

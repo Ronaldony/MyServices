@@ -12,6 +12,7 @@ namespace Server_World
     using Framework.Core.Database.Attributes;
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone;
+    using Server_World.Core.Services;
     using Server_World.Core.Utilities;
     using Server_World.Server.World;
     using ServerEngine.Config;
@@ -72,6 +73,14 @@ namespace Server_World
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 #endif
+
+            // CollisionService.
+            var collisionService = _serviceProvider.GetRequiredService<CollisionService>();
+            collisionService.Initialize();
+
+            // WeaponService.
+            var weaponService = _serviceProvider.GetRequiredService<WeaponService>();
+            weaponService.Initialize();
 
             // Database data mapping.
             MappingDapper();

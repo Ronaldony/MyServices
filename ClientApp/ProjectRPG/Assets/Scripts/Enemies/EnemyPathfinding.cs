@@ -23,10 +23,10 @@ public class EnemyPathfinding : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 넉백중인 경우
+        // Status knockback.
         if (_knockBack.GettingKnockedBack) { return; }
 
-        // 다음 이동 위치와 같을 때까지 이동.
+        // check next position.
         if (false == _rb.position.Equals(_nextPos))
         {
             _rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);

@@ -17,18 +17,18 @@ public class Knockback : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void GetKnockedBack(Transform damageSource, float knockBackThrust)
+    public void GetKnockedBack(Vector3 dmgSrcPosition, float knockBackThrust)
     {
         GettingKnockedBack = true;
 
-        // mass: Áú·®, mass¿¡ ºñ·ÊÇÏ¿© ³Ë¹éµÇ°Ô ÇÏ±â À§ÇÔ.
-        Vector2 momentum = (transform.position - damageSource.position).normalized * knockBackThrust * rb.mass;
+        // mass: ï¿½ï¿½ï¿½ï¿½, massï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ë¹ï¿½Ç°ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½.
+        Vector2 momentum = (transform.position - dmgSrcPosition).normalized * knockBackThrust * rb.mass;
 
         StartCoroutine(KnockRoutine(rb.position + (momentum * GameData.KNOCKBACK_TIME)));
 
         rb.AddForce(momentum, ForceMode2D.Impulse);
 
-        Debug.Log($"KnockBack Mass: {rb.mass}, normalized: {(transform.position - damageSource.position).normalized}, difference: {momentum}");
+        Debug.Log($"KnockBack Mass: {rb.mass}, normalized: {(transform.position - dmgSrcPosition).normalized}, difference: {momentum}");
 
     }
     private IEnumerator KnockRoutine(Vector2 knockBackPos)

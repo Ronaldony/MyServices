@@ -79,7 +79,7 @@ public class Shooter : MonoBehaviour, IEnemy
                 Vector2 pos = FindBulletSpawnPos(currentAngle);
                 GameObject bullet = Instantiate(bulletPrefab, pos, Quaternion.identity);
 
-                // Å¸°Ù ¹æÇâÀ¸·Î.
+                // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
                 bullet.transform.right = bullet.transform.position - transform.position;
 
                 if (bullet.TryGetComponent<Projectile>(out var projectile))
@@ -121,9 +121,9 @@ public class Shooter : MonoBehaviour, IEnemy
 
         if (angleSpread != 0)
         {
-            // Åõ»çÃ¼ °¹¼ö¿¡ ºñ·ÊÇÑ °¢µµ °è»ê.
+            // ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
             angleStep = angleSpread / (projectilesPerBurst - 1);
-            // Åõ»çÃ¼ ÆÛÁö´Â °¢µµÀÇ 1/2ÁöÁ¡À» »© ½ÃÀÛÁ¡ °è»ê.
+            // ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1/2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
             startAngle = targetAngle - halfAngleSpread;
             endAngle = targetAngle + halfAngleSpread;
             currentAngle = startAngle;

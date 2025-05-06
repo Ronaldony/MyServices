@@ -39,8 +39,44 @@ namespace Server_World.Core.Datas
         /// <param name="angle">회전 축</param>
         public BoudingBox GetBoudingBox(float x, float y, Vector2 angle)
         {
-            var min = _boudingBox.Min;
-            var max = _boudingBox.Max;
+            var min = new Vector2();
+            var max = new Vector2();
+
+            // TODO: Angle에 따른 좌표 계산.
+            if (angle.X < 0)
+            {
+                // 왼쪽.
+                // 최솟값 = 현재 좌표 + offset - 충돌 범위.
+                min.X = x - _offsetX - _halfWidth;
+                max.X = x - _offsetX + _halfWidth;
+            }
+            else
+            {
+                // 오른쪽.
+                // 최솟값 = 현재 좌표 + offset - 충돌 범위.
+                min.X = x + _offsetX - _halfWidth;
+                max.X = x + _offsetX + _halfWidth;
+            }
+
+            // 최댓값 = 현재 좌표 + offset + 충돌 범위.
+            min.Y = y + _offsetY - _halfHeight;
+            max.Y = y + _offsetY + _halfHeight;
+
+            _boudingBox.Min = min;
+            _boudingBox.Max = max;
+
+            return _boudingBox;
+        }
+
+        /// <summary>
+        /// 충돌 경계 박스.
+        /// </summary>c
+        /// <param name="x">객체 좌표 x</param>
+        /// <param name="y">객체 좌표 y</param>
+        public BoudingBox GetBoudingBox(float x, float y)
+        {
+            var min = new Vector2();
+            var max = new Vector2();
 
             // 최솟값 = 현재 좌표 + offset - 충돌 범위.
             min.X = x + _offsetX - _halfWidth;
@@ -49,6 +85,9 @@ namespace Server_World.Core.Datas
             // 최댓값 = 현재 좌표 + offset + 충돌 범위.
             max.X = x + _offsetX + _halfWidth;
             max.Y = y + _offsetY + _halfHeight;
+
+            _boudingBox.Min = min;
+            _boudingBox.Max = max;
 
             return _boudingBox;
         }

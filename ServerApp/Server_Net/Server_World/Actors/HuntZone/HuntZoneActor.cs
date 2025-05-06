@@ -26,6 +26,7 @@ namespace Server_World.Actors.HuntZone
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
         private readonly CollisionService _collisionService;
+        private readonly WeaponService _weaponService;
 
         private readonly WorldServer _worldServer;
         private readonly HuntZoneScheduler_Enemy _schedulerEnemy;
@@ -78,6 +79,7 @@ namespace Server_World.Actors.HuntZone
             _tdbService = ServiceUtility.GetService<ITDBService>();
             _memoryPoolService =  ServiceUtility.GetService<IMemoryPoolService>();
             _collisionService = ServiceUtility.GetService<CollisionService>();
+            _weaponService = ServiceUtility.GetService<WeaponService>();
 
             _worldServer = ServiceUtility.GetService<WorldServer>();
             _schedulerEnemy = new HuntZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());

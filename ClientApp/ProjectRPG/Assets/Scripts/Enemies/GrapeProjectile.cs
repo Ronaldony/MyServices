@@ -21,7 +21,7 @@ public class GrapeProjectile : MonoBehaviour
     }
 
     /// <summary>
-    /// Grape ÀÌµ¿.
+    /// Grape ï¿½Ìµï¿½.
     /// </summary>
     private IEnumerator ProjectileCurveRoutine(Vector3 startPos, Vector3 endPos)
     {
@@ -44,7 +44,7 @@ public class GrapeProjectile : MonoBehaviour
     }
 
     /// <summary>
-    /// Grape ±×¸²ÀÚ ÀÌµ¿.
+    /// Grape ï¿½×¸ï¿½ï¿½ï¿½ ï¿½Ìµï¿½.
     /// </summary>
     private IEnumerator MoveGrapeShadowRoutine(GameObject grapeShadow, Vector3 startPos, Vector3 endPos)
     {

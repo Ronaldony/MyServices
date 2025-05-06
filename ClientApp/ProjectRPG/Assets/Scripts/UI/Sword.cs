@@ -1,3 +1,6 @@
+using GameCore;
+using GameCore.NetPacket;
+using Network;
 using UnityEngine;
 
 public class Sword : MonoBehaviour, IWeapon
@@ -9,11 +12,17 @@ public class Sword : MonoBehaviour, IWeapon
     private Transform weaponCollider;
     private Animator myAnimator;
 
+    private NetPacketManager _netPacketManager;
+    private PlayerDataManager _playerDataManager;
+
     private GameObject slashAnim;
 
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
+
+        _netPacketManager = NetPacketManager.Instance;
+        _playerDataManager = PlayerDataManager.Instance;
     }
 
     private void Start()
@@ -34,11 +43,27 @@ public class Sword : MonoBehaviour, IWeapon
 
     public void Attack()
     {
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
+        Vector2 angle = (mousePos - playerScreenPoint).normalized;
+        
+        // Send Attack.
+        _netPacketManager.Send<NetPacketCS_Attack>(
+            NetPacketCode.CS_Attack,
+            new NetPacketCS_Attack
+            {
+                Pid = _playerDataManager.Pid,
+                Angle = new System.Numerics.Vector2(angle.x, angle.y),
+                Damage = 3
+            });
+
         // set animation.
         myAnimator.SetTrigger("Attack");
 
         // Visible weapon collider.
         weaponCollider.gameObject.SetActive(true);
+        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = true;
 
         // Slash prefab.
         slashAnim = Instantiate(slashAnimPrefab, slashAnimSpawnPoint.position, Quaternion.identity);

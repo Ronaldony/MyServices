@@ -1,4 +1,3 @@
-using Network;
 using System.Collections;
 using UnityEngine;
 
@@ -6,7 +5,6 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
 {
     public MonoBehaviour CurrentActiveWeapon { get; private set; }
 
-    private NetPacketManager _netPacketManager;
     private PlayerControls playerControls;
     private float timeBetweenAttacks;
 
@@ -17,7 +15,6 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
         base.Awake();
 
         playerControls = new PlayerControls();
-        _netPacketManager = NetPacketManager.Instance;
     }
 
     private void OnEnable()

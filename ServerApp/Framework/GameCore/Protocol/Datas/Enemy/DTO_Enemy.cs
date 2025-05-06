@@ -40,21 +40,27 @@ namespace GameCore.Datas.Enemy
         public DateTime UpdateTime { get; set; }
 
         /// <summary>
-        /// Position.
+        /// 업데이트 시간.
         /// </summary>
         [MemoryPackOrder(4)]
+        public DateTime HitTime { get; set; }
+
+        /// <summary>
+        /// Position.
+        /// </summary>
+        [MemoryPackOrder(5)]
         public DTO_EnemyPosition Position { get; set; }
 
         /// <summary>
         /// 드랍 아이템.
         /// </summary>
-        [MemoryPackOrder(5)]
+        [MemoryPackOrder(6)]
         public Type_Item DropItem { get; set; }
 
         /// <summary>
         /// 행동 유형.
         /// </summary>
-        [MemoryPackOrder(6)]
+        [MemoryPackOrder(7)]
         public Type_Action ActionType { get; set; }
     }
 }

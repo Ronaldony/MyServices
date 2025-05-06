@@ -10,7 +10,7 @@ namespace Server_World.Server.World.Handlers
     using ServerEngine.Network.UDP;
 
     /// <summary>
-    /// UdpHandler_Move.
+    /// UdpHandler_Dash.
     /// </summary>
     public class UdpHandler_Dash : UdpHandler
     {

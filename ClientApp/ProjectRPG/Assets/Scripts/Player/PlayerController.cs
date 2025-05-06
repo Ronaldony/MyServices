@@ -109,7 +109,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
-        // �˹�, ���� ó��.
+        // 넉백 혹은 죽음인 경우 처리 넘김.
         if (_knockback.GettingKnockedBack || PlayerHealth.Instance.isDead)
         {
             return;
@@ -126,7 +126,7 @@ public class PlayerController : Singleton<PlayerController>
 
         AdjustPlayerFacingDirection();
 
-        // �̵� ó��.
+        // 이동 처리.
         BeforeMove();
         Move();
         AfterMove();
@@ -212,7 +212,7 @@ public class PlayerController : Singleton<PlayerController>
 
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
-        // �̵� ������ �ٲ� ���, MoveEnd�� ����.
+        // Send MoveEnd.
         _netPacketManager.Send<NetPacketCS_MoveEnd>(
             NetPacketCode.CS_MoveEnd,
             new NetPacketCS_MoveEnd

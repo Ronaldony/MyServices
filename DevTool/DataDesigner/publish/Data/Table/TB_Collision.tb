@@ -15,7 +15,7 @@
     "Width": 1.0,
     "Height": 2.0,
     "OffsetX": 0.6,
-    "OffsetY": 0.6
+    "OffsetY": 0.5
   },
   {
     "Id": 3,
@@ -34,5 +34,14 @@
     "Height": 0.4,
     "OffsetX": 0.6,
     "OffsetY": 0.6
+  },
+  {
+    "Id": 5,
+    "Name": "Enemy",
+    "CollisionType": "Enemy",
+    "Width": 0.8,
+    "Height": 0.8,
+    "OffsetX": 0.03,
+    "OffsetY": 0.12
   }
 ]

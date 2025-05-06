@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Extensions.Logging;
+
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
@@ -14,9 +16,10 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private void OutPlayer(WorldMsg_OutPlayer msg)
         {
-            if (false == _playerDict.TryGetValue(msg.Pid, out var worldPlayer))
+            _logger.LogWarning($"Log out start. pid: {msg.Pid}");
+
+            if (false == _playerDict.Remove(msg.Pid, out var worldPlayer))
             {
-                _playerDict.Remove(msg.Pid);
                 return;
             }
 
@@ -24,6 +27,11 @@ namespace Server_World.Actors.HuntZone
             var section = ((int)pos.X / GameData.SECTION_WIDTH, (int)pos.Y / GameData.SECTION_HEIGHT);
 
             _sectionPlayerDict[section].TryRemove(msg.Pid, out _);
+
+            // Release.
+            _collisionService.Release(worldPlayer.CollisionBox);
+
+            _logger.LogWarning($"Log out end. pid: {msg.Pid}");
         }
     }
 }

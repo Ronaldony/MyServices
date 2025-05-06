@@ -145,7 +145,7 @@ namespace Server_World.Actors.HuntZone
                 foreach (var newSection in newAroundSections)
                 {
                     // 기존 플레이어들에게 새로 진입한 플레이어 및 적 업데이트.
-                    var sectionPlayers = GetWorldPlayers(newSection);
+                    var sectionPlayers = GetSectionPlayers(newSection);
 
                     if (null != sectionPlayers)
                     {
@@ -168,7 +168,7 @@ namespace Server_World.Actors.HuntZone
                     }
 
                     // 새로 진입한 플레이어에 플레이어 및 적 정보 업데이트.
-                    var enemies = GetEnemies(newSection);
+                    var enemies = GetSectionEnemies(newSection);
 
                     foreach (var movePlayer in woldSection.Value.PlayInfos)
                     {

@@ -14,7 +14,13 @@ namespace GameCore.NetPacket
         /// Attack angle.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 AttackAngle { get; set; }
+        public Vector2 Angle { get; set; }
+
+        /// <summary>
+        /// 무기 데미지.
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public int Damage { get; set; }
     }
 
     /// <summary>
@@ -33,6 +39,6 @@ namespace GameCore.NetPacket
         /// Attack angle.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 AttackAngle { get; set; }
+        public Vector2 Angle { get; set; }
     }
 }

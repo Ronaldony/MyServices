@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81661b46dbe85ea4c86c742516832fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  _velocity: 1
 --- !u!114 &8919914078991155721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,9 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215b98a501887834487ccbe2fd1b8274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roamChangeDirFloat: 2
+  _enemyType: {fileID: 7715903607084293019}
   _attackRange: 0
-  _enemyType: {fileID: 0}
   _attackCooldown: 2
   _stopMovingWhileAttacking: 0
   _enemyId: 3
@@ -138,9 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02ea999a43a8f94ab7831774f08ab4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 3
-  deathVFXPrefab: {fileID: 7728350581625992223, guid: 87991867af8c834489c6c7223f3a5245, type: 3}
-  knockBackThrust: 10
+  _deathVFXPrefab: {fileID: 4377807823253097450, guid: 54661e1485a3376468e0f1ea28be50df, type: 3}
 --- !u!114 &5166218124766854792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b7314926cf67e46ac5a007b92a3422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBackTime: 0.2
 --- !u!114 &9019823740586593619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,8 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b858d55b93f0a3c4fbf79a9421e1a7a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteFlashMat: {fileID: 2100000, guid: 0154f1d6a696dc6428a89bb2c1a8a62d, type: 2}
-  restoreDefaultMatTime: 0.2
+  _whiteFlashMat: {fileID: 2100000, guid: 0154f1d6a696dc6428a89bb2c1a8a62d, type: 2}
+  _restoreDefaultMatTime: 0.2
 --- !u!70 &131889943010496941
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -197,11 +193,11 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.017104864, y: 0.31088018}
-  m_Size: {x: 0.78463316, y: 0.78463316}
+  m_Offset: {x: 0, y: 0.3}
+  m_Size: {x: 0.8, y: 0.8}
   m_Direction: 0
 --- !u!50 &5025334022164760568
 Rigidbody2D:

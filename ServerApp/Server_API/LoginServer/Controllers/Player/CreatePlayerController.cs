@@ -121,6 +121,7 @@ namespace LoginServer.Controllers.Auth
             playInfo.UpdateTime = nowTime;
             playInfo.Position.Area = Type_Area.HuntZone;
             playInfo.Stat.Velocity = 4;
+            playInfo.Equipment.Weapon = 1;
 
             if (false == await playInfoObject.UpsertAsync<DTO_PlayInfo>(pid, playInfo))
             {

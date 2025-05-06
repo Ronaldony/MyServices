@@ -26,5 +26,8 @@
         public const float DASH_COOLDOWN = 0.25f;           // 대시 쿨타임.
         public const int DASH_SPEED = 4;                    // 대시 속도.
         public const float DASH_ERROR = 1;                  // 대시 오차.
+
+        // Hit.
+        public const int Hit_Delay_MS = 400;                // 히트 딜레이.
     }
 }

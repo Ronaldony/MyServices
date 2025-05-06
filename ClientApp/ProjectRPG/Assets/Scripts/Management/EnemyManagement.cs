@@ -5,6 +5,7 @@ using Network;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyManagement : Singleton<EnemyManagement>
@@ -45,6 +46,9 @@ public class EnemyManagement : Singleton<EnemyManagement>
     // Update is called once per frame
     void Update()
     {
+        // Process alive enemy.
+        Proc_AliveEnemy();
+
         // Process update packet.
         Proc_UpdatePacket();
 
@@ -58,6 +62,21 @@ public class EnemyManagement : Singleton<EnemyManagement>
     public void AddUpdatePacket(UpdatePacket updatePacket)
     {
         _updatePacketQ.Enqueue(updatePacket);
+    }
+
+    /// <summary>
+    /// Procewss alive enemy.
+    /// </summary>
+    private void Proc_AliveEnemy()
+    {
+        while (_killedEnemyQ.TryDequeue(out var enemyUid))
+        {
+            // Destroy enemy.
+            Destroy(_enemyObjectDict[enemyUid]);
+
+            // Remove enemy.
+            _enemyObjectDict.Remove(enemyUid);
+        }
     }
 
     /// <summary>
@@ -93,6 +112,11 @@ public class EnemyManagement : Singleton<EnemyManagement>
                         SpawnEnemies(packet.Enemies);
                     }
                     break;
+                case NetPacketCode.SC_HitEnemy:
+                    {
+                        UpdateHitEnemies(updatePacket.Data as NetPacketSC_HitEnemy);
+                    }
+                    break;
             }
         }
     }
@@ -106,13 +130,19 @@ public class EnemyManagement : Singleton<EnemyManagement>
         var playerPos = PlayerController.Instance.GetPosition();
         var playerSection = GetSection((int)playerPos.x, (int)playerPos.y);
 
-        // 삭제 대상 적 검색.
+        // Scan enemy.
         foreach (var pair in _enemyObjectDict)
         {
-            var position = pair.Value.GetComponent<EnemyPathfinding>().GetPosition();
+            var pathFinding = pair.Value.GetComponent<EnemyPathfinding>();
+            if (null == pathFinding)
+            {
+                continue;
+            }
+
+            var position = pathFinding.GetPosition();
             var enemySection = GetSection((int)position.x, (int)position.y);
 
-            // 인근 섹션이 아닌 경우, remove 대상 추가.
+            // Check around section.
             if (false == _sectionManagement.IsAroundSection(playerSection, enemySection))
             {
                 removeEnemies.Add(pair.Key);
@@ -120,13 +150,13 @@ public class EnemyManagement : Singleton<EnemyManagement>
             }
         }
 
-        // 적 삭제.
+        // Remove enemies.
         foreach (var enemyUid in removeEnemies)
         {
-            // 오브젝트 파괴.
+            // Destroy enemy.
             Destroy(_enemyObjectDict[enemyUid]);
 
-            // 리스트에서 적 삭제.
+            // Remove enemy.
             _enemyObjectDict.Remove(enemyUid);
         }
     }
@@ -138,16 +168,39 @@ public class EnemyManagement : Singleton<EnemyManagement>
     {
         foreach (var enemy in packetData.Enemies)
         {
-            // Enemy Uid 검사.
+            // Enemy Uid 占싯삼옙.
             if (false == _enemyObjectDict.TryGetValue(enemy.EnemeyUid, out var enemyObject))
             {
                 Debug.LogError($"No enemy. uid: {enemy.EnemeyUid}");
-                continue;
+                continue; 
             }
 
             // Udpate next position.
             var enemyPath = enemyObject.GetComponent<EnemyPathfinding>();
             enemyPath.MoveTo(enemy.Position.NextPos);
+        }
+    }
+
+    /// <summary>
+    /// Udpate hit enemies.
+    /// </summary>
+    private void UpdateHitEnemies(NetPacketSC_HitEnemy packet)
+    {
+        var srcPosition = new Vector3(packet.Position.X, packet.Position.Y);
+
+        // Check hit.
+        foreach (var enemy in packet.Enemies)
+        {
+            // Enemy Uid.
+            if (false == _enemyObjectDict.TryGetValue(enemy.EnemeyUid, out var enemyObject))
+            {
+                Debug.LogError($"No hit enemy. uid: {enemy.EnemeyUid}");
+                continue;
+            }
+
+            // Udpate hit.
+            var enemyPath = enemyObject.GetComponent<EnemyHealth>();
+            enemyPath.TakeDamage(packet.Damage, srcPosition);
         }
     }
 
@@ -202,7 +255,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
         // Set Enemy AI.
         var enemyAI = enemyObject.GetComponent<EnemyAI>();
-        enemyAI.Initialize_Spawn(tbEnemy.Attack, tbEnemy.AttackCooldown, enemy.Position.NextPos);
+        enemyAI.Initialize_Spawn(tbEnemy.Attack, tbEnemy.AttackCooldown);
 
         // Set Enemy path.
         var enemyPathfinding = enemyObject.GetComponent<EnemyPathfinding>();

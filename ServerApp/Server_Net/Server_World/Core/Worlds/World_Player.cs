@@ -2,6 +2,7 @@
 {
     using Framework.Core.Session;
     using GameCore.Datas.Play;
+    using Server_World.Core.Datas;
 
     /// <summary>
     /// World_Player.
@@ -17,5 +18,10 @@
         /// PlayInfo.
         /// </summary>
         public DTO_PlayInfo PlayInfo { get; set; }
+
+        /// <summary>
+        /// Collision box.
+        /// </summary>
+        public CollisionBox CollisionBox { get; set; }
     }
 }

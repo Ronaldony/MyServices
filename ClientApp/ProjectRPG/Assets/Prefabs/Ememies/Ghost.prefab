@@ -128,8 +128,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03893584, y: -0.0610646}
-  m_Size: {x: 0.90444386, y: 0.904444}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.8, y: 0.8}
   m_Direction: 0
 --- !u!50 &196109836902488972
 Rigidbody2D:
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81661b46dbe85ea4c86c742516832fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  _velocity: 1
 --- !u!114 &4962816003445954637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,9 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215b98a501887834487ccbe2fd1b8274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roamChangeDirFloat: 2
+  _enemyType: {fileID: 2516064442157720856}
   _attackRange: 0
-  _enemyType: {fileID: 0}
   _attackCooldown: 2
   _stopMovingWhileAttacking: 0
   _enemyId: 2
@@ -201,9 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02ea999a43a8f94ab7831774f08ab4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 3
-  deathVFXPrefab: {fileID: 7728350581625992223, guid: 5a9dca0e73758654da9c23fdc9ffd4b1, type: 3}
-  knockBackThrust: 10
+  _deathVFXPrefab: {fileID: 4377807823253097450, guid: 54661e1485a3376468e0f1ea28be50df, type: 3}
 --- !u!114 &7636745889458891279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b7314926cf67e46ac5a007b92a3422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBackTime: 0.2
 --- !u!114 &3679951922834852855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,8 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b858d55b93f0a3c4fbf79a9421e1a7a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteFlashMat: {fileID: 2100000, guid: 0154f1d6a696dc6428a89bb2c1a8a62d, type: 2}
-  restoreDefaultMatTime: 0.2
+  _whiteFlashMat: {fileID: 2100000, guid: 0154f1d6a696dc6428a89bb2c1a8a62d, type: 2}
+  _restoreDefaultMatTime: 0.2
 --- !u!114 &2980224103637563294
 MonoBehaviour:
   m_ObjectHideFlags: 0

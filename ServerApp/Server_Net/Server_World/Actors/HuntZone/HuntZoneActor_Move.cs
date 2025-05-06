@@ -145,8 +145,8 @@ namespace Server_World.Actors.HuntZone
                 // 새로운 섹션의 적, 플레이어 정보 저장.
                 foreach (var newSection in newAroundSections)
                 {
-                    var enemies = GetEnemies(newSection);
-                    var worldPlayers = GetWorldPlayers(newSection);
+                    var enemies = GetSectionEnemies(newSection);
+                    var worldPlayers = GetSectionPlayers(newSection);
                     
                     if (null != enemies) { packetUpdateSection.Enemies.AddRange(enemies); }
                     if (null != worldPlayers) { packetUpdateSection.PlayInfos.AddRange(worldPlayers?.Select(d => d.PlayInfo)); }

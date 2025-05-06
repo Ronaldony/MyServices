@@ -27,9 +27,7 @@
         public const int DASH_SPEED = 4;                    // 대시 속도.
         public const float DASH_ERROR = 1;                  // 대시 오차.
 
-        // Hitbox.
-        public const float HITBOX_LEFT = 0.33f;
-        public const float HITBOX_RIGHT = 0.33f;
-        public const float HITBOX_TOP = 0.86f;
+        // Hit.
+        public const int Hit_Delay_MS = 400;                // 히트 딜레이.
     }
 }

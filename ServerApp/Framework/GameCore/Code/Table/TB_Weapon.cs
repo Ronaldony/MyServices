@@ -16,7 +16,7 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        public int Attack { get; set; }
+        public int Damage { get; set; }
         /// <summary>
         /// 
         /// </summary>

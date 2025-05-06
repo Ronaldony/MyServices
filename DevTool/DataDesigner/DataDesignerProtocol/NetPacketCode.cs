@@ -37,6 +37,8 @@
         // 공격.
         public const int CS_Attack = 130;                   // 공격.
         public const int SC_Attack = 131;                   // 공격.
+        public const int CS_HitEnemy = 132;                 // Enemy 피격.
+        public const int SC_HitEnemy = 133;                 // Enemy 피격.
 
         // 섹션.
         public const int CS_UpdateSection = 140;            // 섹션 업데이트.
