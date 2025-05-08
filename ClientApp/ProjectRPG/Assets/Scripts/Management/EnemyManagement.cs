@@ -47,7 +47,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     void Update()
     {
         // Process alive enemy.
-        Proc_AliveEnemy();
+        Proc_DestroyEnemy();
 
         // Process update packet.
         Proc_UpdatePacket();
@@ -65,9 +65,9 @@ public class EnemyManagement : Singleton<EnemyManagement>
     }
 
     /// <summary>
-    /// Procewss alive enemy.
+    /// Procewss destroy enemy.
     /// </summary>
-    private void Proc_AliveEnemy()
+    private void Proc_DestroyEnemy()
     {
         while (_killedEnemyQ.TryDequeue(out var enemyUid))
         {

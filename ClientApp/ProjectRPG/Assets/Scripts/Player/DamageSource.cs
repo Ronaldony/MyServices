@@ -17,15 +17,4 @@ public class DamageSource : MonoBehaviour
         var enemyHealth = other.gameObject.GetComponent<EnemyHealth>();
         enemyHealth?.TakeDamage(damageAmount, PlayerController.Instance.transform.position);
     }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Debug.Log($"DamageSourfce OnTriggerStay2D.");
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Debug.Log($"DamageSourfce OnTriggerExit2D.");
-
-    }
 }

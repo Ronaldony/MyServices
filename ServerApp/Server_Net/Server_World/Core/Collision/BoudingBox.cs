@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Server_World.Core.Datas
+namespace Server_World.Core.Collision
 {
     /// <summary>
     /// BoudingBox.

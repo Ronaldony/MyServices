@@ -26,7 +26,9 @@ public class EnemyHealth : MonoBehaviour
     /// </summary>
     public void TakeDamage(int damage, Vector3 srcPosition)
     {
-        _health -= damage;
+        Debug.Log($"DetectDeath. health: {_health}");
+
+        //_health -= damage;
 
         // Knockback.
         //_knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
@@ -49,8 +51,6 @@ public class EnemyHealth : MonoBehaviour
     /// </summary>
     public void DetectDeath()
     {
-        Debug.Log($"DetectDeath. health: {_health}");
-
         // Detect death.
         if (_health <= 0)
         {

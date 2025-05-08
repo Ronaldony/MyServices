@@ -255,7 +255,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     MovePattern = updateMovePair.Key
                 };
 
-                _huntZoneActorProvider.Tell<WorldMsg_UpdateMovePattern>(msg);
+                //_huntZoneActorProvider.Tell<WorldMsg_UpdateMovePattern>(msg);
             }
             catch (Exception ex)
             {

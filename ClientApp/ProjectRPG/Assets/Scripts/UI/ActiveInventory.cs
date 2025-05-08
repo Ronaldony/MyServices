@@ -64,7 +64,6 @@ public class ActiveInventory : Singleton<ActiveInventory>
         Transform childTransform = transform.GetChild(_activeSlotIndexNum);
         InventorySlot slot = childTransform.GetComponentInChildren<InventorySlot>();
         WeaponInfo weaponInfo = slot.GetWeaponInfo();
-        GameObject weaponToSpawn = weaponInfo.weaponPrefab;
 
         // Check weapon.
         if (!weaponInfo)
@@ -84,6 +83,7 @@ public class ActiveInventory : Singleton<ActiveInventory>
         }
 
         // New weapon.
+        GameObject weaponToSpawn = weaponInfo.weaponPrefab;
         var newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform);
 
         ActiveWeapon.Instance.NewWeapon(newWeapon.GetComponent<MonoBehaviour>());

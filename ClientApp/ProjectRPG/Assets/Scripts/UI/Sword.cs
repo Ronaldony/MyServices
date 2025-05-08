@@ -46,6 +46,8 @@ public class Sword : MonoBehaviour, IWeapon
         Vector3 mousePos = Input.mousePosition;
         Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
         Vector2 angle = (mousePos - playerScreenPoint).normalized;
+
+        Debug.Log($"Attacl angle: {angle}");
         
         // Send Attack.
         _netPacketManager.Send<NetPacketCS_Attack>(

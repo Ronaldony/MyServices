@@ -5,7 +5,7 @@ namespace Server_World.Core.Services
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Server_World.Core.Datas;
+    using Server_World.Core.Collision;
     using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
@@ -51,10 +51,11 @@ namespace Server_World.Core.Services
             {
                 return null;
             }
+            
+            // Collision box.
+            var collisionBox = TakeCollisionBox(collisionType);
 
-            var collisionBox = _memoryPoolService.Rent<CollisionBox>();
-
-            collisionBox.Setup(tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
+            collisionBox.Setup(collisionType, tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
 
             return collisionBox;
         }
@@ -78,9 +79,10 @@ namespace Server_World.Core.Services
                 return null;
             }
 
-            var collisionBox = _memoryPoolService.Rent<CollisionBox>();
+            // Collision box.
+            var collisionBox = TakeCollisionBox(tbWeapon.CollisionType);
 
-            collisionBox.Setup(tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
+            collisionBox.Setup(tbWeapon.CollisionType, tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
 
             return collisionBox;
         }
@@ -90,7 +92,18 @@ namespace Server_World.Core.Services
         /// </summary>
         public void Release(CollisionBox collisionBox)
         {
-             _memoryPoolService.Release<CollisionBox>(collisionBox);
+            switch (collisionBox.CollisionType)
+            {
+                case Type_Collision.Player:
+                case Type_Collision.Enemy:
+                    _memoryPoolService.Release<UnitCollisionBox>(collisionBox as UnitCollisionBox);
+                    break;
+                case Type_Collision.Sword:
+                case Type_Collision.Arrow:
+                case Type_Collision.Rasor:
+                    _memoryPoolService.Release<SwordCollisionBox>(collisionBox as SwordCollisionBox);
+                    break;
+            }
         }
 
         /// <summary>
@@ -115,6 +128,31 @@ namespace Server_World.Core.Services
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Take collision box.
+        /// </summary>
+        private CollisionBox TakeCollisionBox(Type_Collision collisionType)
+        {
+            CollisionBox collisionBox;
+
+            switch (collisionType)
+            {
+                case Type_Collision.Player:
+                case Type_Collision.Enemy:
+                    collisionBox = _memoryPoolService.Rent<UnitCollisionBox>();
+                    break;
+                case Type_Collision.Sword:
+                case Type_Collision.Arrow:
+                case Type_Collision.Rasor:
+                    collisionBox = _memoryPoolService.Rent<SwordCollisionBox>();
+                    break;
+                default:
+                    return null;
+            }
+
+            return collisionBox;
         }
     }
 }

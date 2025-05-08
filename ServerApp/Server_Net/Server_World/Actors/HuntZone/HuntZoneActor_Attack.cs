@@ -6,7 +6,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
-    using Server_World.Core.Datas;
+    using Server_World.Core.Collision;
     using ServerEngine.Core.Util;
 
     /// <summary>
@@ -125,7 +125,7 @@ namespace Server_World.Actors.HuntZone
                     _logger.LogWarning($"Hit enemy. pos: {pos}, min: {targetBouding.Min}, max: {targetBouding.Max}");
 
                     hitEnemies.Add(enemy);
-                    enemy.Health -= damage;
+                    //enemy.Health -= damage;
 
                     if (enemy.Health <= 0)
                     {

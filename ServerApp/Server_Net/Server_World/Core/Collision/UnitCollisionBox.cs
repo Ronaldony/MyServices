@@ -1,21 +1,14 @@
-﻿using System.Numerics;
+﻿using GameCore;
+using System.Numerics;
 
-namespace Server_World.Core.Datas
+namespace Server_World.Core.Collision
 {
     /// <summary>
-    /// CollisionBox.
+    /// HitCollisionBox.
     /// </summary>
-    public class CollisionBox
+    public class UnitCollisionBox : CollisionBox
     {
-        // 충돌 너비 및 높이.
-        private float _halfWidth, _halfHeight;
-
-        // 충돌 위치 오프셋. (객체 위치로 부터의 거리)
-        private float _offsetX, _offsetY;
-
-        private BoudingBox _boudingBox;
-
-        public CollisionBox()
+        public UnitCollisionBox()
         {
             _boudingBox = new BoudingBox();
         }
@@ -23,10 +16,11 @@ namespace Server_World.Core.Datas
         /// <summary>
         /// 충돌 관련 값 셋업.
         /// </summary>
-        public void Setup(float width, float height, float offsetX, float offsetY)
+        public override void Setup(Type_Collision collisionType, float width, float height, float offsetX, float offsetY)
         {
-            _halfWidth = width / 2;
-            _halfHeight = height / 2;
+            _collisionType = collisionType;
+            _width = width / 2;
+            _height = height / 2;
             _offsetX = offsetX;
             _offsetY = offsetY;
         }
@@ -37,7 +31,7 @@ namespace Server_World.Core.Datas
         /// <param name="x">객체 좌표 x</param>
         /// <param name="y">객체 좌표 y</param>
         /// <param name="angle">회전 축</param>
-        public BoudingBox GetBoudingBox(float x, float y, Vector2 angle)
+        public override BoudingBox GetBoudingBox(float x, float y, Vector2 angle)
         {
             var min = new Vector2();
             var max = new Vector2();
@@ -47,20 +41,20 @@ namespace Server_World.Core.Datas
             {
                 // 왼쪽.
                 // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-                min.X = x - _offsetX - _halfWidth;
-                max.X = x - _offsetX + _halfWidth;
+                min.X = x - (_offsetX + _width);
+                max.X = x - _offsetX + _width;
             }
             else
             {
                 // 오른쪽.
                 // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-                min.X = x + _offsetX - _halfWidth;
-                max.X = x + _offsetX + _halfWidth;
+                min.X = x + _offsetX - _width;
+                max.X = x + _offsetX + _width;
             }
 
             // 최댓값 = 현재 좌표 + offset + 충돌 범위.
-            min.Y = y + _offsetY - _halfHeight;
-            max.Y = y + _offsetY + _halfHeight;
+            min.Y = y + _offsetY - _height;
+            max.Y = y + _offsetY + _height;
 
             _boudingBox.Min = min;
             _boudingBox.Max = max;
@@ -73,18 +67,18 @@ namespace Server_World.Core.Datas
         /// </summary>c
         /// <param name="x">객체 좌표 x</param>
         /// <param name="y">객체 좌표 y</param>
-        public BoudingBox GetBoudingBox(float x, float y)
+        public override BoudingBox GetBoudingBox(float x, float y)
         {
             var min = new Vector2();
             var max = new Vector2();
 
             // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-            min.X = x + _offsetX - _halfWidth;
-            min.Y = y + _offsetY - _halfHeight;
+            min.X = x + _offsetX - _width;
+            min.Y = y + _offsetY - _height;
 
             // 최댓값 = 현재 좌표 + offset + 충돌 범위.
-            max.X = x + _offsetX + _halfWidth;
-            max.Y = y + _offsetY + _halfHeight;
+            max.X = x + _offsetX + _width;
+            max.Y = y + _offsetY + _height;
 
             _boudingBox.Min = min;
             _boudingBox.Max = max;
