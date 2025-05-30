@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using ServerEngine.Core.Util;
 using System.Numerics;
 
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.NetPacket;
+    using ServerEngine.Core.Util;
 
     /// <summary>
     /// HuntZoneActor.
@@ -173,56 +173,56 @@ namespace Server_World.Actors.HuntZone
             {
                 case Type_MoveDirection.Top:
                     {
-                        var distErrorRange = diffSeconds * (velocity + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // Y 좌표 검사.
                         if (endPos.Y > lastPos.Y + distErrorRange) { return false; }
 
                         // X 좌표 검사.
-                        if (endPos.X > lastPos.X + GameData.MOVENT_ERROR) { return false; }
-                        if (endPos.X + GameData.MOVENT_ERROR < lastPos.X) { return false; }
+                        if (endPos.X > lastPos.X + GameData.MOVEMENT_ERROR) { return false; }
+                        if (endPos.X + GameData.MOVEMENT_ERROR < lastPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Down:
                     {
-                        var distErrorRange = diffSeconds * (velocity + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // Y 좌표 검사.
                         if (endPos.Y + distErrorRange < lastPos.Y) { return false; }
 
                         // X 좌표 검사.
-                        if (endPos.X > lastPos.X + GameData.MOVENT_ERROR) { return false; }
-                        if (endPos.X + GameData.MOVENT_ERROR < lastPos.X) { return false; }
+                        if (endPos.X > lastPos.X + GameData.MOVEMENT_ERROR) { return false; }
+                        if (endPos.X + GameData.MOVEMENT_ERROR < lastPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Right:
                     {
-                        var distErrorRange = diffSeconds * (velocity + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X > lastPos.X + distErrorRange) { return false; }
 
                         // Y 좌표 검사.
-                        if (endPos.Y > lastPos.Y + GameData.MOVENT_ERROR) { return false; }
-                        if (endPos.Y + GameData.MOVENT_ERROR < lastPos.Y) { return false; }
+                        if (endPos.Y > lastPos.Y + GameData.MOVEMENT_ERROR) { return false; }
+                        if (endPos.Y + GameData.MOVEMENT_ERROR < lastPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Left:
                     {
-                        var distErrorRange = diffSeconds * (velocity + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X + distErrorRange < lastPos.X) { return false; }
 
                         // Y 좌표 검사.
-                        if (endPos.Y > lastPos.Y + GameData.MOVENT_ERROR) { return false; }
-                        if (endPos.Y + GameData.MOVENT_ERROR < lastPos.Y) { return false; }
+                        if (endPos.Y > lastPos.Y + GameData.MOVEMENT_ERROR) { return false; }
+                        if (endPos.Y + GameData.MOVEMENT_ERROR < lastPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.RightTop:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X > lastPos.X + distErrorRange) { return false; }
@@ -234,7 +234,7 @@ namespace Server_World.Actors.HuntZone
                 case Type_MoveDirection.LeftTop:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X + distErrorRange < lastPos.X) { return false; }
@@ -246,7 +246,7 @@ namespace Server_World.Actors.HuntZone
                 case Type_MoveDirection.RightDown:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X > lastPos.X + distErrorRange) { return false; }
@@ -258,7 +258,7 @@ namespace Server_World.Actors.HuntZone
                 case Type_MoveDirection.LeftDown:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X + distErrorRange < lastPos.X) { return false; }

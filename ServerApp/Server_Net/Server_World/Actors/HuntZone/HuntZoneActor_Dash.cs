@@ -68,8 +68,8 @@ namespace Server_World.Actors.HuntZone
                         if (dashedPos.Y > playerPos.Y + caclDist) { return false; }
 
                         // X 좌표 검사.
-                        if (dashedPos.X > playerPos.X + GameData.MOVENT_ERROR) { return false; }
-                        if (dashedPos.X + GameData.MOVENT_ERROR < playerPos.X) { return false; }
+                        if (dashedPos.X > playerPos.X + GameData.MOVEMENT_ERROR) { return false; }
+                        if (dashedPos.X + GameData.MOVEMENT_ERROR < playerPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Down:
@@ -80,8 +80,8 @@ namespace Server_World.Actors.HuntZone
                         if (dashedPos.Y + caclDist < playerPos.Y) { return false; }
 
                         // X 좌표 검사.
-                        if (dashedPos.X > playerPos.X + GameData.MOVENT_ERROR) { return false; }
-                        if (dashedPos.X + GameData.MOVENT_ERROR < playerPos.X) { return false; }
+                        if (dashedPos.X > playerPos.X + GameData.MOVEMENT_ERROR) { return false; }
+                        if (dashedPos.X + GameData.MOVEMENT_ERROR < playerPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Right:
@@ -92,8 +92,8 @@ namespace Server_World.Actors.HuntZone
                         if (dashedPos.X > playerPos.X + caclDist) { return false; }
 
                         // Y 좌표 검사.
-                        if (dashedPos.Y > playerPos.Y + GameData.MOVENT_ERROR) { return false; }
-                        if (dashedPos.Y + GameData.MOVENT_ERROR < playerPos.Y) { return false; }
+                        if (dashedPos.Y > playerPos.Y + GameData.MOVEMENT_ERROR) { return false; }
+                        if (dashedPos.Y + GameData.MOVEMENT_ERROR < playerPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Left:
@@ -104,8 +104,8 @@ namespace Server_World.Actors.HuntZone
                         if (dashedPos.X + caclDist < playerPos.X) { return false; }
 
                         // Y 좌표 검사.
-                        if (dashedPos.Y > playerPos.Y + GameData.MOVENT_ERROR) { return false; }
-                        if (dashedPos.Y + GameData.MOVENT_ERROR < playerPos.Y) { return false; }
+                        if (dashedPos.Y > playerPos.Y + GameData.MOVEMENT_ERROR) { return false; }
+                        if (dashedPos.Y + GameData.MOVEMENT_ERROR < playerPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.RightTop:

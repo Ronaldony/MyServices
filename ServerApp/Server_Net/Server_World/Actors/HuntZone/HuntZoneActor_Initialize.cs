@@ -50,11 +50,7 @@ namespace Server_World.Actors.HuntZone
                     sectionPlayerDict.Add(section, new ConcurrentDictionary<string, World_Player>());
                     sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, DTO_Enemy>());
                     aroundSessionDict.Add(section, new List<(int, int)>());
-                    sectionDict.Add(section, new Section
-                    {
-                        X = sectionX,
-                        Y = sectionY,
-                    });
+                    sectionDict.Add(section, new Section(sectionX, sectionY));
                 }
             }
 

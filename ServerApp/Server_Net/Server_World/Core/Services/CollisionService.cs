@@ -114,7 +114,7 @@ namespace Server_World.Core.Services
             // 가로 충돌.
             // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
             // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
-            if (src.Min.X > dst.Max.X || src.Max.X < dst.Min.X)
+            if (src.MinX > dst.MaxX || src.MaxX < dst.MinX)
             {
                 return false;
             }
@@ -122,7 +122,7 @@ namespace Server_World.Core.Services
             // 세로 충돌.
             // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
             // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
-            if (src.Min.Y > dst.Max.Y && src.Max.Y < dst.Min.Y)
+            if (src.MinY > dst.MaxY && src.MaxY < dst.MinY)
             {
                 return false;
             }

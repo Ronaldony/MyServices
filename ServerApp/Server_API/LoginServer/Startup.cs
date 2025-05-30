@@ -1,4 +1,7 @@
 ﻿using NLog.Extensions.Logging;
+using ServerEngine.Core.Services;
+using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.GeoIP;
 using System.Net;
 
 namespace LoginServer
@@ -11,10 +14,6 @@ namespace LoginServer
     using Framework.WebAPI.Controllers;
     using GameCore;
     using GameCore.Interfaces;
-    using Google.Api;
-    using ServerEngine.Core.Services;
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.GeoIP;
 
     public class Startup
     {

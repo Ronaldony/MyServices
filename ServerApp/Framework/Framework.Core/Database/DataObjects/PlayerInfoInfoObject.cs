@@ -1,9 +1,10 @@
-﻿namespace Framework.Core.Database.DataObject
+﻿using ServerEngine.Database.DataObject;
+
+namespace Framework.Core.Database.DataObject
 {
+    using Framework.Config.ConfigManager;
     using Framework.Core.Database.Attributes;
     using GameCore.Datas.Player;
-    using ServerEngine.Config.ConfigManager;
-    using ServerEngine.Database.DataObject;
 
     /// <summary>
     /// SessionInfoObject.

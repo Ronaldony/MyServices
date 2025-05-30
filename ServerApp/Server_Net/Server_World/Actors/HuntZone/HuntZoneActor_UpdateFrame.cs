@@ -6,6 +6,7 @@ namespace Server_World.Actors.HuntZone
     using Framework.Core.Session;
     using GameCore;
     using GameCore.NetPacket;
+    using Microsoft.Extensions.Logging;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -39,6 +40,10 @@ namespace Server_World.Actors.HuntZone
                 // 섹션의 적, 플레이어 데이터 가져오기.
                 var section = pair.Key;
                 var players = pair.Value;
+
+                ///////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////////////////////
+                /// 이동 처리.
 
                 // 플레이어 이동 처리.
                 foreach (var worldPlayer in players.Values)
@@ -206,7 +211,7 @@ namespace Server_World.Actors.HuntZone
 
             // 섹션 업데이트 패킷 전송.
             var sendPacket = new NetPacketSC_UpdateSection();
-
+            
             foreach (var pair in sessionDict)
             {
                 sendPacket.Enemies = pair.Value.Enemies;

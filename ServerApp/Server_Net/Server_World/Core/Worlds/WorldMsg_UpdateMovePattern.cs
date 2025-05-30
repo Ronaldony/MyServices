@@ -1,4 +1,6 @@
 ﻿
+using System.Numerics;
+
 namespace Server_World.Core.Worlds
 {
     using GameCore;
@@ -12,5 +14,10 @@ namespace Server_World.Core.Worlds
         /// MovePattern.
         /// </summary>
         public Type_MovePattern MovePattern { get; set; }
+
+        /// <summary>
+        /// Move position.
+        /// </summary>
+        public Vector2 MovePos { get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace Server_World.Actors.HuntZone
         private readonly Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<ulong, DTO_Enemy>> _sectionEnemyDict;
 
         /// <summary>
-        /// 근처 섹션 정보.
+        /// 근처 섹션 정보. 
         /// key: Section.
         /// value: Around sections.
         /// </summary>
@@ -91,7 +91,7 @@ namespace Server_World.Actors.HuntZone
 
             ///////////////////////////////// Receive.
 
-            // Spanw.
+            // Spawn.
             Receive<World_Player>(player => SpawnPlayer(player));
             Receive<WorldMsg_SpawnEnemy>(msg => SpawnEnemy(msg));
 

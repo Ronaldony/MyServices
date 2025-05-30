@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class SectionManagement : Singleton<SectionManagement>
 {
     /// <summary>
-    /// 근처 섹션 정보.
+    /// Around session dictionary.
     /// key: Section.
     /// value: Around sections.
     /// </summary>
@@ -12,12 +12,8 @@ public class SectionManagement : Singleton<SectionManagement>
 
     private void Start()
     {
-        // 지역 정보 불러오기.
         var confArea = TDBManagement.Instance.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
 
-        // 지역 좌표를 계산하여 섹션 분리.
-
-        // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
         var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;
         var sectionMaxX = confArea.MaxX / GameData.SECTION_WIDTH;
 
@@ -26,7 +22,6 @@ public class SectionManagement : Singleton<SectionManagement>
 
         _aroundSessionDict = new Dictionary<(int sectionX, int sectionY), HashSet<(int, int)>>();
 
-        // 가로, 세로 섹션 저장.
         for (var sectionX = sectionMinX; sectionX <= sectionMaxX; ++sectionX)
         {
             for (var sectionY = sectionMinY; sectionY <= sectionMaxY; ++sectionY)
@@ -37,7 +32,7 @@ public class SectionManagement : Singleton<SectionManagement>
             }
         }
 
-        // 근처 섹션 계산.
+        // 占쏙옙처 占쏙옙占쏙옙 占쏙옙占�.
         foreach (var pair in _aroundSessionDict)
         {
             var aroundSections = pair.Value;
@@ -54,11 +49,11 @@ public class SectionManagement : Singleton<SectionManagement>
     }
 
     /// <summary>
-    /// 두 섹션이 인근 섹션인지 검사.
+    /// Check two section are around.
     /// </summary>
-    /// <param name="target">비교 대상 섹션</param>
-    /// <param name="comparer">확인 대상 섹션</param>
-    /// <returns>true: comparer가 target의 인근 섹션. false: comparer는 target의 인근 섹션이 아님</returns>
+    /// <param name="target">Target section</param>
+    /// <param name="comparer">Comparer section</param>
+    /// <returns>true: comparer is around to target. false: comparer is not around to target</returns>
     public bool IsAroundSection((int sectionX, int sectionY) target, (int sectionX, int sectionY) comparer)
     {
         // Comparer.
@@ -83,7 +78,7 @@ public class SectionManagement : Singleton<SectionManagement>
     {
         var aroundSections = new List<(int, int)>();
 
-        // 현재 섹션 추가.
+        // 占쏙옙占쏙옙 占쏙옙占쏙옙 占쌩곤옙.
         aroundSections.Add((sectionX, sectionY));
 
         ///////////////////////////////////////////////////////////////////
@@ -92,7 +87,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var topSection = (sectionX, sectionY + 1);
         if (topSection.Item2 <= sectionMaxY)
         {
-            // 최대 Y 섹션 이하인 경우.
             aroundSections.Add(topSection);
         }
 
@@ -100,7 +94,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var downSection = (sectionX, sectionY - 1);
         if (downSection.Item2 >= sectionMinY)
         {
-            // 최소 Y 섹션 이상인 경우.
             aroundSections.Add(downSection);
         }
 
@@ -108,7 +101,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftSection = (sectionX - 1, sectionY);
         if (leftSection.Item1 >= sectionMinX)
         {
-            // 최소 X 섹션 이상인 경우.
             aroundSections.Add(leftSection);
         }
 
@@ -116,7 +108,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightSection = (sectionX + 1, sectionY);
         if (rightSection.Item1 <= sectionMaxX)
         {
-            // 최대 X 섹션 이하인 경우.
             aroundSections.Add(rightSection);
         }
 
@@ -126,7 +117,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftTopSection = (sectionX - 1, sectionY + 1);
         if (leftTopSection.Item1 >= sectionMinX && leftTopSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftTopSection);
         }
 
@@ -134,7 +124,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftDownSection = (sectionX - 1, sectionY - 1);
         if (leftDownSection.Item1 >= sectionMinX && leftDownSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최소 Y 섹션 이상인 경우.
             aroundSections.Add(leftDownSection);
         }
 
@@ -142,7 +131,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightTopSection = (sectionX + 1, sectionY + 1);
         if (rightTopSection.Item1 <= sectionMaxX && rightTopSection.Item2 <= sectionMaxY)
         {
-            // 최대 X 섹션 이하, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightTopSection);
         }
 
@@ -150,7 +138,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightDownSection = (sectionX + 1, sectionY - 1);
         if (rightDownSection.Item1 <= sectionMaxX && rightDownSection.Item2 >= sectionMinY)
         {
-            // 최대 X 섹션 이하, 최소 Y 섹션 이상인 경우.
             aroundSections.Add(rightDownSection);
         }
 
@@ -160,7 +147,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftTopEdgeSection = (sectionX - 2, sectionY + 2);
         if (leftTopEdgeSection.Item1 >= sectionMinX && leftTopEdgeSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftTopEdgeSection);
         }
 
@@ -168,7 +154,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftTopTopSection = (sectionX - 1, sectionY + 2);
         if (leftTopTopSection.Item1 >= sectionMinX && leftTopTopSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftTopTopSection);
         }
 
@@ -176,7 +161,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var topTopSection = (sectionX, sectionY + 2);
         if (topTopSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(topTopSection);
         }
 
@@ -184,7 +168,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightTopTopSection = (sectionX + 1, sectionY + 2);
         if (rightTopTopSection.Item1 <= sectionMaxX && rightTopTopSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightTopTopSection);
         }
 
@@ -192,7 +175,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightTopEdgeSection = (sectionX + 2, sectionY + 2);
         if (rightTopEdgeSection.Item1 <= sectionMaxX && rightTopEdgeSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightTopEdgeSection);
         }
 
@@ -200,7 +182,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightRightTopSection = (sectionX + 2, sectionY + 1);
         if (rightRightTopSection.Item1 <= sectionMaxX && rightRightTopSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightRightTopSection);
         }
 
@@ -208,7 +189,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightRightSection = (sectionX + 2, sectionY);
         if (rightRightSection.Item1 <= sectionMaxX)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightRightSection);
         }
 
@@ -216,7 +196,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightRightDownSection = (sectionX + 2, sectionY - 1);
         if (rightRightDownSection.Item1 <= sectionMaxX && rightRightDownSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightRightDownSection);
         }
 
@@ -224,7 +203,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftLeftTopSection = (sectionX - 2, sectionY + 1);
         if (leftLeftTopSection.Item1 >= sectionMinX && leftLeftTopSection.Item2 <= sectionMaxY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftLeftTopSection);
         }
 
@@ -232,7 +210,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftLeftSection = (sectionX - 2, sectionY);
         if (leftLeftSection.Item1 >= sectionMinX)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftLeftSection);
         }
 
@@ -240,7 +217,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftLeftDownSection = (sectionX - 2, sectionY - 1);
         if (leftLeftDownSection.Item1 >= sectionMinX && leftLeftDownSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftLeftDownSection);
         }
 
@@ -248,7 +224,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftDownEdgeSection = (sectionX - 2, sectionY - 2);
         if (leftDownEdgeSection.Item1 >= sectionMinX && leftDownEdgeSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftDownEdgeSection);
         }
 
@@ -256,7 +231,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var leftDownDownSection = (sectionX - 1, sectionY - 2);
         if (leftDownDownSection.Item1 >= sectionMinX && leftDownDownSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(leftDownDownSection);
         }
 
@@ -264,7 +238,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var downDownSection = (sectionX , sectionY - 2);
         if (downDownSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(downDownSection);
         }
 
@@ -272,7 +245,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightDownDownSection = (sectionX + 1, sectionY - 2);
         if (rightDownDownSection.Item1 <= sectionMaxX && rightDownDownSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightDownDownSection);
         }
 
@@ -280,7 +252,6 @@ public class SectionManagement : Singleton<SectionManagement>
         var rightDownEdgeSection = (sectionX + 2, sectionY - 2);
         if (rightDownEdgeSection.Item1 <= sectionMaxX && rightDownEdgeSection.Item2 >= sectionMinY)
         {
-            // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
             aroundSections.Add(rightDownEdgeSection);
         }
 

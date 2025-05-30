@@ -5,8 +5,8 @@ using System.Data;
 
 namespace Framework.Core.Database.DAO
 {
+    using Framework.Config.ConfigManager;
     using Framework.Core.Database.DBO;
-    using ServerEngine.Config.ConfigManager;
 
     /// <summary>
     /// DBPlayerData.

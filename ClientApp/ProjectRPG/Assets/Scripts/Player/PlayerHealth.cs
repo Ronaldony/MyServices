@@ -86,7 +86,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     {
         if (currentHealth <= 0)
         {
-            // �÷��̾� ���.
+            // Process death.
             isDead = true;
             Destroy(ActiveWeapon.Instance.gameObject);
 
@@ -100,7 +100,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     {
         yield return new WaitForSeconds(2f);
 
-        // �÷��̾� ������Ʈ �ı� ��, ������ ���� �̵�.
+        // Respawn player.
         Destroy(gameObject);
         SceneManager.LoadScene(TOWN_TEXT);
     }

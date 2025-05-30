@@ -6,7 +6,8 @@
     public static class GameData
     {
         // 이동.
-        public const double MOVENT_ERROR = 0.45;            // 초당 이동 오차 범위.
+        public const double MOVEMENT_ERROR = 0.45;          // 초당 이동 오차 범위.
+        public const int MOVEMENT_RANGE_LIMIT = 5;          // 이동 범위 제한.
 
         // 섹션.
         public const int SECTION_WIDTH = 7;                 // 섹션 가로 길이.
@@ -28,6 +29,6 @@
         public const float DASH_ERROR = 1;                  // 대시 오차.
 
         // Hit.
-        public const int Hit_Delay_MS = 400;                // 히트 딜레이.
+        public const int HIT_DELAY_MS = 400;                // 히트 딜레이.
     }
 }

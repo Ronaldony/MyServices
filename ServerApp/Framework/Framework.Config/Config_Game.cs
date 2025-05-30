@@ -1,6 +1,7 @@
-﻿using ServerEngine.Config.Database;
+﻿
+using ServerEngine.Config.Database;
 
-namespace ServerEngine.Config
+namespace Framework.Config
 {
     /// <summary>
     /// Configuration for Game server.

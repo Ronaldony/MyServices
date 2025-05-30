@@ -2,18 +2,18 @@
 namespace ServerEngine.Test.Database.DataObject
 {
     using GameCore.Datas.Player;
-    using ServerEngine.Config.ConfigManager;
+    using ServerEngine.Config.Database;
     using ServerEngine.Database.DataObject;
 
     public class PlayerInfoObejct : DataObject_Couchbase
     {
         private readonly ILogger<PlayerInfoObejct> _logger;
 
-        public PlayerInfoObejct(IServiceProvider serviceProvider)
+        public PlayerInfoObejct(IServiceProvider serviceProvider, Config_Couchbase configCouchbase, Config_CouchbaseConnection connection)
             : base(
                   serviceProvider,
-                  configCouchbase: GameConfigManager._configGame.Couchbase,
-                  connection: GameConfigManager.GetCouchbaseConnection("PlayerInfo")
+                  configCouchbase: configCouchbase,
+                  connection: connection
                   )
         {
             _logger = serviceProvider.GetRequiredService<ILogger<PlayerInfoObejct>>();

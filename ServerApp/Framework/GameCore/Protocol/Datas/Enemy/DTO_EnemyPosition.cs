@@ -14,9 +14,6 @@ namespace GameCore.Datas.Enemy
     {
         public DTO_EnemyPosition()
         {
-            Pos = new Vector2();
-            NextPos = new Vector2();
-            RoamingPos = new List<Vector2>();
         }
 
         /// <summary>
@@ -26,33 +23,33 @@ namespace GameCore.Datas.Enemy
         public int Veltocity { get; set; }
 
         /// <summary>
-        /// 현재 위치.
+        /// 스폰 위치.
         /// </summary>
         [MemoryPackOrder(1)]
+        public Vector2 SpawnPos { get; set; }
+
+        /// <summary>
+        /// 현재 위치.
+        /// </summary>
+        [MemoryPackOrder(2)]
         public Vector2 Pos { get; set; }
 
         /// <summary>
         /// 다음 이동 위치.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(3)]
         public Vector2 NextPos { get; set; }
 
         /// <summary>
         /// 다음 이동 위치 방향.
         /// </summary>
-        [MemoryPackOrder(3)]
-        public Vector2 NextPosDir { get; set; }
-
-        /// <summary>
-        /// 로밍 위치.
-        /// </summary>
         [MemoryPackOrder(4)]
-        public List<Vector2> RoamingPos { get; set; }
+        public Vector2 NextPosDir { get; set; }
 
         /// <summary>
         /// 이동 패턴.
         /// </summary>
-        [MemoryPackOrder(5)]
+        [MemoryPackOrder(6)]
         public Type_MovePattern MovePattern { get; set; }
     }
 }

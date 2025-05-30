@@ -17,10 +17,6 @@ public class EnemyHealth : MonoBehaviour
         _knockback = GetComponent<Knockback>();
     }
 
-    private void Start()
-    {
-    }
-
     /// <summary>
     /// Take damage.
     /// </summary>
@@ -28,10 +24,10 @@ public class EnemyHealth : MonoBehaviour
     {
         Debug.Log($"DetectDeath. health: {_health}");
 
-        //_health -= damage;
+        _health -= damage;
 
         // Knockback.
-        //_knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
+        _knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
 
         StartCoroutine(_flash.FlashRoutine());
         StartCoroutine(CheckDetectDeathRoutine());
@@ -54,16 +50,16 @@ public class EnemyHealth : MonoBehaviour
         // Detect death.
         if (_health <= 0)
         {
-            // ���� ����Ʈ ����.
+            // Create VFX for death.
             Instantiate(_deathVFXPrefab, transform.position, Quaternion.identity);
 
-            // ��� ������.
+            // Drop item.
             GetComponent<PickUpSpawner>().DropItems();
 
-            // �� ������Ʈ �ı�.
+            // Destroy.
             Destroy(gameObject);
 
-            // EnemyManagement�� ���� �� ����.
+            // Kill enemy.
             EnemyManagement.Instance.KillEnemy(_enemyUid);
         }
     }

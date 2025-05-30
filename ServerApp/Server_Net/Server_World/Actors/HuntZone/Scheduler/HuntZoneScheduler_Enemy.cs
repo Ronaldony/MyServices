@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PowerArgs;
+using Server_World.Core.Worlds;
+using ServerEngine.Core.Util;
 using System.Numerics;
 using System.Timers;
 
 namespace Server_World.Actors.HuntZone.Scheduler
 {
+    using Framework.Config.ConfigManager;
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
-    using Server_World.Core.Worlds;
-    using ServerEngine.Config.ConfigManager;
-    using ServerEngine.Core.Util;
 
     /// <summary>
     /// HuntZoneScheduler_Enemy.
@@ -145,14 +145,10 @@ namespace Server_World.Actors.HuntZone.Scheduler
             {
                 _logger.LogInformation("Elapse HuntZoneScheduler_Enemy.");
 
-                // Setup pattern.
-                var pattern = _movePatterns.OrderBy(d => new Guid()).First();
-
                 // Create spawn enemy message.
                 var spawnMsg = new WorldMsg_SpawnEnemy();
                 spawnMsg.Enemies = new Dictionary<(int sectionX, int sectionY), List<DTO_Enemy>>();
 
-                //var enemy = _tbEnemies.First();
                 foreach (var enemy in _tbEnemies)
                 {
                     // 적 생성.
@@ -168,7 +164,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     var position = dtoEnemy.Position;
 
                     position.Veltocity = enemy.MoveSpeed;
-                    position.MovePattern = pattern;
+                    position.MovePattern = _movePatterns.OrderBy(d => new Guid()).First();
 
                     // Generate random section.
                     var x = _randomSection.Next(_confArea.MinX, _confArea.MaxX);
@@ -177,18 +173,14 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     _logger.LogDebug($"Spawn enemy. pos: ({x}, {y})");
 
                     // Spawn pos.
-                    position.Pos = new Vector2(x, y);
+                    position.SpawnPos = new Vector2(x, y);
+                    position.Pos = position.SpawnPos;
 
                     // Next pos.
-                    position.NextPos = new Vector2(position.Pos.X + _randomSection.Next(-3, 3), position.Pos.Y + _randomSection.Next(-3, 3));
+                    position.NextPos = position.SpawnPos;
 
                     // Set direction.
-                    position.NextPosDir = Vector2.Normalize(position.NextPos - position.Pos);
-
-                    // 로밍 위치 개수가 3개 이하인 경우 3개 생성.
-                    position.RoamingPos.Add(position.Pos);
-                    position.RoamingPos.Add(position.NextPos);
-                    position.RoamingPos.Add(new Vector2(position.Pos.X + _randomSection.Next(-3, 3), position.Pos.Y + _randomSection.Next(-3, 3)));
+                    position.NextPosDir = new Vector2();
 
                     // Get section.
                     var section = (x / GameData.SECTION_WIDTH, y / GameData.SECTION_HEIGHT);
@@ -250,12 +242,19 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 _moveUpdateTimeDict[updateMovePair.Key] = nowTime;
 
                 // 메시지.
+                var randomX = Random.Shared.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT);
+                var randomY = Random.Shared.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT);
+
+                var movePos = new Vector2(randomX, randomY);
+                _logger.LogDebug($"pattern: {updateMovePair.Key}, movePos: {movePos}");
+
                 var msg = new WorldMsg_UpdateMovePattern
                 {
-                    MovePattern = updateMovePair.Key
+                    MovePattern = updateMovePair.Key,
+                    MovePos = movePos,
                 };
 
-                //_huntZoneActorProvider.Tell<WorldMsg_UpdateMovePattern>(msg);
+                _huntZoneActorProvider.Tell<WorldMsg_UpdateMovePattern>(msg);
             }
             catch (Exception ex)
             {

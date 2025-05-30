@@ -61,8 +61,6 @@ namespace Server_World.Actors.HuntZone
             var weaponCollision = _collisionService.Rent_Weapon(playerInfo.Equipment.Weapon);
             var weaponBounding = weaponCollision.GetBoudingBox(playerPos.X, playerPos.Y, packet.Angle);
 
-            _logger.LogDebug($"Player weapon collision. anle: {packet.Angle}, min: {weaponBounding.Min}, max: {weaponBounding.Max}");
-
             // 근처 섹션 enemy 충돌 검사.
             var hitEnemies = new List<DTO_Enemy>();
             var aroundSections = GetAroundSections(section);
@@ -109,7 +107,7 @@ namespace Server_World.Actors.HuntZone
             foreach (var enemy in enemies)
             {
                 // 피격 딜레이 계산.
-                if (false == TimeUtil.IsPastTime(enemy.HitTime.AddMilliseconds(GameData.Hit_Delay_MS), hitTime))
+                if (false == TimeUtil.IsPastTime(enemy.HitTime.AddMilliseconds(GameData.HIT_DELAY_MS), hitTime))
                 {
                     continue;
                 }
@@ -122,10 +120,10 @@ namespace Server_World.Actors.HuntZone
                 // 충돌 판정.
                 if (true == _collisionService.CollidesWith(weaponBouding, targetBouding))
                 {
-                    _logger.LogWarning($"Hit enemy. pos: {pos}, min: {targetBouding.Min}, max: {targetBouding.Max}");
+                    _logger.LogWarning($"Hit enemy. pos: {pos}, min: ({targetBouding.MinX}, {targetBouding.MinY}), max: ({targetBouding.MaxX}, {targetBouding.MaxY})");
 
                     hitEnemies.Add(enemy);
-                    //enemy.Health -= damage;
+                    enemy.Health -= damage;
 
                     if (enemy.Health <= 0)
                     {

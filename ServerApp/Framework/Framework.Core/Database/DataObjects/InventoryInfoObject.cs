@@ -1,8 +1,8 @@
 ﻿namespace Framework.Core.Database.DataObject
 {
+    using Framework.Config.ConfigManager;
     using Framework.Core.Database.Attributes;
     using GameCore.Datas.Inventory;
-    using ServerEngine.Config.ConfigManager;
     using ServerEngine.Database.DataObject;
 
     /// <summary>

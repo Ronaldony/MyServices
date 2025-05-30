@@ -1,7 +1,6 @@
 ﻿
-namespace ServerEngine.Config.ConfigManager
+namespace Framework.Config.ConfigManager
 {
-    using ServerEngine.Config;
     using ServerEngine.Config.Database;
 
     /// <summary>
@@ -33,7 +32,7 @@ namespace ServerEngine.Config.ConfigManager
         /// </summary>
         public static bool Initialize(
             Config_Game consulGame, 
-            List<Config_MySQLConnection> mysqlConnections, 
+            List<Config_MySQLConnection> mysqlConnections,
             List<Config_CouchbaseConnection> couchbaseConnections)
         {
             // ConsuleGame.

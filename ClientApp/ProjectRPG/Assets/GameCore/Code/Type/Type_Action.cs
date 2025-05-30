@@ -9,14 +9,10 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Moving = 1,
+        Move = 1,
         /// <summary>
         /// 
         /// </summary>
-        Attack = 2,
-        /// <summary>
-        /// 
-        /// </summary>
-        Dash = 3
+        Track = 2
     }
 }

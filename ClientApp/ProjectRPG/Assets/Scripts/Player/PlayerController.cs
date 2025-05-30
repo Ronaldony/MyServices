@@ -159,7 +159,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void BeforeMove()
     {
-        // �̵� ���� Ȯ��.
+        // Get move direction.
         var moveDirection = GetMoveDirection(_movement.normalized);
 
         // �̵� ���� �˻�.

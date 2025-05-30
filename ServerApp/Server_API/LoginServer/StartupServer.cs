@@ -1,21 +1,19 @@
 ﻿
 //#define TEST_LOCAL
 
-    using System.Reflection;
 using Dapper;
+using Dapper.ColumnMapper;
+using ServerEngine.Config.Database;
+using ServerEngine.Config.Strapi;
+using ServerEngine.Core.Services.Interfaces;
+using System.Reflection;
 
 namespace LoginServer
 {
-    using Dapper.ColumnMapper;
-    using Framework.Core.Database.DBO;
-    using GameCore;
-    using GameCore.Interfaces;
-    using ServerEngine.Config;
-    using ServerEngine.Config.ConfigManager;
-    using ServerEngine.Config.Database;
-    using ServerEngine.Config.Strapi;
-    using ServerEngine.Core.Services.Interfaces;
+    using Framework.Config;
+    using Framework.Config.ConfigManager;
     using Framework.Core.Database.Attributes;
+    using GameCore.Interfaces;
 
     internal class StartupServer
     {

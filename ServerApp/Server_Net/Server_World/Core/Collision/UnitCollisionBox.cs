@@ -33,31 +33,25 @@ namespace Server_World.Core.Collision
         /// <param name="angle">회전 축</param>
         public override BoudingBox GetBoudingBox(float x, float y, Vector2 angle)
         {
-            var min = new Vector2();
-            var max = new Vector2();
-
             // TODO: Angle에 따른 좌표 계산.
             if (angle.X < 0)
             {
                 // 왼쪽.
                 // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-                min.X = x - (_offsetX + _width);
-                max.X = x - _offsetX + _width;
+                _boudingBox.MinX = x - (_offsetX + _width);
+                _boudingBox.MaxX = x - _offsetX + _width;
             }
             else
             {
                 // 오른쪽.
                 // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-                min.X = x + _offsetX - _width;
-                max.X = x + _offsetX + _width;
+                _boudingBox.MinX = x + _offsetX - _width;
+                _boudingBox.MaxX = x + _offsetX + _width;
             }
 
             // 최댓값 = 현재 좌표 + offset + 충돌 범위.
-            min.Y = y + _offsetY - _height;
-            max.Y = y + _offsetY + _height;
-
-            _boudingBox.Min = min;
-            _boudingBox.Max = max;
+            _boudingBox.MinY = y + _offsetY - _height;
+            _boudingBox.MaxY = y + _offsetY + _height;
 
             return _boudingBox;
         }
@@ -69,19 +63,13 @@ namespace Server_World.Core.Collision
         /// <param name="y">객체 좌표 y</param>
         public override BoudingBox GetBoudingBox(float x, float y)
         {
-            var min = new Vector2();
-            var max = new Vector2();
-
             // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-            min.X = x + _offsetX - _width;
-            min.Y = y + _offsetY - _height;
+            _boudingBox.MinX = x + _offsetX - _width;
+            _boudingBox.MinY = y + _offsetY - _height;
 
             // 최댓값 = 현재 좌표 + offset + 충돌 범위.
-            max.X = x + _offsetX + _width;
-            max.Y = y + _offsetY + _height;
-
-            _boudingBox.Min = min;
-            _boudingBox.Max = max;
+            _boudingBox.MaxX = x + _offsetX + _width;
+            _boudingBox.MaxY = y + _offsetY + _height;
 
             return _boudingBox;
         }
