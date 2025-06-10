@@ -5,26 +5,19 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.NetPacket;
+    using Server_World.Core.Worlds;
     using ServerEngine.Core.Util;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// 플레이어 이동 처리.
         /// </summary>
-        private void MoveStart(NetPacketCS_MoveStart packet)
+        private void MoveStart(World_Player worldPlayer, NetPacketCS_MoveStart packet)
         {
-            var worldPlayer = GetPlayerOrDefault(packet.Pid);
-
-            if (default == worldPlayer)
-            {
-                _logger.LogError($"not exist player. pid: {packet.Pid}");
-                return;
-            }
-
             var playInfo = worldPlayer.PlayInfo;
             var position = worldPlayer.PlayInfo.Position;
 
@@ -37,14 +30,14 @@ namespace Server_World.Actors.HuntZone
 
             // PlayInfo 갱신.
             playInfo.UpdateTime = packet.PacketTime;
-            position.MoveDirection = packet.MoveDirection;
+            playInfo.MoveDirection = packet.MoveDirection;
 
             // 근처 섹션의 플레이어.
-            var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
+            var section = ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
             var packetBytes = _dataSerializer.Serialize(
                 new NetPacketSC_MoveStart
                 {
-                    Pid = packet.Pid
+                    Pid = playInfo.Pid
                 });
 
             // 패킷 전송.
@@ -57,16 +50,8 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 플레이어 이동 처리.
         /// </summary>
-        private void MoveEnd(NetPacketCS_MoveEnd packet)
+        private void MoveEnd(World_Player worldPlayer, NetPacketCS_MoveEnd packet)
         {
-            var worldPlayer = GetPlayerOrDefault(packet.Pid);
-
-            if (default == worldPlayer)
-            {
-                _logger.LogError($"not exist player. pid: {packet.Pid}");
-                return;
-            }
-
             // 플레이어 정보.
             var playInfo = worldPlayer.PlayInfo;
             var position = playInfo.Position;
@@ -74,7 +59,7 @@ namespace Server_World.Actors.HuntZone
             // 섹션 검사.
             if (false == IsValidSection((int)packet.EndPos.X, (int)packet.EndPos.Y, out var section))
             {
-                _logger.LogError($"Invalid section. x: {position.Pos.X}, y: {position.Pos.Y}");
+                _logger.LogError($"Invalid section. x: {position.X}, y: {position.Y}");
                 return;
             }
 
@@ -82,10 +67,10 @@ namespace Server_World.Actors.HuntZone
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
             {
                 // Move fixed.
-                SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+                SendPacket(playInfo.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
                 {
                     Pid = playInfo.Pid,
-                    FixedPos = position.Pos
+                    FixedPos = position
                 }));
 
                 _logger.LogError($"Packe time error. packet: {packet.PacketTime.ToString("hh:mm:ss.fff")}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}");
@@ -97,13 +82,13 @@ namespace Server_World.Actors.HuntZone
 
             //_logger.LogInformation($"MoveEnd - pid: {packet.Pid}, end pos: {packet.EndPos}, last pos: {playInfo.Position.Pos}, calc delta: {deltaTime}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}, packet time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
 
-            if (false == IsValidPosition(position.MoveDirection, deltaTime, playInfo.Stat.Velocity, position.Pos, packet.EndPos))
+            if (false == IsValidPosition(playInfo.MoveDirection, deltaTime, playInfo.Stat.Velocity, position, packet.EndPos))
             {
                 // Move fixed.
-                SendPacket(packet.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+                SendPacket(playInfo.Pid, NetPacketCode.SC_MoveFixed, _dataSerializer.Serialize(new NetPacketSC_MoveFixed
                 {
                     Pid = playInfo.Pid,
-                    FixedPos = position.Pos
+                    FixedPos = position
                 }));
 
                 _logger.LogError($"Move end position error. ");
@@ -112,14 +97,14 @@ namespace Server_World.Actors.HuntZone
 
             // 업데이트 시간 및 좌표 갱신.
             playInfo.UpdateTime = packet.PacketTime;
-            position.Pos = packet.EndPos;
-            position.MoveDirection = Type_MoveDirection.None;
+            playInfo.Position = packet.EndPos;
+            playInfo.MoveDirection = Type_MoveDirection.None;
 
             // 패킷.
             var packetBytes = _dataSerializer.Serialize(
                 new NetPacketSC_MoveEnd
                 {
-                    Pid = packet.Pid,
+                    Pid = playInfo.Pid,
                     EndPos = packet.EndPos
                 });
 
@@ -127,7 +112,7 @@ namespace Server_World.Actors.HuntZone
             SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_MoveEnd, packetBytes);
 
             // 섹션을 이동한 경우, 새로운 섹션의 플레이어, 적 정보 전송.
-            var oriSection = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
+            var oriSection = ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
 
             if (false == oriSection.Equals(section))
             {

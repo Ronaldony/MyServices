@@ -9,28 +9,10 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
-        /// <summary>
-        /// 특정 섹션의 세션 가져오기.
-        /// </summary>
-        private List<GameSession> GetGameSessions((int, int) section)
-        {
-            if (false == _sectionPlayerDict.TryGetValue(section, out var playerDict))
-            {
-                return null;
-            }
-
-            if (false == playerDict.Any())
-            {
-                return null;
-            }
-
-            return playerDict.Values.Select(d => d.GameSession).AsList();
-        }
-
         /// <summary>
         /// 특정 섹션의 플레이 정보 가져오기.
         /// </summary>
@@ -65,6 +47,42 @@ namespace Server_World.Actors.HuntZone
             }
 
             return enemies.Values.AsList();
+        }
+
+        /// <summary>
+        /// 특정 섹션의 적 정보 가져오기.
+        /// </summary>
+        private DTO_Enemy GetSectionEnemy((int, int) section, ulong enemyUid)
+        {
+            if (false == _sectionEnemyDict.TryGetValue(section, out var enemies))
+            {
+                return null;
+            }
+
+            if (false == enemies.TryGetValue(enemyUid, out var enemy))
+            {
+                return null;
+            }
+
+            return enemy;
+        }
+
+        /// <summary>
+        /// 특정 섹션의 세션 가져오기.
+        /// </summary>
+        private List<GameSession> GetGameSessions((int, int) section)
+        {
+            if (false == _sectionPlayerDict.TryGetValue(section, out var playerDict))
+            {
+                return null;
+            }
+
+            if (false == playerDict.Any())
+            {
+                return null;
+            }
+
+            return playerDict.Values.Select(d => d.GameSession).AsList();
         }
 
         /// <summary>

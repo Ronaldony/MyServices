@@ -12,7 +12,7 @@ namespace GameCore.Datas.Player.Status
     {
         /// <summary>
         /// Area.
-        /// </summary>
+        /// </summary>s
         [MemoryPackOrder(0)]
         public Type_Area Area { get; set; }
 

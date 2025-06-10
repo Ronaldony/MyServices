@@ -24,8 +24,4 @@
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

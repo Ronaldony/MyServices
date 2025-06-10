@@ -8,9 +8,9 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// Initialize seciton informations.
@@ -30,8 +30,6 @@ namespace Server_World.Actors.HuntZone
 
             // 지역 정보 불러오기.
             var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
-
-            // 지역 좌표를 계산하여 섹션 분리.
 
             // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
             var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;

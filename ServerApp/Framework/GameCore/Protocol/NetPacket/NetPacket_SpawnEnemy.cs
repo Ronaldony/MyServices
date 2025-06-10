@@ -11,7 +11,7 @@ namespace GameCore.NetPacket
     /// NetPacket_SpawnEnemy from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_SpawnEnemy
+    public partial class NetPacketSC_SpawnEnemy
     {
         /// <summary>
         /// 적 정보.

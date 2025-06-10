@@ -4,6 +4,7 @@ using Externals.UDP;
 using GameCore;
 using GameCore.NetPacket;
 using ServerEngine.Network.UDP;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Network
@@ -39,19 +40,21 @@ namespace Network
             playerDataManager.InventoryInfo = packetData.InventoryInfo;
 
             // Load scene.
-            switch (playerDataManager.PlayInfo.Position.Area)
-            {
-                case Type_Area.HuntZone:
-                    loginActor.LoadScene(Type_Area.HuntZone.ToString());
-                    break;
-                case Type_Area.BattleZone:
-                    loginActor.LoadScene(Type_Area.BattleZone.ToString());
-                    break;
-                case Type_Area.Village:
-                    loginActor.LoadScene(Type_Area.Village.ToString());
-                    break;
-            }
+            loginActor.LoadScene(playerDataManager.PlayInfo.Area.ToString());
+            //switch (playerDataManager.PlayInfo.Area)
+            //{
+            //    case Type_Area.HuntZone:
+            //        loginActor.LoadScene(Type_Area.HuntZone.ToString());
+            //        break;
+            //    case Type_Area.BattleZone:
+            //        loginActor.LoadScene(Type_Area.BattleZone.ToString());
+            //        break;
+            //    case Type_Area.Village:
+            //        loginActor.LoadScene(Type_Area.Village.ToString());
+            //        break;
+            //}
 
+            // Delay.
             netPacketManager.Send<NetPacketCS_SpawnPlayer>(NetPacketCode.CS_SpawnPlayer, _sendPacket);
         }
     }

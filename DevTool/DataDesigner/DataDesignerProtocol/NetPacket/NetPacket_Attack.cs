@@ -8,18 +8,18 @@ namespace GameCore.NetPacket
     /// NetPacket_Attack from client to server.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_Attack : NetPacketReqBase
+    public partial class NetPacketCS_Attack : NetPacketBase_CS
     {
         /// <summary>
         /// Attack angle.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
         public Vector2 Angle { get; set; }
 
         /// <summary>
         /// 무기 데미지.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(1)]
         public int Damage { get; set; }
     }
 
@@ -27,7 +27,7 @@ namespace GameCore.NetPacket
     /// NetPacket_Attack from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_Attack
+    public partial class NetPacketSC_Attack
     {
         /// <summary>
         /// 공격 Pid.

@@ -9,10 +9,22 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Move = 1,
+        UnProcessed = 1,
         /// <summary>
         /// 
         /// </summary>
-        Track = 2
+        Move = 2,
+        /// <summary>
+        /// 
+        /// </summary>
+        MoveEnd = 3,
+        /// <summary>
+        /// 
+        /// </summary>
+        Knockback = 4,
+        /// <summary>
+        /// 
+        /// </summary>
+        Track = 5
     }
 }

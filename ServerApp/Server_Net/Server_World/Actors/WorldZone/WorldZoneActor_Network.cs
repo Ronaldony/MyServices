@@ -4,9 +4,9 @@ namespace Server_World.Actors.HuntZone
     using Framework.Core.Session;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// Get session.

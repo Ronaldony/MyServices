@@ -18,6 +18,8 @@ namespace LoginServer.Controllers.Auth
     /// </summary>
     public class AuthController : GameController
     {
+        private readonly ILogger<AuthController> _logger;
+
         private readonly IUniqueIdService _uniqueIdService;
 
         private readonly DBIdentity _dbIdentity;
@@ -28,6 +30,8 @@ namespace LoginServer.Controllers.Auth
             IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<AuthController>>();
+
             // Serviecs.
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
 
@@ -119,6 +123,8 @@ namespace LoginServer.Controllers.Auth
             res.AccessToken = accessToken;
             res.RefreshToken = refreshToken;
             res.RefrshTokenExpire = refreshTokenExpire;
+
+            _logger.LogDebug($"auth - uid: {uid}");
 
             return res;
         }

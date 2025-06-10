@@ -12,7 +12,7 @@ namespace GameCore.NetPacket
     /// NetPacket_SpawnPlayer from client to server.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_SpawnPlayer
+    public partial class NetPacketCS_SpawnPlayer : NetPacketBase_CS
     {
     }
 
@@ -20,7 +20,7 @@ namespace GameCore.NetPacket
     /// NetPacket_SpawnPlayer from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_SpawnPlayer
+    public partial class NetPacketSC_SpawnPlayer
     {
         public NetPacketSC_SpawnPlayer()
         {

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Util;
 
 namespace Server_World.Actors.HuntZone
 {
@@ -7,30 +8,23 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
     using Server_World.Core.Collision;
-    using ServerEngine.Core.Util;
+    using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// 플레이어 공격 처리.
         /// </summary>
-        private void Attack(NetPacketCS_Attack packet)
+        private void Attack(World_Player worldPlayer, NetPacketCS_Attack packet)
         {
             var nowTime = TimeUtil.Now;
-            var worldPlayer = GetPlayerOrDefault(packet.Pid);
-
-            if (default == worldPlayer)
-            {
-                _logger.LogError($"not exist player. pid: {packet.Pid}");
-                return;
-            }
 
             // 플레이어.
             var playerInfo = worldPlayer.PlayInfo;
-            var playerPos = playerInfo.Position.Pos;
+            var position = playerInfo.Position;
 
             // 무기 정보.
             var damage = _weaponService.GetWeaponDamage(playerInfo.Equipment.Weapon);
@@ -38,12 +32,12 @@ namespace Server_World.Actors.HuntZone
             // 데미지 검증.
             if (damage != packet.Damage)
             {
-                _logger.LogError($"not exist player. pid: {packet.Pid}");
+                _logger.LogError($"not exist player. pid: {playerInfo.Pid}");
                 return;
             }
 
             // 섹션 정보.
-            var section = ((int)playerPos.X / GameData.SECTION_WIDTH, (int)playerPos.Y / GameData.SECTION_HEIGHT);
+            var section = ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
 
             // 공격 패킷 전송.
             SendPacket_AroundSections(
@@ -52,14 +46,14 @@ namespace Server_World.Actors.HuntZone
                 packetCode: NetPacketCode.SC_Attack,
                 packetBytes: _dataSerializer.Serialize(new NetPacketSC_Attack
                 {
-                    Pid = packet.Pid,
+                    Pid = playerInfo.Pid,
                     Angle = packet.Angle
                 }));
 
             // 충돌 박스.
             var enemyCollision = _collisionService.Rent(Type_Collision.Enemy);
             var weaponCollision = _collisionService.Rent_Weapon(playerInfo.Equipment.Weapon);
-            var weaponBounding = weaponCollision.GetBoudingBox(playerPos.X, playerPos.Y, packet.Angle);
+            var weaponBounding = weaponCollision.GetBoudingBox(position.X, position.Y, packet.Angle);
 
             // 근처 섹션 enemy 충돌 검사.
             var hitEnemies = new List<DTO_Enemy>();
@@ -83,7 +77,7 @@ namespace Server_World.Actors.HuntZone
                 new NetPacketSC_HitEnemy
                 {
                     Damage = damage,
-                    Position = playerPos,
+                    Position = position,
                     Enemies = hitEnemies
                 }));
         }

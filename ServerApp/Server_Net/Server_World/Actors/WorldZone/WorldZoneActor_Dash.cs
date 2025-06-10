@@ -5,47 +5,41 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using GameCore.NetPacket;
+    using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// 플레이어 대시 처리.
         /// </summary>
-        private void Dash(NetPacketCS_Dash packet)
+        private void Dash(World_Player worldPlayer, NetPacketCS_Dash packet)
         {
-            var worldPlayer = GetPlayerOrDefault(packet.Pid);
-
-            if (default == worldPlayer)
-            {
-                _logger.LogError($"not exist player. pid: {packet.Pid}");
-                return;
-            }
-
-            var position = worldPlayer.PlayInfo.Position;
+            var playInfo = worldPlayer.PlayInfo;
+            var position = playInfo.Position;
 
             // 대시 결과 유효성 검사.
-            if (false == IsValidDash(position.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, position.Pos, packet.Position))
+            if (false == IsValidDash(playInfo.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, position, packet.Position))
             {
                 _logger.LogError($"Dash - recv: {packet.Position}");
                 return;
             }
 
             // 패킷.
-            var section = ((int)position.Pos.X / GameData.SECTION_WIDTH, (int)position.Pos.Y / GameData.SECTION_HEIGHT);
+            var section = ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
             var packetBytes = _dataSerializer.Serialize(new NetPacketSC_Dash
             {
-                Pid = packet.Pid,
-                DashDirection = position.MoveDirection
+                Pid = playInfo.Pid,
+                DashDirection = playInfo.MoveDirection
             });
 
-            // 주변 섹션에 넉백 전송.
+            // 주변 섹션에 대시 전송.
             SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_Dash, packetBytes);
 
-            position.Pos = packet.Position;
-            position.MoveDirection = Type_MoveDirection.None;
+            playInfo.Position = packet.Position;
+            playInfo.MoveDirection = Type_MoveDirection.None;
         }
 
         /// <summary>
@@ -77,6 +71,7 @@ namespace Server_World.Actors.HuntZone
                         var caclDist = GameData.DASH_TIME * GameData.DASH_SPEED * velocity + GameData.DASH_ERROR;
 
                         // Y 좌표 검사.
+                        if (dashedPos.Y > playerPos.Y + caclDist) { return false; }
                         if (dashedPos.Y + caclDist < playerPos.Y) { return false; }
 
                         // X 좌표 검사.

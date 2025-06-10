@@ -6,13 +6,12 @@ namespace Server_World.Actors.HuntZone
     using Framework.Core.Session;
     using GameCore;
     using GameCore.NetPacket;
-    using Microsoft.Extensions.Logging;
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// 프레임 업데이트.
@@ -48,26 +47,25 @@ namespace Server_World.Actors.HuntZone
                 // 플레이어 이동 처리.
                 foreach (var worldPlayer in players.Values)
                 {
-                    var moveDirection = worldPlayer.PlayInfo.Position.MoveDirection;
+                    var playInfo = worldPlayer.PlayInfo;
 
                     // 정지, 대시인 경우, 처리하지 않음.
-                    if (moveDirection == Type_MoveDirection.None)
+                    if (playInfo.MoveDirection == Type_MoveDirection.None)
                     {
                         continue;
                     }
 
                     // 플레이어 정보.
-                    var playInfo = worldPlayer.PlayInfo;
-                    var pos = playInfo.Position.Pos;
+                    var position = playInfo.Position;
 
                     // 위치 계산.
-                    if (false == Calc_PlayerPosition(ref pos, playInfo.Position.MoveDirection, worldMsg.FrameDeltaTime, playInfo.Stat.Velocity, out var moveSection))
+                    if (false == Calc_PlayerPosition(ref position, playInfo.MoveDirection, worldMsg.FrameDeltaTime, playInfo.Stat.Velocity, out var moveSection))
                     {
                         continue;
                     }
 
                     // 위치 업데이트.
-                    playInfo.Position.Pos = pos;
+                    playInfo.Position = position;
 
                     // 섹션 업데이트.
                     if (false == section.Equals(moveSection))

@@ -10,7 +10,7 @@ namespace GameCore.NetPacket
     /// NetPacket_HitEnemy from client to server.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_HitEnemy : NetPacketReqBase
+    public partial class NetPacketCS_HitEnemy : NetPacketBase_CS
     {
     }
 
@@ -18,7 +18,7 @@ namespace GameCore.NetPacket
     /// NetPacket_HitEnemy from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_HitEnemy
+    public partial class NetPacketSC_HitEnemy
     {
         /// <summary>
         /// Damage.

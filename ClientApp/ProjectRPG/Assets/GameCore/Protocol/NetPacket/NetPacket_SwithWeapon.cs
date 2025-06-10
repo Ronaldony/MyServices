@@ -7,12 +7,12 @@ namespace GameCore.NetPacket
     /// NetPacket_SwitchWeapon from client to server.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_SwitchWeapon : NetPacketReqBase
+    public partial class NetPacketCS_SwitchWeapon : NetPacketBase_CS
     {
         /// <summary>
         /// Switch weapon id.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
         public int WeaponId { get; set; }
     }
 
@@ -20,7 +20,7 @@ namespace GameCore.NetPacket
     /// NetPacket_SwitchWeapon from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_SwitchWeapon
+    public partial class NetPacketSC_SwitchWeapon
     {
         /// <summary>
         /// Pid.

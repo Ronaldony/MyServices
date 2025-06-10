@@ -16,7 +16,6 @@ namespace GameCore.Datas.Play
     {
         public DTO_PlayInfo()
         {
-            Position = new DTO_Position();
             Equipment = new DTO_Equipment();
             Stat = new DTO_PlayerStat();
         }
@@ -40,21 +39,39 @@ namespace GameCore.Datas.Play
         public DateTime UpdateTime { get; set; }
 
         /// <summary>
-        /// 위치 정보.
+        /// Area.
         /// </summary>
         [MemoryPackOrder(3)]
-        public DTO_Position Position { get; set; }
+        public Type_Area Area { get; set; }
+
+        /// <summary>
+        /// Position.
+        /// </summary>
+        [MemoryPackOrder(4)]
+        public Vector2 Position { get; set; }
+
+        /// <summary>
+        /// Mvoe direction.
+        /// </summary>
+        [MemoryPackOrder(5)]
+        public Type_MoveDirection MoveDirection { get; set; }
+
+        /// <summary>
+        /// Mvoe direction.
+        /// </summary>
+        [MemoryPackOrder(6)]
+        public Type_Action Action { get; set; }
 
         /// <summary>
         /// 장비.
         /// </summary>
-        [MemoryPackOrder(4)]
+        [MemoryPackOrder(7)]
         public DTO_Equipment Equipment { get; set; }
 
         /// <summary>
         /// 플레이어 능력치.
         /// </summary>
-        [MemoryPackOrder(5)]
+        [MemoryPackOrder(8)]
         public DTO_PlayerStat Stat { get; set; }
     }
 }

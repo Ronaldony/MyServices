@@ -52,7 +52,7 @@ public class PlayerController : Singleton<PlayerController>
         _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
 
         // Setup position.
-        _rb.position = new Vector2(_playerDataManager.PlayInfo.Position.Pos.X, _playerDataManager.PlayInfo.Position.Pos.Y);
+        _rb.position = new Vector2(_playerDataManager.PlayInfo.Position.X, _playerDataManager.PlayInfo.Position.Y);
 
         Initialize_CallBack();
     }
@@ -208,7 +208,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveStop()
     {
-        _playerDataManager.PlayInfo.Position.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        _playerDataManager.PlayInfo.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
@@ -217,8 +217,7 @@ public class PlayerController : Singleton<PlayerController>
             NetPacketCode.CS_MoveEnd,
             new NetPacketCS_MoveEnd
             {
-                Pid = _playerDataManager.Pid,
-                EndPos = _playerDataManager.PlayInfo.Position.Pos,
+                EndPos = _playerDataManager.PlayInfo.Position,
                 PacketTime = packetTime,
             });
 
@@ -244,7 +243,6 @@ public class PlayerController : Singleton<PlayerController>
             new NetPacketCS_MoveStart
             {
                 MoveDirection = _moveDirection,
-                Pid = _playerDataManager.Pid,
                 PacketTime = packetTime
             });
 
@@ -256,7 +254,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveFixed(float x, float y)
     {
-        _playerDataManager.PlayInfo.Position.Pos = new System.Numerics.Vector2(x, y);
+        _playerDataManager.PlayInfo.Position = new System.Numerics.Vector2(x, y);
         _rb.position = new Vector2(x, y);
     }
 
@@ -344,7 +342,6 @@ public class PlayerController : Singleton<PlayerController>
                 NetPacketCode.CS_Dash,
                 new NetPacketCS_Dash
                 {
-                    Pid = _playerDataManager.Pid,
                     Position = new System.Numerics.Vector2(dashedPosition.x, dashedPosition.y)
                 });
 
@@ -373,7 +370,6 @@ public class PlayerController : Singleton<PlayerController>
             new NetPacketCS_MoveStart
             {
                 MoveDirection = _moveDirection,
-                Pid = _playerDataManager.Pid,
                 PacketTime = DateTime.Now
             });
 
@@ -389,7 +385,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void OnKnockBack(Vector2 knockBackPos)
     {
-        _playerDataManager.PlayInfo.Position.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        _playerDataManager.PlayInfo.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         if (_isMoving)
         {
@@ -399,7 +395,6 @@ public class PlayerController : Singleton<PlayerController>
                 NetPacketCode.CS_KnockBack,
                 new NetPacketCS_KnockBack
                 {
-                    Pid = _playerDataManager.Pid,
                     Position = new System.Numerics.Vector2(knockBackPos.x, knockBackPos.y)
                 });
 

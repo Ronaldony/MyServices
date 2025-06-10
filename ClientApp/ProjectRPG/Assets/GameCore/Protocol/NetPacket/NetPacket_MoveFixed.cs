@@ -10,8 +10,8 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_MoveFixed
-    {
+    public partial class NetPacketSC_MoveFixed
+	{
         /// <summary>
         /// Pid.
         /// </summary>

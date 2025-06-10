@@ -1,8 +1,6 @@
 ﻿
 namespace Server_World.Core.Worlds
 {
-    using GameCore;
-
     /// <summary>
     /// WorldMsg_UpdateFrame.
     /// </summary>

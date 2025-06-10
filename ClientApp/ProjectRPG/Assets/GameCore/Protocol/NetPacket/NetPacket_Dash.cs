@@ -9,12 +9,12 @@ namespace GameCore.NetPacket
     /// NetPacket_Dash from client to server.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_Dash : NetPacketReqBase
+    public partial class NetPacketCS_Dash : NetPacketBase_CS
     {
         /// <summary>
         /// 대시 위치.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
          public Vector2 Position { get; set; }
     }
 
@@ -22,7 +22,7 @@ namespace GameCore.NetPacket
     /// NetPacket_Dash from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_Dash
+    public partial class NetPacketSC_Dash
     {
         /// <summary>
         /// 대시 플레이어.

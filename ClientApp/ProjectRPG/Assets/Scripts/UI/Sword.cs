@@ -54,7 +54,6 @@ public class Sword : MonoBehaviour, IWeapon
             NetPacketCode.CS_Attack,
             new NetPacketCS_Attack
             {
-                Pid = _playerDataManager.Pid,
                 Angle = new System.Numerics.Vector2(angle.x, angle.y),
                 Damage = 3
             });

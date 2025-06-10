@@ -9,20 +9,21 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// 스폰 플레이어.
         /// </summary>
-        private void SpawnPlayer(World_Player player)
+        private void SpawnPlayer(World_Player worldPlayer)
         {
-            // 섹션.
-            var session = player.GameSession;
+            var position = worldPlayer.PlayInfo.Position;
+            var session = worldPlayer.GameSession;
+
 
             // 세션 정보 가져오기.
-            if (false == IsValidSection((int)player.PlayInfo.Position.Pos.X, (int)player.PlayInfo.Position.Pos.Y, out var section))
+            if (false == IsValidSection((int)position.X, (int)position.Y, out var section))
             {
                 _logger.LogError($"Invalid section.");
                 return;
@@ -54,9 +55,12 @@ namespace Server_World.Actors.HuntZone
 
             if (aroundSessions.Any())
             {
-                packet.Enemies.Clear();
+                // Reset packet.
                 packet.Users.Clear();
-                packet.Users.Add(player.PlayInfo);
+                packet.Enemies.Clear();
+
+                // Add player info.
+                packet.Users.Add(worldPlayer.PlayInfo);
 
                 // 인근 세션에 패킷 전송.
                 foreach (var otherSession in aroundSessions)
@@ -70,7 +74,7 @@ namespace Server_World.Actors.HuntZone
             _memoryPoolService.Release(packet);
 
             // 섹션에 플레이어 저장.
-            if (false == AddPlayer(player.PlayInfo.Pid, player, section))
+            if (false == AddPlayer(worldPlayer.PlayInfo.Pid, worldPlayer, section))
             {
                 return;
             }
@@ -92,8 +96,13 @@ namespace Server_World.Actors.HuntZone
                 // 섹션에 적 정보 추가.
                 var sectionEnemy = _sectionEnemyDict[section];
 
+                // Add enemy into section.
                 foreach (var enemy in enemies)
                 {
+                    // Add enemy.
+                    _enemyDict.Add(enemy.EnemeyUid, enemy);
+
+                    // Add enemy into section.
                     sectionEnemy.AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);
                 }
 

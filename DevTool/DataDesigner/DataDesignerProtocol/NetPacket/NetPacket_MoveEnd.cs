@@ -10,18 +10,18 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketCS_MoveEnd : NetPacketReqBase
+    public partial class NetPacketCS_MoveEnd : NetPacketBase_CS
     {
         /// <summary>
         /// Last position.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
         public Vector2 EndPos { get; set; }
 
         /// <summary>
         /// PacketTime.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(1)]
         public DateTime PacketTime { get; set; }
     }
 
@@ -30,7 +30,7 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_MoveEnd
+    public partial class NetPacketSC_MoveEnd
     {
         /// <summary>
         /// Pid.

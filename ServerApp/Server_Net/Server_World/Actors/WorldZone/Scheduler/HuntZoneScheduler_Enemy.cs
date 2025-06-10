@@ -20,7 +20,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
     {
         private readonly ILogger<HuntZoneScheduler_Enemy> _logger;
 
-        private readonly HuntZoneActorProvider _huntZoneActorProvider;
+        private readonly WorldZoneActorProvider _huntZoneActorProvider;
 
         // 지역 정보.
         private readonly CONF_Area _confArea;
@@ -54,7 +54,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
         {
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_Enemy>>();
 
-            _huntZoneActorProvider = serviceProvider.GetRequiredService<HuntZoneActorProvider>();
+            _huntZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
 
             var tdbService = serviceProvider.GetRequiredService<ITDBService>();
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Database.Interfaces;
+using ServerEngine.Network.UDP;
 using System.Reflection;
 
 namespace Server_World.Server.World.Handlers
@@ -13,8 +15,6 @@ namespace Server_World.Server.World.Handlers
     using Server_World.Actors.HuntZone;
     using Server_World.Core.Services;
     using Server_World.Core.Worlds;
-    using ServerEngine.Database.Interfaces;
-    using ServerEngine.Network.UDP;
 
     /// <summary>
     /// UdpHandler_LoadPlayer.
@@ -37,7 +37,7 @@ namespace Server_World.Server.World.Handlers
         /// <summary>
         /// HuntzoneActor provider.
         /// </summary>
-        private readonly HuntZoneActorProvider _huntZoneActorProvider;
+        private readonly WorldZoneActorProvider _worldZoneActorProvider;
 
         public UdpHandler_SpawnPlayer(IServiceProvider serviceProvider)
             : base(NetPacketCode.CS_SpawnPlayer)
@@ -64,7 +64,7 @@ namespace Server_World.Server.World.Handlers
             }
 
             // Actor 생성.
-            _huntZoneActorProvider = serviceProvider.GetRequiredService<HuntZoneActorProvider>();
+            _worldZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Server_World.Server.World.Handlers
             };
 
             // 메시지 전달.
-            _huntZoneActorProvider.Tell<World_Player>(actorMsg);
+            _worldZoneActorProvider.Tell<World_Player>(actorMsg);
         }
     }
 }

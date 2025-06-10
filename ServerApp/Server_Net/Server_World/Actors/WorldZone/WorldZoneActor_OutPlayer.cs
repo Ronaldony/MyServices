@@ -7,9 +7,9 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// Out player.
@@ -23,8 +23,8 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            var pos = worldPlayer.PlayInfo.Position.Pos;
-            var section = ((int)pos.X / GameData.SECTION_WIDTH, (int)pos.Y / GameData.SECTION_HEIGHT);
+            var position = worldPlayer.PlayInfo.Position;
+            var section = ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
 
             _sectionPlayerDict[section].TryRemove(msg.Pid, out _);
 

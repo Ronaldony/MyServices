@@ -6,11 +6,26 @@
   },
   {
     "Id": 1,
-    "Name": "Move",
+    "Name": "UnProcessed",
     "Summary": ""
   },
   {
     "Id": 2,
+    "Name": "Move",
+    "Summary": ""
+  },
+  {
+    "Id": 3,
+    "Name": "MoveEnd",
+    "Summary": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Knockback",
+    "Summary": ""
+  },
+  {
+    "Id": 5,
     "Name": "Track",
     "Summary": ""
   }

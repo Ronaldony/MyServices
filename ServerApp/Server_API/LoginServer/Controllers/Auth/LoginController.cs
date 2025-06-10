@@ -20,6 +20,8 @@ namespace LoginServer.Controllers.Auth
     /// </summary>
     public class LoginController : GameController
     {
+        private readonly ILogger<LoginController> _logger;
+
         private readonly DBIdentity _dbIdentity;
         private readonly DBUser _dbUser;
         private readonly DBPlayerData _dbPlayerData;
@@ -28,6 +30,8 @@ namespace LoginServer.Controllers.Auth
             IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<LoginController>>();
+
             // DB.
             _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
             _dbUser = serviceProvider.GetRequiredService<DBUser>();
@@ -106,6 +110,8 @@ namespace LoginServer.Controllers.Auth
             // PlayerInfo 가져오기.
             var playerInfoObejct = GetObject<PlayerInfoObject>();
             var playerInfo = await playerInfoObejct.SelectAsync<DTO_PlayerInfo>(req.Pid);
+
+            _logger.LogDebug($"login - uid: {dboIdentity.Uid}, pid: {req.Pid}");
 
             return new RES_Login
             {

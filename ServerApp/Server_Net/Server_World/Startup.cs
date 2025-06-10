@@ -48,7 +48,7 @@ namespace Server_World
 
             // Actors.
             hostAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
-            hostAppBuilder.Services.AddSingleton<HuntZoneActorProvider>();
+            hostAppBuilder.Services.AddSingleton<WorldZoneActorProvider>();
             //hostAppBuilder.Services.AddSingleton<HuntZoneActorProvider>(provider =>
             //{
             //    var actorSystem = provider.GetService<ActorSystem>();

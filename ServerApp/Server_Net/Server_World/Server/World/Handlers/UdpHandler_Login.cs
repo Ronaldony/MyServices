@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Database.Interfaces;
+using ServerEngine.Network.UDP;
 using System.Reflection;
 
 namespace Server_World.Server.World.Handlers
@@ -11,9 +14,6 @@ namespace Server_World.Server.World.Handlers
     using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
     using GameCore.NetPacket;
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Database.Interfaces;
-    using ServerEngine.Network.UDP;
 
     /// <summary>
     /// UdpHandler_Login.
@@ -117,13 +117,12 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // Send Login packet.
-                var sendPacket = new NetPacketSC_Login
-                {
-                    PlayInfo = playInfo,
-                    InventoryInfo = inventoryInfo
-                };
-
-                _worldServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login, _dataSerializer.Serialize(sendPacket));
+                _worldServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login,
+                    _dataSerializer.Serialize(new NetPacketSC_Login
+                    {
+                        PlayInfo = playInfo,
+                        InventoryInfo = inventoryInfo
+                    }));
             });
         }
     }

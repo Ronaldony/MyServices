@@ -1,9 +1,11 @@
 ﻿using Akka.Actor;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Services.Interfaces;
 using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
+    using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
     using GameCore.NetPacket;
@@ -13,14 +15,13 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
     using Server_World.Server.World;
-    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor : ReceiveActor
+    public partial class WorldZoneActor : ReceiveActor
     {
-        private readonly ILogger<HuntZoneActor> _logger;
+        private readonly ILogger<WorldZoneActor> _logger;
 
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
@@ -50,6 +51,13 @@ namespace Server_World.Actors.HuntZone
         /// key: Section.
         /// value: DTO_Enemy dictionary (key: EnemeyUId).
         /// </summary>
+        private readonly Dictionary<ulong, DTO_Enemy> _enemyDict;
+
+        /// <summary>
+        /// 섹션 단위 적 정보.
+        /// key: Section.
+        /// value: DTO_Enemy dictionary (key: EnemeyUId).
+        /// </summary>
         private readonly Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<ulong, DTO_Enemy>> _sectionEnemyDict;
 
         /// <summary>
@@ -71,9 +79,9 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private int _enemyCount;
 
-        public HuntZoneActor()
+        public WorldZoneActor()
         {
-            _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
+            _logger = ServiceUtility.GetService<ILogger<WorldZoneActor>>();
 
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
@@ -84,7 +92,9 @@ namespace Server_World.Actors.HuntZone
             _worldServer = ServiceUtility.GetService<WorldServer>();
             _schedulerEnemy = new HuntZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
 
+            // Initialize dictionary.
             _playerDict = new Dictionary<string, World_Player>();
+            _enemyDict = new Dictionary<ulong, DTO_Enemy>();
 
             // initilzie sections.
             (_sectionPlayerDict, _sectionEnemyDict, _aroundSectionDict, _sectionDict) = Initialize_Sections();
@@ -102,16 +112,35 @@ namespace Server_World.Actors.HuntZone
             Receive<WorldMsg_UpdateFrame>(msg => UpdateFrame(msg));
             Receive<WorldMsg_UpdateMovePattern>(msg => UpdateMovePattern(msg));
 
-            // Move.
-            Receive<NetPacketCS_MoveStart>(packet => MoveStart(packet));
-            Receive<NetPacketCS_MoveEnd>(packet => MoveEnd(packet));
+            // NetPacket.
+            Receive<WorldMsg_NetPacket>(msg =>
+            {
+                // World player.
+                var worldPlayer = GetPlayerOrDefault(msg.Pid);
+                if (default == worldPlayer)
+                {
+                    return;
+                }
 
-            // Attack.
-            Receive<NetPacketCS_Attack>(packet => Attack(packet));
-
-            // KnockBack.
-            Receive<NetPacketCS_KnockBack>(packet => KnockBack(packet));
-            Receive<NetPacketCS_Dash>(packet => Dash(packet));
+                switch (msg.PacketCode)
+                {
+                    case NetPacketCode.CS_MoveStart:
+                        MoveStart(worldPlayer, msg.Packet as NetPacketCS_MoveStart);
+                        break;
+                    case NetPacketCode.CS_MoveEnd:
+                        MoveEnd(worldPlayer, msg.Packet as NetPacketCS_MoveEnd);
+                        break;
+                    case NetPacketCode.CS_Attack:
+                        Attack(worldPlayer, msg.Packet as NetPacketCS_Attack);
+                        break;
+                    case NetPacketCode.CS_KnockBack:
+                        KnockBack(worldPlayer, msg.Packet as NetPacketCS_KnockBack);
+                        break;
+                    case NetPacketCode.CS_Dash:
+                        Dash(worldPlayer, msg.Packet as NetPacketCS_Dash);
+                        break;
+                }
+            });
 
             // Enemy shceduler start.
             _schedulerEnemy.Start();
@@ -122,7 +151,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         public static Props Props()
         {
-            return Akka.Actor.Props.Create(() => new HuntZoneActor());
+            return Akka.Actor.Props.Create(() => new WorldZoneActor());
         }
 
         /// <summary>

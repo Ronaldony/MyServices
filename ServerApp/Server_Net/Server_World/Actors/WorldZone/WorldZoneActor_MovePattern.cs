@@ -9,9 +9,9 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// HuntZoneActor.
+    /// WorldZoneActor.
     /// </summary>
-    public partial class HuntZoneActor
+    public partial class WorldZoneActor
     {
         /// <summary>
         /// 적 이동 패턴 업데이트.

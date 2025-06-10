@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Core.Util;
 
 namespace LoginServer.Controllers.Auth
 {
@@ -13,8 +15,6 @@ namespace LoginServer.Controllers.Auth
     using GameCore.Datas.Play;
     using GameCore.Datas.Player;
     using GameCore.Http.Auth;
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Core.Util;
 
     /// <summary>
     /// 플레이어 생성 컨트롤러.
@@ -119,7 +119,7 @@ namespace LoginServer.Controllers.Auth
             playInfo.Pid = pid;
             playInfo.PlayerName = pid;
             playInfo.UpdateTime = nowTime;
-            playInfo.Position.Area = Type_Area.HuntZone;
+            playInfo.Area = Type_Area.HuntZone;
             playInfo.Stat.Velocity = 4;
             playInfo.Equipment.Weapon = 1;
 

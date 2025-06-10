@@ -11,7 +11,7 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial record NetPacketSC_UpdateMovePattern
+    public partial class NetPacketSC_UpdateMovePattern
     {
         /// <summary>
         /// Enemies updated move pattern.

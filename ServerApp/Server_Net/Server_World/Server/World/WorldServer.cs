@@ -17,7 +17,7 @@ namespace Server_World.Server.World
     {
         private readonly ILogger<WorldServer> _logger;
 
-        private readonly HuntZoneActorProvider _huntZoneProvider;
+        private readonly WorldZoneActorProvider _huntZoneProvider;
 
         /// <summary>
         /// Sessoin dictionary.
@@ -33,7 +33,7 @@ namespace Server_World.Server.World
 
             _sessionDict = new ConcurrentDictionary<ulong, string>();
 
-            _huntZoneProvider = serviceProvider.GetService<HuntZoneActorProvider>();
+            _huntZoneProvider = serviceProvider.GetService<WorldZoneActorProvider>();
         }
 
         /// <summary>
