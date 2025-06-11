@@ -25,8 +25,6 @@ namespace Server_World.Server.World.Handlers
 
         private readonly WorldServer _worldServer;
 
-        private readonly CollisionService _collisionService;
-
         /// <summary>
         /// Data object dictionary.
         /// key: Data object type.
@@ -45,9 +43,6 @@ namespace Server_World.Server.World.Handlers
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
 
             _worldServer = serviceProvider.GetRequiredService<WorldServer>();
-
-            // Collision service.
-            _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
             // Data object 생성.
             _dataObjectDict = new Dictionary<Type, IDataObject>();
@@ -123,7 +118,7 @@ namespace Server_World.Server.World.Handlers
             };
 
             // 충돌 박스.
-            var collisionBox = _collisionService.Rent(Type_Collision.Player);
+            var collisionBox = CollisionManager.Rent(Type_Collision.Player);
 
             if (null == collisionBox)
             {

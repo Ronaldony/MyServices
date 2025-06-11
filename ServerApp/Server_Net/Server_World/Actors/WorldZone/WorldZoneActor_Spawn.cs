@@ -18,12 +18,12 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private void SpawnPlayer(World_Player worldPlayer)
         {
-            var position = worldPlayer.PlayInfo.Position;
             var session = worldPlayer.GameSession;
 
-
             // 세션 정보 가져오기.
-            if (false == IsValidSection((int)position.X, (int)position.Y, out var section))
+            var section = GetSection(worldPlayer.PlayInfo.Location.Position);
+
+            if (false == IsValidSection(section))
             {
                 _logger.LogError($"Invalid section.");
                 return;
@@ -51,9 +51,9 @@ namespace Server_World.Actors.HuntZone
             SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
 
             // 근처 섹션 검색.
-            var aroundSessions = GetAroundSessions(section);
+            var aroundPlayers = GetAroundPlayers(section);
 
-            if (aroundSessions.Any())
+            if (aroundPlayers.Any())
             {
                 // Reset packet.
                 packet.Users.Clear();
@@ -63,10 +63,10 @@ namespace Server_World.Actors.HuntZone
                 packet.Users.Add(worldPlayer.PlayInfo);
 
                 // 인근 세션에 패킷 전송.
-                foreach (var otherSession in aroundSessions)
+                foreach (var player in aroundPlayers)
                 {
                     // 다른 플레이어에게 패킷 전송.
-                    SendPacket(otherSession.SessionId, otherSession.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
+                    SendPacket(player.GameSession.SessionId, player.GameSession.SessionUid, NetPacketCode.SC_SpawnPlayer, _dataSerializer.Serialize(packet));
                 }
             }
 
@@ -107,32 +107,28 @@ namespace Server_World.Actors.HuntZone
                 }
 
                 // 근처 세션 가져오기.
-                var aroundSessions = GetAroundSessions(section);
+                var aroundPlayers = GetAroundPlayers(section);
 
                 // 플레이어 세션에 전송할 스폰 적 저장.
-                foreach (var session in aroundSessions)
+                foreach (var player in aroundPlayers)
                 {
-                    if (false == sessionEnemyDict.ContainsKey(session))
+                    if (false == sessionEnemyDict.ContainsKey(player.GameSession))
                     {
-                        sessionEnemyDict.Add(session, new List<DTO_Enemy>());
+                        sessionEnemyDict.Add(player.GameSession, new List<DTO_Enemy>());
                     }
 
-                    sessionEnemyDict[session].AddRange(enemies);
+                    sessionEnemyDict[player.GameSession].AddRange(enemies);
                 }
             }
 
-            // send packet.
-            if (false == sessionEnemyDict.Any())
-            {
-                return;
-            }
+            // Send packet.
+            var pakcet = new NetPacketSC_SpawnEnemy();
 
             foreach (var pair in sessionEnemyDict)
             {
-                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(new NetPacketSC_SpawnEnemy
-                {
-                    Enemies = pair.Value
-                }));
+                pakcet.Enemies = pair.Value;
+
+                SendPacket(pair.Key.SessionId, pair.Key.SessionUid, NetPacketCode.SC_SpawnEnemy, _dataSerializer.Serialize(pakcet));
             }
         }
     }

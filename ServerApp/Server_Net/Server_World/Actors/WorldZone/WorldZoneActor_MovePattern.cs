@@ -49,16 +49,16 @@ namespace Server_World.Actors.HuntZone
                 // 업데이트 대상 세션에 추가.
                 if (updateEnemies.Any())
                 {
-                    var aroundSessions = GetAroundSessions(section);
+                    var aroundPlayers = GetAroundPlayers(section);
 
-                    foreach (var session in aroundSessions)
+                    foreach (var player in aroundPlayers)
                     {
-                        if (false == updateSessions.ContainsKey(session))
+                        if (false == updateSessions.ContainsKey(player.GameSession))
                         {
-                            updateSessions.Add(session, new List<DTO_Enemy>());
+                            updateSessions.Add(player.GameSession, new List<DTO_Enemy>());
                         }
 
-                        updateSessions[session].AddRange(updateEnemies);
+                        updateSessions[player.GameSession].AddRange(updateEnemies);
                     }
                 }
             }

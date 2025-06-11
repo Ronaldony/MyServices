@@ -18,28 +18,28 @@ namespace Server_World.Actors.HuntZone
         private void Dash(World_Player worldPlayer, NetPacketCS_Dash packet)
         {
             var playInfo = worldPlayer.PlayInfo;
-            var position = playInfo.Position;
+            var location = playInfo.Location;
 
             // 대시 결과 유효성 검사.
-            if (false == IsValidDash(playInfo.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, position, packet.Position))
+            if (false == IsValidDash(location.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, location.Position, packet.Position))
             {
                 _logger.LogError($"Dash - recv: {packet.Position}");
                 return;
             }
 
             // 패킷.
-            var section = ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
+            var section = GetSection(location.Position);
             var packetBytes = _dataSerializer.Serialize(new NetPacketSC_Dash
             {
                 Pid = playInfo.Pid,
-                DashDirection = playInfo.MoveDirection
+                DashDirection = location.MoveDirection
             });
 
             // 주변 섹션에 대시 전송.
             SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_Dash, packetBytes);
 
-            playInfo.Position = packet.Position;
-            playInfo.MoveDirection = Type_MoveDirection.None;
+            location.Position = packet.Position;
+            playInfo.Action = Type_Action.None;
         }
 
         /// <summary>

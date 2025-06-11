@@ -48,26 +48,40 @@ namespace Server_World.Actors.HuntZone
                 foreach (var worldPlayer in players.Values)
                 {
                     var playInfo = worldPlayer.PlayInfo;
+                    var location = playInfo.Location;
 
                     // 정지, 대시인 경우, 처리하지 않음.
-                    if (playInfo.MoveDirection == Type_MoveDirection.None)
+                    switch (playInfo.Action)
                     {
-                        continue;
+                        case Type_Action.Move:
+                            {
+                                var position = location.Position;
+
+                                // 위치 계산.
+                                if (false == Calc_PlayerPosition(ref position, location.MoveDirection, worldMsg.FrameDeltaTime, playInfo.Stat.Velocity))
+                                {
+                                    continue;
+                                }
+
+                                // 위치 업데이트.
+                                location.Position = position;
+                            }
+                            break;
+                        case Type_Action.MoveEnd:
+                            {
+                                playInfo.Action = Type_Action.None;
+
+                                // 위치 업데이트.
+                                location.Position = location.PositionEnd;
+                            }
+                            break;
+                        default:
+                            continue;
                     }
-
-                    // 플레이어 정보.
-                    var position = playInfo.Position;
-
-                    // 위치 계산.
-                    if (false == Calc_PlayerPosition(ref position, playInfo.MoveDirection, worldMsg.FrameDeltaTime, playInfo.Stat.Velocity, out var moveSection))
-                    {
-                        continue;
-                    }
-
-                    // 위치 업데이트.
-                    playInfo.Position = position;
 
                     // 섹션 업데이트.
+                    var moveSection = GetSection(location.Position);
+
                     if (false == section.Equals(moveSection))
                     {
                         _sectionPlayerDict[section].Remove(worldPlayer.PlayInfo.Pid, out var _);
@@ -222,7 +236,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Calculation position of player.
         /// </summary>
-        private bool Calc_PlayerPosition(ref Vector2 oriPos, Type_MoveDirection moveDir, double diffSeconds, int velocity, out (int x, int y) moveSection)
+        private bool Calc_PlayerPosition(ref Vector2 oriPos, Type_MoveDirection moveDir, double diffSeconds, int velocity)
         {
             // 이동 방향 계산 시퀀스. 
             // 1. 이동 방향 확인.
@@ -285,7 +299,7 @@ namespace Server_World.Actors.HuntZone
             }
 
             // Validate section.
-            if (false == IsValidSection((int)oriPos.X, (int)oriPos.Y, out moveSection))
+            if (false == IsValidSection(GetSection(oriPos)))
             {
                 return false;
             }
@@ -327,7 +341,9 @@ namespace Server_World.Actors.HuntZone
             }
 
             // Validate section.
-            if (false == IsValidSection((int)oriPos.X, (int)oriPos.Y, out updateSection))
+            updateSection = GetSection(oriPos);
+
+            if (false == IsValidSection(updateSection))
             {
                 return false;
             }

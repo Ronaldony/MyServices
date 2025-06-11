@@ -52,7 +52,7 @@ public class PlayerController : Singleton<PlayerController>
         _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
 
         // Setup position.
-        _rb.position = new Vector2(_playerDataManager.PlayInfo.Position.X, _playerDataManager.PlayInfo.Position.Y);
+        _rb.position = new Vector2(_playerDataManager.PlayInfo.Location.Position.X, _playerDataManager.PlayInfo.Location.Position.Y);
 
         Initialize_CallBack();
     }
@@ -208,7 +208,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveStop()
     {
-        _playerDataManager.PlayInfo.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        _playerDataManager.PlayInfo.Location.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
@@ -217,7 +217,7 @@ public class PlayerController : Singleton<PlayerController>
             NetPacketCode.CS_MoveEnd,
             new NetPacketCS_MoveEnd
             {
-                EndPos = _playerDataManager.PlayInfo.Position,
+                EndPos = _playerDataManager.PlayInfo.Location.Position,
                 PacketTime = packetTime,
             });
 
@@ -254,7 +254,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveFixed(float x, float y)
     {
-        _playerDataManager.PlayInfo.Position = new System.Numerics.Vector2(x, y);
+        _playerDataManager.PlayInfo.Location.Position = new System.Numerics.Vector2(x, y);
         _rb.position = new Vector2(x, y);
     }
 
@@ -385,7 +385,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void OnKnockBack(Vector2 knockBackPos)
     {
-        _playerDataManager.PlayInfo.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        _playerDataManager.PlayInfo.Location.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         if (_isMoving)
         {

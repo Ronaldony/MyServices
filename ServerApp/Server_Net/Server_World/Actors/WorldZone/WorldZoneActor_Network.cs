@@ -50,28 +50,14 @@ namespace Server_World.Actors.HuntZone
         private void SendPacket_AroundSections(GameSession ignoreSession, (int x, int y) section, int packetCode, byte[] packetBytes)
         {
             // 섹션.
-            var aroundSessions = GetAroundSessions(section);
+            var aroundPlayers = GetAroundPlayers(section);
 
-            foreach (var otherSession in aroundSessions)
+            foreach (var player in aroundPlayers)
             {
                 // 현재 플레이어 제외.
-                if (otherSession.Equals(ignoreSession)) { continue; }
+                if (player.GameSession.Equals(ignoreSession)) { continue; }
 
-                SendPacket(otherSession.SessionId, otherSession.SessionUid, packetCode, packetBytes);
-            }
-        }
-
-        /// <summary>
-        /// Send packet for around sections.
-        /// </summary>
-        private void SendPacket_AroundSections((int x, int y) section, int packetCode, byte[] packetBytes)
-        {
-            // 섹션.
-            var aroundSessions = GetAroundSessions(section);
-
-            foreach (var otherSession in aroundSessions)
-            {
-                SendPacket(otherSession.SessionId, otherSession.SessionUid, packetCode, packetBytes);
+                _worldServer.Send(player.GameSession.SessionId, player.GameSession.SessionUid, packetCode, packetBytes);
             }
         }
     }

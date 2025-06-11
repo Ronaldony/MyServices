@@ -16,9 +16,9 @@ namespace Server_World.Actors.HuntZone.Scheduler
     /// <summary>
     /// HuntZoneScheduler_Enemy.
     /// </summary>
-    public sealed class HuntZoneScheduler_Enemy
+    public sealed class WorldZoneScheduler_Enemy
     {
-        private readonly ILogger<HuntZoneScheduler_Enemy> _logger;
+        private readonly ILogger<WorldZoneScheduler_Enemy> _logger;
 
         private readonly WorldZoneActorProvider _huntZoneActorProvider;
 
@@ -50,9 +50,9 @@ namespace Server_World.Actors.HuntZone.Scheduler
         // Enemy 고유 id.
         private ulong _enemyUid;
 
-        public HuntZoneScheduler_Enemy(IServiceProvider serviceProvider)
+        public WorldZoneScheduler_Enemy(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_Enemy>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<WorldZoneScheduler_Enemy>>();
 
             _huntZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
 
@@ -246,7 +246,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 var randomY = Random.Shared.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT);
 
                 var movePos = new Vector2(randomX, randomY);
-                _logger.LogDebug($"pattern: {updateMovePair.Key}, movePos: {movePos}");
 
                 var msg = new WorldMsg_UpdateMovePattern
                 {

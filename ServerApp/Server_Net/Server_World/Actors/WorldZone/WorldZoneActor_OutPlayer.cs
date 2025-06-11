@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
+    using Server_World.Core.Services;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -23,13 +24,12 @@ namespace Server_World.Actors.HuntZone
                 return;
             }
 
-            var position = worldPlayer.PlayInfo.Position;
-            var section = ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
+            var section = GetSection(worldPlayer.PlayInfo.Location.Position);
 
             _sectionPlayerDict[section].TryRemove(msg.Pid, out _);
 
             // Release.
-            _collisionService.Release(worldPlayer.CollisionBox);
+            CollisionManager.Release(worldPlayer.CollisionBox);
 
             _logger.LogWarning($"Log out end. pid: {msg.Pid}");
         }

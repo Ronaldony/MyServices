@@ -1,49 +1,37 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Services.Interfaces;
 
 namespace Server_World.Core.Services
 {
     using GameCore;
     using GameCore.Interfaces;
     using Server_World.Core.Collision;
-    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
-    /// CollisionService.
+    /// CollisionManager.
     /// </summary>
-    public class CollisionService
+    public static class CollisionManager
     {
-        private readonly ILogger<CollisionService> _logger;
+        private static ITDBService _tdbService;
+        private static IMemoryPoolService _memoryPoolService;
 
-        private readonly ITDBService _tdbService;
-        private readonly IMemoryPoolService _memoryPoolService;
-
-        private IEnumerable<TB_Collision> _tbCollisions;
-        private IEnumerable<TB_Weapon> _tbWeapons;
-
-        public CollisionService(IServiceProvider serviceProvider)
-        {
-            _logger = serviceProvider.GetRequiredService<ILogger<CollisionService>>();
-            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
-
-            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
-        }
+        private static IEnumerable<TB_Collision> _tbCollisions;
 
         /// <summary>
         /// Initialize.
         /// </summary>
-        public void Initialize()
+        public static void Initialize(IServiceProvider serviceProvider)
         {
-            _tbCollisions = _tdbService.SelectAll<TB_Collision>();
-            _tbWeapons = _tdbService.SelectAll<TB_Weapon>();
+            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
+            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
-            _logger.LogInformation("CollisionService initialized.");
+            _tbCollisions = _tdbService.SelectAll<TB_Collision>();
         }
 
         /// <summary>
         /// Get collision box.
         /// </summary>
-        public CollisionBox Rent(Type_Collision collisionType)
+        public static CollisionBox Rent(Type_Collision collisionType)
         {
             var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == collisionType);
 
@@ -61,36 +49,9 @@ namespace Server_World.Core.Services
         }
 
         /// <summary>
-        /// Get collision box.
-        /// </summary>
-        public CollisionBox Rent_Weapon(int weapoinId)
-        {
-            var tbWeapon = _tbWeapons.FirstOrDefault(d => d.Id == weapoinId);
-
-            if (default == tbWeapon)
-            {
-                return null;
-            }
-
-            var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == tbWeapon.CollisionType);
-
-            if (default == tbCollision)
-            {
-                return null;
-            }
-
-            // Collision box.
-            var collisionBox = TakeCollisionBox(tbWeapon.CollisionType);
-
-            collisionBox.Setup(tbWeapon.CollisionType, tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
-
-            return collisionBox;
-        }
-
-        /// <summary>
         /// Release collision box.
         /// </summary>
-        public void Release(CollisionBox collisionBox)
+        public static void Release(CollisionBox collisionBox)
         {
             switch (collisionBox.CollisionType)
             {
@@ -109,7 +70,7 @@ namespace Server_World.Core.Services
         /// <summary>
         /// Check collision status.
         /// </summary>
-        public bool CollidesWith(BoudingBox src, BoudingBox dst)
+        public static bool CollidesWith(BoudingBox src, BoudingBox dst)
         {
             // 가로 충돌.
             // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
@@ -133,7 +94,7 @@ namespace Server_World.Core.Services
         /// <summary>
         /// Take collision box.
         /// </summary>
-        private CollisionBox TakeCollisionBox(Type_Collision collisionType)
+        private static CollisionBox TakeCollisionBox(Type_Collision collisionType)
         {
             CollisionBox collisionBox;
 

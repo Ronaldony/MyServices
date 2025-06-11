@@ -59,6 +59,7 @@ namespace Server_World
             // Utilies.
             ServiceUtility.Initialize(_serviceProvider);
             NetPacketUtility.Initialize(_serviceProvider);
+            CollisionManager.Initialize(_serviceProvider);
 
 #if !TEST_LOCAL
             var configGame = await remoteConfigureService.GetConfigData<Config_Game>("Devel_Game");
@@ -72,14 +73,6 @@ namespace Server_World
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 #endif
-
-            // CollisionService.
-            var collisionService = _serviceProvider.GetRequiredService<CollisionService>();
-            collisionService.Initialize();
-
-            // WeaponService.
-            var weaponService = _serviceProvider.GetRequiredService<WeaponService>();
-            weaponService.Initialize();
 
             // Database data mapping.
             MappingDapper();

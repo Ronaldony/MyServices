@@ -1,9 +1,7 @@
-﻿
-using Dapper;
+﻿using System.Numerics;
 
 namespace Server_World.Actors.HuntZone
 {
-    using Framework.Core.Session;
     using GameCore;
     using GameCore.Datas.Enemy;
     using Server_World.Core.Worlds;
@@ -14,98 +12,60 @@ namespace Server_World.Actors.HuntZone
     public partial class WorldZoneActor
     {
         /// <summary>
+        /// Get section.
+        /// </summary>
+        private (int sectionX, int sectionY) GetSection(Vector2 position)
+        {
+            return ((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
+        }
+
+        /// <summary>
         /// 특정 섹션의 플레이 정보 가져오기.
         /// </summary>
-        private List<World_Player> GetSectionPlayers((int, int) section)
+        private IEnumerable<World_Player> GetSectionPlayers((int, int) section)
         {
             if (false == _sectionPlayerDict.TryGetValue(section, out var playerDict))
             {
                 return null;
             }
 
-            if (false == playerDict.Any())
-            {
-                return null;
-            }
-
-            return playerDict.Values.AsList();
+            return playerDict.Values;
         }
 
         /// <summary>
         /// 특정 섹션의 적 정보 가져오기.
         /// </summary>
-        private List<DTO_Enemy> GetSectionEnemies((int, int) section)
+        private IEnumerable<DTO_Enemy> GetSectionEnemies((int, int) section)
         {
             if (false == _sectionEnemyDict.TryGetValue(section, out var enemies))
             {
                 return null;
             }
 
-            if (false == enemies.Any())
-            {
-                return null;
-            }
-
-            return enemies.Values.AsList();
+            return enemies.Values;
         }
 
         /// <summary>
-        /// 특정 섹션의 적 정보 가져오기.
+        /// Get players around sections.
         /// </summary>
-        private DTO_Enemy GetSectionEnemy((int, int) section, ulong enemyUid)
+        private IEnumerable<World_Player> GetAroundPlayers((int, int) section)
         {
-            if (false == _sectionEnemyDict.TryGetValue(section, out var enemies))
-            {
-                return null;
-            }
-
-            if (false == enemies.TryGetValue(enemyUid, out var enemy))
-            {
-                return null;
-            }
-
-            return enemy;
-        }
-
-        /// <summary>
-        /// 특정 섹션의 세션 가져오기.
-        /// </summary>
-        private List<GameSession> GetGameSessions((int, int) section)
-        {
-            if (false == _sectionPlayerDict.TryGetValue(section, out var playerDict))
-            {
-                return null;
-            }
-
-            if (false == playerDict.Any())
-            {
-                return null;
-            }
-
-            return playerDict.Values.Select(d => d.GameSession).AsList();
-        }
-
-        /// <summary>
-        /// 섹션 세션 가져오기.
-        /// </summary>
-        private List<GameSession> GetAroundSessions((int, int) section)
-        {
-            var aroundGameSessions = new List<GameSession>();
+            var aroundPlayers = new List<World_Player>();
             var aroundSections = GetAroundSections(section);
 
-            foreach (var findSession in aroundSections)
+            foreach (var findSection in aroundSections)
             {
-                var gameSessions = GetGameSessions(findSession);
+                var sectionPlayers = GetSectionPlayers(findSection);
 
-                if (null == gameSessions)
+                if (false == sectionPlayers.Any())
                 {
                     continue;
                 }
 
-                aroundGameSessions.AddRange(gameSessions);
+                aroundPlayers.AddRange(sectionPlayers);
             }
 
-            return aroundGameSessions;
+            return aroundPlayers;
         }
 
         /// <summary>
@@ -124,11 +84,9 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Get section or default.
         /// </summary>
-        private bool IsValidSection(int posX, int posY, out (int sectionX, int sectionY) outSection)
+        private bool IsValidSection((int sectionX, int sectionY) section)
         {
-            outSection = (posX / GameData.SECTION_WIDTH, posY / GameData.SECTION_HEIGHT);
-
-            return _sectionDict.ContainsKey(outSection);
+            return _sectionDict.ContainsKey(section);
         }
     }
 }

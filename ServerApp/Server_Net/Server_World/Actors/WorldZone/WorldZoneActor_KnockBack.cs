@@ -18,7 +18,7 @@ namespace Server_World.Actors.HuntZone
         private void KnockBack(World_Player worldPlayer, NetPacketCS_KnockBack packet)
         {
             var playInfo = worldPlayer.PlayInfo;
-            var position = worldPlayer.PlayInfo.Position;
+            var position = playInfo.Location.Position;
 
             // 운동량(P) = 질량(MASS) * 속도(V)
             // 위 공식은 Unity AddForce(Impulse)와 동일한 결과를 내기 위한 공식.
@@ -45,8 +45,8 @@ namespace Server_World.Actors.HuntZone
             }
 
             // 위치 갱신.
-            playInfo.Position = packet.Position;
-            playInfo.MoveDirection = Type_MoveDirection.None;
+            playInfo.Location.Position = packet.Position;
+            playInfo.Action = Type_Action.None;
         }
     }
 }

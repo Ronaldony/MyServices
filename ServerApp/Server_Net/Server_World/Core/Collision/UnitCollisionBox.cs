@@ -1,8 +1,9 @@
-﻿using GameCore;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Server_World.Core.Collision
 {
+    using GameCore;
+
     /// <summary>
     /// HitCollisionBox.
     /// </summary>
@@ -27,33 +28,11 @@ namespace Server_World.Core.Collision
 
         /// <summary>
         /// 충돌 경계 박스.
-        /// </summary>c
-        /// <param name="x">객체 좌표 x</param>
-        /// <param name="y">객체 좌표 y</param>
-        /// <param name="angle">회전 축</param>
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         public override BoudingBox GetBoudingBox(float x, float y, Vector2 angle)
         {
-            // TODO: Angle에 따른 좌표 계산.
-            if (angle.X < 0)
-            {
-                // 왼쪽.
-                // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-                _boudingBox.MinX = x - (_offsetX + _width);
-                _boudingBox.MaxX = x - _offsetX + _width;
-            }
-            else
-            {
-                // 오른쪽.
-                // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-                _boudingBox.MinX = x + _offsetX - _width;
-                _boudingBox.MaxX = x + _offsetX + _width;
-            }
-
-            // 최댓값 = 현재 좌표 + offset + 충돌 범위.
-            _boudingBox.MinY = y + _offsetY - _height;
-            _boudingBox.MaxY = y + _offsetY + _height;
-
-            return _boudingBox;
+            throw new NotImplementedException();
         }
 
         /// <summary>

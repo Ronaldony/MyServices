@@ -1,8 +1,9 @@
-﻿using GameCore;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Server_World.Core.Collision
 {
+    using GameCore;
+
     /// <summary>
     /// SwordCollisionBox.
     /// </summary>

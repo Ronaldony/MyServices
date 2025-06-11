@@ -40,7 +40,7 @@ namespace Network
             playerDataManager.InventoryInfo = packetData.InventoryInfo;
 
             // Load scene.
-            loginActor.LoadScene(playerDataManager.PlayInfo.Area.ToString());
+            loginActor.LoadScene(playerDataManager.PlayInfo.Location.Area.ToString());
             //switch (playerDataManager.PlayInfo.Area)
             //{
             //    case Type_Area.HuntZone:

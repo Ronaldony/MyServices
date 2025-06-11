@@ -37,8 +37,6 @@ namespace Server_World
             hostAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             hostAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             hostAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
-            hostAppBuilder.Services.AddSingleton<CollisionService>();
-            hostAppBuilder.Services.AddSingleton<WeaponService>();
 
             // Data objects.
             hostAppBuilder.Services.AddSingleton<SessionInfoObject>();

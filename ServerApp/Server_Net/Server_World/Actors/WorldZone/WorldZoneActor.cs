@@ -11,7 +11,6 @@ namespace Server_World.Actors.HuntZone
     using GameCore.NetPacket;
     using Server_World.Actors.HuntZone.Scheduler;
     using Server_World.Core.Datas;
-    using Server_World.Core.Services;
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
     using Server_World.Server.World;
@@ -26,11 +25,9 @@ namespace Server_World.Actors.HuntZone
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
-        private readonly CollisionService _collisionService;
-        private readonly WeaponService _weaponService;
 
         private readonly WorldServer _worldServer;
-        private readonly HuntZoneScheduler_Enemy _schedulerEnemy;
+        private readonly WorldZoneScheduler_Enemy _schedulerEnemy;
 
         /// <summary>
         /// HuntZone_Player dictionary.
@@ -47,7 +44,7 @@ namespace Server_World.Actors.HuntZone
         private readonly Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<string, World_Player>> _sectionPlayerDict;
 
         /// <summary>
-        /// 섹션 단위 적 정보.
+        /// 적 정보.
         /// key: Section.
         /// value: DTO_Enemy dictionary (key: EnemeyUId).
         /// </summary>
@@ -86,11 +83,9 @@ namespace Server_World.Actors.HuntZone
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
             _memoryPoolService =  ServiceUtility.GetService<IMemoryPoolService>();
-            _collisionService = ServiceUtility.GetService<CollisionService>();
-            _weaponService = ServiceUtility.GetService<WeaponService>();
 
             _worldServer = ServiceUtility.GetService<WorldServer>();
-            _schedulerEnemy = new HuntZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
+            _schedulerEnemy = new WorldZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
 
             // Initialize dictionary.
             _playerDict = new Dictionary<string, World_Player>();

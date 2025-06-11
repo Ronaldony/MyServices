@@ -1,12 +1,14 @@
-﻿using GameCore;
+﻿using Server_World.Core.Services;
 using System.Numerics;
 
 namespace Server_World.Core.Collision
 {
+    using GameCore;
+
     /// <summary>
     /// ICollisionBox.
     /// </summary>
-    public abstract class CollisionBox
+    public abstract class CollisionBox : IDisposable
     {
         // 충돌 너비 및 높이.
         protected float _width, _height;
@@ -35,5 +37,10 @@ namespace Server_World.Core.Collision
         /// 바운딩 경계 얻기.
         /// </summary>
         public abstract BoudingBox GetBoudingBox(float x, float y);
+
+        public void Dispose()
+        {
+            CollisionManager.Release(this);
+        }
     }
 }

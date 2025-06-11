@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Network.UDP;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 
@@ -8,7 +9,6 @@ namespace Server_World.Server.World
 {
     using Server_World.Actors.HuntZone;
     using Server_World.Core.Worlds;
-    using ServerEngine.Network.UDP;
 
     /// <summary>
     /// Game server.
@@ -17,7 +17,7 @@ namespace Server_World.Server.World
     {
         private readonly ILogger<WorldServer> _logger;
 
-        private readonly WorldZoneActorProvider _huntZoneProvider;
+        private readonly WorldZoneActorProvider _worldZoneProvider;
 
         /// <summary>
         /// Sessoin dictionary.
@@ -33,7 +33,7 @@ namespace Server_World.Server.World
 
             _sessionDict = new ConcurrentDictionary<ulong, string>();
 
-            _huntZoneProvider = serviceProvider.GetService<WorldZoneActorProvider>();
+            _worldZoneProvider = serviceProvider.GetService<WorldZoneActorProvider>();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Server_World.Server.World
             _sessionDict.TryRemove(sessionUid, out var pid);
 
             // Send message.
-            _huntZoneProvider.Tell<WorldMsg_OutPlayer>(new WorldMsg_OutPlayer
+            _worldZoneProvider.Tell<WorldMsg_OutPlayer>(new WorldMsg_OutPlayer
             {
                 Pid = pid
             });
