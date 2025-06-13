@@ -57,7 +57,7 @@ namespace Framework.Core.Database.DAO
         /// <summary>
         /// GetIdentity.
         /// </summary>
-        public async Task<DBO_Identity> SelectIdentityOrDefaultAsync(string uid)
+        public async Task<DBO_Identity> SelectOrDefaultAsync(string uid)
         {
             const string SQL = """
                                 SELECT * FROM TBL_Identity 
@@ -67,6 +67,30 @@ namespace Framework.Core.Database.DAO
             using (var connection = new MySqlConnection(_connectString))
             {
                 return await connection.QueryFirstOrDefaultAsync<DBO_Identity>(
+                    sql: SQL,
+                    param: new
+                    {
+                        Uid = uid,
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+            }
+        }
+
+        /// <summary>
+        /// GetIdentity.
+        /// </summary>
+        public DBO_Identity SelectOrDefault(string uid)
+        {
+            const string SQL = """
+                                SELECT * FROM TBL_Identity 
+                                    WHERE uid=@Uid
+                                """;
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                return connection.QueryFirstOrDefault<DBO_Identity>(
                     sql: SQL,
                     param: new
                     {

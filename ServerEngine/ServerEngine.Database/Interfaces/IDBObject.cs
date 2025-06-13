@@ -2,9 +2,9 @@
 namespace ServerEngine.Database.Interfaces
 {
     /// <summary>
-    /// IDataObject.
+    /// IDBObject.
     /// </summary>
-    public interface IDataObject
+    public interface IDBObject
     {
         /// <summary>
         /// Get blob data.

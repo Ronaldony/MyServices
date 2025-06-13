@@ -1,61 +1,41 @@
-﻿using ServerEngine.Database.DataObject;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Framework.Core.Database.DataObject
 {
-    using Framework.Config.ConfigManager;
     using Framework.Core.Database.Attributes;
+    using Framework.Core.Database.DAO;
+    using Framework.Core.Database.Interfaces;
     using GameCore.Datas.Player;
 
     /// <summary>
     /// SessionInfoObject.
     /// </summary>
     [DataInfoObject(typeof(DTO_PlayerInfo))]
-    public class PlayerInfoObject : DataObject_Couchbase
+    public class PlayerInfoObject : IDataObject
     {
+        public DTO_PlayerInfo PlayerInfo => _playerInfo;
+
+        private DTO_PlayerInfo _playerInfo;
+        private readonly DBPlayerInfo _dbPlayerInfo;
+
         public PlayerInfoObject(IServiceProvider serviceProvider)
-            : base(
-                  serviceProvider,
-                  GameConfigManager._configGame.Couchbase,
-                  GameConfigManager.GetCouchbaseConnection("PlayerInfo"))
         {
+            _dbPlayerInfo = serviceProvider.GetRequiredService<DBPlayerInfo>();
         }
 
-        /// <summary>
-        /// Select async.
-        /// </summary>s
-        public new async Task<T> SelectAsync<T>(string pid) where T : DTO_PlayerInfo, new()
+        public async Task LoadDataAsync(string pid)
         {
-            var playerInfo = await base.SelectAsync<T>(pid);
+            _playerInfo = await _dbPlayerInfo.SelectAsync(pid);
 
-            if (null == playerInfo)
+            if (null == _playerInfo)
             {
-                return null;
+                _playerInfo = new DTO_PlayerInfo();
             }
-
-            return playerInfo;
         }
 
-        /// <summary>
-        /// Upsert async.
-        /// </summary>
-        public new async Task<bool> UpsertAsync<T>(string pid, T dataObject) where T : DTO_PlayerInfo, new()
+        public async Task UpsertAsync(string pid)
         {
-            var isUpsert = await base.UpsertAsync(pid, dataObject);
-
-            if (false == isUpsert)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Create first object.
-        /// </summary>
-        protected override T FirstCreateObject<T>()
-        {
-            throw new NotImplementedException();
+            await _dbPlayerInfo.UpsertAsync<DTO_PlayerInfo>(pid, _playerInfo);
         }
     }
 }

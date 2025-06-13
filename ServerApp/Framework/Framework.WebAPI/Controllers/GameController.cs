@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Framework.WebAPI.Controllers
 {
-    using Microsoft.Extensions.DependencyInjection;
-    using ServerEngine.Database.Interfaces;
+    using Framework.Core.Database.Interfaces;
 
     /// <summary>
     /// GameController
@@ -11,6 +11,10 @@ namespace Framework.WebAPI.Controllers
     public abstract partial class GameController : Controller, IGameController
     {
         private readonly IServiceProvider _serviceProvider;
+
+        public string Uid { get; set; }
+
+        public string Pid { get; set; }
 
         /// <summary>
         /// IPAddress
@@ -22,9 +26,11 @@ namespace Framework.WebAPI.Controllers
 		/// key: Type,
 		/// value: DataObject interface,
 		/// </summary>
+        public Dictionary<Type, IDataObject> DataObjectDict => _dataObjectDict;
 		private Dictionary<Type, IDataObject> _dataObjectDict;
 
-		public GameController(IServiceProvider serviceProvider)
+
+        public GameController(IServiceProvider serviceProvider)
 		{
 			_serviceProvider = serviceProvider;
 
@@ -34,19 +40,19 @@ namespace Framework.WebAPI.Controllers
 		/// <summary>
 		/// Get object.
 		/// </summary>
-		protected T GetObject<T>() where T: class, IDataObject
+		protected async Task<T> GetObjectAsync<T>() where T: class, IDataObject
 		{
 			var type = typeof(T);
 
-			if (_dataObjectDict.ContainsKey(type))
+			if (false == _dataObjectDict.ContainsKey(type))
 			{
-				return _dataObjectDict[type] as T;
+				var dataObject = _serviceProvider.GetRequiredService<T>();
+				_dataObjectDict.Add(type, dataObject);
             }
 
-			var dataObject = _serviceProvider.GetRequiredService<T>();
-			_dataObjectDict.Add(type, dataObject);
+			await _dataObjectDict[type].LoadDataAsync(Pid);
 
-            return dataObject;
+            return _dataObjectDict[type] as T;
 		}
     }
 }

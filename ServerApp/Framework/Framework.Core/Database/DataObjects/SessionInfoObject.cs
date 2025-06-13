@@ -1,59 +1,45 @@
-﻿using ServerEngine.Database.DataObject;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Framework.Core.Database.DataObject
 {
-    using Framework.Config.ConfigManager;
+    using Framework.Core.Database.DAO;
+    using Framework.Core.Database.Interfaces;
     using Framwork.Core.Session;
 
     /// <summary>
     /// SessionInfoObject.
     /// </summary>
-    public class SessionInfoObject : DataObject_Couchbase
+    public class SessionInfoObject : IDataObject
     {
+        public SessionInfo SessionInfo => _sessionInfo;
+
+        private SessionInfo _sessionInfo;
+        private readonly DBSessionInfo _dbSessionInfo;
+
         public SessionInfoObject(IServiceProvider serviceProvider)
-            : base(
-                  serviceProvider,
-                  GameConfigManager._configGame.Couchbase,
-                  GameConfigManager.GetCouchbaseConnection("SessionInfo"))
         {
+            _dbSessionInfo = serviceProvider.GetRequiredService<DBSessionInfo>();
         }
 
         /// <summary>
-        /// Select async.
-        /// </summary>s
-        public new async Task<T> SelectAsync<T>(string pid) where T : SessionInfo, new()
-        {
-            var playerInfo = await base.SelectAsync<T>(pid);
-
-            if (null == playerInfo)
-            {
-                return null;
-            }
-
-            return playerInfo;
-        }
-
-        /// <summary>
-        /// Upsert async.
+        /// Load data.
         /// </summary>
-        public new async Task<bool> UpsertAsync<T>(string pid, T dataObject) where T : SessionInfo, new()
+        public async Task LoadDataAsync(string pid)
         {
-            var isUpsert = await base.UpsertAsync(pid, dataObject);
+            _sessionInfo = await _dbSessionInfo.SelectAsync(pid);
 
-            if (false == isUpsert)
+            if (null == _sessionInfo)
             {
-                return false;
+                _sessionInfo = new SessionInfo();
             }
-
-            return true;
         }
 
         /// <summary>
-        /// Create first object.
+        /// Load data.
         /// </summary>
-        protected override T FirstCreateObject<T>()
+        public async Task UpsertAsync(string pid)
         {
-            throw new NotImplementedException();
+            await _dbSessionInfo.UpsertAsync(pid, _sessionInfo);
         }
     }
 }

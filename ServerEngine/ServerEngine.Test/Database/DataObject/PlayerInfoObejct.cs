@@ -5,7 +5,7 @@ namespace ServerEngine.Test.Database.DataObject
     using ServerEngine.Config.Database;
     using ServerEngine.Database.DataObject;
 
-    public class PlayerInfoObejct : DataObject_Couchbase
+    public class PlayerInfoObejct : DBObject_Couchbase
     {
         private readonly ILogger<PlayerInfoObejct> _logger;
 
@@ -51,9 +51,5 @@ namespace ServerEngine.Test.Database.DataObject
             return false;
         }
 
-        protected override T FirstCreateObject<T>()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

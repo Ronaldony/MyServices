@@ -5,7 +5,7 @@ namespace ServerEngine.Database.DataObject
     using ServerEngine.Config.Database;
     using ServerEngine.Database.Interfaces;
 
-    public abstract class DataObject_Couchbase : IDataObject
+    public abstract class DBObject_Couchbase : IDBObject
     {
         // Account information.
         private readonly string _host;
@@ -16,12 +16,7 @@ namespace ServerEngine.Database.DataObject
         private readonly string _selectQuery;
         private string _upsertQuery;
 
-        /// <summary>
-        /// First create object.
-        /// </summary>
-        protected abstract T FirstCreateObject<T>() where T : class, new();
-
-        public DataObject_Couchbase(IServiceProvider serviceProvider, Config_Couchbase configCouchbase, Config_CouchbaseConnection connection)
+        public DBObject_Couchbase(IServiceProvider serviceProvider, Config_Couchbase configCouchbase, Config_CouchbaseConnection connection)
         {
             // Couchbase.
             _host = configCouchbase.Host;

@@ -8,36 +8,36 @@
         /// <summary>
         /// 유저 Id.
         /// </summary>
-        public string UserId { get; init; }
+        public string UserId { get; set; }
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public string Uid { get; init; }
+        public string Uid { get; set; }
 
         /// <summary>
         /// Pid.
         /// </summary>
-        public string Pid { get; init; }
+        public string Pid { get; set; }
 
         /// <summary>
         /// IP Address.
         /// </summary>
-        public string Address { get; init; }
+        public string Address { get; set; }
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public string AccessToken { get; init; }
+        public string AccessToken { get; set; }
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public string RefreshToken { get; init; }
+        public string RefreshToken { get; set; }
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public DateTime TokenExpireTime { get; init; }
+        public DateTime TokenExpireTime { get; set; }
     }
 }

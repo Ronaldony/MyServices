@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using ServerEngine.Core.Util;
 
 namespace LoginServer.Controllers.Auth
 {
@@ -8,11 +9,8 @@ namespace LoginServer.Controllers.Auth
     using Framework.Core.WebAPI.ActionFilter;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
-    using Framwork.Core.Session;
     using GameCore;
-    using GameCore.Datas.Player;
     using GameCore.Http.Auth;
-    using ServerEngine.Core.Util;
 
     /// <summary>
     /// 로그인 컨트롤러.
@@ -53,70 +51,34 @@ namespace LoginServer.Controllers.Auth
                 throw new ServerException(GameErrorCode.Auth_NotExistUserId, $"not exist user. {req.UserId}");
             }
 
-            // Uid 검사.
-            var uid = dboUser.Uid;
-
-            if (false == req.Uid.Equals(uid))
-            {
-                throw new ServerException(GameErrorCode.Auth_NotMatchUid, $"not match uid. {req.UserId}");
-            }
-
             // Identity 검사.
-            var dboIdentity = await _dbIdentity.SelectIdentityOrDefaultAsync(uid);
+            var dboIdentity = await _dbIdentity.SelectOrDefaultAsync(base.Uid);
 
             if (default == dboIdentity)
             {
                 throw new ServerException(GameErrorCode.Auth_NotExistIdentity, $"not exist identity. {req.UserId}");
             }
 
-            // Token 검사.
-            if (TimeUtil.IsPastTime(dboIdentity.TokenExpireTime, nowTime))
-            {
-                throw new ServerException(GameErrorCode.Auth_ExpiredToken, $"expire accesstoken.");
-            }
-
-            if (false == dboIdentity.Token.Equals(req.AccessToken))
-            {
-                throw new ServerException(GameErrorCode.Auth_NotMatchToken, $"not match accesstoken.");
-            }
-
-            // Pid 검사.
-            var dboPlayerData = await _dbPlayerData.SelectPlayerDataOrDefaultAsync(req.Pid);
-
-            if (default == dboPlayerData)
-            {
-                throw new ServerException(GameErrorCode.Auth_NotExistPlayerInfo, $"not match accesstoken.");
-            }
-
-            // Save session.
-            var newSessionInfo = new SessionInfo
-            {
-                UserId = dboUser.UserId,
-                Address = this.Address,
-                Uid = dboIdentity.Uid,
-                RefreshToken = dboIdentity.RefreshToken,
-                TokenExpireTime = dboIdentity.TokenExpireTime,
-                AccessToken = dboIdentity.Token,
-            };
-
             // SessionInfo 생성.
-            var sessionInfoObject = GetObject<SessionInfoObject>();
+            var sessionInfoObject = await GetObjectAsync<SessionInfoObject>();
+            var sessionInfo = sessionInfoObject.SessionInfo;
 
-            if (false == await sessionInfoObject.UpsertAsync(req.Pid, newSessionInfo))
-            {
-                throw new ServerException(GameErrorCode.Auth_NotCreatedSession, $"not match accesstoken.");
-            }
+            sessionInfo.UserId = dboUser.UserId;
+            sessionInfo.Address = this.Address;
+            sessionInfo.Uid = dboIdentity.Uid;
+            sessionInfo.RefreshToken = dboIdentity.RefreshToken;
+            sessionInfo.TokenExpireTime = dboIdentity.TokenExpireTime;
+            sessionInfo.AccessToken = dboIdentity.Token;
 
             // PlayerInfo 가져오기.
-            var playerInfoObejct = GetObject<PlayerInfoObject>();
-            var playerInfo = await playerInfoObejct.SelectAsync<DTO_PlayerInfo>(req.Pid);
+            var playerInfoObejct = await GetObjectAsync<PlayerInfoObject>();
 
             _logger.LogDebug($"login - uid: {dboIdentity.Uid}, pid: {req.Pid}");
 
             return new RES_Login
             {
-                Uid = uid,
-                PlayerInfo = playerInfo,
+                Uid = base.Uid,
+                PlayerInfo = playerInfoObejct.PlayerInfo,
             };
         }
     }

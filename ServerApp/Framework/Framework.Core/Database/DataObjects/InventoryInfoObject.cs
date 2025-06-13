@@ -1,60 +1,41 @@
-﻿namespace Framework.Core.Database.DataObject
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Framework.Core.Database.DataObject
 {
-    using Framework.Config.ConfigManager;
     using Framework.Core.Database.Attributes;
+    using Framework.Core.Database.DAO;
+    using Framework.Core.Database.Interfaces;
     using GameCore.Datas.Inventory;
-    using ServerEngine.Database.DataObject;
 
     /// <summary>
     /// InventoryInfoObject.
     /// </summary>
     [DataInfoObject(typeof(DTO_InventoryInfo))]
-    public class InventoryInfoObject : DataObject_Couchbase
+    public class InventoryInfoObject : IDataObject
     {
+        public DTO_InventoryInfo InventoryInfo => _inventoryInfo;
+
+        private DTO_InventoryInfo _inventoryInfo;
+        private readonly DBInventoryInfo _dbInventoryInfo;
+
         public InventoryInfoObject(IServiceProvider serviceProvider)
-            : base(
-                  serviceProvider,
-                  GameConfigManager._configGame.Couchbase,
-                  GameConfigManager.GetCouchbaseConnection("InventoryInfo"))
         {
+            _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
         }
 
-        /// <summary>
-        /// Select async.
-        /// </summary>s
-        public new async Task<T> SelectAsync<T>(string pid) where T : DTO_InventoryInfo, new()
+        public async Task LoadDataAsync(string pid)
         {
-            var playInfo = await base.SelectAsync<T>(pid);
+            _inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
 
-            if (null == playInfo)
+            if (null == _inventoryInfo)
             {
-                return null;
+                _inventoryInfo = new DTO_InventoryInfo();
             }
-
-            return playInfo;
         }
 
-        /// <summary>
-        /// Upsert async.
-        /// </summary>
-        public new async Task<bool> UpsertAsync<T>(string pid, T dataObject) where T : DTO_InventoryInfo, new()
+        public async Task UpsertAsync(string pid)
         {
-            var isUpsert = await base.UpsertAsync(pid, dataObject);
-
-            if (false == isUpsert)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Create first object.
-        /// </summary>
-        protected override T FirstCreateObject<T>()
-        {
-            throw new NotImplementedException();
+            await _dbInventoryInfo.UpsertAsync<DTO_InventoryInfo>(pid, _inventoryInfo);
         }
     }
 }

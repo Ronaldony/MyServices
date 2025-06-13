@@ -1,5 +1,4 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
 
@@ -11,10 +10,8 @@ namespace LoginServer.Controllers.Auth
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
     using GameCore;
-    using GameCore.Datas.Inventory;
-    using GameCore.Datas.Play;
-    using GameCore.Datas.Player;
     using GameCore.Http.Auth;
+    using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// 플레이어 생성 컨트롤러.
@@ -48,60 +45,22 @@ namespace LoginServer.Controllers.Auth
         {
             var nowTime = TimeUtil.Now;
 
-            // 유저 정보 검사.
-            var dboUser = await _dbUser.SelectUserOrDefualtAsync(req.UserId);
-
-            if (default == dboUser)
-            {
-                throw new ServerException(GameErrorCode.CreatePlayer_NotExistUserId, $"not exist user. {req.UserId}");
-            }
-
-            // Uid 검사.
-            var uid = dboUser.Uid;
-
-            if (false == req.Uid.Equals(uid))
-            {
-                throw new ServerException(GameErrorCode.CreatePlayer_NotMatchUid, $"not match uid. {req.UserId}");
-            }
-
-            // Identity 검사.
-            var dboIdentity = await _dbIdentity.SelectIdentityOrDefaultAsync(uid);
-
-            if (default == dboIdentity)
-            {
-                throw new ServerException(GameErrorCode.CreatePlayer_NotExistIdentity, $"not exist identity. {req.UserId}");
-            }
-
-            // Token 검사.
-            if (TimeUtil.IsPastTime(dboIdentity.TokenExpireTime, nowTime))
-            {
-                throw new ServerException(GameErrorCode.CreatePlayer_ExpiredToken, $"expire accesstoken.");
-            }
-
-            if (false == dboIdentity.Token.Equals(req.AccessToken))
-            {
-                throw new ServerException(GameErrorCode.CreatePlayer_NotMatchToken, $"not match accesstoken.");
-            }
-
             // Pid 발급.
             var newPid = _uniqueIdService.GenerateId();
             var playerName = newPid;
 
             // Create PlayerData.
-            if (false == await _dbPlayerData.CreatePlayerDataAsync(uid, newPid, playerName))
+            if (false == await _dbPlayerData.CreatePlayerDataAsync(base.Uid, newPid, playerName))
             {
                 throw new ServerException(GameErrorCode.CreatePlayer_NotCreatedPlayer, $"create PlayerData error.");
             }
 
             // 플레이어 객체 생성.
-            if (false == await CreateOrUpdatePlayerAsync(uid, newPid, nowTime))
-            {
-                throw new ServerException(GameErrorCode.Auth_NotCreateOrUpdatePlayer, $"not create or update player.");
-            }
+            await CreateOrUpdatePlayerAsync(base.Uid, newPid, nowTime);
 
             return new RES_CreatePlayer
             {
-                Uid = uid,
+                Uid = base.Uid,
                 Pid = newPid,
                 PlayerName = playerName,
             };
@@ -110,11 +69,11 @@ namespace LoginServer.Controllers.Auth
         /// <summary>
         /// Create or update player.
         /// </summary>
-        private async Task<bool> CreateOrUpdatePlayerAsync(string uid, string pid, DateTime nowTime)
+        private async Task CreateOrUpdatePlayerAsync(string uid, string pid, DateTime nowTime)
         {
             // PlayInfo.
-            var playInfoObject = GetObject<PlayInfoObject>();
-            var playInfo = new DTO_PlayInfo();
+            var playInfoObject = await GetObjectAsync<PlayInfoObject>();
+            var playInfo = playInfoObject.PlayInfo;
 
             playInfo.Pid = pid;
             playInfo.PlayerName = pid;
@@ -123,35 +82,16 @@ namespace LoginServer.Controllers.Auth
             playInfo.Stat.Velocity = 4;
             playInfo.Equipment.Weapon = 1;
 
-            if (false == await playInfoObject.UpsertAsync<DTO_PlayInfo>(pid, playInfo))
-            {
-                return false;
-            }
-
             // InventoryInfo.
-            var inventoryInfoObject = GetObject<InventoryInfoObject>();
-            var inventoryInfo = new DTO_InventoryInfo();
-
-            if (false == await inventoryInfoObject.UpsertAsync<DTO_InventoryInfo>(pid, inventoryInfo))
-            {
-                return false;
-            }
+            var inventoryInfoObject = await GetObjectAsync<InventoryInfoObject>();
 
             // PlayerInfoObject.
-            var playerInfoObejct = GetObject<PlayerInfoObject>();
-            var playerInfo = new DTO_PlayerInfo();
+            var playerInfoObejct = await GetObjectAsync<PlayerInfoObject>();
+            var playerInfo = playerInfoObejct.PlayerInfo;
 
             playerInfo.Uid = uid;
             playerInfo.Pid = pid;
             playerInfo.RegTime = nowTime;
-
-            // PlayerInfo 저장.
-            if (false == await playerInfoObejct.UpsertAsync(pid, playerInfo))
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

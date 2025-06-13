@@ -12,15 +12,21 @@ namespace Framework.Core.Database.DBO
     public class DBO_Identity
 	{
 		/// <summary>
-		/// 발급된 유저 고유Id
+		/// 발급된 유저 고유 Id
 		/// </summary>
 		[ColumnMapping("uid")]
 		public string Uid { get; set; }
 
-		/// <summary>
-		/// Access token.
-		/// </summary>
-		[ColumnMapping("token")]
+        /// <summary>
+        /// 발급된 플레이어 고유 Id
+        /// </summary>
+        [ColumnMapping("pid")]
+        public string Pid { get; set; }
+
+        /// <summary>
+        /// Access token.
+        /// </summary>
+        [ColumnMapping("token")]
 		public string Token { get; set; }
 
 		/// <summary>

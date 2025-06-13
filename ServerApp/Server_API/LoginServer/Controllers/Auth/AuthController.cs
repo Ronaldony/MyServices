@@ -1,16 +1,15 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Core.Util;
 
 namespace LoginServer.Controllers.Auth
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.WebAPI.ActionFilter;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
     using GameCore;
     using GameCore.Http.Auth;
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Core.Util;
 
     /// <summary>
     /// 인증 컨트롤러.
@@ -43,7 +42,6 @@ namespace LoginServer.Controllers.Auth
 
         [HttpPost]
         [Route("auth/auth")]
-        [ServiceFilter(typeof(AuthActionFilter))]
         public async Task<RES_Auth> ProcessAsync([FromBody] REQ_Auth req)
         {
             if (true == string.IsNullOrEmpty(req.UserId))
@@ -90,7 +88,7 @@ namespace LoginServer.Controllers.Auth
             }
             else
             {
-                var dboIdentity = _dbIdentity.SelectIdentityOrDefaultAsync(dboUser.Uid);
+                var dboIdentity = _dbIdentity.SelectOrDefaultAsync(dboUser.Uid);
 
                 // 기존가입자이지만 Uid는 존재하고 Identity가 없는경우 추가로 넣어준다.
                 // TBL_User에는 Uid가 설정되어 있고 TBL_Identity에는 없는 경우

@@ -1,18 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
-using ServerEngine.Database.Interfaces;
 using ServerEngine.Network.UDP;
-using System.Reflection;
 
 namespace Server_World.Server.World.Handlers
 {
-    using Framework.Core.Database.Attributes;
+    using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObject;
-    using Framwork.Core.Session;
     using GameCore;
-    using GameCore.Datas.Inventory;
-    using GameCore.Datas.Play;
     using GameCore.NetPacket;
 
     /// <summary>
@@ -28,12 +23,9 @@ namespace Server_World.Server.World.Handlers
         // Data objects.
         private readonly SessionInfoObject _sessionInfoObject;
 
-        /// <summary>
-        /// Data object dictionary.
-        /// key: Data object type.
-        /// value: Data Object.
-        /// </summary>
-        private readonly Dictionary<Type, IDataObject> _dataObjectDict;
+        // DB Objects.
+        private readonly DBPlayInfo _dbPlayInfo;
+        private readonly DBInventoryInfo _dbInventoryInfo;
 
         public UdpHandler_Login(IServiceProvider serviceProvider)
             : base(NetPacketCode.CS_Login)
@@ -47,18 +39,8 @@ namespace Server_World.Server.World.Handlers
             _sessionInfoObject = serviceProvider.GetRequiredService<SessionInfoObject>();
 
             // Data object 생성.
-            _dataObjectDict = new Dictionary<Type, IDataObject>();
-
-            // InfoObjectAttribute를 포함한 DataObject 가져오기.
-            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in asm.GetTypes().Where(d => d.GetCustomAttribute<DataInfoObjectAttribute>() != null))
-                {
-                    var dataObject = serviceProvider.GetRequiredService(type) as IDataObject;
-
-                    _dataObjectDict.Add(type, dataObject);
-                }
-            }
+            _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
+            _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
         }
 
         /// <summary>
@@ -71,9 +53,12 @@ namespace Server_World.Server.World.Handlers
                 _logger.LogDebug($"Player Login");
 
                 var netPacket = _dataSerializer.Deserialize<NetPacketCS_Login>(packet.Data);
+                var pid = netPacket.Pid;
 
                 // 세션.
-                var sessionInfo = await _sessionInfoObject.SelectAsync<SessionInfo>(netPacket.Pid);
+                await _sessionInfoObject.LoadDataAsync(pid);
+
+                var sessionInfo = _sessionInfoObject.SessionInfo;
 
                 if (sessionInfo == null)
                 {
@@ -89,7 +74,7 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // Pid 등록.
-                if (false == _worldServer.RegisterPid(sessionUid, netPacket.Pid))
+                if (false == _worldServer.RegisterPid(sessionUid, pid))
                 {
                     _worldServer.Disconnect(sessionId, sessionUid);
                     return;
@@ -99,8 +84,7 @@ namespace Server_World.Server.World.Handlers
                 /// Load info datas.
 
                 // PlayInfo.
-                var playInfo = await _dataObjectDict[typeof(PlayInfoObject)].SelectAsync<DTO_PlayInfo>(netPacket.Pid);
-
+                var playInfo = await _dbPlayInfo.SelectAsync(pid);
                 if (null == playInfo)
                 {
                     _worldServer.Disconnect(sessionId, sessionUid);
@@ -108,7 +92,7 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // InventoryInfo.
-                var inventoryInfo = await _dataObjectDict[typeof(InventoryInfoObject)].SelectAsync<DTO_InventoryInfo>(netPacket.Pid);
+                var inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
 
                 if (null == inventoryInfo)
                 {

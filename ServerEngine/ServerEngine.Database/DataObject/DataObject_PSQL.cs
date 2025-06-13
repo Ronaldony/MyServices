@@ -14,7 +14,7 @@ namespace ServerEngine.Database.DataObject
     /// <summary>
     /// Data object for PostgreSQL.
     /// </summary>
-    public abstract class DataObject_PSQL : IDataObject
+    public abstract class DataObject_PSQL : IDBObject
     {
         private readonly ILogger<DataObject_PSQL> _logger;
         
