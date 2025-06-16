@@ -8,7 +8,7 @@ namespace GameCore.Http.Auth
     /// <summary>
     /// REQ_Auth.
     /// </summary>
-
+    [HttpRouteAttribute("auth/auth")]
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class REQ_Auth
     {
@@ -44,11 +44,21 @@ namespace GameCore.Http.Auth
         public DateTime RefrshTokenExpire { get; set; }
 
         /// <summary>
-        /// PlayerDatas.
-        /// key: pid.
-        /// value: player name.
+        /// 신규 유저 여부.
         /// </summary>
         [MemoryPackOrder(4)]
-        public Dictionary<string, string> PlayerDataDict { get; set; }
+        public bool IsNewPlayer { get; set; }
+
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        [MemoryPackOrder(5)]
+        public string Pid { get; set; }
+
+        /// <summary>
+        /// PlayerName.
+        /// </summary>
+        [MemoryPackOrder(6)]
+        public string PlayerName { get; set; }
     }
 }

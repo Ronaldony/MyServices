@@ -22,7 +22,6 @@ namespace LoginServer.Controllers.Auth
 
         private readonly DBIdentity _dbIdentity;
         private readonly DBUser _dbUser;
-        private readonly DBPlayerData _dbPlayerData;
 
         public LoginController(
             IServiceProvider serviceProvider)
@@ -33,7 +32,6 @@ namespace LoginServer.Controllers.Auth
             // DB.
             _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
             _dbUser = serviceProvider.GetRequiredService<DBUser>();
-            _dbPlayerData = serviceProvider.GetRequiredService<DBPlayerData>();
         }
 
         [HttpPost]
@@ -41,14 +39,12 @@ namespace LoginServer.Controllers.Auth
         [ServiceFilter(typeof(AuthActionFilter))]
         public async Task<RES_Login> ProcessAsync([FromBody] REQ_Login req)
         {
-            var nowTime = TimeUtil.Now;
-
             // 유저 정보 검사.
             var dboUser = await _dbUser.SelectUserOrDefualtAsync(req.UserId);
 
             if (default == dboUser)
             {
-                throw new ServerException(GameErrorCode.Auth_NotExistUserId, $"not exist user. {req.UserId}");
+                throw new ServerException(GameErrorCode.Login_NotExistUserId, $"not exist user. {req.UserId}");
             }
 
             // Identity 검사.
@@ -56,7 +52,7 @@ namespace LoginServer.Controllers.Auth
 
             if (default == dboIdentity)
             {
-                throw new ServerException(GameErrorCode.Auth_NotExistIdentity, $"not exist identity. {req.UserId}");
+                throw new ServerException(GameErrorCode.Login_NotExistIdentity, $"not exist identity. {req.UserId}");
             }
 
             // SessionInfo 생성.
@@ -73,7 +69,7 @@ namespace LoginServer.Controllers.Auth
             // PlayerInfo 가져오기.
             var playerInfoObejct = await GetObjectAsync<PlayerInfoObject>();
 
-            _logger.LogDebug($"login - uid: {dboIdentity.Uid}, pid: {req.Pid}");
+            _logger.LogDebug($"login - uid: {dboIdentity.Uid}, pid: {base.Pid}");
 
             return new RES_Login
             {

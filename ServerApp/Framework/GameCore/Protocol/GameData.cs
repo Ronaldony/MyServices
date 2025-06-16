@@ -6,7 +6,7 @@
     public static class GameData
     {
         // 이동.
-        public const double MOVEMENT_ERROR = 0.45;          // 초당 이동 오차 범위.
+        public const double MOVEMENT_ERROR = 6;          // 초당 이동 오차 범위.
         public const int MOVEMENT_RANGE_LIMIT = 5;          // 이동 범위 제한.
 
         // 섹션.

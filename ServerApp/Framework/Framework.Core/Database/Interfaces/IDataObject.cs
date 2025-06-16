@@ -13,6 +13,6 @@
         /// <summary>
         /// Upsert async.
         /// </summary>
-        Task UpsertAsync(string pid);
+        Task<bool> UpsertAsync(string pid);
     }
 }

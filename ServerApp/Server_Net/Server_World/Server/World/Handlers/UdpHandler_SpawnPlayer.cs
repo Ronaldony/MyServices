@@ -54,6 +54,7 @@ namespace Server_World.Server.World.Handlers
 
                 var pid = _worldServer.GetPid(sessionUid);
 
+                // check pid.
                 if (string.IsNullOrEmpty(pid))
                 {
                     _worldServer.Disconnect(sessionId, sessionUid);
@@ -80,29 +81,28 @@ namespace Server_World.Server.World.Handlers
                 }
 
                 // Load player to hunt zone.
-                LoadPlayerToHuntZone(pid, sessionId, sessionUid, playInfo);
+                LoadPlayerToHuntZone(sessionId, sessionUid, playInfo);
             });
         }
 
         /// <summary>
         /// Load player to hunt zone actor.
         /// </summary>
-        private void LoadPlayerToHuntZone(string pid, int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
+        private void LoadPlayerToHuntZone(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
         {
+            // 충돌 박스.
+            var collisionBox = CollisionManager.Rent(Type_Collision.Player);
+            if (null == collisionBox)
+            {
+                return;
+            }
+
             // 세션.
             var gameSession = new GameSession
             {
                 SessionId = sessionId,
                 SessionUid = sessionUid
             };
-
-            // 충돌 박스.
-            var collisionBox = CollisionManager.Rent(Type_Collision.Player);
-
-            if (null == collisionBox)
-            {
-                return;
-            }
 
             // 액터 메시지.
             var actorMsg = new World_Player

@@ -65,7 +65,11 @@ namespace LoginServer.Controllers.Auth
                 uid = _uniqueIdService.GenerateId();
             }
 
-            var res = new RES_Auth();
+            // Request.
+            var res = new RES_Auth
+            {
+                IsNewPlayer = isNewUser,
+            };
 
             // 액세스 토큰 및 리프레시 토큰 발행.
             var accessToken = _uniqueIdService.GenerateId();
@@ -107,12 +111,14 @@ namespace LoginServer.Controllers.Auth
                     }
 
                     // Set player datas.
-                    var playerDatas = await _dbPlayerData.SelectPlayerDatasOrDefaultAsync(uid);
-
-                    if (default != playerDatas)
+                    var playerData = await _dbPlayerData.SelectOrDefault(uid);
+                    if (null == playerData)
                     {
-                        res.PlayerDataDict = playerDatas.ToDictionary(d => d.Pid, d => d.PlayerName);
+                        throw new ServerException(GameErrorCode.Auth_NotExistPlayer, $"not exist player. uid: {uid}");
                     }
+
+                    res.Pid = playerData.Pid;
+                    res.PlayerName = playerData.PlayerName;
                 }
             }
 

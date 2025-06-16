@@ -45,7 +45,7 @@ namespace Server_World.Actors.HuntZone
             SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_MoveStart, packetBytes);
 
             // Log.
-            //_logger.LogDebug($"MoveStart - pid: {packet.Pid}, pos: {playInfo.Position.Pos}, move: {packet.MoveDirection}, time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
+            //_logger.LogDebug($"MoveStart - pid: {playInfo.Pid}, pos: {location.Position}, move: {packet.MoveDirection}, time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
         }
 
         /// <summary>
@@ -83,7 +83,6 @@ namespace Server_World.Actors.HuntZone
             // 이동 거리 계산 및 유효성 검사.
             var deltaTime = (packet.PacketTime - playInfo.UpdateTime).TotalSeconds;
 
-            //_logger.LogInformation($"MoveEnd - pid: {packet.Pid}, end pos: {packet.EndPos}, last pos: {playInfo.Position.Pos}, calc delta: {deltaTime}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}, packet time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
 
             if (false == IsValidPosition(location.MoveDirection, deltaTime, playInfo.Stat.Velocity, location.Position, packet.EndPos))
             {
@@ -95,6 +94,7 @@ namespace Server_World.Actors.HuntZone
                 }));
 
                 _logger.LogError($"Move end position error. ");
+                _logger.LogError($"ori: {location.Position}, dst: {packet.EndPos}, dir: {location.MoveDirection}");
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace Server_World.Actors.HuntZone
             playInfo.Action = Type_Action.MoveEnd;
 
             // 패킷.
-            var packetBytes = _dataSerializer.Serialize(
+            var packetMoveEnd = _dataSerializer.Serialize(
                 new NetPacketSC_MoveEnd
                 {
                     Pid = playInfo.Pid,
@@ -112,7 +112,7 @@ namespace Server_World.Actors.HuntZone
                 });
 
             // 플레이어 섹션 근처 패킷 전송.
-            SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_MoveEnd, packetBytes);
+            SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_MoveEnd, packetMoveEnd);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Server_World.Actors.HuntZone
                 case Type_MoveDirection.RightTop:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X > lastPos.X + distErrorRange) { return false; }
@@ -190,7 +190,7 @@ namespace Server_World.Actors.HuntZone
                 case Type_MoveDirection.LeftTop:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X + distErrorRange < lastPos.X) { return false; }
@@ -202,7 +202,7 @@ namespace Server_World.Actors.HuntZone
                 case Type_MoveDirection.RightDown:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X > lastPos.X + distErrorRange) { return false; }
@@ -214,7 +214,7 @@ namespace Server_World.Actors.HuntZone
                 case Type_MoveDirection.LeftDown:
                     {
                         // 대각선 방향인 경우, 속도의 0.8배 만큼 x, y 좌표 계산.
-                        var distErrorRange = diffSeconds * (velocity * 0.8 + GameData.MOVEMENT_ERROR);
+                        var distErrorRange = diffSeconds * (velocity + GameData.MOVEMENT_ERROR);
 
                         // X 좌표 검사.
                         if (endPos.X + distErrorRange < lastPos.X) { return false; }

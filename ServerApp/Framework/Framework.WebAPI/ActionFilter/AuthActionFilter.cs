@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Util;
 
 namespace Framework.Core.WebAPI.ActionFilter
@@ -12,18 +13,22 @@ namespace Framework.Core.WebAPI.ActionFilter
     /// <summary>
     /// auth service action filter
     /// </summary>
-    public sealed class AuthActionFilter : IActionFilter
+    public sealed class AuthActionFilter : IAsyncActionFilter
     {
         /// <summary>
         /// client ip address
         /// </summary>
         public string Address { get; private set; }
 
+        private readonly ILogger<AuthActionFilter> _logger;
+
         private IGameController _gameController;
         private readonly DBIdentity _dbIdentity;
 
         public AuthActionFilter(IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<AuthActionFilter>>();
+
             _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
         }
 
@@ -46,6 +51,7 @@ namespace Framework.Core.WebAPI.ActionFilter
                 throw new ServerException(GameErrorCode.AuthFilter_EmptyToken, $"empty access token in http header.");
             }
 
+            // User 정보.
             var accessToken = headers["accesstoken"].ToString();
             var uid = headers["uid"].ToString();
             var dboIdentity = _dbIdentity.SelectOrDefault(uid);
@@ -68,9 +74,6 @@ namespace Framework.Core.WebAPI.ActionFilter
                 throw new ServerException(GameErrorCode.AuthFilter_NotmatchToken, $"not match accesstoken.");
             }
 
-            // APIController
-            var controller = context.Controller as IGameController;
-
             // Setup IP Address.
             if (headers.ContainsKey("X-Forwarded-For"))
             {
@@ -81,6 +84,9 @@ namespace Framework.Core.WebAPI.ActionFilter
             {
                 Address = context.HttpContext.Connection.RemoteIpAddress.ToString();
             }
+
+            // APIController
+            var controller = context.Controller as IGameController;
 
             // Set controller.
             controller.Uid = uid;
@@ -93,16 +99,43 @@ namespace Framework.Core.WebAPI.ActionFilter
         /// <summary>
         /// action executed
         /// </summary>
-        public void OnActionExecuted(ActionExecutedContext context)
+        public async Task OnActionExecutedAsync()
         {
             // TODO: Action after excuted.
             var gameController = _gameController as GameController;
+            var pid = gameController.Pid;
 
             // Upsert controller.
             foreach (var pair in gameController.DataObjectDict)
             {
-                pair.Value.UpsertAsync(gameController.Pid);
+                for (int tryCount = 0; tryCount < 5; tryCount++)
+                {
+                    if (await pair.Value.UpsertAsync(pid))
+                    {
+                        // Success.
+                        break;
+                    }
+
+                    _logger.LogError($"======================================================");
+                    _logger.LogError($"======================================================");
+                    _logger.LogError($"failed to upsert data object!!! try count - {tryCount}, pid: {pid}.");
+                    _logger.LogError($"DataObject type: {pair.Key}");
+                }
             }
+        }
+
+        /// <summary>
+        /// OnActionExecution async.
+        /// </summary>
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            // Before action.
+            OnActionExecuting(context);
+
+            await next();
+
+            // After action.
+            await OnActionExecutedAsync();
         }
     }
 }

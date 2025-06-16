@@ -2,7 +2,6 @@
 
 namespace Framework.Core.Database.DataObject
 {
-    using Framework.Core.Database.Attributes;
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.Interfaces;
     using GameCore.Datas.Inventory;
@@ -10,7 +9,6 @@ namespace Framework.Core.Database.DataObject
     /// <summary>
     /// InventoryInfoObject.
     /// </summary>
-    [DataInfoObject(typeof(DTO_InventoryInfo))]
     public class InventoryInfoObject : IDataObject
     {
         public DTO_InventoryInfo InventoryInfo => _inventoryInfo;
@@ -33,9 +31,9 @@ namespace Framework.Core.Database.DataObject
             }
         }
 
-        public async Task UpsertAsync(string pid)
+        public async Task<bool> UpsertAsync(string pid)
         {
-            await _dbInventoryInfo.UpsertAsync<DTO_InventoryInfo>(pid, _inventoryInfo);
+            return await _dbInventoryInfo.UpsertAsync<DTO_InventoryInfo>(pid, _inventoryInfo);
         }
     }
 }

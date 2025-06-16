@@ -25,11 +25,14 @@
 
         // Auth.
         public const int Auth_EmptyUserId = 2000;                       // UserId 비어있음.
-        public const int Auth_NotExistUserId = 2001;                    // UserId가 존재하지 않음.
-        public const int Auth_NotExistIdentity = 2002;                  // Identity가 존재하지 않음.
-        
+        public const int Auth_NotExistPlayer = 2001;                    // 플레이어가 존재하지 않음.
+
+        // Login.
+        public const int Login_NotExistUserId = 2010;                   // UserId가 존재하지 않음.
+        public const int Login_NotExistIdentity = 2011;                 // Identity가 존재하지 않음.
+
         // Player.
-        public const int CreatePlayer_NotExistUserId = 2010;            // UserId가 존재하지 않음.
-        public const int CreatePlayer_NotCreatedPlayer = 2011;          // PlayerInfo 생성 실패.
+        public const int CreatePlayer_NotCreatedPlayer = 2020;          // PlayerInfo 생성 실패.
+        public const int CreatePlayer_UpdatePid = 2021;                 // Pid 업데이트 실패.
     }
 }

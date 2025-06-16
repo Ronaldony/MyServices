@@ -35,6 +35,6 @@ public class LoginActor : Singleton<LoginActor>
 
     public void OnClickLogin()
     {
-        StartCoroutine(_loginManager.WebReq_Auth(_inputIdField.text));
+        StartCoroutine(_loginManager.Request_Auth(_inputIdField.text));
     }
 }

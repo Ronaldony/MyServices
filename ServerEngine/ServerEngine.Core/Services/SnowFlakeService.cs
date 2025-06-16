@@ -15,9 +15,9 @@ namespace ServerEngine.Core.Services
         private long _epoch = 0;
 
         // Bits number.
-        private const int DatacenterBits = 24;
-        private const int WorkerBits = 24;
-        private const int SequenceBits = 16;
+        private const int DatacenterBits = 4;
+        private const int WorkerBits = 6;
+        private const int SequenceBits = 8;
 
         // Max value.
         private const long MaxDatacenterId = -1L ^ (-1L << DatacenterBits);
@@ -120,7 +120,7 @@ namespace ServerEngine.Core.Services
         {
             long timestamp = GetCurrentTimestamp();
             
-            while (timestamp <= lastTimestamp)
+            while (timestamp < lastTimestamp)
             {
                 timestamp = GetCurrentTimestamp();
             }

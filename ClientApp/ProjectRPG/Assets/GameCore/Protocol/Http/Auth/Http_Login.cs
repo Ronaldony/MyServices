@@ -8,7 +8,7 @@ namespace GameCore.Http.Auth
     /// <summary>
     /// REQ_Login.
     /// </summary>
-
+    [HttpRouteAttribute("auth/login")]
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class REQ_Login
     {
@@ -17,24 +17,6 @@ namespace GameCore.Http.Auth
         /// </summary>
         [MemoryPackOrder(0)]
         public string UserId { get; set; }
-
-        /// <summary>
-        /// Uid.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public string Uid { get; set; }
-
-        /// <summary>
-        /// Pid.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public string Pid { get; set; }
-
-        /// <summary>
-        /// AccessToken.
-        /// </summary>
-        [MemoryPackOrder(3)]
-        public string AccessToken { get; set; }
     }
 
     /// <summary>

@@ -105,6 +105,39 @@ namespace Framework.Core.Database.DAO
         /// <summary>
         /// UpdateIdentity_AccessTokenAsync.
         /// </summary>
+        public async Task<bool> UpdatePidAsync(string uid, string pid)
+        {
+            const string SQL = """
+                                UPDATE TBL_Identity SET
+                                    pid=@Pid
+                                    WHERE uid=@Uid
+                                """;
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                var rowAffect = await connection.ExecuteAsync(
+                    sql: SQL,
+                    param: new
+                    {
+                        Uid = uid,
+                        Pid = pid
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+
+                if (rowAffect < 1)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// UpdateIdentity_AccessTokenAsync.
+        /// </summary>
         public async Task<bool> UpdateTokenAsync(string uid, string token, string refreshToken, DateTime tokenExpireTime)
         {
             const string SQL = """

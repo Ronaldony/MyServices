@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PowerArgs;
-using Server_World.Core.Worlds;
 using ServerEngine.Core.Util;
 using System.Numerics;
 using System.Timers;
@@ -12,6 +11,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
+    using Server_World.Core.Worlds;
 
     /// <summary>
     /// HuntZoneScheduler_Enemy.
@@ -143,7 +143,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
         {
             try
             {
-                _logger.LogInformation("Elapse HuntZoneScheduler_Enemy.");
 
                 // Create spawn enemy message.
                 var spawnMsg = new WorldMsg_SpawnEnemy();
@@ -151,6 +150,11 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
                 foreach (var enemy in _tbEnemies)
                 {
+                    if (_enemyUid > 0)
+                    {
+                        //break;
+                    }
+
                     // 적 생성.
                     var dtoEnemy = new DTO_Enemy();
 

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
 
@@ -11,7 +12,6 @@ namespace LoginServer.Controllers.Auth
     using Framework.WebAPI.Controllers;
     using GameCore;
     using GameCore.Http.Auth;
-    using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// 플레이어 생성 컨트롤러.
@@ -19,27 +19,29 @@ namespace LoginServer.Controllers.Auth
     /// </summary>
     public class CreatePlayerController : GameController
     {
+        private readonly ILogger<CreatePlayerController> _logger;
+
         private readonly IUniqueIdService _uniqueIdService;
 
-        private readonly DBIdentity _dbIdentity;
-        private readonly DBUser _dbUser;
         private readonly DBPlayerData _dbPlayerData;
+        private readonly DBIdentity _dbIdentity;
 
         public CreatePlayerController(
             IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<CreatePlayerController>>();
+
             // services.
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
 
             // DB.
-            _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
-            _dbUser = serviceProvider.GetRequiredService<DBUser>();
             _dbPlayerData = serviceProvider.GetRequiredService<DBPlayerData>();
+            _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
         }
 
         [HttpPost]
-        [Route("player/create")]
+        [Route("auth/create_player")]
         [ServiceFilter(typeof(AuthActionFilter))]
         public async Task<RES_CreatePlayer> ProcessAsync([FromBody] REQ_CreatePlayer req)
         {
@@ -49,14 +51,25 @@ namespace LoginServer.Controllers.Auth
             var newPid = _uniqueIdService.GenerateId();
             var playerName = newPid;
 
+            // Update controller.
+            base.Pid = newPid;
+
             // Create PlayerData.
-            if (false == await _dbPlayerData.CreatePlayerDataAsync(base.Uid, newPid, playerName))
+            if (false == await _dbIdentity.UpdatePidAsync(base.Uid, newPid))
+            {
+                throw new ServerException(GameErrorCode.CreatePlayer_UpdatePid, $"update pid error.");
+            }
+
+            // Create PlayerData.
+            if (false == await _dbPlayerData.Create(base.Uid, newPid, playerName))
             {
                 throw new ServerException(GameErrorCode.CreatePlayer_NotCreatedPlayer, $"create PlayerData error.");
             }
 
             // 플레이어 객체 생성.
             await CreateOrUpdatePlayerAsync(base.Uid, newPid, nowTime);
+
+            _logger.LogDebug($"Create player. pid: {newPid}, player name: {playerName}");
 
             return new RES_CreatePlayer
             {

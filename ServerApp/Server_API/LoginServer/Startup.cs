@@ -68,17 +68,22 @@ namespace LoginServer
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
             _webAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
 
-            // Data objects.
-            _webAppBuilder.Services.AddSingleton<SessionInfoObject>();
-            _webAppBuilder.Services.AddSingleton<PlayerInfoObject>();
-            _webAppBuilder.Services.AddSingleton<PlayInfoObject>();
-            _webAppBuilder.Services.AddSingleton<InventoryInfoObject>();
+            _webAppBuilder.Services.AddSingleton<DBInventoryInfo>();
+            _webAppBuilder.Services.AddSingleton<DBPlayerInfo>();
+            _webAppBuilder.Services.AddSingleton<DBPlayInfo>();
+            _webAppBuilder.Services.AddSingleton<DBSessionInfo>();
 
-            // Scoped
-            _webAppBuilder.Services.AddScoped<DBIdentity>();
-            _webAppBuilder.Services.AddScoped<DBUser>();
-            _webAppBuilder.Services.AddScoped<DBPlayerData>();
-            _webAppBuilder.Services.AddScoped<AuthActionFilter>();
+            _webAppBuilder.Services.AddSingleton<DBIdentity>();
+            _webAppBuilder.Services.AddSingleton<DBUser>();
+            _webAppBuilder.Services.AddSingleton<DBPlayerData>();
+
+            // Transient.
+            _webAppBuilder.Services.AddTransient<AuthActionFilter>();
+
+            _webAppBuilder.Services.AddTransient<InventoryInfoObject>();
+            _webAppBuilder.Services.AddTransient<PlayerInfoObject>();
+            _webAppBuilder.Services.AddTransient<PlayInfoObject>();
+            _webAppBuilder.Services.AddTransient<SessionInfoObject>();
 
             // scoped.
             _webAppBuilder.WebHost.UseKestrel(configs =>

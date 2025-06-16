@@ -31,7 +31,7 @@ namespace Framework.Core.WebAPI.Formatters
 					var bytes = decompressor.Decompress(ms.ToArray());
 
 					var result = MemoryPackSerializer.Deserialize(context.ModelType, bytes);
-					return await InputFormatterResult.SuccessAsync(result).ConfigureAwait(false);
+					return await InputFormatterResult.SuccessAsync(result);
 				}
 			}
 		}

@@ -41,12 +41,12 @@ namespace Framework.WebAPI.Controllers
 		/// Get object.
 		/// </summary>
 		protected async Task<T> GetObjectAsync<T>() where T: class, IDataObject
-		{
+        {
 			var type = typeof(T);
 
 			if (false == _dataObjectDict.ContainsKey(type))
 			{
-				var dataObject = _serviceProvider.GetRequiredService<T>();
+                var dataObject = _serviceProvider.GetRequiredService<T>();
 				_dataObjectDict.Add(type, dataObject);
             }
 

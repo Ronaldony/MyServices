@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using ServerEngine.Core.Services;
+using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.GeoIP;
 
 namespace Server_World
 {
@@ -11,57 +14,50 @@ namespace Server_World
     using GameCore;
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone;
-    using Server_World.Core.Services;
     using Server_World.Server.World;
-    using ServerEngine.Core.Services;
-    using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.GeoIP;
 
     /// <summary>
     /// Startup.
     /// </summary>
     public class Startup
     {
-        public void Configure(IHostApplicationBuilder hostAppBuilder)
+        public void Configure(IHostApplicationBuilder appBuilder)
         {
             // logging.
-            hostAppBuilder.Logging.ClearProviders();
-            hostAppBuilder.Logging.AddNLog();
-            hostAppBuilder.Logging.SetMinimumLevel(LogLevel.Trace);
+            appBuilder.Logging.ClearProviders();
+            appBuilder.Logging.AddNLog();
+            appBuilder.Logging.SetMinimumLevel(LogLevel.Trace);
 
             // services.
-            hostAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
-            hostAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
-            hostAppBuilder.Services.AddSingleton<IRemoteConfigureService, StrapiConfigureService>();
-            hostAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
-            hostAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
-            hostAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
-            hostAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
-
-            // Data objects.
-            hostAppBuilder.Services.AddSingleton<SessionInfoObject>();
-            hostAppBuilder.Services.AddSingleton<PlayerInfoObject>();
-            hostAppBuilder.Services.AddSingleton<PlayInfoObject>();
-            hostAppBuilder.Services.AddSingleton<InventoryInfoObject>();
+            appBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
+            appBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+            appBuilder.Services.AddSingleton<IRemoteConfigureService, StrapiConfigureService>();
+            appBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
+            appBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
+            appBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
+            appBuilder.Services.AddSingleton<ITDBService, TDBService>();
 
             // Actors.
-            hostAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
-            hostAppBuilder.Services.AddSingleton<WorldZoneActorProvider>();
-            //hostAppBuilder.Services.AddSingleton<HuntZoneActorProvider>(provider =>
-            //{
-            //    var actorSystem = provider.GetService<ActorSystem>();
-            //    var actor = actorSystem.ActorOf<HuntZoneActor>();
+            appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
+            appBuilder.Services.AddSingleton<WorldZoneActorProvider>();
 
-            //    return new HuntZoneActorProvider(actor);
-            //});
+            appBuilder.Services.AddSingleton<DBInventoryInfo>();
+            appBuilder.Services.AddSingleton<DBPlayerInfo>();
+            appBuilder.Services.AddSingleton<DBPlayInfo>();
+            appBuilder.Services.AddSingleton<DBSessionInfo>();
+
+            appBuilder.Services.AddSingleton<DBIdentity>();
+            appBuilder.Services.AddSingleton<DBUser>();
+            appBuilder.Services.AddSingleton<DBPlayerData>();
 
             // servers.
-            hostAppBuilder.Services.AddSingleton<WorldServer>();
+            appBuilder.Services.AddSingleton<WorldServer>();
 
-            // Scoped.
-            hostAppBuilder.Services.AddTransient<DBIdentity>();
-            hostAppBuilder.Services.AddTransient<DBUser>();
-            hostAppBuilder.Services.AddTransient<DBPlayerData>();
+            // Transient.
+            appBuilder.Services.AddTransient<SessionInfoObject>();
+            appBuilder.Services.AddTransient<PlayerInfoObject>();
+            appBuilder.Services.AddTransient<PlayInfoObject>();
+            appBuilder.Services.AddTransient<InventoryInfoObject>();
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Framework.Core.Database.DataObject
 {
-    using Framework.Core.Database.Attributes;
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.Interfaces;
     using GameCore.Datas.Player;
@@ -10,7 +9,6 @@ namespace Framework.Core.Database.DataObject
     /// <summary>
     /// SessionInfoObject.
     /// </summary>
-    [DataInfoObject(typeof(DTO_PlayerInfo))]
     public class PlayerInfoObject : IDataObject
     {
         public DTO_PlayerInfo PlayerInfo => _playerInfo;
@@ -33,9 +31,9 @@ namespace Framework.Core.Database.DataObject
             }
         }
 
-        public async Task UpsertAsync(string pid)
+        public async Task<bool> UpsertAsync(string pid)
         {
-            await _dbPlayerInfo.UpsertAsync<DTO_PlayerInfo>(pid, _playerInfo);
+            return await _dbPlayerInfo.UpsertAsync<DTO_PlayerInfo>(pid, _playerInfo);
         }
     }
 }

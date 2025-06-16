@@ -5,6 +5,9 @@ using Dapper;
 using Dapper.ColumnMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ServerEngine.Config.Database;
+using ServerEngine.Config.Strapi;
+using ServerEngine.Core.Services.Interfaces;
 using System.Reflection;
 
 namespace Server_World
@@ -16,9 +19,6 @@ namespace Server_World
     using Server_World.Core.Services;
     using Server_World.Core.Utilities;
     using Server_World.Server.World;
-    using ServerEngine.Config.Database;
-    using ServerEngine.Config.Strapi;
-    using ServerEngine.Core.Services.Interfaces;
 
     internal class StartupServer
     {

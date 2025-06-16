@@ -23,7 +23,7 @@ namespace Framework.Core.Database.DAO
         /// <summary>
         /// Create player data.
         /// </summary>
-        public async Task<bool> CreatePlayerDataAsync(string uid, string pid, string playerName)
+        public async Task<bool> Create(string uid, string pid, string playerName)
         {
             const string SQL = """
                                 INSERT INTO TBL_PlayerData 
@@ -57,40 +57,16 @@ namespace Framework.Core.Database.DAO
         /// <summary>
         /// Select player data.
         /// </summary>
-        public async Task<DBO_PlayerData> SelectPlayerDataOrDefaultAsync(string pid)
+        public async Task<DBO_PlayerData> SelectOrDefault(string uid)
         {
             const string SQL = """
                                 SELECT * FROM TBL_PlayerData
-                                    WHERE pid=@Pid
-                                """;
-
-            using (var connection = new MySqlConnection(_connectString))
-            {
-                return await connection.QueryFirstOrDefaultAsync<DBO_PlayerData>(
-                    sql: SQL,
-                    param: new
-                    {
-                        Pid = pid,
-                    },
-                    commandTimeout: 10,
-                    commandType: CommandType.Text
-                    );
-            }
-        }
-
-        /// <summary>
-        /// Create player data.
-        /// </summary>
-        public async Task<IEnumerable<DBO_PlayerData>> SelectPlayerDatasOrDefaultAsync(string uid)
-        {
-            const string SQL = """
-                                SELECT * FROM TBL_PlayerData 
                                     WHERE uid=@Uid
                                 """;
 
             using (var connection = new MySqlConnection(_connectString))
             {
-                return await connection.QueryAsync<DBO_PlayerData>(
+                return await connection.QueryFirstOrDefaultAsync<DBO_PlayerData>(
                     sql: SQL,
                     param: new
                     {

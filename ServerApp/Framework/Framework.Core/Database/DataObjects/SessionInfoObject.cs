@@ -37,9 +37,9 @@ namespace Framework.Core.Database.DataObject
         /// <summary>
         /// Load data.
         /// </summary>
-        public async Task UpsertAsync(string pid)
+        public async Task<bool> UpsertAsync(string pid)
         {
-            await _dbSessionInfo.UpsertAsync(pid, _sessionInfo);
+            return await _dbSessionInfo.UpsertAsync(pid, _sessionInfo);
         }
     }
 }
