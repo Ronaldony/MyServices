@@ -8,7 +8,7 @@ using System.Net.Sockets;
 namespace Server_World.Server.World
 {
     using Server_World.Actors.HuntZone;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
 
     /// <summary>
     /// Game server.

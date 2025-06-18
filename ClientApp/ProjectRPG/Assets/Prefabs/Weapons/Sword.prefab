@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 180586738234599825}
   - component: {fileID: 1508233377660346678}
   - component: {fileID: 8729746289105896078}
+  - component: {fileID: 3354544232019258067}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578081584587566880}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7193398, w: 0.6946584}
   m_LocalPosition: {x: 0.7, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 92}
 --- !u!212 &180586738234599825
 SpriteRenderer:
@@ -119,7 +120,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051dc66cf9f830043a854826bc10894d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponInfo: {fileID: 11400000, guid: 8001253093ce5744b8accb06a1be9c99, type: 2}
   slashAnimPrefab: {fileID: 4475181092852053185, guid: 7bac260ece624f84a827958c0a4288b1, type: 3}
   slashAnimSpawnPoint: {fileID: 0}
-  swordAttackCD: 0.5
-  weaponInfo: {fileID: 11400000, guid: 8001253093ce5744b8accb06a1be9c99, type: 2}
+--- !u!114 &3354544232019258067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578081584587566880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 868471032cd8e9b4ab92253ba764ab98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

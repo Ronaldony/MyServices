@@ -1,6 +1,6 @@
 ﻿using GameCore.NetPacket;
 
-namespace Server_World.Core.Worlds
+namespace Server_World.Core.Worlds.Msg
 {
     /// <summary>
     /// WorldMsg_NetPacket.

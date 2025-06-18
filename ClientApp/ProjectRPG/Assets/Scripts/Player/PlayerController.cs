@@ -71,7 +71,6 @@ public class PlayerController : Singleton<PlayerController>
         _playerControls.Combat.Dash.performed += _ => OnDash();
         _startingMoveSpeed = moveSpeed;
 
-        ActiveInventory.Instance.EquipStartingWeapon();
     }
 
     private void OnEnable()

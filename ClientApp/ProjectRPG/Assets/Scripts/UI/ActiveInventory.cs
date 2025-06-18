@@ -1,19 +1,18 @@
 using GameCore;
-using Network;
 using UnityEngine;
 
 public class ActiveInventory : Singleton<ActiveInventory>
 {
     private int _activeSlotIndexNum = 0;
 
-    private NetPacketManager _netPacketManager;
     private PlayerControls _playerControls;
 
     protected override void Awake()
     {
         base.Awake();
 
-        _netPacketManager = NetPacketManager.Instance;
+        EquipStartingWeapon();
+
         _playerControls = new PlayerControls();
     }
 
@@ -55,7 +54,7 @@ public class ActiveInventory : Singleton<ActiveInventory>
 
     private void ChangeActiveWeapon()
     {
-        // ���� ���� �ı�.
+        // Destroy.
         if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
         {
             Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);

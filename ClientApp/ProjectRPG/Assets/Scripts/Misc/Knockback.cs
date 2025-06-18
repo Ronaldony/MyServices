@@ -33,7 +33,10 @@ public class Knockback : MonoBehaviour
     }
     private IEnumerator KnockRoutine(Vector2 knockBackPos)
     {
-        KnockBack(knockBackPos);
+        if (null != KnockBack)
+        {
+            KnockBack(knockBackPos);
+        }
 
         yield return new WaitForSeconds(GameData.KNOCKBACK_TIME);
 

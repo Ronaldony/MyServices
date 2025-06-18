@@ -1,18 +1,17 @@
 ﻿using Akka.Actor;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
-using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
-    using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
     using GameCore.NetPacket;
     using Server_World.Actors.HuntZone.Scheduler;
     using Server_World.Core.Datas;
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
     using Server_World.Server.World;
 
     /// <summary>
@@ -29,33 +28,8 @@ namespace Server_World.Actors.HuntZone
         private readonly WorldServer _worldServer;
         private readonly WorldZoneScheduler_Enemy _schedulerEnemy;
 
-        /// <summary>
-        /// HuntZone_Player dictionary.
-        /// key: Pid.
-        /// value: HuntZone_Player.
-        /// </summary>
-        private readonly Dictionary<string, World_Player> _playerDict;
-
-        /// <summary>
-        /// 섹션 단위 플레이어 정보.
-        /// key: Section.
-        /// value: Player dictionary (key: pid).
-        /// </summary>
-        private readonly Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<string, World_Player>> _sectionPlayerDict;
-
-        /// <summary>
-        /// 적 정보.
-        /// key: Section.
-        /// value: DTO_Enemy dictionary (key: EnemeyUId).
-        /// </summary>
-        private readonly Dictionary<ulong, DTO_Enemy> _enemyDict;
-
-        /// <summary>
-        /// 섹션 단위 적 정보.
-        /// key: Section.
-        /// value: DTO_Enemy dictionary (key: EnemeyUId).
-        /// </summary>
-        private readonly Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<ulong, DTO_Enemy>> _sectionEnemyDict;
+        // World_Group.
+        private readonly World_Group _worldGroup;
 
         /// <summary>
         /// 근처 섹션 정보.
@@ -87,12 +61,9 @@ namespace Server_World.Actors.HuntZone
             _worldServer = ServiceUtility.GetService<WorldServer>();
             _schedulerEnemy = new WorldZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
 
-            // Initialize dictionary.
-            _playerDict = new Dictionary<string, World_Player>();
-            _enemyDict = new Dictionary<ulong, DTO_Enemy>();
-
-            // initilzie sections.
-            (_sectionPlayerDict, _sectionEnemyDict, _aroundSectionDict, _sectionDict) = Initialize_Sections();
+            // Initialize.
+            _worldGroup = Initialize_WorldGroup();
+            (_aroundSectionDict, _sectionDict) = Initialize_Sections();
 
             ///////////////////////////////// Receive.
 
@@ -154,7 +125,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private World_Player GetPlayerOrDefault(string pid)
         {
-            return _playerDict.GetValueOrDefault(pid);
+            return _worldGroup.PlayerDict.GetValueOrDefault(pid);
         }
 
         /// <summary>
@@ -163,20 +134,20 @@ namespace Server_World.Actors.HuntZone
         private bool AddPlayer(string pid, World_Player player, (int sectionX, int sectionY) section)
         {
             // 섹션에 플레이어 추가.
-            if (false == _sectionPlayerDict[section].TryAdd(pid, player))
+            if (false == _worldGroup.SectionPlayerDict[section].TryAdd(pid, player))
             {
                 return false;
             }
 
             ///////////////////////////////////////////////////////
             // 플레이어 정보 저장.
-            if (false == _playerDict.ContainsKey(pid))
+            if (false == _worldGroup.PlayerDict.ContainsKey(pid))
             {
                 // 중복 플레이어 처리.
-                _playerDict.Add(pid, player);
+                _worldGroup.PlayerDict.Add(pid, player);
             }
 
-            _playerDict[pid] = player;
+            _worldGroup.PlayerDict[pid] = player;
 
             return true;
         }

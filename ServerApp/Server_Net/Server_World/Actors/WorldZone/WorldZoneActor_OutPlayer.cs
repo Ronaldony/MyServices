@@ -5,7 +5,7 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore;
     using Server_World.Core.Services;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
 
     /// <summary>
     /// WorldZoneActor.
@@ -19,14 +19,14 @@ namespace Server_World.Actors.HuntZone
         {
             _logger.LogWarning($"Log out start. pid: {msg.Pid}");
 
-            if (false == _playerDict.Remove(msg.Pid, out var worldPlayer))
+            if (false == _worldGroup.PlayerDict.Remove(msg.Pid, out var worldPlayer))
             {
                 return;
             }
 
             var section = GetSection(worldPlayer.PlayInfo.Location.Position);
 
-            _sectionPlayerDict[section].TryRemove(msg.Pid, out _);
+            _worldGroup.SectionPlayerDict[section].TryRemove(msg.Pid, out _);
 
             // Release.
             CollisionManager.Release(worldPlayer.CollisionBox);

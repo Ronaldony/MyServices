@@ -7,6 +7,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
     using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
 
     /// <summary>
     /// WorldZoneActor.
@@ -94,13 +95,13 @@ namespace Server_World.Actors.HuntZone
                 var enemies = pair.Value;
 
                 // 섹션에 적 정보 추가.
-                var sectionEnemy = _sectionEnemyDict[section];
+                var sectionEnemy = _worldGroup.SectionEnemyDict[section];
 
                 // Add enemy into section.
                 foreach (var enemy in enemies)
                 {
                     // Add enemy.
-                    _enemyDict.Add(enemy.EnemeyUid, enemy);
+                    _worldGroup.EnemyDict.Add(enemy.EnemeyUid, enemy);
 
                     // Add enemy into section.
                     sectionEnemy.AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);

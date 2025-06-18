@@ -1,7 +1,6 @@
-﻿
-using System.Numerics;
+﻿using System.Numerics;
 
-namespace Server_World.Core.Worlds
+namespace Server_World.Core.Worlds.Msg
 {
     using GameCore;
 

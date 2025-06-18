@@ -11,7 +11,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
 
     /// <summary>
     /// HuntZoneScheduler_Enemy.

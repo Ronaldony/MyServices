@@ -128,7 +128,7 @@ namespace Server_World.Actors.HuntZone
             foreach (var enemy in deathEnemies)
             {
                 _logger.LogWarning($"Death enemy.");
-                _sectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out _);
+                _worldGroup.SectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out _);
             }
         }
     }

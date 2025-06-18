@@ -24,7 +24,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private IEnumerable<World_Player> GetSectionPlayers((int, int) section)
         {
-            if (false == _sectionPlayerDict.TryGetValue(section, out var playerDict))
+            if (false == _worldGroup.SectionPlayerDict.TryGetValue(section, out var playerDict))
             {
                 return null;
             }
@@ -37,7 +37,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private IEnumerable<DTO_Enemy> GetSectionEnemies((int, int) section)
         {
-            if (false == _sectionEnemyDict.TryGetValue(section, out var enemies))
+            if (false == _worldGroup.SectionEnemyDict.TryGetValue(section, out var enemies))
             {
                 return null;
             }

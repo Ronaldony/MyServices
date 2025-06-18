@@ -26,7 +26,8 @@ public class EnemyPathfinding : MonoBehaviour
         // Status knockback.
         if (_knockBack.GettingKnockedBack) { return; }
 
-        Debug.Log($"pos: {_rb.position}, next: {_nextPos}");
+        //Debug.Log($"pos: {_rb.position}, next: {_nextPos}");
+
         // check next position.
         _rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);
 

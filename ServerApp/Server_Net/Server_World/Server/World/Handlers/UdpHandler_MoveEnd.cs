@@ -7,7 +7,7 @@ namespace Server_World.Server.World.Handlers
     using GameCore;
     using GameCore.NetPacket;
     using Server_World.Actors.HuntZone;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Network.UDP;
 

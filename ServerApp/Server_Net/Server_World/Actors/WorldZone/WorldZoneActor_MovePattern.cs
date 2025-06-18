@@ -6,7 +6,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
 
     /// <summary>
     /// WorldZoneActor.
@@ -23,7 +23,7 @@ namespace Server_World.Actors.HuntZone
             var updateSessions = new Dictionary<GameSession, List<DTO_Enemy>>();
 
             // 이동 패턴 업데이트.
-            foreach (var pair in _sectionEnemyDict)
+            foreach (var pair in _worldGroup.SectionEnemyDict)
             {
                 var section = pair.Key;
                 var enemies = pair.Value.Values;

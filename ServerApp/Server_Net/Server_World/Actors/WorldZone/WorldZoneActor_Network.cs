@@ -13,7 +13,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private GameSession GetSession(string pid)
         {
-            if (_playerDict.TryGetValue(pid, out var player))
+            if (_worldGroup.PlayerDict.TryGetValue(pid, out var player))
             {
                 return player.GameSession;
             }
@@ -26,7 +26,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private bool SendPacket(string pid, int packetCode, byte[] packetData)
         {
-            if (false == _playerDict.TryGetValue(pid, out var player))
+            if (false == _worldGroup.PlayerDict.TryGetValue(pid, out var player))
             {
                 return false;
             }

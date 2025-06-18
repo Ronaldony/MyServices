@@ -1,4 +1,4 @@
-﻿namespace Server_World.Core.Worlds
+﻿namespace Server_World.Core.Worlds.Msg
 {
     using GameCore.Datas.Enemy;
 
