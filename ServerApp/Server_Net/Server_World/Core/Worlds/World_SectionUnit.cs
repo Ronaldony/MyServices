@@ -5,11 +5,11 @@ namespace Server_World.Core.Worlds
     using GameCore.Datas.Play;
 
     /// <summary>
-    /// World_Section.
+    /// World_SectionUnit.
     /// </summary>
-    public class World_Section
+    public class World_SectionUnit
     {
-        public World_Section()
+        public World_SectionUnit()
         {
             PlayInfos = new List<DTO_PlayInfo>();
             Enemies = new List<DTO_Enemy>();

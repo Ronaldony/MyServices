@@ -13,59 +13,13 @@ namespace Server_World.Actors.HuntZone
     public partial class WorldZoneActor
     {
         /// <summary>
-        /// Initialize seciton informations.
-        /// </summary>
-        private (
-            Dictionary<(int, int), List<(int, int)>>,
-            Dictionary<(int sectionX, int sectionY), Section>
-            )
-            Initialize_Sections()
-        {
-            var aroundSessionDict = new Dictionary<(int sectionX, int sectionY), List<(int, int)>>();
-            var sectionDict = new Dictionary<(int sectionX, int sectionY), Section>();
-
-            // 지역 정보 불러오기.
-            var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
-
-            // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
-            var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;
-            var sectionMaxX = confArea.MaxX / GameData.SECTION_WIDTH;
-
-            var sectionMinY = confArea.MinY / GameData.SECTION_HEIGHT;
-            var sectionMaxY = confArea.MaxY / GameData.SECTION_HEIGHT;
-
-            // 가로, 세로 섹션 저장.
-            for (var sectionX = sectionMinX; sectionX <= sectionMaxX; ++sectionX)
-            {
-                for (var sectionY = sectionMinY; sectionY <= sectionMaxY; ++sectionY)
-                {
-                    var section = (sectionX, sectionY);
-
-                    aroundSessionDict.Add(section, new List<(int, int)>());
-                    sectionDict.Add(section, new Section(sectionX, sectionY));
-                }
-            }
-
-            // 근처 섹션 계산.
-            foreach (var pair in aroundSessionDict)
-            {
-                var aroundSections = pair.Value;
-                var sectionX = pair.Key.sectionX;
-                var sectionY = pair.Key.sectionY;
-
-                var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
-
-                aroundSections.AddRange(calcAroundSections);
-            }
-
-            return (aroundSessionDict, sectionDict);
-        }
-
-        /// <summary>
         /// Initialize world group.
         /// </summary>
         private World_Group Initialize_WorldGroup()
         {
+            var aroundSessionDict = new Dictionary<(int sectionX, int sectionY), List<(int, int)>>();
+            var sectionDict = new Dictionary<(int sectionX, int sectionY), Section>();
+
             var sectionPlayerDict = new Dictionary<(int, int), ConcurrentDictionary<string, World_Player>>();
             var sectionEnemyDict = new Dictionary<(int, int), ConcurrentDictionary<ulong, DTO_Enemy>>();
 
@@ -88,7 +42,22 @@ namespace Server_World.Actors.HuntZone
 
                     sectionPlayerDict.Add(section, new ConcurrentDictionary<string, World_Player>());
                     sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, DTO_Enemy>());
+
+                    aroundSessionDict.Add(section, new List<(int, int)>());
+                    sectionDict.Add(section, new Section(sectionX, sectionY));
                 }
+            }
+
+            // 근처 섹션 계산.
+            foreach (var pair in aroundSessionDict)
+            {
+                var aroundSections = pair.Value;
+                var sectionX = pair.Key.sectionX;
+                var sectionY = pair.Key.sectionY;
+
+                var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
+
+                aroundSections.AddRange(calcAroundSections);
             }
 
             return new World_Group
@@ -97,6 +66,8 @@ namespace Server_World.Actors.HuntZone
                 PlayerDict = new Dictionary<string, World_Player>(),
                 SectionPlayerDict = sectionPlayerDict,
                 SectionEnemyDict = sectionEnemyDict,
+                AroundSectionDict = aroundSessionDict,
+                SectionDict = sectionDict,
             };
         }
 

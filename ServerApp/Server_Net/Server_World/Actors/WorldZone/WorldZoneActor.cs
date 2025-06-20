@@ -8,7 +8,6 @@ namespace Server_World.Actors.HuntZone
     using GameCore.Interfaces;
     using GameCore.NetPacket;
     using Server_World.Actors.HuntZone.Scheduler;
-    using Server_World.Core.Datas;
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
@@ -32,20 +31,6 @@ namespace Server_World.Actors.HuntZone
         private readonly World_Group _worldGroup;
 
         /// <summary>
-        /// 근처 섹션 정보.
-        /// key: Section.
-        /// value: Around sections.
-        /// </summary>
-        private readonly Dictionary<(int sectionX, int sectionY), List<(int sectionX, int sectionY)>> _aroundSectionDict;
-
-        /// <summary>
-        /// 섹션 정보.
-        /// key: Section.
-        /// value: Section class.
-        /// </summary>
-        private readonly Dictionary<(int sectionX, int sectionY), Section> _sectionDict;
-
-        /// <summary>
         /// 필드 적 수.
         /// </summary>
         private int _enemyCount;
@@ -63,7 +48,6 @@ namespace Server_World.Actors.HuntZone
 
             // Initialize.
             _worldGroup = Initialize_WorldGroup();
-            (_aroundSectionDict, _sectionDict) = Initialize_Sections();
 
             ///////////////////////////////// Receive.
 

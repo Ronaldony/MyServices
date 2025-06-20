@@ -69,8 +69,4 @@
     <ProjectReference Include="..\..\Framework\Framework.Core\Framework.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Core\Types\" />
-  </ItemGroup>
-
 </Project>

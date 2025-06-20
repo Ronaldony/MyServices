@@ -57,7 +57,7 @@ namespace Server_World.Actors.HuntZone
             {
                 var sectionPlayers = GetSectionPlayers(findSection);
 
-                if (false == sectionPlayers.Any())
+                if (null == sectionPlayers)
                 {
                     continue;
                 }
@@ -73,7 +73,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private List<(int sectionX, int sectionY)> GetAroundSections((int, int) section)
         {
-            if (false == _aroundSectionDict.TryGetValue(section, out var aroundSections))
+            if (false == _worldGroup.AroundSectionDict.TryGetValue(section, out var aroundSections))
             {
                 return null;
             }
@@ -86,7 +86,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private bool IsValidSection((int sectionX, int sectionY) section)
         {
-            return _sectionDict.ContainsKey(section);
+            return _worldGroup.SectionDict.ContainsKey(section);
         }
     }
 }

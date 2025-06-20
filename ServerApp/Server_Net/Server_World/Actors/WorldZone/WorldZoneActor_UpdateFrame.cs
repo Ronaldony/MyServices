@@ -6,7 +6,6 @@ namespace Server_World.Actors.HuntZone
     using Framework.Core.Session;
     using GameCore;
     using GameCore.NetPacket;
-    using Microsoft.Extensions.Logging;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
 
@@ -21,31 +20,44 @@ namespace Server_World.Actors.HuntZone
         private void UpdateFrame(WorldMsg_UpdateFrame msg)
         {
             // 이동 처리.
-            var moveWorldSection = UpdateFrame_Move(msg);
+            var updateMoveDict = UpdateFrame_Move(msg);
 
-            // 이동 섹션 처리.
-            UpdateFrame_Section(moveWorldSection);
+            // TODO: Update attak.
+
+            // 이동 세션 처리.
+            UpdateFrame_Session(updateMoveDict);
         }
 
         /// <summary>
         /// 프레임 업데이트 - 이동 처리.
         /// </summary>
-        private ConcurrentDictionary<((int sectionX, int sectionY) oriSection, (int sectionX, int sectionY) section), World_Section>
+        private ConcurrentDictionary<(int sectionX, int sectionY), World_UpdateMove> 
             UpdateFrame_Move(WorldMsg_UpdateFrame worldMsg)
         {
-            var moveWorldSection = new ConcurrentDictionary<((int sectionX, int sectionY) oriSection, (int sectionX, int sectionY) section), World_Section>();
+            var updateMoveDict = new ConcurrentDictionary<(int sectionX, int sectionY), World_UpdateMove>();
 
-            // 섹션을 루프하여 플레이어, 적 이동 처리.
+            // 플레이어가 존재하는 섹션의 플레이어, 적 이동 처리.
             Parallel.ForEach(_worldGroup.SectionPlayerDict, pair =>
             {
                 // 섹션의 적, 플레이어 데이터 가져오기.
                 var section = pair.Key;
+
+                // Player, Enemy.
                 var players = pair.Value;
+                var enemies = _worldGroup.SectionEnemyDict[section];
 
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                /// 이동 처리.
+                // Player, Enemy 수 검사.
+                if (false == players.Any() && false == enemies.Any())
+                {
+                    return;
+                }
 
+                // Set update move.
+                updateMoveDict.AddOrUpdate(section, new World_UpdateMove(), (_, _) => new World_UpdateMove());
+
+                var updateMoveSection = updateMoveDict[section];
+
+                /////////////////////////////////////////////////////////////
                 // 플레이어 이동 처리.
                 foreach (var worldPlayer in players.Values)
                 {
@@ -57,16 +69,15 @@ namespace Server_World.Actors.HuntZone
                     {
                         case Type_Action.Move:
                             {
-                                var position = location.Position;
+                                var movePos = Calc_PlayerPosition(location.Position, location.MoveDirection, worldMsg.FrameDeltaTime, playInfo.Stat.Velocity);
 
-                                // 위치 계산.
-                                if (false == Calc_PlayerPosition(ref position, location.MoveDirection, worldMsg.FrameDeltaTime, playInfo.Stat.Velocity))
+                                // valid.
+                                if (false == IsValidSection(GetSection(movePos)))
                                 {
                                     continue;
                                 }
 
-                                // 위치 업데이트.
-                                location.Position = position;
+                                location.Position = movePos;
                             }
                             break;
                         case Type_Action.MoveEnd:
@@ -81,42 +92,42 @@ namespace Server_World.Actors.HuntZone
                             continue;
                     }
 
-                    // 섹션 업데이트.
+                    // 변경된 섹션 검사.
                     var moveSection = GetSection(location.Position);
 
                     if (false == section.Equals(moveSection))
                     {
-                        _worldGroup.SectionPlayerDict[section].Remove(worldPlayer.PlayInfo.Pid, out var _);
-                        _worldGroup.SectionPlayerDict[moveSection].AddOrUpdate(worldPlayer.PlayInfo.Pid, worldPlayer, (key, old) => worldPlayer);
+                        // 플레이어 센션 업데이트.
+                        _worldGroup.SectionPlayerDict[section].Remove(playInfo.Pid, out var _);
+                        _worldGroup.SectionPlayerDict[moveSection].AddOrUpdate(playInfo.Pid, worldPlayer, (key, old) => worldPlayer);
 
                         // 섹션이 이동된 플레이어 정보는 이동된 섹션 주변에 이동 정보를 보냄.
-                        var keySection = (section, moveSection);
-
-                        if (false == moveWorldSection.ContainsKey(keySection))
+                        if (false == updateMoveSection.MoveSectionUnit.ContainsKey(moveSection))
                         {
-                            moveWorldSection.AddOrUpdate(keySection, new World_Section(), (_, _) => new World_Section());
+                            updateMoveSection.MoveSectionUnit.Add(moveSection, new World_SectionUnit());
                         }
 
-                        moveWorldSection[keySection].PlayInfos.Add(worldPlayer.PlayInfo);
+                        updateMoveSection.MoveSectionUnit[section].PlayInfos.Add(playInfo);
                     }
                 }
 
+                /////////////////////////////////////////////////////////////
                 // 적 이동 처리.
-                var enemies = _worldGroup.SectionEnemyDict[section];
-
                 foreach (var enemy in enemies.Values)
                 {
                     var position = enemy.Position;
-                    var pos = enemy.Position.Pos;
 
                     // 적 위치 계산.
-                    if (false == Calc_EnemyPosition(ref pos, position.NextPos, position.NextPosDir, worldMsg.FrameDeltaTime, position.Veltocity, out var moveSection))
+                    var movePos = Calc_EnemyPosition(position.Pos, position.NextPos, position.NextPosDir, worldMsg.FrameDeltaTime, position.Veltocity);
+                    var moveSection = GetSection(movePos);
+
+                    if (false == IsValidSection(moveSection))
                     {
                         continue;
                     }
 
                     // 위치 업데이트.
-                    enemy.Position.Pos = pos;
+                    enemy.Position.Pos = movePos;
 
                     // 섹션 업데이트.
                     if (false == section.Equals(moveSection))
@@ -125,104 +136,106 @@ namespace Server_World.Actors.HuntZone
                         _worldGroup.SectionEnemyDict[moveSection].AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);
 
                         // 섹션이 이동된 적 정보는 이동된 섹션 주변 플레이어에 이동 정보를 보냄.
-                        var keySection = (section, moveSection);
-
-                        if (false == moveWorldSection.ContainsKey(keySection))
+                        if (false == updateMoveSection.MoveSectionUnit.ContainsKey(moveSection))
                         {
-                            moveWorldSection.AddOrUpdate(keySection, new World_Section(), (_, _) => new World_Section());
+                            updateMoveSection.MoveSectionUnit.Add(moveSection, new World_SectionUnit());
                         }
 
-                        moveWorldSection[keySection].Enemies.Add(enemy);
+                        updateMoveSection.MoveSectionUnit[section].Enemies.Add(enemy);
                     }
                 }
             });
 
-            return moveWorldSection;
+            return updateMoveDict;
         }
 
         /// <summary>
-        /// 업데이트 프레임 - 섹션.
+        /// 업데이트 프레임 - 세션.
         /// </summary>
-        private void UpdateFrame_Section(
-            ConcurrentDictionary<((int sectionX, int sectionY) oriSection, (int sectionX, int sectionY) section), World_Section> worldSectionDict
+        private void UpdateFrame_Session(
+           ConcurrentDictionary<(int sectionX, int sectionY), World_UpdateMove> updateMoveDict
             )
         {
-            var sessionDict = new Dictionary<GameSession, World_Section>();
+            var sectionUnitDict = new Dictionary<GameSession, World_SectionUnit>();
 
             // 세션을 이동한 플레이어 정보 전달.
-            foreach (var pair in worldSectionDict)
+            foreach (var pair in updateMoveDict)
             {
-                var oriSection = pair.Key.oriSection;
-                var section = pair.Key.section;
-                var worldSection = pair.Value;
-
-                // Around sections.
+                var oriSection = pair.Key;
                 var oriAroundSections = GetAroundSections(oriSection);
-                var aroundSections = GetAroundSections(section);
-                var newAroundSections = aroundSections.Where(section => false == oriAroundSections.Contains(section));
 
-                // 업데이트 대상 섹션의 플레이어 저장.
-                foreach (var newSection in newAroundSections)
+                foreach (var updateMove in pair.Value.MoveSectionUnit)
                 {
-                    // 기존 플레이어들에게 새로 진입한 플레이어 및 적 업데이트.
-                    var sectionPlayers = GetSectionPlayers(newSection);
+                    var section = updateMove.Key;
+                    var sectionUnit = updateMove.Value;
 
-                    if (null != sectionPlayers)
+                    // Around sections.
+                    var aroundSections = GetAroundSections(section);
+                    var newAroundSections = aroundSections.Where(section => false == oriAroundSections.Contains(section));
+
+                    // 주변 섹션에 전파.
+                    foreach (var newSection in newAroundSections)
                     {
-                        foreach (var player in sectionPlayers)
-                        {
-                            if (false == sessionDict.ContainsKey(player.GameSession))
-                            {
-                                // 세션 추가. 
-                                sessionDict.Add(player.GameSession, new World_Section());
-                            }
+                        // 이미 섹션에 존재하는 플레이어들에게 새로 진입한 플레이어, 적 업데이트.
+                        var sectionPlayers = GetSectionPlayers(newSection);
 
-                            // 플레이어 정보.
-                            if (worldSection.PlayInfos.Any())
-                            {
-                                sessionDict[player.GameSession].PlayInfos.AddRange(worldSection.PlayInfos);
-                            }
-
-                            // 적 정보.
-                            if (worldSection.Enemies.Any())
-                            {
-                                sessionDict[player.GameSession].Enemies.AddRange(worldSection.Enemies);
-                            }
-                        }
-                    }
-
-                    // 새로 진입한 플레이어에 플레이어 및 적 정보 업데이트.
-                    var enemies = GetSectionEnemies(newSection);
-
-                    foreach (var movePlayer in worldSection.PlayInfos)
-                    {
-                        var session = GetSession(movePlayer.Pid);
-
-                        if (null == session)
-                        {
-                            continue;
-                        }
-
-                        // 새로운 섹션 적.
-                        if (null != enemies)
-                        {
-                            if (false == sessionDict.ContainsKey(session))
-                            {
-                                sessionDict.Add(session, new World_Section());
-                            }
-
-                            sessionDict[session].Enemies.AddRange(enemies);
-                        }
-
-                        // 새로운 섹션 플레이어.
                         if (null != sectionPlayers)
                         {
-                            if (false == sessionDict.ContainsKey(session))
+                            foreach (var player in sectionPlayers)
                             {
-                                sessionDict.Add(session, new World_Section());
+                                if (false == sectionUnitDict.ContainsKey(player.GameSession))
+                                {
+                                    // 세션 추가. 
+                                    sectionUnitDict.Add(player.GameSession, new World_SectionUnit());
+                                }
+
+                                // 플레이어 정보.
+                                if (sectionUnit.PlayInfos.Any())
+                                {
+                                    sectionUnitDict[player.GameSession].PlayInfos.AddRange(sectionUnit.PlayInfos);
+                                }
+
+                                // 적 정보.
+                                if (sectionUnit.Enemies.Any())
+                                {
+                                    sectionUnitDict[player.GameSession].Enemies.AddRange(sectionUnit.Enemies);
+                                }
+                            }
+                        }
+
+                        // 새로 진입한 플레이어에 플레이어 및 적 정보 업데이트.
+                        var enemies = GetSectionEnemies(newSection);
+
+                        foreach (var movePlayer in sectionUnit.PlayInfos)
+                        {
+                            var session = GetSession(movePlayer.Pid);
+
+                            if (null == session)
+                            {
+                                continue;
                             }
 
-                            sessionDict[session].PlayInfos.AddRange(sectionPlayers.Select(d => d.PlayInfo));
+                            // 새로운 섹션 적.
+                            if (null != enemies)
+                            {
+                                if (false == sectionUnitDict.ContainsKey(session))
+                                {
+                                    sectionUnitDict.Add(session, new World_SectionUnit());
+                                }
+
+                                sectionUnitDict[session].Enemies.AddRange(enemies);
+                            }
+
+                            // 새로운 섹션 플레이어.
+                            if (null != sectionPlayers)
+                            {
+                                if (false == sectionUnitDict.ContainsKey(session))
+                                {
+                                    sectionUnitDict.Add(session, new World_SectionUnit());
+                                }
+
+                                sectionUnitDict[session].PlayInfos.AddRange(sectionPlayers.Select(d => d.PlayInfo));
+                            }
                         }
                     }
                 }
@@ -231,7 +244,7 @@ namespace Server_World.Actors.HuntZone
             // 섹션 업데이트 패킷 전송.
             var sendPacket = new NetPacketSC_UpdateSection();
             
-            foreach (var pair in sessionDict)
+            foreach (var pair in sectionUnitDict)
             {
                 sendPacket.Enemies = pair.Value.Enemies;
                 sendPacket.PlayInfos = pair.Value.PlayInfos;
@@ -243,7 +256,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Calculation position of player.
         /// </summary>
-        private bool Calc_PlayerPosition(ref Vector2 oriPos, Type_MoveDirection moveDir, double diffSeconds, int velocity)
+        private Vector2 Calc_PlayerPosition(Vector2 oriPos, Type_MoveDirection moveDir, double diffSeconds, int velocity)
         {
             // 이동 방향 계산 시퀀스. 
             // 1. 이동 방향 확인.
@@ -305,19 +318,13 @@ namespace Server_World.Actors.HuntZone
                     break;
             }
 
-            // Validate section.
-            if (false == IsValidSection(GetSection(oriPos)))
-            {
-                return false;
-            }
-
-            return true;
+            return oriPos;
         }
 
         /// <summary>
         /// Calculation position of enemy.
         /// </summary>
-        private bool Calc_EnemyPosition(ref Vector2 oriPos, Vector2 nextPos, Vector2 moveDir, float frameDeltaTime, int velocity, out (int x, int y) updateSection)
+        private Vector2 Calc_EnemyPosition(Vector2 oriPos, Vector2 nextPos, Vector2 moveDir, float frameDeltaTime, int velocity)
         {
             // X 이동.
             if (moveDir.X > 0)
@@ -347,15 +354,7 @@ namespace Server_World.Actors.HuntZone
                 if (oriPos.Y > nextPos.Y) { oriPos.Y += moveDir.Y * frameDeltaTime * velocity; }
             }
 
-            // Validate section.
-            updateSection = GetSection(oriPos);
-
-            if (false == IsValidSection(updateSection))
-            {
-                return false;
-            }
-
-            return true;
+            return oriPos;
         }
     }
 }
