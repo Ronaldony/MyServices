@@ -40,7 +40,6 @@ namespace Server_World.Core.Collision
 
         public void Dispose()
         {
-            CollisionManager.Release(this);
         }
     }
 }

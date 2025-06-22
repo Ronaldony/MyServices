@@ -20,7 +20,7 @@ namespace GameCore.NetPacket
     /// NetPacket_SpawnPlayer from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_SpawnPlayer
+    public partial class NetPacketSC_SpawnPlayer : IDisposable
     {
         public NetPacketSC_SpawnPlayer()
         {
@@ -39,5 +39,11 @@ namespace GameCore.NetPacket
         /// </summary>
         [MemoryPackOrder(1)]
         public List<DTO_Enemy> Enemies { get; set; }
+
+        public void Dispose()
+        {
+            Users.Clear();
+            Enemies.Clear();
+        }
     }
 }

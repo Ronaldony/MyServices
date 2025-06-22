@@ -1,9 +1,9 @@
 ﻿namespace ServerEngine.Test.Database.Data
 {
-	/// <summary>
-	/// DTO for Benchmark.
-	/// </summary>
-	public class DTO_Benchmark 
+    /// <summary>
+    /// DTO for Benchmark.
+    /// </summary>
+    public class DTO_Benchmark : IDisposable
     {
         public DTO_Benchmark()
         {
@@ -44,5 +44,10 @@
         /// Dummy 6.
         /// </summary>
         public DummyData Dummy6 { get; set; }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

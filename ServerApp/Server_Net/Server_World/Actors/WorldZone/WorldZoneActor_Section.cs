@@ -35,7 +35,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 특정 섹션의 적 정보 가져오기.
         /// </summary>
-        private IEnumerable<DTO_Enemy> GetSectionEnemies((int, int) section)
+        private IEnumerable<World_Enemy> GetSectionEnemies((int, int) section)
         {
             if (false == _worldGroup.SectionEnemyDict.TryGetValue(section, out var enemies))
             {

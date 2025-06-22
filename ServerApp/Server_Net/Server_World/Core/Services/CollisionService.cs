@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 
 namespace Server_World.Core.Services
@@ -8,20 +9,21 @@ namespace Server_World.Core.Services
     using Server_World.Core.Collision;
 
     /// <summary>
-    /// CollisionManager.
+    /// CollisionService.
     /// </summary>
-    public static class CollisionManager
+    public class CollisionService
     {
-        private static ITDBService _tdbService;
-        private static IMemoryPoolService _memoryPoolService;
+        private readonly ILogger<CollisionService> _logger;
 
-        private static IEnumerable<TB_Collision> _tbCollisions;
+        private readonly ITDBService _tdbService;
+        private readonly IMemoryPoolService _memoryPoolService;
 
-        /// <summary>
-        /// Initialize.
-        /// </summary>
-        public static void Initialize(IServiceProvider serviceProvider)
+        private readonly IEnumerable<TB_Collision> _tbCollisions;
+
+        public CollisionService(IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<CollisionService>>();
+
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
@@ -29,20 +31,22 @@ namespace Server_World.Core.Services
         }
 
         /// <summary>
+        /// Initialize.
+        /// </summary>
+        public void Initialize()
+        {
+            _logger.LogInformation("CollisionService initialized");
+        }
+
+        /// <summary>
         /// Get collision box.
         /// </summary>
-        public static CollisionBox Rent(Type_Collision collisionType)
+        public CollisionBox Rent(Type_Collision collisionType)
         {
-            var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == collisionType);
-
-            if (default == tbCollision)
-            {
-                return null;
-            }
-            
             // Collision box.
             var collisionBox = TakeCollisionBox(collisionType);
 
+            var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == collisionType);
             collisionBox.Setup(collisionType, tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
 
             return collisionBox;
@@ -51,7 +55,7 @@ namespace Server_World.Core.Services
         /// <summary>
         /// Release collision box.
         /// </summary>
-        public static void Release(CollisionBox collisionBox)
+        public void Release(CollisionBox collisionBox)
         {
             switch (collisionBox.CollisionType)
             {
@@ -70,7 +74,7 @@ namespace Server_World.Core.Services
         /// <summary>
         /// Check collision status.
         /// </summary>
-        public static bool CollidesWith(BoudingBox src, BoudingBox dst)
+        public bool CollidesWith(BoudingBox src, BoudingBox dst)
         {
             // 가로 충돌.
             // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
@@ -94,7 +98,7 @@ namespace Server_World.Core.Services
         /// <summary>
         /// Take collision box.
         /// </summary>
-        private static CollisionBox TakeCollisionBox(Type_Collision collisionType)
+        private CollisionBox TakeCollisionBox(Type_Collision collisionType)
         {
             CollisionBox collisionBox;
 

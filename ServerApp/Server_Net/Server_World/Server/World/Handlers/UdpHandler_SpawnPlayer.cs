@@ -19,6 +19,8 @@ namespace Server_World.Server.World.Handlers
     {
         private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
 
+        private readonly CollisionService _collisionService;
+
         private readonly DBPlayInfo _dbPlayInfo;
         private readonly DBInventoryInfo _dbInventoryInfo;
 
@@ -33,6 +35,8 @@ namespace Server_World.Server.World.Handlers
             : base(NetPacketCode.CS_SpawnPlayer)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
+
+            _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
             _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
             _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
@@ -91,7 +95,7 @@ namespace Server_World.Server.World.Handlers
         private void LoadPlayerToHuntZone(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
         {
             // 충돌 박스.
-            var collisionBox = CollisionManager.Rent(Type_Collision.Player);
+            var collisionBox = _collisionService.Rent(Type_Collision.Player);
             if (null == collisionBox)
             {
                 return;

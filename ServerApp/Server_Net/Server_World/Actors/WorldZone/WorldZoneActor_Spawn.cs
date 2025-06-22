@@ -34,18 +34,29 @@ namespace Server_World.Actors.HuntZone
             var aroundSections = GetAroundSections(section);
             var packet = _memoryPoolService.Rent<NetPacketSC_SpawnPlayer>();
 
-            packet.Users.Clear();
-            packet.Enemies.Clear();
-
             foreach (var targetSection in aroundSections)
             {
                 // Player.
                 var players = GetSectionPlayers(targetSection);
-                if (null != players) { packet.Users.AddRange(players.Select(d => d.PlayInfo)); }
+
+                if (null != players) 
+                { 
+                    foreach (var player in players)
+                    {
+                        packet.Users.Add(player.PlayInfo);
+                    }
+                }
 
                 // Enemies.
                 var enemies = GetSectionEnemies(targetSection);
-                if (null != enemies) { packet.Enemies.AddRange(enemies); }
+
+                if (null != enemies) 
+                {
+                    foreach (var enemy in enemies)
+                    {
+                        packet.Enemies.Add(enemy.Enemy);
+                    }
+                }
             }
 
             // 인근 세션 적, 플레이어 정보 전송.
@@ -100,11 +111,17 @@ namespace Server_World.Actors.HuntZone
                 // Add enemy into section.
                 foreach (var enemy in enemies)
                 {
+                    var worldEnemy = new World_Enemy
+                    {
+                        Enemy= enemy,
+                        CollisionBox = _collisionService.Rent(Type_Collision.Enemy)
+                    };
+
                     // Add enemy.
-                    _worldGroup.EnemyDict.Add(enemy.EnemeyUid, enemy);
+                    _worldGroup.EnemyDict.Add(enemy.EnemeyUid, worldEnemy);
 
                     // Add enemy into section.
-                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, enemy, (_, _) => enemy);
+                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, worldEnemy, (_, _) => worldEnemy);
                 }
 
                 // 근처 세션 가져오기.

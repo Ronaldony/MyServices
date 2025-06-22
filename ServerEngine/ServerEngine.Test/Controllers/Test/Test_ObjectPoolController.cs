@@ -50,13 +50,13 @@ namespace ServerEngine.Test.Controllers.Test
 
 			_logger.LogInformation($"_TestThreadSafe Start {threadId}");
 
-			var playerInfos = new List<DTO_PlayerInfo>();
+			var playerInfos = new List<DTOPlayerInfo>();
 			var nowTime = DateTime.Now;
 
 			// Acquire DataObejct.
 			for (int cnt = 0; cnt < 1000000; cnt++)
 			{
-				var playerInfo = _objectPoolService.Rent<DTO_PlayerInfo>();
+				var playerInfo = _objectPoolService.Rent<DTOPlayerInfo>();
 				playerInfos.Add(playerInfo);
 
 				playerInfo.Pid = (cnt + threadId).ToString();

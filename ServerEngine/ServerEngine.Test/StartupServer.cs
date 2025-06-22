@@ -43,7 +43,7 @@ namespace ServerEngine.Test
             jsonSerializer.Initialize();
 
             var playerInfoObject = _serviceProvider.GetRequiredService<PlayerInfoObejct>();
-            await playerInfoObject.UpsertAsync<DTO_PlayerInfo>("0000018CFDF36A52", new DTO_PlayerInfo
+            await playerInfoObject.UpsertAsync<DTOPlayerInfo>("0000018CFDF36A52", new DTOPlayerInfo
             {
                 Pid  = "0000018CFDF36A52",
                 RegTime = DateTime.Now,

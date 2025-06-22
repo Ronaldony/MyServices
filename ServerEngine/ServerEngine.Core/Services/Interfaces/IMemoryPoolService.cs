@@ -1,8 +1,6 @@
 ﻿
 namespace ServerEngine.Core.Services.Interfaces
 {
-    using ServerEngine.Core.MemoryPool;
-
     /// <summary>
     /// Object pool interface.
     /// </summary>
@@ -16,11 +14,11 @@ namespace ServerEngine.Core.Services.Interfaces
         /// <summary>
         /// Acquire.
         /// </summary>
-		T Rent<T>() where T : class,  new();
+		T Rent<T>() where T : class, IDisposable, new();
 
         /// <summary>
         /// Release.
         /// </summary>
-        void Release<T>(T obj) where T : class, new();
+        void Release<T>(T obj) where T : class, IDisposable, new();
     }
 }

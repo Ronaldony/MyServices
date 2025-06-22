@@ -7,7 +7,7 @@ namespace Server_World.Core.Worlds
     /// <summary>
     /// World_SectionUnit.
     /// </summary>
-    public class World_SectionUnit
+    public class World_SectionUnit : IDisposable
     {
         public World_SectionUnit()
         {
@@ -24,5 +24,11 @@ namespace Server_World.Core.Worlds
         /// Enemy. 
         /// </summary>
         public List<DTO_Enemy> Enemies { get; set; }
+
+        public void Dispose()
+        {
+            PlayInfos.Clear(); 
+            Enemies.Clear();
+        }
     }
 }

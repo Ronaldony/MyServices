@@ -16,15 +16,11 @@ namespace ServerEngine.Core.Services
 
         private readonly ConcurrentDictionary<Type, CustomMemoryPool> _memoryPoolDict;
 
-        private readonly Lock _lock;
-
         public CustomMemoryPoolService(IServiceProvider serviceProvider)
         {
 			_logger = serviceProvider.GetRequiredService<ILogger<CustomMemoryPoolService>>();
 
 			_memoryPoolDict = new ConcurrentDictionary<Type, CustomMemoryPool>();
-
-            _lock = new Lock();
         }
 
 		/// <summary>
@@ -38,7 +34,7 @@ namespace ServerEngine.Core.Services
 		/// <summary>
 		/// Acquire object pool.
 		/// </summary>
-		public T Rent<T>() where T : class, new()
+		public T Rent<T>() where T : class, IDisposable, new()
         {
             if (false == _memoryPoolDict.TryGetValue(typeof(T), out var pool))
             {
@@ -52,13 +48,17 @@ namespace ServerEngine.Core.Services
 
 		/// <summary>
 		/// Release object pool.
+        /// Release 후 Dispose 수행.
 		/// </summary>
-		public void Release<T>(T obj) where T : class, new()
+		public void Release<T>(T obj) where T : class, IDisposable, new()
         {
             if (false == _memoryPoolDict.TryGetValue(typeof(T), out var pool))
             {
                 _memoryPoolDict.TryAdd(typeof(T), new CustomMemoryPool());
             }
+
+            // Dispose.
+            obj.Dispose();
 
             _memoryPoolDict[typeof(T)].Release(obj);
         }

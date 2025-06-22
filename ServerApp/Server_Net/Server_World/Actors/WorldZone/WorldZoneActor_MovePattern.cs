@@ -29,18 +29,20 @@ namespace Server_World.Actors.HuntZone
                 var enemies = pair.Value.Values;
                 var updateEnemies = new List<DTO_Enemy>();
 
-                foreach (var enemy in enemies)
+                foreach (var worldEnemy in enemies)
                 {
-                    if (movePattern != enemy.Position.MovePattern)
+                    var enemy = worldEnemy.Enemy;
+
+                    if (movePattern != enemy.Location.MovePattern)
                     {
                         continue;
                     }
 
                     // 다음 이동 패턴 업데이트.
-                    var position = enemy.Position;
+                    var location = enemy.Location;
 
-                    position.NextPos = new Vector2(position.SpawnPos.X + movePos.X, position.SpawnPos.Y + movePos.Y);
-                    position.NextPosDir = Vector2.Normalize(position.NextPos - position.Pos);
+                    location.NextPos = new Vector2(location.SpawnPos.X + movePos.X, location.SpawnPos.Y + movePos.Y);
+                    location.NextPosDir = Vector2.Normalize(location.NextPos - location.Pos);
 
                     // 업데이트 대상 리스트업.
                     updateEnemies.Add(enemy);

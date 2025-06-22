@@ -29,6 +29,6 @@ namespace GameCore.Http.Auth
     public partial class RES_Login : ResponseBase
     {
         [MemoryPackOrder(1)]
-        public DTO_PlayerInfo PlayerInfo { get; set; }
+        public DTOPlayerInfo PlayerInfo { get; set; }
     }
 }

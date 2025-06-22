@@ -9,7 +9,7 @@ namespace GameCore.Datas.Player
     /// DTO_PlayerInfo.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_PlayerInfo 
+    public partial class DTOPlayerInfo : IDisposable
     {
         /// <summary>
         /// Pid.
@@ -34,5 +34,10 @@ namespace GameCore.Datas.Player
         /// </summary>
         [MemoryPackOrder(3)]
         public DateTime RegTime { get; set; }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

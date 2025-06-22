@@ -4,12 +4,14 @@ using ServerEngine.Core.Util;
 
 namespace Server_World.Actors.HuntZone
 {
+    using Consul;
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
     using Server_World.Core.Collision;
     using Server_World.Core.Services;
     using Server_World.Core.Worlds;
+    using System.Linq;
 
     /// <summary>
     /// WorldZoneActor.
@@ -25,7 +27,7 @@ namespace Server_World.Actors.HuntZone
 
             // 플레이어.
             var playerInfo = worldPlayer.PlayInfo;
-            var position = playerInfo.Location.Position;
+            var pos = playerInfo.Location.Position;
 
             // 무기 정보.
             var tbWeapon = _tdbService.GetById<TB_Weapon>(playerInfo.Equipment.Weapon);
@@ -38,7 +40,7 @@ namespace Server_World.Actors.HuntZone
             }
 
             // 섹션 정보.
-            var section = GetSection(position);
+            var section = GetSection(pos);
 
             // 공격 패킷 전송.
             SendPacket_AroundSections(
@@ -52,9 +54,8 @@ namespace Server_World.Actors.HuntZone
                 }));
 
             // 충돌 박스.
-            using var enemyCollision = CollisionManager.Rent(Type_Collision.Enemy);
-            using var weaponCollision = CollisionManager.Rent(tbWeapon.CollisionType);
-            var weaponBounding = weaponCollision.GetBoudingBox(position.X, position.Y, packet.Angle);
+            var weaponCollision = _collisionService.Rent(tbWeapon.CollisionType);
+            var weaponBounding = weaponCollision.GetBoudingBox(pos.X, pos.Y, packet.Angle);
 
             // 근처 섹션 enemy 충돌 검사.
             var hitEnemies = new List<DTO_Enemy>();
@@ -62,7 +63,7 @@ namespace Server_World.Actors.HuntZone
 
             foreach (var hitSection in aroundSections)
             {
-                HitEnemies(tbWeapon.Damage, hitSection, hitEnemies, weaponBounding, enemyCollision, nowTime);
+                HitEnemies(tbWeapon.Damage, hitSection, hitEnemies, weaponBounding, nowTime);
             }
 
             // 피격 패킷 전송.
@@ -74,15 +75,18 @@ namespace Server_World.Actors.HuntZone
                 new NetPacketSC_HitEnemy
                 {
                     Damage = tbWeapon.Damage,
-                    Position = position,
+                    Position = pos,
                     Enemies = hitEnemies
                 }));
+
+            // Release.
+            _collisionService.Release(weaponCollision);
         }
 
         /// <summary>
         /// Hit enemies.
         /// </summary>
-        private void HitEnemies(int damage, (int, int) section, List<DTO_Enemy> hitEnemies, BoudingBox weaponBouding, CollisionBox enemyCollision, DateTime hitTime)
+        private void HitEnemies(int damage, (int, int) section, List<DTO_Enemy> hitEnemies, BoudingBox weaponBouding, DateTime hitTime)
         {
             var enemies = GetSectionEnemies(section);
 
@@ -95,8 +99,10 @@ namespace Server_World.Actors.HuntZone
             var deathEnemies = new List<DTO_Enemy>();
 
             // Enemy 충돌 계산.
-            foreach (var enemy in enemies)
+            foreach (var worldEnemy in enemies)
             {
+                var enemy = worldEnemy.Enemy;
+
                 // 피격 딜레이 계산.
                 if (false == TimeUtil.IsPastTime(enemy.HitTime.AddMilliseconds(GameData.HIT_DELAY_MS), hitTime))
                 {
@@ -105,11 +111,11 @@ namespace Server_World.Actors.HuntZone
 
                 enemy.HitTime = hitTime;
 
-                var pos = enemy.Position.Pos;
-                var targetBouding = enemyCollision.GetBoudingBox(pos.X, pos.Y);
+                var pos = enemy.Location.Pos;
+                var targetBouding = worldEnemy.CollisionBox.GetBoudingBox(pos.X, pos.Y);
 
                 // 충돌 판정.
-                if (true == CollisionManager.CollidesWith(weaponBouding, targetBouding))
+                if (true == _collisionService.CollidesWith(weaponBouding, targetBouding))
                 {
                     _logger.LogWarning($"Hit enemy. pos: {pos}, min: ({targetBouding.MinX}, {targetBouding.MinY}), max: ({targetBouding.MaxX}, {targetBouding.MaxY})");
 
@@ -128,7 +134,9 @@ namespace Server_World.Actors.HuntZone
             foreach (var enemy in deathEnemies)
             {
                 _logger.LogWarning($"Death enemy.");
-                _worldGroup.SectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out _);
+
+                _worldGroup.SectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out var worldEnemy);
+                _collisionService.Release(worldEnemy.CollisionBox);
             }
         }
     }

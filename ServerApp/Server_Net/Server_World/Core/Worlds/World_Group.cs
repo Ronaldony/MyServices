@@ -41,15 +41,15 @@ namespace Server_World.Core.Worlds
         /// <summary>
         /// 적 정보.
         /// key: Section.
-        /// value: DTO_Enemy dictionary (key: EnemeyUId).
+        /// value: Wolrd_enemy dictionary (key: EnemeyUId).
         /// </summary>
-        public Dictionary<ulong, DTO_Enemy> EnemyDict;
+        public Dictionary<ulong, World_Enemy> EnemyDict;
 
         /// <summary>
         /// 섹션 단위 적 정보.
         /// key: Section.
-        /// value: DTO_Enemy dictionary (key: EnemeyUId).
+        /// value: Wolrd_enemy dictionary (key: EnemeyUId).
         /// </summary>
-        public Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<ulong, DTO_Enemy>> SectionEnemyDict;
+        public Dictionary<(int sectionX, int sectionY), ConcurrentDictionary<ulong, World_Enemy>> SectionEnemyDict;
     }
 }

@@ -143,7 +143,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
         {
             try
             {
-
                 // Create spawn enemy message.
                 var spawnMsg = new WorldMsg_SpawnEnemy();
                 spawnMsg.Enemies = new Dictionary<(int sectionX, int sectionY), List<DTO_Enemy>>();
@@ -165,10 +164,10 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     dtoEnemy.ActionType = Type_Action.None;
 
                     // 이동 정보.
-                    var position = dtoEnemy.Position;
+                    var location = dtoEnemy.Location;
 
-                    position.Veltocity = enemy.MoveSpeed;
-                    position.MovePattern = _movePatterns.OrderBy(d => new Guid()).First();
+                    location.Veltocity = enemy.MoveSpeed;
+                    location.MovePattern = _movePatterns.OrderBy(d => new Guid()).First();
 
                     // Generate random section.
                     var x = _randomSection.Next(_confArea.MinX, _confArea.MaxX);
@@ -177,14 +176,14 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     _logger.LogDebug($"Spawn enemy. pos: ({x}, {y})");
 
                     // Spawn pos.
-                    position.SpawnPos = new Vector2(x, y);
-                    position.Pos = position.SpawnPos;
+                    location.SpawnPos = new Vector2(x, y);
+                    location.Pos = location.SpawnPos;
 
                     // Next pos.
-                    position.NextPos = position.SpawnPos;
+                    location.NextPos = location.SpawnPos;
 
                     // Set direction.
-                    position.NextPosDir = new Vector2();
+                    location.NextPosDir = new Vector2();
 
                     // Get section.
                     var section = (x / GameData.SECTION_WIDTH, y / GameData.SECTION_HEIGHT);

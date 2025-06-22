@@ -30,14 +30,14 @@ namespace ServerEngine.Test.Controllers.Test
         [Route("test-dataobject")]
         public async Task<string> Process()
         {
-            var isUpsert = await _playerInfoObject.UpsertAsync("TestPid", new DTO_PlayerInfo
+            var isUpsert = await _playerInfoObject.UpsertAsync("TestPid", new DTOPlayerInfo
             { 
                 Pid = "TestPid",
                 PlayerName = "Test name",
                 RegTime = TimeUtil.Now,
             });
                 
-            var playerInfo = await _playerInfoObject.SelectAsync<DTO_PlayerInfo>("TestPid");
+            var playerInfo = await _playerInfoObject.SelectAsync<DTOPlayerInfo>("TestPid");
 
             return "Ok";
         }

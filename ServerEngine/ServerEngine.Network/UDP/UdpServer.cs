@@ -328,10 +328,6 @@ namespace ServerEngine.Network.UDP
                 lock (session)
                 {
                     // Release session memory.
-                    session.Peer = null;
-                    session.Address = null;
-					session.IsDisconn = true;
-
                     _memoryPoolService.Release(session);
                 }
             };

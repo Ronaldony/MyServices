@@ -33,7 +33,7 @@ namespace ServerEngine.Test.Controllers.Test
         [Route("test-cache")]
         public string Process()
         {
-            var playerInfo = new DTO_PlayerInfo
+            var playerInfo = new DTOPlayerInfo
             {
                 Pid = "Test_Pid",
 				PlayerName = "Test name",
@@ -48,7 +48,7 @@ namespace ServerEngine.Test.Controllers.Test
                 return "failed to set cache";
             }
 
-            var data = _memcachedService.Get<DTO_PlayerInfo>(key);
+            var data = _memcachedService.Get<DTOPlayerInfo>(key);
             if (data == null)
             {
                 return "failed to get with cas.";
@@ -61,7 +61,7 @@ namespace ServerEngine.Test.Controllers.Test
 		[Route("test-cache-cas")]
 		public string ProcessCas()
 		{
-			var playerInfo = new DTO_PlayerInfo
+			var playerInfo = new DTOPlayerInfo
 			{
 				Pid = "Test_Pid",
 				PlayerName = "Test name",
@@ -76,7 +76,7 @@ namespace ServerEngine.Test.Controllers.Test
 				return "failed to set cache";
 			}
 
-			var casResult = _memcachedService.GetWithCas<DTO_PlayerInfo>(key);
+			var casResult = _memcachedService.GetWithCas<DTOPlayerInfo>(key);
 			if (casResult.Result == null)
 			{
 				return "failed to get with cas.";
@@ -89,7 +89,7 @@ namespace ServerEngine.Test.Controllers.Test
 				return "failed to force to set";
 			}
 
-			isSet = _memcachedService.SetWithCas<DTO_PlayerInfo>(key, playerInfo, casResult.Cas);
+			isSet = _memcachedService.SetWithCas<DTOPlayerInfo>(key, playerInfo, casResult.Cas);
 			if (false == isSet)
 			{
 				return "failed to set with cas.";
@@ -102,7 +102,7 @@ namespace ServerEngine.Test.Controllers.Test
 		[Route("test-cache-cas-init")]
 		public string ProcessCasInit()
 		{
-			var playerInfo = new DTO_PlayerInfo
+			var playerInfo = new DTOPlayerInfo
 			{
 				Pid = "Test_Pid",
 				PlayerName = "Test name",
@@ -113,19 +113,19 @@ namespace ServerEngine.Test.Controllers.Test
 
 			var isRemoved = _memcachedService.Remove(key);
 
-			var casResult = _memcachedService.GetWithCas<DTO_PlayerInfo>(key);
+			var casResult = _memcachedService.GetWithCas<DTOPlayerInfo>(key);
 			if (casResult.Result != null)
 			{
 				return "cache is not removed.";
 			}
 
-			var isSet = _memcachedService.SetWithCas<DTO_PlayerInfo>(key, playerInfo, casResult.Cas);
+			var isSet = _memcachedService.SetWithCas<DTOPlayerInfo>(key, playerInfo, casResult.Cas);
 			if (false == isSet)
 			{
 				return "failed to set with cas.";
 			}
 
-			 casResult = _memcachedService.GetWithCas<DTO_PlayerInfo>(key);
+			 casResult = _memcachedService.GetWithCas<DTOPlayerInfo>(key);
 			if (casResult.Result == null)
 			{
 				return "failed to get with cas.";

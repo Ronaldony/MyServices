@@ -29,7 +29,7 @@ namespace Server_World.Actors.HuntZone
             _worldGroup.SectionPlayerDict[section].TryRemove(msg.Pid, out _);
 
             // Release.
-            CollisionManager.Release(worldPlayer.CollisionBox);
+            _collisionService.Release(worldPlayer.CollisionBox);
 
             _logger.LogWarning($"Log out end. pid: {msg.Pid}");
         }

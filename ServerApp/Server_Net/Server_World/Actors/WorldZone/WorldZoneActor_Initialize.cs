@@ -21,7 +21,7 @@ namespace Server_World.Actors.HuntZone
             var sectionDict = new Dictionary<(int sectionX, int sectionY), Section>();
 
             var sectionPlayerDict = new Dictionary<(int, int), ConcurrentDictionary<string, World_Player>>();
-            var sectionEnemyDict = new Dictionary<(int, int), ConcurrentDictionary<ulong, DTO_Enemy>>();
+            var sectionEnemyDict = new Dictionary<(int, int), ConcurrentDictionary<ulong, World_Enemy>>();
 
             // 지역 정보 불러오기.
             var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
@@ -41,7 +41,7 @@ namespace Server_World.Actors.HuntZone
                     var section = (sectionX, sectionY);
 
                     sectionPlayerDict.Add(section, new ConcurrentDictionary<string, World_Player>());
-                    sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, DTO_Enemy>());
+                    sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, World_Enemy>());
 
                     aroundSessionDict.Add(section, new List<(int, int)>());
                     sectionDict.Add(section, new Section(sectionX, sectionY));
@@ -62,7 +62,7 @@ namespace Server_World.Actors.HuntZone
 
             return new World_Group
             {
-                EnemyDict = new Dictionary<ulong, DTO_Enemy>(),
+                EnemyDict = new Dictionary<ulong, World_Enemy>(),
                 PlayerDict = new Dictionary<string, World_Player>(),
                 SectionPlayerDict = sectionPlayerDict,
                 SectionEnemyDict = sectionEnemyDict,

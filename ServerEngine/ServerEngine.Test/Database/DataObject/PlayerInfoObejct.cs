@@ -22,7 +22,7 @@ namespace ServerEngine.Test.Database.DataObject
         /// <summary>
         /// Select async.
         /// </summary>s
-        public new async Task<T> SelectAsync<T>(string pid) where T : DTO_PlayerInfo, new()
+        public new async Task<T> SelectAsync<T>(string pid) where T : DTOPlayerInfo, new()
         {
             var playerInfo = await base.SelectAsync<T>(pid);
 
@@ -38,7 +38,7 @@ namespace ServerEngine.Test.Database.DataObject
         /// <summary>
         /// Upsert async.
         /// </summary>
-        public new async Task<bool> UpsertAsync<T>(string pid, T dataObject) where T : DTO_PlayerInfo, new()
+        public new async Task<bool> UpsertAsync<T>(string pid, T dataObject) where T : DTOPlayerInfo, new()
         {
             var isUpsert = await base.UpsertAsync(pid, dataObject);
 

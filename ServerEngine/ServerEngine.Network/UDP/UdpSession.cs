@@ -5,12 +5,13 @@ using System.Net;
 
 namespace ServerEngine.Network.UDP
 {
+    using Consul;
     using ServerEngine.Network.Interfaces;
 
     /// <summary>
     /// UdpSession.
     /// </summary>
-	public partial class UdpSession : IUdpSession
+	public partial class UdpSession : IUdpSession, IDisposable
     {
         /// <summary>
         /// Session id.
@@ -51,5 +52,12 @@ namespace ServerEngine.Network.UDP
         /// Packet.
         /// </summary>
         public UdpPacket Packet { get; set; }
+
+        public void Dispose()
+        {
+            this.Peer = null;
+            this.Address = null;
+            this.IsDisconn = true;
+        }
     }
 }

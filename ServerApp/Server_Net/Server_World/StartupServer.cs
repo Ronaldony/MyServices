@@ -56,10 +56,12 @@ namespace Server_World
             var tdbService = _serviceProvider.GetRequiredService<ITDBService>();
             tdbService.Initialize();
 
+            // CollisionService.
+            var collisionService = _serviceProvider.GetRequiredService<CollisionService>();
+            collisionService.Initialize();
+
             // Utilies.
             ServiceUtility.Initialize(_serviceProvider);
-            NetPacketUtility.Initialize(_serviceProvider);
-            CollisionManager.Initialize(_serviceProvider);
 
 #if !TEST_LOCAL
             var configGame = await remoteConfigureService.GetConfigData<Config_Game>("Devel_Game");
