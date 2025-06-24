@@ -7,11 +7,11 @@ namespace ServerEngine.Core.MemoryPool
 	/// </summary>
 	internal sealed class CustomMemoryPool
     {
-        private readonly ConcurrentQueue<object> _memoryPoolStack;
+        private readonly ConcurrentQueue<object> _memoryPoolQueue;
 
         public CustomMemoryPool()
         {
-            _memoryPoolStack = new ConcurrentQueue<object>();
+            _memoryPoolQueue = new ConcurrentQueue<object>();
 		}
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace ServerEngine.Core.MemoryPool
         /// </summary>
         public T Rent<T>() where T : class, new () 
         {
-            if (false == _memoryPoolStack.TryDequeue(out var dataObejct))
+            if (false == _memoryPoolQueue.TryDequeue(out var dataObejct))
             {
                 return new T();
             }
@@ -32,7 +32,7 @@ namespace ServerEngine.Core.MemoryPool
         /// </summary>
         public void Release<T>(T dataObject) where T : class, new()
         {
-            _memoryPoolStack.Enqueue(dataObject);
+            _memoryPoolQueue.Enqueue(dataObject);
         }
     }
 }

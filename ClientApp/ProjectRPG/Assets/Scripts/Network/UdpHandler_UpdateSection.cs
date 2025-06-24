@@ -25,14 +25,19 @@ namespace Network
         {
             Debug.Log("HandlePacket - SC_UpdateSection");
 
-            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_UpdateSection>(packet.Data);
+            // management.
             var enemyManagement = EnemyManagement.Instance;
+            var dummyManagement = DummyManagement.Instance;
 
-            enemyManagement.AddUpdatePacket(new UpdatePacket
+            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_UpdateSection>(packet.Data);
+            var updatePacket = new UpdatePacket
             {
                 PacketCode = NetPacketCode.SC_UpdateSection,
                 Data = packetData,
-            });
+            };
+
+            enemyManagement.AddUpdatePacket(updatePacket);
+            dummyManagement.AddUpdatePacket(updatePacket);
         }
     }
 }

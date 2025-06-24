@@ -28,6 +28,7 @@ namespace Server_World.Actors.HuntZone
 
         private readonly WorldServer _worldServer;
         private readonly WorldZoneScheduler_Enemy _schedulerEnemy;
+        //private readonly WorldZoneScheduler_Dummy _schedulerDummy;
 
         // World_Group.
         private readonly World_Group _worldGroup;
@@ -48,6 +49,7 @@ namespace Server_World.Actors.HuntZone
 
             _worldServer = ServiceUtility.GetService<WorldServer>();
             _schedulerEnemy = new WorldZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
+            //_schedulerDummy = new WorldZoneScheduler_Dummy(ServiceUtility.GetServiceProvider());
 
             // Initialize.
             _worldGroup = Initialize_WorldGroup();
@@ -65,7 +67,10 @@ namespace Server_World.Actors.HuntZone
             Receive<WorldMsg_UpdateFrame>(msg => UpdateFrame(msg));
             Receive<WorldMsg_UpdateMovePattern>(msg => UpdateMovePattern(msg));
 
-            // NetPacket.
+            // Dummy.
+            Receive<WorldMsg_UpdateDummy>(msg => UpdateDummy(msg));
+
+            // NetPacket.s
             Receive<WorldMsg_NetPacket>(msg =>
             {
                 // World player.
@@ -93,10 +98,11 @@ namespace Server_World.Actors.HuntZone
                         Dash(worldPlayer, msg.Packet as NetPacketCS_Dash);
                         break;
                 }
-            });
+});
 
             // Enemy shceduler start.
             _schedulerEnemy.Start();
+            //_schedulerDummy.Start();
         }
 
         /// <summary>

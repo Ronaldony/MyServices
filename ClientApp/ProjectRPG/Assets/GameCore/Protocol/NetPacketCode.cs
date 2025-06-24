@@ -49,7 +49,11 @@
         public const int SC_KnockBack = 151;                // 넉백.
 
         // 대시.
-        public const int CS_Dash = 160;                // 대시.
-        public const int SC_Dash = 161;                // 대시.
+        public const int CS_Dash = 160;                     // 대시.
+        public const int SC_Dash = 161;                     // 대시.
+
+        // 더미.
+        public const int CS_DummyMove = 10000;              // 더미 이동.
+        public const int SC_DummyMove = 10001;              // 더미 이동.
     }
 }

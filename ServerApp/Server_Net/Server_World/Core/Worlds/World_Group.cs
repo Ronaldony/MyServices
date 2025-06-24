@@ -15,7 +15,7 @@ namespace Server_World.Core.Worlds
         /// key: Section.
         /// value: Around sections.
         /// </summary>
-        public Dictionary<(int sectionX, int sectionY), List<(int sectionX, int sectionY)>> AroundSectionDict { get; set; }
+        public Dictionary<(int sectionX, int sectionY), HashSet<(int sectionX, int sectionY)>> AroundSectionDict { get; set; }
 
         /// <summary>
         /// 섹션 정보.

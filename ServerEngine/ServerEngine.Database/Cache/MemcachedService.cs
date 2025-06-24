@@ -28,7 +28,7 @@ namespace ServerEngine.Database.Cache
 		/// <summary>
 		/// Initialize.
 		/// </summary>
-		public bool Initialize(IServiceProvider serviceProvider, IEnumerable<CacheHost> cacheHosts, int expireSec)
+		public bool Initialize(IServiceProvider serviceProvider, ICollection<CacheHost> cacheHosts, int expireSec)
 		{
 			try
 			{

@@ -12,7 +12,7 @@ namespace ServerEngine.Database.Interfaces
 		/// <summary>
 		/// Initialize.
 		/// </summary>
-		bool Initialize(IServiceProvider serviceProvider, IEnumerable<CacheHost> cacheHosts, int expireSec);
+		bool Initialize(IServiceProvider serviceProvider, ICollection<CacheHost> cacheHosts, int expireSec);
 
 		/// <summary>
 		/// Get from cache.

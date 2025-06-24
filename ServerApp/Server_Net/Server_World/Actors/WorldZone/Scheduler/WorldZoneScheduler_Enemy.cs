@@ -149,10 +149,10 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
                 foreach (var enemy in _tbEnemies)
                 {
-                    if (_enemyUid > 0)
-                    {
-                        //break;
-                    }
+                    //if (_enemyUid > 0)
+                    //{
+                    //    break;
+                    //}
 
                     // 적 생성.
                     var dtoEnemy = new DTO_Enemy();

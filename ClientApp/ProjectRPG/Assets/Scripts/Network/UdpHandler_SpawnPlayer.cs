@@ -24,14 +24,19 @@ namespace Network
         {
             Debug.Log("HandlePacket - SpawnPlayer");
 
-            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_SpawnPlayer>(packet.Data);
             var enemyManagement = EnemyManagement.Instance;
+            var dummyManagement = DummyManagement.Instance;
 
-            enemyManagement.AddUpdatePacket(new UpdatePacket
+            // packet.
+            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_SpawnPlayer>(packet.Data);
+            var updatePacket = new UpdatePacket
             {
                 PacketCode = NetPacketCode.SC_SpawnPlayer,
                 Data = packetData,
-            });
+            };
+
+            enemyManagement.AddUpdatePacket(updatePacket);
+            dummyManagement.AddUpdatePacket(updatePacket);
         }
     }
 }

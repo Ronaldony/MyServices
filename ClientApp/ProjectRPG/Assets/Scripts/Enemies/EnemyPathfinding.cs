@@ -26,22 +26,11 @@ public class EnemyPathfinding : MonoBehaviour
         // Status knockback.
         if (_knockBack.GettingKnockedBack) { return; }
 
-        //Debug.Log($"pos: {_rb.position}, next: {_nextPos}");
-
         // check next position.
         _rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);
 
         if (_nextDir.x < 0) { _spriteRenderer.flipX = true; }
         else if (_nextDir.x > 0) { _spriteRenderer.flipX = false; }
-    }
-
-    /// <summary>
-    /// Move to.
-    /// </summary>
-    public void MoveTo(Vector2 nextPos)
-    {
-        _nextPos = nextPos;
-        _nextDir = nextPos.normalized;
     }
 
     /// <summary>

@@ -1,16 +1,15 @@
-﻿namespace GameCore.NetPacket
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetpacketBase client to server.
+    /// NetPacketBase_CS.
     /// </summary>
     public class NetPacketBase_CS
-    {
-    }
-
-    /// <summary>
-    /// NetpacketBase server to client.
-    /// </summary>
-    public class NetPacketBase_SC
     {
     }
 }

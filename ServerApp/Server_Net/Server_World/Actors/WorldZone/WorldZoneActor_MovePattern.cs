@@ -26,10 +26,10 @@ namespace Server_World.Actors.HuntZone
             foreach (var pair in _worldGroup.SectionEnemyDict)
             {
                 var section = pair.Key;
-                var enemies = pair.Value.Values;
+                var worldEnemies = pair.Value.Values;
                 var updateEnemies = new List<DTO_Enemy>();
 
-                foreach (var worldEnemy in enemies)
+                foreach (var worldEnemy in worldEnemies)
                 {
                     var enemy = worldEnemy.Enemy;
 

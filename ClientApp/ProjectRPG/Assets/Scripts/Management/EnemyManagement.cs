@@ -167,6 +167,8 @@ public class EnemyManagement : Singleton<EnemyManagement>
     {
         foreach (var enemy in packetData.Enemies)
         {
+            Debug.Log($"update move. uid - {enemy.EnemeyUid}, pos: {enemy.Location.NextPos}");
+            
             // Enemy Uid �˻�.
             if (false == _enemyObjectDict.TryGetValue(enemy.EnemeyUid, out var enemyObject))
             {
@@ -176,7 +178,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
             // Udpate next position.
             var enemyPath = enemyObject.GetComponent<EnemyPathfinding>();
-            enemyPath.MoveTo(enemy.Position.NextPos);
+            enemyPath.MoveTo(enemy.Location.NextPos);
         }
     }
 
@@ -248,7 +250,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         }
 
         // Create enemy object.
-        var enemyObject = Instantiate(findEnemyPrefab, new Vector3(enemy.Position.Pos.X, enemy.Position.Pos.Y), Quaternion.identity);
+        var enemyObject = Instantiate(findEnemyPrefab, new Vector3(enemy.Location.Pos.X, enemy.Location.Pos.Y), Quaternion.identity);
 
         _enemyObjectDict.Add(enemy.EnemeyUid, enemyObject);
 
@@ -258,7 +260,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
         // Set Enemy path.
         var enemyPathfinding = enemyObject.GetComponent<EnemyPathfinding>();
-        enemyPathfinding.Initialize_Spawn(enemy.Position.Veltocity, enemy.Position.NextPos);
+        enemyPathfinding.Initialize_Spawn(enemy.Location.Veltocity, enemy.Location.NextPos);
 
         // Set Enemy Health.
         var enemyHealth = enemyObject.GetComponent<EnemyHealth>();
@@ -268,7 +270,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         var pickupSpawner = enemyObject.GetComponent<PickUpSpawner>();
         pickupSpawner.Initialize_Spawn(tbEnemy.DropItem);
 
-        Debug.Log($"Spawn enemy - uid: {enemy.EnemeyUid}, pos: {enemy.Position.Pos}");
+        Debug.Log($"Spawn enemy - uid: {enemy.EnemeyUid}, pos: {enemy.Location.Pos}");
 
         return true;
     }

@@ -3,7 +3,6 @@
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
-    using GameCore.Datas.Enemy;
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
 
@@ -17,7 +16,7 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private World_Group Initialize_WorldGroup()
         {
-            var aroundSessionDict = new Dictionary<(int sectionX, int sectionY), List<(int, int)>>();
+            var aroundSessionDict = new Dictionary<(int sectionX, int sectionY), HashSet<(int, int)>>();
             var sectionDict = new Dictionary<(int sectionX, int sectionY), Section>();
 
             var sectionPlayerDict = new Dictionary<(int, int), ConcurrentDictionary<string, World_Player>>();
@@ -43,7 +42,7 @@ namespace Server_World.Actors.HuntZone
                     sectionPlayerDict.Add(section, new ConcurrentDictionary<string, World_Player>());
                     sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, World_Enemy>());
 
-                    aroundSessionDict.Add(section, new List<(int, int)>());
+                    aroundSessionDict.Add(section, new HashSet<(int, int)>());
                     sectionDict.Add(section, new Section(sectionX, sectionY));
                 }
             }
@@ -55,9 +54,12 @@ namespace Server_World.Actors.HuntZone
                 var sectionX = pair.Key.sectionX;
                 var sectionY = pair.Key.sectionY;
 
+                // 근처 섹션 추가.
                 var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
-
-                aroundSections.AddRange(calcAroundSections);
+                foreach (var section in calcAroundSections)
+                {
+                    aroundSections.Add(section);
+                }
             }
 
             return new World_Group

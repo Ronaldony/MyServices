@@ -1,7 +1,8 @@
 ﻿
 using MemoryPack;
-using System.Runtime.InteropServices;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace GameCore.NetPacket
 {
@@ -20,11 +21,11 @@ namespace GameCore.NetPacket
     /// NetPacket_SpawnPlayer from server to client.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_SpawnPlayer
+    public partial class NetPacketSC_SpawnPlayer : IDisposable
     {
         public NetPacketSC_SpawnPlayer()
         {
-            Users = new List<DTO_PlayInfo>();
+            PlayInfos = new List<DTO_PlayInfo>();
             Enemies = new List<DTO_Enemy>();
         }
 
@@ -32,12 +33,18 @@ namespace GameCore.NetPacket
         /// 유저 플레이 정보.
         /// </summary>
         [MemoryPackOrder(0)]
-        public List<DTO_PlayInfo> Users { get; set; }
+        public List<DTO_PlayInfo> PlayInfos { get; set; }
 
         /// <summary>
         /// 적 정보.
         /// </summary>
         [MemoryPackOrder(1)]
         public List<DTO_Enemy> Enemies { get; set; }
+
+        public void Dispose()
+        {
+            PlayInfos.Clear();
+            Enemies.Clear();
+        }
     }
 }

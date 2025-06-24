@@ -6,11 +6,12 @@ namespace ServerEngine.Core.Services
 {
     using ServerEngine.Core.MemoryPool;
     using ServerEngine.Core.Services.Interfaces;
+    using System.Collections.Generic;
 
-	/// <summary>
-	/// CustomMemoryPoolService.
-	/// </summary>
-	public sealed class CustomMemoryPoolService : IMemoryPoolService
+    /// <summary>
+    /// CustomMemoryPoolService.
+    /// </summary>
+    public sealed class CustomMemoryPoolService : IMemoryPoolService
     {
 		private readonly ILogger<CustomMemoryPoolService> _logger;
 
@@ -61,6 +62,24 @@ namespace ServerEngine.Core.Services
             obj.Dispose();
 
             _memoryPoolDict[typeof(T)].Release(obj);
+        }
+
+        /// <summary>
+		/// Release object pool.
+        /// Release 후 Dispose 수행.
+        public void Release<T>(ICollection<T> objs) where T : class, IDisposable, new()
+        {
+            if (false == _memoryPoolDict.TryGetValue(typeof(T), out var pool))
+            {
+                _memoryPoolDict.TryAdd(typeof(T), new CustomMemoryPool());
+            }
+
+            // Dispose.
+            foreach (var obj in objs)
+            {
+                obj.Dispose();
+                _memoryPoolDict[typeof(T)].Release(obj);
+            }
         }
     }
 }

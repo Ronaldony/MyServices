@@ -12,7 +12,7 @@ namespace GameCore.Datas.Enemy
     {
         public DTO_Enemy()
         {
-            Position = new DTO_EnemyPosition();
+            Location = new DTO_EnemyLocation();
         }
 
         /// <summary>
@@ -46,10 +46,10 @@ namespace GameCore.Datas.Enemy
         public DateTime HitTime { get; set; }
 
         /// <summary>
-        /// Position.
+        /// Location.
         /// </summary>
         [MemoryPackOrder(5)]
-        public DTO_EnemyPosition Position { get; set; }
+        public DTO_EnemyLocation Location { get; set; }
 
         /// <summary>
         /// 드랍 아이템.

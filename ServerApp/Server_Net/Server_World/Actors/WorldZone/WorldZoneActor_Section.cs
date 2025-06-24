@@ -3,7 +3,6 @@
 namespace Server_World.Actors.HuntZone
 {
     using GameCore;
-    using GameCore.Datas.Enemy;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -22,11 +21,11 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 특정 섹션의 플레이 정보 가져오기.
         /// </summary>
-        private IEnumerable<World_Player> GetSectionPlayers((int, int) section)
+        private ICollection<World_Player> GetSectionPlayers((int, int) section)
         {
             if (false == _worldGroup.SectionPlayerDict.TryGetValue(section, out var playerDict))
             {
-                return null;
+                return new List<World_Player>();
             }
 
             return playerDict.Values;
@@ -35,11 +34,11 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 특정 섹션의 적 정보 가져오기.
         /// </summary>
-        private IEnumerable<World_Enemy> GetSectionEnemies((int, int) section)
+        private ICollection<World_Enemy> GetSectionEnemies((int, int) section)
         {
             if (false == _worldGroup.SectionEnemyDict.TryGetValue(section, out var enemies))
             {
-                return null;
+                return new List<World_Enemy>();
             }
 
             return enemies.Values;
@@ -48,21 +47,14 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Get players around sections.
         /// </summary>
-        private IEnumerable<World_Player> GetAroundPlayers((int, int) section)
+        private ICollection<World_Player> GetAroundPlayers((int, int) section)
         {
             var aroundPlayers = new List<World_Player>();
             var aroundSections = GetAroundSections(section);
 
             foreach (var findSection in aroundSections)
             {
-                var sectionPlayers = GetSectionPlayers(findSection);
-
-                if (null == sectionPlayers)
-                {
-                    continue;
-                }
-
-                aroundPlayers.AddRange(sectionPlayers);
+                aroundPlayers.AddRange(GetSectionPlayers(findSection));
             }
 
             return aroundPlayers;
@@ -71,18 +63,18 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 근처 섹션 가져오기.
         /// </summary>
-        private List<(int sectionX, int sectionY)> GetAroundSections((int, int) section)
+        private HashSet<(int sectionX, int sectionY)> GetAroundSections((int, int) section)
         {
             if (false == _worldGroup.AroundSectionDict.TryGetValue(section, out var aroundSections))
             {
-                return null;
+                return new HashSet<(int sectionX, int sectionY)>();
             }
 
             return aroundSections;
         }
 
         /// <summary>
-        /// Get section or default.
+        /// Get section or default.ss
         /// </summary>
         private bool IsValidSection((int sectionX, int sectionY) section)
         {

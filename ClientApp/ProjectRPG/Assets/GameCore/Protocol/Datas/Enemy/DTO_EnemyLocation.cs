@@ -10,9 +10,9 @@ namespace GameCore.Datas.Enemy
     /// DTO_EnemyPosition.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class DTO_EnemyPosition
+    public partial class DTO_EnemyLocation
     {
-        public DTO_EnemyPosition()
+        public DTO_EnemyLocation()
         {
         }
 

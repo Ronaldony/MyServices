@@ -10,8 +10,8 @@
         public const int MOVEMENT_RANGE_LIMIT = 5;          // 이동 범위 제한.
 
         // 섹션.
-        public const int SECTION_WIDTH = 7;                 // 섹션 가로 길이.
-        public const int SECTION_HEIGHT = 5;                // 섹션 세로 길이.
+        public const int SECTION_WIDTH = 14;                 // 섹션 가로 길이.
+        public const int SECTION_HEIGHT = 9;                // 섹션 세로 길이.
 
         // Mob.
         public const int MAX_ENEMY_SPAWN = 50;              // 최대 적 스폰 수.

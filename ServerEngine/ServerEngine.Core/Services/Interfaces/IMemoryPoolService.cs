@@ -20,5 +20,10 @@ namespace ServerEngine.Core.Services.Interfaces
         /// Release.
         /// </summary>
         void Release<T>(T obj) where T : class, IDisposable, new();
+
+        /// <summary>
+        /// Release.
+        /// </summary>
+        void Release<T>(ICollection<T> obj) where T : class, IDisposable, new();
     }
 }

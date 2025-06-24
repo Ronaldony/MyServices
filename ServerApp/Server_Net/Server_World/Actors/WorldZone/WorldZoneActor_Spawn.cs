@@ -39,23 +39,17 @@ namespace Server_World.Actors.HuntZone
                 // Player.
                 var players = GetSectionPlayers(targetSection);
 
-                if (null != players) 
-                { 
-                    foreach (var player in players)
-                    {
-                        packet.Users.Add(player.PlayInfo);
-                    }
+                foreach (var player in players)
+                {
+                    packet.PlayInfos.Add(player.PlayInfo);
                 }
 
                 // Enemies.
                 var enemies = GetSectionEnemies(targetSection);
 
-                if (null != enemies) 
+                foreach (var enemy in enemies)
                 {
-                    foreach (var enemy in enemies)
-                    {
-                        packet.Enemies.Add(enemy.Enemy);
-                    }
+                    packet.Enemies.Add(enemy.Enemy);
                 }
             }
 
@@ -68,11 +62,11 @@ namespace Server_World.Actors.HuntZone
             if (aroundPlayers.Any())
             {
                 // Reset packet.
-                packet.Users.Clear();
+                packet.PlayInfos.Clear();
                 packet.Enemies.Clear();
 
                 // Add player info.
-                packet.Users.Add(worldPlayer.PlayInfo);
+                packet.PlayInfos.Add(worldPlayer.PlayInfo);
 
                 // 인근 세션에 패킷 전송.
                 foreach (var player in aroundPlayers)

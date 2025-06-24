@@ -4,14 +4,11 @@ using ServerEngine.Core.Util;
 
 namespace Server_World.Actors.HuntZone
 {
-    using Consul;
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
     using Server_World.Core.Collision;
-    using Server_World.Core.Services;
     using Server_World.Core.Worlds;
-    using System.Linq;
 
     /// <summary>
     /// WorldZoneActor.
@@ -90,7 +87,7 @@ namespace Server_World.Actors.HuntZone
         {
             var enemies = GetSectionEnemies(section);
 
-            if (null == enemies)
+            if (false == enemies.Any())
             {
                 return;
             }

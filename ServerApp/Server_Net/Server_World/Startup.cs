@@ -14,6 +14,7 @@ namespace Server_World
     using GameCore;
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone;
+    using Server_World.Core.Services;
     using Server_World.Server.World;
 
     /// <summary>
@@ -36,6 +37,8 @@ namespace Server_World
             appBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             appBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             appBuilder.Services.AddSingleton<ITDBService, TDBService>();
+
+            appBuilder.Services.AddSingleton<CollisionService>();
 
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
