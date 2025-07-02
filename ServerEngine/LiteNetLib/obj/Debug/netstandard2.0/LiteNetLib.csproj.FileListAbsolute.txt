@@ -1,0 +1,13 @@
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\bin\Debug\netstandard2.0\LiteNetLib.deps.json
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\bin\Debug\netstandard2.0\LiteNetLib.dll
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\bin\Debug\netstandard2.0\LiteNetLib.pdb
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\bin\Debug\netstandard2.0\LiteNetLib.xml
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.csproj.AssemblyReference.cache
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.AssemblyInfoInputs.cache
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.AssemblyInfo.cs
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.csproj.CoreCompileInputs.cache
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.sourcelink.json
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.dll
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.xml
+C:\Portfolio\MyServices\ServerEngine\LiteNetLib\obj\Debug\netstandard2.0\LiteNetLib.pdb

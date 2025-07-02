@@ -7,7 +7,7 @@ using System.Net;
 namespace LoginServer
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.DataObject;
+    using Framework.Core.Database.GameObjects;
     using Framework.Core.WebAPI.ActionFilter;
     using Framework.Core.WebAPI.Formatters;
     using Framework.WebAPI;

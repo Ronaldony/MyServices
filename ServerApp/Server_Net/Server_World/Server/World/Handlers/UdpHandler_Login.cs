@@ -6,7 +6,7 @@ using ServerEngine.Network.UDP;
 namespace Server_World.Server.World.Handlers
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.DataObject;
+    using Framework.Core.Database.GameObjects;
     using GameCore;
     using GameCore.NetPacket;
 

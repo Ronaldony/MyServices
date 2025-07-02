@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "kluy6CSPbOI=",
+  "success": true,
+  "projectFilePath": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\consul\\1.7.14.3\\consul.1.7.14.3.nupkg.sha512",
+    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

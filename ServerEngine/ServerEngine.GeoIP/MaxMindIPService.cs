@@ -4,7 +4,10 @@ using Microsoft.Extensions.Logging;
 
 namespace ServerEngine.GeoIP
 {
-	public class MaxMindIPService : IGeoIPService
+    /// <summary>
+    /// MaxMindIPService.
+    /// </summary>
+    public class MaxMindIPService : IGeoIPService
 	{
 		private readonly ILogger<MaxMindIPService> _logger;
 

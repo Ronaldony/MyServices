@@ -1,0 +1,13 @@
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\bin\Debug\net9.0\ServerEngine.Config.deps.json
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\bin\Debug\net9.0\ServerEngine.Config.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\bin\Debug\net9.0\ServerEngine.Config.pdb
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.csproj.AssemblyReference.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.GeneratedMSBuildEditorConfig.editorconfig
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.AssemblyInfoInputs.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.AssemblyInfo.cs
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.csproj.CoreCompileInputs.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.sourcelink.json
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\refint\ServerEngine.Config.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ServerEngine.Config.pdb
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.Config\obj\Debug\net9.0\ref\ServerEngine.Config.dll

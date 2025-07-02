@@ -1,0 +1,12 @@
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\bin\Debug\net9.0\ServerEngine.MessageBus.deps.json
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\bin\Debug\net9.0\ServerEngine.MessageBus.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\bin\Debug\net9.0\ServerEngine.MessageBus.pdb
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ServerEngine.MessageBus.GeneratedMSBuildEditorConfig.editorconfig
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ServerEngine.MessageBus.AssemblyInfoInputs.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ServerEngine.MessageBus.AssemblyInfo.cs
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ServerEngine.MessageBus.csproj.CoreCompileInputs.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ServerEngine.MessageBus.sourcelink.json
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ServerEngine.MessageBus.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\refint\ServerEngine.MessageBus.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ServerEngine.MessageBus.pdb
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\obj\Debug\net9.0\ref\ServerEngine.MessageBus.dll

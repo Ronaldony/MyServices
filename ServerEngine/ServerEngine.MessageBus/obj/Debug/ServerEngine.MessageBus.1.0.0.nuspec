@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ServerEngine.MessageBus</id>
+    <version>1.0.0</version>
+    <authors>ServerEngine.MessageBus</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="39d8eb37227a4bffbb90e007893a4b372c52ba7f" />
+    <dependencies>
+      <group targetFramework="net9.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Portfolio\MyServices\ServerEngine\ServerEngine.MessageBus\bin\Debug\net9.0\ServerEngine.MessageBus.dll" target="lib\net9.0\ServerEngine.MessageBus.dll" />
+  </files>
+</package>

@@ -30,7 +30,7 @@ namespace Framework.Config
 
         /// <summary>
         /// Frame rate.
-        /// </summary>s
+        /// </summary>
         public int FrameRate { get; set; }
 
         /// <summary>

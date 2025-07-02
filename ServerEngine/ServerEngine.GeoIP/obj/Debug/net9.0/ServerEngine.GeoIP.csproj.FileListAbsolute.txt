@@ -1,0 +1,14 @@
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\MaxMind\GeoLite2-Country.mmdb
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.deps.json
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\bin\Debug\net9.0\ServerEngine.GeoIP.pdb
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.csproj.AssemblyReference.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.AssemblyInfoInputs.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.AssemblyInfo.cs
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.csproj.CoreCompileInputs.cache
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.sourcelink.json
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\refint\ServerEngine.GeoIP.dll
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ServerEngine.GeoIP.pdb
+C:\Portfolio\MyServices\ServerEngine\ServerEngine.GeoIP\obj\Debug\net9.0\ref\ServerEngine.GeoIP.dll

@@ -1,0 +1,133 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Portfolio\\MyServices\\ServerEngine\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\portfolio\\myservices\\serverengine\\serverengine.core\\serverengine.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\serverengine.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|c:\\portfolio\\myservices\\serverengine\\serverengine.geoip\\serverengine.geoip.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|solutionrelative:serverengine.geoip\\serverengine.geoip.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|c:\\portfolio\\myservices\\serverengine\\serverengine.database\\serverengine.database.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{982C74E5-C7CB-4BA5-8DDC-AC3B56133567}|ServerEngine.Database\\ServerEngine.Database.csproj|solutionrelative:serverengine.database\\serverengine.database.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|c:\\portfolio\\myservices\\serverengine\\serverengine.geoip\\maxmindipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22B7053D-9F22-4B21-AEEF-C884F3601675}|ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj|solutionrelative:serverengine.geoip\\maxmindipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|c:\\portfolio\\myservices\\serverengine\\serverengine.config\\serverengine.config.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{27E0842C-2F7B-4E0B-A2C1-7221A94C06EB}|ServerEngine.Config\\ServerEngine.Config.csproj|solutionrelative:serverengine.config\\serverengine.config.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4233B17C-1AB7-4FDC-9050-B509C4D2DBE9}|ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj|c:\\portfolio\\myservices\\serverengine\\serverengine.asciibanner\\serverengine.asciibanner.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{4233B17C-1AB7-4FDC-9050-B509C4D2DBE9}|ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj|solutionrelative:serverengine.asciibanner\\serverengine.asciibanner.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|c:\\portfolio\\myservices\\serverengine\\serverengine.core\\services\\strapiconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89ACA0AD-D5A1-4E5F-9131-B349F2F3BA35}|ServerEngine.Core\\ServerEngine.Core.csproj|solutionrelative:serverengine.core\\services\\strapiconfigureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ServerEngine.GeoIP.csproj",
+              "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj",
+              "RelativeDocumentMoniker": "ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj",
+              "ToolTip": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj",
+              "RelativeToolTip": "ServerEngine.GeoIP\\ServerEngine.GeoIP.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-02T08:23:33.563Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ServerEngine.Database.csproj",
+              "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
+              "RelativeDocumentMoniker": "ServerEngine.Database\\ServerEngine.Database.csproj",
+              "ToolTip": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Database\\ServerEngine.Database.csproj",
+              "RelativeToolTip": "ServerEngine.Database\\ServerEngine.Database.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-02T08:23:33.107Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MaxMindIPService.cs",
+              "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "ToolTip": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "RelativeToolTip": "ServerEngine.GeoIP\\MaxMindIPService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T08:23:28.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServerEngine.Core.csproj",
+              "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\ServerEngine.Core.csproj",
+              "ToolTip": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Core\\ServerEngine.Core.csproj",
+              "RelativeToolTip": "ServerEngine.Core\\ServerEngine.Core.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-02T08:23:26.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ServerEngine.Config.csproj",
+              "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+              "RelativeDocumentMoniker": "ServerEngine.Config\\ServerEngine.Config.csproj",
+              "ToolTip": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Config\\ServerEngine.Config.csproj",
+              "RelativeToolTip": "ServerEngine.Config\\ServerEngine.Config.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-02T08:23:10.359Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ServerEngine.AsciiBanner.csproj",
+              "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj",
+              "RelativeDocumentMoniker": "ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj",
+              "ToolTip": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj",
+              "RelativeToolTip": "ServerEngine.AsciiBanner\\ServerEngine.AsciiBanner.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-02T08:23:07.23Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "StrapiConfigureService.cs",
+              "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Core\\Services\\StrapiConfigureService.cs",
+              "RelativeDocumentMoniker": "ServerEngine.Core\\Services\\StrapiConfigureService.cs",
+              "ToolTip": "C:\\Portfolio\\MyServices\\ServerEngine\\ServerEngine.Core\\Services\\StrapiConfigureService.cs",
+              "RelativeToolTip": "ServerEngine.Core\\Services\\StrapiConfigureService.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T08:04:58.74Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

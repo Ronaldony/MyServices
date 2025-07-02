@@ -1,0 +1,8 @@
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.csproj.AssemblyReference.cache
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.AssemblyInfoInputs.cache
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.AssemblyInfo.cs
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.csproj.CoreCompileInputs.cache
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.MvcApplicationPartsAssemblyInfo.cs
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.MvcApplicationPartsAssemblyInfo.cache
+C:\Portfolio\MyServices\ServerApp\Server_API\LoginServer\obj\Debug\net9.0\LoginServer.sourcelink.json
