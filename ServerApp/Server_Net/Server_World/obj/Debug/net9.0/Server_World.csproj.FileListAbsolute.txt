@@ -1,6 +1,0 @@
-C:\Portfolio\MyServices\ServerApp\Server_Net\Server_World\obj\Debug\net9.0\Server_World.csproj.AssemblyReference.cache
-C:\Portfolio\MyServices\ServerApp\Server_Net\Server_World\obj\Debug\net9.0\Server_World.GeneratedMSBuildEditorConfig.editorconfig
-C:\Portfolio\MyServices\ServerApp\Server_Net\Server_World\obj\Debug\net9.0\Server_World.AssemblyInfoInputs.cache
-C:\Portfolio\MyServices\ServerApp\Server_Net\Server_World\obj\Debug\net9.0\Server_World.AssemblyInfo.cs
-C:\Portfolio\MyServices\ServerApp\Server_Net\Server_World\obj\Debug\net9.0\Server_World.csproj.CoreCompileInputs.cache
-C:\Portfolio\MyServices\ServerApp\Server_Net\Server_World\obj\Debug\net9.0\Server_World.sourcelink.json
