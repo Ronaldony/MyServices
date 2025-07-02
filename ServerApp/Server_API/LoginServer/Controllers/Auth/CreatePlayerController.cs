@@ -6,7 +6,7 @@ using ServerEngine.Core.Util;
 namespace LoginServer.Controllers.Auth
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.DataObject;
+    using Framework.Core.Database.GameObjects;
     using Framework.Core.WebAPI.ActionFilter;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
@@ -32,10 +32,8 @@ namespace LoginServer.Controllers.Auth
         {
             _logger = serviceProvider.GetRequiredService<ILogger<CreatePlayerController>>();
 
-            // services.
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
 
-            // DB.
             _dbPlayerData = serviceProvider.GetRequiredService<DBPlayerData>();
             _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
         }

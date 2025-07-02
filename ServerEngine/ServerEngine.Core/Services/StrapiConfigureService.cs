@@ -55,7 +55,7 @@ namespace ServerEngine.Core.Services
         /// <summary>
         /// Get configuration data.
         /// </summary>
-        public async Task<T> GetConfigData<T>(string nameKey) where T : class
+        public async Task<T> GetConfigData<T>(string contentType, string nameKey) where T : class
         {
             try
             {
@@ -68,7 +68,7 @@ namespace ServerEngine.Core.Services
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {_configStrapi.Token}");
 
-                    var res = await client.GetAsync($"{_configStrapi.Address}{STRAPI_CONTENT_PATH}");
+                    var res = await client.GetAsync($"{_configStrapi.Address}{contentType}");
                     var resString = await res.Content.ReadAsStringAsync();
 
                     var strapiDatas = FilterStrapiDatas(resString);

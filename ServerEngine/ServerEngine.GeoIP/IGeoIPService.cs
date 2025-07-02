@@ -1,6 +1,9 @@
 ﻿namespace ServerEngine.GeoIP
 {
-	public interface IGeoIPService
+    /// <summary>
+    /// IGeoIPService.
+    /// </summary>
+    public interface IGeoIPService
 	{
 		/// <summary>
 		/// Initialize.

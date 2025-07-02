@@ -1,11 +1,10 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using ServerEngine.Core.Util;
 
 namespace LoginServer.Controllers.Auth
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.DataObject;
+    using Framework.Core.Database.GameObjects;
     using Framework.Core.WebAPI.ActionFilter;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;

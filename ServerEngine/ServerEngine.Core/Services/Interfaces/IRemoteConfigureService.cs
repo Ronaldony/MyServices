@@ -16,6 +16,6 @@ namespace ServerEngine.Core.Services.Interfaces
         /// <summary>
         /// Get configuration data.
         /// </summary>
-        Task<T> GetConfigData<T>(string key) where T : class;
+        Task<T> GetConfigData<T>(string contentType, string key) where T : class;
     }
 }

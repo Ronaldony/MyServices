@@ -14,5 +14,10 @@
         /// API Token.
         /// </summary>
         public string Token { get; set; }
+
+        /// <summary>
+        /// ContentType.
+        /// </summary>
+        public string ContentType { get; set; }
     }
 }

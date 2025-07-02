@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Framework.Core.Database.DataObject
+namespace Framework.Core.Database.GameObjects
 {
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.Interfaces;

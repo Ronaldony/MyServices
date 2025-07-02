@@ -10,9 +10,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.3.0" />
-    <PackageReference Include="ServerEngine.Config" Version="1.0.4" />
-    <PackageReference Include="ServerEngine.Core" Version="1.0.11" />
-    <PackageReference Include="ServerEngine.Database" Version="1.0.9" />
+    <PackageReference Include="ServerEngine.Config" Version="1.0.5" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.12" />
+    <PackageReference Include="ServerEngine.Database" Version="1.0.10" />
   </ItemGroup>
 
   <ItemGroup>

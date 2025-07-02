@@ -10,7 +10,7 @@ using ServerEngine.GeoIP;
 namespace Server_World
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.DataObject;
+    using Framework.Core.Database.GameObjects;
     using GameCore;
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone;
