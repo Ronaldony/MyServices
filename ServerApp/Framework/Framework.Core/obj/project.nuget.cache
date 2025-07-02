@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EE6k8o5MQnk=",
+  "dgSpecHash": "SZT69frOJoc=",
   "success": true,
   "projectFilePath": "C:\\Portfolio\\MyServices\\ServerApp\\Framework\\Framework.Core\\Framework.Core.csproj",
   "expectedPackageFiles": [
@@ -59,8 +59,8 @@
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\nlog\\5.4.0\\nlog.5.4.0.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\nlog.extensions.logging\\5.4.0\\nlog.extensions.logging.5.4.0.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\npgsql\\8.0.3\\npgsql.8.0.3.nupkg.sha512",
-    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.config\\1.0.4\\serverengine.config.1.0.4.nupkg.sha512",
-    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.core\\1.0.11\\serverengine.core.1.0.11.nupkg.sha512",
+    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.config\\1.0.5\\serverengine.config.1.0.5.nupkg.sha512",
+    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.core\\1.0.12\\serverengine.core.1.0.12.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.database\\1.0.10\\serverengine.database.1.0.10.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\snappier\\1.1.6\\snappier.1.1.6.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\snowflake.csharp\\1.3.0\\snowflake.csharp.1.3.0.nupkg.sha512",

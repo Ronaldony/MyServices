@@ -198,7 +198,7 @@
           }
         }
       },
-      "ServerEngine.Config/1.0.4": {
+      "ServerEngine.Config/1.0.5": {
         "type": "package",
         "dependencies": {
           "Consul": "1.7.14.3"
@@ -649,14 +649,14 @@
         "nlog.extensions.logging.nuspec"
       ]
     },
-    "ServerEngine.Config/1.0.4": {
-      "sha512": "9cxg/BDgaiJoRgMqOwUnhkAHMYDgo0sxqo44K2ELeoP1eAJzh8kyBpAPSx7MdVo1lYDQzla1GDsjYATxQC2ZaA==",
+    "ServerEngine.Config/1.0.5": {
+      "sha512": "wQ+EVSSaoQAGqj8vv5hyEbRjNx/oju7uRutH0wnl0FogBIGfOo3Eezbs+YSXMbrCKmuIyNPTRK1G3+lM6YZL/Q==",
       "type": "package",
-      "path": "serverengine.config/1.0.4",
+      "path": "serverengine.config/1.0.5",
       "files": [
         ".nupkg.metadata",
         "lib/net9.0/ServerEngine.Config.dll",
-        "serverengine.config.1.0.4.nupkg.sha512",
+        "serverengine.config.1.0.5.nupkg.sha512",
         "serverengine.config.nuspec"
       ]
     }
@@ -665,7 +665,7 @@
     "net9.0": [
       "NLog >= 5.4.0",
       "NLog.Extensions.Logging >= 5.4.0",
-      "ServerEngine.Config >= 1.0.4"
+      "ServerEngine.Config >= 1.0.5"
     ]
   },
   "packageFolders": {
@@ -733,7 +733,7 @@
           },
           "ServerEngine.Config": {
             "target": "Package",
-            "version": "[1.0.4, )"
+            "version": "[1.0.5, )"
           }
         },
         "imports": [

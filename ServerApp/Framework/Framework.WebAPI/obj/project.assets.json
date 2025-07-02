@@ -1611,7 +1611,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "ServerEngine.Config/1.0.4": {
+      "ServerEngine.Config/1.0.5": {
         "type": "package",
         "dependencies": {
           "Consul": "1.7.14.3"
@@ -1623,7 +1623,7 @@
           "lib/net9.0/ServerEngine.Config.dll": {}
         }
       },
-      "ServerEngine.Core/1.0.11": {
+      "ServerEngine.Core/1.0.12": {
         "type": "package",
         "dependencies": {
           "MemoryPack": "1.21.1",
@@ -1633,7 +1633,7 @@
           "NLog": "5.4.0",
           "NLog.Extensions.Logging": "5.4.0",
           "Newtonsoft.Json": "13.0.3",
-          "ServerEngine.Config": "1.0.4",
+          "ServerEngine.Config": "1.0.5",
           "Snowflake.CSharp": "1.3.0",
           "System.Text.Encodings.Web": "9.0.0",
           "System.Text.Json": "9.0.0"
@@ -2550,7 +2550,7 @@
         "dependencies": {
           "NLog": "5.4.0",
           "NLog.Extensions.Logging": "5.4.0",
-          "ServerEngine.Config": "1.0.4"
+          "ServerEngine.Config": "1.0.5"
         },
         "compile": {
           "bin/placeholder/Framework.Config.dll": {}
@@ -2570,8 +2570,8 @@
           "MemoryPack": "1.21.4",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.3",
           "MySqlConnector": "2.4.0",
-          "ServerEngine.Config": "1.0.4",
-          "ServerEngine.Core": "1.0.11",
+          "ServerEngine.Config": "1.0.5",
+          "ServerEngine.Core": "1.0.12",
           "ServerEngine.Database": "1.0.10",
           "sqlite-net-pcl": "1.9.172"
         },
@@ -4706,25 +4706,25 @@
         "runtime.native.system.nuspec"
       ]
     },
-    "ServerEngine.Config/1.0.4": {
-      "sha512": "9cxg/BDgaiJoRgMqOwUnhkAHMYDgo0sxqo44K2ELeoP1eAJzh8kyBpAPSx7MdVo1lYDQzla1GDsjYATxQC2ZaA==",
+    "ServerEngine.Config/1.0.5": {
+      "sha512": "wQ+EVSSaoQAGqj8vv5hyEbRjNx/oju7uRutH0wnl0FogBIGfOo3Eezbs+YSXMbrCKmuIyNPTRK1G3+lM6YZL/Q==",
       "type": "package",
-      "path": "serverengine.config/1.0.4",
+      "path": "serverengine.config/1.0.5",
       "files": [
         ".nupkg.metadata",
         "lib/net9.0/ServerEngine.Config.dll",
-        "serverengine.config.1.0.4.nupkg.sha512",
+        "serverengine.config.1.0.5.nupkg.sha512",
         "serverengine.config.nuspec"
       ]
     },
-    "ServerEngine.Core/1.0.11": {
-      "sha512": "40UrfhrC5CjA8LiYjnpqI6pOry5rKLuXJ+xta2NZaqgmjqHDZHOKabnmu8SMk8F5LjbPmTijhRgPXvd88FniJg==",
+    "ServerEngine.Core/1.0.12": {
+      "sha512": "cphmDjfxsbCIsVLbQYSOtsl2zYpvZ7h7/nnvyW3tQiEOZqGGKIryKNDP+sT2U7oRP1tRTy+qOAYd+gbawKHeEw==",
       "type": "package",
-      "path": "serverengine.core/1.0.11",
+      "path": "serverengine.core/1.0.12",
       "files": [
         ".nupkg.metadata",
         "lib/net9.0/ServerEngine.Core.dll",
-        "serverengine.core.1.0.11.nupkg.sha512",
+        "serverengine.core.1.0.12.nupkg.sha512",
         "serverengine.core.nuspec"
       ]
     },
@@ -7154,8 +7154,8 @@
       "Framework.Core >= 1.0.0",
       "Microsoft.AspNetCore.Mvc.Abstractions >= 2.3.0",
       "Microsoft.AspNetCore.Mvc.ViewFeatures >= 2.3.0",
-      "ServerEngine.Config >= 1.0.4",
-      "ServerEngine.Core >= 1.0.11",
+      "ServerEngine.Config >= 1.0.5",
+      "ServerEngine.Core >= 1.0.12",
       "ServerEngine.Database >= 1.0.10"
     ]
   },
@@ -7231,11 +7231,11 @@
           },
           "ServerEngine.Config": {
             "target": "Package",
-            "version": "[1.0.4, )"
+            "version": "[1.0.5, )"
           },
           "ServerEngine.Core": {
             "target": "Package",
-            "version": "[1.0.11, )"
+            "version": "[1.0.12, )"
           },
           "ServerEngine.Database": {
             "target": "Package",

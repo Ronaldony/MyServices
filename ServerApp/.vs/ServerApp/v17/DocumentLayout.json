@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Portfolio\\MyServices\\ServerApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D9329F77-D197-4E5B-97B2-1CD49351DFC4}|Server_API\\LoginServer\\LoginServer.csproj|c:\\portfolio\\myservices\\serverapp\\server_api\\loginserver\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9329F77-D197-4E5B-97B2-1CD49351DFC4}|Server_API\\LoginServer\\LoginServer.csproj|solutionrelative:server_api\\loginserver\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B2FEE666-5562-4878-843D-D3B2261DEFCC}|Server_Net\\Server_World\\Server_World.csproj|c:\\portfolio\\myservices\\serverapp\\server_net\\server_world\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B2FEE666-5562-4878-843D-D3B2261DEFCC}|Server_Net\\Server_World\\Server_World.csproj|solutionrelative:server_net\\server_world\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B2FEE666-5562-4878-843D-D3B2261DEFCC}|Server_Net\\Server_World\\Server_World.csproj|c:\\portfolio\\myservices\\serverapp\\server_net\\server_world\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B2FEE666-5562-4878-843D-D3B2261DEFCC}|Server_Net\\Server_World\\Server_World.csproj|solutionrelative:server_net\\server_world\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9329F77-D197-4E5B-97B2-1CD49351DFC4}|Server_API\\LoginServer\\LoginServer.csproj|c:\\portfolio\\myservices\\serverapp\\server_api\\loginserver\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9329F77-D197-4E5B-97B2-1CD49351DFC4}|Server_API\\LoginServer\\LoginServer.csproj|solutionrelative:server_api\\loginserver\\startupserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9329F77-D197-4E5B-97B2-1CD49351DFC4}|Server_API\\LoginServer\\LoginServer.csproj|c:\\portfolio\\myservices\\serverapp\\server_api\\loginserver\\controllers\\auth\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,24 +38,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "StartupServer.cs",
               "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerApp\\Server_Net\\Server_World\\StartupServer.cs",
               "RelativeDocumentMoniker": "Server_Net\\Server_World\\StartupServer.cs",
               "ToolTip": "C:\\Portfolio\\MyServices\\ServerApp\\Server_Net\\Server_World\\StartupServer.cs",
               "RelativeToolTip": "Server_Net\\Server_World\\StartupServer.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAYwDoAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAC8AAAAAAAAAAADwv0QAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-02T08:22:50.339Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Startup.cs",
               "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerApp\\Server_Net\\Server_World\\Startup.cs",
               "RelativeDocumentMoniker": "Server_Net\\Server_World\\Startup.cs",
@@ -68,13 +68,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "StartupServer.cs",
               "DocumentMoniker": "C:\\Portfolio\\MyServices\\ServerApp\\Server_API\\LoginServer\\StartupServer.cs",
               "RelativeDocumentMoniker": "Server_API\\LoginServer\\StartupServer.cs",
               "ToolTip": "C:\\Portfolio\\MyServices\\ServerApp\\Server_API\\LoginServer\\StartupServer.cs",
               "RelativeToolTip": "Server_API\\LoginServer\\StartupServer.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAuwD4AAABbAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAADwvzgAAAB4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-02T08:19:28.773Z",
               "EditorCaption": ""
@@ -100,7 +100,7 @@
               "RelativeDocumentMoniker": "Server_API\\LoginServer\\Controllers\\Auth\\CreatePlayerController.cs",
               "ToolTip": "C:\\Portfolio\\MyServices\\ServerApp\\Server_API\\LoginServer\\Controllers\\Auth\\CreatePlayerController.cs",
               "RelativeToolTip": "Server_API\\LoginServer\\Controllers\\Auth\\CreatePlayerController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABQAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAIBJwBQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-02T08:17:01.667Z",
               "EditorCaption": ""

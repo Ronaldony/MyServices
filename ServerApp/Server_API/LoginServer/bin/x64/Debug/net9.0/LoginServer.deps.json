@@ -15,8 +15,8 @@
           "Microsoft.AspNetCore.OpenApi": "9.0.0",
           "PowerArgs": "4.0.3",
           "ServerEngine.AsciiBanner": "1.1.1",
-          "ServerEngine.Config": "1.0.4",
-          "ServerEngine.Core": "1.0.11",
+          "ServerEngine.Config": "1.0.5",
+          "ServerEngine.Core": "1.0.12",
           "ServerEngine.GeoIP": "1.0.1"
         },
         "runtime": {
@@ -814,18 +814,18 @@
           }
         }
       },
-      "ServerEngine.Config/1.0.4": {
+      "ServerEngine.Config/1.0.5": {
         "dependencies": {
           "Consul": "1.7.14.3"
         },
         "runtime": {
           "lib/net9.0/ServerEngine.Config.dll": {
-            "assemblyVersion": "1.0.4.0",
-            "fileVersion": "1.0.4.0"
+            "assemblyVersion": "1.0.5.0",
+            "fileVersion": "1.0.5.0"
           }
         }
       },
-      "ServerEngine.Core/1.0.11": {
+      "ServerEngine.Core/1.0.12": {
         "dependencies": {
           "MemoryPack": "1.21.4",
           "Microsoft.Extensions.Configuration": "8.0.0",
@@ -834,15 +834,15 @@
           "NLog": "5.4.0",
           "NLog.Extensions.Logging": "5.4.0",
           "Newtonsoft.Json": "13.0.3",
-          "ServerEngine.Config": "1.0.4",
+          "ServerEngine.Config": "1.0.5",
           "Snowflake.CSharp": "1.3.0",
           "System.Text.Encodings.Web": "9.0.0",
           "System.Text.Json": "9.0.0"
         },
         "runtime": {
           "lib/net9.0/ServerEngine.Core.dll": {
-            "assemblyVersion": "1.0.11.0",
-            "fileVersion": "1.0.11.0"
+            "assemblyVersion": "1.0.12.0",
+            "fileVersion": "1.0.12.0"
           }
         }
       },
@@ -852,8 +852,8 @@
           "Dapper": "2.1.66",
           "EnyimMemcachedCore": "3.2.3",
           "Npgsql": "8.0.3",
-          "ServerEngine.Config": "1.0.4",
-          "ServerEngine.Core": "1.0.11",
+          "ServerEngine.Config": "1.0.5",
+          "ServerEngine.Core": "1.0.12",
           "System.Text.Encodings.Web": "9.0.0",
           "System.Text.Json": "9.0.0"
         },
@@ -1331,7 +1331,7 @@
         "dependencies": {
           "NLog": "5.4.0",
           "NLog.Extensions.Logging": "5.4.0",
-          "ServerEngine.Config": "1.0.4"
+          "ServerEngine.Config": "1.0.5"
         },
         "runtime": {
           "Framework.Config.dll": {
@@ -1349,8 +1349,8 @@
           "MemoryPack": "1.21.4",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.3",
           "MySqlConnector": "2.4.0",
-          "ServerEngine.Config": "1.0.4",
-          "ServerEngine.Core": "1.0.11",
+          "ServerEngine.Config": "1.0.5",
+          "ServerEngine.Core": "1.0.12",
           "ServerEngine.Database": "1.0.10",
           "sqlite-net-pcl": "1.9.172"
         },
@@ -1367,8 +1367,8 @@
           "Framework.Core": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Abstractions": "2.3.0",
           "Microsoft.AspNetCore.Mvc.ViewFeatures": "2.3.0",
-          "ServerEngine.Config": "1.0.4",
-          "ServerEngine.Core": "1.0.11",
+          "ServerEngine.Config": "1.0.5",
+          "ServerEngine.Core": "1.0.12",
           "ServerEngine.Database": "1.0.10"
         },
         "runtime": {
@@ -2085,19 +2085,19 @@
       "path": "serverengine.asciibanner/1.1.1",
       "hashPath": "serverengine.asciibanner.1.1.1.nupkg.sha512"
     },
-    "ServerEngine.Config/1.0.4": {
+    "ServerEngine.Config/1.0.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-9cxg/BDgaiJoRgMqOwUnhkAHMYDgo0sxqo44K2ELeoP1eAJzh8kyBpAPSx7MdVo1lYDQzla1GDsjYATxQC2ZaA==",
-      "path": "serverengine.config/1.0.4",
-      "hashPath": "serverengine.config.1.0.4.nupkg.sha512"
+      "sha512": "sha512-wQ+EVSSaoQAGqj8vv5hyEbRjNx/oju7uRutH0wnl0FogBIGfOo3Eezbs+YSXMbrCKmuIyNPTRK1G3+lM6YZL/Q==",
+      "path": "serverengine.config/1.0.5",
+      "hashPath": "serverengine.config.1.0.5.nupkg.sha512"
     },
-    "ServerEngine.Core/1.0.11": {
+    "ServerEngine.Core/1.0.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-40UrfhrC5CjA8LiYjnpqI6pOry5rKLuXJ+xta2NZaqgmjqHDZHOKabnmu8SMk8F5LjbPmTijhRgPXvd88FniJg==",
-      "path": "serverengine.core/1.0.11",
-      "hashPath": "serverengine.core.1.0.11.nupkg.sha512"
+      "sha512": "sha512-cphmDjfxsbCIsVLbQYSOtsl2zYpvZ7h7/nnvyW3tQiEOZqGGKIryKNDP+sT2U7oRP1tRTy+qOAYd+gbawKHeEw==",
+      "path": "serverengine.core/1.0.12",
+      "hashPath": "serverengine.core.1.0.12.nupkg.sha512"
     },
     "ServerEngine.Database/1.0.10": {
       "type": "package",

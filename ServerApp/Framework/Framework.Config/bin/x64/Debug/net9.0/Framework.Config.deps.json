@@ -10,7 +10,7 @@
         "dependencies": {
           "NLog": "5.4.0",
           "NLog.Extensions.Logging": "5.4.0",
-          "ServerEngine.Config": "1.0.4"
+          "ServerEngine.Config": "1.0.5"
         },
         "runtime": {
           "Framework.Config.dll": {}
@@ -132,14 +132,14 @@
           }
         }
       },
-      "ServerEngine.Config/1.0.4": {
+      "ServerEngine.Config/1.0.5": {
         "dependencies": {
           "Consul": "1.7.14.3"
         },
         "runtime": {
           "lib/net9.0/ServerEngine.Config.dll": {
-            "assemblyVersion": "1.0.4.0",
-            "fileVersion": "1.0.4.0"
+            "assemblyVersion": "1.0.5.0",
+            "fileVersion": "1.0.5.0"
           }
         }
       }
@@ -235,12 +235,12 @@
       "path": "nlog.extensions.logging/5.4.0",
       "hashPath": "nlog.extensions.logging.5.4.0.nupkg.sha512"
     },
-    "ServerEngine.Config/1.0.4": {
+    "ServerEngine.Config/1.0.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-9cxg/BDgaiJoRgMqOwUnhkAHMYDgo0sxqo44K2ELeoP1eAJzh8kyBpAPSx7MdVo1lYDQzla1GDsjYATxQC2ZaA==",
-      "path": "serverengine.config/1.0.4",
-      "hashPath": "serverengine.config.1.0.4.nupkg.sha512"
+      "sha512": "sha512-wQ+EVSSaoQAGqj8vv5hyEbRjNx/oju7uRutH0wnl0FogBIGfOo3Eezbs+YSXMbrCKmuIyNPTRK1G3+lM6YZL/Q==",
+      "path": "serverengine.config/1.0.5",
+      "hashPath": "serverengine.config.1.0.5.nupkg.sha512"
     }
   }
 }

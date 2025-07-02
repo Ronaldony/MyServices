@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kYAvoAmmTDo=",
+  "dgSpecHash": "ynftgl0WZx4=",
   "success": true,
   "projectFilePath": "C:\\Portfolio\\MyServices\\ServerApp\\Server_Net\\Server_World\\Server_World.csproj",
   "expectedPackageFiles": [
@@ -68,8 +68,8 @@
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\npgsql\\8.0.3\\npgsql.8.0.3.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\powerargs\\4.0.3\\powerargs.4.0.3.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.asciibanner\\1.1.1\\serverengine.asciibanner.1.1.1.nupkg.sha512",
-    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.config\\1.0.4\\serverengine.config.1.0.4.nupkg.sha512",
-    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.core\\1.0.11\\serverengine.core.1.0.11.nupkg.sha512",
+    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.config\\1.0.5\\serverengine.config.1.0.5.nupkg.sha512",
+    "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.core\\1.0.12\\serverengine.core.1.0.12.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.database\\1.0.10\\serverengine.database.1.0.10.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.geoip\\1.0.1\\serverengine.geoip.1.0.1.nupkg.sha512",
     "C:\\Users\\ralph_2bytescorp\\.nuget\\packages\\serverengine.network\\1.0.8\\serverengine.network.1.0.8.nupkg.sha512",
