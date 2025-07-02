@@ -41,15 +41,6 @@ namespace ServerEngine.Test
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
-
-            var playerInfoObject = _serviceProvider.GetRequiredService<PlayerInfoObejct>();
-            await playerInfoObject.UpsertAsync<DTOPlayerInfo>("0000018CFDF36A52", new DTOPlayerInfo
-            {
-                Pid  = "0000018CFDF36A52",
-                RegTime = DateTime.Now,
-                PlayerName = "0000018CFDF36A52",
-                Uid = "0000018CFDF36A52"
-            });
         }
     }
 }

@@ -21,4 +21,5 @@
         /// </summary>
         public int Y { get; private set; }
     }
+    
 }

@@ -83,7 +83,6 @@ namespace Server_World.Actors.HuntZone
             // 이동 거리 계산 및 유효성 검사.
             var deltaTime = (packet.PacketTime - playInfo.UpdateTime).TotalSeconds;
 
-
             if (false == IsValidPosition(location.MoveDirection, deltaTime, playInfo.Stat.Velocity, location.Position, packet.EndPos))
             {
                 // Move fixed.

@@ -44,7 +44,7 @@ namespace Server_World.Actors.HuntZone
 
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
-            _memoryPoolService =  ServiceUtility.GetService<IMemoryPoolService>();
+            _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
             _collisionService = ServiceUtility.GetService<CollisionService>();
 
             _worldServer = ServiceUtility.GetService<WorldServer>();
@@ -98,7 +98,7 @@ namespace Server_World.Actors.HuntZone
                         Dash(worldPlayer, msg.Packet as NetPacketCS_Dash);
                         break;
                 }
-});
+            });
 
             // Enemy shceduler start.
             _schedulerEnemy.Start();
