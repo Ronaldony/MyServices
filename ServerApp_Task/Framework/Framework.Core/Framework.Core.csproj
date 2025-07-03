@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Dapper.ColumnMapper" Version="1.3.0" />
+    <PackageReference Include="MemoryPack" Version="1.21.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
+    <PackageReference Include="ServerEngine.Config" Version="1.0.5" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.12" />
+    <PackageReference Include="ServerEngine.Database" Version="1.0.10" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Framework.Config\Framework.Config.csproj" />
+    <ProjectReference Include="..\GameCore\GameCore.csproj" />
+  </ItemGroup>
+
+</Project>
