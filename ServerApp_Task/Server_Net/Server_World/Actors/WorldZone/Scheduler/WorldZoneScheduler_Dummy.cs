@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Timers;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace Server_World.Actors.HuntZone.Scheduler
 {
+    using Server_World.Core.ActorProviders;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
@@ -13,44 +15,49 @@ namespace Server_World.Actors.HuntZone.Scheduler
     {
         private readonly ILogger<WorldZoneScheduler_Dummy> _logger;
 
-        private readonly WorldZoneActorProvider _huntZoneActorProvider;
+        // Actor provider.
+        private readonly WorldZoneActorProvider _worldZoneActorProvider;
 
-        // 타이머.
-        private System.Timers.Timer _updateDummyTimer;
+        private CompositeDisposable _subscriptions;
 
         public WorldZoneScheduler_Dummy(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<WorldZoneScheduler_Dummy>>();
 
-            _huntZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
+            _worldZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
 
-            Initialize_Timer();
-        }
-
-        private void Initialize_Timer()
-        {
-            // 스폰 타이머 설정.
-            _updateDummyTimer = new System.Timers.Timer(TimeSpan.FromMilliseconds(33));
-            _updateDummyTimer.Elapsed += OnUpdateDummyElapsed;
-            _updateDummyTimer.AutoReset = true;
+            _subscriptions = new CompositeDisposable();
         }
 
         /// <summary>
-        /// 스폰 타이머 시작.
+        /// 시작.
         /// </summary>
         public void Start()
         {
-            _updateDummyTimer.Start();
+            // 더미 스케줄링.
+            _subscriptions.Add(
+                Observable.Timer(TimeSpan.FromMilliseconds(33)) // 33ms
+                .Subscribe(repeat =>
+                {
+                    _worldZoneActorProvider.Tell<WorldMsg>(new WorldMsg_UpdateDummy());
+                }));
 
-            _logger.LogInformation("Start HuntZone dummy.");
+            _logger.LogInformation("start world dummy.");
         }
 
         /// <summary>
-        /// 주기적으로 적 스폰.
+        /// 정지.
         /// </summary>
-        private void OnUpdateDummyElapsed(object sender, ElapsedEventArgs e)
+        public void Stop()
         {
-            _huntZoneActorProvider.Tell<WorldMsg_UpdateDummy>(new WorldMsg_UpdateDummy());
+            foreach (var disposable in _subscriptions)
+            {
+                disposable.Dispose();
+            }
+
+            _subscriptions.Clear();
+
+            _logger.LogInformation("stop world dummy.");
         }
     }
 }

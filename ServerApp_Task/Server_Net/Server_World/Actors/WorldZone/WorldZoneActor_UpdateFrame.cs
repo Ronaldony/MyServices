@@ -6,6 +6,7 @@ namespace Server_World.Actors.HuntZone
     using Framework.Core.Session;
     using GameCore;
     using GameCore.NetPacket;
+    using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
 
@@ -20,7 +21,7 @@ namespace Server_World.Actors.HuntZone
         private void UpdateFrame(WorldMsg_UpdateFrame msg)
         {
             // 이동 처리.
-            var updateFrameDict = new ConcurrentDictionary<(int sectionX, int sectionY), World_UpdateFrame>();
+            var updateFrameDict = new ConcurrentDictionary<SectionId, World_UpdateFrame>();
 
             // 이동 업데이트.
             UpdateFrame_Move(msg, updateFrameDict);
@@ -38,7 +39,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 프레임 업데이트 - 이동 처리.
         /// </summary>
-        private void UpdateFrame_Move(WorldMsg_UpdateFrame worldMsg, ConcurrentDictionary<(int sectionX, int sectionY), World_UpdateFrame> updateFrame)
+        private void UpdateFrame_Move(WorldMsg_UpdateFrame worldMsg, ConcurrentDictionary<SectionId, World_UpdateFrame> updateFrame)
         {
             // 플레이어가 존재하는 섹션의 플레이어, 적 이동 처리.
             Parallel.ForEach(_worldGroup.SectionPlayerDict, pair => 
@@ -154,7 +155,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 업데이트 프레임 - 세션.
         /// </summary>
-        private void UpdateFrame_Session(ConcurrentDictionary<(int sectionX, int sectionY), World_UpdateFrame> updateMoveDict)
+        private void UpdateFrame_Session(ConcurrentDictionary<SectionId, World_UpdateFrame> updateMoveDict)
         {
             var sectionUnitDict = new Dictionary<GameSession, World_SectionUnit>();
 

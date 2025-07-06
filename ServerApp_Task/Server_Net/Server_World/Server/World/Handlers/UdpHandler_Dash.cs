@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Network.UDP;
 
 namespace Server_World.Server.World.Handlers
 {
     using GameCore;
     using GameCore.NetPacket;
-    using Server_World.Actors.HuntZone;
-    using Server_World.Core.Worlds.Msg;
-    using ServerEngine.Core.Services.Interfaces;
+    using Server_World.Core.ActorProviders;
+    using Server_World.Core.Worlds;
 
     /// <summary>
     /// UdpHandler_Dash.
@@ -20,11 +20,7 @@ namespace Server_World.Server.World.Handlers
         private readonly IDataSerializer _dataSerializer;
 
         private readonly WorldServer _worldServer;
-
-        /// <summary>
-        /// HuntzoneActor provider.
-        /// </summary>
-        private readonly WorldZoneActorProvider _worldZoneActorProvider;
+        private readonly WorldZoneActorProvider _worldServerActorProvider;
 
         public UdpHandler_Dash(IServiceProvider serviceProvider)
             : base(NetPacketCode.CS_Dash)
@@ -35,7 +31,7 @@ namespace Server_World.Server.World.Handlers
 
             _worldServer = serviceProvider.GetRequiredService<WorldServer>();
 
-            _worldZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
+            _worldServerActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
         }
 
         /// <summary>
@@ -46,7 +42,7 @@ namespace Server_World.Server.World.Handlers
             var netPacket = _dataSerializer.Deserialize<NetPacketCS_Dash>(packet.Data);
 
             // Delivery msg.
-            _worldZoneActorProvider.Tell<WorldMsg_NetPacket>(new WorldMsg_NetPacket
+            _worldServerActorProvider.Tell<World_NetPacket>(new World_NetPacket
             {
                 Pid = _worldServer.GetPid(sessionUid),
                 PacketCode = NetPacketCode.CS_Dash,

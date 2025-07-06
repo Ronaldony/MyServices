@@ -16,11 +16,10 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private World_Group Initialize_WorldGroup()
         {
-            var aroundSessionDict = new Dictionary<(int sectionX, int sectionY), HashSet<(int, int)>>();
-            var sectionDict = new Dictionary<(int sectionX, int sectionY), Section>();
+            var aroundSessionDict = new Dictionary<SectionId, HashSet<SectionId>>();
 
-            var sectionPlayerDict = new Dictionary<(int, int), ConcurrentDictionary<string, World_Player>>();
-            var sectionEnemyDict = new Dictionary<(int, int), ConcurrentDictionary<ulong, World_Enemy>>();
+            var sectionPlayerDict = new Dictionary<SectionId, ConcurrentDictionary<string, World_Player>>();
+            var sectionEnemyDict = new Dictionary<SectionId, ConcurrentDictionary<ulong, World_Enemy>>();
 
             // 지역 정보 불러오기.
             var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
@@ -37,13 +36,12 @@ namespace Server_World.Actors.HuntZone
             {
                 for (var sectionY = sectionMinY; sectionY <= sectionMaxY; ++sectionY)
                 {
-                    var section = (sectionX, sectionY);
+                    var section = new SectionId(sectionX, sectionY);
 
                     sectionPlayerDict.Add(section, new ConcurrentDictionary<string, World_Player>());
                     sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, World_Enemy>());
 
-                    aroundSessionDict.Add(section, new HashSet<(int, int)>());
-                    sectionDict.Add(section, new Section(sectionX, sectionY));
+                    aroundSessionDict.Add(section, new HashSet<SectionId>());
                 }
             }
 
@@ -51,8 +49,8 @@ namespace Server_World.Actors.HuntZone
             foreach (var pair in aroundSessionDict)
             {
                 var aroundSections = pair.Value;
-                var sectionX = pair.Key.sectionX;
-                var sectionY = pair.Key.sectionY;
+                var sectionX = pair.Key.X;
+                var sectionY = pair.Key.Y;
 
                 // 근처 섹션 추가.
                 var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
@@ -69,79 +67,78 @@ namespace Server_World.Actors.HuntZone
                 SectionPlayerDict = sectionPlayerDict,
                 SectionEnemyDict = sectionEnemyDict,
                 AroundSectionDict = aroundSessionDict,
-                SectionDict = sectionDict,
             };
         }
 
         /// <summary>
         /// Calculate around sections.
         /// </summary>
-        private List<(int, int)> Calc_AroundSections(int sectionMinX, int sectionMaxX, int sectionMinY, int sectionMaxY, int sectionX, int sectionY)
+        private List<SectionId> Calc_AroundSections(int sectionMinX, int sectionMaxX, int sectionMinY, int sectionMaxY, int sectionX, int sectionY)
         {
-            var aroundSections = new List<(int, int)>();
+            var aroundSections = new List<SectionId>();
 
             // 현재 섹션 추가.
-            aroundSections.Add((sectionX, sectionY));
+            aroundSections.Add(new SectionId(sectionX, sectionY));
 
             // Top.
-            var topSection = (sectionX, sectionY + 1);
-            if (topSection.Item2 <= sectionMaxY)
+            var topSection =  new SectionId(sectionX, sectionY + 1);
+            if (topSection.Y <= sectionMaxY)
             {
                 // 최대 Y 섹션 이하인 경우.
                 aroundSections.Add(topSection);
             }
 
             // Down.
-            var downSection = (sectionX, sectionY - 1);
-            if (downSection.Item2 >= sectionMinY)
+            var downSection = new SectionId(sectionX, sectionY - 1);
+            if (downSection.Y >= sectionMinY)
             {
                 // 최소 Y 섹션 이상인 경우.
                 aroundSections.Add(downSection);
             }
 
             // Left.
-            var leftSection = (sectionX - 1, sectionY);
-            if (leftSection.Item1 >= sectionMinX)
+            var leftSection = new SectionId(sectionX - 1, sectionY);
+            if (leftSection.X >= sectionMinX)
             {
                 // 최소 X 섹션 이상인 경우.
                 aroundSections.Add(leftSection);
             }
 
             // Right.
-            var rightSection = (sectionX + 1, sectionY);
-            if (rightSection.Item1 <= sectionMaxX)
+            var rightSection = new SectionId(sectionX + 1, sectionY);
+            if (rightSection.X <= sectionMaxX)
             {
                 // 최대 X 섹션 이하인 경우.
                 aroundSections.Add(rightSection);
             }
 
             // LeftTop.
-            var leftTopSection = (sectionX - 1, sectionY + 1);
-            if (leftTopSection.Item1 >= sectionMinX && leftTopSection.Item2 <= sectionMaxY)
+            var leftTopSection = new SectionId(sectionX - 1, sectionY + 1);
+            if (leftTopSection.X >= sectionMinX && leftTopSection.Y <= sectionMaxY)
             {
                 // 최소 X 섹션 이상, 최대 Y 섹션 이하인 경우.
                 aroundSections.Add(leftTopSection);
             }
 
             // LeftDown.
-            var leftDownSection = (sectionX - 1, sectionY - 1);
-            if (leftDownSection.Item1 >= sectionMinX && leftDownSection.Item2 >= sectionMinY)
+            var leftDownSection = new SectionId(sectionX - 1, sectionY - 1);
+            if (leftDownSection.X >= sectionMinX && leftDownSection.Y >= sectionMinY)
             {
                 // 최소 X 섹션 이상, 최소 Y 섹션 이상인 경우.
                 aroundSections.Add(leftDownSection);
             }
 
             // RightTop.
-            var rightTopSection = (sectionX + 1, sectionY + 1);
-            if (rightTopSection.Item1 <= sectionMaxX && rightTopSection.Item2 <= sectionMaxY)
+            var rightTopSection = new SectionId(sectionX + 1, sectionY + 1);
+            if (rightTopSection.X <= sectionMaxX && rightTopSection.Y <= sectionMaxY)
             {
                 // 최대 X 섹션 이하, 최대 Y 섹션 이하인 경우.
                 aroundSections.Add(rightTopSection);
             }
 
             // RightDown.
-            var rightDownSection = (sectionX + 1, sectionY - 1);
-            if (rightDownSection.Item1 <= sectionMaxX && rightDownSection.Item2 >= sectionMinY)
+            var rightDownSection = new SectionId(sectionX + 1, sectionY - 1);
+            if (rightDownSection.X <= sectionMaxX && rightDownSection.Y >= sectionMinY)
             {
                 // 최대 X 섹션 이하, 최소 Y 섹션 이상인 경우.
                 aroundSections.Add(rightDownSection);

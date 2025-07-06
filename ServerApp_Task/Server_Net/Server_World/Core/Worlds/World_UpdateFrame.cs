@@ -1,4 +1,6 @@
 ﻿
+using Server_World.Core.Datas;
+
 namespace Server_World.Core.Worlds
 {
     /// <summary>
@@ -8,17 +10,17 @@ namespace Server_World.Core.Worlds
     {
         public World_UpdateFrame()
         {
-            MoveSectionUnit = new Dictionary<(int sectionX, int sectionY), World_SectionUnit>();
+            MoveSectionUnit = new Dictionary<SectionId, World_SectionUnit>();
         }
 
         /// <summary>
         /// Move section.
         /// </summary>
-        public Dictionary<(int sectionX, int sectionY), World_SectionUnit> MoveSectionUnit { get; set; }
+        public Dictionary<SectionId, World_SectionUnit> MoveSectionUnit { get; set; }
 
         /// <summary>
         /// Move section.
         /// </summary>
-        public Dictionary<(int sectionX, int sectionY), World_SectionUnit> AttackSectionUnit { get; set; }
+        public Dictionary<SectionId, World_SectionUnit> AttackSectionUnit { get; set; }
     }
 }

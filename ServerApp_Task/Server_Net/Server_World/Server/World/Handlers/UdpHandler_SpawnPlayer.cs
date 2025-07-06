@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Network.UDP;
+using System.Collections.Concurrent;
 
 namespace Server_World.Server.World.Handlers
 {
@@ -8,9 +9,10 @@ namespace Server_World.Server.World.Handlers
     using Framework.Core.Session;
     using GameCore;
     using GameCore.Datas.Play;
-    using Server_World.Actors.HuntZone;
+    using Server_World.Core.ActorProviders;
     using Server_World.Core.Services;
     using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
 
     /// <summary>
     /// UdpHandler_LoadPlayer.
@@ -25,11 +27,7 @@ namespace Server_World.Server.World.Handlers
         private readonly DBInventoryInfo _dbInventoryInfo;
 
         private readonly WorldServer _worldServer;
-
-        /// <summary>
-        /// HuntzoneActor provider.
-        /// </summary>
-        private readonly WorldZoneActorProvider _worldZoneActorProvider;
+        private readonly WorldZoneActorProvider _worldServerActorProvider;
 
         public UdpHandler_SpawnPlayer(IServiceProvider serviceProvider)
             : base(NetPacketCode.CS_SpawnPlayer)
@@ -44,7 +42,7 @@ namespace Server_World.Server.World.Handlers
             _worldServer = serviceProvider.GetRequiredService<WorldServer>();
 
             // Actor 생성.
-            _worldZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
+            _worldServerActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
         }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace Server_World.Server.World.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
-            ThreadPool.QueueUserWorkItem(async param => 
+            Task.Run(async () => 
             {
                 _logger.LogDebug($"Player Spawn");
 
@@ -84,15 +82,15 @@ namespace Server_World.Server.World.Handlers
                     return;
                 }
 
-                // Load player to hunt zone.
-                LoadPlayerToHuntZone(sessionId, sessionUid, playInfo);
+                // Spawn player into world.
+                SpawnPlayerIntoWorld(sessionId, sessionUid, playInfo);
             });
         }
 
         /// <summary>
-        /// Load player to hunt zone actor.
+        /// Spawn player into world.
         /// </summary>
-        private void LoadPlayerToHuntZone(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
+        private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
         {
             // 충돌 박스.
             var collisionBox = _collisionService.Rent(Type_Collision.Player);
@@ -108,16 +106,19 @@ namespace Server_World.Server.World.Handlers
                 SessionUid = sessionUid
             };
 
-            // 액터 메시지.
-            var actorMsg = new World_Player
+            var worldMsg = new WorldMsg_SpawnPlayer
             {
-                PlayInfo = playInfo,
-                GameSession = gameSession,
-                CollisionBox = collisionBox
+                WorldPlayer = new World_Player
+                {
+                    PlayInfo = playInfo,
+                    GameSession = gameSession,
+                    CollisionBox = collisionBox,
+                    NetPacketQueue = new ConcurrentQueue<World_NetPacket>()
+                }
             };
 
             // 메시지 전달.
-            _worldZoneActorProvider.Tell<World_Player>(actorMsg);
+            _worldServerActorProvider.Tell<WorldMsg>(worldMsg);
         }
     }
 }

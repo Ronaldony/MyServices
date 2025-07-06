@@ -13,7 +13,7 @@ namespace Server_World
     using Framework.Core.Database.GameObjects;
     using GameCore;
     using GameCore.Interfaces;
-    using Server_World.Actors.HuntZone;
+    using Server_World.Core.ActorProviders;
     using Server_World.Core.Services;
     using Server_World.Server.World;
 

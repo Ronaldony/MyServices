@@ -1,12 +1,11 @@
 ﻿using Akka.Actor;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
+using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
-    using GameCore;
     using GameCore.Interfaces;
-    using GameCore.NetPacket;
     using Server_World.Actors.HuntZone.Scheduler;
     using Server_World.Core.Services;
     using Server_World.Core.Utilities;
@@ -21,17 +20,36 @@ namespace Server_World.Actors.HuntZone
     {
         private readonly ILogger<WorldZoneActor> _logger;
 
+        // Services.
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
         private readonly CollisionService _collisionService;
 
+        // Server
         private readonly WorldServer _worldServer;
-        private readonly WorldZoneScheduler_Enemy _schedulerEnemy;
-        //private readonly WorldZoneScheduler_Dummy _schedulerDummy;
 
-        // World_Group.
+        // World group.
         private readonly World_Group _worldGroup;
+
+        // World message queue.
+        private readonly ConcurrentQueue<WorldMsg> _worldMsgQueue;
+
+        // Schedulers.
+        private readonly WorldZoneScheduler_SpawnEnemy _schedulerEnemy;
+        private readonly WorldZoneScheduler_MovePattern _schedulerMovePattern;
+        private readonly WorldZoneScheduler_UpdateFrame _schedulerUpdateFrame;
+        private readonly WorldZoneScheduler_Dummy _schedulerDummy;
+
+        // Cancel token.
+        private readonly CancellationTokenSource _cts;
+
+        // Packet groups.
+        // key: group number.
+        // value: packet group.
+        private readonly Dictionary<int, World_PacketGroup> _packetGroups;
+
+        private readonly DateTime _rebalanceTime;
 
         /// <summary>
         /// 필드 적 수.
@@ -42,22 +60,63 @@ namespace Server_World.Actors.HuntZone
         {
             _logger = ServiceUtility.GetService<ILogger<WorldZoneActor>>();
 
+            // Services.
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
             _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
             _collisionService = ServiceUtility.GetService<CollisionService>();
 
+            // Server.
             _worldServer = ServiceUtility.GetService<WorldServer>();
-            _schedulerEnemy = new WorldZoneScheduler_Enemy(ServiceUtility.GetServiceProvider());
-            //_schedulerDummy = new WorldZoneScheduler_Dummy(ServiceUtility.GetServiceProvider());
 
             // Initialize.
             _worldGroup = Initialize_WorldGroup();
 
-            ///////////////////////////////// Receive.
+            // World message queue.
+            _worldMsgQueue = new ConcurrentQueue<WorldMsg>();
+
+            // Schedulers.
+            _schedulerEnemy = new WorldZoneScheduler_SpawnEnemy(ServiceUtility.GetServiceProvider());
+            _schedulerMovePattern = new WorldZoneScheduler_MovePattern(ServiceUtility.GetServiceProvider());
+            _schedulerUpdateFrame = new WorldZoneScheduler_UpdateFrame(ServiceUtility.GetServiceProvider());
+            _schedulerDummy = new WorldZoneScheduler_Dummy(ServiceUtility.GetServiceProvider());
+
+            // schduler start.
+            _schedulerEnemy.Start();
+            _schedulerMovePattern.Start();
+            _schedulerUpdateFrame.Start();
+            //_schedulerDummy.Start();
+
+            _cts = new CancellationTokenSource();
+
+            _packetGroups = new Dictionary<int, World_PacketGroup>();
+
+            // initialize actor receive.
+            Initialize_ActorReceive();
+        }
+
+        /// <summary>
+        /// Stop server.
+        /// </summary>
+        public void Stop()
+        {
+            _cts.Cancel();
+        }
+
+        /// <summary>
+        /// Initialize receiver of actor.
+        /// </summary>
+        private void Initialize_ActorReceive()
+        {
+            // Spawn.
+            Receive<WorldMsg>(msg =>
+            {
+                // 월드 메시지 전달.
+                _worldMsgQueue.Enqueue(msg);
+            });
 
             // Spawn.
-            Receive<World_Player>(player => SpawnPlayer(player));
+            Receive<WorldMsg_SpawnPlayer>(player => SpawnPlayer(player));
             Receive<WorldMsg_SpawnEnemy>(msg => SpawnEnemy(msg));
 
             // Out player.
@@ -70,79 +129,16 @@ namespace Server_World.Actors.HuntZone
             // Dummy.
             Receive<WorldMsg_UpdateDummy>(msg => UpdateDummy(msg));
 
-            // NetPacket.s
-            Receive<WorldMsg_NetPacket>(msg =>
+            // NetPacket.
+            Receive<World_NetPacket>(netPacket =>
             {
                 // World player.
-                var worldPlayer = GetPlayerOrDefault(msg.Pid);
+                var worldPlayer = _worldGroup.PlayerDict.GetValueOrDefault(netPacket.Pid);
                 if (default == worldPlayer)
                 {
                     return;
                 }
-
-                switch (msg.PacketCode)
-                {
-                    case NetPacketCode.CS_MoveStart:
-                        MoveStart(worldPlayer, msg.Packet as NetPacketCS_MoveStart);
-                        break;
-                    case NetPacketCode.CS_MoveEnd:
-                        MoveEnd(worldPlayer, msg.Packet as NetPacketCS_MoveEnd);
-                        break;
-                    case NetPacketCode.CS_Attack:
-                        Attack(worldPlayer, msg.Packet as NetPacketCS_Attack);
-                        break;
-                    case NetPacketCode.CS_KnockBack:
-                        KnockBack(worldPlayer, msg.Packet as NetPacketCS_KnockBack);
-                        break;
-                    case NetPacketCode.CS_Dash:
-                        Dash(worldPlayer, msg.Packet as NetPacketCS_Dash);
-                        break;
-                }
             });
-
-            // Enemy shceduler start.
-            _schedulerEnemy.Start();
-            //_schedulerDummy.Start();
-        }
-
-        /// <summary>
-        /// Props.
-        /// </summary>
-        public static Props Props()
-        {
-            return Akka.Actor.Props.Create(() => new WorldZoneActor());
-        }
-
-        /// <summary>
-        /// Get play info.
-        /// </summary>
-        private World_Player GetPlayerOrDefault(string pid)
-        {
-            return _worldGroup.PlayerDict.GetValueOrDefault(pid);
-        }
-
-        /// <summary>
-        /// Add player to section.
-        /// </summary>
-        private bool AddPlayer(string pid, World_Player player, (int sectionX, int sectionY) section)
-        {
-            // 섹션에 플레이어 추가.
-            if (false == _worldGroup.SectionPlayerDict[section].TryAdd(pid, player))
-            {
-                return false;
-            }
-
-            ///////////////////////////////////////////////////////
-            // 플레이어 정보 저장.
-            if (false == _worldGroup.PlayerDict.ContainsKey(pid))
-            {
-                // 중복 플레이어 처리.
-                _worldGroup.PlayerDict.Add(pid, player);
-            }
-
-            _worldGroup.PlayerDict[pid] = player;
-
-            return true;
         }
     }
 }

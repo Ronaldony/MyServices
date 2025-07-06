@@ -7,6 +7,7 @@ namespace Server_World.Server.World.Handlers
 {
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.GameObjects;
+    using Framework.Core.Exceptions;
     using GameCore;
     using GameCore.NetPacket;
 
@@ -48,65 +49,57 @@ namespace Server_World.Server.World.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
-            ThreadPool.QueueUserWorkItem(async param => 
+            Task.Run(async () => 
             {
                 _logger.LogDebug($"Player Login");
 
                 var netPacket = _dataSerializer.Deserialize<NetPacketCS_Login>(packet.Data);
                 var pid = netPacket.Pid;
 
-                // 세션.
-                await _sessionInfoObject.LoadDataAsync(pid);
-
-                var sessionInfo = _sessionInfoObject.SessionInfo;
-
-                if (sessionInfo == null)
+                try
                 {
+                    // 세션.
+                    await _sessionInfoObject.LoadDataAsync(pid);
+
+                    var sessionInfo = _sessionInfoObject.SessionInfo;
+                    if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
+
+                    // 세션 토큰 검사.
+                    if (false == sessionInfo.AccessToken.Equals(netPacket.Token)) throw new ServerException($"not exist session. pid: {pid}");
+
+                    // Pid 등록.
+                    if (false == _worldServer.RegisterPid(sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
+
+                    ////////////////////////////////////////////////////////////////////
+                    /// Load info datas.
+
+                    // PlayInfo.
+                    var playInfo = await _dbPlayInfo.SelectAsync(pid);
+                    if (null == playInfo) throw new ServerException($"not exist player. pid: {pid}");
+
+                    // InventoryInfo.
+                    var inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
+                    if (null == inventoryInfo) throw new ServerException($"not exist player. pid: {pid}");
+
+                    // Send Login packet.
+                    _worldServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login,
+                        _dataSerializer.Serialize(new NetPacketSC_Login
+                        {
+                            PlayInfo = playInfo,
+                            InventoryInfo = inventoryInfo
+                        }));
+                }
+                catch (ServerException ex)
+                {
+                    _logger.LogWarning(ex.Message);
+
                     _worldServer.Disconnect(sessionId, sessionUid);
                     return;
                 }
-
-                // 세션 토큰 검사.
-                if (false == sessionInfo.AccessToken.Equals(netPacket.Token))
+                catch (Exception ex)
                 {
-                    _worldServer.Disconnect(sessionId, sessionUid);
-                    return;
+                    _logger.LogError(ex.Message);
                 }
-
-                // Pid 등록.
-                if (false == _worldServer.RegisterPid(sessionUid, pid))
-                {
-                    _worldServer.Disconnect(sessionId, sessionUid);
-                    return;
-                }
-
-                ////////////////////////////////////////////////////////////////////
-                /// Load info datas.
-
-                // PlayInfo.
-                var playInfo = await _dbPlayInfo.SelectAsync(pid);
-                if (null == playInfo)
-                {
-                    _worldServer.Disconnect(sessionId, sessionUid);
-                    return;
-                }
-
-                // InventoryInfo.
-                var inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
-
-                if (null == inventoryInfo)
-                {
-                    _worldServer.Disconnect(sessionId, sessionUid);
-                    return;
-                }
-
-                // Send Login packet.
-                _worldServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login,
-                    _dataSerializer.Serialize(new NetPacketSC_Login
-                    {
-                        PlayInfo = playInfo,
-                        InventoryInfo = inventoryInfo
-                    }));
             });
         }
     }

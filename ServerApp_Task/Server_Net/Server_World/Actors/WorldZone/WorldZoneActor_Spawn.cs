@@ -6,6 +6,7 @@ namespace Server_World.Actors.HuntZone
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.NetPacket;
+    using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
 
@@ -17,8 +18,10 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// 스폰 플레이어.
         /// </summary>
-        private void SpawnPlayer(World_Player worldPlayer)
+        private void SpawnPlayer(WorldMsg_SpawnPlayer worldMsg)
         {
+            var worldPlayer = worldMsg.WorldPlayer;
+
             var session = worldPlayer.GameSession;
 
             // 세션 정보 가져오기.
@@ -84,6 +87,30 @@ namespace Server_World.Actors.HuntZone
             {
                 return;
             }
+        }
+
+        /// <summary>
+        /// Add player to section.
+        /// </summary>
+        private bool AddPlayer(string pid, World_Player player, SectionId section)
+        {
+            // 섹션에 플레이어 추가.
+            if (false == _worldGroup.SectionPlayerDict[section].TryAdd(pid, player))
+            {
+                return false;
+            }
+
+            ///////////////////////////////////////////////////////
+            // 플레이어 정보 저장.
+            if (false == _worldGroup.PlayerDict.ContainsKey(pid))
+            {
+                // 중복 플레이어 처리.
+                _worldGroup.PlayerDict.Add(pid, player);
+            }
+
+            _worldGroup.PlayerDict[pid] = player;
+
+            return true;
         }
 
         /// <summary>

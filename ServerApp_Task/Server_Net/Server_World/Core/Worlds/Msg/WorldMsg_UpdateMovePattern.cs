@@ -7,8 +7,12 @@ namespace Server_World.Core.Worlds.Msg
     /// <summary>
     /// WorldMsg_UpdateMovePattern.
     /// </summary>
-    public class WorldMsg_UpdateMovePattern
+    public class WorldMsg_UpdateMovePattern : WorldMsg
     {
+        public WorldMsg_UpdateMovePattern()
+        {
+        }
+
         /// <summary>
         /// MovePattern.
         /// </summary>

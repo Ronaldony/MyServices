@@ -2,6 +2,7 @@
 namespace Server_World.Actors.HuntZone
 {
     using Framework.Core.Session;
+    using Server_World.Core.Datas;
 
     /// <summary>
     /// WorldZoneActor.
@@ -47,7 +48,7 @@ namespace Server_World.Actors.HuntZone
         /// <summary>
         /// Send packet for around sections.
         /// </summary>
-        private void SendPacket_AroundSections(GameSession ignoreSession, (int x, int y) section, int packetCode, byte[] packetBytes)
+        private void SendPacket_AroundSections(GameSession ignoreSession, SectionId section, int packetCode, byte[] packetBytes)
         {
             // 섹션.
             var aroundPlayers = GetAroundPlayers(section);

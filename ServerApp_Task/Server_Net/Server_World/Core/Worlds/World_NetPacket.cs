@@ -1,12 +1,17 @@
 ﻿using GameCore.NetPacket;
 
-namespace Server_World.Core.Worlds.Msg
+namespace Server_World.Core.Worlds
 {
     /// <summary>
     /// WorldMsg_NetPacket.
     /// </summary>
-    public class WorldMsg_NetPacket
+    public class World_NetPacket
     {
+        public World_NetPacket()
+        {
+
+        }
+
         /// <summary>
         /// Pid.
         /// </summary>

@@ -1,8 +1,11 @@
-﻿namespace Server_World.Core.Worlds
+﻿using System.Collections.Concurrent;
+
+namespace Server_World.Core.Worlds
 {
     using Framework.Core.Session;
     using GameCore.Datas.Play;
     using Server_World.Core.Collision;
+    using Server_World.Core.Datas;
 
     /// <summary>
     /// World_Player.
@@ -18,6 +21,11 @@
         /// PlayInfo.
         /// </summary>
         public DTO_PlayInfo PlayInfo { get; set; }
+
+        /// <summary>
+        /// Section.
+        /// </summary>
+        public SectionId Section { get; set; }
 
         /// <summary>
         /// Collision box.
