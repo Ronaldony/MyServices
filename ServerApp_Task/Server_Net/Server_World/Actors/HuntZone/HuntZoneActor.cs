@@ -12,7 +12,6 @@ namespace Server_World.Actors.HuntZone
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
     using Server_World.Server.World;
-    using System.Reactive.Linq;
 
     /// <summary>
     /// HuntZone.

@@ -1,13 +1,19 @@
-﻿using MySqlConnector;
+﻿using System;
 using System.Collections.Concurrent;
-using System.Data;
-using System.Net;
-using System.Net.Sockets;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text.Json;
+using System.Threading;
 using System.Threading.Channels;
+using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using System.Diagnostics;
+using System.Text.Json;
+using System.Net;
+using System.Net.Sockets;
+using MySql.Data.MySqlClient;
+using System.Data;
 
 // ===== 1. 핵심 도메인 모델 =====
 
@@ -1753,3 +1759,87 @@ public class Program
         Console.WriteLine("👋 Server shutdown complete.");
     }
 }
+
+/*
+필요한 MySQL 테이블 생성 스크립트:
+
+CREATE DATABASE mmogame;
+USE mmogame;
+
+CREATE TABLE Players (
+    PlayerId INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    PosX FLOAT NOT NULL DEFAULT 0,
+    PosY FLOAT NOT NULL DEFAULT 0,
+    PosZ FLOAT NOT NULL DEFAULT 0,
+    VelX FLOAT NOT NULL DEFAULT 0,
+    VelY FLOAT NOT NULL DEFAULT 0,
+    VelZ FLOAT NOT NULL DEFAULT 0,
+    SectionX INT NOT NULL DEFAULT 0,
+    SectionY INT NOT NULL DEFAULT 0,
+    Health INT NOT NULL DEFAULT 100,
+    MaxHealth INT NOT NULL DEFAULT 100,
+    Mana INT NOT NULL DEFAULT 50,
+    MaxMana INT NOT NULL DEFAULT 50,
+    Level INT NOT NULL DEFAULT 1,
+    LastUpdate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    IsActive BOOLEAN NOT NULL DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Enemies (
+    EnemyId INT AUTO_INCREMENT PRIMARY KEY,
+    Type VARCHAR(50) NOT NULL,
+    PosX FLOAT NOT NULL DEFAULT 0,
+    PosY FLOAT NOT NULL DEFAULT 0,
+    PosZ FLOAT NOT NULL DEFAULT 0,
+    VelX FLOAT NOT NULL DEFAULT 0,
+    VelY FLOAT NOT NULL DEFAULT 0,
+    VelZ FLOAT NOT NULL DEFAULT 0,
+    SectionX INT NOT NULL DEFAULT 0,
+    SectionY INT NOT NULL DEFAULT 0,
+    Health INT NOT NULL DEFAULT 50,
+    MaxHealth INT NOT NULL DEFAULT 50,
+    Level INT NOT NULL DEFAULT 1,
+    SpawnX FLOAT NOT NULL DEFAULT 0,
+    SpawnY FLOAT NOT NULL DEFAULT 0,
+    SpawnZ FLOAT NOT NULL DEFAULT 0,
+    DetectionRange FLOAT NOT NULL DEFAULT 10.0,
+    AttackRange FLOAT NOT NULL DEFAULT 2.0,
+    Damage INT NOT NULL DEFAULT 15,
+    State INT NOT NULL DEFAULT 0,
+    TargetPlayerId INT NULL,
+    LastUpdate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    IsActive BOOLEAN NOT NULL DEFAULT TRUE,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE SpawnPoints (
+    SpawnPointId INT AUTO_INCREMENT PRIMARY KEY,
+    Type VARCHAR(50) NOT NULL,
+    PosX FLOAT NOT NULL,
+    PosY FLOAT NOT NULL,
+    PosZ FLOAT NOT NULL,
+    IsActive BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE CombatLog (
+    LogId BIGINT AUTO_INCREMENT PRIMARY KEY,
+    AttackerId INT NOT NULL,
+    TargetId INT NOT NULL,
+    AttackerType INT NOT NULL,
+    TargetType INT NOT NULL,
+    Damage INT NOT NULL,
+    Timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 기본 스폰 포인트 데이터
+INSERT INTO SpawnPoints (Type, PosX, PosY, PosZ) VALUES 
+('player', 0, 0, 0),
+('player', 10, 0, 10),
+('player', -10, 0, -10),
+('goblin', 50, 0, 50),
+('goblin', -50, 0, 50),
+('orc', 100, 0, 100),
+('dragon', 200, 0, 200);
+*/

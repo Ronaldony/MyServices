@@ -1,5 +1,4 @@
-﻿
-namespace Server_World.Core.Worlds
+﻿namespace Server_World.Core.Worlds.Section
 {
     using GameCore.Datas.Enemy;
     using GameCore.Datas.Play;
@@ -27,7 +26,7 @@ namespace Server_World.Core.Worlds
 
         public void Dispose()
         {
-            PlayInfos.Clear(); 
+            PlayInfos.Clear();
             Enemies.Clear();
         }
     }

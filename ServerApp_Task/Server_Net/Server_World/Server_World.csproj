@@ -27,14 +27,17 @@
   <ItemGroup>
     <Compile Remove="ActorMessage\**" />
     <Compile Remove="Actors\BattleZone\**" />
+    <Compile Remove="Actors\HuntZone\Manager\**" />
     <Compile Remove="Actors\Inventory\**" />
     <Compile Remove="Actors\Village\**" />
     <EmbeddedResource Remove="ActorMessage\**" />
     <EmbeddedResource Remove="Actors\BattleZone\**" />
+    <EmbeddedResource Remove="Actors\HuntZone\Manager\**" />
     <EmbeddedResource Remove="Actors\Inventory\**" />
     <EmbeddedResource Remove="Actors\Village\**" />
     <None Remove="ActorMessage\**" />
     <None Remove="Actors\BattleZone\**" />
+    <None Remove="Actors\HuntZone\Manager\**" />
     <None Remove="Actors\Inventory\**" />
     <None Remove="Actors\Village\**" />
   </ItemGroup>
@@ -67,10 +70,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Framework.Config\Framework.Config.csproj" />
     <ProjectReference Include="..\..\Framework\Framework.Core\Framework.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Actors\HuntZone\Manager\" />
   </ItemGroup>
 
 </Project>
