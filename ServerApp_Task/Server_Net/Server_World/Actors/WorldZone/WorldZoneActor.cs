@@ -7,6 +7,7 @@ namespace Server_World.Actors.HuntZone
 {
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone.Scheduler;
+    using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Services;
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
@@ -130,7 +131,7 @@ namespace Server_World.Actors.HuntZone
             Receive<WorldMsg_UpdateDummy>(msg => UpdateDummy(msg));
 
             // NetPacket.
-            Receive<World_NetPacket>(netPacket =>
+            Receive<NetPacketEvent>(netPacket =>
             {
                 // World player.
                 var worldPlayer = _worldGroup.PlayerDict.GetValueOrDefault(netPacket.Pid);

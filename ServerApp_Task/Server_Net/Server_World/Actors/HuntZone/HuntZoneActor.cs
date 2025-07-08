@@ -6,7 +6,9 @@ using System.Collections.Concurrent;
 namespace Server_World.Actors.HuntZone
 {
     using GameCore.Interfaces;
+    using Server_World.Actors.HuntZone.Router;
     using Server_World.Actors.HuntZone.Scheduler;
+    using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Services;
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
@@ -54,6 +56,13 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private int _enemyCount;
 
+
+        /////////////////////////////////////////////////////
+        /// Parallel.
+        private readonly HuntZoneRouter _huntZoneRouter;
+
+
+
         public HuntZoneActor()
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
@@ -85,6 +94,9 @@ namespace Server_World.Actors.HuntZone
             _cts = new CancellationTokenSource();
 
             _packetGroups = new Dictionary<int, World_PacketGroup>();
+
+            // Router.
+            _huntZoneRouter = new HuntZoneRouter(ServiceUtility.GetServiceProvider());
 
             // initialize actor receive.
             Initialize_ActorReceive();
@@ -124,18 +136,22 @@ namespace Server_World.Actors.HuntZone
             // Dummy.
             Receive<WorldMsg_UpdateDummy>(msg => UpdateDummy(msg));
 
-            // NetPacket.
-            Receive<World_NetPacket>(netPacket =>
+            // GameEvent.
+            Receive<GameEvent>(gameEvent =>
             {
-                // World player.
-                var worldPlayer = _worldGroup.PlayerDict.GetValueOrDefault(netPacket.Pid);
-                if (default == worldPlayer)
+                if (_huntZoneRouter.PostGameEvent(gameEvent))
                 {
-                    return;
+                    _logger.LogError($"failed to post game event. type: {gameEvent.GameEventType}");
                 }
+            });
 
-                // 패킷 전달.
-                worldPlayer.NetPacketQueue.Enqueue(netPacket);
+            // GameEvent.
+            Receive<WorldMsg>(worldMsg =>
+            {
+                if (_huntZoneRouter.PostWorldMsg(worldMsg))
+                {
+                    _logger.LogError($"failed to post game event. type: {gameEvent.GameEventType}");
+                }
             });
         }
     }

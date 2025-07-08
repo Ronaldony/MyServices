@@ -10,6 +10,7 @@ namespace Server_World.Server.World.Handlers
     using GameCore;
     using GameCore.Datas.Play;
     using Server_World.Core.ActorProviders;
+    using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Services;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
@@ -113,7 +114,6 @@ namespace Server_World.Server.World.Handlers
                     PlayInfo = playInfo,
                     GameSession = gameSession,
                     CollisionBox = collisionBox,
-                    NetPacketQueue = new ConcurrentQueue<World_NetPacket>()
                 }
             };
 

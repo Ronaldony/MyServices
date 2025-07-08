@@ -13,6 +13,11 @@
         }
 
         /// <summary>
+        /// Pid.
+        /// </summary>
+        public string Pid { get; set; }
+
+        /// <summary>
         /// Game event.
         /// </summary>
         public Type_GameEvent GameEventType { get; set;}

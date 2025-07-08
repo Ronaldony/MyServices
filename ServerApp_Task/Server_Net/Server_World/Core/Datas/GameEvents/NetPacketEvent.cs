@@ -1,21 +1,18 @@
-﻿using GameCore.NetPacket;
-
-namespace Server_World.Core.Worlds
+﻿namespace Server_World.Core.Datas.GameEvents
 {
+    using GameCore.NetPacket;
+    using Server_World.Core.Types;
+
     /// <summary>
-    /// WorldMsg_NetPacket.
+    /// NetPacketEvent.
     /// </summary>
-    public class World_NetPacket
+    public class NetPacketEvent : GameEvent
     {
-        public World_NetPacket()
+        public NetPacketEvent()
+            : base(Type_GameEvent.Packet)
         {
 
         }
-
-        /// <summary>
-        /// Pid.
-        /// </summary>
-        public string Pid { get; set; }
 
         /// <summary>
         /// Packet code.

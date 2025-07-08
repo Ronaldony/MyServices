@@ -8,7 +8,7 @@ namespace Server_World.Server.World.Handlers
     using GameCore;
     using GameCore.NetPacket;
     using Server_World.Core.ActorProviders;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Datas.GameEvents;
 
     /// <summary>
     /// UdpHandler_Attack.
@@ -42,7 +42,7 @@ namespace Server_World.Server.World.Handlers
             var netPacket = _dataSerializer.Deserialize<NetPacketCS_Attack>(packet.Data);
 
             // Delivery msg.
-            _worldServerActorProvider.Tell<World_NetPacket>(new World_NetPacket
+            _worldServerActorProvider.Tell<GameEvent>(new NetPacketEvent
             {
                 Pid = _worldServer.GetPid(sessionUid),
                 PacketCode = NetPacketCode.CS_Attack,

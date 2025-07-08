@@ -1,12 +1,15 @@
 ﻿
 namespace Server_World.Core.Worlds.Msg
 {
+    using Server_World.Core.Types;
+
     /// <summary>
     /// WorldMsg_UpdateFrame.
     /// </summary>
     public class WorldMsg_UpdateFrame : WorldMsg
     {
         public WorldMsg_UpdateFrame()
+            : base (Type_WorldMsg.UpdateFrame)
         { 
         }
 

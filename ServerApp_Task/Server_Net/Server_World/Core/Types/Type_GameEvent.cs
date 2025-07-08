@@ -8,11 +8,12 @@
         None = 0,
 
         //////////////////////////////////////////
-        /// Game pacekt.
-        MoveStart = 1,
-        MoveEnd = 2,
-        Attack = 3,
-        KnockBack = 4,
-        Dash = 5,
+        /// Packet.
+        Packet = 1,
+
+        //////////////////////////////////////////
+        /// Content.
+        MoveSection = 10,
+        Attack = 11,
     }
 }

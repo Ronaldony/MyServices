@@ -3,6 +3,7 @@
 namespace Server_World.Core.Worlds.Msg
 {
     using GameCore;
+    using Server_World.Core.Types;
 
     /// <summary>
     /// WorldMsg_UpdateMovePattern.
@@ -10,6 +11,7 @@ namespace Server_World.Core.Worlds.Msg
     public class WorldMsg_UpdateMovePattern : WorldMsg
     {
         public WorldMsg_UpdateMovePattern()
+            : base (Type_WorldMsg.UpdateMovePattern)
         {
         }
 

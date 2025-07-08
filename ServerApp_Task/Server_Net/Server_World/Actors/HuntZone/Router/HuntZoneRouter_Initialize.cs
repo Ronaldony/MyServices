@@ -1,22 +1,20 @@
-﻿namespace Server_World.Actors.HuntZone.Processors
+﻿namespace Server_World.Actors.HuntZone.Router
 {
     using GameCore;
+    using Server_World.Actors.HuntZone.Processor;
     using Server_World.Core.Datas;
 
     /// <summary>
     /// SectionUpstreamer.
     /// </summary>
-    public partial class SectionUpstreamer
+    public partial class HuntZoneRouter
     {
         /// <summary>
         /// Initialize around section.
         /// </summary>
-        private Dictionary<SectionId, HashSet<SectionId>> Initialize_AroundSection()
+        private Dictionary<SectionId, HashSet<SectionId>> Initialize_AroundSection(CONF_Area confArea)
         {
             var aroundSessionDict = new Dictionary<SectionId, HashSet<SectionId>>();
-
-            // 지역 정보 불러오기.
-            var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
 
             // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
             var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;
@@ -57,12 +55,11 @@
         /// <summary>
         /// Initialize section group.
         /// </summary>
-        private Dictionary<SectionId, SectionGroup> Initialize_SectionGroup()
+        private (Dictionary<SectionId, SectionGroup>, Dictionary<SectionGroup, GameProcessor>)
+            Initialize_SectionGroup(IServiceProvider serviceProvider, CONF_Area confArea, CancellationToken ct)
         {
-            var aroundSessionDict = new Dictionary<SectionId, SectionGroup>();
-
-            // 지역 정보 불러오기.
-            var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
+            var sectionGroupDict = new Dictionary<SectionId, SectionGroup>();
+            var gameProcessorDict = new Dictionary<SectionGroup, GameProcessor>();
 
             // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
             var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;
@@ -71,36 +68,44 @@
             var sectionMinY = confArea.MinY / GameData.SECTION_HEIGHT;
             var sectionMaxY = confArea.MaxY / GameData.SECTION_HEIGHT;
 
+            // Section group increment.
+            int groupInc = 1;
+
             // 가로, 세로 섹션 저장.
-            for (var sectionX = sectionMinX; sectionX <= sectionMaxX; ++sectionX)
+            for (var sectionX = sectionMinX; sectionX <= sectionMaxX; sectionX += 2)
             {
-                for (var sectionY = sectionMinY; sectionY <= sectionMaxY; ++sectionY)
+                for (var sectionY = sectionMinY; sectionY <= sectionMaxY; sectionY += 2)
                 {
-                    var section = new SectionId(sectionX, sectionY);
+                    var sectionGroup = new SectionGroup(groupInc);
 
-                    aroundSessionDict.Add(section, new HashSet<SectionId>());
+                    // first.
+                    sectionGroupDict.Add(new SectionId(sectionX, sectionY), sectionGroup);
+
+                    // second.
+                    if (sectionX + 1 <= sectionMaxX)
+                    {
+                        sectionGroupDict.Add(new SectionId(sectionX + 1, sectionY), sectionGroup);
+                    }
+
+                    // third.
+                    if (sectionY + 1 <= sectionMaxY)
+                    {
+                        sectionGroupDict.Add(new SectionId(sectionX, sectionY + 1), sectionGroup);
+                    }
+
+                    // forth.
+                    if (sectionX + 1 <= sectionMaxX && sectionY + 1 <= sectionMaxY)
+                    {
+                        sectionGroupDict.Add(new SectionId(sectionX + 1, sectionY), sectionGroup);
+                    }
+
+                    gameProcessorDict.Add(sectionGroup, new GameProcessor(serviceProvider, ct));
+
+                    groupInc++;
                 }
             }
 
-            // 근처 섹션 계산.
-            foreach (var pair in aroundSessionDict)
-            {
-                var aroundSections = pair.Value;
-                var sectionX = pair.Key.X;
-                var sectionY = pair.Key.Y;
-
-                // 근처 섹션 추가.
-                var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
-                foreach (var section in calcAroundSections)
-                {
-                    aroundSections.Add(section);
-                }
-            }
-
-            return aroundSessionDict;
-
-
-            return default;
+            return (sectionGroupDict, gameProcessorDict);
         }
 
         /// <summary>

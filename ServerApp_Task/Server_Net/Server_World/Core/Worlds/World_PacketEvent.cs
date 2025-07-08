@@ -1,4 +1,6 @@
-﻿namespace Server_World.Core.Worlds
+﻿using Server_World.Core.Datas.GameEvents;
+
+namespace Server_World.Core.Worlds
 {
     /// <summary>
     /// World_PacketEvent.
@@ -13,6 +15,6 @@
         /// <summary>
         /// World NetPacket.
         /// </summary>
-        public World_NetPacket NetPacket { get; set; }
+        public NetPacketEvent NetPacket { get; set; }
     }
 }

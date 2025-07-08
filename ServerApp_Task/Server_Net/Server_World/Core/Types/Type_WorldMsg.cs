@@ -7,16 +7,12 @@
     {
         None = 0,
 
-       SpawnPlayer = 1,             // Spanw player.
-       SpawnEnemy = 2,              // Spanw enemy.
+        SpawnPlayer = 10,           // Spanw player.
+        OutPlayer = 11,             // Out player.
 
-       UpdateFrame = 3,             // Update frame.
-       UpdateMovePattern = 4,       // Update move pattern.
-       
-       OutPlayer = 5,               // Out player.
-
-       UpdateDummy = 6,             // Update dummy.
-
-       NetPacket = 7,               // Network packet.
+        SpawnEnemy = 30,            // Spanw enemy.
+        UpdateFrame = 31,           // Update frame.
+        UpdateMovePattern = 32,     // Update move pattern.
+        UpdateDummy = 33,           // Update dummy.
     }
 }

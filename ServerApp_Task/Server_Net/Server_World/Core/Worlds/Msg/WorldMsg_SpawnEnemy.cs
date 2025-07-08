@@ -2,6 +2,7 @@
 {
     using GameCore.Datas.Enemy;
     using Server_World.Core.Datas;
+    using Server_World.Core.Types;
 
     /// <summary>
     /// WorldMsg_SpawnEnemy.
@@ -9,6 +10,7 @@
     public class WorldMsg_SpawnEnemy : WorldMsg
     {
         public WorldMsg_SpawnEnemy()
+            : base (Type_WorldMsg.SpawnEnemy)
         {
 
         }

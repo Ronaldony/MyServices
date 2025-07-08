@@ -32,13 +32,5 @@ namespace Server_World.Core.Utilities
         {
             return _serviceProvider.GetService<T>();
         }
-
-        /// <summary>
-        /// GetService.
-        /// </summary>
-        public static object GetService(Type type)
-        {
-            return _serviceProvider.GetService(type);
-        }
     }
 }

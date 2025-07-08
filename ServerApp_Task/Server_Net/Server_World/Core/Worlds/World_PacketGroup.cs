@@ -1,4 +1,5 @@
-﻿using System.Threading.Channels;
+﻿using Server_World.Core.Datas.GameEvents;
+using System.Threading.Channels;
 
 namespace Server_World.Core.Worlds
 {
@@ -10,7 +11,7 @@ namespace Server_World.Core.Worlds
         public World_PacketGroup()
         {
             Pids = new HashSet<string>();
-            PacketQueue = Channel.CreateUnbounded<World_NetPacket>();
+            PacketQueue = Channel.CreateUnbounded<NetPacketEvent>();
         }
 
         /// <summary>
@@ -21,6 +22,6 @@ namespace Server_World.Core.Worlds
         /// <summary>
         /// Packet Q.
         /// </summary>
-        public Channel<World_NetPacket> PacketQueue { get; set; }
+        public Channel<NetPacketEvent> PacketQueue { get; set; }
     }
 }
