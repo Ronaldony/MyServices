@@ -17,6 +17,11 @@ namespace Server_World.Core.Worlds
         public Dictionary<SectionId, HashSet<SectionId>> AroundSectionDict { get; set; }
 
         /// <summary>
+        /// 관리 섹션.
+        /// </summary>
+        public HashSet<SectionId> ManagedSections { get; set; }
+
+        /// <summary>
         /// HuntZone_Player dictionary.
         /// key: Pid.
         /// value: World_Player.

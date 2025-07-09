@@ -11,13 +11,13 @@ namespace Server_World.Actors.HuntZone.Router
     /// </summary>
     public partial class HuntZoneRouter
     {
-        public ActionBlock<WorldMsg> initialize_WorldMsgPipeline(CancellationToken ct)
+        public ActionBlock<WorldMsg> Initialize_WorldMsgPipeline(CancellationToken ct)
         {
             var pipeline = new ActionBlock<WorldMsg>(
                 dataflowBlockOptions: new ExecutionDataflowBlockOptions
                 {
-                    MaxDegreeOfParallelism = 1,
-                    CancellationToken = ct,
+                    MaxDegreeOfParallelism = 1,     // single thread.
+                    CancellationToken = ct,         // cancel token.
                 },
                 action: wm =>
                 {
@@ -27,10 +27,13 @@ namespace Server_World.Actors.HuntZone.Router
                             {
                                 // Spawn player.
                                 var msg = wm as WorldMsg_SpawnPlayer;
-                                var sectionGroup = GetSectionGroup(msg.WorldPlayer.Section);
+                                var worldPlayer = msg.WorldPlayer;
 
-                                _playerSectionGroupDict.AddOrUpdate(msg.WorldPlayer.PlayInfo.Pid, sectionGroup, (key, old) => sectionGroup);
-                                _gameProccessors[sectionGroup].WriteWorldMsg(msg);
+                                // Add player.
+                                _playerSectionDict.Add(worldPlayer.PlayInfo.Pid, worldPlayer.Section);
+                                
+                                // Write to processor.
+                                _gameProcessors[GetSectionGroup(worldPlayer.Section)].WriteWorldMsg(msg);
                             }
                             break;
                         case Type_WorldMsg.OutPlayer:
@@ -38,15 +41,18 @@ namespace Server_World.Actors.HuntZone.Router
                                 // Out player.
                                 var msg = wm as WorldMsg_OutPlayer;
 
-                                _playerSectionGroupDict.TryRemove(msg.Pid, out var sectionGroup);
-                                _gameProccessors[sectionGroup].WriteWorldMsg(msg);
+                                // Remove player.
+                                _playerSectionDict.Remove(msg.Pid, out var section);
+
+                                // Write to processor.
+                                _gameProcessors[GetSectionGroup(section)].WriteWorldMsg(msg);
                             }
                             break;
                         case Type_WorldMsg.SpawnEnemy:
                         case Type_WorldMsg.UpdateFrame:
                         case Type_WorldMsg.UpdateMovePattern:
                         case Type_WorldMsg.UpdateDummy:
-                            foreach (var processor in _gameProccessors.Values)
+                            foreach (var processor in _gameProcessors.Values)
                             {
                                 processor.WriteWorldMsg(wm);
                             }

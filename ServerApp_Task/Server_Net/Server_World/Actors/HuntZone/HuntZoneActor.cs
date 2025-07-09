@@ -139,7 +139,7 @@ namespace Server_World.Actors.HuntZone
             // GameEvent.
             Receive<GameEvent>(gameEvent =>
             {
-                if (_huntZoneRouter.PostGameEvent(gameEvent))
+                if (_huntZoneRouter.RouteGameEvent(gameEvent))
                 {
                     _logger.LogError($"failed to post game event. type: {gameEvent.GameEventType}");
                 }
@@ -148,7 +148,7 @@ namespace Server_World.Actors.HuntZone
             // GameEvent.
             Receive<WorldMsg>(worldMsg =>
             {
-                if (_huntZoneRouter.PostWorldMsg(worldMsg))
+                if (_huntZoneRouter.RouteWorldMsg(worldMsg))
                 {
                     _logger.LogError($"failed to post game event. type: {gameEvent.GameEventType}");
                 }

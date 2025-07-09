@@ -3,12 +3,13 @@ using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using System.Threading.Channels;
 
-namespace Server_World.Actors.HuntZone.Processor
+namespace Server_World.Actors.HuntZone.Game
 {
     using GameCore.Interfaces;
+    using Server_World.Actors.HuntZone.Router;
+    using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Services;
-    using Server_World.Core.Utilities;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
     using Server_World.Server.World;
@@ -25,6 +26,15 @@ namespace Server_World.Actors.HuntZone.Processor
         private readonly IMemoryPoolService _memoryPoolService;
         private readonly CollisionService _collisionService;
 
+        // Server.
+        private readonly WorldServer _worldServer;
+
+        // WorldGroup.
+        private readonly World_Group _worldGroup;
+
+        // HuntZoneRouter.
+        private readonly HuntZoneRouter _router;
+
         // Channel - GameEvent.
         private readonly Channel<GameEvent> _gameEventChannel;
         private readonly ChannelWriter<GameEvent> _gameEventWriter;
@@ -33,22 +43,17 @@ namespace Server_World.Actors.HuntZone.Processor
         private readonly Channel<WorldMsg> _worldMsgChannel;
         private readonly ChannelWriter<WorldMsg> _worldMsgWriter;
 
-        // Server.
-        private readonly WorldServer _worldServer;
-
-        // WorldGroup.
-        private readonly World_Group _worldGroup;
-
-        public GameProcessor(IServiceProvider serviceProvider, CancellationToken ct)
+        public GameProcessor(IServiceProvider serviceProvider, HuntZoneRouter router, HashSet<SectionId> aroundSections, CancellationToken ct)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<GameProcessor>>();
 
-            _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
-            _tdbService = ServiceUtility.GetService<ITDBService>();
-            _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
-            _collisionService = ServiceUtility.GetService<CollisionService>();
+            // service.
+            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
+            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
+            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
+            _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
-            _worldServer = ServiceUtility.GetService<WorldServer>();
+            _worldServer = serviceProvider.GetRequiredService<WorldServer>();
 
             // channels.
             _gameEventChannel = Channel.CreateUnbounded<GameEvent>();
@@ -57,7 +62,11 @@ namespace Server_World.Actors.HuntZone.Processor
             _worldMsgChannel = Channel.CreateUnbounded<WorldMsg>();
             _worldMsgWriter = _worldMsgChannel.Writer;
 
-            // Process Async.
+            _worldGroup = Initialize_WorldGroup(aroundSections);
+
+            _router = router;
+
+            // Process.
             Task.Run(() => ProcessAsync(ct));
         }
 
@@ -91,13 +100,14 @@ namespace Server_World.Actors.HuntZone.Processor
                 // Process GameEvent.
                 await foreach (var gameEvent in gameEventReader.ReadAllAsync())
                 {
+                    // from other GameProcessor.
                     ProcessGameEvent(gameEvent);
                 }
 
                 // Process WorldMsg.
-                await foreach (var item in worldMsgReader.ReadAllAsync())
+                await foreach (var worldMsg in worldMsgReader.ReadAllAsync())
                 {
-
+                    ProcessWorldMsg(worldMsg);
                 }
 
                 await Task.Delay(5);

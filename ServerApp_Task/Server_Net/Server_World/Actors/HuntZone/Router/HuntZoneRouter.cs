@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Actors.HuntZone.Router
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Server_World.Actors.HuntZone.Processor;
+    using Server_World.Actors.HuntZone.Game;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
@@ -19,39 +19,33 @@ namespace Server_World.Actors.HuntZone.Router
     {
         private readonly ILogger<HuntZoneRouter> _logger;
 
-        // Packet pipeline.
+        // GameEvent pipeline.
         private readonly ActionBlock<GameEvent> _gameEventPipeline;
 
-        // Message pipeline.
+        // WorldMsg pipeline.
         private readonly ActionBlock<WorldMsg> _worldMsgPipeline;
+
+        // NetPacket pipeline.
+        private readonly ActionBlock<AroundPacketEvent> _netPacketPipeline;
 
         /// <summary>
         /// Game proccessors.
         /// key: section group.
         /// value: Game proccessor.
         /// </summary>
-        private readonly Dictionary<SectionGroup, GameProcessor> _gameProccessors;
+        private readonly Dictionary<SectionGroup, GameProcessor> _gameProcessors;
 
         /// <summary>
-        /// 유저 섹션 정보.
+        /// 플레이어 섹션 정보.
         /// key: pid.
         /// value: Section group.
         /// </summary>
-        private readonly ConcurrentDictionary<string, SectionGroup> _playerSectionGroupDict;
+        private readonly Dictionary<string, SectionId> _playerSectionDict;
 
         /// <summary>
-        /// 근처 섹션.
-        /// key: SectionId.
-        /// value: Around sections.
+        /// World_SectionGroup.
         /// </summary>
-        private readonly Dictionary<SectionId, HashSet<SectionId>> _aroundSectionDict;
-
-        /// <summary>
-        /// 섹션 그룹.
-        /// key: SectionId.
-        /// value: SectionGroup.
-        /// </summary>
-        private readonly Dictionary<SectionId, SectionGroup> _sectionGroupDict;
+        private readonly World_SectionGroup _worldSectionGroup;
 
         public HuntZoneRouter(IServiceProvider serviceProvider, CancellationToken ct)
         {
@@ -63,12 +57,15 @@ namespace Server_World.Actors.HuntZone.Router
             var confArea = tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
 
             // initialize sections.
-            _aroundSectionDict = Initialize_AroundSection(confArea);
-            (_sectionGroupDict, _gameProccessors) = Initialize_SectionGroup(serviceProvider, confArea, ct);
+            (_worldSectionGroup, _gameProcessors) = Initialize_WorldSectionGroup(serviceProvider, confArea, ct);
+
+            // Player.
+            _playerSectionDict = new Dictionary<string, SectionId>();
 
             // Pipeline.
-            _gameEventPipeline = initialize_GameEventPipeline(ct);
-            _worldMsgPipeline = initialize_WorldMsgPipeline(ct);
+            _gameEventPipeline = Initialize_GameEventPipeline(ct);
+            _worldMsgPipeline = Initialize_WorldMsgPipeline(ct);
+            _netPacketPipeline = Initialize_NetPacketPipeline(ct);
         }
 
         /// <summary>
@@ -76,12 +73,12 @@ namespace Server_World.Actors.HuntZone.Router
         /// </summary>
         public HashSet<SectionId> GetAroundSections(SectionId section)
         {
-            if (_aroundSectionDict.ContainsKey(section))
+            if (_worldSectionGroup.AroundSectionDict.ContainsKey(section))
             {
-                return _aroundSectionDict[section];
+                return _worldSectionGroup.AroundSectionDict[section];
             }
 
-            return null;
+            return default;
         }
 
         /// <summary>
@@ -89,7 +86,7 @@ namespace Server_World.Actors.HuntZone.Router
         /// </summary>
         public SectionGroup GetSectionGroup(SectionId section)
         {
-            return _sectionGroupDict[section];
+            return _worldSectionGroup.SectionGroupDict[section];
         }
 
         /// <summary>
@@ -97,7 +94,7 @@ namespace Server_World.Actors.HuntZone.Router
         /// </summary>
         public bool IsValidSection(SectionId section)
         {
-            if (_aroundSectionDict.ContainsKey(section))
+            if (_worldSectionGroup.AroundSectionDict.ContainsKey(section))
             {
                 return true;
             }
@@ -108,7 +105,7 @@ namespace Server_World.Actors.HuntZone.Router
         /// <summary>
         /// Post world packet.
         /// </summary>
-        public bool PostGameEvent(GameEvent worldPacket)
+        public bool RouteGameEvent(GameEvent worldPacket)
         {
             return _gameEventPipeline.Post(worldPacket);
         }
@@ -116,9 +113,17 @@ namespace Server_World.Actors.HuntZone.Router
         /// <summary>
         /// Post world message.
         /// </summary>
-        public bool PostWorldMsg(WorldMsg worldMsg)
+        public bool RouteWorldMsg(WorldMsg worldMsg)
         {
             return _worldMsgPipeline.Post(worldMsg);
+        }
+
+        /// <summary>
+        /// Send packet around section.
+        /// </summary>
+        public bool RoutePacketAroundSections(AroundPacketEvent packetEvent)
+        {
+            return _netPacketPipeline.Post(packetEvent);
         }
     }
 }

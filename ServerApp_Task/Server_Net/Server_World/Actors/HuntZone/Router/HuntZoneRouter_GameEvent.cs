@@ -10,25 +10,25 @@ namespace Server_World.Actors.HuntZone.Router
     /// </summary>
     public partial class HuntZoneRouter
     {
-        public ActionBlock<GameEvent> initialize_GameEventPipeline(CancellationToken ct)
+        public ActionBlock<GameEvent> Initialize_GameEventPipeline(CancellationToken ct)
         {
             var pipeline = new ActionBlock<GameEvent>(
                 dataflowBlockOptions: new ExecutionDataflowBlockOptions
                 {
-                    MaxDegreeOfParallelism = 1,
-                    CancellationToken = ct,
+                    MaxDegreeOfParallelism = 1,     // single thread.
+                    CancellationToken = ct,         // cancel token.
                 },
                 action: ge =>
                 {
                     // Check pid.
-                    if (false == _playerSectionGroupDict.TryGetValue(ge.Pid, out var sectionGroup))
+                    if (false == _playerSectionDict.TryGetValue(ge.Pid, out var section))
                     {
                         _logger.LogError($"not exist player. pid: {ge.Pid}");
                         return;
                     }
-                    
+
                     // Write game event.
-                    _gameProccessors[sectionGroup].WriteGameEvent(ge);
+                    _gameProcessors[GetSectionGroup(section)].WriteGameEvent(ge);
                 });
 
             return pipeline;

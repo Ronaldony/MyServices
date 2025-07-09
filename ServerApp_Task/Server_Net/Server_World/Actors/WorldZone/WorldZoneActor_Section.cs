@@ -15,7 +15,7 @@ namespace Server_World.Actors.HuntZone
         /// Get section.
         /// </summary>
         private SectionId GetSection(Vector2 position)
-        {
+        {   
             return new SectionId((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
         }
 

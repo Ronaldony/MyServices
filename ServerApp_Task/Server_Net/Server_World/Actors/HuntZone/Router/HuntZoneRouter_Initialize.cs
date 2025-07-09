@@ -1,8 +1,9 @@
 ﻿namespace Server_World.Actors.HuntZone.Router
 {
     using GameCore;
-    using Server_World.Actors.HuntZone.Processor;
+    using Server_World.Actors.HuntZone.Game;
     using Server_World.Core.Datas;
+    using Server_World.Core.Worlds;
 
     /// <summary>
     /// SectionUpstreamer.
@@ -10,11 +11,11 @@
     public partial class HuntZoneRouter
     {
         /// <summary>
-        /// Initialize around section.
+        /// Initialize WorldSectionGroup.
         /// </summary>
-        private Dictionary<SectionId, HashSet<SectionId>> Initialize_AroundSection(CONF_Area confArea)
+        private (World_SectionGroup, Dictionary<SectionGroup, GameProcessor>)
+            Initialize_WorldSectionGroup(IServiceProvider serviceProvider, CONF_Area confArea, CancellationToken ct)
         {
-            var aroundSessionDict = new Dictionary<SectionId, HashSet<SectionId>>();
 
             // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
             var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;
@@ -22,6 +23,10 @@
 
             var sectionMinY = confArea.MinY / GameData.SECTION_HEIGHT;
             var sectionMaxY = confArea.MaxY / GameData.SECTION_HEIGHT;
+
+            /////////////////////////////////////////////////////////////////////////////
+            /// 주변 섹션 그루핑.
+            var aroundSectionDict = new Dictionary<SectionId, HashSet<SectionId>>();
 
             // 가로, 세로 섹션 저장.
             for (var sectionX = sectionMinX; sectionX <= sectionMaxX; ++sectionX)
@@ -30,18 +35,18 @@
                 {
                     var section = new SectionId(sectionX, sectionY);
 
-                    aroundSessionDict.Add(section, new HashSet<SectionId>());
+                    aroundSectionDict.Add(section, new HashSet<SectionId>());
                 }
             }
 
-            // 근처 섹션 계산.
-            foreach (var pair in aroundSessionDict)
+            // 주변 섹션 계산.
+            foreach (var pair in aroundSectionDict)
             {
                 var aroundSections = pair.Value;
                 var sectionX = pair.Key.X;
                 var sectionY = pair.Key.Y;
 
-                // 근처 섹션 추가.
+                // 주변 섹션 추가.
                 var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
                 foreach (var section in calcAroundSections)
                 {
@@ -49,24 +54,10 @@
                 }
             }
 
-            return aroundSessionDict;
-        }
-
-        /// <summary>
-        /// Initialize section group.
-        /// </summary>
-        private (Dictionary<SectionId, SectionGroup>, Dictionary<SectionGroup, GameProcessor>)
-            Initialize_SectionGroup(IServiceProvider serviceProvider, CONF_Area confArea, CancellationToken ct)
-        {
+            /////////////////////////////////////////////////////////////////////////////
+            /// 섹션 그룹.
             var sectionGroupDict = new Dictionary<SectionId, SectionGroup>();
             var gameProcessorDict = new Dictionary<SectionGroup, GameProcessor>();
-
-            // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
-            var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;
-            var sectionMaxX = confArea.MaxX / GameData.SECTION_WIDTH;
-
-            var sectionMinY = confArea.MinY / GameData.SECTION_HEIGHT;
-            var sectionMaxY = confArea.MaxY / GameData.SECTION_HEIGHT;
 
             // Section group increment.
             int groupInc = 1;
@@ -77,35 +68,73 @@
                 for (var sectionY = sectionMinY; sectionY <= sectionMaxY; sectionY += 2)
                 {
                     var sectionGroup = new SectionGroup(groupInc);
+                    var aroundSections = new HashSet<SectionId>();
 
                     // first.
-                    sectionGroupDict.Add(new SectionId(sectionX, sectionY), sectionGroup);
+                    var sectionId = new SectionId(sectionX, sectionY);
+                    sectionGroupDict.Add(sectionId, sectionGroup);
+                    aroundSections.Add(sectionId);
 
                     // second.
                     if (sectionX + 1 <= sectionMaxX)
                     {
-                        sectionGroupDict.Add(new SectionId(sectionX + 1, sectionY), sectionGroup);
+                        sectionId = new SectionId(sectionX + 1, sectionY);
+                        sectionGroupDict.Add(sectionId, sectionGroup);
+                        aroundSections.Add(sectionId);
                     }
 
                     // third.
                     if (sectionY + 1 <= sectionMaxY)
                     {
-                        sectionGroupDict.Add(new SectionId(sectionX, sectionY + 1), sectionGroup);
+                        sectionId = new SectionId(sectionX, sectionY + 1);
+                        sectionGroupDict.Add(sectionId, sectionGroup);
+                        aroundSections.Add(sectionId);
                     }
 
                     // forth.
                     if (sectionX + 1 <= sectionMaxX && sectionY + 1 <= sectionMaxY)
                     {
-                        sectionGroupDict.Add(new SectionId(sectionX + 1, sectionY), sectionGroup);
+                        sectionId = new SectionId(sectionX + 1, sectionY + 1);
+                        sectionGroupDict.Add(sectionId, sectionGroup);
+                        aroundSections.Add(sectionId);
                     }
 
-                    gameProcessorDict.Add(sectionGroup, new GameProcessor(serviceProvider, ct));
-
+                    gameProcessorDict.Add(sectionGroup, new GameProcessor(serviceProvider, this, aroundSections, ct));
                     groupInc++;
                 }
             }
 
-            return (sectionGroupDict, gameProcessorDict);
+            /////////////////////////////////////////////////////////////////////////////
+            /// 주변 섹션 그룹.
+            var aroundSectionGroupDict = new Dictionary<SectionId, HashSet<SectionGroup>>();
+
+            foreach (var pair in aroundSectionDict)
+            {
+                var section = pair.Key;
+                var sectionGroup = sectionGroupDict[section];
+
+                aroundSectionGroupDict.Add(pair.Key, new HashSet<SectionGroup>());
+
+                // 주변 섹션 그룹 저장.
+                foreach (var aroundSection in pair.Value)
+                {
+                    // 섹션 그룹이 겹치는 경우 무시.
+                    if (sectionGroup != sectionGroupDict[aroundSection])
+                    {
+                        aroundSectionGroupDict[section].Add(sectionGroupDict[aroundSection]);
+                    }
+                }
+            }
+
+            // WorldSectionGroup.
+            var wroldSectionGroup = new World_SectionGroup
+            {
+                AroundSectionDict = aroundSectionDict,
+                AroundSectionGroupDict = aroundSectionGroupDict,
+                SectionGroupDict = sectionGroupDict,
+            };
+
+            return (_worldSectionGroup, gameProcessorDict);
         }
 
         /// <summary>
