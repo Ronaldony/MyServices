@@ -42,7 +42,8 @@ namespace Server_World.Actors.HuntZone.District
                 NetPacketCode.SC_MoveStart, 
                 new NetPacketSC_MoveStart
                 {
-                    Pid = playInfo.Pid
+                    Pid = playInfo.Pid,
+                    MoveDirection = packet.MoveDirection
                 });
 
             // Log.

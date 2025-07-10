@@ -12,7 +12,7 @@
         RouteAroundPacket = 2,      // 주변 섹션 패킷 전송.
 
         /// Content.
-        MoveSectionGroup = 10,      // 섹션 이동.
+        MoveDistrict = 10,          // 구역 이동.
         Attack = 11,                // 공격.
     }
 }

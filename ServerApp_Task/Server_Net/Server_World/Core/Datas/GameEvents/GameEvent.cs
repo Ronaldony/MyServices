@@ -18,6 +18,11 @@
         public string Pid { get; set; }
 
         /// <summary>
+        /// 출처 섹션.
+        /// </summary>
+        public SectionId FromSection { get; set; }
+
+        /// <summary>
         /// Game event.
         /// </summary>
         public Type_GameEvent GameEventType { get; set;}

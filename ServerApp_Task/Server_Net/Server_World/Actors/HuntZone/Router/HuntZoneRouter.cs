@@ -84,9 +84,14 @@ namespace Server_World.Actors.HuntZone.Router
         /// <summary>
         /// Get around sections.
         /// </summary>
-        public SectionGroup GetSectionGroup(SectionId section)
+        public HashSet<SectionGroup> GetAroundSectionGroup(SectionId section)
         {
-            return _worldSectionGroup.SectionGroupDict[section];
+            if (_worldSectionGroup.AroundSectionGroupDict.ContainsKey(section))
+            {
+                return _worldSectionGroup.AroundSectionGroupDict[section];
+            }
+
+            return default;
         }
 
         /// <summary>
@@ -124,6 +129,14 @@ namespace Server_World.Actors.HuntZone.Router
         public bool RoutePacketAroundSections(AroundPacketEvent packetEvent)
         {
             return _netPacketPipeline.Post(packetEvent);
+        }
+
+        /// <summary>
+        /// Get section group.
+        /// </summary>
+        private SectionGroup GetSectionGroup(SectionId section)
+        {
+            return _worldSectionGroup.SectionGroupDict[section];
         }
     }
 }

@@ -12,7 +12,7 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_UpdateSection : NetPacketBase_SC
+    public partial class NetPacketSC_UpdateSection : NetPacketBase_SC, IDisposable
     {
         public NetPacketSC_UpdateSection()
         {
@@ -31,5 +31,11 @@ namespace GameCore.NetPacket
         /// </summary>
         [MemoryPackOrder(1)]
         public List<DTO_Enemy> Enemies { get; set; }
+
+        public void Dispose()
+        {
+            PlayInfos.Clear(); 
+            Enemies.Clear();
+        }
     }
 }

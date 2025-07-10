@@ -2,6 +2,7 @@
 {
     using GameCore.Datas.Enemy;
     using GameCore.Datas.Play;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// World_SectionUnit.
@@ -10,19 +11,19 @@
     {
         public World_SectionUnit()
         {
-            PlayInfos = new List<DTO_PlayInfo>();
-            Enemies = new List<DTO_Enemy>();
+            PlayInfos = new ConcurrentBag<DTO_PlayInfo>();
+            Enemies = new ConcurrentBag<DTO_Enemy>();
         }
 
         /// <summary>
         /// Player.
         /// </summary>
-        public List<DTO_PlayInfo> PlayInfos { get; set; }
+        public ConcurrentBag<DTO_PlayInfo> PlayInfos { get; set; }
 
         /// <summary>
         /// Enemy. 
         /// </summary>
-        public List<DTO_Enemy> Enemies { get; set; }
+        public ConcurrentBag<DTO_Enemy> Enemies { get; set; }
 
         public void Dispose()
         {

@@ -4,6 +4,7 @@ using System.Threading.Tasks.Dataflow;
 namespace Server_World.Actors.HuntZone.Router
 {
     using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.Types;
 
     /// <summary>
     /// SectionUpstreamer.
@@ -20,15 +21,34 @@ namespace Server_World.Actors.HuntZone.Router
                 },
                 action: ge =>
                 {
-                    // Check pid.
-                    if (false == _playerSectionDict.TryGetValue(ge.Pid, out var section))
+                    switch (ge.GameEventType)
                     {
-                        _logger.LogError($"not exist player. pid: {ge.Pid}");
-                        return;
+                        case Type_GameEvent.ReceivePacket:
+                            {
+                                // 위치한 섹션에 전파.
+                                if (false == _playerSectionDict.TryGetValue(ge.Pid, out var section))
+                                {
+                                    _logger.LogError($"not exist player. pid: {ge.Pid}");
+                                    return;
+                                }
+
+                                // Write game event.
+                                _districtProcessors[GetSectionGroup(section)].WriteGameEvent(ge);
+                            }
+                            break;
+                        default:
+                            {
+                                // 주변 섹션에 전파.
+                                var aroundSectionGroups = GetAroundSectionGroup(ge.FromSection);
+
+                                foreach (var sectionGroup in aroundSectionGroups)
+                                {
+                                    _districtProcessors[sectionGroup].WriteGameEvent(ge);
+                                }
+                            }
+                            break;
                     }
 
-                    // Write game event.
-                    _districtProcessors[GetSectionGroup(section)].WriteGameEvent(ge);
                 });
 
             return pipeline;

@@ -11,10 +11,10 @@
       },
       {
         "Target": "Server",
-        "ProjectPath": "C:\\Portfolio\\MyServices\\ServerApp_Task\\Framework\\GameCore",
-        "ProtocolPath": "C:\\Portfolio\\MyServices\\ServerApp_Task\\Framework\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp_Task\\Framework\\GameCore\\Code",
-        "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ServerApp_Task\\Framework\\GameCore\\Database"
+        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_Task\\Framework\\GameCore",
+        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_Task\\Framework\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_Task\\Framework\\GameCore\\Code",
+        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_Task\\Framework\\GameCore\\Database"
       }
     ]
   }
