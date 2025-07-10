@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_Attack from client to server.
+    /// NetPacketCS_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class NetPacketCS_Attack : NetPacketBase_CS
@@ -24,10 +24,10 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_Attack from server to client.
+    /// NetPacketSC_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_Attack
+    public partial class NetPacketSC_Attack : NetPacketBase_SC
     {
         /// <summary>
         /// 공격 Pid.

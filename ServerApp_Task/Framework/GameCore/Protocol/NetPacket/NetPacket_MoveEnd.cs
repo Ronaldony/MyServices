@@ -6,7 +6,7 @@ using System;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_MoveEnd from client to server.
+    /// NetPacketCS_MoveEnd.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
@@ -26,11 +26,11 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_MoveEnd from client to server.
+    /// NetPacketSC_MoveEnd.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_MoveEnd
+    public partial class NetPacketSC_MoveEnd : NetPacketBase_SC
     {
         /// <summary>
         /// Pid.

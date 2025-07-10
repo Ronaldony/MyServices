@@ -8,10 +8,10 @@ namespace GameCore.NetPacket
     using GameCore.Datas.Enemy;
 
     /// <summary>
-    /// NetPacket_SpawnEnemy from server to client.
+    /// NetPacketSC_SpawnEnemy.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_SpawnEnemy
+    public partial class NetPacketSC_SpawnEnemy : NetPacketBase_SC
     {
         /// <summary>
         /// 적 정보.

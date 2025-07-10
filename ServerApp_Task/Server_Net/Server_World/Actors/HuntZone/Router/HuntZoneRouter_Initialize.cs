@@ -1,7 +1,7 @@
 ﻿namespace Server_World.Actors.HuntZone.Router
 {
     using GameCore;
-    using Server_World.Actors.HuntZone.Game;
+    using Server_World.Actors.HuntZone.District;
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
 
@@ -13,7 +13,7 @@
         /// <summary>
         /// Initialize WorldSectionGroup.
         /// </summary>
-        private (World_SectionGroup, Dictionary<SectionGroup, GameProcessor>)
+        private (World_SectionGroup, Dictionary<SectionGroup, DistrictProcessor>)
             Initialize_WorldSectionGroup(IServiceProvider serviceProvider, CONF_Area confArea, CancellationToken ct)
         {
 
@@ -57,7 +57,7 @@
             /////////////////////////////////////////////////////////////////////////////
             /// 섹션 그룹.
             var sectionGroupDict = new Dictionary<SectionId, SectionGroup>();
-            var gameProcessorDict = new Dictionary<SectionGroup, GameProcessor>();
+            var gameProcessorDict = new Dictionary<SectionGroup, DistrictProcessor>();
 
             // Section group increment.
             int groupInc = 1;
@@ -99,7 +99,7 @@
                         aroundSections.Add(sectionId);
                     }
 
-                    gameProcessorDict.Add(sectionGroup, new GameProcessor(serviceProvider, this, aroundSections, ct));
+                    gameProcessorDict.Add(sectionGroup, new DistrictProcessor(serviceProvider, this, aroundSections, ct));
                     groupInc++;
                 }
             }

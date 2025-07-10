@@ -5,7 +5,7 @@ using System;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_MoveStart from client to server.
+    /// NetPacketCS_MoveStart.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
@@ -25,11 +25,11 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_MoveStart from client to server.
+    /// NetPacketSC_MoveStart.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_MoveStart
+    public partial class NetPacketSC_MoveStart : NetPacketBase_SC
     {
         /// <summary>
         /// Pid.

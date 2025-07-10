@@ -1,9 +1,9 @@
 ﻿
-using Server_World.Core.Datas;
-using Server_World.Core.Worlds.Section;
-
 namespace Server_World.Core.Worlds
 {
+    using Server_World.Core.Datas;
+    using Server_World.Core.Worlds.Section;
+
     /// <summary>
     /// World_UpdateMove.
     /// </summary>
@@ -12,6 +12,7 @@ namespace Server_World.Core.Worlds
         public World_UpdateFrame()
         {
             MoveSectionUnit = new Dictionary<SectionId, World_SectionUnit>();
+            AttackSectionUnit = new Dictionary<SectionId, World_SectionUnit>();
         }
 
         /// <summary>

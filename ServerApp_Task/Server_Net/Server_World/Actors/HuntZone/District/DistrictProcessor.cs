@@ -1,12 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
+using System.Diagnostics;
 using System.Threading.Channels;
 
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
+    using GameCore;
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone.Router;
+    using Server_World.Core.Collision;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Services;
@@ -15,11 +18,11 @@ namespace Server_World.Actors.HuntZone.Game
     using Server_World.Server.World;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
-        private readonly ILogger<GameProcessor> _logger;
+        private readonly ILogger<DistrictProcessor> _logger;
 
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
@@ -43,9 +46,9 @@ namespace Server_World.Actors.HuntZone.Game
         private readonly Channel<WorldMsg> _worldMsgChannel;
         private readonly ChannelWriter<WorldMsg> _worldMsgWriter;
 
-        public GameProcessor(IServiceProvider serviceProvider, HuntZoneRouter router, HashSet<SectionId> aroundSections, CancellationToken ct)
+        public DistrictProcessor(IServiceProvider serviceProvider, HuntZoneRouter router, HashSet<SectionId> aroundSections, CancellationToken ct)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<GameProcessor>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<DistrictProcessor>>();
 
             // service.
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
@@ -85,6 +88,15 @@ namespace Server_World.Actors.HuntZone.Game
         {
             return _worldMsgWriter.TryWrite(wm);
         }
+        
+        /// <summary>
+        /// Route game event to router.
+        /// </summary>
+        public void RouteGameEvent<T>(T gameEvent)
+            where T : GameEvent
+        {
+            _router.RouteGameEvent(gameEvent);
+        }
 
         /// <summary>
         /// Process async.
@@ -95,8 +107,14 @@ namespace Server_World.Actors.HuntZone.Game
             var gameEventReader = _gameEventChannel.Reader;
             var worldMsgReader = _worldMsgChannel.Reader;
 
+            int processUpdateTime = 15;
+            var sw = new Stopwatch();
+
             while (!ct.IsCancellationRequested)
             {
+                // Start measure.
+                sw.Restart();
+
                 // Process GameEvent.
                 await foreach (var gameEvent in gameEventReader.ReadAllAsync())
                 {
@@ -110,7 +128,16 @@ namespace Server_World.Actors.HuntZone.Game
                     ProcessWorldMsg(worldMsg);
                 }
 
-                await Task.Delay(5);
+                // Stop measure.
+                sw.Stop();
+
+                var delayTime = processUpdateTime - (int)sw.ElapsedMilliseconds;
+                if (delayTime < 0)
+                {
+                    delayTime = 0;
+                }
+
+                await Task.Delay(delayTime);
             }
         }
     }

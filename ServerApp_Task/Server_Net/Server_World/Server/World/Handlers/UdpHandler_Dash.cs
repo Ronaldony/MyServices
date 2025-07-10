@@ -30,7 +30,7 @@ namespace Server_World.Server.World.Handlers
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             _worldServer = serviceProvider.GetRequiredService<WorldServer>();
-
+            
             _worldServerActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
         }
 

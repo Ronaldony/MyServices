@@ -33,7 +33,7 @@ namespace Server_World.Actors.HuntZone.Router
                                 _playerSectionDict.Add(worldPlayer.PlayInfo.Pid, worldPlayer.Section);
                                 
                                 // Write to processor.
-                                _gameProcessors[GetSectionGroup(worldPlayer.Section)].WriteWorldMsg(msg);
+                                _districtProcessors[GetSectionGroup(worldPlayer.Section)].WriteWorldMsg(msg);
                             }
                             break;
                         case Type_WorldMsg.OutPlayer:
@@ -45,14 +45,14 @@ namespace Server_World.Actors.HuntZone.Router
                                 _playerSectionDict.Remove(msg.Pid, out var section);
 
                                 // Write to processor.
-                                _gameProcessors[GetSectionGroup(section)].WriteWorldMsg(msg);
+                                _districtProcessors[GetSectionGroup(section)].WriteWorldMsg(msg);
                             }
                             break;
                         case Type_WorldMsg.SpawnEnemy:
                         case Type_WorldMsg.UpdateFrame:
                         case Type_WorldMsg.UpdateMovePattern:
                         case Type_WorldMsg.UpdateDummy:
-                            foreach (var processor in _gameProcessors.Values)
+                            foreach (var processor in _districtProcessors.Values)
                             {
                                 processor.WriteWorldMsg(wm);
                             }

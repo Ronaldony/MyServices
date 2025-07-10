@@ -6,7 +6,7 @@ namespace Server_World.Actors.HuntZone.Router
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Server_World.Actors.HuntZone.Game;
+    using Server_World.Actors.HuntZone.District;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Worlds;
@@ -29,11 +29,11 @@ namespace Server_World.Actors.HuntZone.Router
         private readonly ActionBlock<AroundPacketEvent> _netPacketPipeline;
 
         /// <summary>
-        /// Game proccessors.
+        /// District proccessors.
         /// key: section group.
-        /// value: Game proccessor.
+        /// value: District proccessor.
         /// </summary>
-        private readonly Dictionary<SectionGroup, GameProcessor> _gameProcessors;
+        private readonly Dictionary<SectionGroup, DistrictProcessor> _districtProcessors;
 
         /// <summary>
         /// 플레이어 섹션 정보.
@@ -57,7 +57,7 @@ namespace Server_World.Actors.HuntZone.Router
             var confArea = tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
 
             // initialize sections.
-            (_worldSectionGroup, _gameProcessors) = Initialize_WorldSectionGroup(serviceProvider, confArea, ct);
+            (_worldSectionGroup, _districtProcessors) = Initialize_WorldSectionGroup(serviceProvider, confArea, ct);
 
             // Player.
             _playerSectionDict = new Dictionary<string, SectionId>();

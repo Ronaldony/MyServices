@@ -1,14 +1,14 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
         /// <summary>
         /// Initialize world group.

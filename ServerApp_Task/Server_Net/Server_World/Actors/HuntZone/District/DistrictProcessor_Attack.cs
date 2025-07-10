@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Util;
 
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.Datas.Enemy;
@@ -12,9 +12,9 @@ namespace Server_World.Actors.HuntZone.Game
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
         /// <summary>
         /// 플레이어 공격 처리.
@@ -45,7 +45,7 @@ namespace Server_World.Actors.HuntZone.Game
             var bounding = collision.GetBoudingBox(pos.X, pos.Y, packet.Angle);
 
             // 공격 이벤트 전달.
-            _router.RouteGameEvent(new AttackEvent
+            RouteGameEvent(new AttackEvent
             {
                 Damage = tbWeapon.Damage,
                 AttackTime = nowTime,
@@ -63,11 +63,11 @@ namespace Server_World.Actors.HuntZone.Game
                 ignoreSession: worldPlayer.GameSession,
                 section: section,
                 packetCode: NetPacketCode.SC_Attack,
-                packetBytes: _dataSerializer.Serialize(new NetPacketSC_Attack
+                packet: new NetPacketSC_Attack
                 {
                     Pid = playerInfo.Pid,
                     Angle = packet.Angle
-                }));
+                });
 
             // 근처 섹션 enemy 충돌 검사.
             var hitEnemies = new List<DTO_Enemy>();
@@ -82,13 +82,12 @@ namespace Server_World.Actors.HuntZone.Game
                 ignoreSession: worldPlayer.GameSession,
                 section: section,
                 packetCode: NetPacketCode.SC_HitEnemy,
-                packetBytes: _dataSerializer.Serialize(
-                new NetPacketSC_HitEnemy
+                packet: new NetPacketSC_HitEnemy
                 {
                     Damage = tbWeapon.Damage,
                     Position = pos,
                     Enemies = hitEnemies
-                }));
+                });
 
             // Release.
             _collisionService.Release(collision);

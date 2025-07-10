@@ -28,7 +28,7 @@ namespace Server_World.Actors.HuntZone.Router
                     }
 
                     // Write game event.
-                    _gameProcessors[GetSectionGroup(section)].WriteGameEvent(ge);
+                    _districtProcessors[GetSectionGroup(section)].WriteGameEvent(ge);
                 });
 
             return pipeline;

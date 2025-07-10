@@ -12,7 +12,7 @@ namespace GameCore.NetPacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_UpdateSection
+    public partial class NetPacketSC_UpdateSection : NetPacketBase_SC
     {
         public NetPacketSC_UpdateSection()
         {

@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Numerics;
 
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.NetPacket;
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
         /// <summary>
         /// 플레이어 대시 처리.
@@ -32,14 +32,15 @@ namespace Server_World.Actors.HuntZone.Game
                 ignoreSession: worldPlayer.GameSession, 
                 section: worldPlayer.Section, 
                 packetCode: NetPacketCode.SC_Dash, 
-                packetBytes: _dataSerializer.Serialize(new NetPacketSC_Dash
+                packet: new NetPacketSC_Dash
                 {
                     Pid = playInfo.Pid,
                     DashDirection = location.MoveDirection
-                }));
+                });
 
-            location.Position = packet.Position;
-            playInfo.Action = Type_Action.None;
+            // 위치 갱신.
+            location.PositionEnd = packet.Position;
+            playInfo.Action = Type_Action.Dash;
         }
 
         /// <summary>

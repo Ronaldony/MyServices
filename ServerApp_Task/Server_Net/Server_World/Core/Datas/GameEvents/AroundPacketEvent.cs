@@ -9,7 +9,7 @@ namespace Server_World.Core.Datas.GameEvents
     public class AroundPacketEvent : GameEvent
     {
         public AroundPacketEvent(SectionId section, int packetCode, byte[] packetBytes)
-            : base (Type_GameEvent.AroundPacket)
+            : base (Type_GameEvent.RouteAroundPacket)
         {
             Section = section;
             PacketCode = packetCode;

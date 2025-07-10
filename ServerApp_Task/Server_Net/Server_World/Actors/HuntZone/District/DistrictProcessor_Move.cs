@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Util;
 using System.Numerics;
 
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.NetPacket;
@@ -11,9 +11,9 @@ namespace Server_World.Actors.HuntZone.Game
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
         /// <summary>
         /// 플레이어 이동 처리.
@@ -37,14 +37,13 @@ namespace Server_World.Actors.HuntZone.Game
 
             // 패킷 전송 - 이동 시작.
             SendPacket_AroundSections(
-                ignoreSession: worldPlayer.GameSession, 
-                section: SectionId.GetSection(location.Position), 
-                packetCode: NetPacketCode.SC_MoveStart, 
-                packetBytes: _dataSerializer.Serialize(
+                worldPlayer.GameSession,
+                worldPlayer.Section, 
+                NetPacketCode.SC_MoveStart, 
                 new NetPacketSC_MoveStart
                 {
                     Pid = playInfo.Pid
-                }));
+                });
 
             // Log.
             //_logger.LogDebug($"MoveStart - pid: {playInfo.Pid}, pos: {location.Position}, move: {packet.MoveDirection}, time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
@@ -73,11 +72,11 @@ namespace Server_World.Actors.HuntZone.Game
                 SendPacket_AroundSections(
                     section: section,
                     packetCode: NetPacketCode.SC_MoveFixed,
-                    packetBytes: _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+                    packet: new NetPacketSC_MoveFixed
                     {
                         Pid = playInfo.Pid,
                         FixedPos = location.Position
-                    }));
+                    });
 
                 _logger.LogError($"Packe time error. packet: {packet.PacketTime.ToString("hh:mm:ss.fff")}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}");
                 return;
@@ -92,11 +91,11 @@ namespace Server_World.Actors.HuntZone.Game
                 SendPacket_AroundSections(
                     section: section,
                     packetCode: NetPacketCode.SC_MoveFixed,
-                    packetBytes: _dataSerializer.Serialize(new NetPacketSC_MoveFixed
+                    packet: new NetPacketSC_MoveFixed
                     {
                         Pid = playInfo.Pid,
                         FixedPos = location.Position
-                    }));
+                    });
 
                 _logger.LogError($"Move end position error. ");
                 _logger.LogError($"ori: {location.Position}, dst: {packet.EndPos}, dir: {location.MoveDirection}");
@@ -113,11 +112,11 @@ namespace Server_World.Actors.HuntZone.Game
                 ignoreSession: worldPlayer.GameSession,
                 section: section,
                 packetCode: NetPacketCode.SC_MoveEnd,
-                packetBytes: _dataSerializer.Serialize(new NetPacketSC_MoveEnd
+                packet: new NetPacketSC_MoveEnd
                 {
                     Pid = playInfo.Pid,
                     EndPos = packet.EndPos
-                }));
+                });
         }
 
         /// <summary>

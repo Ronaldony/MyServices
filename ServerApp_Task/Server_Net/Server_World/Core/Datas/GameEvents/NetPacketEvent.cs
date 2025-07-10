@@ -9,7 +9,7 @@
     public class NetPacketEvent : GameEvent
     {
         public NetPacketEvent()
-            : base(Type_GameEvent.Packet)
+            : base(Type_GameEvent.ReceivePacket)
         {
 
         }

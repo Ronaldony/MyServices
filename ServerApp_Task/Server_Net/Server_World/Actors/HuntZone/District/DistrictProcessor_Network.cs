@@ -1,56 +1,36 @@
 ﻿
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
     using Framework.Core.Session;
+    using GameCore.NetPacket;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
         /// <summary>
-        /// Get session.
-        /// </summary>
-        private GameSession GetSession(string pid)
-        {
-            if (_worldGroup.PlayerDict.TryGetValue(pid, out var player))
-            {
-                return player.GameSession;
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Send packet.
         /// </summary>
-        private void SendPacket(string pid, int packetCode, byte[] packetData)
+        private bool SendPacket<T>(int sessionId, ulong sessionUid, int packetCode, T packet)
+            where T : NetPacketBase_SC
         {
-            if (false == _worldGroup.PlayerDict.TryGetValue(pid, out var player))
-            {
-                return;
-            }
+            var packetBytes = _dataSerializer.Serialize(packet);
 
             // Send.
-            _worldServer.Send(player.GameSession.SessionId, player.GameSession.SessionUid, packetCode, packetData);
-        }
-
-        /// <summary>
-        /// Send packet.
-        /// </summary>
-        private bool SendPacket(int sessionId, ulong sessionUid, int packetCode, byte[] packetData)
-        {
-            // Send.
-            return _worldServer.Send(sessionId, sessionUid, packetCode, packetData);
+            return _worldServer.Send(sessionId, sessionUid, packetCode, packetBytes);
         }
 
         /// <summary>
         /// Send packet for around sections.
         /// </summary>
-        private void SendPacket_AroundSections(GameSession ignoreSession, SectionId section, int packetCode, byte[] packetBytes)
+        private void SendPacket_AroundSections<T>(GameSession ignoreSession, SectionId section, int packetCode, T packet)
+            where T : NetPacketBase_SC
         {
+            var packetBytes = _dataSerializer.Serialize<T>(packet);
+
             // 주변 섹션에 전파.
             foreach (var wp in _worldGroup.PlayerDict.Values)
             {
@@ -69,8 +49,11 @@ namespace Server_World.Actors.HuntZone.Game
         /// <summary>
         /// Send packet for around sections.
         /// </summary>
-        private void SendPacket_AroundSections(SectionId section, int packetCode, byte[] packetBytes)
+        private void SendPacket_AroundSections<T>(SectionId section, int packetCode, T packet)
+            where T : NetPacketBase_SC
         {
+            var packetBytes = _dataSerializer.Serialize<T>(packet);
+
             // 주변 섹션에 전파.
             foreach (var wp in _worldGroup.PlayerDict.Values)
             {

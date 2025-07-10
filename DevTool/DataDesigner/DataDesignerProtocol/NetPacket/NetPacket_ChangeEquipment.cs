@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_Equipment from client to server.
+    /// NetPacketCS_ChangeEquipment.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class NetPacketCS_ChangeEquipment : NetPacketBase_CS
@@ -18,10 +18,10 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_Equipment from server to client.
+    /// NetPacketSC_ChangeEquipment.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_ChangeEquipment
+    public partial class NetPacketSC_ChangeEquipment : NetPacketBase_SC
     {
     }
 }

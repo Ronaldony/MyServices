@@ -9,7 +9,7 @@ namespace GameCore.NetPacket
     using GameCore.Datas.Play;
 
     /// <summary>
-    /// NetPacket_Login from client to server.
+    /// NetPacketCS_Login.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class NetPacketCS_Login : NetPacketBase_CS
@@ -28,10 +28,10 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_Login from server to client.
+    /// NetPacketSC_Login.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_Login 
+    public partial class NetPacketSC_Login : NetPacketBase_SC
     {
         /// <summary>
         /// 플레이 정보.

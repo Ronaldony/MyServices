@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-
-namespace Server_World.Core.Worlds
+﻿namespace Server_World.Core.Worlds
 {
     using Framework.Core.Session;
     using GameCore.Datas.Play;

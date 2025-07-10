@@ -1,5 +1,5 @@
 ﻿
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.NetPacket;
@@ -8,9 +8,9 @@ namespace Server_World.Actors.HuntZone.Game
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
         /// <summary>
         /// Process GameEvent.
@@ -24,10 +24,12 @@ namespace Server_World.Actors.HuntZone.Game
                 return;
             }
 
-            if (Type_GameEvent.Packet == gameEvent.GameEventType)
+            // Process.
+            if (Type_GameEvent.ReceivePacket == gameEvent.GameEventType)
             {
                 // PacketEvent.
                 var packetEvent = gameEvent as NetPacketEvent;
+
                 switch (packetEvent.PacketCode)
                 {
                     case NetPacketCode.CS_MoveStart:
@@ -39,12 +41,12 @@ namespace Server_World.Actors.HuntZone.Game
                     case NetPacketCode.CS_Attack:
                         Attack(worldPlayer, packetEvent.Packet as NetPacketCS_Attack);
                         break;
-                    //case NetPacketCode.CS_KnockBack:
-                    //    KnockBack(worldPlayer, packetEvent.Packet as NetPacketCS_KnockBack);
-                    //    break;
-                    //case NetPacketCode.CS_Dash:
-                    //    Dash(worldPlayer, packetEvent.Packet as NetPacketCS_Dash);
-                    //    break;
+                    case NetPacketCode.CS_KnockBack:
+                        KnockBack(worldPlayer, packetEvent.Packet as NetPacketCS_KnockBack);
+                        break;
+                    case NetPacketCode.CS_Dash:
+                        Dash(worldPlayer, packetEvent.Packet as NetPacketCS_Dash);
+                        break;
                 }
             }
             else
@@ -52,8 +54,12 @@ namespace Server_World.Actors.HuntZone.Game
                 // Other event.
                 switch (gameEvent.GameEventType)
                 {
-                    case Type_GameEvent.AroundPacket:
+                    case Type_GameEvent.RouteAroundPacket:
                         SendPacket_AroundFromEvent(gameEvent as AroundPacketEvent);
+                        break;
+                    case Type_GameEvent.Attack:
+                        break;
+                    case Type_GameEvent.MoveSection:
                         break;
                 }
             }

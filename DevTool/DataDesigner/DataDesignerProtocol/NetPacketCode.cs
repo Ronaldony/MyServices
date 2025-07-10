@@ -11,6 +11,8 @@
         // Auth.
         public const int CS_Login = 10;                     // 로그인.
         public const int SC_Login = 11;                     // 로그인.
+        public const int CS_LogOut= 12;                     // 로그 아웃.
+        public const int SC_LogOut = 13;                    // 로그 아웃.
 
         // Spawn.
         public const int CS_SpawnPlayer = 20;               // 플레이어 스폰.

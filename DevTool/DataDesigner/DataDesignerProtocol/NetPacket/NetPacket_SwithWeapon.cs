@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_SwitchWeapon from client to server.
+    /// NetPacketCS_SwitchWeapon.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class NetPacketCS_SwitchWeapon : NetPacketBase_CS
@@ -17,10 +17,10 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_SwitchWeapon from server to client.
+    /// NetPacketSC_SwitchWeapon.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_SwitchWeapon
+    public partial class NetPacketSC_SwitchWeapon : NetPacketBase_SC
     {
         /// <summary>
         /// Pid.

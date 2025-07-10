@@ -27,7 +27,7 @@ namespace Server_World.Actors.HuntZone.Router
                     // 주변 섹션 그룹에 전파.
                     foreach (var group in groups)
                     {
-                        _gameProcessors[group].SendPacketAroundSections(packetEvent);
+                        _districtProcessors[group].WriteGameEvent(packetEvent);
                     }
                 });
 

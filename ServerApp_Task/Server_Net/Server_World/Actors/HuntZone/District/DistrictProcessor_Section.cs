@@ -1,25 +1,17 @@
 ﻿
 using System.Numerics;
 
-namespace Server_World.Actors.HuntZone.Game
+namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
 
     /// <summary>
-    /// GameProcessor.
+    /// DistrictProcessor.
     /// </summary>
-    public partial class GameProcessor
+    public partial class DistrictProcessor
     {
-        /// <summary>
-        /// Get section.
-        /// </summary>
-        private SectionId GetSection(Vector2 position)
-        {
-            return new SectionId((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
-        }
-
         /// <summary>
         /// 특정 섹션의 플레이 정보 가져오기.
         /// </summary>
@@ -47,22 +39,6 @@ namespace Server_World.Actors.HuntZone.Game
         }
 
         /// <summary>
-        /// Get players around sections.
-        /// </summary>
-        private ICollection<World_Player> GetAroundPlayers(SectionId section)
-        {
-            var aroundPlayers = new List<World_Player>();
-            var aroundSections = GetAroundSections(section);
-
-            foreach (var findSection in aroundSections)
-            {
-                aroundPlayers.AddRange(GetSectionPlayers(findSection));
-            }
-
-            return aroundPlayers;
-        }
-
-        /// <summary>
         /// 근처 섹션 가져오기.
         /// </summary>
         private HashSet<SectionId> GetAroundSections(SectionId section)
@@ -78,9 +54,9 @@ namespace Server_World.Actors.HuntZone.Game
         /// <summary>
         /// Get section or default.ss
         /// </summary>
-        private bool IsValidSection(SectionId section)
+        private bool IsManagedSection(SectionId section)
         {
-            return _worldGroup.AroundSectionDict.ContainsKey(section);
+            return _worldGroup.ManagedSections.Contains(section);
         }
     }
 }

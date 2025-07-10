@@ -56,12 +56,9 @@ namespace Server_World.Actors.HuntZone
         /// </summary>
         private int _enemyCount;
 
-
         /////////////////////////////////////////////////////
         /// Parallel.
         private readonly HuntZoneRouter _huntZoneRouter;
-
-
 
         public HuntZoneActor()
         {
@@ -96,7 +93,7 @@ namespace Server_World.Actors.HuntZone
             _packetGroups = new Dictionary<int, World_PacketGroup>();
 
             // Router.
-            _huntZoneRouter = new HuntZoneRouter(ServiceUtility.GetServiceProvider());
+            _huntZoneRouter = new HuntZoneRouter(ServiceUtility.GetServiceProvider(), _cts.Token);
 
             // initialize actor receive.
             Initialize_ActorReceive();
@@ -116,25 +113,25 @@ namespace Server_World.Actors.HuntZone
         private void Initialize_ActorReceive()
         {
             // Spawn.
-            Receive<WorldMsg>(msg =>
-            {
-                // 월드 메시지 전달.
-                _worldMsgQueue.Enqueue(msg);
-            });
+            //Receive<WorldMsg>(msg =>
+            //{
+            //    // 월드 메시지 전달.
+            //    _worldMsgQueue.Enqueue(msg);
+            //});
 
-            // Spawn.
-            Receive<WorldMsg_SpawnPlayer>(player => SpawnPlayer(player));
-            Receive<WorldMsg_SpawnEnemy>(msg => SpawnEnemy(msg));
+            //// Spawn.
+            //Receive<WorldMsg_SpawnPlayer>(player => SpawnPlayer(player));
+            //Receive<WorldMsg_SpawnEnemy>(msg => SpawnEnemy(msg));
 
-            // Out player.
-            Receive<WorldMsg_OutPlayer>(msg => OutPlayer(msg));
+            //// Out player.
+            //Receive<WorldMsg_OutPlayer>(msg => OutPlayer(msg));
 
-            // Update frame.
-            Receive<WorldMsg_UpdateFrame>(msg => UpdateFrame(msg));
-            Receive<WorldMsg_UpdateMovePattern>(msg => UpdateMovePattern(msg));
+            //// Update frame.
+            //Receive<WorldMsg_UpdateFrame>(msg => UpdateFrame(msg));
+            //Receive<WorldMsg_UpdateMovePattern>(msg => UpdateMovePattern(msg));
 
-            // Dummy.
-            Receive<WorldMsg_UpdateDummy>(msg => UpdateDummy(msg));
+            //// Dummy.
+            //Receive<WorldMsg_UpdateDummy>(msg => UpdateDummy(msg));
 
             // GameEvent.
             Receive<GameEvent>(gameEvent =>
@@ -150,7 +147,7 @@ namespace Server_World.Actors.HuntZone
             {
                 if (_huntZoneRouter.RouteWorldMsg(worldMsg))
                 {
-                    _logger.LogError($"failed to post game event. type: {gameEvent.GameEventType}");
+                    _logger.LogError($"failed to post game event. type: {worldMsg.MsgType}");
                 }
             });
         }

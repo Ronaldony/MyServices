@@ -7,14 +7,12 @@
     {
         None = 0,
 
-        //////////////////////////////////////////
         /// Packet.
-        Packet = 1,
-        AroundPacket = 2,
+        ReceivePacket = 1,          // 패킷 수신.
+        RouteAroundPacket = 2,      // 주변 섹션 패킷 전송.
 
-        //////////////////////////////////////////
         /// Content.
-        MoveSection = 10,
-        Attack = 11,
+        MoveSectionGroup = 10,      // 섹션 이동.
+        Attack = 11,                // 공격.
     }
 }
