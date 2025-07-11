@@ -1,6 +1,7 @@
 ﻿
 namespace Server_World.Actors.HuntZone.District
 {
+    using Consul;
     using Framework.Core.Session;
     using GameCore.NetPacket;
     using Server_World.Core.Datas;
@@ -24,6 +25,20 @@ namespace Server_World.Actors.HuntZone.District
         }
 
         /// <summary>
+        /// Send packet to sessions.
+        /// </summary>
+        private void SendPacket<T>(ICollection<GameSession> sessions, int packetCode, T packet)
+            where T : NetPacketBase_SC
+        {
+            var packetBytes = _dataSerializer.Serialize(packet);
+
+            foreach (var session in sessions)
+            {
+                _worldServer.Send(session.SessionId, session.SessionUid, packetCode, packetBytes);
+            }
+        }
+
+        /// <summary>
         /// Send packet for around sections.
         /// </summary>
         private void SendPacket_AroundSections<T>(GameSession ignoreSession, SectionId section, int packetCode, T packet)
@@ -42,8 +57,8 @@ namespace Server_World.Actors.HuntZone.District
                 }
             }
 
-            // Route pakcet.
-            _router.RoutePacketAroundSections(new AroundPacketEvent(section, packetCode, packetBytes));
+            // Broadcast packet around.
+            _router.BroadcastPacketAround(new BroadcastPacketEvent(section, packetCode, packetBytes));
         }
 
         /// <summary>
@@ -60,16 +75,16 @@ namespace Server_World.Actors.HuntZone.District
                 _worldServer.Send(wp.GameSession.SessionId, wp.GameSession.SessionUid, packetCode, packetBytes);
             }
 
-            // Route pakcet.
-            _router.RoutePacketAroundSections(new AroundPacketEvent(section, packetCode, packetBytes));
+            // Broadcast packet around.
+            _router.BroadcastPacketAround(new BroadcastPacketEvent(section, packetCode, packetBytes));
         }
 
         /// <summary>
         /// Send packet for around sections.
         /// </summary>
-        private void SendPacket_AroundFromEvent(AroundPacketEvent packetEvent)
+        private void SendPacket_AroundFromEvent(BroadcastPacketEvent packetEvent)
         {
-            var aroundSections = _router.GetAroundSections(packetEvent.Section);
+            var aroundSections = _router.GetAroundSections(packetEvent.FromSection);
 
             // 관리 섹션중 패킷 발생지 주변인 섹션에 패킷 발송.
             foreach (var section in _worldGroup.ManagedSections)

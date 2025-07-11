@@ -1,8 +1,11 @@
-﻿namespace Server_World.Core.Worlds.Section
+﻿
+using System.Collections.Concurrent;
+
+namespace Server_World.Core.Worlds.Section
 {
+    using Framework.Core.Session;
     using GameCore.Datas.Enemy;
     using GameCore.Datas.Play;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// World_SectionUnit.
@@ -11,14 +14,14 @@
     {
         public World_SectionUnit()
         {
-            PlayInfos = new ConcurrentBag<DTO_PlayInfo>();
+            PlayInfoDict = new ConcurrentDictionary<GameSession, DTO_PlayInfo>();
             Enemies = new ConcurrentBag<DTO_Enemy>();
         }
 
         /// <summary>
         /// Player.
         /// </summary>
-        public ConcurrentBag<DTO_PlayInfo> PlayInfos { get; set; }
+        public ConcurrentDictionary<GameSession, DTO_PlayInfo> PlayInfoDict { get; set; }
 
         /// <summary>
         /// Enemy. 
@@ -27,7 +30,7 @@
 
         public void Dispose()
         {
-            PlayInfos.Clear();
+            PlayInfoDict.Clear();
             Enemies.Clear();
         }
     }

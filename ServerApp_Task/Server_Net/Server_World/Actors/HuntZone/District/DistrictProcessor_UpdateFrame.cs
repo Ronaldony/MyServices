@@ -33,10 +33,10 @@ namespace Server_World.Actors.HuntZone.District
             // Release memory.
             foreach (var updateFrame in updateFrames)
             {
-                _memoryPoolService.Release(updateFrame.Value.MoveSectionUnit.Values);
+                _memoryPoolService.Release(updateFrame.MoveSectionUnit.Values);
             }
 
-            _memoryPoolService.Release(updateFrames.Values);
+            _memoryPoolService.Release(updateFrames.ToList());
         }
 
         /// <summary>
@@ -44,8 +44,6 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void UpdateFrame_Move(WorldMsg_UpdateFrame worldMsg, ConcurrentBag<World_UpdateFrame> updateFrames)
         {
-            var moveSectionGroupDict = new Dictionary<SectionId, MoveDistrictEvent>();
-
             // 플레이어가 존재하는 섹션의 플레이어, 적 이동 처리.
             Parallel.ForEach(_worldGroup.ManagedSections, section =>
             {
@@ -94,6 +92,8 @@ namespace Server_World.Actors.HuntZone.District
                     // 변경된 섹션 검사.
                     var moveSection = SectionId.GetSection(location.Position);
 
+                    worldPlayer.Section = moveSection;
+
                     if (false == section.Equals(moveSection))
                     {
                         // Remove from section.
@@ -107,14 +107,14 @@ namespace Server_World.Actors.HuntZone.District
 
                             moveSectionUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_SectionUnit>())
-                            .PlayInfos.Add(playInfo);
+                            .PlayInfoDict.AddOrUpdate(worldPlayer.GameSession, playInfo, (_, _) => playInfo);
                         }
                         else
                         {
                             // 구역 이동.
                             moveDistrictUnit
-                            .GetOrAdd(moveSection, _memoryPoolService.Rent<World_SectionUnit>())
-                            .PlayInfos.Add(playInfo);
+                            .GetOrAdd(moveSection, _memoryPoolService.Rent<World_DistrictUnit>())
+                            .WorldPlayers.Add(worldPlayer);
                         }
                     }
                 }
@@ -151,8 +151,8 @@ namespace Server_World.Actors.HuntZone.District
                         {
                             // 구역 이동.
                             moveDistrictUnit
-                            .GetOrAdd(moveSection, _memoryPoolService.Rent<World_SectionUnit>())
-                            .Enemies.Add(enemy);
+                            .GetOrAdd(moveSection, _memoryPoolService.Rent<World_DistrictUnit>())
+                            .WorldEnemies.Add(wolrdEnemy);
                         }
                     }
                 }
@@ -167,33 +167,68 @@ namespace Server_World.Actors.HuntZone.District
             // 세션을 이동한 플레이어 정보 전달.
             foreach (var updateFrame in updateFrames)
             {
-                // 상태가 갱신된 유닛 정보.
+                // Rent.
+                var updateSectionPacket = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
+
+                // 섹션 이동 유닛 처리.
                 foreach (var pair in updateFrame.MoveSectionUnit)
                 {
-                    var netPacket = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
+                    var sectionUnit = pair.Value;
 
-                    if (false == pair.Value.PlayInfos.Any() 
-                        && false == pair.Value.Enemies.Any())
+                    if (false == sectionUnit.PlayInfoDict.Any() 
+                        && false == sectionUnit.Enemies.Any())
                     {
                         continue;
                     }
 
-                    if (pair.Value.PlayInfos.Any())
+                    if (sectionUnit.PlayInfoDict.Any())
                     {
-                        netPacket.PlayInfos = pair.Value.PlayInfos.ToList();
+                        updateSectionPacket.PlayInfos.AddRange(sectionUnit.PlayInfoDict.Values);
                     }
 
-                    if (pair.Value.Enemies.Any())
+                    if (sectionUnit.Enemies.Any())
                     {
-                        netPacket.Enemies = pair.Value.Enemies.ToList();
+                        updateSectionPacket.Enemies.AddRange(sectionUnit.Enemies);
                     }
 
                     // Send packet.
-                    SendPacket_AroundSections(pair.Key, NetPacketCode.SC_UpdateSection, netPacket);
+                    SendPacket_AroundSections(pair.Key, NetPacketCode.SC_UpdateSection, updateSectionPacket);
 
-                    // TODO: 섹션을 이동하지 않은 유닛에 대한 처리.
+                    // 섹션 이동 이벤트 라우팅.
+                    RouteGameEvent(new MoveSectionEvent
+                    {
+                        FromSection = pair.Key,
+                        GameSessions = sectionUnit.PlayInfoDict.Keys
+                    });
 
-                    _memoryPoolService.Release(netPacket);
+                    // clear.
+                    updateSectionPacket.PlayInfos.Clear();
+                    updateSectionPacket.Enemies.Clear();
+                }
+
+                // Release.
+                _memoryPoolService.Release<NetPacketSC_UpdateSection>(updateSectionPacket);
+
+                // 구역 이동 유닛 처리.
+                foreach (var pair in updateFrame.MoveDistrictUnit)
+                {
+                    var districtUnit = pair.Value;
+
+                    if (false == districtUnit.WorldPlayers.Any()
+                        && false == districtUnit.WorldEnemies.Any())
+                    {
+                        continue;
+                    }
+
+                    // 구역 이동 이벤트 라우팅. 
+                    var moveDistrictEvent = new MoveDistrictEvent();
+
+                    moveDistrictEvent.FromSection = pair.Key;
+                    moveDistrictEvent.FromDistrict = _district;
+                    moveDistrictEvent.WorldPlayers.AddRange(districtUnit.WorldPlayers);
+                    moveDistrictEvent.WorldEnemies.AddRange(districtUnit.WorldEnemies);
+
+                    RouteGameEvent(moveDistrictEvent);
                 }
             }
         }

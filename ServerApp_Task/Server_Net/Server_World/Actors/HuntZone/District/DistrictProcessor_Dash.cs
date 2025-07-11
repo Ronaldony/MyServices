@@ -5,6 +5,7 @@ namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.NetPacket;
+    using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -28,15 +29,11 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // 주변 섹션에 대시 전송.
-            SendPacket_AroundSections(
-                ignoreSession: worldPlayer.GameSession, 
-                section: worldPlayer.Section, 
-                packetCode: NetPacketCode.SC_Dash, 
-                packet: new NetPacketSC_Dash
-                {
-                    Pid = playInfo.Pid,
-                    DashDirection = location.MoveDirection
-                });
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Dash, new NetPacketSC_Dash
+            {
+                Pid = playInfo.Pid,
+                DashDirection = location.MoveDirection
+            });
 
             // 위치 갱신.
             location.PositionEnd = packet.Position;

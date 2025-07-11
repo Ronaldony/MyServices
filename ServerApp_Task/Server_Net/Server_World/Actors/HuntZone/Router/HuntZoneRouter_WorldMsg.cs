@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Threading.Tasks.Dataflow;
+﻿using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Actors.HuntZone.Router
 {
@@ -7,7 +6,7 @@ namespace Server_World.Actors.HuntZone.Router
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
-    /// SectionUpstreamer.
+    /// HuntZoneRouter.
     /// </summary>
     public partial class HuntZoneRouter
     {
@@ -33,7 +32,7 @@ namespace Server_World.Actors.HuntZone.Router
                                 _playerSectionDict.Add(worldPlayer.PlayInfo.Pid, worldPlayer.Section);
                                 
                                 // Write to processor.
-                                _districtProcessors[GetSectionGroup(worldPlayer.Section)].WriteWorldMsg(msg);
+                                _districtProcessors[GetDistrict(worldPlayer.Section)].WriteWorldMsg(msg);
                             }
                             break;
                         case Type_WorldMsg.OutPlayer:
@@ -45,20 +44,14 @@ namespace Server_World.Actors.HuntZone.Router
                                 _playerSectionDict.Remove(msg.Pid, out var section);
 
                                 // Write to processor.
-                                _districtProcessors[GetSectionGroup(section)].WriteWorldMsg(msg);
+                                _districtProcessors[GetDistrict(section)].WriteWorldMsg(msg);
                             }
                             break;
-                        case Type_WorldMsg.SpawnEnemy:
-                        case Type_WorldMsg.UpdateFrame:
-                        case Type_WorldMsg.UpdateMovePattern:
-                        case Type_WorldMsg.UpdateDummy:
+                        default:
                             foreach (var processor in _districtProcessors.Values)
                             {
                                 processor.WriteWorldMsg(wm);
                             }
-                            break;
-                        default:
-                            _logger.LogError($"world message type error. type: {wm.MsgType}");
                             break;
                     }
                 })

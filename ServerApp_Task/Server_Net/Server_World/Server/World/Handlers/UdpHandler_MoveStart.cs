@@ -42,7 +42,7 @@ namespace Server_World.Server.World.Handlers
             var netPacket = _dataSerializer.Deserialize<NetPacketCS_MoveStart>(packet.Data);
 
             // Delivery msg.
-            _worldServerActorProvider.Tell<GameEvent>(new NetPacketEvent
+            _worldServerActorProvider.Tell<GameEvent>(new ReceivePacketEvent
             {
                 Pid = _worldServer.GetPid(sessionUid),
                 PacketCode = NetPacketCode.CS_MoveStart,

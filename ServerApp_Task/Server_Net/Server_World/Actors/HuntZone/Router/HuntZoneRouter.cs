@@ -26,14 +26,19 @@ namespace Server_World.Actors.HuntZone.Router
         private readonly ActionBlock<WorldMsg> _worldMsgPipeline;
 
         // NetPacket pipeline.
-        private readonly ActionBlock<AroundPacketEvent> _netPacketPipeline;
+        private readonly ActionBlock<BroadcastPacketEvent> _broadcastPacketPipeline;
+
+        /// <summary>
+        /// World_SectionGroup.
+        /// </summary>
+        private readonly World_SectionGroup _worldSectionGroup;
 
         /// <summary>
         /// District proccessors.
         /// key: section group.
         /// value: District proccessor.
         /// </summary>
-        private readonly Dictionary<SectionGroup, DistrictProcessor> _districtProcessors;
+        private readonly Dictionary<District, DistrictProcessor> _districtProcessors;
 
         /// <summary>
         /// 플레이어 섹션 정보.
@@ -41,11 +46,6 @@ namespace Server_World.Actors.HuntZone.Router
         /// value: Section group.
         /// </summary>
         private readonly Dictionary<string, SectionId> _playerSectionDict;
-
-        /// <summary>
-        /// World_SectionGroup.
-        /// </summary>
-        private readonly World_SectionGroup _worldSectionGroup;
 
         public HuntZoneRouter(IServiceProvider serviceProvider, CancellationToken ct)
         {
@@ -65,7 +65,7 @@ namespace Server_World.Actors.HuntZone.Router
             // Pipeline.
             _gameEventPipeline = Initialize_GameEventPipeline(ct);
             _worldMsgPipeline = Initialize_WorldMsgPipeline(ct);
-            _netPacketPipeline = Initialize_NetPacketPipeline(ct);
+            _broadcastPacketPipeline = Initialize_NetPacketPipeline(ct);
         }
 
         /// <summary>
@@ -82,16 +82,24 @@ namespace Server_World.Actors.HuntZone.Router
         }
 
         /// <summary>
-        /// Get around sections.
+        /// Get around district.
         /// </summary>
-        public HashSet<SectionGroup> GetAroundSectionGroup(SectionId section)
+        public HashSet<District> GetAroundDistrict(SectionId section)
         {
-            if (_worldSectionGroup.AroundSectionGroupDict.ContainsKey(section))
+            if (_worldSectionGroup.AroundDistrictDict.ContainsKey(section))
             {
-                return _worldSectionGroup.AroundSectionGroupDict[section];
+                return _worldSectionGroup.AroundDistrictDict[section];
             }
 
             return default;
+        }
+
+        /// <summary>
+        /// Get district.
+        /// </summary>
+        private District GetDistrict(SectionId section)
+        {
+            return _worldSectionGroup.DistrictDict[section];
         }
 
         /// <summary>
@@ -126,17 +134,9 @@ namespace Server_World.Actors.HuntZone.Router
         /// <summary>
         /// Send packet around section.
         /// </summary>
-        public bool RoutePacketAroundSections(AroundPacketEvent packetEvent)
+        public bool BroadcastPacketAround(BroadcastPacketEvent packetEvent)
         {
-            return _netPacketPipeline.Post(packetEvent);
-        }
-
-        /// <summary>
-        /// Get section group.
-        /// </summary>
-        private SectionGroup GetSectionGroup(SectionId section)
-        {
-            return _worldSectionGroup.SectionGroupDict[section];
+            return _broadcastPacketPipeline.Post(packetEvent);
         }
     }
 }

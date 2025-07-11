@@ -13,7 +13,7 @@ namespace Server_World.Core.ActorProviders
 
         public WorldZoneActorProvider(ActorSystem actorSystem)
         {
-            _worldZoneActor = actorSystem.ActorOf<WorldZoneActor>();
+            _worldZoneActor = actorSystem.ActorOf<HuntZoneActor>();
         }
 
         /// <summary>

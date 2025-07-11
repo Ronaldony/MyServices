@@ -8,27 +8,27 @@ using System.Reactive.Linq;
 namespace Server_World.Actors.HuntZone.Scheduler
 {
     using GameCore;
-    using Server_World.Core.ActorProviders;
+    using Server_World.Actors.HuntZone.District;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
     /// WorldServerScheduler_MovePattern.
     /// </summary>
-    public sealed class WorldZoneScheduler_MovePattern
+    public sealed class HuntZoneScheduler_MovePattern
     {
-        private readonly ILogger<WorldZoneScheduler_MovePattern> _logger;
+        private readonly ILogger<HuntZoneScheduler_MovePattern> _logger;
 
-        // Actor provider.
-        private readonly WorldZoneActorProvider _worldZoneActorProvider;
+        // DistrictProcessor.
+        private DistrictProcessor _districtProcessor;
 
         // Scheduler.
         private readonly CompositeDisposable _subscriptions;
 
-        public WorldZoneScheduler_MovePattern(IServiceProvider serviceProvider)
+        public HuntZoneScheduler_MovePattern(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<WorldZoneScheduler_MovePattern>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_MovePattern>>();
 
-            _worldZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
+            _districtProcessor = serviceProvider.GetRequiredService<DistrictProcessor>();
 
             _subscriptions = new CompositeDisposable();
         }
@@ -59,7 +59,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     UpdateMovePattern(Type_MovePattern.Pattern3);
                 }));
 
-            _logger.LogInformation("start world move pattern.");
+            _logger.LogInformation("start huntzone move pattern.");
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
             _subscriptions.Clear();
 
-            _logger.LogInformation("stop world move pattern.");
+            _logger.LogInformation("stop huntzone move pattern.");
         }
 
         /// <summary>
@@ -88,13 +88,12 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 var randomX = Random.Shared.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT);
                 var randomY = Random.Shared.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT);
 
-                _worldZoneActorProvider.Tell<WorldMsg>(
-                    new WorldMsg_UpdateMovePattern
-                    {
-                        MovePattern = movePattern,
-                        MovePos = new Vector2(randomX, randomY),
-                    });
-                }
+                _districtProcessor.WriteWorldMsg(new WorldMsg_UpdateMovePattern
+                {
+                    MovePattern = movePattern,
+                    MovePos = new Vector2(randomX, randomY),
+                });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);

@@ -3,11 +3,12 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Actors.HuntZone.Router
 {
+    using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Types;
 
     /// <summary>
-    /// SectionUpstreamer.
+    /// HuntZoneRouter.
     /// </summary>
     public partial class HuntZoneRouter
     {
@@ -33,15 +34,35 @@ namespace Server_World.Actors.HuntZone.Router
                                 }
 
                                 // Write game event.
-                                _districtProcessors[GetSectionGroup(section)].WriteGameEvent(ge);
+                                _districtProcessors[GetDistrict(section)].WriteGameEvent(ge);
+                            }
+                            break;
+                        case Type_GameEvent.MoveDistrict:
+                            {
+                                var moveDistrictEvent = ge as MoveDistrictEvent;
+
+                                // Write game event.
+                                var districts = GetAroundDistrict(moveDistrictEvent.FromSection);
+
+                                foreach (var district in districts)
+                                {
+                                    // 출처 구역을 제외한 주변 구역에 전파.
+                                    if (district != moveDistrictEvent.FromDistrict)
+                                    {
+                                        _districtProcessors[district].WriteGameEvent(ge);
+                                    }
+                                }
+
+                                // 처리 구역에 이벤트 전송.
+                                _districtProcessors[GetDistrict(moveDistrictEvent.FromSection)].WriteGameEvent(ge);
                             }
                             break;
                         default:
                             {
-                                // 주변 섹션에 전파.
-                                var aroundSectionGroups = GetAroundSectionGroup(ge.FromSection);
+                                // 주변 구역에 전파.
+                                var aroundDistricts = GetAroundDistrict(ge.FromSection);
 
-                                foreach (var sectionGroup in aroundSectionGroups)
+                                foreach (var sectionGroup in aroundDistricts)
                                 {
                                     _districtProcessors[sectionGroup].WriteGameEvent(ge);
                                 }

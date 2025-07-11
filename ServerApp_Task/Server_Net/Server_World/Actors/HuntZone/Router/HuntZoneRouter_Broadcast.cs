@@ -5,16 +5,16 @@ namespace Server_World.Actors.HuntZone.Router
     using Server_World.Core.Datas.GameEvents;
 
     /// <summary>
-    /// SectionUpstreamer.
+    /// HuntZoneRouter.
     /// </summary>
     public partial class HuntZoneRouter
     {
         /// <summary>
         /// Initialize NetPacket.
         /// </summary>
-        public ActionBlock<AroundPacketEvent> Initialize_NetPacketPipeline(CancellationToken ct)
+        public ActionBlock<BroadcastPacketEvent> Initialize_NetPacketPipeline(CancellationToken ct)
         {
-            var pipeline = new ActionBlock<AroundPacketEvent>(
+            var pipeline = new ActionBlock<BroadcastPacketEvent>(
                 dataflowBlockOptions: new ExecutionDataflowBlockOptions
                 {
                     MaxDegreeOfParallelism = 1,     // single thread.
@@ -22,9 +22,9 @@ namespace Server_World.Actors.HuntZone.Router
                 },
                 action: packetEvent =>
                 {
-                    var groups = _worldSectionGroup.AroundSectionGroupDict[packetEvent.Section];
+                    var groups = _worldSectionGroup.AroundDistrictDict[packetEvent.FromSection];
 
-                    // 주변 섹션 그룹에 전파.
+                    // 주변 구역에 전파.
                     foreach (var group in groups)
                     {
                         _districtProcessors[group].WriteGameEvent(packetEvent);

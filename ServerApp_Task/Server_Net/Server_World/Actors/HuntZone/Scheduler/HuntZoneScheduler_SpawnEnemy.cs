@@ -10,19 +10,23 @@ namespace Server_World.Actors.HuntZone.Scheduler
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
+    using Server_World.Actors.HuntZone.District;
     using Server_World.Core.ActorProviders;
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
-    /// WorldZoneScheduler_SpawnEnemy.
+    /// HuntZoneScheduler_SpawnEnemy.
     /// </summary>
-    public sealed class WorldZoneScheduler_SpawnEnemy
+    public sealed class HuntZoneScheduler_SpawnEnemy
     {
-        private readonly ILogger<WorldZoneScheduler_SpawnEnemy> _logger;
+        private readonly ILogger<HuntZoneScheduler_SpawnEnemy> _logger;
 
         // Actor provider.
         private readonly WorldZoneActorProvider _huntZoneActorProvider;
+
+        // DistrictProcessor.
+        private readonly DistrictProcessor _districtProcessor;
 
         // Schduler.
         private readonly CompositeDisposable _subscriptions;
@@ -40,9 +44,9 @@ namespace Server_World.Actors.HuntZone.Scheduler
         // Enemy 고유 id.
         private ulong _enemyUid;
 
-        public WorldZoneScheduler_SpawnEnemy(IServiceProvider serviceProvider)
+        public HuntZoneScheduler_SpawnEnemy(IServiceProvider serviceProvider, DistrictProcessor districtProcessor)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<WorldZoneScheduler_SpawnEnemy>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_SpawnEnemy>>();
 
             _huntZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
 
@@ -73,7 +77,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     SpawnEnemy();
                 }));
 
-            _logger.LogInformation("start world enemy spawn.");
+            _logger.LogInformation("start huntzone enemy spawn.");
         }
 
         /// <summary>
@@ -88,7 +92,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
             _subscriptions.Clear();
 
-            _logger.LogInformation("stop world enemy spawn.");
+            _logger.LogInformation("stop huntzone enemy spawn.");
         }
 
         /// <summary>

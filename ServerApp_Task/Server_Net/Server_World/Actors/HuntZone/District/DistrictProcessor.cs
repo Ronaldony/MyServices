@@ -36,6 +36,9 @@ namespace Server_World.Actors.HuntZone.District
         // HuntZoneRouter.
         private readonly HuntZoneRouter _router;
 
+        // District.
+        private readonly District _district;
+
         // Channel - GameEvent.
         private readonly Channel<GameEvent> _gameEventChannel;
         private readonly ChannelWriter<GameEvent> _gameEventWriter;
@@ -44,7 +47,7 @@ namespace Server_World.Actors.HuntZone.District
         private readonly Channel<WorldMsg> _worldMsgChannel;
         private readonly ChannelWriter<WorldMsg> _worldMsgWriter;
 
-        public DistrictProcessor(IServiceProvider serviceProvider, HuntZoneRouter router, HashSet<SectionId> aroundSections, CancellationToken ct)
+        public DistrictProcessor(IServiceProvider serviceProvider, HuntZoneRouter router, HashSet<SectionId> aroundSections, District district, CancellationToken ct)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DistrictProcessor>>();
 
@@ -54,7 +57,15 @@ namespace Server_World.Actors.HuntZone.District
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
             _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
+            // Worlds.
             _worldServer = serviceProvider.GetRequiredService<WorldServer>();
+            _worldGroup = Initialize_WorldGroup(aroundSections);
+
+            // Router.
+            _router = router;
+
+            // District.
+            _district = district;
 
             // channels.
             _gameEventChannel = Channel.CreateUnbounded<GameEvent>();
@@ -62,10 +73,6 @@ namespace Server_World.Actors.HuntZone.District
 
             _worldMsgChannel = Channel.CreateUnbounded<WorldMsg>();
             _worldMsgWriter = _worldMsgChannel.Writer;
-
-            _worldGroup = Initialize_WorldGroup(aroundSections);
-
-            _router = router;
 
             // Process.
             Task.Run(() => ProcessAsync(ct));

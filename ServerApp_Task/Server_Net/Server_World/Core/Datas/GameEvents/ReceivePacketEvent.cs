@@ -4,11 +4,11 @@
     using Server_World.Core.Types;
 
     /// <summary>
-    /// NetPacketEvent.
+    /// ReceivePacketEvent.
     /// </summary>
-    public class NetPacketEvent : GameEvent
+    public class ReceivePacketEvent : GameEvent
     {
-        public NetPacketEvent()
+        public ReceivePacketEvent()
             : base(Type_GameEvent.ReceivePacket)
         {
 

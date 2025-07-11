@@ -1,7 +1,7 @@
 ﻿namespace Server_World.Core.Datas
 {
     /// <summary>
-    /// SectionGroup.
+    /// District.
     /// </summary>
-    public record struct SectionGroup(int group = -1);
+    public record struct District(int district = -1);
 }

@@ -1,0 +1,37 @@
+﻿
+namespace Server_World.Actors.HuntZone.District
+{
+    using GameCore;
+    using GameCore.NetPacket;
+    using Server_World.Core.Datas.GameEvents;
+
+    /// <summary>
+    /// DistrictProcessor.
+    /// </summary>
+    public partial class DistrictProcessor
+    {
+        /// <summary>
+        /// Process MoveSectionEvent.
+        /// </summary>
+        public void Proc_MoveSectionEvent(MoveSectionEvent moveSectionEvent)
+        {
+            // Rent.
+            var aroundFromSections = _router.GetAroundSections(moveSectionEvent.FromSection);
+            var updateSectionPacket = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
+
+            foreach (var section in _worldGroup.ManagedSections)
+            {
+                // 출처 섹션의 주변 섹션인지 확인.
+                if (aroundFromSections.Contains(section))
+                {
+                    // 유닛 추가.
+                    updateSectionPacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Select(d => d.Value.PlayInfo));
+                    updateSectionPacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Select(d => d.Value.Enemy));
+                }
+            }
+
+            // Send packet.
+            SendPacket(moveSectionEvent.GameSessions, NetPacketCode.SC_UpdateSection, updateSectionPacket);
+        }
+    }
+}

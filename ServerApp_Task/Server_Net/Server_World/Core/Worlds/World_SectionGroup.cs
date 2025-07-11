@@ -16,17 +16,17 @@ namespace Server_World.Core.Worlds
         public Dictionary<SectionId, HashSet<SectionId>> AroundSectionDict;
 
         /// <summary>
-        /// 주변 섹션 그룹.
+        /// 주변 구역.
         /// key: SectionId.
-        /// value: Around section group.
+        /// value: Around district.
         /// </summary>
-        public Dictionary<SectionId, HashSet<SectionGroup>> AroundSectionGroupDict;
+        public Dictionary<SectionId, HashSet<District>> AroundDistrictDict;
 
         /// <summary>
-        /// 섹션 그룹.
+        /// 구역.
         /// key: SectionId.
-        /// value: SectionGroup.
+        /// value: District.
         /// </summary>
-        public Dictionary<SectionId, SectionGroup> SectionGroupDict;
+        public Dictionary<SectionId, District> DistrictDict;
     }
 }

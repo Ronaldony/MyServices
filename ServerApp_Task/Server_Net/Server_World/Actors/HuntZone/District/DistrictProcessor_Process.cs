@@ -27,8 +27,8 @@ namespace Server_World.Actors.HuntZone.District
             // Process.
             if (Type_GameEvent.ReceivePacket == gameEvent.GameEventType)
             {
-                // PacketEvent.
-                var packetEvent = gameEvent as NetPacketEvent;
+                // Receive PacketEvent.
+                var packetEvent = gameEvent as ReceivePacketEvent;
 
                 switch (packetEvent.PacketCode)
                 {
@@ -54,16 +54,20 @@ namespace Server_World.Actors.HuntZone.District
                 // Other event.
                 switch (gameEvent.GameEventType)
                 {
-                    case Type_GameEvent.RouteAroundPacket:
-                        SendPacket_AroundFromEvent(gameEvent as AroundPacketEvent);
-                        break;
-                    case Type_GameEvent.Attack:
+                    case Type_GameEvent.BroadcastPacket:
+                        SendPacket_AroundFromEvent(gameEvent as BroadcastPacketEvent);
                         break;
                     case Type_GameEvent.MoveSection:
+                        Proc_MoveSectionEvent(gameEvent as MoveSectionEvent);
+                        break;
+                    case Type_GameEvent.MoveDistrict:
+                        Proc_MoveDistrictEvent(gameEvent as MoveDistrictEvent);
+                        break;
+                    case Type_GameEvent.Attack:
+                        Proc_AttackEvent(gameEvent as AttackEvent);
                         break;
                 }
             }
-
         }
 
         /// <summary>
@@ -72,8 +76,25 @@ namespace Server_World.Actors.HuntZone.District
         public void ProcessWorldMsg(WorldMsg worldMsg)
         {
             switch (worldMsg.MsgType)
-            { 
-
+            {
+                case Type_WorldMsg.SpawnPlayer:
+                    SpawnPlayer(worldMsg as WorldMsg_SpawnPlayer);
+                    break;
+                case Type_WorldMsg.OutPlayer:
+                    OutPlayer(worldMsg as WorldMsg_OutPlayer);
+                    break;
+                case Type_WorldMsg.SpawnEnemy:
+                    SpawnEnemy(worldMsg as WorldMsg_SpawnEnemy);
+                    break;
+                case Type_WorldMsg.UpdateFrame:
+                    UpdateFrame(worldMsg as WorldMsg_UpdateFrame);
+                    break;
+                case Type_WorldMsg.UpdateMovePattern:
+                    UpdateMovePattern(worldMsg as WorldMsg_UpdateMovePattern);
+                    break;
+                case Type_WorldMsg.UpdateDummy:
+                    UpdateDummy(worldMsg as WorldMsg_UpdateDummy);
+                    break;
             }
         }
     }

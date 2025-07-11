@@ -7,27 +7,27 @@ using System.Reactive.Linq;
 namespace Server_World.Actors.HuntZone.Scheduler
 {
     using Framework.Config.ConfigManager;
-    using Server_World.Core.ActorProviders;
+    using Server_World.Actors.HuntZone.District;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
-    /// WorldServerScheduler_SpawnEnemy.
+    /// HuntZoneScheduler_UpdateFrame.
     /// </summary>
-    public sealed class WorldZoneScheduler_UpdateFrame
+    public sealed class HuntZoneScheduler_UpdateFrame
     {
-        private readonly ILogger<WorldZoneScheduler_UpdateFrame> _logger;
+        private readonly ILogger<HuntZoneScheduler_UpdateFrame> _logger;
 
-        // Actor provider.
-        private readonly WorldZoneActorProvider _worldzoneActorProvider;
+        // DistrictProcessor.
+        private readonly DistrictProcessor _districtProcessor;
 
         // Schduler.
         private readonly CompositeDisposable _subscriptions;
 
-        public WorldZoneScheduler_UpdateFrame(IServiceProvider serviceProvider)
+        public HuntZoneScheduler_UpdateFrame(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<WorldZoneScheduler_UpdateFrame>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_UpdateFrame>>();
 
-            _worldzoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
+            _districtProcessor = serviceProvider.GetRequiredService<DistrictProcessor>();
 
             _subscriptions = new CompositeDisposable();
         }
@@ -44,7 +44,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     UpdateFrame();
                 }));
 
-            _logger.LogInformation("start world update frame.");
+            _logger.LogInformation("start huntzone update frame.");
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
             _subscriptions.Clear();
 
-            _logger.LogInformation("stop world update frame.");
+            _logger.LogInformation("stop huntzone update frame.");
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                     FrameDeltaTime = GameConfigManager._configGame.FrameRate / 1000f
                 };
 
-                _worldzoneActorProvider.Tell<WorldMsg>(updateFrameMsg);
+                _districtProcessor.WriteWorldMsg(updateFrameMsg);
             }
             catch (Exception ex)
             {

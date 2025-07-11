@@ -37,9 +37,6 @@ namespace Server_World.Actors.HuntZone.District
                 return;
             }
 
-            // 섹션 정보.
-            var section = worldPlayer.Section;
-
             // 충돌 박스.
             var collision = _collisionService.Rent(tbWeapon.CollisionType);
             var bounding = collision.GetBoudingBox(pos.X, pos.Y, packet.Angle);
@@ -59,15 +56,11 @@ namespace Server_World.Actors.HuntZone.District
             });
 
             // 공격 패킷 전송.
-            SendPacket_AroundSections(
-                ignoreSession: worldPlayer.GameSession,
-                section: section,
-                packetCode: NetPacketCode.SC_Attack,
-                packet: new NetPacketSC_Attack
-                {
-                    Pid = playerInfo.Pid,
-                    Angle = packet.Angle
-                });
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Attack, new NetPacketSC_Attack
+            {
+                Pid = playerInfo.Pid,
+                Angle = packet.Angle
+            });
 
             // 근처 섹션 enemy 충돌 검사.
             var hitEnemies = new List<DTO_Enemy>();
@@ -78,16 +71,12 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // 피격 패킷 전송.
-            SendPacket_AroundSections(
-                ignoreSession: worldPlayer.GameSession,
-                section: section,
-                packetCode: NetPacketCode.SC_HitEnemy,
-                packet: new NetPacketSC_HitEnemy
-                {
-                    Damage = tbWeapon.Damage,
-                    Position = pos,
-                    Enemies = hitEnemies
-                });
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_HitEnemy, new NetPacketSC_HitEnemy
+            {
+                Damage = tbWeapon.Damage,
+                Position = pos,
+                Enemies = hitEnemies
+            });
 
             // Release.
             _collisionService.Release(collision);
@@ -104,6 +93,8 @@ namespace Server_World.Actors.HuntZone.District
             {
                 return;
             }
+
+            var deathEnemies = new List<DTO_Enemy>();
 
             // Enemy 충돌 계산.
             foreach (var worldEnemy in enemies)
@@ -134,11 +125,18 @@ namespace Server_World.Actors.HuntZone.District
                     {
                         _logger.LogWarning($"Death enemy.");
 
-                        _worldGroup.EnemyDict.Remove(enemy.EnemeyUid);
-                        _worldGroup.SectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out _);
-                        _collisionService.Release(worldEnemy.CollisionBox);
+                        // Death enemy.
+                        deathEnemies.Add(enemy);
                     }
                 }
+            }
+
+            // 적 유닛 죽음 처리.
+            foreach (var enemy in deathEnemies)
+            {
+                _worldGroup.EnemyDict.Remove(enemy.EnemeyUid);
+                _worldGroup.SectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out var worldEnemy);
+                _collisionService.Release(worldEnemy.CollisionBox);
             }
         }
     }

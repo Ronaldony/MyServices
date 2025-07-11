@@ -4,22 +4,19 @@ namespace Server_World.Core.Datas.GameEvents
     using Server_World.Core.Types;
 
     /// <summary>
-    /// AroundPacketEvent.
+    /// BroadcastPacketEvent.
+    /// 이벤트 처리.
+    /// 1) 패킷 발생 섹션의 주변 섹션으로 패킷 전파.
     /// </summary>
-    public class AroundPacketEvent : GameEvent
+    public class BroadcastPacketEvent : GameEvent
     {
-        public AroundPacketEvent(SectionId section, int packetCode, byte[] packetBytes)
-            : base (Type_GameEvent.RouteAroundPacket)
+        public BroadcastPacketEvent(SectionId section, int packetCode, byte[] packetBytes)
+            : base (Type_GameEvent.BroadcastPacket)
         {
-            Section = section;
+            FromSection = section;
             PacketCode = packetCode;
             PacketBytes = packetBytes;
         }
-
-        /// <summary>
-        /// Section.
-        /// </summary>
-        public SectionId Section { get; set; }
 
         /// <summary>
         /// Packet code.

@@ -5,26 +5,27 @@ using System.Reactive.Linq;
 
 namespace Server_World.Actors.HuntZone.Scheduler
 {
-    using Server_World.Core.ActorProviders;
+    using Server_World.Actors.HuntZone.District;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
-    /// HuntZoneScheduler_Enemy.
+    /// HuntZoneScheduler_Dummy.
     /// </summary>
-    public sealed class WorldZoneScheduler_Dummy
+    public sealed class HuntZoneScheduler_Dummy
     {
-        private readonly ILogger<WorldZoneScheduler_Dummy> _logger;
+        private readonly ILogger<HuntZoneScheduler_Dummy> _logger;
 
-        // Actor provider.
-        private readonly WorldZoneActorProvider _worldZoneActorProvider;
+        // DistrictProcessor.
+        private DistrictProcessor _districtProcessor;
 
+        // Scheduler.
         private CompositeDisposable _subscriptions;
 
-        public WorldZoneScheduler_Dummy(IServiceProvider serviceProvider)
+        public HuntZoneScheduler_Dummy(IServiceProvider serviceProvider, DistrictProcessor districtProcessor)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<WorldZoneScheduler_Dummy>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_Dummy>>();
 
-            _worldZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
+            _districtProcessor = districtProcessor;
 
             _subscriptions = new CompositeDisposable();
         }
@@ -39,7 +40,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 Observable.Timer(TimeSpan.FromMilliseconds(33)) // 33ms
                 .Subscribe(repeat =>
                 {
-                    _worldZoneActorProvider.Tell<WorldMsg>(new WorldMsg_UpdateDummy());
+                    _districtProcessor.WriteWorldMsg(new WorldMsg_UpdateDummy());
                 }));
 
             _logger.LogInformation("start world dummy.");

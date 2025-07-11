@@ -1,9 +1,10 @@
 ﻿
+using System.Collections.Concurrent;
+
 namespace Server_World.Core.Worlds
 {
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds.Section;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// World_UpdateMove.
@@ -13,8 +14,7 @@ namespace Server_World.Core.Worlds
         public World_UpdateFrame()
         {
             MoveSectionUnit = new ConcurrentDictionary<SectionId, World_SectionUnit>();
-            MoveDistrictUnit = new ConcurrentDictionary<SectionId, World_SectionUnit>();
-            AttackSectionUnit = new Dictionary<SectionId, World_SectionUnit>();
+            MoveDistrictUnit = new ConcurrentDictionary<SectionId, World_DistrictUnit>();
         }
 
         /// <summary>
@@ -25,18 +25,12 @@ namespace Server_World.Core.Worlds
         /// <summary>
         /// Move section.
         /// </summary>
-        public ConcurrentDictionary<SectionId, World_SectionUnit> MoveDistrictUnit { get; set; }
-
-        /// <summary>
-        /// Move section.
-        /// </summary>
-        public Dictionary<SectionId, World_SectionUnit> AttackSectionUnit { get; set; }
+        public ConcurrentDictionary<SectionId, World_DistrictUnit> MoveDistrictUnit { get; set; }
 
         public void Dispose()
         {
             MoveSectionUnit.Clear();
             MoveDistrictUnit.Clear();
-            AttackSectionUnit.Clear();
         }
     }
 }

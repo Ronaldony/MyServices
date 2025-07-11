@@ -1,5 +1,4 @@
 ﻿using MemoryPack;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace GameCore.NetPacket

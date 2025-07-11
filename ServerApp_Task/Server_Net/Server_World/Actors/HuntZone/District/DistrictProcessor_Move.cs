@@ -36,15 +36,11 @@ namespace Server_World.Actors.HuntZone.District
             location.MoveDirection = packet.MoveDirection;
 
             // 패킷 전송 - 이동 시작.
-            SendPacket_AroundSections(
-                worldPlayer.GameSession,
-                worldPlayer.Section, 
-                NetPacketCode.SC_MoveStart, 
-                new NetPacketSC_MoveStart
-                {
-                    Pid = playInfo.Pid,
-                    MoveDirection = packet.MoveDirection
-                });
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_MoveStart, new NetPacketSC_MoveStart
+            {
+                Pid = playInfo.Pid,
+                MoveDirection = packet.MoveDirection
+            });
 
             // Log.
             //_logger.LogDebug($"MoveStart - pid: {playInfo.Pid}, pos: {location.Position}, move: {packet.MoveDirection}, time: {packet.PacketTime.ToString("hh:mm:ss.fff")}");
@@ -70,14 +66,11 @@ namespace Server_World.Actors.HuntZone.District
             if (TimeUtil.IsPastTime(packet.PacketTime, playInfo.UpdateTime))
             {
                 // 패킷 전송 - 이동 수정.
-                SendPacket_AroundSections(
-                    section: section,
-                    packetCode: NetPacketCode.SC_MoveFixed,
-                    packet: new NetPacketSC_MoveFixed
-                    {
-                        Pid = playInfo.Pid,
-                        FixedPos = location.Position
-                    });
+                SendPacket_AroundSections(section, NetPacketCode.SC_MoveFixed, new NetPacketSC_MoveFixed
+                {
+                    Pid = playInfo.Pid,
+                    FixedPos = location.Position
+                });
 
                 _logger.LogError($"Packe time error. packet: {packet.PacketTime.ToString("hh:mm:ss.fff")}, update time: {playInfo.UpdateTime.ToString("hh:mm:ss.fff")}");
                 return;
@@ -89,14 +82,11 @@ namespace Server_World.Actors.HuntZone.District
             if (false == IsValidPosition(location.MoveDirection, deltaTime, playInfo.Stat.Velocity, location.Position, packet.EndPos))
             {
                 // 패킷 전송 - 이동 수정.
-                SendPacket_AroundSections(
-                    section: section,
-                    packetCode: NetPacketCode.SC_MoveFixed,
-                    packet: new NetPacketSC_MoveFixed
-                    {
-                        Pid = playInfo.Pid,
-                        FixedPos = location.Position
-                    });
+                SendPacket_AroundSections(section, NetPacketCode.SC_MoveFixed, new NetPacketSC_MoveFixed
+                {
+                    Pid = playInfo.Pid,
+                    FixedPos = location.Position
+                });
 
                 _logger.LogError($"Move end position error. ");
                 _logger.LogError($"ori: {location.Position}, dst: {packet.EndPos}, dir: {location.MoveDirection}");
@@ -109,15 +99,11 @@ namespace Server_World.Actors.HuntZone.District
             location.PositionEnd = packet.EndPos;
 
             // 패킷 전송 - 이동 정지.
-            SendPacket_AroundSections(
-                ignoreSession: worldPlayer.GameSession,
-                section: section,
-                packetCode: NetPacketCode.SC_MoveEnd,
-                packet: new NetPacketSC_MoveEnd
-                {
-                    Pid = playInfo.Pid,
-                    EndPos = packet.EndPos
-                });
+            SendPacket_AroundSections(worldPlayer.GameSession, section, NetPacketCode.SC_MoveEnd, new NetPacketSC_MoveEnd
+            {
+                Pid = playInfo.Pid,
+                EndPos = packet.EndPos
+            });
         }
 
         /// <summary>
