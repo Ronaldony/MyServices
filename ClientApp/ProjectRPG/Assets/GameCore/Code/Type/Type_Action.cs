@@ -25,6 +25,6 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Track = 5
+        Dash = 5
     }
 }

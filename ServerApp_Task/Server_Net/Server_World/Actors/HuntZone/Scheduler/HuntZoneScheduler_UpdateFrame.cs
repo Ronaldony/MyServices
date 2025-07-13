@@ -23,11 +23,11 @@ namespace Server_World.Actors.HuntZone.Scheduler
         // Schduler.
         private readonly CompositeDisposable _subscriptions;
 
-        public HuntZoneScheduler_UpdateFrame(IServiceProvider serviceProvider)
+        public HuntZoneScheduler_UpdateFrame(IServiceProvider serviceProvider, DistrictProcessor districtProcessor)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_UpdateFrame>>();
 
-            _districtProcessor = serviceProvider.GetRequiredService<DistrictProcessor>();
+            _districtProcessor = districtProcessor;
 
             _subscriptions = new CompositeDisposable();
         }
@@ -38,7 +38,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
         public void Start()
         {
             _subscriptions.Add(
-                Observable.Timer(TimeSpan.FromSeconds(GameConfigManager._configGame.FrameRate / 1000f))
+                Observable.Interval(TimeSpan.FromSeconds(GameConfigManager.ConfigGame.FrameRate / 1000f))
                 .Subscribe(count =>
                 {
                     UpdateFrame();
@@ -72,7 +72,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
                 // UpdateFrame 메시지 생성.
                 var updateFrameMsg = new WorldMsg_UpdateFrame
                 {
-                    FrameDeltaTime = GameConfigManager._configGame.FrameRate / 1000f
+                    FrameDeltaTime = GameConfigManager.ConfigGame.FrameRate / 1000f
                 };
 
                 _districtProcessor.WriteWorldMsg(updateFrameMsg);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Actors.HuntZone.Router
@@ -45,7 +46,7 @@ namespace Server_World.Actors.HuntZone.Router
         /// key: pid.
         /// value: Section group.
         /// </summary>
-        private readonly Dictionary<string, SectionId> _playerSectionDict;
+        private readonly ConcurrentDictionary<string, District> _playerDistrictDict;
 
         public HuntZoneRouter(IServiceProvider serviceProvider, CancellationToken ct)
         {
@@ -60,7 +61,7 @@ namespace Server_World.Actors.HuntZone.Router
             (_worldSectionGroup, _districtProcessors) = Initialize_WorldSectionGroup(serviceProvider, confArea, ct);
 
             // Player.
-            _playerSectionDict = new Dictionary<string, SectionId>();
+            _playerDistrictDict = new ConcurrentDictionary<string, District>();
 
             // Pipeline.
             _gameEventPipeline = Initialize_GameEventPipeline(ct);

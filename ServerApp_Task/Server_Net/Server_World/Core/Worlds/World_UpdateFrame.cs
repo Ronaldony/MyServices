@@ -19,13 +19,23 @@ namespace Server_World.Core.Worlds
 
         /// <summary>
         /// Move section.
+        /// key: moved section.
+        /// value: SectionUnit.
         /// </summary>
         public ConcurrentDictionary<SectionId, World_SectionUnit> MoveSectionUnit { get; set; }
 
         /// <summary>
         /// Move section.
+        /// key: moved section.
+        /// value: SectionUnit.
         /// </summary>
         public ConcurrentDictionary<SectionId, World_DistrictUnit> MoveDistrictUnit { get; set; }
+
+        /// <summary>
+        /// Attack enemis.
+        /// value: SectionUnit.
+        /// </summary>
+        public ConcurrentDictionary<SectionId, World_SectionUnit> AttackSectionUnit { get; set; }
 
         public void Dispose()
         {

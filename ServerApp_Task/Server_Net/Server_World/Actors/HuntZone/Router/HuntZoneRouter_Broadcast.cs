@@ -22,12 +22,12 @@ namespace Server_World.Actors.HuntZone.Router
                 },
                 action: packetEvent =>
                 {
-                    var groups = _worldSectionGroup.AroundDistrictDict[packetEvent.FromSection];
+                    var aroundDistrict = GetAroundDistrict(packetEvent.RouteSection);
 
                     // 주변 구역에 전파.
-                    foreach (var group in groups)
+                    foreach (var district in aroundDistrict)
                     {
-                        _districtProcessors[group].WriteGameEvent(packetEvent);
+                        _districtProcessors[district].WriteGameEvent(packetEvent);
                     }
                 });
 

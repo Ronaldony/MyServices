@@ -33,7 +33,7 @@ namespace Server_World.Actors.HuntZone.District
             // 데미지 검증.
             if (tbWeapon.Damage != packet.Damage)
             {
-                _logger.LogError($"not exist player. pid: {playerInfo.Pid}");
+                _logger.LogError($"not exist player. pid: {worldPlayer.Pid}");
                 return;
             }
 
@@ -58,7 +58,7 @@ namespace Server_World.Actors.HuntZone.District
             // 공격 패킷 전송.
             SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Attack, new NetPacketSC_Attack
             {
-                Pid = playerInfo.Pid,
+                Pid = worldPlayer.Pid,
                 Angle = packet.Angle
             });
 

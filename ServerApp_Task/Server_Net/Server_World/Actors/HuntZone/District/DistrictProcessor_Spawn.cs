@@ -19,46 +19,38 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void SpawnPlayer(WorldMsg_SpawnPlayer worldMsg)
         {
+            _logger.LogDebug($"Spawn plaeyr in processor");
+
             var wp = worldMsg.WorldPlayer;
             var session = wp.GameSession;
 
             // 세션 정보 가져오기.
-            var section = SectionId.GetSection(wp.PlayInfo.Location.Position);
+            var section = wp.Section;
 
-            // 섹션에 플레이어 저장.
-            if (false == AddPlayer(wp.PlayInfo.Pid, wp, section))
+            if (false == IsManagedSection(wp.Section))
             {
+                _logger.LogError($"not managed section. section: {wp.Section}");
                 return;
             }
 
-            if (false == IsManagedSection(section))
-            {
-                _logger.LogError($"not managed section. section: {section}");
-                return;
-            }
-
-            // Section 갱신.
-            wp.Section = section;
+            // Add player into district.
+            AddPlayerIntoDistrict(wp);
 
             // 인근 섹션 플레이어, 적 정보 전달.
             var netPacket = _memoryPoolService.Rent<NetPacketSC_SpawnPlayer>();
 
             foreach (var targetSection in _worldGroup.ManagedSections)
             {
-                // Player.
-                var players = _worldGroup.SectionPlayerDict[section].Values;
-
-                foreach (var player in players)
+                // Players.
+                foreach (var player in _worldGroup.SectionPlayerDict[section].Values)
                 {
                     netPacket.PlayInfos.Add(player.PlayInfo);
                 }
 
                 // Enemies.
-                var enemies = _worldGroup.SectionEnemyDict[section].Values;
-
-                foreach (var enemy in enemies)
+                foreach (var we in _worldGroup.SectionEnemyDict[section].Values)
                 {
-                    netPacket.Enemies.Add(enemy.Enemy);
+                    netPacket.Enemies.Add(we.Enemy);
                 }
             }
 
@@ -101,17 +93,19 @@ namespace Server_World.Actors.HuntZone.District
 
                 foreach (var enemy in msg.Enemies[section])
                 {
-                    var worldEnemy = new World_Enemy
+                    var we = new World_Enemy
                     {
                         Enemy = enemy,
+                        EnemyUid = enemy.EnemeyUid,
+                        Section = SectionId.GetSection(enemy.Location.Pos),
                         CollisionBox = _collisionService.Rent(Type_Collision.Enemy)
                     };
 
                     // Add enemy.
-                    _worldGroup.EnemyDict.Add(enemy.EnemeyUid, worldEnemy);
+                    _worldGroup.EnemyDict.Add(enemy.EnemeyUid, we);
 
                     // Add enemy into section.
-                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, worldEnemy, (_, _) => worldEnemy);
+                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, we, (_, _) => we);
                 }
 
                 if (false == spawnEnemyDict.ContainsKey(section))
@@ -140,23 +134,13 @@ namespace Server_World.Actors.HuntZone.District
         }
 
         /// <summary>
-        /// Add player to section.
+        /// Add player into district.
         /// </summary>
-        private bool AddPlayer(string pid, World_Player player, SectionId section)
+        private void AddPlayerIntoDistrict(World_Player wp)
         {
-            // 플레이어 추가 - 섹션
-            if (false == _worldGroup.SectionPlayerDict[section].TryAdd(pid, player))
-            {
-                return false;
-            }
-
-            // 플레이어 추가.
-            if (false == _worldGroup.PlayerDict.TryAdd(pid, player))
-            {
-                return false;
-            }
-
-            return true;
+            // 구역에 플레이어 추가.
+            _worldGroup.SectionPlayerDict[wp.Section].AddOrUpdate(wp.Pid, wp, (_, _) => wp);
+            _worldGroup.PlayerDict.Add(wp.Pid, wp);
         }
     }
 }

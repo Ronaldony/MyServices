@@ -17,16 +17,16 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         public void ProcessGameEvent(GameEvent gameEvent)
         {
-            // World player.
-            var worldPlayer = _worldGroup.PlayerDict.GetValueOrDefault(gameEvent.Pid);
-            if (default == worldPlayer)
-            {
-                return;
-            }
-
             // Process.
             if (Type_GameEvent.ReceivePacket == gameEvent.GameEventType)
             {
+                // World player.
+                var worldPlayer = _worldGroup.PlayerDict.GetValueOrDefault(gameEvent.Pid);
+                if (default == worldPlayer)
+                {
+                    return;
+                }
+
                 // Receive PacketEvent.
                 var packetEvent = gameEvent as ReceivePacketEvent;
 
@@ -85,9 +85,6 @@ namespace Server_World.Actors.HuntZone.District
                     break;
                 case Type_WorldMsg.SpawnEnemy:
                     SpawnEnemy(worldMsg as WorldMsg_SpawnEnemy);
-                    break;
-                case Type_WorldMsg.UpdateFrame:
-                    UpdateFrame(worldMsg as WorldMsg_UpdateFrame);
                     break;
                 case Type_WorldMsg.UpdateMovePattern:
                     UpdateMovePattern(worldMsg as WorldMsg_UpdateMovePattern);

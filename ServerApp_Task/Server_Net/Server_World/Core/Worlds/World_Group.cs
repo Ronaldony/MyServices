@@ -10,13 +10,6 @@ namespace Server_World.Core.Worlds
     public class World_Group
     {
         /// <summary>
-        /// 근처 섹션 정보.
-        /// key: Section.
-        /// value: Around sections.
-        /// </summary>
-        public Dictionary<SectionId, HashSet<SectionId>> AroundSectionDict { get; set; }
-
-        /// <summary>
         /// 관리 섹션.
         /// </summary>
         public HashSet<SectionId> ManagedSections { get; set; }

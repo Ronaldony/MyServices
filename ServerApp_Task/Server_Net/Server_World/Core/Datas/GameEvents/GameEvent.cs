@@ -18,9 +18,9 @@
         public string Pid { get; set; }
 
         /// <summary>
-        /// 출처 섹션.
+        /// 전파 섹션.
         /// </summary>
-        public SectionId FromSection { get; set; }
+        public SectionId RouteSection { get; set; }
 
         /// <summary>
         /// Game event.

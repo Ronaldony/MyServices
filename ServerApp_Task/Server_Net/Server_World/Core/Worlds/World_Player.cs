@@ -21,9 +21,19 @@
         public DTO_PlayInfo PlayInfo { get; set; }
 
         /// <summary>
+        /// Pid.
+        /// </summary>
+        public string Pid { get; set; }
+
+        /// <summary>
         /// Section.
         /// </summary>
         public SectionId Section { get; set; }
+
+        /// <summary>
+        /// OldSection.
+        /// </summary>
+        public SectionId OldSection { get; set; }
 
         /// <summary>
         /// Collision box.

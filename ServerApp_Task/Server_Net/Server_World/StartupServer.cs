@@ -18,7 +18,7 @@ namespace Server_World
     using GameCore.Interfaces;
     using Server_World.Core.Services;
     using Server_World.Core.Utilities;
-    using Server_World.Server.World;
+    using Server_World.Server.HuntZone;
 
     internal class StartupServer
     {
@@ -106,7 +106,7 @@ namespace Server_World
         private void BootstrapServer()
         {
             // Start server.
-            var worldServer = _serviceProvider.GetRequiredService<WorldServer>();
+            var worldServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
             worldServer.Start(_arguments.Port, false);
         }
     }

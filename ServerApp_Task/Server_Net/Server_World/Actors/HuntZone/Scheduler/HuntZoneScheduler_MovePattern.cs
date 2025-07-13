@@ -24,11 +24,11 @@ namespace Server_World.Actors.HuntZone.Scheduler
         // Scheduler.
         private readonly CompositeDisposable _subscriptions;
 
-        public HuntZoneScheduler_MovePattern(IServiceProvider serviceProvider)
+        public HuntZoneScheduler_MovePattern(IServiceProvider serviceProvider, DistrictProcessor districtProcessor)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_MovePattern>>();
 
-            _districtProcessor = serviceProvider.GetRequiredService<DistrictProcessor>();
+            _districtProcessor = districtProcessor;
 
             _subscriptions = new CompositeDisposable();
         }
@@ -39,21 +39,21 @@ namespace Server_World.Actors.HuntZone.Scheduler
         public void Start()
         {
             // Pattern 1.
-            _subscriptions.Add(Observable.Timer(TimeSpan.FromSeconds(3))
+            _subscriptions.Add(Observable.Interval(TimeSpan.FromSeconds(3))
                 .Subscribe(repeat =>
                 {
                     UpdateMovePattern(Type_MovePattern.Pattern1);
                 }));
 
             // Pattern 2.
-            _subscriptions.Add(Observable.Timer(TimeSpan.FromSeconds(4))
+            _subscriptions.Add(Observable.Interval(TimeSpan.FromSeconds(4))
                 .Subscribe(repeat =>
                 {
                     UpdateMovePattern(Type_MovePattern.Pattern2);
                 }));
 
             // Pattern 3.
-            _subscriptions.Add(Observable.Timer(TimeSpan.FromSeconds(5))
+            _subscriptions.Add(Observable.Interval(TimeSpan.FromSeconds(5))
                 .Subscribe(repeat =>
                 {
                     UpdateMovePattern(Type_MovePattern.Pattern3);

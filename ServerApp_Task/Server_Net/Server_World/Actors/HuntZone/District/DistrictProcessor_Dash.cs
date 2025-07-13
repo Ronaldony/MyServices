@@ -5,7 +5,6 @@ namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.NetPacket;
-    using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -18,25 +17,33 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void Dash(World_Player worldPlayer, NetPacketCS_Dash packet)
         {
+            // 섹션 검증.
+            if (false == IsValidSection(packet.Position))
+            {
+                _logger.LogError($"invalid dash. pos: {packet.Position}");
+                return;
+            }
+
             var playInfo = worldPlayer.PlayInfo;
             var location = playInfo.Location;
 
             // 대시 결과 유효성 검사.
             if (false == IsValidDash(location.MoveDirection, worldPlayer.PlayInfo.Stat.Velocity, location.Position, packet.Position))
             {
-                _logger.LogError($"Dash - recv: {packet.Position}");
+                _logger.LogError($"dash - recv: {packet.Position}");
                 return;
             }
 
             // 주변 섹션에 대시 전송.
             SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Dash, new NetPacketSC_Dash
             {
-                Pid = playInfo.Pid,
+                Pid = worldPlayer.Pid,
                 DashDirection = location.MoveDirection
             });
 
             // 위치 갱신.
             location.PositionEnd = packet.Position;
+            //location.Position = packet.Position;
             playInfo.Action = Type_Action.Dash;
         }
 

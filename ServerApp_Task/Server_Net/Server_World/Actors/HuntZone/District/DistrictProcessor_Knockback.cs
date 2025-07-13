@@ -18,6 +18,13 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void KnockBack(World_Player worldPlayer, NetPacketCS_KnockBack packet)
         {
+            // 섹션 검증.
+            if (false == IsValidSection(packet.Position))
+            {
+                _logger.LogError($"invalid section. pos: {packet.Position}");
+                return;
+            }
+
             var playInfo = worldPlayer.PlayInfo;
             var position = playInfo.Location.Position;
 
@@ -37,7 +44,7 @@ namespace Server_World.Actors.HuntZone.District
                 // 패킷 전송 - 이동 수정.
                 SendPacket_AroundSections(worldPlayer.Section, NetPacketCode.SC_MoveFixed, new NetPacketSC_MoveFixed
                 {
-                    Pid = playInfo.Pid,
+                    Pid = worldPlayer.Pid,
                     FixedPos = position
                 });
 
@@ -47,6 +54,7 @@ namespace Server_World.Actors.HuntZone.District
 
             // 위치 갱신.
             playInfo.Location.PositionEnd = packet.Position;
+            //playInfo.Location.Position = packet.Position;
             playInfo.Action = Type_Action.Knockback;
         }
     }

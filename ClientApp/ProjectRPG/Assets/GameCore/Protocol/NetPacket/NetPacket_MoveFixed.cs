@@ -6,12 +6,12 @@ using System;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_MoveEnd from client to server.
+    /// NetPacketSC_MoveFixed.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_MoveFixed
-	{
+    public partial class NetPacketSC_MoveFixed : NetPacketBase_SC
+    {
         /// <summary>
         /// Pid.
         /// </summary>

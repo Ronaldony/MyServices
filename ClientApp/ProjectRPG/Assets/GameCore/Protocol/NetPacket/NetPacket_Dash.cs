@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_Dash from client to server.
+    /// NetPacketCS_Dash.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class NetPacketCS_Dash : NetPacketBase_CS
@@ -19,10 +19,10 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_Dash from server to client.
+    /// NetPacketSC_Dash.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_Dash
+    public partial class NetPacketSC_Dash : NetPacketBase_SC
     {
         /// <summary>
         /// 대시 플레이어.

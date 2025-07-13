@@ -1,0 +1,17 @@
+[
+  {
+    "Id": 1,
+    "Name": "None",
+    "Summary": ""
+  },
+  {
+    "Id": 2,
+    "Name": "Move",
+    "Summary": ""
+  },
+  {
+    "Id": 3,
+    "Name": "Track",
+    "Summary": ""
+  }
+]

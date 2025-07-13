@@ -1,19 +1,21 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
+using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Threading.Channels;
+using System.Numerics;
 
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone.Router;
+    using Server_World.Actors.HuntZone.Scheduler;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Services;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
-    using Server_World.Server.World;
+    using Server_World.Server.HuntZone;
 
     /// <summary>
     /// DistrictProcessor.
@@ -28,7 +30,7 @@ namespace Server_World.Actors.HuntZone.District
         private readonly CollisionService _collisionService;
 
         // Server.
-        private readonly WorldServer _worldServer;
+        private readonly HuntZoneServer _huntZoneServer;
 
         // WorldGroup.
         private readonly World_Group _worldGroup;
@@ -39,14 +41,13 @@ namespace Server_World.Actors.HuntZone.District
         // District.
         private readonly District _district;
 
-        // Channel - GameEvent.
-        private readonly Channel<GameEvent> _gameEventChannel;
-        private readonly ChannelWriter<GameEvent> _gameEventWriter;
+        // Queue.
+        private readonly ConcurrentQueue<GameEvent> _gameEventQueue;
+        private readonly ConcurrentQueue<WorldMsg> _worldMsgQueue;
 
-        // Channel - WorldMsg.
-        private readonly Channel<WorldMsg> _worldMsgChannel;
-        private readonly ChannelWriter<WorldMsg> _worldMsgWriter;
-
+        // Scheduler.
+        private readonly HuntZoneScheduler_MovePattern _schedulerMovePattern;
+        
         public DistrictProcessor(IServiceProvider serviceProvider, HuntZoneRouter router, HashSet<SectionId> aroundSections, District district, CancellationToken ct)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DistrictProcessor>>();
@@ -58,7 +59,7 @@ namespace Server_World.Actors.HuntZone.District
             _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
             // Worlds.
-            _worldServer = serviceProvider.GetRequiredService<WorldServer>();
+            _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
             _worldGroup = Initialize_WorldGroup(aroundSections);
 
             // Router.
@@ -67,12 +68,12 @@ namespace Server_World.Actors.HuntZone.District
             // District.
             _district = district;
 
-            // channels.
-            _gameEventChannel = Channel.CreateUnbounded<GameEvent>();
-            _gameEventWriter = _gameEventChannel.Writer;
+            // queue.
+            _gameEventQueue = new ConcurrentQueue<GameEvent>();
+            _worldMsgQueue = new ConcurrentQueue<WorldMsg>();
 
-            _worldMsgChannel = Channel.CreateUnbounded<WorldMsg>();
-            _worldMsgWriter = _worldMsgChannel.Writer;
+            _schedulerMovePattern = new HuntZoneScheduler_MovePattern(serviceProvider, this);
+            _schedulerMovePattern.Start();
 
             // Process.
             Task.Run(() => ProcessAsync(ct));
@@ -81,17 +82,17 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// Write game event.
         /// </summary>
-        public bool WriteGameEvent(GameEvent ge)
+        public void WriteGameEvent(GameEvent ge)
         {
-            return _gameEventWriter.TryWrite(ge);
+            _gameEventQueue.Enqueue(ge);
         }
 
         /// <summary>
         /// Write world msg.
         /// </summary>
-        public bool WriteWorldMsg(WorldMsg wm)
+        public void WriteWorldMsg(WorldMsg wm)
         {
-            return _worldMsgWriter.TryWrite(wm);
+            _worldMsgQueue.Enqueue(wm);
         }
         
         /// <summary>
@@ -104,15 +105,24 @@ namespace Server_World.Actors.HuntZone.District
         }
 
         /// <summary>
+        /// Vaildate position..
+        /// </summary>
+        public bool IsValidSection(Vector2 position)
+        {
+            return _router.IsValidSection(SectionId.GetSection(position));
+        }
+
+        /// <summary>
         /// Process async.
         /// </summary>
         private async Task ProcessAsync(CancellationToken ct)
         {
-            // reader.
-            var gameEventReader = _gameEventChannel.Reader;
-            var worldMsgReader = _worldMsgChannel.Reader;
+            _logger.LogInformation($"start DistrictProcessor. district: {_district}.");
 
-            int processUpdateTime = 15;
+            ct.Register(() => _logger.LogError($"shutdown DistrictProcessor. district: {_district}."));
+
+            long processUpdateTime = 30; // 30 FPS
+            float frameDeltaSeconds = (float)processUpdateTime / 1000; // 0.03 sec
             var sw = new Stopwatch();
 
             while (!ct.IsCancellationRequested)
@@ -121,28 +131,32 @@ namespace Server_World.Actors.HuntZone.District
                 sw.Restart();
 
                 // Process GameEvent.
-                await foreach (var gameEvent in gameEventReader.ReadAllAsync())
+                while (_gameEventQueue.TryDequeue(out var gameEvent))
                 {
                     // from other GameProcessor.
                     ProcessGameEvent(gameEvent);
                 }
 
                 // Process WorldMsg.
-                await foreach (var worldMsg in worldMsgReader.ReadAllAsync())
+                while (_worldMsgQueue.TryDequeue(out var worldMsg))
                 {
+                    // from other GameProcessor.
                     ProcessWorldMsg(worldMsg);
                 }
+
+                // Update frame.
+                UpdateFrame(frameDeltaSeconds);
 
                 // Stop measure.
                 sw.Stop();
 
-                var delayTime = processUpdateTime - (int)sw.ElapsedMilliseconds;
+                var delayTime = processUpdateTime - sw.ElapsedMilliseconds;
                 if (delayTime < 0)
                 {
                     delayTime = 0;
                 }
 
-                await Task.Delay(delayTime);
+                await Task.Delay((int)delayTime);
             }
         }
     }

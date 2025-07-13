@@ -15,7 +15,7 @@ namespace Server_World
     using GameCore.Interfaces;
     using Server_World.Core.ActorProviders;
     using Server_World.Core.Services;
-    using Server_World.Server.World;
+    using Server_World.Server.HuntZone;
 
     /// <summary>
     /// Startup.
@@ -42,7 +42,7 @@ namespace Server_World
 
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
-            appBuilder.Services.AddSingleton<WorldZoneActorProvider>();
+            appBuilder.Services.AddSingleton<HuntZoneActorProvider>();
 
             appBuilder.Services.AddSingleton<DBInventoryInfo>();
             appBuilder.Services.AddSingleton<DBPlayerInfo>();
@@ -54,7 +54,7 @@ namespace Server_World
             appBuilder.Services.AddSingleton<DBPlayerData>();
 
             // servers.
-            appBuilder.Services.AddSingleton<WorldServer>();
+            appBuilder.Services.AddSingleton<HuntZoneServer>();
 
             // Transient.
             appBuilder.Services.AddTransient<SessionInfoObject>();

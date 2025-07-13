@@ -1,18 +1,13 @@
 ﻿using Akka.Actor;
 using Microsoft.Extensions.Logging;
-using ServerEngine.Core.Services.Interfaces;
-using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone
 {
-    using GameCore.Interfaces;
     using Server_World.Actors.HuntZone.Router;
+    using Server_World.Actors.HuntZone.Scheduler;
     using Server_World.Core.Datas.GameEvents;
-    using Server_World.Core.Services;
     using Server_World.Core.Utilities;
-    using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
-    using Server_World.Server.World;
 
     /// <summary>
     /// HuntZoneActor.
@@ -21,20 +16,18 @@ namespace Server_World.Actors.HuntZone
     {
         private readonly ILogger<HuntZoneActor> _logger;
 
-        // World group.
-        private readonly World_Group _worldGroup;
-
         // Cancel token.
         private readonly CancellationTokenSource _cts;
+
+        // Router.
+        private readonly HuntZoneRouter _huntZoneRouter;
+
+        private readonly HuntZoneScheduler_SpawnEnemy _schdulerSpawnEnemy;
 
         /// <summary>
         /// 필드 적 수.
         /// </summary>
         private int _enemyCount;
-
-        /////////////////////////////////////////////////////
-        /// Parallel.
-        private readonly HuntZoneRouter _huntZoneRouter;
 
         public HuntZoneActor()
         {
@@ -44,6 +37,10 @@ namespace Server_World.Actors.HuntZone
 
             // Router.
             _huntZoneRouter = new HuntZoneRouter(ServiceUtility.GetServiceProvider(), _cts.Token);
+
+            // schedulers.
+            _schdulerSpawnEnemy = new HuntZoneScheduler_SpawnEnemy(ServiceUtility.GetServiceProvider());
+            _schdulerSpawnEnemy.Start();
 
             // initialize actor receive.
             Initialize_ActorReceive();
@@ -65,18 +62,18 @@ namespace Server_World.Actors.HuntZone
             // GameEvent.
             Receive<GameEvent>(gameEvent =>
             {
-                if (_huntZoneRouter.RouteGameEvent(gameEvent))
+                if (false == _huntZoneRouter.RouteGameEvent(gameEvent))
                 {
-                    _logger.LogError($"failed to post game event. type: {gameEvent.GameEventType}");
+                    _logger.LogError($"route game event error. type: {gameEvent.GameEventType}");
                 }
             });
 
             // GameEvent.
             Receive<WorldMsg>(worldMsg =>
             {
-                if (_huntZoneRouter.RouteWorldMsg(worldMsg))
+                if (false == _huntZoneRouter.RouteWorldMsg(worldMsg))
                 {
-                    _logger.LogError($"failed to post game event. type: {worldMsg.MsgType}");
+                    _logger.LogError($"route world message error. type: {worldMsg.MsgType}");
                 }
             });
         }

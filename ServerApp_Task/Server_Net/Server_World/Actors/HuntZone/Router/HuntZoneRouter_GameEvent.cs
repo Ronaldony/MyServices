@@ -3,7 +3,6 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Actors.HuntZone.Router
 {
-    using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Types;
 
@@ -27,22 +26,29 @@ namespace Server_World.Actors.HuntZone.Router
                         case Type_GameEvent.ReceivePacket:
                             {
                                 // 위치한 섹션에 전파.
-                                if (false == _playerSectionDict.TryGetValue(ge.Pid, out var section))
+                                if (false == _playerDistrictDict.TryGetValue(ge.Pid, out var district))
                                 {
                                     _logger.LogError($"not exist player. pid: {ge.Pid}");
                                     return;
                                 }
 
                                 // Write game event.
-                                _districtProcessors[GetDistrict(section)].WriteGameEvent(ge);
+                                _districtProcessors[district].WriteGameEvent(ge);
                             }
                             break;
                         case Type_GameEvent.MoveDistrict:
                             {
                                 var moveDistrictEvent = ge as MoveDistrictEvent;
+                                var moveDistrict = GetDistrict(moveDistrictEvent.RouteSection);
+                                
+                                // 플레이어 구역 갱신.
+                                foreach (var wp in moveDistrictEvent.WorldPlayers)
+                                {
+                                    _playerDistrictDict.AddOrUpdate(wp.Pid, moveDistrict, (_, _) => moveDistrict);
+                                }
 
                                 // Write game event.
-                                var districts = GetAroundDistrict(moveDistrictEvent.FromSection);
+                                var districts = GetAroundDistrict(moveDistrictEvent.RouteSection);
 
                                 foreach (var district in districts)
                                 {
@@ -54,13 +60,13 @@ namespace Server_World.Actors.HuntZone.Router
                                 }
 
                                 // 처리 구역에 이벤트 전송.
-                                _districtProcessors[GetDistrict(moveDistrictEvent.FromSection)].WriteGameEvent(ge);
+                                _districtProcessors[GetDistrict(moveDistrictEvent.RouteSection)].WriteGameEvent(ge);
                             }
                             break;
                         default:
                             {
                                 // 주변 구역에 전파.
-                                var aroundDistricts = GetAroundDistrict(ge.FromSection);
+                                var aroundDistricts = GetAroundDistrict(ge.RouteSection);
 
                                 foreach (var sectionGroup in aroundDistricts)
                                 {

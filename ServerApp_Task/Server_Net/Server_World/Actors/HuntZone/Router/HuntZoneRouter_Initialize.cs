@@ -133,7 +133,7 @@
                 DistrictDict = districtDict,
             };
 
-            return (_worldSectionGroup, gameProcessorDict);
+            return (wroldSectionGroup, gameProcessorDict);
         }
 
         /// <summary>

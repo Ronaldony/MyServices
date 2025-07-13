@@ -13,7 +13,7 @@ namespace Server_World.Core.Datas.GameEvents
         public BroadcastPacketEvent(SectionId section, int packetCode, byte[] packetBytes)
             : base (Type_GameEvent.BroadcastPacket)
         {
-            FromSection = section;
+            RouteSection = section;
             PacketCode = packetCode;
             PacketBytes = packetBytes;
         }

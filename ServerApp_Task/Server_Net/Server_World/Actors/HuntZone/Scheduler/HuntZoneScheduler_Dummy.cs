@@ -37,7 +37,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
         {
             // 더미 스케줄링.
             _subscriptions.Add(
-                Observable.Timer(TimeSpan.FromMilliseconds(33)) // 33ms
+                Observable.Interval(TimeSpan.FromMilliseconds(33)) // 33ms
                 .Subscribe(repeat =>
                 {
                     _districtProcessor.WriteWorldMsg(new WorldMsg_UpdateDummy());

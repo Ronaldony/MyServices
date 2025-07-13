@@ -31,7 +31,7 @@ namespace Server_World.Actors.HuntZone.District
             });
 
             // Remove player from distrcit.
-            if (false == RemovePlayerFromDistrict(msg.Pid))
+            if (false == LogoutPlayer(msg.Pid))
             {
                 return;
             }
@@ -42,7 +42,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// Remove player from district.
         /// </summary>
-        private bool RemovePlayerFromDistrict(string pid)
+        private bool LogoutPlayer(string pid)
         {
             // Remove player.
             if (false == _worldGroup.PlayerDict.Remove(pid, out var wp))

@@ -1,9 +1,10 @@
 ﻿using MemoryPack;
-using System;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Enemy
 {
+    using GameCore.Datas.Items;
+
     /// <summary>
     /// DTO_Enemy.
     /// </summary>
@@ -13,6 +14,7 @@ namespace GameCore.Datas.Enemy
         public DTO_Enemy()
         {
             Location = new DTO_EnemyLocation();
+            DropItems = new List<Type_Item>();
         }
 
         /// <summary>
@@ -34,33 +36,39 @@ namespace GameCore.Datas.Enemy
         public int Health { get; set; }
 
         /// <summary>
-        /// 업데이트 시간.
+        /// Track pid.
         /// </summary>
         [MemoryPackOrder(3)]
-        public DateTime UpdateTime { get; set; }
+        public string TrackPid { get; set; }
+
+        /// <summary>
+        /// 행동 유형.
+        /// </summary>
+        [MemoryPackOrder(4)]
+        public Type_EnemyAction ActionType { get; set; }
 
         /// <summary>
         /// 업데이트 시간.
         /// </summary>
-        [MemoryPackOrder(4)]
+        [MemoryPackOrder(5)]
+        public DateTime UpdateTime { get; set; }
+
+        /// <summary>
+        /// 피격 시간.
+        /// </summary>
+        [MemoryPackOrder(6)]
         public DateTime HitTime { get; set; }
 
         /// <summary>
         /// Location.
         /// </summary>
-        [MemoryPackOrder(5)]
+        [MemoryPackOrder(7)]
         public DTO_EnemyLocation Location { get; set; }
 
         /// <summary>
         /// 드랍 아이템.
         /// </summary>
-        [MemoryPackOrder(6)]
-        public Type_Item DropItem { get; set; }
-
-        /// <summary>
-        /// 행동 유형.
-        /// </summary>
-        [MemoryPackOrder(7)]
-        public Type_Action ActionType { get; set; }
+        [MemoryPackOrder(8)]
+        public List<Type_Item> DropItems { get; set; }
     }
 }

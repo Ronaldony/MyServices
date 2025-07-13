@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_KnockBack from client to server.
+    /// NetPacketCS_KnockBack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class NetPacketCS_KnockBack : NetPacketBase_CS

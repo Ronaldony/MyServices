@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.NetPacket
 {
     /// <summary>
-    /// NetPacket_HitEnemy from client to server.
+    /// NetPacketCS_HitEnemy.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class NetPacketCS_HitEnemy : NetPacketBase_CS
@@ -15,10 +15,10 @@ namespace GameCore.NetPacket
     }
 
     /// <summary>
-    /// NetPacket_HitEnemy from server to client.
+    /// NetPacketSC_HitEnemy.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class NetPacketSC_HitEnemy
+    public partial class NetPacketSC_HitEnemy : NetPacketBase_SC
     {
         /// <summary>
         /// Damage.

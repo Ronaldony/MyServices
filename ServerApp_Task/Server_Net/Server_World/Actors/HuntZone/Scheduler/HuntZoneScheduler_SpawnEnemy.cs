@@ -10,7 +10,6 @@ namespace Server_World.Actors.HuntZone.Scheduler
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
-    using Server_World.Actors.HuntZone.District;
     using Server_World.Core.ActorProviders;
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds.Msg;
@@ -23,10 +22,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
         private readonly ILogger<HuntZoneScheduler_SpawnEnemy> _logger;
 
         // Actor provider.
-        private readonly WorldZoneActorProvider _huntZoneActorProvider;
-
-        // DistrictProcessor.
-        private readonly DistrictProcessor _districtProcessor;
+        private readonly HuntZoneActorProvider _huntZoneActorProvider;
 
         // Schduler.
         private readonly CompositeDisposable _subscriptions;
@@ -35,6 +31,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
         private readonly CONF_Area _confArea;
         private readonly CONF_Enemy _confEnemy;
 
+        private readonly List<Type_Item> _itemTypes;
         private readonly List<Type_MovePattern> _movePatterns;
         private readonly List<TB_Enemy> _tbEnemies;
 
@@ -44,11 +41,11 @@ namespace Server_World.Actors.HuntZone.Scheduler
         // Enemy 고유 id.
         private ulong _enemyUid;
 
-        public HuntZoneScheduler_SpawnEnemy(IServiceProvider serviceProvider, DistrictProcessor districtProcessor)
+        public HuntZoneScheduler_SpawnEnemy(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneScheduler_SpawnEnemy>>();
 
-            _huntZoneActorProvider = serviceProvider.GetRequiredService<WorldZoneActorProvider>();
+            _huntZoneActorProvider = serviceProvider.GetRequiredService<HuntZoneActorProvider>();
 
             var tdbService = serviceProvider.GetRequiredService<ITDBService>();
 
@@ -57,7 +54,8 @@ namespace Server_World.Actors.HuntZone.Scheduler
             _confEnemy = tdbService.First<CONF_Enemy>(d => d.Area.Equals(Type_Area.HuntZone));
 
             _tbEnemies = tdbService.SelectAll<TB_Enemy>().ToList();
-            _movePatterns = Enum.GetValues<Type_MovePattern>().ToList();
+            _itemTypes = Enum.GetValues<Type_Item>().Where(d => d != Type_Item.None).ToList();
+            _movePatterns = Enum.GetValues<Type_MovePattern>().Where(d => d != Type_MovePattern.None).ToList();
 
             _rand = new Random((int)DateTime.Now.Ticks);
 
@@ -71,7 +69,7 @@ namespace Server_World.Actors.HuntZone.Scheduler
         {
             // 구독.
             _subscriptions.Add(
-                Observable.Timer(TimeSpan.FromSeconds(_confEnemy.SpawnTimeSec))
+                Observable.Interval(TimeSpan.FromSeconds(_confEnemy.SpawnTimeSec))
                 .Subscribe(count =>
                 {
                     SpawnEnemy();
@@ -108,26 +106,25 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
                 foreach (var enemy in _tbEnemies)
                 {
-                    //if (_enemyUid > 0)
-                    //{
-                    //    break;
-                    //}
-
-                    // 적 생성.
+                    // 적 유닛 생성.
                     var dtoEnemy = new DTO_Enemy
                     {
                         EnemeyUid = ++_enemyUid,
                         EnemyId = enemy.Id,
                         Health = enemy.Health,
-                        DropItem = enemy.DropItem,
-                        ActionType = Type_Action.None
+                        TrackPid = string.Empty,
+                        ActionType = Type_EnemyAction.None
                     };
+
+                    // Add drop items.
+                    for (int repeat = 0; repeat < _rand.Next(0, 4); repeat++)
+                    {
+                        dtoEnemy.DropItems.Add(_itemTypes.OrderBy(d => new Guid()).First());
+                    }
 
                     // Generate random section.
                     var x = _rand.Next(_confArea.MinX, _confArea.MaxX);
                     var y = _rand.Next(_confArea.MinY, _confArea.MaxY);
-
-                    _logger.LogDebug($"Spawn enemy. pos: ({x}, {y})");
 
                     // 이동 정보.
                     var location = dtoEnemy.Location;
@@ -144,6 +141,8 @@ namespace Server_World.Actors.HuntZone.Scheduler
 
                     // Set direction.
                     location.NextPosDir = new Vector2();
+
+                    _logger.LogDebug($"Spawn enemy. pos: ({x}, {y}), pattern: {location.MovePattern}");
 
                     // Get section.
                     var section = new SectionId(x / GameData.SECTION_WIDTH, y / GameData.SECTION_HEIGHT);

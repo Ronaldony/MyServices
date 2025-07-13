@@ -2,6 +2,7 @@
 
 namespace Server_World.Actors.HuntZone.Router
 {
+    using Microsoft.Extensions.Logging;
     using Server_World.Core.Types;
     using Server_World.Core.Worlds.Msg;
 
@@ -28,11 +29,20 @@ namespace Server_World.Actors.HuntZone.Router
                                 var msg = wm as WorldMsg_SpawnPlayer;
                                 var worldPlayer = msg.WorldPlayer;
 
+                                if (false == IsValidSection(worldPlayer.Section))
+                                {
+                                    _logger.LogError($"invalid section. pid: {worldPlayer.Pid}");
+                                }
+
+                                var district = GetDistrict(worldPlayer.Section);
+
                                 // Add player.
-                                _playerSectionDict.Add(worldPlayer.PlayInfo.Pid, worldPlayer.Section);
-                                
+                                _playerDistrictDict.AddOrUpdate(worldPlayer.Pid, district, (_, _) => district);
+
                                 // Write to processor.
-                                _districtProcessors[GetDistrict(worldPlayer.Section)].WriteWorldMsg(msg);
+                                _districtProcessors[district].WriteWorldMsg(msg);
+
+                                _logger.LogDebug($"Login player. pid: {worldPlayer.Pid}");
                             }
                             break;
                         case Type_WorldMsg.OutPlayer:
@@ -41,10 +51,11 @@ namespace Server_World.Actors.HuntZone.Router
                                 var msg = wm as WorldMsg_OutPlayer;
 
                                 // Remove player.
-                                _playerSectionDict.Remove(msg.Pid, out var section);
+                                _playerDistrictDict.Remove(msg.Pid, out var district);
 
                                 // Write to processor.
-                                _districtProcessors[GetDistrict(section)].WriteWorldMsg(msg);
+                                _districtProcessors[district].WriteWorldMsg(msg);
+                                _logger.LogDebug($"Remove player. pid: {msg.Pid}");
                             }
                             break;
                         default:
@@ -54,10 +65,7 @@ namespace Server_World.Actors.HuntZone.Router
                             }
                             break;
                     }
-                })
-            {
-
-            };
+                });
             return pipeline;
         }
     }
