@@ -54,7 +54,6 @@ namespace Server_World.Actors.HuntZone.District
 
             // 위치 갱신.
             playInfo.Location.PositionEnd = packet.Position;
-            //playInfo.Location.Position = packet.Position;
             playInfo.Action = Type_Action.Knockback;
         }
     }

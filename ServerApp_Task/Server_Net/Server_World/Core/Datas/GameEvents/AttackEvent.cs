@@ -1,5 +1,6 @@
 ﻿namespace Server_World.Core.Datas.GameEvents
 {
+    using GameCore.NetPacket;
     using Server_World.Core.Collision;
     using Server_World.Core.Types;
 
@@ -13,8 +14,12 @@
         public AttackEvent()
             : base(Type_GameEvent.Attack)
         {
-
         }
+
+        /// <summary>
+        /// NetPacket.
+        /// </summary>
+        public NetPacketSC_Attack NetPacket { get; set; }
 
         /// <summary>
         /// Damage.

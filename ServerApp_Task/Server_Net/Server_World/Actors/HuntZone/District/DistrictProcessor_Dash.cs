@@ -43,7 +43,6 @@ namespace Server_World.Actors.HuntZone.District
 
             // 위치 갱신.
             location.PositionEnd = packet.Position;
-            //location.Position = packet.Position;
             playInfo.Action = Type_Action.Dash;
         }
 

@@ -10,9 +10,9 @@ namespace Server_World.Actors.HuntZone.District
     public partial class DistrictProcessor
     {
         /// <summary>
-        /// Update frame for attack of enemies.
+        /// 프레임 업데이트 - 공격 처리.
         /// </summary>
-        private void UpdateFrame_Attack(ConcurrentBag<World_UpdateFrame> updateFrames)
+        private void UpdateFrame_Attack(float frameIntervalSec, ConcurrentBag<World_UpdateFrame> updateFrames)
         {
 
         }

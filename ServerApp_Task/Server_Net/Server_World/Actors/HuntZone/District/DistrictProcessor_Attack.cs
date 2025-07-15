@@ -41,11 +41,20 @@ namespace Server_World.Actors.HuntZone.District
             var collision = _collisionService.Rent(tbWeapon.CollisionType);
             var bounding = collision.GetBoudingBox(pos.X, pos.Y, packet.Angle);
 
+            // 공격 패킷.
+            var attackPacket = new NetPacketSC_Attack
+            {
+                Pid = worldPlayer.Pid,
+                Angle = packet.Angle
+            };
+
             // 공격 이벤트 전달.
             RouteGameEvent(new AttackEvent
             {
+                NetPacket = attackPacket,
                 Damage = tbWeapon.Damage,
                 AttackTime = nowTime,
+                RouteSection = worldPlayer.Section,
                 BoudingBox = new BoudingBox
                 {
                     MaxX = bounding.MaxX,
@@ -56,11 +65,7 @@ namespace Server_World.Actors.HuntZone.District
             });
 
             // 공격 패킷 전송.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Attack, new NetPacketSC_Attack
-            {
-                Pid = worldPlayer.Pid,
-                Angle = packet.Angle
-            });
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Attack, attackPacket);
 
             // 근처 섹션 enemy 충돌 검사.
             var hitEnemies = new List<DTO_Enemy>();
@@ -71,13 +76,16 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // 피격 패킷 전송.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_HitEnemy, new NetPacketSC_HitEnemy
+            if(hitEnemies.Any())
             {
-                Damage = tbWeapon.Damage,
-                Position = pos,
-                Enemies = hitEnemies
-            });
-
+                SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_HitEnemy, new NetPacketSC_HitEnemy
+                {
+                    Damage = tbWeapon.Damage,
+                    Position = pos,
+                    Enemies = hitEnemies
+                });
+            }
+            
             // Release.
             _collisionService.Release(collision);
         }
@@ -107,6 +115,7 @@ namespace Server_World.Actors.HuntZone.District
                     continue;
                 }
 
+                // update hit time.
                 enemy.HitTime = hitTime;
 
                 var pos = enemy.Location.Pos;

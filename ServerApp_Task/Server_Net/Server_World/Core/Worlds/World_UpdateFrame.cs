@@ -15,6 +15,7 @@ namespace Server_World.Core.Worlds
         {
             MoveSectionUnit = new ConcurrentDictionary<SectionId, World_SectionUnit>();
             MoveDistrictUnit = new ConcurrentDictionary<SectionId, World_DistrictUnit>();
+            AttackSectionUnit = new ConcurrentDictionary<SectionId, World_SectionUnit>();
         }
 
         /// <summary>

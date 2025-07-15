@@ -17,7 +17,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 프레임 업데이트 - 이동 처리.
         /// </summary>
-        private void UpdateFrame_Move(float dt, ConcurrentBag<World_UpdateFrame> updateFrames)
+        private void UpdateFrame_Move(float frameIntervalSec, ConcurrentBag<World_UpdateFrame> updateFrames)
         {
             // 플레이어가 존재하는 섹션의 플레이어, 적 이동 처리.
             Parallel.ForEach(_worldGroup.ManagedSections, section =>
@@ -50,7 +50,7 @@ namespace Server_World.Actors.HuntZone.District
                     switch (playInfo.Action)
                     {
                         case Type_Action.Move:          // 이동 처리.
-                            var movePos = Calc_PlayerPosition(location.Position, location.MoveDirection, dt, playInfo.Stat.Velocity);
+                            var movePos = Calc_PlayerPosition(location.Position, location.MoveDirection, frameIntervalSec, playInfo.Stat.Velocity);
 
                             if (false == IsValidSection(movePos))
                             {
@@ -112,7 +112,7 @@ namespace Server_World.Actors.HuntZone.District
                     var location = enemy.Location;
 
                     // 적 위치 계산.
-                    var movePos = Calc_EnemyPosition(location.Pos, location.NextPos, location.NextPosDir, dt, location.Veltocity);
+                    var movePos = Calc_EnemyPosition(location.Pos, location.NextPos, location.NextPosDir, frameIntervalSec, location.Veltocity);
                     var moveSection = SectionId.GetSection(movePos);
 
                     // 위치 업데이트.

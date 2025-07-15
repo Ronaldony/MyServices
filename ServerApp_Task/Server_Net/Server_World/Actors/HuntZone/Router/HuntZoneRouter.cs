@@ -26,9 +26,6 @@ namespace Server_World.Actors.HuntZone.Router
         // WorldMsg pipeline.
         private readonly ActionBlock<WorldMsg> _worldMsgPipeline;
 
-        // NetPacket pipeline.
-        private readonly ActionBlock<BroadcastPacketEvent> _broadcastPacketPipeline;
-
         /// <summary>
         /// World_SectionGroup.
         /// </summary>
@@ -66,7 +63,6 @@ namespace Server_World.Actors.HuntZone.Router
             // Pipeline.
             _gameEventPipeline = Initialize_GameEventPipeline(ct);
             _worldMsgPipeline = Initialize_WorldMsgPipeline(ct);
-            _broadcastPacketPipeline = Initialize_NetPacketPipeline(ct);
         }
 
         /// <summary>
@@ -135,9 +131,15 @@ namespace Server_World.Actors.HuntZone.Router
         /// <summary>
         /// Send packet around section.
         /// </summary>
-        public bool BroadcastPacketAround(BroadcastPacketEvent packetEvent)
+        public void BroadcastPacketAround(BroadcastPacketEvent packetEvent)
         {
-            return _broadcastPacketPipeline.Post(packetEvent);
+            var aroundDistrict = GetAroundDistrict(packetEvent.RouteSection);
+
+            // 주변 구역에 전파.
+            foreach (var district in aroundDistrict)
+            {
+                _districtProcessors[district].WriteGameEvent(packetEvent);
+            }
         }
     }
 }
