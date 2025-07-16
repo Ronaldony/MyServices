@@ -1,6 +1,6 @@
 ﻿namespace Server_World.Core.Datas.GameEvents
 {
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Types;
 
     /// <summary>
@@ -22,6 +22,6 @@
         /// <summary>
         /// Packet.
         /// </summary>
-        public NetPacketBase_CS Packet { get; set; }
+        public GamePacketBase_CS Packet { get; set; }
     }
 }

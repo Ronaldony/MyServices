@@ -9,7 +9,7 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        UnProcessed = 1,
+        Ignore = 1,
         /// <summary>
         /// 
         /// </summary>

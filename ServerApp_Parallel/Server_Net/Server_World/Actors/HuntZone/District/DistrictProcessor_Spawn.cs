@@ -4,7 +4,7 @@ namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.Datas.Enemy;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
@@ -37,38 +37,38 @@ namespace Server_World.Actors.HuntZone.District
             AddPlayerIntoDistrict(wp);
 
             // 인근 섹션 플레이어, 적 정보 전달.
-            var netPacket = _memoryPoolService.Rent<NetPacketSC_SpawnPlayer>();
+            var GamePacket = _memoryPoolService.Rent<GamePacketSC_SpawnPlayer>();
 
             foreach (var targetSection in _worldGroup.ManagedSections)
             {
                 // Players.
                 foreach (var player in _worldGroup.SectionPlayerDict[section].Values)
                 {
-                    netPacket.PlayInfos.Add(player.PlayInfo);
+                    GamePacket.PlayInfos.Add(player.PlayInfo);
                 }
 
                 // Enemies.
                 foreach (var we in _worldGroup.SectionEnemyDict[section].Values)
                 {
-                    netPacket.Enemies.Add(we.Enemy);
+                    GamePacket.Enemies.Add(we.Enemy);
                 }
             }
 
             // 로그인 유저에게 인근 세션 유닛 정보 전송.
-            SendPacket(session.SessionId, session.SessionUid, NetPacketCode.SC_SpawnPlayer, netPacket);
+            SendPacket(session.SessionId, session.SessionUid, GamePacketCode.SC_SpawnPlayer, GamePacket);
 
             // Reset packet.
-            netPacket.PlayInfos.Clear();
-            netPacket.Enemies.Clear();
+            GamePacket.PlayInfos.Clear();
+            GamePacket.Enemies.Clear();
 
             // Add login player.
-            netPacket.PlayInfos.Add(wp.PlayInfo);
+            GamePacket.PlayInfos.Add(wp.PlayInfo);
 
             // 주변 섹션에 로그인 유저 정보 전송.
-            SendPacket_AroundSections(wp.GameSession, section, NetPacketCode.SC_SpawnPlayer, netPacket);
+            SendPacket_AroundSections(wp.GameSession, section, GamePacketCode.SC_SpawnPlayer, GamePacket);
 
             // Release pool.
-            _memoryPoolService.Release(netPacket);
+            _memoryPoolService.Release(GamePacket);
         }
 
         /// <summary>
@@ -124,12 +124,12 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // Send packet.
-            var netPacket = new NetPacketSC_SpawnEnemy();
+            var GamePacket = new GamePacketSC_SpawnEnemy();
 
             foreach (var pair in spawnEnemyDict)
             {
-                netPacket.Enemies = pair.Value;
-                SendPacket_AroundSections(pair.Key, NetPacketCode.SC_SpawnEnemy, netPacket);
+                GamePacket.Enemies = pair.Value;
+                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_SpawnEnemy, GamePacket);
             }
         }
 

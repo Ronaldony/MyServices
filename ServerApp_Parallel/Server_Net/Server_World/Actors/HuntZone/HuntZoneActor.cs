@@ -24,11 +24,6 @@ namespace Server_World.Actors.HuntZone
 
         private readonly HuntZoneScheduler_SpawnEnemy _schdulerSpawnEnemy;
 
-        /// <summary>
-        /// 필드 적 수.
-        /// </summary>
-        private int _enemyCount;
-
         public HuntZoneActor()
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneActor>>();
@@ -64,7 +59,7 @@ namespace Server_World.Actors.HuntZone
             {
                 if (false == _huntZoneRouter.RouteGameEvent(gameEvent))
                 {
-                    _logger.LogError($"route game event error. type: {gameEvent.GameEventType}");
+                    _logger.LogError($"route game event error. type: {gameEvent.GetGameEventType()}");
                 }
             });
 

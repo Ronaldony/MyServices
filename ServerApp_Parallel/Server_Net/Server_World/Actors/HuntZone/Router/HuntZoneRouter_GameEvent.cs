@@ -21,7 +21,7 @@ namespace Server_World.Actors.HuntZone.Router
                 },
                 action: ge =>
                 {
-                    switch (ge.GameEventType)
+                    switch (ge.GetGameEventType())
                     {
                         case Type_GameEvent.ReceivePacket:
                             {

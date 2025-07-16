@@ -6,7 +6,7 @@ using System.Numerics;
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
 
     /// <summary>
     /// DistrictProcessor.
@@ -16,7 +16,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 플레이어 넉백 처리.
         /// </summary>
-        private void KnockBack(World_Player worldPlayer, NetPacketCS_KnockBack packet)
+        private void KnockBack(World_Player worldPlayer, GamePacketCS_KnockBack packet)
         {
             // 섹션 검증.
             if (false == IsValidSection(packet.Position))
@@ -42,7 +42,7 @@ namespace Server_World.Actors.HuntZone.District
             if (GameData.KNOCKBACK_ERROR_DISTANCE < errorPos)
             {
                 // 패킷 전송 - 이동 수정.
-                SendPacket_AroundSections(worldPlayer.Section, NetPacketCode.SC_MoveFixed, new NetPacketSC_MoveFixed
+                SendPacket_AroundSections(worldPlayer.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
                     Pid = worldPlayer.Pid,
                     FixedPos = position

@@ -2,7 +2,7 @@
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
@@ -15,7 +15,7 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void UpdateDummy(WorldMsg_UpdateDummy msg)
         {
-            var packet = _memoryPoolService.Rent<NetPacketSC_DummyMove>();
+            var packet = _memoryPoolService.Rent<GamePacketSC_DummyMove>();
 
             foreach (var section in _worldGroup.ManagedSections)
             {
@@ -26,7 +26,7 @@ namespace Server_World.Actors.HuntZone.District
                 packet.PlayInfos = sectionPlayer.Select(d => d.Value.PlayInfo).ToList();
                 packet.Enemies = sectionEnemy.Select(d => d.Value.Enemy).ToList();
 
-                SendPacket_AroundSections(section, NetPacketCode.SC_DummyMove, packet);
+                SendPacket_AroundSections(section, GamePacketCode.SC_DummyMove, packet);
 
                 // clear.
                 packet.PlayInfos.Clear();

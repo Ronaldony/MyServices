@@ -88,7 +88,7 @@ namespace LoginServer.Controllers.Auth
 
             playInfo.Pid = pid;
             playInfo.PlayerName = pid;
-            playInfo.UpdateTime = nowTime;
+            playInfo.PlayTime.LastPacketTime = nowTime;
             playInfo.Location.Area = Type_Area.HuntZone;
             playInfo.Stat.Velocity = 4;
             playInfo.Equipment.Weapon = 1;

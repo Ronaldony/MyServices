@@ -4,7 +4,7 @@ using System.Numerics;
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -15,7 +15,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 플레이어 대시 처리.
         /// </summary>
-        private void Dash(World_Player worldPlayer, NetPacketCS_Dash packet)
+        private void Dash(World_Player worldPlayer, GamePacketCS_Dash packet)
         {
             // 섹션 검증.
             if (false == IsValidSection(packet.Position))
@@ -35,7 +35,7 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // 주변 섹션에 대시 전송.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Dash, new NetPacketSC_Dash
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_Dash, new GamePacketSC_Dash
             {
                 Pid = worldPlayer.Pid,
                 DashDirection = location.MoveDirection

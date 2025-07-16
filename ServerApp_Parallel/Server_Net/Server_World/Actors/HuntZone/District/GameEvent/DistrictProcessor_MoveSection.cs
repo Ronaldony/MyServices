@@ -3,7 +3,7 @@
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Datas.GameEvents;
 
     /// <summary>
@@ -18,7 +18,7 @@ namespace Server_World.Actors.HuntZone.District
         {
             // Rent.
             var aroundFromSections = _router.GetAroundSections(moveSectionEvent.RouteSection);
-            var updateSectionPacket = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
+            var updateSectionPacket = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
 
             foreach (var section in _worldGroup.ManagedSections)
             {
@@ -34,7 +34,7 @@ namespace Server_World.Actors.HuntZone.District
             // Send packet.
             if (updateSectionPacket.Enemies.Any() || updateSectionPacket.PlayInfos.Any())
             {
-                SendPacket(moveSectionEvent.GameSessions, NetPacketCode.SC_UpdateSection, updateSectionPacket);
+                SendPacket(moveSectionEvent.GameSessions, GamePacketCode.SC_UpdateSection, updateSectionPacket);
             }
 
             _memoryPoolService.Release(updateSectionPacket);

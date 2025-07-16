@@ -2,7 +2,7 @@
 {
     using Framework.Core.Session;
     using GameCore.Datas.Play;
-    using Server_World.Core.Collision;
+    using Server_World.Core.Collisions;
     using Server_World.Core.Datas;
 
     /// <summary>
@@ -38,6 +38,6 @@
         /// <summary>
         /// Collision box.
         /// </summary>
-        public CollisionBox CollisionBox { get; set; }
+        public Collision Collision { get; set; }
     }
 }

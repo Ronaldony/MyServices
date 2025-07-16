@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Worlds;
@@ -60,7 +60,7 @@ namespace Server_World.Actors.HuntZone.District
         private void UpdateFrame_ApplyMoveSection(ConcurrentDictionary<SectionId, World_SectionUnit> moveSectionUnit)
         {
             // Rent.
-            var updateSectionPacket = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
+            var updateSectionPacket = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
 
             // 섹션 이동 유닛 처리.
             foreach (var pair in moveSectionUnit)
@@ -84,7 +84,7 @@ namespace Server_World.Actors.HuntZone.District
                 }
 
                 // Send packet.
-                SendPacket_AroundSections(pair.Key, NetPacketCode.SC_UpdateSection, updateSectionPacket);
+                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_UpdateSection, updateSectionPacket);
 
                 // 섹션 이동 이벤트 라우팅.
                 RouteGameEvent(new MoveSectionEvent
@@ -99,7 +99,7 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // Release.
-            _memoryPoolService.Release<NetPacketSC_UpdateSection>(updateSectionPacket);
+            _memoryPoolService.Release<GamePacketSC_UpdateSection>(updateSectionPacket);
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace Server_World.Server.World.Handlers
         private readonly HuntZoneActorProvider _worldServerActorProvider;
 
         public UdpHandler_SpawnPlayer(IServiceProvider serviceProvider)
-            : base(NetPacketCode.CS_SpawnPlayer)
+            : base(GamePacketCode.CS_SpawnPlayer)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
 
@@ -113,7 +113,7 @@ namespace Server_World.Server.World.Handlers
                 {
                     PlayInfo = playInfo,
                     GameSession = gameSession,
-                    CollisionBox = collisionBox,
+                    Collision = collisionBox,
                     Section = SectionId.GetSection(playInfo.Location.Position),
                     Pid = playInfo.Pid
                 }

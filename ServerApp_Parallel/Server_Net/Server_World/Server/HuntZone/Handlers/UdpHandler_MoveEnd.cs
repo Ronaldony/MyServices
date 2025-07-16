@@ -7,7 +7,7 @@ using ServerEngine.Network.UDP;
 namespace Server_World.Server.World.Handlers
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.ActorProviders;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Server.HuntZone;
@@ -25,7 +25,7 @@ namespace Server_World.Server.World.Handlers
         private readonly HuntZoneActorProvider _worldServerActorProvider;
 
         public UdpHandler_MoveEnd(IServiceProvider serviceProvider)
-            : base(NetPacketCode.CS_MoveEnd)
+            : base(GamePacketCode.CS_MoveEnd)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_MoveEnd>>();
 
@@ -41,14 +41,14 @@ namespace Server_World.Server.World.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
-            var netPacket = _dataSerializer.Deserialize<NetPacketCS_MoveEnd>(packet.Data);
+            var GamePacket = _dataSerializer.Deserialize<GamePacketCS_MoveEnd>(packet.Data);
 
             // Delivery msg.
             _worldServerActorProvider.Tell<GameEvent>(new ReceivePacketEvent
             {
                 Pid = _huntZoneServer.GetPid(sessionUid),
-                PacketCode = NetPacketCode.CS_MoveEnd,
-                Packet = netPacket,
+                PacketCode = GamePacketCode.CS_MoveEnd,
+                Packet = GamePacket,
             });
         }
     }

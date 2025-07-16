@@ -7,11 +7,6 @@
     /// </summary>
     public abstract class GameEvent
     {
-        public GameEvent(Type_GameEvent gameEventType)
-        {
-            GameEventType = gameEventType;
-        }
-
         /// <summary>
         /// Pid.
         /// </summary>
@@ -25,6 +20,12 @@
         /// <summary>
         /// Game event.
         /// </summary>
-        public Type_GameEvent GameEventType { get; set;}
+        private Type_GameEvent _gameEventType;
+        public Type_GameEvent GetGameEventType() => _gameEventType;
+
+        public GameEvent(Type_GameEvent gameEventType)
+        {
+            _gameEventType = gameEventType;
+        }
     }
 }

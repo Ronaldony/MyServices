@@ -2,31 +2,21 @@
   {
     "Id": 0,
     "Name": "None",
-    "Summary": "None"
+    "Summary": "none"
   },
   {
     "Id": 1,
     "Name": "Player",
-    "Summary": "Player"
+    "Summary": "player"
   },
   {
     "Id": 2,
-    "Name": "Sword",
-    "Summary": "Sword"
-  },
-  {
-    "Id": 3,
-    "Name": "Arrow",
-    "Summary": "Arrow"
-  },
-  {
-    "Id": 4,
-    "Name": "Rasor",
-    "Summary": "Rasor"
-  },
-  {
-    "Id": 5,
     "Name": "Enemy",
-    "Summary": "Enemy"
+    "Summary": "enemy"
+  },
+  {
+    "Id": 1000,
+    "Name": "Sword",
+    "Summary": "sword"
   }
 ]

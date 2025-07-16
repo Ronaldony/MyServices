@@ -3,7 +3,7 @@
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Worlds.Msg;
 
     /// <summary>
@@ -25,7 +25,7 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // 로그 아웃 패킷 전송.
-            SendPacket_AroundSections(wp.Section, NetPacketCode.SC_LogOut, new NetPacketSC_LogOut
+            SendPacket_AroundSections(wp.Section, GamePacketCode.SC_LogOut, new GamePacketSC_LogOut
             {
                 Pid = msg.Pid,
             });
@@ -58,8 +58,8 @@ namespace Server_World.Actors.HuntZone.District
                 return false;
             }
 
-            // Release memory.
-            _collisionService.Release(wp.CollisionBox);
+            // Release.
+            _collisionService.Release(wp.Collision);
 
             return true;
         }

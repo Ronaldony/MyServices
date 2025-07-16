@@ -6,7 +6,7 @@ namespace Server_World.Core.Services
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Server_World.Core.Collision;
+    using Server_World.Core.Collisions;
 
     /// <summary>
     /// CollisionService.
@@ -41,77 +41,49 @@ namespace Server_World.Core.Services
         /// <summary>
         /// Get collision box.
         /// </summary>
-        public CollisionBox Rent(Type_Collision collisionType)
+        public Collision Rent(Type_Collision collisionType)
         {
-            // Collision box.
-            var collisionBox = TakeCollisionBox(collisionType);
+            // Collision.
+            var collision = GetCollision(collisionType);
 
             var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == collisionType);
-            collisionBox.Setup(collisionType, tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
+            collision.Setup(collisionType, tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
 
-            return collisionBox;
+            return collision;
         }
 
         /// <summary>
         /// Release collision box.
         /// </summary>
-        public void Release(CollisionBox collisionBox)
+        public void Release(Collision collisionBox)
         {
             switch (collisionBox.CollisionType)
             {
                 case Type_Collision.Player:
                 case Type_Collision.Enemy:
-                    _memoryPoolService.Release<UnitCollisionBox>(collisionBox as UnitCollisionBox);
+                    _memoryPoolService.Release<UnitCollision>(collisionBox as UnitCollision);
                     break;
                 case Type_Collision.Sword:
-                case Type_Collision.Arrow:
-                case Type_Collision.Rasor:
-                    _memoryPoolService.Release<SwordCollisionBox>(collisionBox as SwordCollisionBox);
+                    _memoryPoolService.Release<SwordCollision>(collisionBox as SwordCollision);
                     break;
             }
-        }
-
-        /// <summary>
-        /// Check collision status.
-        /// </summary>
-        public bool CollidesWith(BoudingBox src, BoudingBox dst)
-        {
-            // 가로 충돌.
-            // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
-            // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
-            if (src.MinX > dst.MaxX || src.MaxX < dst.MinX)
-            {
-                return false;
-            }
-
-            // 세로 충돌.
-            // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
-            // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
-            if (src.MinY > dst.MaxY && src.MaxY < dst.MinY)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         /// <summary>
         /// Take collision box.
         /// </summary>
-        private CollisionBox TakeCollisionBox(Type_Collision collisionType)
+        private Collision GetCollision(Type_Collision collisionType)
         {
-            CollisionBox collisionBox;
+            Collision collisionBox;
 
             switch (collisionType)
             {
                 case Type_Collision.Player:
                 case Type_Collision.Enemy:
-                    collisionBox = _memoryPoolService.Rent<UnitCollisionBox>();
+                    collisionBox = _memoryPoolService.Rent<UnitCollision>();
                     break;
                 case Type_Collision.Sword:
-                case Type_Collision.Arrow:
-                case Type_Collision.Rasor:
-                    collisionBox = _memoryPoolService.Rent<SwordCollisionBox>();
+                    collisionBox = _memoryPoolService.Rent<SwordCollision>();
                     break;
                 default:
                     return null;

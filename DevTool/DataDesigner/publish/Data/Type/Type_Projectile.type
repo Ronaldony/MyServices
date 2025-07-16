@@ -1,0 +1,17 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "Summary": "none"
+  },
+  {
+    "Id": 1,
+    "Name": "Arrow",
+    "Summary": "arrow"
+  },
+  {
+    "Id": 2,
+    "Name": "Rasor",
+    "Summary": "rasor"
+  }
+]

@@ -1,7 +1,9 @@
-﻿namespace Server_World.Core.Datas.GameEvents
+﻿using System.Numerics;
+
+namespace Server_World.Core.Datas.GameEvents
 {
-    using GameCore.NetPacket;
-    using Server_World.Core.Collision;
+    using GameCore;
+    using GameCore.GamePacket;
     using Server_World.Core.Types;
 
     /// <summary>
@@ -17,9 +19,9 @@
         }
 
         /// <summary>
-        /// NetPacket.
+        /// GamePacket.
         /// </summary>
-        public NetPacketSC_Attack NetPacket { get; set; }
+        public GamePacketSC_Attack GamePacket { get; set; }
 
         /// <summary>
         /// Damage.
@@ -27,13 +29,23 @@
         public int Damage { get; set; }
 
         /// <summary>
-        /// Attack time.
+        /// 공격 시간.
         /// </summary>
-        public DateTime AttackTime { get; set; }
+        public DateTime Time { get; set; }
 
         /// <summary>
-        /// Bounding.
+        /// 공격 각도.
         /// </summary>
-        public BoudingBox BoudingBox { get; set; }
+        public Vector2 Angle { get; set; }
+
+        /// <summary>
+        /// 공격자 위치.
+        /// </summary>
+        public Vector2 Pos { get; set; }
+
+        /// <summary>
+        /// 무기 충돌 유형.
+        /// </summary>
+        public Type_Collision WeaponCollisionType { get; set; }
     }
 }

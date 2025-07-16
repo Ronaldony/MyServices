@@ -2,7 +2,7 @@
 namespace Server_World.Core.Worlds
 {
     using GameCore.Datas.Enemy;
-    using Server_World.Core.Collision;
+    using Server_World.Core.Collisions;
     using Server_World.Core.Datas;
 
     /// <summary>
@@ -28,6 +28,6 @@ namespace Server_World.Core.Worlds
         /// <summary>
         /// Collision box.
         /// </summary>
-        public CollisionBox CollisionBox { get; set; }
+        public Collision CollisionBox { get; set; }
     }
 }

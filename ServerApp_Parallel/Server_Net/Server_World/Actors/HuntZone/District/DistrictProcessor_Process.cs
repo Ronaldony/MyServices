@@ -2,7 +2,7 @@
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Types;
     using Server_World.Core.Worlds.Msg;
@@ -18,7 +18,7 @@ namespace Server_World.Actors.HuntZone.District
         public void ProcessGameEvent(GameEvent gameEvent)
         {
             // Process.
-            if (Type_GameEvent.ReceivePacket == gameEvent.GameEventType)
+            if (Type_GameEvent.ReceivePacket == gameEvent.GetGameEventType())
             {
                 // World player.
                 var worldPlayer = _worldGroup.PlayerDict.GetValueOrDefault(gameEvent.Pid);
@@ -32,27 +32,27 @@ namespace Server_World.Actors.HuntZone.District
 
                 switch (packetEvent.PacketCode)
                 {
-                    case NetPacketCode.CS_MoveStart:
-                        MoveStart(worldPlayer, packetEvent.Packet as NetPacketCS_MoveStart);
+                    case GamePacketCode.CS_MoveStart:
+                        MoveStart(worldPlayer, packetEvent.Packet as GamePacketCS_MoveStart);
                         break;
-                    case NetPacketCode.CS_MoveEnd:
-                        MoveEnd(worldPlayer, packetEvent.Packet as NetPacketCS_MoveEnd);
+                    case GamePacketCode.CS_MoveEnd:
+                        MoveEnd(worldPlayer, packetEvent.Packet as GamePacketCS_MoveEnd);
                         break;
-                    case NetPacketCode.CS_Attack:
-                        Attack(worldPlayer, packetEvent.Packet as NetPacketCS_Attack);
+                    case GamePacketCode.CS_Attack:
+                        Attack(worldPlayer, packetEvent.Packet as GamePacketCS_Attack);
                         break;
-                    case NetPacketCode.CS_KnockBack:
-                        KnockBack(worldPlayer, packetEvent.Packet as NetPacketCS_KnockBack);
+                    case GamePacketCode.CS_KnockBack:
+                        KnockBack(worldPlayer, packetEvent.Packet as GamePacketCS_KnockBack);
                         break;
-                    case NetPacketCode.CS_Dash:
-                        Dash(worldPlayer, packetEvent.Packet as NetPacketCS_Dash);
+                    case GamePacketCode.CS_Dash:
+                        Dash(worldPlayer, packetEvent.Packet as GamePacketCS_Dash);
                         break;
                 }
             }
             else
             {
                 // Other event.
-                switch (gameEvent.GameEventType)
+                switch (gameEvent.GetGameEventType())
                 {
                     case Type_GameEvent.BroadcastPacket:
                         SendPacket_AroundFromEvent(gameEvent as BroadcastPacketEvent);

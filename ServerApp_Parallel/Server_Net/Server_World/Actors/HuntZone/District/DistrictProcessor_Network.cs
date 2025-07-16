@@ -2,7 +2,7 @@
 namespace Server_World.Actors.HuntZone.District
 {
     using Framework.Core.Session;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
 
@@ -15,7 +15,7 @@ namespace Server_World.Actors.HuntZone.District
         /// Send packet.
         /// </summary>
         private bool SendPacket<T>(int sessionId, ulong sessionUid, int packetCode, T packet)
-            where T : NetPacketBase_SC
+            where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize(packet);
 
@@ -27,7 +27,7 @@ namespace Server_World.Actors.HuntZone.District
         /// Send packet to sessions.
         /// </summary>
         private void SendPacket<T>(ICollection<GameSession> sessions, int packetCode, T packet)
-            where T : NetPacketBase_SC
+            where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize(packet);
 
@@ -41,7 +41,7 @@ namespace Server_World.Actors.HuntZone.District
         /// Send packet for around sections.
         /// </summary>
         private void SendPacket_AroundSections<T>(GameSession ignoreSession, SectionId section, int packetCode, T packet)
-            where T : NetPacketBase_SC
+            where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize<T>(packet);
 
@@ -64,7 +64,7 @@ namespace Server_World.Actors.HuntZone.District
         /// Send packet for around sections.
         /// </summary>
         private void SendPacket_AroundSections<T>(SectionId section, int packetCode, T packet)
-            where T : NetPacketBase_SC
+            where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize<T>(packet);
 
@@ -82,7 +82,7 @@ namespace Server_World.Actors.HuntZone.District
         /// Send packet for managed sections.
         /// </summary>
         private void SendPacket_ManagedSections<T>(int packetCode, T packet)
-            where T : NetPacketBase_SC
+            where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize<T>(packet);
 

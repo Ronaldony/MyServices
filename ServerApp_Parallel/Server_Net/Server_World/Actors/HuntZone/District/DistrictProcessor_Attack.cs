@@ -5,8 +5,8 @@ namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.Datas.Enemy;
-    using GameCore.NetPacket;
-    using Server_World.Core.Collision;
+    using GameCore.GamePacket;
+    using Server_World.Core.Collisions.Boundings;
     using Server_World.Core.Datas;
     using Server_World.Core.Datas.GameEvents;
     using Server_World.Core.Worlds;
@@ -19,7 +19,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 플레이어 공격 처리.
         /// </summary>
-        private void Attack(World_Player worldPlayer, NetPacketCS_Attack packet)
+        private void Attack(World_Player worldPlayer, GamePacketCS_Attack packet)
         {
             var nowTime = TimeUtil.Now;
 
@@ -30,19 +30,12 @@ namespace Server_World.Actors.HuntZone.District
             // 무기 정보.
             var tbWeapon = _tdbService.GetById<TB_Weapon>(playerInfo.Equipment.Weapon);
 
-            // 데미지 검증.
-            if (tbWeapon.Damage != packet.Damage)
-            {
-                _logger.LogError($"not exist player. pid: {worldPlayer.Pid}");
-                return;
-            }
-
             // 충돌 박스.
             var collision = _collisionService.Rent(tbWeapon.CollisionType);
-            var bounding = collision.GetBoudingBox(pos.X, pos.Y, packet.Angle);
+            var hitbox = collision.GetHitbox(pos.X, pos.Y, packet.Angle);
 
             // 공격 패킷.
-            var attackPacket = new NetPacketSC_Attack
+            var attackPacket = new GamePacketSC_Attack
             {
                 Pid = worldPlayer.Pid,
                 Angle = packet.Angle
@@ -51,34 +44,30 @@ namespace Server_World.Actors.HuntZone.District
             // 공격 이벤트 전달.
             RouteGameEvent(new AttackEvent
             {
-                NetPacket = attackPacket,
+                GamePacket = attackPacket,
                 Damage = tbWeapon.Damage,
-                AttackTime = nowTime,
+                Time = nowTime,
                 RouteSection = worldPlayer.Section,
-                BoudingBox = new BoudingBox
-                {
-                    MaxX = bounding.MaxX,
-                    MaxY = bounding.MaxY,
-                    MinX = bounding.MinX,
-                    MinY = bounding.MinY,
-                }
+                Angle = packet.Angle,
+                Pos = pos,
+                WeaponCollisionType = tbWeapon.CollisionType,
             });
 
             // 공격 패킷 전송.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_Attack, attackPacket);
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_Attack, attackPacket);
 
             // 근처 섹션 enemy 충돌 검사.
             var hitEnemies = new List<DTO_Enemy>();
 
             foreach (var hitSection in _worldGroup.ManagedSections)
             {
-                HitEnemies(tbWeapon.Damage, hitSection, hitEnemies, bounding, nowTime);
+                HitEnemies(tbWeapon.Damage, hitSection, hitEnemies, hitbox, nowTime);
             }
 
             // 피격 패킷 전송.
             if(hitEnemies.Any())
             {
-                SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_HitEnemy, new NetPacketSC_HitEnemy
+                SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_HitEnemy, new GamePacketSC_HitEnemy
                 {
                     Damage = tbWeapon.Damage,
                     Position = pos,
@@ -93,7 +82,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// Hit enemies.
         /// </summary>
-        private void HitEnemies(int damage, SectionId section, List<DTO_Enemy> hitEnemies, BoudingBox weaponBouding, DateTime hitTime)
+        private void HitEnemies(int damage, SectionId section, List<DTO_Enemy> hitEnemies, Hitbox weaponHitbox, DateTime hitTime)
         {
             var enemies = _worldGroup.EnemyDict.Values;
 
@@ -119,12 +108,12 @@ namespace Server_World.Actors.HuntZone.District
                 enemy.HitTime = hitTime;
 
                 var pos = enemy.Location.Pos;
-                var targetBouding = worldEnemy.CollisionBox.GetBoudingBox(pos.X, pos.Y);
+                var enemyHitbox = worldEnemy.CollisionBox.GetHitBox(pos.X, pos.Y);
 
                 // 충돌 판정.
-                if (true == _collisionService.CollidesWith(weaponBouding, targetBouding))
+                if (true == weaponHitbox.IsHit(enemyHitbox))
                 {
-                    _logger.LogWarning($"Hit enemy. pos: {pos}, min: ({targetBouding.MinX}, {targetBouding.MinY}), max: ({targetBouding.MaxX}, {targetBouding.MaxY})");
+                    _logger.LogWarning($"Hit enemy. pos: {pos}");
 
                     hitEnemies.Add(enemy);
                     enemy.Health -= damage;

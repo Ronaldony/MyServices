@@ -5,7 +5,7 @@ using System.Numerics;
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -16,7 +16,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 플레이어 이동 처리.
         /// </summary>
-        private void MoveStart(World_Player worldPlayer, NetPacketCS_MoveStart packet)
+        private void MoveStart(World_Player worldPlayer, GamePacketCS_MoveStart packet)
         {
 
             var playInfo = worldPlayer.PlayInfo;
@@ -24,13 +24,13 @@ namespace Server_World.Actors.HuntZone.District
 
             // PlayInfo 갱신.
             playInfo.Action = Type_Action.Move;
-            playInfo.UpdateTime = packet.PacketTime;
+            playInfo.PlayTime.LastPacketTime = packet.PacketTime;
             location.MoveDirection = packet.MoveDirection;
 
             //_logger.LogDebug($"MoveStart - pos: {location.Position}, move: {packet.MoveDirection}");
 
             // 패킷 전송 - 이동 시작.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_MoveStart, new NetPacketSC_MoveStart
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_MoveStart, new GamePacketSC_MoveStart
             {
                 Pid = worldPlayer.Pid,
                 MoveDirection = packet.MoveDirection
@@ -40,7 +40,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 플레이어 이동 처리.
         /// </summary>
-        private void MoveEnd(World_Player worldPlayer, NetPacketCS_MoveEnd packet)
+        private void MoveEnd(World_Player worldPlayer, GamePacketCS_MoveEnd packet)
         {
             //_logger.LogDebug($"MoveEnd - pos: {packet.EndPos}");
 
@@ -56,12 +56,12 @@ namespace Server_World.Actors.HuntZone.District
             var location = playInfo.Location;
 
             // 이동 거리 계산 및 유효성 검사.
-            var deltaTime = (packet.PacketTime - playInfo.UpdateTime).TotalSeconds + GameData.MOVEMENT_TIME_ERROR;
+            var deltaTime = (packet.PacketTime - playInfo.PlayTime.LastPacketTime).TotalSeconds + GameData.MOVEMENT_TIME_ERROR;
 
             if (false == IsValidPosition(location.MoveDirection, deltaTime, playInfo.Stat.Velocity, location.Position, packet.EndPos))
             {
                 // 패킷 전송 - 이동 수정.
-                SendPacket_AroundSections(worldPlayer.Section, NetPacketCode.SC_MoveFixed, new NetPacketSC_MoveFixed
+                SendPacket_AroundSections(worldPlayer.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
                     Pid = worldPlayer.Pid,
                     FixedPos = location.Position
@@ -74,12 +74,12 @@ namespace Server_World.Actors.HuntZone.District
 
             // 업데이트 시간 및 좌표 갱신.
             playInfo.Action = Type_Action.MoveEnd;
-            playInfo.UpdateTime = packet.PacketTime;
+            playInfo.PlayTime.LastPacketTime = packet.PacketTime;
             location.PositionEnd = packet.EndPos;
             //location.Position = packet.EndPos;
 
             // 패킷 전송 - 이동 정지.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, NetPacketCode.SC_MoveEnd, new NetPacketSC_MoveEnd
+            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_MoveEnd, new GamePacketSC_MoveEnd
             {
                 Pid = worldPlayer.Pid,
                 EndPos = packet.EndPos
@@ -106,8 +106,8 @@ namespace Server_World.Actors.HuntZone.District
                         if (endPos.Y > lastPos.Y + distErrorRange) { return false; }
 
                         // X 좌표 검사.
-                        if (endPos.X > lastPos.X + GameData.MOVEMENT_ERROR) { return false; }
-                        if (endPos.X + GameData.MOVEMENT_ERROR < lastPos.X) { return false; }
+                        if (endPos.X > lastPos.X + GameData.MOVEMENT_FIXED_AXIS_ERROR) { return false; }
+                        if (endPos.X + GameData.MOVEMENT_FIXED_AXIS_ERROR < lastPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Down:
@@ -118,8 +118,8 @@ namespace Server_World.Actors.HuntZone.District
                         if (endPos.Y + distErrorRange < lastPos.Y) { return false; }
 
                         // X 좌표 검사.
-                        if (endPos.X > lastPos.X + GameData.MOVEMENT_ERROR) { return false; }
-                        if (endPos.X + GameData.MOVEMENT_ERROR < lastPos.X) { return false; }
+                        if (endPos.X > lastPos.X + GameData.MOVEMENT_FIXED_AXIS_ERROR) { return false; }
+                        if (endPos.X + GameData.MOVEMENT_FIXED_AXIS_ERROR < lastPos.X) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Right:
@@ -130,8 +130,8 @@ namespace Server_World.Actors.HuntZone.District
                         if (endPos.X > lastPos.X + distErrorRange) { return false; }
 
                         // Y 좌표 검사.
-                        if (endPos.Y > lastPos.Y + GameData.MOVEMENT_ERROR) { return false; }
-                        if (endPos.Y + GameData.MOVEMENT_ERROR < lastPos.Y) { return false; }
+                        if (endPos.Y > lastPos.Y + GameData.MOVEMENT_FIXED_AXIS_ERROR) { return false; }
+                        if (endPos.Y + GameData.MOVEMENT_FIXED_AXIS_ERROR < lastPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.Left:
@@ -142,8 +142,8 @@ namespace Server_World.Actors.HuntZone.District
                         if (endPos.X + distErrorRange < lastPos.X) { return false; }
 
                         // Y 좌표 검사.
-                        if (endPos.Y > lastPos.Y + GameData.MOVEMENT_ERROR) { return false; }
-                        if (endPos.Y + GameData.MOVEMENT_ERROR < lastPos.Y) { return false; }
+                        if (endPos.Y > lastPos.Y + GameData.MOVEMENT_FIXED_AXIS_ERROR) { return false; }
+                        if (endPos.Y + GameData.MOVEMENT_FIXED_AXIS_ERROR < lastPos.Y) { return false; }
                     }
                     break;
                 case Type_MoveDirection.RightTop:

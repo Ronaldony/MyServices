@@ -9,7 +9,7 @@ namespace Server_World.Server.World.Handlers
     using Framework.Core.Database.GameObjects;
     using Framework.Core.Exceptions;
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Server.HuntZone;
 
     /// <summary>
@@ -30,7 +30,7 @@ namespace Server_World.Server.World.Handlers
         private readonly DBInventoryInfo _dbInventoryInfo;
 
         public UdpHandler_Login(IServiceProvider serviceProvider)
-            : base(NetPacketCode.CS_Login)
+            : base(GamePacketCode.CS_Login)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_Login>>();
 
@@ -54,8 +54,8 @@ namespace Server_World.Server.World.Handlers
             {
                 _logger.LogDebug($"Player Login");
 
-                var netPacket = _dataSerializer.Deserialize<NetPacketCS_Login>(packet.Data);
-                var pid = netPacket.Pid;
+                var GamePacket = _dataSerializer.Deserialize<GamePacketCS_Login>(packet.Data);
+                var pid = GamePacket.Pid;
 
                 try
                 {
@@ -66,7 +66,7 @@ namespace Server_World.Server.World.Handlers
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.
-                    if (false == sessionInfo.AccessToken.Equals(netPacket.Token)) throw new ServerException($"not exist session. pid: {pid}");
+                    if (false == sessionInfo.AccessToken.Equals(GamePacket.Token)) throw new ServerException($"not exist session. pid: {pid}");
 
                     // Pid 등록.
                     if (false == _huntZoneServer.RegisterPid(sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
@@ -83,8 +83,8 @@ namespace Server_World.Server.World.Handlers
                     if (null == inventoryInfo) throw new ServerException($"not exist player. pid: {pid}");
 
                     // Send Login packet.
-                    _huntZoneServer.Send(sessionId, sessionUid, NetPacketCode.SC_Login,
-                        _dataSerializer.Serialize(new NetPacketSC_Login
+                    _huntZoneServer.Send(sessionId, sessionUid, GamePacketCode.SC_Login,
+                        _dataSerializer.Serialize(new GamePacketSC_Login
                         {
                             PlayInfo = playInfo,
                             InventoryInfo = inventoryInfo

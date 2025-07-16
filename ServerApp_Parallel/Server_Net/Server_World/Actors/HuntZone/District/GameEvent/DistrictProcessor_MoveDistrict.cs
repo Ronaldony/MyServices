@@ -1,7 +1,7 @@
 ﻿namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Datas.GameEvents;
 
     /// <summary>
@@ -14,19 +14,19 @@
         /// </summary>
         public void Proc_MoveDistrictEvent(MoveDistrictEvent moveDistrictEvent)
         {
-            var netPacket = _memoryPoolService.Rent<NetPacketSC_UpdateSection>();
+            var GamePacket = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
 
             // 현재 구역의 기존 플레이어에게 새로 진입한 플레이어 전송.
             if (moveDistrictEvent.WorldEnemies.Any() || moveDistrictEvent.WorldPlayers.Any())
             {
-                netPacket.PlayInfos.AddRange(moveDistrictEvent.WorldPlayers.Select(d => d.PlayInfo));
-                netPacket.Enemies.AddRange(moveDistrictEvent.WorldEnemies.Select(d => d.Enemy));
+                GamePacket.PlayInfos.AddRange(moveDistrictEvent.WorldPlayers.Select(d => d.PlayInfo));
+                GamePacket.Enemies.AddRange(moveDistrictEvent.WorldEnemies.Select(d => d.Enemy));
 
                 // 패킷 전송.
-                SendPacket_ManagedSections(NetPacketCode.SC_UpdateSection, netPacket);
+                SendPacket_ManagedSections(GamePacketCode.SC_UpdateSection, GamePacket);
 
-                netPacket.PlayInfos.Clear();
-                netPacket.Enemies.Clear();
+                GamePacket.PlayInfos.Clear();
+                GamePacket.Enemies.Clear();
             }
 
             // 관리 섹션인지 검사.
@@ -44,8 +44,8 @@
                 {
                     if (section != moveDistrictEvent.RouteSection)
                     {
-                        netPacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Values.Select(d => d.PlayInfo));
-                        netPacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Values.Select(d => d.Enemy));
+                        GamePacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Values.Select(d => d.PlayInfo));
+                        GamePacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Values.Select(d => d.Enemy));
                     }
                 }
             }
@@ -60,20 +60,20 @@
                     // 주변 섹션인지 검사.
                     if (aroundFromSections.Contains(section))
                     {
-                        netPacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Values.Select(d => d.PlayInfo));
-                        netPacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Values.Select(d => d.Enemy));
+                        GamePacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Values.Select(d => d.PlayInfo));
+                        GamePacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Values.Select(d => d.Enemy));
                     }
                 }
             }
 
             // 현재 구역에 새로 진입한 플레이어에게 주변 섹션 전송.
-            if (netPacket.PlayInfos.Any() || netPacket.Enemies.Any())
+            if (GamePacket.PlayInfos.Any() || GamePacket.Enemies.Any())
             {
-                SendPacket(moveDistrictEvent.WorldPlayers.Select(d => d.GameSession).ToList(), NetPacketCode.SC_UpdateSection, netPacket);
+                SendPacket(moveDistrictEvent.WorldPlayers.Select(d => d.GameSession).ToList(), GamePacketCode.SC_UpdateSection, GamePacket);
             }
 
             // Release.
-            _memoryPoolService.Release(netPacket);
+            _memoryPoolService.Release(GamePacket);
         }
     }
 }

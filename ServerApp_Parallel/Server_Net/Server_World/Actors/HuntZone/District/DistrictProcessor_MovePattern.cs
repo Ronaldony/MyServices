@@ -4,7 +4,7 @@ namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.Datas.Enemy;
-    using GameCore.NetPacket;
+    using GameCore.GamePacket;
     using Server_World.Core.Datas;
     using Server_World.Core.Worlds.Msg;
 
@@ -52,12 +52,12 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // MovePattern 패킷 전송.
-            var netPacket = new NetPacketSC_UpdateMovePattern();
+            var GamePacket = new GamePacketSC_UpdateMovePattern();
 
             foreach (var pair in updateEnemieDict)
             {
-                netPacket.Enemies = pair.Value;
-                SendPacket_AroundSections(pair.Key, NetPacketCode.SC_UpdateMovePattern, netPacket);
+                GamePacket.Enemies = pair.Value;
+                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_UpdateMovePattern, GamePacket);
             }
         }
     }
