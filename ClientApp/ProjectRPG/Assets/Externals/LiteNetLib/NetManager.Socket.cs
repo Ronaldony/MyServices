@@ -505,14 +505,14 @@ namespace LiteNetLib
             return true;
         }
 
-        internal int SendRawAndRecycle(NetPacket packet, IPEndPoint remoteEndPoint)
+        internal int SendRawAndRecycle(GamePacket packet, IPEndPoint remoteEndPoint)
         {
             int result = SendRaw(packet.RawData, 0, packet.Size, remoteEndPoint);
             PoolRecycle(packet);
             return result;
         }
 
-        internal int SendRaw(NetPacket packet, IPEndPoint remoteEndPoint)
+        internal int SendRaw(GamePacket packet, IPEndPoint remoteEndPoint)
         {
             return SendRaw(packet.RawData, 0, packet.Size, remoteEndPoint);
         }
@@ -522,7 +522,7 @@ namespace LiteNetLib
             if (!_isRunning)
                 return 0;
 
-            NetPacket expandedPacket = null;
+            GamePacket expandedPacket = null;
             if (_extraPacketLayer != null)
             {
                 expandedPacket = PoolGetPacket(length + _extraPacketLayer.ExtraPacketSizeForLayer);
@@ -637,10 +637,10 @@ namespace LiteNetLib
             if (!IsRunning)
                 return false;
 
-            NetPacket packet;
+            GamePacket packet;
             if (_extraPacketLayer != null)
             {
-                var headerSize = NetPacket.GetHeaderSize(PacketProperty.Broadcast);
+                var headerSize = GamePacket.GetHeaderSize(PacketProperty.Broadcast);
                 packet = PoolGetPacket(headerSize + length + _extraPacketLayer.ExtraPacketSizeForLayer);
                 packet.Property = PacketProperty.Broadcast;
                 Buffer.BlockCopy(data, start, packet.RawData, headerSize, length);

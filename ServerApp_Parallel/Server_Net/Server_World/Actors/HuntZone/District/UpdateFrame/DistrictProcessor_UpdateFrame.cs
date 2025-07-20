@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Util;
 using System.Collections.Concurrent;
 
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_World.Core.Datas;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
     using Server_World.Core.Worlds;
+    using Server_World.Core.Worlds.Msg;
     using Server_World.Core.Worlds.Section;
 
     /// <summary>
@@ -18,13 +19,20 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 프레임 업데이트.
         /// </summary>
-        private void UpdateFrame(float dt)
+        private void UpdateFrame(WorldMsg_UpdateFrame worldMsg)
         {
+            // 프레임 델타 타임.
+            var nowTime = TimeUtil.Now;
+            var frameDeltaTime = (nowTime - _lastFrameUpdateTime).TotalSeconds;
+
+            // refersh frame time.
+            _lastFrameUpdateTime = nowTime;
+
             // 이동 처리.
             var updateFrames = new ConcurrentBag<World_UpdateFrame>();
 
             // 이동 업데이트.
-            UpdateFrame_Move(dt, updateFrames);
+            UpdateFrame_Move(frameDeltaTime, updateFrames);
 
             // 업데이트 프레임 적용.
             UpdateFrame_Apply(updateFrames);
@@ -73,11 +81,13 @@ namespace Server_World.Actors.HuntZone.District
                     continue;
                 }
 
+                // Player.
                 if (sectionUnit.PlayInfoDict.Any())
                 {
                     updateSectionPacket.PlayInfos.AddRange(sectionUnit.PlayInfoDict.Values);
                 }
 
+                // Enemy.
                 if (sectionUnit.Enemies.Any())
                 {
                     updateSectionPacket.Enemies.AddRange(sectionUnit.Enemies);

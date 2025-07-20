@@ -18,7 +18,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     private Knockback knockback;
     private Flash flash;
 
-    private NetPacketManager _netPacketManager;
+    private GamePacketManager _GamePacketManager;
 
     const string HEALTH_SLIDER_TEXT = "Health Slider";
     const string TOWN_TEXT = "Scene1";
@@ -31,7 +31,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();
 
-        _netPacketManager = NetPacketManager.Instance;
+        _GamePacketManager = GamePacketManager.Instance;
     }
 
     private void Start()

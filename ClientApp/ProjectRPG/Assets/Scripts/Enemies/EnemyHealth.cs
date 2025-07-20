@@ -29,6 +29,21 @@ public class EnemyHealth : MonoBehaviour
         // Knockback.
         _knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
 
+        // hit routine.
+        StartCoroutine(_flash.FlashRoutine());
+        StartCoroutine(CheckDetectDeathRoutine());
+    }
+
+    /// <summary>
+    /// Take damage.
+    /// </summary>
+    public void TakeDamage(int damage)
+    {
+        Debug.Log($"damage. health: {_health}");
+
+        _health -= damage;
+
+        // hit routine.
         StartCoroutine(_flash.FlashRoutine());
         StartCoroutine(CheckDetectDeathRoutine());
     }

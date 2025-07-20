@@ -2,7 +2,7 @@
 using Externals.Serializer;
 using Externals.UDP;
 using GameCore;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace Network
     public class UdpHandler_SpawnEnemy : UdpHandler
     {
         public UdpHandler_SpawnEnemy()
-            : base(NetPacketCode.SC_SpawnEnemy)
+            : base(GamePacketCode.SC_SpawnEnemy)
         {
         }
 
@@ -29,10 +29,10 @@ namespace Network
             var dummyManagement = DummyManagement.Instance;
 
             // packet.
-            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_SpawnEnemy>(packet.Data);
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_SpawnEnemy>(packet.Data);
             var updatePacket = new UpdatePacket
             {
-                PacketCode = NetPacketCode.SC_SpawnEnemy,
+                PacketCode = GamePacketCode.SC_SpawnEnemy,
                 Data = packetData,
             };
 

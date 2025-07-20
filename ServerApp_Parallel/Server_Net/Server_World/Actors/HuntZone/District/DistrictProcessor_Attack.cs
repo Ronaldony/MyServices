@@ -6,9 +6,8 @@ namespace Server_World.Actors.HuntZone.District
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.GamePacket;
-    using Server_World.Core.Collisions.Boundings;
-    using Server_World.Core.Datas;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
+    using Server_World.Core.HitBoxes;
     using Server_World.Core.Worlds;
 
     /// <summary>
@@ -32,7 +31,9 @@ namespace Server_World.Actors.HuntZone.District
 
             // 충돌 박스.
             var collision = _collisionService.Rent(tbWeapon.CollisionType);
-            var hitbox = collision.GetHitbox(pos.X, pos.Y, packet.Angle);
+            collision.UpdateHitbox(pos, packet.Angle);
+
+            var hitbox = collision.GetHitbox();
 
             // 공격 패킷.
             var attackPacket = new GamePacketSC_Attack
@@ -46,10 +47,10 @@ namespace Server_World.Actors.HuntZone.District
             {
                 GamePacket = attackPacket,
                 Damage = tbWeapon.Damage,
-                Time = nowTime,
+                AttackTime = nowTime,
                 RouteSection = worldPlayer.Section,
                 Angle = packet.Angle,
-                Pos = pos,
+                AttackerPos = pos,
                 WeaponCollisionType = tbWeapon.CollisionType,
             });
 
@@ -107,13 +108,16 @@ namespace Server_World.Actors.HuntZone.District
                 // update hit time.
                 enemy.HitTime = hitTime;
 
-                var pos = enemy.Location.Pos;
-                var enemyHitbox = worldEnemy.CollisionBox.GetHitBox(pos.X, pos.Y);
+                // Update collision.
+                var collision = worldEnemy.CollisionBox;
+                worldEnemy.CollisionBox.UpdateHitbox(enemy.Location.Pos);
+
+                var enemyHitbox = collision.GetHitbox();
 
                 // 충돌 판정.
                 if (true == weaponHitbox.IsHit(enemyHitbox))
                 {
-                    _logger.LogWarning($"Hit enemy. pos: {pos}");
+                    _logger.LogWarning($"Hit enemy. pos: {enemy.Location.Pos}");
 
                     hitEnemies.Add(enemy);
                     enemy.Health -= damage;

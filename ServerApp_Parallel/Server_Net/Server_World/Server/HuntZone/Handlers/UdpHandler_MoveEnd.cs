@@ -9,7 +9,7 @@ namespace Server_World.Server.World.Handlers
     using GameCore;
     using GameCore.GamePacket;
     using Server_World.Core.ActorProviders;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
     using Server_World.Server.HuntZone;
 
     /// <summary>

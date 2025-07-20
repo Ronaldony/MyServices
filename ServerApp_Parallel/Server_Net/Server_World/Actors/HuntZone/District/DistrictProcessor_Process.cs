@@ -3,7 +3,7 @@ namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
     using Server_World.Core.Types;
     using Server_World.Core.Worlds.Msg;
 
@@ -41,6 +41,9 @@ namespace Server_World.Actors.HuntZone.District
                     case GamePacketCode.CS_Attack:
                         Attack(worldPlayer, packetEvent.Packet as GamePacketCS_Attack);
                         break;
+                    case GamePacketCode.CS_AttackProjectile:
+                        AttackProjctile(worldPlayer, packetEvent.Packet as GamePacketCS_AttackProjectile);
+                        break;
                     case GamePacketCode.CS_KnockBack:
                         KnockBack(worldPlayer, packetEvent.Packet as GamePacketCS_KnockBack);
                         break;
@@ -77,11 +80,8 @@ namespace Server_World.Actors.HuntZone.District
         {
             switch (worldMsg.MsgType)
             {
-                case Type_WorldMsg.SpawnPlayer:
-                    SpawnPlayer(worldMsg as WorldMsg_SpawnPlayer);
-                    break;
-                case Type_WorldMsg.OutPlayer:
-                    OutPlayer(worldMsg as WorldMsg_OutPlayer);
+                case Type_WorldMsg.UpdateFrame:
+                    UpdateFrame(worldMsg as WorldMsg_UpdateFrame);
                     break;
                 case Type_WorldMsg.SpawnEnemy:
                     SpawnEnemy(worldMsg as WorldMsg_SpawnEnemy);
@@ -91,6 +91,12 @@ namespace Server_World.Actors.HuntZone.District
                     break;
                 case Type_WorldMsg.UpdateDummy:
                     UpdateDummy(worldMsg as WorldMsg_UpdateDummy);
+                    break;
+                case Type_WorldMsg.SpawnPlayer:
+                    SpawnPlayer(worldMsg as WorldMsg_SpawnPlayer);
+                    break;
+                case Type_WorldMsg.OutPlayer:
+                    OutPlayer(worldMsg as WorldMsg_OutPlayer);
                     break;
             }
         }

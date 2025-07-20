@@ -1,6 +1,6 @@
 using GameCore;
 using GameCore.Datas.Enemy;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using Network;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -63,27 +63,27 @@ public class DummyManagement : Singleton<DummyManagement>
         {
             switch (updatePacket.PacketCode)
             {
-                case NetPacketCode.SC_SpawnEnemy:
+                case GamePacketCode.SC_SpawnEnemy:
                     {
-                        var packet = updatePacket.Data as NetPacketSC_SpawnEnemy;
+                        var packet = updatePacket.Data as GamePacketSC_SpawnEnemy;
                         SpawnEnemies(packet.Enemies);
                     }
                     break;
-                case NetPacketCode.SC_UpdateSection:
+                case GamePacketCode.SC_UpdateSection:
                     {
-                        var packet = updatePacket.Data as NetPacketSC_UpdateSection;
+                        var packet = updatePacket.Data as GamePacketSC_UpdateSection;
                         SpawnEnemies(packet.Enemies);
                     }
                     break;
-                case NetPacketCode.SC_SpawnPlayer:
+                case GamePacketCode.SC_SpawnPlayer:
                     {
-                        var packet = updatePacket.Data as NetPacketSC_SpawnPlayer;
+                        var packet = updatePacket.Data as GamePacketSC_SpawnPlayer;
                         SpawnEnemies(packet.Enemies);
                     }
                     break;
-                case NetPacketCode.SC_DummyMove:
+                case GamePacketCode.SC_DummyMove:
                     {
-                        MoveEnemies(updatePacket.Data as NetPacketSC_DummyMove);
+                        MoveEnemies(updatePacket.Data as GamePacketSC_DummyMove);
                     }
                     break;
             }
@@ -101,7 +101,7 @@ public class DummyManagement : Singleton<DummyManagement>
         }
     }
 
-    private void MoveEnemies(NetPacketSC_DummyMove packet)
+    private void MoveEnemies(GamePacketSC_DummyMove packet)
     {
         foreach (var playInfo in packet.PlayInfos)
         {

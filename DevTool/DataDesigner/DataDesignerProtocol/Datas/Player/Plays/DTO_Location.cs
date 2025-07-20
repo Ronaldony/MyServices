@@ -11,27 +11,27 @@ namespace GameCore.Datas.Player.Plays
     public partial class DTO_Location
     {
         /// <summary>
-        /// Area.
+        /// 현재 지역.
         /// </summary>s
         [MemoryPackOrder(0)]
         public Type_Area Area { get; set; }
 
         /// <summary>
-        /// Position.
+        /// 현재 위치.
         /// </summary>
         [MemoryPackOrder(1)]
         public Vector2 Position { get; set; }
 
         /// <summary>
-        /// Position end.
+        /// 종료 위치 지점.
         /// </summary>
         [MemoryPackOrder(2)]
         public Vector2 PositionEnd { get; set; }
 
         /// <summary>
-        /// Pos.
+        /// 이동 방향.
         /// </summary>
         [MemoryPackOrder(3)]
-        public Type_MoveDirection MoveDirection { get; set; }
+        public Vector2 MoveDirection { get; set; }
     }
 }

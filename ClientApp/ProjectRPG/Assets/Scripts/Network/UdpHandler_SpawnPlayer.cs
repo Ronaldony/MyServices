@@ -1,7 +1,7 @@
 using Externals.Serializer;
 using Externals.UDP;
 using GameCore;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ namespace Network
     public class UdpHandler_SpawnPlayer : UdpHandler
     {
         public UdpHandler_SpawnPlayer()
-            : base(NetPacketCode.SC_SpawnPlayer)
+            : base(GamePacketCode.SC_SpawnPlayer)
         {
         }
 
@@ -28,10 +28,10 @@ namespace Network
             var dummyManagement = DummyManagement.Instance;
 
             // packet.
-            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_SpawnPlayer>(packet.Data);
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_SpawnPlayer>(packet.Data);
             var updatePacket = new UpdatePacket
             {
-                PacketCode = NetPacketCode.SC_SpawnPlayer,
+                PacketCode = GamePacketCode.SC_SpawnPlayer,
                 Data = packetData,
             };
 

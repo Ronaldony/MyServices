@@ -3,7 +3,6 @@ namespace Server_World.Core.Worlds
 {
     using GameCore.Datas.Enemy;
     using Server_World.Core.Collisions;
-    using Server_World.Core.Datas;
 
     /// <summary>
     /// Wolrd_enemy.

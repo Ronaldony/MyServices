@@ -50,7 +50,7 @@ namespace LiteNetLib
         /// <summary>
         /// Additional data that can be accessed (only if reason is RemoteConnectionClose)
         /// </summary>
-        public NetPacketReader AdditionalData;
+        public GamePacketReader AdditionalData;
     }
 
     public interface INetEventListener
@@ -82,7 +82,7 @@ namespace LiteNetLib
         /// <param name="reader">DataReader containing all received data</param>
         /// <param name="channelNumber">Number of channel at which packet arrived</param>
         /// <param name="deliveryMethod">Type of received packet</param>
-        void OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channelNumber, DeliveryMethod deliveryMethod);
+        void OnNetworkReceive(NetPeer peer, GamePacketReader reader, byte channelNumber, DeliveryMethod deliveryMethod);
 
         /// <summary>
         /// Received unconnected message
@@ -90,7 +90,7 @@ namespace LiteNetLib
         /// <param name="remoteEndPoint">From address (IP and Port)</param>
         /// <param name="reader">Message data</param>
         /// <param name="messageType">Message type (simple, discovery request or response)</param>
-        void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType);
+        void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, GamePacketReader reader, UnconnectedMessageType messageType);
 
         /// <summary>
         /// Latency information updated
@@ -140,8 +140,8 @@ namespace LiteNetLib
         public delegate void OnPeerConnected(NetPeer peer);
         public delegate void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo);
         public delegate void OnNetworkError(IPEndPoint endPoint, SocketError socketError);
-        public delegate void OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod);
-        public delegate void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType);
+        public delegate void OnNetworkReceive(NetPeer peer, GamePacketReader reader, byte channel, DeliveryMethod deliveryMethod);
+        public delegate void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, GamePacketReader reader, UnconnectedMessageType messageType);
         public delegate void OnNetworkLatencyUpdate(NetPeer peer, int latency);
         public delegate void OnConnectionRequest(ConnectionRequest request);
         public delegate void OnDeliveryEvent(NetPeer peer, object userData);
@@ -227,13 +227,13 @@ namespace LiteNetLib
                 NetworkErrorEvent(endPoint, socketErrorCode);
         }
 
-        void INetEventListener.OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channelNumber, DeliveryMethod deliveryMethod)
+        void INetEventListener.OnNetworkReceive(NetPeer peer, GamePacketReader reader, byte channelNumber, DeliveryMethod deliveryMethod)
         {
             if (NetworkReceiveEvent != null)
                 NetworkReceiveEvent(peer, reader, channelNumber, deliveryMethod);
         }
 
-        void INetEventListener.OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
+        void INetEventListener.OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, GamePacketReader reader, UnconnectedMessageType messageType)
         {
             if (NetworkReceiveUnconnectedEvent != null)
                 NetworkReceiveUnconnectedEvent(remoteEndPoint, reader, messageType);

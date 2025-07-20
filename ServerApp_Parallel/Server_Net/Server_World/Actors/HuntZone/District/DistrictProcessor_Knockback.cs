@@ -36,10 +36,10 @@ namespace Server_World.Actors.HuntZone.District
             var calcPosition = position + (momentum * GameData.KNOCKBACK_TIME);
 
             // 계산된 위치와 전달 받은 위치의 거리가 오차 허용 범위 내인지 검사.
-            var errorPos = Vector2.Distance(calcPosition, packet.Position);
+            var errorPos = (calcPosition - packet.Position).LengthSquared();
 
             // 오차 허용 범위 검사.
-            if (GameData.KNOCKBACK_ERROR_DISTANCE < errorPos)
+            if (GameData.KNOCKBACK_ERROR_DISTANCE_SQUARE < errorPos)
             {
                 // 패킷 전송 - 이동 수정.
                 SendPacket_AroundSections(worldPlayer.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed

@@ -18,7 +18,7 @@ namespace Server_World.Core.Services
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
 
-        private readonly IEnumerable<TB_Collision> _tbCollisions;
+        private readonly Dictionary<Type_Collision, TB_Collision> _tbCollisionDict;
 
         public CollisionService(IServiceProvider serviceProvider)
         {
@@ -27,7 +27,14 @@ namespace Server_World.Core.Services
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
-            _tbCollisions = _tdbService.SelectAll<TB_Collision>();
+            // TB_Collision.
+            var tbCollisions = _tdbService.SelectAll<TB_Collision>();
+            _tbCollisionDict = new Dictionary<Type_Collision, TB_Collision>();
+
+            foreach (var tbCollision in tbCollisions)
+            {
+                _tbCollisionDict.Add(tbCollision.CollisionType, tbCollision);
+            }
         }
 
         /// <summary>
@@ -46,7 +53,7 @@ namespace Server_World.Core.Services
             // Collision.
             var collision = GetCollision(collisionType);
 
-            var tbCollision = _tbCollisions.FirstOrDefault(d => d.CollisionType == collisionType);
+            var tbCollision = _tbCollisionDict.GetValueOrDefault(collisionType);
             collision.Setup(collisionType, tbCollision.Width, tbCollision.Height, tbCollision.OffsetX, tbCollision.OffsetY);
 
             return collision;

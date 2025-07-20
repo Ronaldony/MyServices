@@ -4,7 +4,7 @@ namespace LiteNetLib
 {
     public partial class NetManager
     {
-        private NetPacket _poolHead;
+        private GamePacket _poolHead;
         private int _poolCount;
         private readonly object _poolLock = new object();
 
@@ -15,41 +15,41 @@ namespace LiteNetLib
 
         public int PoolCount => _poolCount;
         
-        private NetPacket PoolGetWithData(PacketProperty property, byte[] data, int start, int length)
+        private GamePacket PoolGetWithData(PacketProperty property, byte[] data, int start, int length)
         {
-            int headerSize = NetPacket.GetHeaderSize(property);
-            NetPacket packet = PoolGetPacket(length + headerSize);
+            int headerSize = GamePacket.GetHeaderSize(property);
+            GamePacket packet = PoolGetPacket(length + headerSize);
             packet.Property = property;
             Buffer.BlockCopy(data, start, packet.RawData, headerSize, length);
             return packet;
         }
 
         //Get packet with size
-        private NetPacket PoolGetWithProperty(PacketProperty property, int size)
+        private GamePacket PoolGetWithProperty(PacketProperty property, int size)
         {
-            NetPacket packet = PoolGetPacket(size + NetPacket.GetHeaderSize(property));
+            GamePacket packet = PoolGetPacket(size + GamePacket.GetHeaderSize(property));
             packet.Property = property;
             return packet;
         }
 
-        private NetPacket PoolGetWithProperty(PacketProperty property)
+        private GamePacket PoolGetWithProperty(PacketProperty property)
         {
-            NetPacket packet = PoolGetPacket(NetPacket.GetHeaderSize(property));
+            GamePacket packet = PoolGetPacket(GamePacket.GetHeaderSize(property));
             packet.Property = property;
             return packet;
         }
 
-        internal NetPacket PoolGetPacket(int size)
+        internal GamePacket PoolGetPacket(int size)
         {
             if (size > NetConstants.MaxPacketSize)
-                return new NetPacket(size);
+                return new GamePacket(size);
 
-            NetPacket packet;
+            GamePacket packet;
             lock (_poolLock)
             {
                 packet = _poolHead;
                 if (packet == null)
-                    return new NetPacket(size);
+                    return new GamePacket(size);
                 
                 _poolHead = _poolHead.Next;
                 _poolCount--;
@@ -61,7 +61,7 @@ namespace LiteNetLib
             return packet;
         }
 
-        internal void PoolRecycle(NetPacket packet)
+        internal void PoolRecycle(GamePacket packet)
         {
             if (packet.RawData.Length > NetConstants.MaxPacketSize || _poolCount >= PacketPoolSize)
             {

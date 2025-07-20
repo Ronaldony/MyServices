@@ -2,7 +2,7 @@
 {
     public readonly ref struct PooledPacket
     {
-        internal readonly NetPacket _packet;
+        internal readonly GamePacket _packet;
         internal readonly byte _channelNumber;
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// </summary>
         public byte[] Data => _packet.RawData;
 
-        internal PooledPacket(NetPacket packet, int maxDataSize, byte channelNumber)
+        internal PooledPacket(GamePacket packet, int maxDataSize, byte channelNumber)
         {
             _packet = packet;
             UserDataOffset = _packet.GetHeaderSize();

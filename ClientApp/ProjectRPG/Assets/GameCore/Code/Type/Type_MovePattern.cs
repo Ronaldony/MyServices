@@ -17,6 +17,18 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Pattern3 = 3
+        Pattern3 = 3,
+        /// <summary>
+        /// 
+        /// </summary>
+        Pattern4 = 4,
+        /// <summary>
+        /// 
+        /// </summary>
+        Pattern5 = 5,
+        /// <summary>
+        /// 
+        /// </summary>
+        Pattern6 = 6
     }
 }

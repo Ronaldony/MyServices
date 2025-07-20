@@ -1,9 +1,10 @@
 using GameCore;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using Network;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
@@ -25,13 +26,13 @@ public class PlayerController : Singleton<PlayerController>
     private float _startingMoveSpeed;
     private float _moveDeltaTime;
 
-    private Type_MoveDirection _moveDirection;
+    private Vector2 _moveDirection;
     private bool _isMoving;
     private bool _isDashing;
     private bool _isDashCoolDown;
 
     // Data Manger.
-    private NetPacketManager _netPacketManager;
+    private GamePacketManager _GamePacketManager;
     private PlayerDataManager _playerDataManager;
 
     private ConcurrentQueue<UpdatePacket> _updatePacketQ; 
@@ -46,7 +47,7 @@ public class PlayerController : Singleton<PlayerController>
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _knockback = GetComponent<Knockback>();
 
-        _netPacketManager = NetPacketManager.Instance;
+        _GamePacketManager = GamePacketManager.Instance;
         _playerDataManager = PlayerDataManager.Instance;
 
         _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
@@ -96,9 +97,9 @@ public class PlayerController : Singleton<PlayerController>
         {
             switch (updatePacket.PacketCode)
             {
-                case NetPacketCode.SC_MoveFixed:
+                case GamePacketCode.SC_MoveFixed:
                     {
-                        var pakcetData = updatePacket.Data as NetPacketSC_MoveFixed;
+                        var pakcetData = updatePacket.Data as GamePacketSC_MoveFixed;
                         MoveFixed(pakcetData.FixedPos.X, pakcetData.FixedPos.Y);
                     }
                     break;
@@ -158,22 +159,19 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void BeforeMove()
     {
-        // Get move direction.
-        var moveDirection = GetMoveDirection(_movement.normalized);
-
-        // �̵� ���� �˻�.
+        // check moving.
         if (_isMoving)
         {
-            // Cond 1. �̵� ������ ���.
-            // Cond 2. ���� �̵� ����� ���� �̵� ������ �ٸ� ���.
-            if ((moveDirection == Type_MoveDirection.None) || (moveDirection != _moveDirection))
+            // Cond 1. not moving anymore.
+            // Cond 2. change move direction.
+            if ((_movement.normalized == Vector2.zero) || (_movement.normalized != _moveDirection))
             {
                 MoveStop();
             }
         }
 
         // �̵� ���� ����.
-        _moveDirection = moveDirection;
+        _moveDirection = _movement.normalized;
     }
 
     /// <summary>
@@ -182,7 +180,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Move()
     {
         // Update move.
-        if (_moveDirection != Type_MoveDirection.None)
+        if (_moveDirection != Vector2.zero)
         {
             _rb.MovePosition(_rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
             _moveDeltaTime += Time.fixedDeltaTime;
@@ -196,7 +194,7 @@ public class PlayerController : Singleton<PlayerController>
     private void AfterMove()
     {
         // Send MoveStart.
-        if ((_moveDirection != Type_MoveDirection.None) && (false == _isMoving))
+        if ((_moveDirection != Vector2.zero) && (false == _isMoving))
         {
             MoveStart();
         }
@@ -212,9 +210,9 @@ public class PlayerController : Singleton<PlayerController>
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
         // Send MoveEnd.
-        _netPacketManager.Send<NetPacketCS_MoveEnd>(
-            NetPacketCode.CS_MoveEnd,
-            new NetPacketCS_MoveEnd
+        _GamePacketManager.Send<GamePacketCS_MoveEnd>(
+            GamePacketCode.CS_MoveEnd,
+            new GamePacketCS_MoveEnd
             {
                 EndPos = _playerDataManager.PlayInfo.Location.Position,
                 PacketTime = packetTime,
@@ -237,11 +235,11 @@ public class PlayerController : Singleton<PlayerController>
         var packetTime = DateTime.Now.AddSeconds(_moveDeltaTime);
 
         // Send MoveEnd.
-        _netPacketManager.Send<NetPacketCS_MoveStart>(
-            NetPacketCode.CS_MoveStart,
-            new NetPacketCS_MoveStart
+        _GamePacketManager.Send<GamePacketCS_MoveStart>(
+            GamePacketCode.CS_MoveStart,
+            new GamePacketCS_MoveStart
             {
-                MoveDirection = _moveDirection,
+                Direction = new System.Numerics.Vector2(_moveDirection.x, _moveDirection.y),
                 PacketTime = packetTime
             });
 
@@ -263,42 +261,6 @@ public class PlayerController : Singleton<PlayerController>
     public void EnqueueUpdatePacket(UpdatePacket updatePacket)
     {
         _updatePacketQ.Enqueue(updatePacket);
-    }
-
-    /// <summary>
-    /// Get move direction.
-    /// </summary>
-    private Type_MoveDirection GetMoveDirection(Vector2 vectorDir)
-    {
-        if ((vectorDir.x == 0) && (vectorDir.y == 0))
-        {
-            // None.
-            return Type_MoveDirection.None;
-        }
-        else if (vectorDir.x > 0)
-        {
-            if (vectorDir.y == 0) { return Type_MoveDirection.Right; }          // Right.
-            else if (vectorDir.y > 0) { return Type_MoveDirection.RightTop; }   // Right Top.
-            else { return Type_MoveDirection.RightDown; }                       // Right Down.
-        }
-        else if (vectorDir.x < 0)
-        {
-            if (vectorDir.y == 0) { return Type_MoveDirection.Left; }          // Left.
-            else if (vectorDir.y > 0) { return Type_MoveDirection.LeftTop; }   // Left Top.
-            else { return Type_MoveDirection.LeftDown; }                       // Left Down.
-        }
-        else if (vectorDir.y > 0)
-        {
-            if (vectorDir.x == 0) { return Type_MoveDirection.Top; }            // Top.
-            else if (vectorDir.x > 0) { return Type_MoveDirection.RightTop; }   // Right Top.
-            else { return Type_MoveDirection.LeftTop; }                         // Left Top.
-        }
-        else // if (vectorDir.y < 0)
-        {
-            if (vectorDir.x == 0) { return Type_MoveDirection.Down; }            // Down.
-            else if (vectorDir.x > 0) { return Type_MoveDirection.RightDown; }   // Right Down.
-            else { return Type_MoveDirection.LeftDown; }                         // Left Down.
-        }
     }
 
     /// <summary>
@@ -337,9 +299,9 @@ public class PlayerController : Singleton<PlayerController>
             // Dash.
             var dashedPosition = _rb.position + _movement * (moveSpeed * GameData.DASH_TIME);
 
-            _netPacketManager.Send<NetPacketCS_Dash>(
-                NetPacketCode.CS_Dash,
-                new NetPacketCS_Dash
+            _GamePacketManager.Send<GamePacketCS_Dash>(
+                GamePacketCode.CS_Dash,
+                new GamePacketCS_Dash
                 {
                     Position = new System.Numerics.Vector2(dashedPosition.x, dashedPosition.y)
                 });
@@ -364,11 +326,11 @@ public class PlayerController : Singleton<PlayerController>
         //Debug.Log($"Move Start (Dash) - Dir: {_moveDirection}, DateTIme: {DateTime.Now}");
 
         // Send MoveStart.
-        _netPacketManager.Send<NetPacketCS_MoveStart>(
-            NetPacketCode.CS_MoveStart,
-            new NetPacketCS_MoveStart
+        _GamePacketManager.Send<GamePacketCS_MoveStart>(
+            GamePacketCode.CS_MoveStart,
+            new GamePacketCS_MoveStart
             {
-                MoveDirection = _moveDirection,
+                Direction = new System.Numerics.Vector2(_moveDirection.x, _moveDirection.y),
                 PacketTime = DateTime.Now
             });
 
@@ -390,9 +352,9 @@ public class PlayerController : Singleton<PlayerController>
         {
             var pakcetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
-            _netPacketManager.Send<NetPacketCS_KnockBack>(
-                NetPacketCode.CS_KnockBack,
-                new NetPacketCS_KnockBack
+            _GamePacketManager.Send<GamePacketCS_KnockBack>(
+                GamePacketCode.CS_KnockBack,
+                new GamePacketCS_KnockBack
                 {
                     Position = new System.Numerics.Vector2(knockBackPos.x, knockBackPos.y)
                 });

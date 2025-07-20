@@ -1,6 +1,6 @@
 using Externals.UDP;
 using GameCore;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
@@ -12,12 +12,12 @@ namespace Network
     /// </summary>
     public class UdpHandler_MoveEnd : UdpHandler
     {
-        private readonly NetPacketCS_MoveEnd _sendPacket;
+        private readonly GamePacketCS_MoveEnd _sendPacket;
 
         public UdpHandler_MoveEnd()
-            : base(NetPacketCode.SC_MoveEnd)
+            : base(GamePacketCode.SC_MoveEnd)
         {
-            _sendPacket = new NetPacketCS_MoveEnd();
+            _sendPacket = new GamePacketCS_MoveEnd();
         }
 
         /// <summary>

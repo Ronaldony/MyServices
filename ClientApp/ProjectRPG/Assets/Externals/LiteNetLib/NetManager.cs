@@ -14,19 +14,19 @@ using LiteNetLib.Utils;
 
 namespace LiteNetLib
 {
-    public sealed class NetPacketReader : NetDataReader
+    public sealed class GamePacketReader : NetDataReader
     {
-        private NetPacket _packet;
+        private GamePacket _packet;
         private readonly NetManager _manager;
         private readonly NetEvent _evt;
 
-        internal NetPacketReader(NetManager manager, NetEvent evt)
+        internal GamePacketReader(NetManager manager, NetEvent evt)
         {
             _manager = manager;
             _evt = evt;
         }
 
-        internal void SetSource(NetPacket packet, int headerSize)
+        internal void SetSource(GamePacket packet, int headerSize)
         {
             if (packet == null)
                 return;
@@ -79,11 +79,11 @@ namespace LiteNetLib
         public ConnectionRequest ConnectionRequest;
         public DeliveryMethod DeliveryMethod;
         public byte ChannelNumber;
-        public readonly NetPacketReader DataReader;
+        public readonly GamePacketReader DataReader;
 
         public NetEvent(NetManager manager)
         {
-            DataReader = new NetPacketReader(manager, this);
+            DataReader = new GamePacketReader(manager, this);
         }
     }
 
@@ -125,7 +125,7 @@ namespace LiteNetLib
 
         private struct IncomingData
         {
-            public NetPacket Data;
+            public GamePacket Data;
             public IPEndPoint EndPoint;
             public DateTime TimeWhenGet;
         }
@@ -285,7 +285,7 @@ namespace LiteNetLib
         public int LocalPort { get; private set; }
 
         /// <summary>
-        /// Automatically recycle NetPacketReader after OnReceive event
+        /// Automatically recycle GamePacketReader after OnReceive event
         /// </summary>
         public bool AutoRecycle;
 
@@ -394,7 +394,7 @@ namespace LiteNetLib
         internal void DisconnectPeerForce(NetPeer peer,
             DisconnectReason reason,
             SocketError socketErrorCode,
-            NetPacket eventData)
+            GamePacket eventData)
         {
             DisconnectPeer(peer, reason, socketErrorCode, true, null, 0, 0, eventData);
         }
@@ -407,7 +407,7 @@ namespace LiteNetLib
             byte[] data,
             int start,
             int count,
-            NetPacket eventData)
+            GamePacket eventData)
         {
             var shutdownResult = peer.Shutdown(data, start, count, force);
             if (shutdownResult == ShutdownResult.None)
@@ -432,7 +432,7 @@ namespace LiteNetLib
             ConnectionRequest connectionRequest = null,
             DeliveryMethod deliveryMethod = DeliveryMethod.Unreliable,
             byte channelNumber = 0,
-            NetPacket readerSource = null,
+            GamePacket readerSource = null,
             object userData = null)
         {
             NetEvent evt;
@@ -796,7 +796,7 @@ namespace LiteNetLib
             CreateEvent(NetEvent.EType.ConnectionRequest, connectionRequest: req);
         }
 
-        private void OnMessageReceived(NetPacket packet, IPEndPoint remoteEndPoint)
+        private void OnMessageReceived(GamePacket packet, IPEndPoint remoteEndPoint)
         {
             if (packet.Size == 0)
             {
@@ -817,7 +817,7 @@ namespace LiteNetLib
         }
 
         [Conditional("DEBUG")]
-        private void HandleSimulateLatency(NetPacket packet, IPEndPoint remoteEndPoint)
+        private void HandleSimulateLatency(GamePacket packet, IPEndPoint remoteEndPoint)
         {
             if (!SimulateLatency)
             {
@@ -850,7 +850,7 @@ namespace LiteNetLib
             }
         }
 
-        private void HandleMessageReceived(NetPacket packet, IPEndPoint remoteEndPoint)
+        private void HandleMessageReceived(GamePacket packet, IPEndPoint remoteEndPoint)
         {
             var originalPacketSize = packet.Size;
             if (EnableStatistics)
@@ -1049,7 +1049,7 @@ namespace LiteNetLib
             }
         }
 
-        internal void CreateReceiveEvent(NetPacket packet, DeliveryMethod method, byte channelNumber, int headerSize, NetPeer fromPeer)
+        internal void CreateReceiveEvent(GamePacket packet, DeliveryMethod method, byte channelNumber, int headerSize, NetPeer fromPeer)
         {
             NetEvent evt;
 
@@ -1312,7 +1312,7 @@ namespace LiteNetLib
         /// <returns>Operation result</returns>
         public bool SendUnconnectedMessage(ReadOnlySpan<byte> message, IPEndPoint remoteEndPoint)
         {
-            int headerSize = NetPacket.GetHeaderSize(PacketProperty.UnconnectedMessage);
+            int headerSize = GamePacket.GetHeaderSize(PacketProperty.UnconnectedMessage);
             var packet = PoolGetPacket(message.Length + headerSize);
             packet.Property = PacketProperty.UnconnectedMessage;
             message.CopyTo(new Span<byte>(packet.RawData, headerSize, message.Length));
@@ -1452,7 +1452,7 @@ namespace LiteNetLib
         public bool SendUnconnectedMessage(byte[] message, int start, int length, IPEndPoint remoteEndPoint)
         {
             //No need for CRC here, SendRaw does that
-            NetPacket packet = PoolGetWithData(PacketProperty.UnconnectedMessage, message, start, length);
+            GamePacket packet = PoolGetWithData(PacketProperty.UnconnectedMessage, message, start, length);
             return SendRawAndRecycle(packet, remoteEndPoint) > 0;
         }
 

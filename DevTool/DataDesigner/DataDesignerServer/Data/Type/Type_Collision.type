@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "Summary": "none"
+  },
+  {
+    "Id": 1,
+    "Name": "Player",
+    "Summary": "player"
+  },
+  {
+    "Id": 2,
+    "Name": "Enemy",
+    "Summary": "enemy"
+  },
+  {
+    "Id": 1000,
+    "Name": "Sword",
+    "Summary": "sword"
+  },  
+{
+    "Id": 1001,
+    "Name": "Rasor",
+    "Summary": "rasor"
+  },
+  {
+    "Id": 1002,
+    "Name": "Arrow",
+    "Summary": "arrow"
+  }
+]

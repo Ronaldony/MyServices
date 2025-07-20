@@ -6,16 +6,26 @@
   },
   {
     "Id": 1,
-    "Name": "Moving",
+    "Name": "Ignore",
     "Summary": ""
   },
   {
     "Id": 2,
-    "Name": "Attack",
+    "Name": "Move",
     "Summary": ""
   },
   {
     "Id": 3,
+    "Name": "MoveEnd",
+    "Summary": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Knockback",
+    "Summary": ""
+  },
+  {
+    "Id": 5,
     "Name": "Dash",
     "Summary": ""
   }

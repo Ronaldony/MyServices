@@ -1,5 +1,5 @@
 using GameCore;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using Network;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ public class Sword : MonoBehaviour, IWeapon
     private Transform weaponCollider;
     private Animator myAnimator;
 
-    private NetPacketManager _netPacketManager;
+    private GamePacketManager _GamePacketManager;
     private PlayerDataManager _playerDataManager;
 
     private GameObject slashAnim;
@@ -21,7 +21,7 @@ public class Sword : MonoBehaviour, IWeapon
     {
         myAnimator = GetComponent<Animator>();
 
-        _netPacketManager = NetPacketManager.Instance;
+        _GamePacketManager = GamePacketManager.Instance;
         _playerDataManager = PlayerDataManager.Instance;
     }
 
@@ -50,12 +50,11 @@ public class Sword : MonoBehaviour, IWeapon
         Debug.Log($"Attacl angle: {angle}");
         
         // Send Attack.
-        _netPacketManager.Send<NetPacketCS_Attack>(
-            NetPacketCode.CS_Attack,
-            new NetPacketCS_Attack
+        _GamePacketManager.Send<GamePacketCS_Attack>(
+            GamePacketCode.CS_Attack,
+            new GamePacketCS_Attack
             {
                 Angle = new System.Numerics.Vector2(angle.x, angle.y),
-                Damage = 3
             });
 
         // set animation.

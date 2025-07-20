@@ -15,7 +15,7 @@ namespace Externals.UDP
     public class UdpClient
     {
         // Network.
-        private NetPacketProcessor _packetProcessor;
+        private GamePacketProcessor _packetProcessor;
         private EventBasedNetListener _listener;
         private NetManager _netManager;
         public NetPeer _peer;
@@ -34,7 +34,7 @@ namespace Externals.UDP
         public UdpClient()
         {
             // Initialize network.
-            _packetProcessor = new NetPacketProcessor();
+            _packetProcessor = new GamePacketProcessor();
             _listener = new EventBasedNetListener();
 
             // Encryption layer.
@@ -44,14 +44,14 @@ namespace Externals.UDP
             {
                 ReuseAddress = false,               // Reuse address.
                 UnsyncedEvents = true,              // Event base network.
-                AutoRecycle = true,                 // Auto NetPacketReader Recycle.
+                AutoRecycle = true,                 // Auto GamePacketReader Recycle.
                 SimulateLatency = false,
                 SimulatePacketLoss = false,
                 EnableStatistics = true,
             };
 
             _dataWriter = new NetDataWriter();
-            _packetProcessor = new NetPacketProcessor();
+            _packetProcessor = new GamePacketProcessor();
 
             // Handler.
             _handlerDict = new Dictionary<int, (UdpHandler, MethodInfo, object[])>();
@@ -108,7 +108,7 @@ namespace Externals.UDP
         /// </summary>
         public bool BroadCast(UdpPacket packet)
         {
-            // Sesison lock: ¼¼¼Ç Ç®À» »ç¿ëÇÏ±â ¶§¹®¿¡, ÀÌ¹Ì DisconnectionµÈ ¼¼¼Ç ¸Þ¸ð¸®°¡ »ç¿ëµÇ´Â °ÍÀ» ¹æÁö.
+            // Sesison lock: ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ì¹ï¿½ Disconnectionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ð¸®°ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
             if (false == _peer.ConnectionState.Equals(ConnectionState.Connected))
             {
                 return false;
@@ -144,7 +144,7 @@ namespace Externals.UDP
                 _dataWriter.Reset();
 
                 // Register packet processor.
-                _packetProcessor = new NetPacketProcessor();
+                _packetProcessor = new GamePacketProcessor();
                 _packetProcessor.SubscribeReusable<UdpPacket>(HandlePacket);
             };
 

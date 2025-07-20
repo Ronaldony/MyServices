@@ -8,8 +8,7 @@ namespace Server_World.Actors.HuntZone.Router
     using GameCore;
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone.District;
-    using Server_World.Core.Datas;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
 

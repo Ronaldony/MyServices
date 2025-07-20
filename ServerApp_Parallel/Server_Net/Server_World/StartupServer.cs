@@ -60,6 +60,10 @@ namespace Server_World
             var collisionService = _serviceProvider.GetRequiredService<CollisionService>();
             collisionService.Initialize();
 
+            // ProjectileService.
+            var projectileService = _serviceProvider.GetRequiredService<ProjectileService>();
+            projectileService.Initialize();
+
             // Utilies.
             ServiceUtility.Initialize(_serviceProvider);
 

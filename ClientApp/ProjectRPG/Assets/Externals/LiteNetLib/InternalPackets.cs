@@ -22,12 +22,12 @@ namespace LiteNetLib
             PeerId = localId;
         }
 
-        public static int GetProtocolId(NetPacket packet)
+        public static int GetProtocolId(GamePacket packet)
         {
             return BitConverter.ToInt32(packet.RawData, 1);
         }
 
-        public static NetConnectRequestPacket FromData(NetPacket packet)
+        public static NetConnectRequestPacket FromData(GamePacket packet)
         {
             if (packet.ConnectionNumber >= NetConstants.MaxConnectionNumber)
                 return null;
@@ -53,10 +53,10 @@ namespace LiteNetLib
             return new NetConnectRequestPacket(connectionTime, packet.ConnectionNumber, peerId, addressBytes, reader);
         }
 
-        public static NetPacket Make(NetDataWriter connectData, SocketAddress addressBytes, long connectTime, int localId)
+        public static GamePacket Make(NetDataWriter connectData, SocketAddress addressBytes, long connectTime, int localId)
         {
             //Make initial packet
-            var packet = new NetPacket(PacketProperty.ConnectRequest, connectData.Length+addressBytes.Size);
+            var packet = new GamePacket(PacketProperty.ConnectRequest, connectData.Length+addressBytes.Size);
 
             //Add data
             FastBitConverter.GetBytes(packet.RawData, 1, NetConstants.ProtocolId);
@@ -86,7 +86,7 @@ namespace LiteNetLib
             PeerNetworkChanged = peerNetworkChanged;
         }
 
-        public static NetConnectAcceptPacket FromData(NetPacket packet)
+        public static NetConnectAcceptPacket FromData(GamePacket packet)
         {
             if (packet.Size != Size)
                 return null;
@@ -111,18 +111,18 @@ namespace LiteNetLib
             return new NetConnectAcceptPacket(connectionId, connectionNumber, peerId, isReused == 1);
         }
 
-        public static NetPacket Make(long connectTime, byte connectNum, int localPeerId)
+        public static GamePacket Make(long connectTime, byte connectNum, int localPeerId)
         {
-            var packet = new NetPacket(PacketProperty.ConnectAccept, 0);
+            var packet = new GamePacket(PacketProperty.ConnectAccept, 0);
             FastBitConverter.GetBytes(packet.RawData, 1, connectTime);
             packet.RawData[9] = connectNum;
             FastBitConverter.GetBytes(packet.RawData, 11, localPeerId);
             return packet;
         }
         
-        public static NetPacket MakeNetworkChanged(NetPeer peer)
+        public static GamePacket MakeNetworkChanged(NetPeer peer)
         {
-            var packet = new NetPacket(PacketProperty.PeerNotFound, Size-1);
+            var packet = new GamePacket(PacketProperty.PeerNotFound, Size-1);
             FastBitConverter.GetBytes(packet.RawData, 1, peer.ConnectTime);
             packet.RawData[9] = peer.ConnectionNum;
             packet.RawData[10] = 1;

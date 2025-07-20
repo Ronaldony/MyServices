@@ -2,7 +2,7 @@
 using Externals.Serializer;
 using Externals.UDP;
 using GameCore;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace Network
     public class UdpHandler_UpdateSection : UdpHandler
     {
         public UdpHandler_UpdateSection()
-            : base(NetPacketCode.SC_UpdateSection)
+            : base(GamePacketCode.SC_UpdateSection)
         {
         }
 
@@ -29,10 +29,10 @@ namespace Network
             var enemyManagement = EnemyManagement.Instance;
             var dummyManagement = DummyManagement.Instance;
 
-            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_UpdateSection>(packet.Data);
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_UpdateSection>(packet.Data);
             var updatePacket = new UpdatePacket
             {
-                PacketCode = NetPacketCode.SC_UpdateSection,
+                PacketCode = GamePacketCode.SC_UpdateSection,
                 Data = packetData,
             };
 

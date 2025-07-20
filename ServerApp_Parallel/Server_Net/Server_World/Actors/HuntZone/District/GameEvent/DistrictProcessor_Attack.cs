@@ -4,8 +4,8 @@ namespace Server_World.Actors.HuntZone.District
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.GamePacket;
-    using Server_World.Core.Datas;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
+    using Server_World.Core.Worlds;
 
     /// <summary>
     /// DistrictProcessor.
@@ -26,7 +26,9 @@ namespace Server_World.Actors.HuntZone.District
 
             // 충돌 박스.
             var collision = _collisionService.Rent(ge.WeaponCollisionType);
-            var hitbox = collision.GetHitbox(ge.Pos.X, ge.Pos.Y, ge.Angle);
+            collision.UpdateHitbox(ge.AttackerPos, ge.Angle);
+
+            var hitbox = collision.GetHitbox();
 
             foreach (var hitSection in _worldGroup.ManagedSections)
             {
@@ -34,7 +36,7 @@ namespace Server_World.Actors.HuntZone.District
                 if (attackAroundSections.Contains(hitSection))
                 {
                     hitEnemyDict.Add(hitSection, new List<DTO_Enemy>());
-                    HitEnemies(ge.Damage, hitSection, hitEnemyDict[hitSection], hitbox, ge.Time);
+                    HitEnemies(ge.Damage, hitSection, hitEnemyDict[hitSection], hitbox, ge.AttackTime);
                 }
             }
 

@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace LiteNetLib.Utils
 {
-    public class NetPacketProcessor
+    public class GamePacketProcessor
     {
         private static class HashCache<T>
         {
@@ -28,12 +28,12 @@ namespace LiteNetLib.Utils
         private readonly NetSerializer _netSerializer;
         private readonly Dictionary<ulong, SubscribeDelegate> _callbacks = new Dictionary<ulong, SubscribeDelegate>();
 
-        public NetPacketProcessor()
+        public GamePacketProcessor()
         {
             _netSerializer = new NetSerializer();
         }
 
-        public NetPacketProcessor(int maxStringLength)
+        public GamePacketProcessor(int maxStringLength)
         {
             _netSerializer = new NetSerializer(maxStringLength);
         }

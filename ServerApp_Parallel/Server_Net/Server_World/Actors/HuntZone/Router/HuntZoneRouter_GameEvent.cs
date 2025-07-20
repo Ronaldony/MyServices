@@ -3,7 +3,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Actors.HuntZone.Router
 {
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
     using Server_World.Core.Types;
 
     /// <summary>

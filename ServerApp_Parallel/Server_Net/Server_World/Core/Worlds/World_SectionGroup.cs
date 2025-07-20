@@ -1,8 +1,6 @@
 ﻿
 namespace Server_World.Core.Worlds
 {
-    using Server_World.Core.Datas;
-
     /// <summary>
     /// World_SectionGroup.
     /// </summary>

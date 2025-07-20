@@ -2,7 +2,7 @@
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
 
     /// <summary>
     /// DistrictProcessor.

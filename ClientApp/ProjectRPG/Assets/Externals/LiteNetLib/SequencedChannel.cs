@@ -7,8 +7,8 @@ namespace LiteNetLib
         private int _localSequence;
         private ushort _remoteSequence;
         private readonly bool _reliable;
-        private NetPacket _lastPacket;
-        private readonly NetPacket _ackPacket;
+        private GamePacket _lastPacket;
+        private readonly GamePacket _ackPacket;
         private bool _mustSendAck;
         private readonly byte _id;
         private long _lastPacketSendTime;
@@ -18,7 +18,7 @@ namespace LiteNetLib
             _id = id;
             _reliable = reliable;
             if (_reliable)
-                _ackPacket = new NetPacket(PacketProperty.Ack, 0) {ChannelId = id};
+                _ackPacket = new GamePacket(PacketProperty.Ack, 0) {ChannelId = id};
         }
 
         protected override bool SendNextPackets()
@@ -43,7 +43,7 @@ namespace LiteNetLib
                 {
                     while (OutgoingQueue.Count > 0)
                     {
-                        NetPacket packet = OutgoingQueue.Dequeue();
+                        GamePacket packet = OutgoingQueue.Dequeue();
                         _localSequence = (_localSequence + 1) % NetConstants.MaxSequence;
                         packet.Sequence = (ushort)_localSequence;
                         packet.ChannelId = _id;
@@ -72,7 +72,7 @@ namespace LiteNetLib
             return _lastPacket != null;
         }
 
-        public override bool ProcessPacket(NetPacket packet)
+        public override bool ProcessPacket(GamePacket packet)
         {
             if (packet.IsFragmented)
                 return false;

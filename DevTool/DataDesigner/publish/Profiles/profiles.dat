@@ -1,4 +1,23 @@
 {
+  "Company": {
+    "Name": "Company",
+    "FilePathList": [
+      {
+        "Target": "Client",
+        "ProjectPath": "",
+        "ProtocolPath": "",
+        "DataCodePath": "",
+        "DatabaseFilePath": ""
+      },
+      {
+        "Target": "Server",
+        "ProjectPath": "",
+        "ProtocolPath": "",
+        "DataCodePath": "",
+        "DatabaseFilePath": ""
+      }
+    ]
+  },
   "Profile": {
     "Name": "Profile",
     "FilePathList": [

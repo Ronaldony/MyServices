@@ -1,6 +1,6 @@
 using GameCore;
 using GameCore.Datas.Enemy;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using Network;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 {
     [SerializeField] private List<GameObject> _enemyPrefabs;
 
-    private NetPacketManager _pakcetManager;
+    private GamePacketManager _pakcetManager;
     private SectionManagement _sectionManagement;
 
     // Table datas.
@@ -37,7 +37,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
     private void Start()
     {
-        _pakcetManager = NetPacketManager.Instance;
+        _pakcetManager = GamePacketManager.Instance;
         _sectionManagement = SectionManagement.Instance;
         _tbEnemies = TDBManagement.Instance.SelectAll<TB_Enemy>();
     }
@@ -88,32 +88,32 @@ public class EnemyManagement : Singleton<EnemyManagement>
         {
             switch (updatePacket.PacketCode)
             {
-                case NetPacketCode.SC_SpawnEnemy:
+                case GamePacketCode.SC_SpawnEnemy:
                     {
-                        var packet = updatePacket.Data as NetPacketSC_SpawnEnemy;
+                        var packet = updatePacket.Data as GamePacketSC_SpawnEnemy;
                         SpawnEnemies(packet.Enemies);
                     }
                     break;
-                case NetPacketCode.SC_UpdateMovePattern:
+                case GamePacketCode.SC_UpdateMovePattern:
                     {
-                        UpdateMovePattern(updatePacket.Data as NetPacketSC_UpdateMovePattern);
+                        UpdateMovePattern(updatePacket.Data as GamePacketSC_UpdateMovePattern);
                     }
                     break;
-                case NetPacketCode.SC_UpdateSection:
+                case GamePacketCode.SC_UpdateSection:
                     {
-                        var packet = updatePacket.Data as NetPacketSC_UpdateSection;
+                        var packet = updatePacket.Data as GamePacketSC_UpdateSection;
                         SpawnEnemies(packet.Enemies);
                     }
                     break;
-                case NetPacketCode.SC_SpawnPlayer:
+                case GamePacketCode.SC_SpawnPlayer:
                     {
-                        var packet = updatePacket.Data as NetPacketSC_SpawnPlayer;
+                        var packet = updatePacket.Data as GamePacketSC_SpawnPlayer;
                         SpawnEnemies(packet.Enemies);
                     }
                     break;
-                case NetPacketCode.SC_HitEnemy:
+                case GamePacketCode.SC_HitEnemy:
                     {
-                        UpdateHitEnemies(updatePacket.Data as NetPacketSC_HitEnemy);
+                        UpdateHitEnemies(updatePacket.Data as GamePacketSC_HitEnemy);
                     }
                     break;
             }
@@ -163,7 +163,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// <summary>
     /// Update move pattern.
     /// </summary>
-    private void UpdateMovePattern(NetPacketSC_UpdateMovePattern packetData)
+    private void UpdateMovePattern(GamePacketSC_UpdateMovePattern packetData)
     {
         foreach (var enemy in packetData.Enemies)
         {
@@ -185,7 +185,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// <summary>
     /// Udpate hit enemies.
     /// </summary>
-    private void UpdateHitEnemies(NetPacketSC_HitEnemy packet)
+    private void UpdateHitEnemies(GamePacketSC_HitEnemy packet)
     {
         var srcPosition = new Vector3(packet.Position.X, packet.Position.Y);
 
@@ -201,7 +201,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
             // Udpate hit.
             var enemyPath = enemyObject.GetComponent<EnemyHealth>();
-            enemyPath.TakeDamage(packet.Damage, srcPosition);
+            enemyPath.TakeDamage(packet.Damage);
         }
     }
 

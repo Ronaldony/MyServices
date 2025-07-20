@@ -13,6 +13,6 @@ public class DamageSource : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         var enemyHealth = other.gameObject.GetComponent<EnemyHealth>();
-        enemyHealth?.TakeDamage(damageAmount, PlayerController.Instance.transform.position);
+        enemyHealth?.TakeDamage(damageAmount);
     }
 }

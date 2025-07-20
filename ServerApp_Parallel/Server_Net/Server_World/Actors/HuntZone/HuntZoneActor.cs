@@ -5,7 +5,7 @@ namespace Server_World.Actors.HuntZone
 {
     using Server_World.Actors.HuntZone.Router;
     using Server_World.Actors.HuntZone.Scheduler;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
     using Server_World.Core.Utilities;
     using Server_World.Core.Worlds.Msg;
 
@@ -33,12 +33,12 @@ namespace Server_World.Actors.HuntZone
             // Router.
             _huntZoneRouter = new HuntZoneRouter(ServiceUtility.GetServiceProvider(), _cts.Token);
 
+            // initialize actor receive.
+            Initialize_ActorReceive();
+
             // schedulers.
             _schdulerSpawnEnemy = new HuntZoneScheduler_SpawnEnemy(ServiceUtility.GetServiceProvider());
             _schdulerSpawnEnemy.Start();
-
-            // initialize actor receive.
-            Initialize_ActorReceive();
         }
 
         /// <summary>

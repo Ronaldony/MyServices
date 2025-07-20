@@ -18,5 +18,20 @@
     "Id": 3,
     "Name": "Pattern3",
     "Summary": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Pattern4",
+    "Summary": ""
+  },
+  {
+    "Id": 5,
+    "Name": "Pattern5",
+    "Summary": ""
+  },
+  {
+    "Id": 6,
+    "Name": "Pattern6",
+    "Summary": ""
   }
 ]

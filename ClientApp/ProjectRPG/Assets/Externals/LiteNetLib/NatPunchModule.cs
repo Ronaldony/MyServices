@@ -82,7 +82,7 @@ namespace LiteNetLib
         private readonly ConcurrentQueue<SuccessEventData> _successEvents = new ConcurrentQueue<SuccessEventData>();
         private readonly NetDataReader _cacheReader = new NetDataReader();
         private readonly NetDataWriter _cacheWriter = new NetDataWriter();
-        private readonly NetPacketProcessor _netPacketProcessor = new NetPacketProcessor(MaxTokenLength);
+        private readonly GamePacketProcessor _GamePacketProcessor = new GamePacketProcessor(MaxTokenLength);
         private INatPunchListener _natPunchListener;
         public const int MaxTokenLength = 256;
 
@@ -94,17 +94,17 @@ namespace LiteNetLib
         internal NatPunchModule(NetManager socket)
         {
             _socket = socket;
-            _netPacketProcessor.SubscribeReusable<NatIntroduceResponsePacket>(OnNatIntroductionResponse);
-            _netPacketProcessor.SubscribeReusable<NatIntroduceRequestPacket, IPEndPoint>(OnNatIntroductionRequest);
-            _netPacketProcessor.SubscribeReusable<NatPunchPacket, IPEndPoint>(OnNatPunch);
+            _GamePacketProcessor.SubscribeReusable<NatIntroduceResponsePacket>(OnNatIntroductionResponse);
+            _GamePacketProcessor.SubscribeReusable<NatIntroduceRequestPacket, IPEndPoint>(OnNatIntroductionRequest);
+            _GamePacketProcessor.SubscribeReusable<NatPunchPacket, IPEndPoint>(OnNatPunch);
         }
 
-        internal void ProcessMessage(IPEndPoint senderEndPoint, NetPacket packet)
+        internal void ProcessMessage(IPEndPoint senderEndPoint, GamePacket packet)
         {
             lock (_cacheReader)
             {
                 _cacheReader.SetSource(packet.RawData, NetConstants.HeaderSize, packet.Size);
-                _netPacketProcessor.ReadAllPackets(_cacheReader, senderEndPoint);
+                _GamePacketProcessor.ReadAllPackets(_cacheReader, senderEndPoint);
             }
         }
 
@@ -121,7 +121,7 @@ namespace LiteNetLib
         {
             _cacheWriter.Reset();
             _cacheWriter.Put((byte)PacketProperty.NatMessage);
-            _netPacketProcessor.Write(_cacheWriter, packet);
+            _GamePacketProcessor.Write(_cacheWriter, packet);
             _socket.SendRaw(_cacheWriter.Data, 0, _cacheWriter.Length, target);
         }
 

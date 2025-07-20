@@ -25,12 +25,12 @@ namespace LiteNetLib
         Empty
     }
 
-    internal sealed class NetPacket
+    internal sealed class GamePacket
     {
         private static readonly int PropertiesCount = Enum.GetValues(typeof(PacketProperty)).Length;
         private static readonly int[] HeaderSizes;
 
-        static NetPacket()
+        static GamePacket()
         {
             HeaderSizes = NetUtils.AllocatePinnedUninitializedArray<int>(PropertiesCount);
             for (int i = 0; i < HeaderSizes.Length; i++)
@@ -121,15 +121,15 @@ namespace LiteNetLib
         public object UserData;
 
         //Pool node
-        public NetPacket Next;
+        public GamePacket Next;
 
-        public NetPacket(int size)
+        public GamePacket(int size)
         {
             RawData = new byte[size];
             Size = size;
         }
 
-        public NetPacket(PacketProperty property, int size)
+        public GamePacket(PacketProperty property, int size)
         {
             size += GetHeaderSize(property);
             RawData = new byte[size];
@@ -158,7 +158,7 @@ namespace LiteNetLib
         }
 
         #if LITENETLIB_SPANS || NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1 || NETCOREAPP3_1 || NET5_0 || NETSTANDARD2_1
-        public static implicit operator Span<byte>(NetPacket p) => new Span<byte>(p.RawData, 0, p.Size);
+        public static implicit operator Span<byte>(GamePacket p) => new Span<byte>(p.RawData, 0, p.Size);
         #endif
     }
 }

@@ -39,7 +39,8 @@ namespace Server_World
             appBuilder.Services.AddSingleton<ITDBService, TDBService>();
 
             appBuilder.Services.AddSingleton<CollisionService>();
-
+            appBuilder.Services.AddSingleton<ProjectileService>();
+            
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
             appBuilder.Services.AddSingleton<HuntZoneActorProvider>();

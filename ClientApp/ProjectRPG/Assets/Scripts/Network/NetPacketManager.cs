@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Network
 { 
-    public class NetPacketManager : Singleton<NetPacketManager>
+    public class GamePacketManager : Singleton<GamePacketManager>
     {
         [SerializeField] private string _address;
         [SerializeField] private int _port;
@@ -14,7 +14,7 @@ namespace Network
 
         private UdpPacket _sendPacket;
 
-        public NetPacketManager()
+        public GamePacketManager()
         {
             _client = new UdpClient();
             _sendPacket = new UdpPacket();

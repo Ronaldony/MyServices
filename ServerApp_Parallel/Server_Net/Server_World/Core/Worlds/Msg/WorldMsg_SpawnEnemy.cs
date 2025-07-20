@@ -1,8 +1,8 @@
 ﻿namespace Server_World.Core.Worlds.Msg
 {
     using GameCore.Datas.Enemy;
-    using Server_World.Core.Datas;
     using Server_World.Core.Types;
+    using Server_World.Core.Worlds;
 
     /// <summary>
     /// WorldMsg_SpawnEnemy.

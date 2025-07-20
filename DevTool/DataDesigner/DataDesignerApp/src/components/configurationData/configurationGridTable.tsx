@@ -111,7 +111,7 @@ export default function ConfigurationGridTable({
     const last = sortedRows[sortedRows.length - 1];
     let newId = last?.Id + 1;
 
-    if (last?.Id === undefined) newId = 1;
+    if (last?.Id === undefined) newId = 0;
 
     // set schema
     setSchemaList(

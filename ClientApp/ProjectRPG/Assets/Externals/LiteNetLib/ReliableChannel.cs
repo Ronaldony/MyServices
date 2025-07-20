@@ -6,7 +6,7 @@ namespace LiteNetLib
     {
         private struct PendingPacket
         {
-            private NetPacket _packet;
+            private GamePacket _packet;
             private long _timeStamp;
             private bool _isSent;
 
@@ -15,7 +15,7 @@ namespace LiteNetLib
                 return _packet == null ? "Empty" : _packet.Sequence.ToString();
             }
 
-            public void Init(NetPacket packet)
+            public void Init(GamePacket packet)
             {
                 _packet = packet;
                 _isSent = false;
@@ -53,9 +53,9 @@ namespace LiteNetLib
             }
         }
 
-        private readonly NetPacket _outgoingAcks;            //for send acks
+        private readonly GamePacket _outgoingAcks;            //for send acks
         private readonly PendingPacket[] _pendingPackets;    //for unacked packets and duplicates
-        private readonly NetPacket[] _receivedPackets;       //for order
+        private readonly GamePacket[] _receivedPackets;       //for order
         private readonly bool[] _earlyReceived;              //for unordered
 
         private int _localSeqence;
@@ -83,7 +83,7 @@ namespace LiteNetLib
             if (_ordered)
             {
                 _deliveryMethod = DeliveryMethod.ReliableOrdered;
-                _receivedPackets = new NetPacket[_windowSize];
+                _receivedPackets = new GamePacket[_windowSize];
             }
             else
             {
@@ -95,11 +95,11 @@ namespace LiteNetLib
             _localSeqence = 0;
             _remoteSequence = 0;
             _remoteWindowStart = 0;
-            _outgoingAcks = new NetPacket(PacketProperty.Ack, (_windowSize - 1) / BitsInByte + 2) {ChannelId = id};
+            _outgoingAcks = new GamePacket(PacketProperty.Ack, (_windowSize - 1) / BitsInByte + 2) {ChannelId = id};
         }
 
         //ProcessAck in packet
-        private void ProcessAck(NetPacket packet)
+        private void ProcessAck(GamePacket packet)
         {
             if (packet.Size != _outgoingAcks.Size)
             {
@@ -189,10 +189,10 @@ namespace LiteNetLib
                         if (relate >= _windowSize)
                             break;
 
-                        var netPacket = OutgoingQueue.Dequeue();
-                        netPacket.Sequence = (ushort) _localSeqence;
-                        netPacket.ChannelId = _id;
-                        _pendingPackets[_localSeqence % _windowSize].Init(netPacket);
+                        var GamePacket = OutgoingQueue.Dequeue();
+                        GamePacket.Sequence = (ushort) _localSeqence;
+                        GamePacket.ChannelId = _id;
+                        _pendingPackets[_localSeqence % _windowSize].Init(GamePacket);
                         _localSeqence = (_localSeqence + 1) % NetConstants.MaxSequence;
                     }
                 }
@@ -210,7 +210,7 @@ namespace LiteNetLib
         }
 
         //Process incoming packet
-        public override bool ProcessPacket(NetPacket packet)
+        public override bool ProcessPacket(GamePacket packet)
         {
             if (packet.Property == PacketProperty.Ack)
             {
@@ -300,7 +300,7 @@ namespace LiteNetLib
 
                 if (_ordered)
                 {
-                    NetPacket p;
+                    GamePacket p;
                     while ((p = _receivedPackets[_remoteSequence % _windowSize]) != null)
                     {
                         //process holden packet

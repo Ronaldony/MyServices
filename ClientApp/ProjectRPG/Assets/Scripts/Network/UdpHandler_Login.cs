@@ -2,9 +2,8 @@
 using Externals.Serializer;
 using Externals.UDP;
 using GameCore;
-using GameCore.NetPacket;
+using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Network
@@ -15,12 +14,12 @@ namespace Network
     /// </summary>
     public class UdpHandler_Login : UdpHandler
     {
-        private readonly NetPacketCS_SpawnPlayer _sendPacket;
+        private readonly GamePacketCS_SpawnPlayer _sendPacket;
 
         public UdpHandler_Login()
-            : base(NetPacketCode.SC_Login)
+            : base(GamePacketCode.SC_Login)
         {
-            _sendPacket = new NetPacketCS_SpawnPlayer();
+            _sendPacket = new GamePacketCS_SpawnPlayer();
         }
 
         /// <summary>
@@ -30,10 +29,10 @@ namespace Network
         {
             Debug.Log("HandlePacket - Login");
 
-            var packetData = MemoryPackDataSerializer.Deserialize<NetPacketSC_Login>(packet.Data);
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_Login>(packet.Data);
 
             var playerDataManager = PlayerDataManager.Instance;
-            var netPacketManager = NetPacketManager.Instance;
+            var gamePacketManager = GamePacketManager.Instance;
             var loginActor = LoginActor.Instance;
 
             playerDataManager.PlayInfo = packetData.PlayInfo;
@@ -55,7 +54,7 @@ namespace Network
             //}
 
             // Delay.
-            netPacketManager.Send<NetPacketCS_SpawnPlayer>(NetPacketCode.CS_SpawnPlayer, _sendPacket);
+            gamePacketManager.Send<GamePacketCS_SpawnPlayer>(GamePacketCode.CS_SpawnPlayer, _sendPacket);
         }
     }
 }

@@ -1,18 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Core.Util;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Numerics;
+using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore.Interfaces;
     using Server_World.Actors.HuntZone.Router;
     using Server_World.Actors.HuntZone.Scheduler;
-    using Server_World.Core.Datas;
-    using Server_World.Core.Datas.GameEvents;
+    using Server_World.Core.GameEvents;
     using Server_World.Core.Services;
+    using Server_World.Core.Types;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
     using Server_World.Server.HuntZone;
@@ -28,12 +29,16 @@ namespace Server_World.Actors.HuntZone.District
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
         private readonly CollisionService _collisionService;
+        private readonly ProjectileService _projectileService;
 
         // Server.
         private readonly HuntZoneServer _huntZoneServer;
 
         // WorldGroup.
         private readonly World_Group _worldGroup;
+
+        // WorldProjectile.
+        private readonly World_Projectile _worldProjectile;
 
         // HuntZoneRouter.
         private readonly HuntZoneRouter _router;
@@ -45,9 +50,16 @@ namespace Server_World.Actors.HuntZone.District
         private readonly ConcurrentQueue<GameEvent> _gameEventQueue;
         private readonly ConcurrentQueue<WorldMsg> _worldMsgQueue;
 
+        // Aciton block.
+        private readonly ActionBlock<Type_WorldProcess> _processPipeline;
+
         // Scheduler.
         private readonly HuntZoneScheduler_MovePattern _schedulerMovePattern;
-        
+        private readonly HuntZoneScheduler_UpdateFrame _schedulerUpdateFrame;
+
+        // Frame time.
+        private DateTime _lastFrameUpdateTime;
+
         public DistrictProcessor(IServiceProvider serviceProvider, HuntZoneRouter router, HashSet<SectionId> aroundSections, District district, CancellationToken ct)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DistrictProcessor>>();
@@ -57,10 +69,12 @@ namespace Server_World.Actors.HuntZone.District
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
             _collisionService = serviceProvider.GetRequiredService<CollisionService>();
+            _projectileService = serviceProvider.GetRequiredService<ProjectileService>();
 
             // Worlds.
             _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
             _worldGroup = Initialize_WorldGroup(aroundSections);
+            _worldProjectile = new World_Projectile();
 
             // Router.
             _router = router;
@@ -72,11 +86,26 @@ namespace Server_World.Actors.HuntZone.District
             _gameEventQueue = new ConcurrentQueue<GameEvent>();
             _worldMsgQueue = new ConcurrentQueue<WorldMsg>();
 
+            // Frame time.
+            _lastFrameUpdateTime = TimeUtil.Now;
+
+            // Process pipeline.
+            _processPipeline = new ActionBlock<Type_WorldProcess>(
+                action: worldProcess => Process(worldProcess)
+                , new ExecutionDataflowBlockOptions
+                {
+                    CancellationToken = ct,
+                    MaxDegreeOfParallelism = 1,
+                });
+
+            // Schedulers.
             _schedulerMovePattern = new HuntZoneScheduler_MovePattern(serviceProvider, this);
             _schedulerMovePattern.Start();
 
-            // Process.
-            Task.Run(() => ProcessAsync(ct));
+            _schedulerUpdateFrame = new HuntZoneScheduler_UpdateFrame(serviceProvider, this);
+            _schedulerUpdateFrame.Start();
+
+            _logger.LogInformation($"start DistrictProcessor. district: {_district}");
         }
 
         /// <summary>
@@ -85,6 +114,7 @@ namespace Server_World.Actors.HuntZone.District
         public void WriteGameEvent(GameEvent ge)
         {
             _gameEventQueue.Enqueue(ge);
+            _processPipeline.Post(Type_WorldProcess.GameEvent);
         }
 
         /// <summary>
@@ -93,8 +123,9 @@ namespace Server_World.Actors.HuntZone.District
         public void WriteWorldMsg(WorldMsg wm)
         {
             _worldMsgQueue.Enqueue(wm);
+            _processPipeline.Post(Type_WorldProcess.WorldMsg);
         }
-        
+
         /// <summary>
         /// Route game event to router.
         /// </summary>
@@ -113,50 +144,23 @@ namespace Server_World.Actors.HuntZone.District
         }
 
         /// <summary>
-        /// Process async.
+        /// Process.
         /// </summary>
-        private async Task ProcessAsync(CancellationToken ct)
+        private void Process(Type_WorldProcess worldProcess)
         {
-            _logger.LogInformation($"start DistrictProcessor. district: {_district}.");
-
-            ct.Register(() => _logger.LogError($"shutdown DistrictProcessor. district: {_district}."));
-
-            long processUpdateTime = 30; // 30 FPS
-            float frameDeltaSeconds = (float)processUpdateTime / 1000; // 0.03 sec
-            var sw = new Stopwatch();
-
-            while (!ct.IsCancellationRequested)
+            switch (worldProcess)
             {
-                // Start measure.
-                sw.Restart();
-
-                // Process GameEvent.
-                while (_gameEventQueue.TryDequeue(out var gameEvent))
-                {
-                    // from other GameProcessor.
+                case Type_WorldProcess.GameEvent:
+                    _gameEventQueue.TryDequeue(out var gameEvent);
                     ProcessGameEvent(gameEvent);
-                }
-
-                // Process WorldMsg.
-                while (_worldMsgQueue.TryDequeue(out var worldMsg))
-                {
-                    // from other GameProcessor.
+                    break;
+                case Type_WorldProcess.WorldMsg:
+                    _worldMsgQueue.TryDequeue(out var worldMsg);
                     ProcessWorldMsg(worldMsg);
-                }
-
-                // Update frame.
-                UpdateFrame(frameDeltaSeconds);
-
-                // Stop measure.
-                sw.Stop();
-
-                var delayTime = processUpdateTime - sw.ElapsedMilliseconds;
-                if (delayTime < 0)
-                {
-                    delayTime = 0;
-                }
-
-                await Task.Delay((int)delayTime);
+                    break;
+                default:
+                    _logger.LogError($"process type error. type: {worldProcess}");
+                    break;
             }
         }
     }

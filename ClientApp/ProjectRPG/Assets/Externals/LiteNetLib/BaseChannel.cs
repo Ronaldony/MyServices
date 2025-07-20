@@ -6,7 +6,7 @@ namespace LiteNetLib
     internal abstract class BaseChannel
     {
         protected readonly NetPeer Peer;
-        protected readonly Queue<NetPacket> OutgoingQueue = new Queue<NetPacket>(NetConstants.DefaultWindowSize);
+        protected readonly Queue<GamePacket> OutgoingQueue = new Queue<GamePacket>(NetConstants.DefaultWindowSize);
         private int _isAddedToPeerChannelSendQueue;
 
         public int PacketsInQueue => OutgoingQueue.Count;
@@ -16,7 +16,7 @@ namespace LiteNetLib
             Peer = peer;
         }
 
-        public void AddToQueue(NetPacket packet)
+        public void AddToQueue(GamePacket packet)
         {
             lock (OutgoingQueue)
             {
@@ -43,6 +43,6 @@ namespace LiteNetLib
         }
 
         protected abstract bool SendNextPackets();
-        public abstract bool ProcessPacket(NetPacket packet);
+        public abstract bool ProcessPacket(GamePacket packet);
     }
 }

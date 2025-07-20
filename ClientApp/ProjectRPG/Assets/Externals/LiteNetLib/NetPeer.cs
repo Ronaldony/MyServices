@@ -83,8 +83,8 @@ namespace LiteNetLib
         }
 
         //Channels
-        private NetPacket[] _unreliableSecondQueue;
-        private NetPacket[] _unreliableChannel;
+        private GamePacket[] _unreliableSecondQueue;
+        private GamePacket[] _unreliableChannel;
         private int _unreliablePendingCount;
         private readonly object _unreliableChannelLock = new object();
 
@@ -104,7 +104,7 @@ namespace LiteNetLib
         //Fragment
         private class IncomingFragments
         {
-            public NetPacket[] Fragments;
+            public GamePacket[] Fragments;
             public int ReceivedCount;
             public int TotalSize;
             public byte ChannelId;
@@ -114,7 +114,7 @@ namespace LiteNetLib
         private readonly Dictionary<ushort, ushort> _deliveredFragments;
 
         //Merging
-        private readonly NetPacket _mergeData;
+        private readonly GamePacket _mergeData;
         private int _mergePos;
         private int _mergeCount;
 
@@ -124,13 +124,13 @@ namespace LiteNetLib
         private long _connectTime;
         private byte _connectNum;
         private ConnectionState _connectionState;
-        private NetPacket _shutdownPacket;
+        private GamePacket _shutdownPacket;
         private const int ShutdownDelay = 300;
         private float _shutdownTimer;
-        private readonly NetPacket _pingPacket;
-        private readonly NetPacket _pongPacket;
-        private readonly NetPacket _connectRequestPacket;
-        private readonly NetPacket _connectAcceptPacket;
+        private readonly GamePacket _pingPacket;
+        private readonly GamePacket _pongPacket;
+        private readonly GamePacket _connectRequestPacket;
+        private readonly GamePacket _connectAcceptPacket;
 
         /// <summary>
         /// Peer parent NetManager
@@ -243,12 +243,12 @@ namespace LiteNetLib
             ResetMtu();
 
             _connectionState = ConnectionState.Connected;
-            _mergeData = new NetPacket(PacketProperty.Merged, NetConstants.MaxPacketSize);
-            _pongPacket = new NetPacket(PacketProperty.Pong, 0);
-            _pingPacket = new NetPacket(PacketProperty.Ping, 0) {Sequence = 1};
+            _mergeData = new GamePacket(PacketProperty.Merged, NetConstants.MaxPacketSize);
+            _pongPacket = new GamePacket(PacketProperty.Pong, 0);
+            _pingPacket = new GamePacket(PacketProperty.Ping, 0) {Sequence = 1};
 
-            _unreliableSecondQueue = new NetPacket[8];
-            _unreliableChannel = new NetPacket[8];
+            _unreliableSecondQueue = new GamePacket[8];
+            _unreliableChannel = new GamePacket[8];
             _holdedFragments = new Dictionary<ushort, IncomingFragments>();
             _deliveredFragments = new Dictionary<ushort, ushort>();
 
@@ -363,7 +363,7 @@ namespace LiteNetLib
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void EnqueueUnreliable(NetPacket packet)
+        private void EnqueueUnreliable(GamePacket packet)
         {
             lock (_unreliableChannelLock)
             {
@@ -474,7 +474,7 @@ namespace LiteNetLib
         /// <returns>size in bytes</returns>
         public int GetMaxSinglePacketSize(DeliveryMethod options)
         {
-            return _mtu - NetPacket.GetHeaderSize(options == DeliveryMethod.Unreliable ? PacketProperty.Unreliable : PacketProperty.Channeled);
+            return _mtu - GamePacket.GetHeaderSize(options == DeliveryMethod.Unreliable ? PacketProperty.Unreliable : PacketProperty.Channeled);
         }
 
         /// <summary>
@@ -656,7 +656,7 @@ namespace LiteNetLib
             NetDebug.Write("[RS]Packet: " + property);
 
             //Check fragmentation
-            int headerSize = NetPacket.GetHeaderSize(property);
+            int headerSize = GamePacket.GetHeaderSize(property);
             //Save mtu for multithread
             int mtu = _mtu;
             if (length + headerSize > mtu)
@@ -685,7 +685,7 @@ namespace LiteNetLib
                 {
                     int sendLength = length > packetDataSize ? packetDataSize : length;
 
-                    NetPacket p = NetManager.PoolGetPacket(headerSize + sendLength + NetConstants.FragmentHeaderSize);
+                    GamePacket p = NetManager.PoolGetPacket(headerSize + sendLength + NetConstants.FragmentHeaderSize);
                     p.Property = property;
                     p.UserData = userData;
                     p.FragmentId = currentFragmentId;
@@ -702,7 +702,7 @@ namespace LiteNetLib
             }
 
             //Else just send
-            NetPacket packet = NetManager.PoolGetPacket(headerSize + length);
+            GamePacket packet = NetManager.PoolGetPacket(headerSize + length);
             packet.Property = property;
             Buffer.BlockCopy(data, start, packet.RawData, headerSize, length);
             packet.UserData = userData;
@@ -793,7 +793,7 @@ namespace LiteNetLib
             NetDebug.Write("[RS]Packet: " + property);
 
             //Check fragmentation
-            int headerSize = NetPacket.GetHeaderSize(property);
+            int headerSize = GamePacket.GetHeaderSize(property);
             //Save mtu for multithread
             int mtu = _mtu;
             int length = data.Length;
@@ -816,7 +816,7 @@ namespace LiteNetLib
                 {
                     int sendLength = length > packetDataSize ? packetDataSize : length;
 
-                    NetPacket p = NetManager.PoolGetPacket(headerSize + sendLength + NetConstants.FragmentHeaderSize);
+                    GamePacket p = NetManager.PoolGetPacket(headerSize + sendLength + NetConstants.FragmentHeaderSize);
                     p.Property = property;
                     p.UserData = userData;
                     p.FragmentId = currentFragmentId;
@@ -833,7 +833,7 @@ namespace LiteNetLib
             }
 
             //Else just send
-            NetPacket packet = NetManager.PoolGetPacket(headerSize + length);
+            GamePacket packet = NetManager.PoolGetPacket(headerSize + length);
             packet.Property = property;
             data.CopyTo(new Span<byte>(packet.RawData, headerSize, length));
             packet.UserData = userData;
@@ -869,7 +869,7 @@ namespace LiteNetLib
             NetManager.DisconnectPeer(this);
         }
 
-        internal DisconnectResult ProcessDisconnect(NetPacket packet)
+        internal DisconnectResult ProcessDisconnect(GamePacket packet)
         {
             if ((_connectionState == ConnectionState.Connected || _connectionState == ConnectionState.Outgoing) &&
                 packet.Size >= 9 &&
@@ -914,7 +914,7 @@ namespace LiteNetLib
                 Interlocked.Exchange(ref _timeSinceLastPacket, 0);
 
                 //send shutdown packet
-                _shutdownPacket = new NetPacket(PacketProperty.Disconnect, length) {ConnectionNumber = _connectNum};
+                _shutdownPacket = new GamePacket(PacketProperty.Disconnect, length) {ConnectionNumber = _connectNum};
                 FastBitConverter.GetBytes(_shutdownPacket.RawData, 1, _connectTime);
                 if (_shutdownPacket.Size >= _mtu)
                 {
@@ -940,7 +940,7 @@ namespace LiteNetLib
             _resendDelay = 25.0 + _avgRtt * 2.1; // 25 ms + double rtt
         }
 
-        internal void AddReliablePacket(DeliveryMethod method, NetPacket p)
+        internal void AddReliablePacket(DeliveryMethod method, GamePacket p)
         {
             if (p.IsFragmented)
             {
@@ -952,7 +952,7 @@ namespace LiteNetLib
                 {
                     incomingFragments = new IncomingFragments
                     {
-                        Fragments = new NetPacket[p.FragmentsTotal],
+                        Fragments = new GamePacket[p.FragmentsTotal],
                         ChannelId = p.ChannelId
                     };
                     _holdedFragments.Add(packetFragId, incomingFragments);
@@ -984,7 +984,7 @@ namespace LiteNetLib
                     return;
 
                 //just simple packet
-                NetPacket resultingPacket = NetManager.PoolGetPacket(incomingFragments.TotalSize);
+                GamePacket resultingPacket = NetManager.PoolGetPacket(incomingFragments.TotalSize);
 
                 int pos = 0;
                 for (int i = 0; i < incomingFragments.ReceivedCount; i++)
@@ -1031,7 +1031,7 @@ namespace LiteNetLib
             }
         }
 
-        private void ProcessMtuPacket(NetPacket packet)
+        private void ProcessMtuPacket(GamePacket packet)
         {
             //header + int
             if (packet.Size < NetConstants.PossibleMtu[0])
@@ -1157,7 +1157,7 @@ namespace LiteNetLib
         }
 
         //Process incoming packet
-        internal void ProcessPacket(NetPacket packet)
+        internal void ProcessPacket(GamePacket packet)
         {
             //not initialized
             if (_connectionState == ConnectionState.Outgoing || _connectionState == ConnectionState.Disconnected)
@@ -1195,7 +1195,7 @@ namespace LiteNetLib
                         if (packet.RawData.Length - pos < size)
                             break;
 
-                        NetPacket mergedPacket = NetManager.PoolGetPacket(size);
+                        GamePacket mergedPacket = NetManager.PoolGetPacket(size);
                         Buffer.BlockCopy(packet.RawData, pos, mergedPacket.RawData, 0, size);
                         mergedPacket.Size = size;
 
@@ -1290,7 +1290,7 @@ namespace LiteNetLib
             _mergeCount = 0;
         }
 
-        internal void SendUserData(NetPacket packet)
+        internal void SendUserData(GamePacket packet)
         {
             packet.ConnectionNumber = _connectNum;
             int mergedPacketSize = NetConstants.HeaderSize + packet.Size + 2;
@@ -1430,7 +1430,7 @@ namespace LiteNetLib
         }
 
         //For reliable channel
-        internal void RecycleAndDeliver(NetPacket packet)
+        internal void RecycleAndDeliver(GamePacket packet)
         {
             if (packet.UserData != null)
             {

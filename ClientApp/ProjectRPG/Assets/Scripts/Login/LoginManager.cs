@@ -1,14 +1,12 @@
 using Externals.Serializer;
 using GameCore;
+using GameCore.GamePacket;
 using GameCore.Http;
 using GameCore.Http.Auth;
-using GameCore.NetPacket;
 using Network;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,7 +20,7 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private string _loadScene;
 
     private PlayerDataManager _playerDataManager;
-    private NetPacketManager _netPacketManager;
+    private GamePacketManager _GamePacketManager;
 
     /// <summary>
     /// Web headers.
@@ -34,7 +32,7 @@ public class LoginManager : MonoBehaviour
     private void Start()
     {
         _playerDataManager = PlayerDataManager.Instance;
-        _netPacketManager = NetPacketManager.Instance;
+        _GamePacketManager = GamePacketManager.Instance;
 
         _authHeaders = new Dictionary<string, string>();
     }
@@ -145,7 +143,7 @@ public class LoginManager : MonoBehaviour
                 _playerDataManager.PlayerInfo = res.PlayerInfo;
 
                 // Net packet login.
-                var isConnected = _netPacketManager.Connect();
+                var isConnected = _GamePacketManager.Connect();
                 if (isConnected == false)
                 {
                     _noticeText.text = "Fail to connect to server";
@@ -167,17 +165,18 @@ public class LoginManager : MonoBehaviour
     /// </summary>
     private IEnumerator LoginWorldServer(string pid, string token)
     {
+        // Delay 2 seconds.
         yield return new WaitForSeconds(2f);
 
         // Send Login packet.
-        var netPacket = new NetPacketCS_Login
+        var gamePacket = new GamePacketCS_Login
         {
             Pid = pid,
             Token = token,
         };
 
         // Send packet.
-        if (false == _netPacketManager.Send<NetPacketCS_Login>(NetPacketCode.CS_Login, netPacket))
+        if (false == _GamePacketManager.Send<GamePacketCS_Login>(GamePacketCode.CS_Login, gamePacket))
         {
             _noticeText.text = "Fail to send pakcet login.";
         }

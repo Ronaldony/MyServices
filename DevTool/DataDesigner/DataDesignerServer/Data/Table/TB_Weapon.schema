@@ -21,7 +21,7 @@
     },
     {
       "Idx": 3,
-      "Name": "Attack",
+      "Name": "Damage",
       "IsIndexed": false,
       "Type": "int",
       "RefTable": "",
@@ -29,9 +29,25 @@
     },
     {
       "Idx": 4,
-      "Name": "Cooltime",
+      "Name": "Range",
       "IsIndexed": false,
       "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "CoolTime",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "CollisionType",
+      "IsIndexed": false,
+      "Type": "Type_Collision",
       "RefTable": "",
       "Summary": ""
     }

@@ -17,7 +17,7 @@
       "IsIndexed": false,
       "Type": "string",
       "RefTable": "",
-      "Summary": ""
+      "Summary": "name"
     },
     {
       "Idx": 3,
@@ -25,7 +25,7 @@
       "IsIndexed": false,
       "Type": "int",
       "RefTable": "",
-      "Summary": ""
+      "Summary": "damage"
     },
     {
       "Idx": 4,
@@ -33,7 +33,7 @@
       "IsIndexed": false,
       "Type": "int",
       "RefTable": "",
-      "Summary": ""
+      "Summary": "range"
     },
     {
       "Idx": 5,
@@ -41,7 +41,7 @@
       "IsIndexed": false,
       "Type": "int",
       "RefTable": "",
-      "Summary": ""
+      "Summary": "cool time"
     },
     {
       "Idx": 6,
@@ -49,7 +49,15 @@
       "IsIndexed": false,
       "Type": "Type_Collision",
       "RefTable": "",
-      "Summary": ""
+      "Summary": "collision type"
+    },
+    {
+      "Idx": 7,
+      "Name": "ProjectileType",
+      "IsIndexed": false,
+      "Type": "Type_Projectile",
+      "RefTable": "",
+      "Summary": "projectile typ"
     }
   ]
 }

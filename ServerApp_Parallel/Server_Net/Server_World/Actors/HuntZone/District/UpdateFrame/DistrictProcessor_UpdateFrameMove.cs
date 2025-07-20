@@ -5,7 +5,6 @@ using System.Numerics;
 namespace Server_World.Actors.HuntZone.District
 {
     using GameCore;
-    using Server_World.Core.Datas;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Section;
 
@@ -17,7 +16,7 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 프레임 업데이트 - 이동 처리.
         /// </summary>
-        private void UpdateFrame_Move(float frameIntervalSec, ConcurrentBag<World_UpdateFrame> updateFrames)
+        private void UpdateFrame_Move(double deltaTime, ConcurrentBag<World_UpdateFrame> updateFrames)
         {
             // 플레이어가 존재하는 섹션의 플레이어, 적 이동 처리.
             Parallel.ForEach(_worldGroup.ManagedSections, section =>
@@ -50,7 +49,10 @@ namespace Server_World.Actors.HuntZone.District
                     switch (playInfo.Action)
                     {
                         case Type_Action.Move:          // 이동 처리.
-                            var movePos = Calc_PlayerPosition(location.Position, location.MoveDirection, frameIntervalSec, playInfo.Stat.Velocity);
+                            //var movePos = Calc_PlayerPosition(location.Position, location.MoveDirection, deltaTime, playInfo.Stat.Velocity);
+                            // 이동 거리.
+                            var deltaPos = location.MoveDirection * (float)deltaTime * playInfo.Stat.Velocity;
+                            var movePos = location.Position + deltaPos;
 
                             if (false == IsValidSection(movePos))
                             {
@@ -63,7 +65,6 @@ namespace Server_World.Actors.HuntZone.District
                         case Type_Action.MoveEnd:       // 이동 위치 평가
                         case Type_Action.Knockback:
                         case Type_Action.Dash:
-                            // 위치 개인.
                             playInfo.Action = Type_Action.None;
                             location.Position = location.PositionEnd;
                             break;
@@ -112,7 +113,7 @@ namespace Server_World.Actors.HuntZone.District
                     var location = enemy.Location;
 
                     // 적 위치 계산.
-                    var movePos = Calc_EnemyPosition(location.Pos, location.NextPos, location.NextPosDir, frameIntervalSec, location.Veltocity);
+                    var movePos = Calc_EnemyPosition(location.Pos, location.NextPos, location.NextPosDir, (float)deltaTime, location.Veltocity);
                     var moveSection = SectionId.GetSection(movePos);
 
                     // 위치 업데이트.
@@ -145,74 +146,6 @@ namespace Server_World.Actors.HuntZone.District
                     }
                 }
             });
-        }
-
-        /// <summary>
-        /// Calculation position of player.
-        /// </summary>
-        private Vector2 Calc_PlayerPosition(Vector2 oriPos, Type_MoveDirection moveDir, double diffSeconds, int velocity)
-        {
-            // 이동 방향 계산 시퀀스. 
-            // 1. 이동 방향 확인.
-            // 2. 이동 방향에 따라 이동 오차 범위 값 계산.
-            // 3. x, y 좌표에 이동 오차 범위 값을 더하여 범위 내인 경우 true, 범위 밖인 경우 false.
-            switch (moveDir)
-            {
-                case Type_MoveDirection.Top:
-                    {
-                        oriPos.Y += (float)(diffSeconds * velocity);
-                    }
-                    break;
-                case Type_MoveDirection.Down:
-                    {
-                        oriPos.Y -= (float)(diffSeconds * velocity);
-                    }
-                    break;
-                case Type_MoveDirection.Right:
-                    {
-                        oriPos.X += (float)(diffSeconds * velocity);
-                    }
-                    break;
-                case Type_MoveDirection.Left:
-                    {
-                        oriPos.X -= (float)(diffSeconds * velocity);
-                    }
-                    break;
-                case Type_MoveDirection.RightTop:
-                    {
-                        var calcDist = (float)(diffSeconds * velocity * 0.71);
-
-                        oriPos.X += calcDist;
-                        oriPos.Y += calcDist;
-                    }
-                    break;
-                case Type_MoveDirection.LeftTop:
-                    {
-                        var calcDist = (float)(diffSeconds * velocity * 0.71);
-
-                        oriPos.X -= calcDist;
-                        oriPos.Y += calcDist;
-                    }
-                    break;
-                case Type_MoveDirection.RightDown:
-                    {
-                        var calcDist = (float)(diffSeconds * velocity * 0.71);
-
-                        oriPos.X += calcDist;
-                        oriPos.Y -= calcDist;
-                    }
-                    break;
-                case Type_MoveDirection.LeftDown:
-                    {
-                        var calcDist = (float)(diffSeconds * velocity * 0.71);
-
-                        oriPos.X -= calcDist;
-                        oriPos.Y -= calcDist;
-                    }
-                    break;
-            }
-
-            return oriPos;
         }
 
         /// <summary>

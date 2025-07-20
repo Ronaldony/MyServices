@@ -3,7 +3,7 @@
 namespace Server_World.Core.Collisions
 {
     using GameCore;
-    using Server_World.Core.Collisions.Boundings;
+    using Server_World.Core.HitBoxes;
 
     /// <summary>
     /// Collision.
@@ -25,23 +25,27 @@ namespace Server_World.Core.Collisions
         /// <summary>
         /// 충돌 위치 오프셋. (객체 위치로 부터의 거리)
         /// </summary>
-        protected float OffsetX;
-        protected float OffsetY;
+        protected Vector2 Offset;
 
         /// <summary>
-        /// Set up.
+        /// 셋업.
         /// </summary>
         public abstract void Setup(Type_Collision collisionType, float width, float height, float offsetX, float offsetY);
 
         /// <summary>
-        /// 바운딩 경계 얻기.
+        /// 히트박스 업데이트.
         /// </summary>
-        public abstract Hitbox GetHitbox(float x, float y, Vector2 angle);
+        public abstract void UpdateHitbox(Vector2 pos, Vector2 angle);
 
         /// <summary>
-        /// 바운딩 경계 얻기.
+        /// 히트박스 업데이트.
         /// </summary>
-        public abstract Hitbox GetHitBox(float x, float y);
+        public abstract void UpdateHitbox(Vector2 pos);
+
+        /// <summary>
+        /// 히트박스.
+        /// </summary>
+        public abstract Hitbox GetHitbox();
 
         /// <summary>
         /// Dispose.
