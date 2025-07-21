@@ -25,7 +25,6 @@ namespace Server_World.Actors.HuntZone.District
 
             return new World_Group
             {
-                EnemyDict = new Dictionary<ulong, World_Enemy>(),
                 PlayerDict = new Dictionary<string, World_Player>(),
                 SectionPlayerDict = sectionPlayerDict,
                 SectionEnemyDict = sectionEnemyDict,

@@ -9,13 +9,13 @@ namespace GameCore.GamePacket
     using GameCore.Datas.Play;
 
     /// <summary>
-    /// GamePacketSC_UpdateSection.
+    /// GamePacketSC_UpdateSectionMove.
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketSC_UpdateSection : GamePacketBase_SC, IDisposable
+    public partial class GamePacketSC_UpdateSectionMove : GamePacketBase_SC, IDisposable
     {
-        public GamePacketSC_UpdateSection()
+        public GamePacketSC_UpdateSectionMove()
         {
             PlayInfos = new List<DTO_PlayInfo>();
             Enemies = new List<DTO_Enemy>();

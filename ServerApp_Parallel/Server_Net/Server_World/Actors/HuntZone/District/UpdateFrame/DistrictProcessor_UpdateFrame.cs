@@ -21,7 +21,7 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void UpdateFrame(WorldMsg_UpdateFrame worldMsg)
         {
-            // 프레임 델타 타임.
+            // 프레임 시간차.
             var nowTime = TimeUtil.Now;
             var frameDeltaTime = (nowTime - _lastFrameUpdateTime).TotalSeconds;
 
@@ -29,37 +29,33 @@ namespace Server_World.Actors.HuntZone.District
             _lastFrameUpdateTime = nowTime;
 
             // 이동 처리.
-            var updateFrames = new ConcurrentBag<World_UpdateFrame>();
+            var updateFrame = _memoryPoolService.Rent<World_UpdateFrame>();
 
             // 이동 업데이트.
-            UpdateFrame_Move(frameDeltaTime, updateFrames);
+            UpdateFrame_Move(frameDeltaTime, updateFrame);
 
             // 업데이트 프레임 적용.
-            UpdateFrame_Apply(updateFrames);
+            UpdateFrame_Apply(updateFrame);
 
             // Release memory.
-            foreach (var updateFrame in updateFrames)
-            {
-                _memoryPoolService.Release(updateFrame.MoveSectionUnit.Values);
-            }
-
-            _memoryPoolService.Release(updateFrames.ToList());
+            _memoryPoolService.Release(updateFrame.MoveSectionUnit.Values);
+            _memoryPoolService.Release(updateFrame.MoveDistrictUnit.Values);
+            _memoryPoolService.Release(updateFrame.HitSectionUnit.Values);
+            _memoryPoolService.Release(updateFrame);
         }
 
         /// <summary>
         /// 업데이트 프레임 적용.
         /// </summary>
-        private void UpdateFrame_Apply(ConcurrentBag<World_UpdateFrame> updateFrames)
+        private void UpdateFrame_Apply(World_UpdateFrame updateFrame)
         {
-            // 세션을 이동한 플레이어 정보 전달.
-            foreach (var updateFrame in updateFrames)
-            {
-                // Apply - move section.
-                UpdateFrame_ApplyMoveSection(updateFrame.MoveSectionUnit);
+            // Apply - move section.
+            UpdateFrame_ApplyMoveSection(updateFrame.MoveSectionUnit);
 
-                // Apply - move district.
-                UpdateFrame_ApplyMoveDistrict(updateFrame.MoveDistrictUnit);
-            }
+            // Apply - move district.
+            UpdateFrame_ApplyMoveDistrict(updateFrame.MoveDistrictUnit);
+
+            // 
         }
 
         /// <summary>
@@ -68,33 +64,25 @@ namespace Server_World.Actors.HuntZone.District
         private void UpdateFrame_ApplyMoveSection(ConcurrentDictionary<SectionId, World_SectionUnit> moveSectionUnit)
         {
             // Rent.
-            var updateSectionPacket = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
+            var updateSectionPacket = _memoryPoolService.Rent<GamePacketSC_UpdateSectionMove>();
 
             // 섹션 이동 유닛 처리.
             foreach (var pair in moveSectionUnit)
             {
                 var sectionUnit = pair.Value;
 
-                if (false == sectionUnit.PlayInfoDict.Any()
+                if (false == sectionUnit.PlayInfoDict.Any() 
                     && false == sectionUnit.Enemies.Any())
                 {
                     continue;
                 }
 
-                // Player.
-                if (sectionUnit.PlayInfoDict.Any())
-                {
-                    updateSectionPacket.PlayInfos.AddRange(sectionUnit.PlayInfoDict.Values);
-                }
-
-                // Enemy.
-                if (sectionUnit.Enemies.Any())
-                {
-                    updateSectionPacket.Enemies.AddRange(sectionUnit.Enemies);
-                }
+                // 섹션 이동 유닛.
+                updateSectionPacket.PlayInfos.AddRange(sectionUnit.PlayInfoDict.Values);
+                updateSectionPacket.Enemies.AddRange(sectionUnit.Enemies);
 
                 // Send packet.
-                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_UpdateSection, updateSectionPacket);
+                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_UpdateSectionMove, updateSectionPacket);
 
                 // 섹션 이동 이벤트 라우팅.
                 RouteGameEvent(new MoveSectionEvent
@@ -109,7 +97,7 @@ namespace Server_World.Actors.HuntZone.District
             }
 
             // Release.
-            _memoryPoolService.Release<GamePacketSC_UpdateSection>(updateSectionPacket);
+            _memoryPoolService.Release<GamePacketSC_UpdateSectionMove>(updateSectionPacket);
         }
 
         /// <summary>
@@ -134,27 +122,25 @@ namespace Server_World.Actors.HuntZone.District
                 moveDistrictEvent.RouteSection = pair.Key;
                 moveDistrictEvent.FromDistrict = _district;
 
-                // 구역 이동 이벤트 플레이어 추가
-                // 현재 구역에서 플레이어 제거.
-                foreach (var wp in districtUnit.WorldPlayers)
-                {
-                    moveDistrictEvent.WorldPlayers.Add(wp);
-                    _worldGroup.PlayerDict.Remove(wp.Pid);
-                    _logger.LogDebug($"remove player from district. pid: {wp.Pid}");
-                }
+                // 구역 이동 유닛.
+                moveDistrictEvent.WorldPlayers.AddRange(districtUnit.WorldPlayers);
+                moveDistrictEvent.WorldEnemies.AddRange(districtUnit.WorldEnemies);
 
-                // 구역 이동 이벤트 적 추가
-                // 현재 구역에서 적 제거.
-                foreach (var we in districtUnit.WorldEnemies)
-                {
-                    moveDistrictEvent.WorldEnemies.Add(we);
-                    _worldGroup.EnemyDict.Remove(we.EnemyUid);
-                }
+                // 구역 이동 이벤트 라우팅.
+                RouteGameEvent(moveDistrictEvent);
 
                 _logger.LogDebug($"Move district. from {_district} to {pair.Key}");
-
-                RouteGameEvent(moveDistrictEvent);
             }
+        }
+
+        private void UpdateFrame_ApplyHitUnit()
+        {
+
+        }
+
+        private void UpdateFrame_ApplyProjectile()
+        {
+
         }
     }
 }

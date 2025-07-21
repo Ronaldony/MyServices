@@ -16,41 +16,36 @@ namespace Server_World.Actors.HuntZone.District
         /// <summary>
         /// 프레임 업데이트 - 이동 처리.
         /// </summary>
-        private void UpdateFrame_Move(double deltaTime, ConcurrentBag<World_UpdateFrame> updateFrames)
+        private void UpdateFrame_Move(double deltaTime, World_UpdateFrame updateFrame)
         {
+            // 업데이트 프레임 데이터.
+            var moveSectionUnit = updateFrame.MoveSectionUnit;
+            var moveDistrictUnit = updateFrame.MoveDistrictUnit;
+
             // 플레이어가 존재하는 섹션의 플레이어, 적 이동 처리.
             Parallel.ForEach(_worldGroup.ManagedSections, section =>
             {
                 // 섹션 유닛.
-                var worldPlayers = _worldGroup.SectionPlayerDict[section];
-                var worldEnemies = _worldGroup.SectionEnemyDict[section];
+                var worldPlayerPair = _worldGroup.SectionPlayerDict[section];
+                var worldEnemyPair = _worldGroup.SectionEnemyDict[section];
 
                 // 유닛이 없는 경우 미처리.
-                if (false == worldPlayers.Any() && false == worldEnemies.Any())
+                if (false == worldPlayerPair.Any() && false == worldEnemyPair.Any())
                 {
                     return;
                 }
 
-                // 업데이트 프레임 섹션.
-                var worldUpdateFrame = _memoryPoolService.Rent<World_UpdateFrame>();
-                var moveSectionUnit = worldUpdateFrame.MoveSectionUnit;
-                var moveDistrictUnit = worldUpdateFrame.MoveDistrictUnit;
-
-                updateFrames.Add(worldUpdateFrame);
-
                 /////////////////////////////////////////////////////////////
                 // 플레이어 이동 처리.
-                foreach (var worldPlayer in worldPlayers.Values)
+                foreach (var wp in worldPlayerPair.Values)
                 {
-                    var playInfo = worldPlayer.PlayInfo;
+                    var playInfo = wp.PlayInfo;
                     var location = playInfo.Location;
 
                     // 정지, 대시인 경우, 처리하지 않음.
                     switch (playInfo.Action)
                     {
                         case Type_Action.Move:          // 이동 처리.
-                            //var movePos = Calc_PlayerPosition(location.Position, location.MoveDirection, deltaTime, playInfo.Stat.Velocity);
-                            // 이동 거리.
                             var deltaPos = location.MoveDirection * (float)deltaTime * playInfo.Stat.Velocity;
                             var movePos = location.Position + deltaPos;
 
@@ -79,37 +74,40 @@ namespace Server_World.Actors.HuntZone.District
 
                     if (false == section.Equals(moveSection))
                     {
-                        worldPlayer.OldSection = worldPlayer.Section;
-                        worldPlayer.Section = moveSection;
+                        wp.OldSection = wp.Section;
+                        wp.Section = moveSection;
                         
                         // Remove from section.
-                        _worldGroup.SectionPlayerDict[section].TryRemove(worldPlayer.Pid, out var _);
+                        _worldGroup.SectionPlayerDict[section].TryRemove(wp.Pid, out var _);
 
                         // 관리 섹션 검사.
                         if (IsManagedSection(moveSection))
                         {
                             // 섹션 이동.
-                            _worldGroup.SectionPlayerDict[moveSection].AddOrUpdate(worldPlayer.Pid, worldPlayer, (_, _) => worldPlayer);
+                            _worldGroup.SectionPlayerDict[moveSection].AddOrUpdate(wp.Pid, wp, (_, _) => wp);
 
                             moveSectionUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_SectionUnit>())
-                            .PlayInfoDict.AddOrUpdate(worldPlayer.GameSession, playInfo, (_, _) => playInfo);
+                            .PlayInfoDict.AddOrUpdate(wp.GameSession, playInfo, (_, _) => playInfo);
                         }
                         else
                         {
                             // 구역 이동.
                             moveDistrictUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_DistrictUnit>())
-                            .WorldPlayers.Add(worldPlayer);
+                            .WorldPlayers.Add(wp);
+
+                            // 구역에서 플레이어 제거.
+                            _worldGroup.PlayerDict.Remove(wp.Pid);
                         }
                     }
                 }
 
                 /////////////////////////////////////////////////////////////
                 // 적 이동 처리.
-                foreach (var wolrdEnemy in worldEnemies.Values)
+                foreach (var we in worldEnemyPair.Values)
                 {
-                    var enemy = wolrdEnemy.Enemy;
+                    var enemy = we.Enemy;
                     var location = enemy.Location;
 
                     // 적 위치 계산.
@@ -122,7 +120,7 @@ namespace Server_World.Actors.HuntZone.District
                     // 섹션 업데이트.
                     if (false == section.Equals(moveSection))
                     {
-                        wolrdEnemy.Section = moveSection;
+                        we.Section = moveSection;
 
                         // remove from old section.
                         _worldGroup.SectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out var _);
@@ -130,7 +128,7 @@ namespace Server_World.Actors.HuntZone.District
                         if (IsManagedSection(moveSection))
                         {
                             // 섹션 이동.
-                            _worldGroup.SectionEnemyDict[moveSection].AddOrUpdate(enemy.EnemeyUid, wolrdEnemy, (_, _) => wolrdEnemy);
+                            _worldGroup.SectionEnemyDict[moveSection].AddOrUpdate(enemy.EnemeyUid, we, (_, _) => we);
 
                             moveSectionUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_SectionUnit>())
@@ -141,7 +139,7 @@ namespace Server_World.Actors.HuntZone.District
                             // 구역 이동.
                             moveDistrictUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_DistrictUnit>())
-                            .WorldEnemies.Add(wolrdEnemy);
+                            .WorldEnemies.Add(we);
                         }
                     }
                 }

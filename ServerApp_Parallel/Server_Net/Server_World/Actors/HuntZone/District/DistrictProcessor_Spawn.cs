@@ -100,9 +100,6 @@ namespace Server_World.Actors.HuntZone.District
                         CollisionBox = _collisionService.Rent(Type_Collision.Enemy)
                     };
 
-                    // Add enemy.
-                    _worldGroup.EnemyDict.Add(enemy.EnemeyUid, we);
-
                     // Add enemy into section.
                     sectionEnemy.AddOrUpdate(enemy.EnemeyUid, we, (_, _) => we);
                 }

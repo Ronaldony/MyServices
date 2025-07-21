@@ -18,7 +18,6 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void MoveStart(World_Player worldPlayer, GamePacketCS_MoveStart packet)
         {
-
             var playInfo = worldPlayer.PlayInfo;
             var location = playInfo.Location;
 

@@ -11,10 +11,10 @@
       },
       {
         "Target": "Server",
-        "ProjectPath": "",
-        "ProtocolPath": "",
-        "DataCodePath": "",
-        "DatabaseFilePath": ""
+        "ProjectPath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore",
+        "ProtocolPath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCor\\Code",
+        "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Database"
       }
     ]
   },

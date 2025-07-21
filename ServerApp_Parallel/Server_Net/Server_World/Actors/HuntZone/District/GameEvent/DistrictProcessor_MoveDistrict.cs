@@ -14,7 +14,7 @@
         /// </summary>
         public void Proc_MoveDistrictEvent(MoveDistrictEvent moveDistrictEvent)
         {
-            var GamePacket = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
+            var GamePacket = _memoryPoolService.Rent<GamePacketSC_UpdateSectionMove>();
 
             // 현재 구역의 기존 플레이어에게 새로 진입한 플레이어 전송.
             if (moveDistrictEvent.WorldEnemies.Any() || moveDistrictEvent.WorldPlayers.Any())
@@ -23,7 +23,7 @@
                 GamePacket.Enemies.AddRange(moveDistrictEvent.WorldEnemies.Select(d => d.Enemy));
 
                 // 패킷 전송.
-                SendPacket_ManagedSections(GamePacketCode.SC_UpdateSection, GamePacket);
+                SendPacket_ManagedSections(GamePacketCode.SC_UpdateSectionMove, GamePacket);
 
                 GamePacket.PlayInfos.Clear();
                 GamePacket.Enemies.Clear();
@@ -69,7 +69,7 @@
             // 현재 구역에 새로 진입한 플레이어에게 주변 섹션 전송.
             if (GamePacket.PlayInfos.Any() || GamePacket.Enemies.Any())
             {
-                SendPacket(moveDistrictEvent.WorldPlayers.Select(d => d.GameSession).ToList(), GamePacketCode.SC_UpdateSection, GamePacket);
+                SendPacket(moveDistrictEvent.WorldPlayers.Select(d => d.GameSession).ToList(), GamePacketCode.SC_UpdateSectionMove, GamePacket);
             }
 
             // Release.

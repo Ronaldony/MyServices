@@ -56,21 +56,15 @@ namespace GameCore.Datas.Enemy
         public DateTime UpdateTime { get; set; }
 
         /// <summary>
-        /// 피격 시간.
-        /// </summary>
-        [MemoryPackOrder(6)]
-        public DateTime HitTime { get; set; }
-
-        /// <summary>
         /// Location.
         /// </summary>
-        [MemoryPackOrder(7)]
+        [MemoryPackOrder(6)]
         public DTO_EnemyLocation Location { get; set; }
 
         /// <summary>
         /// 드랍 아이템.
         /// </summary>
-        [MemoryPackOrder(8)]
+        [MemoryPackOrder(7)]
         public List<Type_Item> DropItems { get; set; }
     }
 }

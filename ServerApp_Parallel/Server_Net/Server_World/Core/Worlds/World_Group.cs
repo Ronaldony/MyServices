@@ -27,13 +27,6 @@ namespace Server_World.Core.Worlds
         public Dictionary<SectionId, ConcurrentDictionary<string, World_Player>> SectionPlayerDict { get; set; }
 
         /// <summary>
-        /// 적 정보.
-        /// key: Section.
-        /// value: Wolrd_enemy dictionary (key: EnemeyUId).
-        /// </summary>
-        public Dictionary<ulong, World_Enemy> EnemyDict { get; set; }
-
-        /// <summary>
         /// 섹션 단위 적 정보.
         /// key: Section.
         /// value: Wolrd_enemy dictionary (key: EnemeyUId).

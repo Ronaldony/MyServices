@@ -18,7 +18,7 @@ namespace Server_World.Actors.HuntZone.District
         {
             // Rent.
             var aroundFromSections = _router.GetAroundSections(moveSectionEvent.RouteSection);
-            var updateSectionPacket = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
+            var sectionMovePacket = _memoryPoolService.Rent<GamePacketSC_UpdateSectionMove>();
 
             foreach (var section in _worldGroup.ManagedSections)
             {
@@ -26,18 +26,18 @@ namespace Server_World.Actors.HuntZone.District
                 if (aroundFromSections.Contains(section))
                 {
                     // 유닛 추가.
-                    updateSectionPacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Select(d => d.Value.PlayInfo));
-                    updateSectionPacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Select(d => d.Value.Enemy));
+                    sectionMovePacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Select(d => d.Value.PlayInfo));
+                    sectionMovePacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Select(d => d.Value.Enemy));
                 }
             }
 
             // Send packet.
-            if (updateSectionPacket.Enemies.Any() || updateSectionPacket.PlayInfos.Any())
+            if (sectionMovePacket.Enemies.Any() || sectionMovePacket.PlayInfos.Any())
             {
-                SendPacket(moveSectionEvent.GameSessions, GamePacketCode.SC_UpdateSection, updateSectionPacket);
+                SendPacket(moveSectionEvent.GameSessions, GamePacketCode.SC_UpdateSectionMove, sectionMovePacket);
             }
 
-            _memoryPoolService.Release(updateSectionPacket);
+            _memoryPoolService.Release(sectionMovePacket);
         }
     }
 }

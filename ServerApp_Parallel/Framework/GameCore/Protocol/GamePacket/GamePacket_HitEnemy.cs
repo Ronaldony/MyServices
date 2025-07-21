@@ -27,15 +27,9 @@ namespace GameCore.GamePacket
         public int Damage { get; set; }
 
         /// <summary>
-        /// Position.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public Vector2 Position { get; set; }
-
-        /// <summary>
         /// Enemies.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(1)]
         public List<DTO_Enemy> Enemies { get; set; }
     }
 }

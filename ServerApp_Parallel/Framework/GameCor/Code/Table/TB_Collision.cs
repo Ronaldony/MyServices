@@ -1,42 +1,37 @@
 namespace GameCore
 {
-    public enum Type_MoveDirection
+    using System;
+    using GameCore;
+
+    public class TB_Collision : ITableBase
     {
         /// <summary>
-        /// 
+        /// Schema ID
         /// </summary>
-        None = 0,
+        public int Id { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        Top = 1,
+        public string Name { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        Down = 2,
+        public Type_Collision CollisionType { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        Right = 3,
+        public float Width { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        Left = 4,
+        public float Height { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        RightTop = 5,
+        public float OffsetX { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        LeftTop = 6,
-        /// <summary>
-        /// 
-        /// </summary>
-        RightDown = 7,
-        /// <summary>
-        /// 
-        /// </summary>
-        LeftDown = 8
+        public float OffsetY { get; set; }
     }
 }

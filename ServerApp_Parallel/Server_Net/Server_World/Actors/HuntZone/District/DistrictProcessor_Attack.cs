@@ -71,7 +71,6 @@ namespace Server_World.Actors.HuntZone.District
                 SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_HitEnemy, new GamePacketSC_HitEnemy
                 {
                     Damage = tbWeapon.Damage,
-                    Position = pos,
                     Enemies = hitEnemies
                 });
             }
@@ -85,50 +84,39 @@ namespace Server_World.Actors.HuntZone.District
         /// </summary>
         private void HitEnemies(int damage, SectionId section, List<DTO_Enemy> hitEnemies, Hitbox weaponHitbox, DateTime hitTime)
         {
-            var enemies = _worldGroup.EnemyDict.Values;
-
-            if (false == enemies.Any())
-            {
-                return;
-            }
-
             var deathEnemies = new List<DTO_Enemy>();
 
-            // Enemy 충돌 계산.
-            foreach (var worldEnemy in enemies)
+            foreach (var pair in _worldGroup.SectionEnemyDict)
             {
-                var enemy = worldEnemy.Enemy;
+                var enemies = pair.Value.Values;
 
-                // 피격 딜레이 계산.
-                if (false == TimeUtil.IsPastTime(enemy.HitTime.AddMilliseconds(GameData.HIT_DELAY_MS), hitTime))
+                // Enemy 충돌 계산.
+                foreach (var worldEnemy in enemies)
                 {
-                    continue;
-                }
+                    var enemy = worldEnemy.Enemy;
 
-                // update hit time.
-                enemy.HitTime = hitTime;
+                    // Update collision.
+                    var collision = worldEnemy.CollisionBox;
+                    worldEnemy.CollisionBox.UpdateHitbox(enemy.Location.Pos);
 
-                // Update collision.
-                var collision = worldEnemy.CollisionBox;
-                worldEnemy.CollisionBox.UpdateHitbox(enemy.Location.Pos);
+                    var enemyHitbox = collision.GetHitbox();
 
-                var enemyHitbox = collision.GetHitbox();
-
-                // 충돌 판정.
-                if (true == weaponHitbox.IsHit(enemyHitbox))
-                {
-                    _logger.LogWarning($"Hit enemy. pos: {enemy.Location.Pos}");
-
-                    hitEnemies.Add(enemy);
-                    enemy.Health -= damage;
-
-                    // 죽음 처리.
-                    if (enemy.Health <= 0)
+                    // 충돌 판정.
+                    if (true == weaponHitbox.IsHit(enemyHitbox))
                     {
-                        _logger.LogWarning($"Death enemy.");
+                        _logger.LogWarning($"Hit enemy. pos: {enemy.Location.Pos}");
 
-                        // Death enemy.
-                        deathEnemies.Add(enemy);
+                        hitEnemies.Add(enemy);
+                        enemy.Health -= damage;
+
+                        // 죽음 처리.
+                        if (enemy.Health <= 0)
+                        {
+                            _logger.LogWarning($"Death enemy.");
+
+                            // Death enemy.
+                            deathEnemies.Add(enemy);
+                        }
                     }
                 }
             }
@@ -136,7 +124,6 @@ namespace Server_World.Actors.HuntZone.District
             // 적 유닛 죽음 처리.
             foreach (var enemy in deathEnemies)
             {
-                _worldGroup.EnemyDict.Remove(enemy.EnemeyUid);
                 _worldGroup.SectionEnemyDict[section].TryRemove(enemy.EnemeyUid, out var worldEnemy);
                 _collisionService.Release(worldEnemy.CollisionBox);
             }

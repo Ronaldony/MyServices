@@ -1,6 +1,7 @@
 ﻿using Akka.Event;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Util;
 using System.Numerics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -38,26 +39,17 @@ namespace Server_World.Actors.HuntZone.Scheduler
         /// </summary>
         public void Start()
         {
-            // Pattern 1.
-            _subscriptions.Add(Observable.Interval(TimeSpan.FromSeconds(3))
-                .Subscribe(repeat =>
-                {
-                    UpdateMovePattern(Type_MovePattern.Pattern1);
-                }));
+            var rand = new Random((int)TimeUtil.Now.Ticks);
 
-            // Pattern 2.
-            _subscriptions.Add(Observable.Interval(TimeSpan.FromSeconds(4))
+            // Generate move pattern.
+            foreach (var movePattern in Enum.GetValues<Type_MovePattern>().Where(d => d == Type_MovePattern.None))
+            {
+                _subscriptions.Add(Observable.Interval(TimeSpan.FromSeconds(rand.Next(3, 6)))
                 .Subscribe(repeat =>
                 {
-                    UpdateMovePattern(Type_MovePattern.Pattern2);
+                    UpdateMovePattern(movePattern);
                 }));
-
-            // Pattern 3.
-            _subscriptions.Add(Observable.Interval(TimeSpan.FromSeconds(5))
-                .Subscribe(repeat =>
-                {
-                    UpdateMovePattern(Type_MovePattern.Pattern3);
-                }));
+            }
 
             _logger.LogInformation("start huntzone move pattern.");
         }

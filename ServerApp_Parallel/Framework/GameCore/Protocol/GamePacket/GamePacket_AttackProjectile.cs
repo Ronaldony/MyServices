@@ -1,9 +1,12 @@
-﻿using MemoryPack;
+﻿
+using MemoryPack;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace GameCore.GamePacket
 {
+    using GameCore.Datas.Projectiles;
+
     /// <summary>
     /// GamePacketCS_Attack.
     /// </summary>
@@ -30,27 +33,9 @@ namespace GameCore.GamePacket
     public partial class GamePacketSC_AttackProjectile : GamePacketBase_SC
     {
         /// <summary>
-        /// 공격 Pid.
+        /// Projectile.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
-
-        /// <summary>
-        /// 투사체 스폰 지점.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public Vector2 SpawnPos { get; set; }
-
-        /// <summary>
-        /// Angle.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public Vector2 Angle { get; set; }
-
-        /// <summary>
-        /// Projectile id.
-        /// </summary>
-        [MemoryPackOrder(3)]
-        public int ProjectileId { get; set; }
+        public DTO_Projectile Projectile { get; set; }
     }
 }
