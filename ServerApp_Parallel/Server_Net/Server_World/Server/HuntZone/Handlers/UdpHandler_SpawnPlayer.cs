@@ -113,7 +113,8 @@ namespace Server_World.Server.World.Handlers
                     PlayInfo = playInfo,
                     GameSession = gameSession,
                     Collision = collisionBox,
-                    Section = SectionId.GetSection(playInfo.Location.Position),
+                    Position = playInfo.Location.Pos,
+                    Section = SectionId.GetSection(playInfo.Location.Pos),
                     Pid = playInfo.Pid
                 }
             };

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.Datas.Enemy
 {
     using GameCore.Datas.Items;
+    using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
     /// DTO_Enemy.
@@ -47,13 +48,13 @@ namespace GameCore.Datas.Enemy
         /// 행동 유형.
         /// </summary>
         [MemoryPackOrder(4)]
-        public Type_EnemyAction ActionType { get; set; }
+        public Type_EnemyAction Action { get; set; }
 
         /// <summary>
-        /// 업데이트 시간.
+        /// 최근 공격 시간.
         /// </summary>
         [MemoryPackOrder(5)]
-        public DateTime UpdateTime { get; set; }
+        public DateTime LastAttackTime { get; set; }
 
         /// <summary>
         /// Location.

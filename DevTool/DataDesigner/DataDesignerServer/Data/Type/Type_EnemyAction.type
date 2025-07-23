@@ -2,16 +2,21 @@
   {
     "Id": 1,
     "Name": "None",
-    "Summary": ""
+    "Summary": "none"
   },
   {
     "Id": 2,
     "Name": "Move",
-    "Summary": ""
+    "Summary": "moving"
   },
   {
     "Id": 3,
     "Name": "Track",
-    "Summary": ""
+    "Summary": "tracking player"
+  },
+  {
+    "Id": 4,
+    "Name": "Return",
+    "Summary": "return to spawn position"
   }
 ]

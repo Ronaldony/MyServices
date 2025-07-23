@@ -1,6 +1,6 @@
 ﻿using MemoryPack;
-using System;
 using System.Numerics;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Projectiles
@@ -12,22 +12,22 @@ namespace GameCore.Datas.Projectiles
     public partial class DTO_Projectile : IDisposable
     {
         /// <summary>
-        /// 투사체 스폰 지점.
+        /// Projectile id.
         /// </summary>
         [MemoryPackOrder(0)]
+        public int ProjectileId { get; set; }
+
+        /// <summary>
+        /// 투사체 스폰 지점.
+        /// </summary>
+        [MemoryPackOrder(1)]
         public Vector2 SpawnPos { get; set; }
 
         /// <summary>
         /// Angle.
         /// </summary>
-        [MemoryPackOrder(1)]
-        public Vector2 Angle { get; set; }
-
-        /// <summary>
-        /// Projectile id.
-        /// </summary>
         [MemoryPackOrder(2)]
-        public int ProjectileId { get; set; }
+        public Vector2 Angle { get; set; }
 
         /// <summary>
         /// Dispose.

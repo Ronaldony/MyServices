@@ -87,7 +87,7 @@ namespace Server_World.Core.HitBoxes
         private bool HitSphere(SphereHitbox target)
         {
             // 두 구체 간 거리가 반지름보다 작은 지 검사.
-            var distance = (Center - target.Center).LengthSquared();
+            var distance = Vector2.DistanceSquared(Center, target.Center);
 
             if (distance < RadiusSqr || distance < RadiusSqr)
             {

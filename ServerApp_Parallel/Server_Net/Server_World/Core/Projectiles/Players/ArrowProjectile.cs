@@ -63,7 +63,7 @@ namespace Server_World.Core.Projectiles.Players
         /// </summary>
         public override bool IsMaxRange()
         {
-            if (MaxRangeSqr <= (Pos - SpawnPos).LengthSquared())
+            if (MaxRangeSqr <= Vector2.DistanceSquared(Pos,SpawnPos))
             {
                 return true;
             }

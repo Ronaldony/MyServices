@@ -1,4 +1,6 @@
-﻿namespace Server_World.Core.GameEvents
+﻿using System.Buffers;
+
+namespace Server_World.Core.GameEvents
 {
     /// <summary>
     /// NotifyPosition.

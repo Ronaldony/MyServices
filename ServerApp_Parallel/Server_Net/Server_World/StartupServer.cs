@@ -1,5 +1,5 @@
 ﻿
-//#define TEST_LOCAL
+#define TEST_LOCAL
 
 using Dapper;
 using Dapper.ColumnMapper;
@@ -68,7 +68,7 @@ namespace Server_World
             ServiceUtility.Initialize(_serviceProvider);
 
 #if !TEST_LOCAL
-            var configGame = await remoteConfigureService.GetConfigData<Config_Game>(configStrapi.ContentType,  "Devel_Game");
+            var configGame = await remoteConfigureService.GetConfigData<Config_Game>(configStrapi.ContentType, "Devel_Game");
             var mysqlConnections = await remoteConfigureService.GetConfigData<List<Config_MySQLConnection>>(configStrapi.ContentType, "Devel_MySQL");
             var couchbaseConnections = await remoteConfigureService.GetConfigData<List<Config_CouchbaseConnection>>(configStrapi.ContentType, "Devel_Couchbase");
 

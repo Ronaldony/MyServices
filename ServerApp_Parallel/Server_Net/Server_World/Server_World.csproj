@@ -10,10 +10,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>portable</DebugType>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebugType>portable</DebugType>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,23 +28,28 @@
 
   <ItemGroup>
     <Compile Remove="ActorMessage\**" />
-    <Compile Remove="Actors\BattleZone\**" />
-    <Compile Remove="Actors\HuntZone\Manager\**" />
-    <Compile Remove="Actors\Inventory\**" />
-    <Compile Remove="Actors\Village\**" />
+    <Compile Remove="Zones\BattleZone\**" />
+    <Compile Remove="Zones\HuntZone\Manager\**" />
+    <Compile Remove="Zones\Inventory\**" />
+    <Compile Remove="Zones\Village\**" />
     <EmbeddedResource Remove="ActorMessage\**" />
-    <EmbeddedResource Remove="Actors\BattleZone\**" />
-    <EmbeddedResource Remove="Actors\HuntZone\Manager\**" />
-    <EmbeddedResource Remove="Actors\Inventory\**" />
-    <EmbeddedResource Remove="Actors\Village\**" />
+    <EmbeddedResource Remove="Zones\BattleZone\**" />
+    <EmbeddedResource Remove="Zones\HuntZone\Manager\**" />
+    <EmbeddedResource Remove="Zones\Inventory\**" />
+    <EmbeddedResource Remove="Zones\Village\**" />
     <None Remove="ActorMessage\**" />
-    <None Remove="Actors\BattleZone\**" />
-    <None Remove="Actors\HuntZone\Manager\**" />
-    <None Remove="Actors\Inventory\**" />
-    <None Remove="Actors\Village\**" />
+    <None Remove="Zones\BattleZone\**" />
+    <None Remove="Zones\HuntZone\Manager\**" />
+    <None Remove="Zones\Inventory\**" />
+    <None Remove="Zones\Village\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="appsettings.Development.Company.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>

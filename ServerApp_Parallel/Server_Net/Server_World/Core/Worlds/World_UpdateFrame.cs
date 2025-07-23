@@ -3,8 +3,8 @@ using System.Collections.Concurrent;
 
 namespace Server_World.Core.Worlds
 {
-    using Server_World.Core.Projectiles.Players;
     using Server_World.Core.Worlds.Section;
+    using Server_World.Core.Worlds.Update;
 
     /// <summary>
     /// World_UpdateMove.
@@ -16,7 +16,7 @@ namespace Server_World.Core.Worlds
             MoveSectionUnit = new ConcurrentDictionary<SectionId, World_SectionUnit>();
             MoveDistrictUnit = new ConcurrentDictionary<SectionId, World_DistrictUnit>();
             HitSectionUnit = new ConcurrentDictionary<SectionId, World_SectionUnit>();
-            MoveDistrictProjectile = new ConcurrentDictionary<SectionId, List<Projectile>>();
+            MoveDistrictProjectile = new ConcurrentDictionary<SectionId, World_DistrictProjectile>();
         }
 
         /// <summary>
@@ -45,8 +45,11 @@ namespace Server_World.Core.Worlds
         /// key: 이동 구역.
         /// value: 이동 투사체.
         /// </summary>
-        public ConcurrentDictionary<SectionId, List<Projectile>> MoveDistrictProjectile { get; set; }
+        public ConcurrentDictionary<SectionId, World_DistrictProjectile> MoveDistrictProjectile { get; set; }
 
+        /// <summary>
+        /// Dispose.
+        /// </summary>
         public void Dispose()
         {
             MoveSectionUnit.Clear();

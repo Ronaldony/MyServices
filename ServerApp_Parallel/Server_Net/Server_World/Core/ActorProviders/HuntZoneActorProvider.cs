@@ -2,7 +2,7 @@
 
 namespace Server_World.Core.ActorProviders
 {
-    using Server_World.Actors.HuntZone;
+    using Server_World.Zones.HuntZone;
 
     /// <summary>
     /// WorldZoneActorProvider.

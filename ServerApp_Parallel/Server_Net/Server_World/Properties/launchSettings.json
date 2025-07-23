@@ -2,7 +2,8 @@
   "profiles": {
     "Server_World": {
       "commandName": "Project",
-      "commandLineArgs": "-N LoginServer -C appsettings.Development.json -P 9010 -D 1 -S 2"
+      "commandLineArgs": "-N LoginServer -C appsettings.Development.Company.json -P 9010 -D 1 -S 2",
+      "nativeDebugging": true
     }
   }
 }

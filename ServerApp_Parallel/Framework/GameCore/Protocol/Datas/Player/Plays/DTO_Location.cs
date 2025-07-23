@@ -20,13 +20,13 @@ namespace GameCore.Datas.Player.Plays
         /// 현재 위치.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 Position { get; set; }
+        public Vector2 Pos { get; set; }
 
         /// <summary>
         /// 종료 위치 지점.
         /// </summary>
         [MemoryPackOrder(2)]
-        public Vector2 PositionEnd { get; set; }
+        public Vector2 PosEnd { get; set; }
 
         /// <summary>
         /// 이동 방향.

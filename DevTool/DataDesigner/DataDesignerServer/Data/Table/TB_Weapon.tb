@@ -5,7 +5,8 @@
     "Damage": 3,
     "Range": 1,
     "CoolTime": 2,
-    "CollisionType": "Sword"
+    "CollisionType": "Sword",
+    "ProjectileType": "None"
   },
   {
     "Id": 2,
@@ -13,7 +14,8 @@
     "Damage": 5,
     "Range": 6,
     "CoolTime": 4,
-    "CollisionType": "Rasor"
+    "CollisionType": "None",
+    "ProjectileType": "Arrow"
   },
   {
     "Id": 3,
@@ -21,6 +23,7 @@
     "Damage": 2,
     "Range": 5,
     "CoolTime": 2,
-    "CollisionType": "Arrow"
+    "CollisionType": "None",
+    "ProjectileType": "Rasor"
   }
 ]

@@ -26,14 +26,6 @@
       "Type": "int",
       "RefTable": "",
       "Summary": ""
-    },
-    {
-      "Idx": 4,
-      "Name": "RoamTimeSec",
-      "IsIndexed": false,
-      "Type": "int",
-      "RefTable": "",
-      "Summary": ""
     }
   ]
 }

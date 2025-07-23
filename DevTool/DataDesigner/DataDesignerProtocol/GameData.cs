@@ -37,5 +37,9 @@
         // Projectile.
         public const int PROJECTILE_SPAWN_DISTANCE = 10;            // 투사체 스폰 거리.
         public const int PROJECTILE_SPAWN_DISTANCE_SQUARE = 100;    // 투사체 스폰 거리 제곱근. (거리 비교용)
+
+        // Enemy.
+        public const int ENEMY_SCAN_DISTANCE = 10;                  // Enemy 공격 감지 거리.
+        public const int ENEMY_SCAN_DISTANCE_SQUARE = 100;          // Enemy 공격 감지 거리 제곱근. (거리 비교용)
     }
 }

@@ -30,8 +30,10 @@ namespace ServerEngine.Test
 			var remoteConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
             remoteConfigureService.Initialize(configStrapi);
 
-			// MemoryPoolService
-			var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
+            var configGame = await remoteConfigureService.GetConfigData<Config_Game>(configStrapi.ContentType, "Devel_Game");
+
+            // MemoryPoolService
+            var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
             memoryPoolService.Initialize();
 
             // TestServer
@@ -41,6 +43,42 @@ namespace ServerEngine.Test
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
+        }
+
+        /// <summary>
+        /// Configuration for Game server.
+        /// </summary>
+        public class Config_Game
+        {
+            /// <summary>
+            /// Environment for server.
+            /// </summary>
+            public string Environment { get; set; }
+
+            /// <summary>
+            /// Server.
+            /// </summary>
+            public string Server { get; set; }
+
+            /// <summary>
+            /// Service language.
+            /// </summary>
+            public string Language { get; set; }
+
+            /// <summary>
+            /// SnowflakeBaseTime.
+            /// </summary>
+            public DateTime SnowflakeBaseTime { get; set; }
+
+            /// <summary>
+            /// Frame rate.
+            /// </summary>
+            public int FrameRate { get; set; }
+
+            /// <summary>
+            /// ConfigCouchbase.
+            /// </summary>
+            public Config_Couchbase Couchbase { get; set; }
         }
     }
 }
