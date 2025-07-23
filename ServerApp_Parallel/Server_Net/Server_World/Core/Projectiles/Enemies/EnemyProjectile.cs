@@ -12,8 +12,8 @@ namespace Server_World.Core.Projectiles.Enemies
         public Type_EnemyProjectile ProjectileType => _projectileType;
 
         public EnemyProjectile(Type_EnemyProjectile enemyProjectile)
-        { 
-            
+        {
+
         }
 
         public abstract void Dispose();

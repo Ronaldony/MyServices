@@ -26,7 +26,7 @@ namespace Server_World.Zones.HuntZone.District
 
             // 충돌 박스.
             var collision = _collisionService.Rent(ge.WeaponCollisionType);
-            collision.UpdateHitbox(ge.AttackerPos, ge.Angle);
+            collision.Update(ge.AttackerPos, ge.Angle);
 
             var hitbox = collision.GetHitbox();
 

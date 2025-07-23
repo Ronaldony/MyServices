@@ -9,6 +9,7 @@ namespace Server_World.Server.World.Handlers
     using GameCore;
     using GameCore.Datas.Play;
     using Server_World.Core.ActorProviders;
+    using Server_World.Core.Entities;
     using Server_World.Core.Services;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
@@ -108,10 +109,9 @@ namespace Server_World.Server.World.Handlers
 
             var worldMsg = new WorldMsg_SpawnPlayer
             {
-                WorldPlayer = new World_Player
+                PlayerEntity = new PlayerEntity
                 {
                     PlayInfo = playInfo,
-                    GameSession = gameSession,
                     Collision = collisionBox,
                     Position = playInfo.Location.Pos,
                     Section = SectionId.GetSection(playInfo.Location.Pos),

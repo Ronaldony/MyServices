@@ -5,6 +5,7 @@ namespace Server_World.Zones.HuntZone.District
     using GameCore;
     using GameCore.Datas.Enemy;
     using GameCore.GamePacket;
+    using Server_World.Core.Entities;
     using Server_World.Core.Worlds;
     using Server_World.Core.Worlds.Msg;
 
@@ -20,8 +21,7 @@ namespace Server_World.Zones.HuntZone.District
         {
             _logger.LogDebug($"Spawn plaeyr in processor");
 
-            var wp = worldMsg.WorldPlayer;
-            var session = wp.GameSession;
+            var wp = worldMsg.PlayerEntity;
 
             // 세션 정보 가져오기.
             var section = wp.Section;
@@ -54,7 +54,7 @@ namespace Server_World.Zones.HuntZone.District
             }
 
             // 로그인 유저에게 인근 세션 유닛 정보 전송.
-            SendPacket(session.SessionId, session.SessionUid, GamePacketCode.SC_SpawnPlayer, GamePacket);
+            SendPacket(wp.Pid, GamePacketCode.SC_SpawnPlayer, GamePacket);
 
             // Reset packet.
             GamePacket.PlayInfos.Clear();
@@ -64,7 +64,7 @@ namespace Server_World.Zones.HuntZone.District
             GamePacket.PlayInfos.Add(wp.PlayInfo);
 
             // 주변 섹션에 로그인 유저 정보 전송.
-            SendPacket_AroundSections(wp.GameSession, section, GamePacketCode.SC_SpawnPlayer, GamePacket);
+            SendPacket_AroundSections(wp.Pid, section, GamePacketCode.SC_SpawnPlayer, GamePacket);
 
             // Release pool.
             _memoryPoolService.Release(GamePacket);
@@ -92,16 +92,16 @@ namespace Server_World.Zones.HuntZone.District
 
                 foreach (var enemy in msg.Enemies[section])
                 {
-                    var we = new World_Enemy
+                    var ee = new EnemyEntity
                     {
                         Enemy = enemy,
                         EnemyUid = enemy.EnemeyUid,
                         Section = SectionId.GetSection(enemy.Location.Pos),
-                        CollisionBox = _collisionService.Rent(Type_Collision.Enemy)
+                        Collision = _collisionService.Rent(Type_Collision.Enemy)
                     };
 
                     // Add enemy into section.
-                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, we, (_, _) => we);
+                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, ee, (_, _) => ee);
                 }
 
                 if (false == spawnEnemyDict.ContainsKey(section))
@@ -132,11 +132,11 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// Add player into district.
         /// </summary>
-        private void AddPlayerIntoDistrict(World_Player wp)
+        private void AddPlayerIntoDistrict(PlayerEntity pe)
         {
             // 구역에 플레이어 추가.
-            _worldGroup.SectionPlayerDict[wp.Section].AddOrUpdate(wp.Pid, wp, (_, _) => wp);
-            _worldGroup.PlayerDict.Add(wp.Pid, wp);
+            _worldGroup.SectionPlayerDict[pe.Section].AddOrUpdate(pe.Pid, pe, (_, _) => pe);
+            _worldGroup.PlayerDict.Add(pe.Pid, pe);
         }
     }
 }

@@ -8,8 +8,18 @@ namespace Server_World.Core.HitBoxes
     /// <summary>
     /// SphereHitbox.
     /// </summary>
-    public class SphereHitbox : Hitbox
+    public class SphereHitbox : IHitbox
     {
+        public SphereHitbox()
+        {
+            HitboxType = Type_Hitbox.Sphere;
+        }
+
+        /// <summary>
+        /// Type_Hitbox.
+        /// </summary>
+        public Type_Hitbox HitboxType { get; init; }
+
         /// <summary>
         /// 반지름.
         /// </summary>
@@ -25,11 +35,6 @@ namespace Server_World.Core.HitBoxes
         /// </summary>
         public Vector2 Center { get; set; }
 
-        public SphereHitbox() 
-            : base (Type_Hitbox.Sphere)
-        {
-        }
-
         /// <summary>
         /// Setup hit box.
         /// </summary>
@@ -43,11 +48,11 @@ namespace Server_World.Core.HitBoxes
         /// <summary>
         /// Check hit with target hit box.
         /// </summary>
-        public override bool IsHit(Hitbox target)
+        public bool IsHit(IHitbox target)
         {
             bool isHit = false;
 
-            switch (target.GetHitboxType())
+            switch (target.HitboxType)
             {
                 case Type_Hitbox.Square:
                         var squareHitbox = target as SquareHitbox;

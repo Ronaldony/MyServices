@@ -32,11 +32,11 @@ namespace Server_World.Core.Collisions
         }
 
         /// <summary>
-        /// 히트박스 업데이트.
+        /// 위치 업데이트.
         /// </summary>
         /// <param name="pos">위치</param>
         /// <param name="angle">회전 축</param>
-        public override void UpdateHitbox(Vector2 pos, Vector2 angle)
+        public override void Update(Vector2 pos, Vector2 angle)
         {
             // X 계산.
             // 최솟값 = 현재 좌표 + offset - 충돌 범위.
@@ -56,9 +56,9 @@ namespace Server_World.Core.Collisions
         }
 
         /// <summary>
-        /// 히트박스 업데이트.
+        /// 위치 업데이트.
         /// </summary>
-        public override void UpdateHitbox(Vector2 pos)
+        public override void Update(Vector2 pos)
         {
             throw new NotImplementedException();
         }
@@ -66,7 +66,7 @@ namespace Server_World.Core.Collisions
         /// <summary>
         /// 히트박스.
         /// </summary>
-        public override Hitbox GetHitbox()
+        public override IHitbox GetHitbox()
         {
             return _hitbox;
         }

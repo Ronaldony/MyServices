@@ -5,7 +5,7 @@ namespace Server_World.Zones.HuntZone.District
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Entities;
 
     /// <summary>
     /// DistrictProcessor.
@@ -15,7 +15,7 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// 플레이어 대시 처리.
         /// </summary>
-        private void Dash(World_Player wp, GamePacketCS_Dash packet)
+        private void Dash(PlayerEntity pe, GamePacketCS_Dash packet)
         {
             // 섹션 검증.
             if (false == IsValidSection(packet.Position))
@@ -24,20 +24,20 @@ namespace Server_World.Zones.HuntZone.District
                 return;
             }
 
-            var playInfo = wp.PlayInfo;
+            var playInfo = pe.PlayInfo;
             var location = playInfo.Location;
 
             // 대시 결과 유효성 검사.
-            if (false == IsValidDash(wp.PlayInfo.Stat.Velocity, location.MoveDirection, location.Pos, packet.Position))
+            if (false == IsValidDash(pe.PlayInfo.Stat.Velocity, location.MoveDirection, location.Pos, packet.Position))
             {
                 _logger.LogError($"dash - recv: {packet.Position}");
                 return;
             }
 
             // 주변 섹션에 대시 전송.
-            SendPacket_AroundSections(wp.GameSession, wp.Section, GamePacketCode.SC_Dash, new GamePacketSC_Dash
+            SendPacket_AroundSections(pe.Pid, pe.Section, GamePacketCode.SC_Dash, new GamePacketSC_Dash
             {
-                Pid = wp.Pid,
+                Pid = pe.Pid,
                 Direction = location.MoveDirection
             });
 

@@ -1,6 +1,7 @@
 ﻿
 namespace Server_World.Core.Worlds.Msg
 {
+    using Server_World.Core.Entities;
     using Server_World.Core.Types;
 
     /// <summary>
@@ -15,8 +16,8 @@ namespace Server_World.Core.Worlds.Msg
         }
 
         /// <summary>
-        /// World player.
+        /// PlayerEntity.
         /// </summary>
-        public World_Player WorldPlayer { get; set; }
+        public PlayerEntity PlayerEntity { get; set; }
     }
 }

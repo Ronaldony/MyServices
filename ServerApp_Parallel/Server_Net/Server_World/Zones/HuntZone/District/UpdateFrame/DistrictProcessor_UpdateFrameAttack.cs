@@ -49,22 +49,22 @@ namespace Server_World.Zones.HuntZone.District
                 var worldEnemies = _worldGroup.SectionEnemyDict[projectile.Section].Values;
 
                 // 적과 투사체 충돌 처리.
-                foreach (var we in worldEnemies)
+                foreach (var ee in worldEnemies)
                 {
-                    var enemyHitbox = we.CollisionBox.GetHitbox();
+                    var enemyHitbox = ee.Collision.GetHitbox();
 
                     // 충돌 검사.
                     if (hitbox.IsHit(enemyHitbox))
                     {
-                        var hitSectionUnits = hitSectionUnit.GetOrAdd(we.Section, section => new World_SectionUnit());
-                        hitSectionUnits.Enemies.Add(we.Enemy);
+                        var hitSectionUnits = hitSectionUnit.GetOrAdd(ee.Section, section => new World_SectionUnit());
+                        hitSectionUnits.Enemies.Add(ee.Enemy);
 
                         // 데미지.
-                        we.Enemy.Health -= projectile.Damage;
+                        ee.Enemy.Health -= projectile.Damage;
 
-                        if (we.Enemy.Health < 0)
+                        if (ee.Enemy.Health < 0)
                         {
-                            updateProjectile.DeathEnemies.Add(we);
+                            updateProjectile.DeathEnemies.Add(ee);
                         }
                     }
                 }
@@ -95,10 +95,10 @@ namespace Server_World.Zones.HuntZone.District
             }
 
             // 죽은 적 처리.
-            foreach (var we in updateProjectile.DeathEnemies)
+            foreach (var ee in updateProjectile.DeathEnemies)
             {
-                _worldGroup.SectionEnemyDict[we.Section].Remove(we.EnemyUid, out _);
-                _collisionService.Release(we.CollisionBox);
+                _worldGroup.SectionEnemyDict[ee.Section].Remove(ee.EnemyUid, out _);
+                _collisionService.Release(ee.Collision);
             }
 
             // Relase.

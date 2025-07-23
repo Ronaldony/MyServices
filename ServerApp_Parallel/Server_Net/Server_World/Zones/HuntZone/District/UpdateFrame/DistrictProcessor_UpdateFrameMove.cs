@@ -93,14 +93,14 @@ namespace Server_World.Zones.HuntZone.District
 
                             moveSectionUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_SectionUnit>())
-                            .PlayInfoDict.AddOrUpdate(wp.GameSession, playInfo, (_, _) => playInfo);
+                            .PlayInfoDict.AddOrUpdate(wp.Pid, playInfo, (_, _) => playInfo);
                         }
                         else
                         {
                             // 구역 이동.
                             moveDistrictUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_DistrictUnit>())
-                            .WorldPlayers.Add(wp);
+                            .PlayerEntities.Add(wp);
 
                             // 구역에서 플레이어 제거.
                             _worldGroup.PlayerDict.Remove(wp.Pid);
@@ -145,7 +145,7 @@ namespace Server_World.Zones.HuntZone.District
                             // 구역 이동.
                             moveDistrictUnit
                             .GetOrAdd(moveSection, _memoryPoolService.Rent<World_DistrictUnit>())
-                            .WorldEnemies.Add(we);
+                            .EnemyEntities.Add(we);
                         }
                     }
                 }

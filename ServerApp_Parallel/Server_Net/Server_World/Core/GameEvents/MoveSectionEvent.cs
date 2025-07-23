@@ -16,8 +16,8 @@
         }
 
         /// <summary>
-        /// GameSessions.
+        /// Move pids.
         /// </summary>
-        public ICollection<GameSession> GameSessions { get; set; }
+        public ICollection<string> MovePids { get; set; }
     }
 }

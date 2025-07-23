@@ -7,6 +7,7 @@ namespace Server_World.Zones.HuntZone.District
 {
     using GameCore;
     using GameCore.GamePacket;
+    using Server_World.Core.Entities;
 
     /// <summary>
     /// DistrictProcessor.
@@ -16,7 +17,7 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// 플레이어 넉백 처리.
         /// </summary>
-        private void KnockBack(World_Player worldPlayer, GamePacketCS_KnockBack packet)
+        private void KnockBack(PlayerEntity pe, GamePacketCS_KnockBack packet)
         {
             // 섹션 검증.
             if (false == IsValidSection(packet.Position))
@@ -25,8 +26,8 @@ namespace Server_World.Zones.HuntZone.District
                 return;
             }
 
-            var playInfo = worldPlayer.PlayInfo;
-            var position = worldPlayer.Position;
+            var playInfo = pe.PlayInfo;
+            var position = pe.Position;
 
             // 운동량(P) = 질량(MASS) * 속도(V)
             // 위 공식은 Unity AddForce(Impulse)와 동일한 결과를 내기 위한 공식.
@@ -42,9 +43,9 @@ namespace Server_World.Zones.HuntZone.District
             if (GameData.KNOCKBACK_ERROR_DISTANCE_SQUARE < errorPos)
             {
                 // 패킷 전송 - 이동 수정.
-                SendPacket_AroundSections(worldPlayer.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
+                SendPacket_AroundSections(pe.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
-                    Pid = worldPlayer.Pid,
+                    Pid = pe.Pid,
                     FixedPos = position
                 });
 

@@ -34,7 +34,7 @@ namespace Server_World.Zones.HuntZone.District
             // Send packet.
             if (sectionMovePacket.Enemies.Any() || sectionMovePacket.PlayInfos.Any())
             {
-                SendPacket(moveSectionEvent.GameSessions, GamePacketCode.SC_UpdateSectionMove, sectionMovePacket);
+                SendPacket(moveSectionEvent.MovePids, GamePacketCode.SC_UpdateSectionMove, sectionMovePacket);
             }
 
             _memoryPoolService.Release(sectionMovePacket);

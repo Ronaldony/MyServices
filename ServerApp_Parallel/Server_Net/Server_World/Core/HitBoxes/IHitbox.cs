@@ -6,22 +6,16 @@ namespace Server_World.Core.HitBoxes
     /// <summary>
     /// Hitbox.
     /// </summary>
-    public abstract class Hitbox
+    public interface IHitbox
     {
         /// <summary>
         /// Type_Hitbox.
         /// </summary>
-        public Type_Hitbox GetHitboxType() => _hitboxType;
-        private readonly Type_Hitbox _hitboxType;
-
-        public Hitbox(Type_Hitbox hitboxType)
-        {
-            _hitboxType = hitboxType;
-        }
+        Type_Hitbox HitboxType { get; init; }
 
         /// <summary>
         /// Check hit with target hit box.
         /// </summary>
-        public abstract bool IsHit(Hitbox target);
+        bool IsHit(IHitbox target);
     }
 }

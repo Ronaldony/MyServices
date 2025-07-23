@@ -7,13 +7,18 @@ namespace Server_World.Core.HitBoxes
     /// <summary>
     /// SquareHitbox.
     /// </summary>
-    public class SquareHitbox : Hitbox
+    public class SquareHitbox : IHitbox
     {
         public SquareHitbox() 
-            : base (Type_Hitbox.Square)
         {
+            HitboxType = Type_Hitbox.Square;
         }
-        
+
+        /// <summary>
+        /// Type_Hitbox.
+        /// </summary>
+        public Type_Hitbox HitboxType { get; init; }
+
         /// <summary>
         /// 위치 정보.
         /// </summary>
@@ -23,11 +28,11 @@ namespace Server_World.Core.HitBoxes
         /// <summary>
         /// Check hit with target hit box.
         /// </summary>
-        public override bool IsHit(Hitbox target)
+        public bool IsHit(IHitbox target)
         {
             bool isHit = false;
 
-            switch (target.GetHitboxType())
+            switch (target.HitboxType)
             {
                 case Type_Hitbox.Square:
                         var squareHitbox = target as SquareHitbox;
@@ -67,7 +72,6 @@ namespace Server_World.Core.HitBoxes
 
             return true;
         }
-
 
         /// <summary>
         /// Hit sphere.

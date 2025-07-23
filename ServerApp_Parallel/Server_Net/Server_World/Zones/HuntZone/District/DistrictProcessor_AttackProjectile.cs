@@ -7,7 +7,7 @@ namespace Server_World.Zones.HuntZone.District
     using GameCore;
     using GameCore.Datas.Projectiles;
     using GameCore.GamePacket;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Entities;
 
     /// <summary>
     /// DistrictProcessor.
@@ -17,13 +17,13 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// 플레이어 투사체 공격 처리.
         /// </summary>
-        private void AttackProjctile(World_Player wp, GamePacketCS_AttackProjectile packet)
+        private void AttackProjctile(PlayerEntity pe, GamePacketCS_AttackProjectile packet)
         {
             var nowTime = TimeUtil.Now;
 
             // 플레이어.
-            var playInfo = wp.PlayInfo;
-            var pos = wp.Position;
+            var playInfo = pe.PlayInfo;
+            var pos = pe.Position;
 
             // 투사체 스폰 위치 검사.
             var distance = Vector2.DistanceSquared(pos, packet.SpawnPos);
@@ -36,7 +36,7 @@ namespace Server_World.Zones.HuntZone.District
 
             // 투사체 생성.
             var tbWeapon = _tdbService.GetById<TB_Weapon>(playInfo.Equipment.Weapon);
-            var projectile = _projectileService.Rent(tbWeapon.ProjectileType, wp.Pid, packet.SpawnPos, packet.Angle, tbWeapon.Damage);
+            var projectile = _projectileService.Rent(tbWeapon.ProjectileType, pe.Pid, packet.SpawnPos, packet.Angle, tbWeapon.Damage);
 
             if (null == projectile)
             {
@@ -56,7 +56,7 @@ namespace Server_World.Zones.HuntZone.District
             gamePacket.Projectile.SpawnPos = packet.SpawnPos;
             gamePacket.Projectile.Angle = packet.Angle;
 
-            SendPacket_AroundSections(wp.GameSession, wp.Section, GamePacketCode.SC_AttackProjectile, gamePacket);
+            SendPacket_AroundSections(pe.Pid, pe.Section, GamePacketCode.SC_AttackProjectile, gamePacket);
 
             // Release.
             _memoryPoolService.Release(gamePacket.Projectile);

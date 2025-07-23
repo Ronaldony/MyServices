@@ -1,5 +1,6 @@
 ﻿namespace Server_World.Core.GameEvents
 {
+    using Server_World.Core.Entities;
     using Server_World.Core.Types;
     using Server_World.Core.Worlds;
 
@@ -13,8 +14,8 @@
         public MoveDistrictEvent()
             : base (Type_GameEvent.MoveDistrict)
         {
-            WorldPlayers = new List<World_Player>();
-            WorldEnemies = new List<World_Enemy>();
+            PlayerEntities = new List<PlayerEntity>();
+            EnemyEntities = new List<EnemyEntity>();
         }
 
         /// <summary>
@@ -25,11 +26,11 @@
         /// <summary>
         /// World_Player.
         /// </summary>
-        public List<World_Player> WorldPlayers { get; set; }
+        public List<PlayerEntity> PlayerEntities { get; set; }
 
         /// <summary>
         /// World_Enemy.
         /// </summary>
-        public List<World_Enemy> WorldEnemies { get; set; }
+        public List<EnemyEntity> EnemyEntities { get; set; }
     }
 }

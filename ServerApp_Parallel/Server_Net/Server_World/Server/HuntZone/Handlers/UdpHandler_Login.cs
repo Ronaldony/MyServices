@@ -69,7 +69,7 @@ namespace Server_World.Server.World.Handlers
                     if (false == sessionInfo.AccessToken.Equals(GamePacket.Token)) throw new ServerException($"not exist session. pid: {pid}");
 
                     // Pid 등록.
-                    if (false == _huntZoneServer.RegisterPid(sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
+                    if (false == _huntZoneServer.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
 
                     ////////////////////////////////////////////////////////////////////
                     /// Load info datas.

@@ -92,7 +92,7 @@ namespace Server_World.Zones.HuntZone.District
                 RouteGameEvent(new MoveSectionEvent
                 {
                     RouteSection = pair.Key,
-                    GameSessions = sectionUnit.PlayInfoDict.Keys
+                    MovePids = sectionUnit.PlayInfoDict.Keys
                 });
 
                 // clear.
@@ -114,8 +114,8 @@ namespace Server_World.Zones.HuntZone.District
             {
                 var districtUnit = pair.Value;
 
-                if (false == districtUnit.WorldPlayers.Any()
-                    && false == districtUnit.WorldEnemies.Any())
+                if (false == districtUnit.PlayerEntities.Any()
+                    && false == districtUnit.EnemyEntities.Any())
                 {
                     continue;
                 }
@@ -127,8 +127,8 @@ namespace Server_World.Zones.HuntZone.District
                 moveDistrictEvent.FromDistrict = _district;
 
                 // 구역 이동 유닛.
-                moveDistrictEvent.WorldPlayers.AddRange(districtUnit.WorldPlayers);
-                moveDistrictEvent.WorldEnemies.AddRange(districtUnit.WorldEnemies);
+                moveDistrictEvent.PlayerEntities.AddRange(districtUnit.PlayerEntities);
+                moveDistrictEvent.EnemyEntities.AddRange(districtUnit.EnemyEntities);
 
                 // 구역 이동 이벤트 라우팅.
                 RouteGameEvent(moveDistrictEvent);

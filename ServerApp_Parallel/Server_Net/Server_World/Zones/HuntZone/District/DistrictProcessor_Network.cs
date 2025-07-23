@@ -1,7 +1,6 @@
 ﻿
 namespace Server_World.Zones.HuntZone.District
 {
-    using Framework.Core.Session;
     using GameCore.GamePacket;
     using Server_World.Core.GameEvents;
     using Server_World.Core.Worlds;
@@ -14,33 +13,33 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// Send packet.
         /// </summary>
-        private bool SendPacket<T>(int sessionId, ulong sessionUid, int packetCode, T packet)
+        private bool SendPacket<T>(string pid, int packetCode, T packet)
             where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize(packet);
 
             // Send.
-            return _huntZoneServer.Send(sessionId, sessionUid, packetCode, packetBytes);
+            return _huntZoneServer.Send(pid, packetCode, packetBytes);
         }
 
         /// <summary>
         /// Send packet to sessions.
         /// </summary>
-        private void SendPacket<T>(ICollection<GameSession> sessions, int packetCode, T packet)
+        private void SendPacket<T>(ICollection<string> pids, int packetCode, T packet)
             where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize(packet);
 
-            foreach (var session in sessions)
+            foreach (var pid in pids)
             {
-                _huntZoneServer.Send(session.SessionId, session.SessionUid, packetCode, packetBytes);
+                _huntZoneServer.Send(pid, packetCode, packetBytes);
             }
         }
 
         /// <summary>
         /// Send packet for around sections.
         /// </summary>
-        private void SendPacket_AroundSections<T>(GameSession ignoreSession, SectionId section, int packetCode, T packet)
+        private void SendPacket_AroundSections<T>(string ignorePid, SectionId section, int packetCode, T packet)
             where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize<T>(packet);
@@ -48,11 +47,9 @@ namespace Server_World.Zones.HuntZone.District
             // 주변 섹션에 전파.
             foreach (var wp in _worldGroup.PlayerDict.Values)
             {
-                var session = wp.GameSession;
-
-                if (false == session.Equals(ignoreSession))
+                if (false == wp.Pid.Equals(ignorePid))
                 {
-                    _huntZoneServer.Send(session.SessionId, session.SessionUid, packetCode, packetBytes);
+                    _huntZoneServer.Send(wp.Pid, packetCode, packetBytes);
                 }
             }
 
@@ -71,7 +68,7 @@ namespace Server_World.Zones.HuntZone.District
             // 주변 섹션에 전파.
             foreach (var wp in _worldGroup.PlayerDict.Values)
             {
-                _huntZoneServer.Send(wp.GameSession.SessionId, wp.GameSession.SessionUid, packetCode, packetBytes);
+                _huntZoneServer.Send(wp.Pid, packetCode, packetBytes);
             }
 
             // Broadcast packet around.
@@ -89,7 +86,7 @@ namespace Server_World.Zones.HuntZone.District
             // 주변 섹션에 전파.
             foreach (var wp in _worldGroup.PlayerDict.Values)
             {
-                _huntZoneServer.Send(wp.GameSession.SessionId, wp.GameSession.SessionUid, packetCode, packetBytes);
+                _huntZoneServer.Send(wp.Pid, packetCode, packetBytes);
             }
         }
 
@@ -107,7 +104,7 @@ namespace Server_World.Zones.HuntZone.District
                 {
                     foreach (var wp in _worldGroup.SectionPlayerDict[section].Values)
                     {
-                        _huntZoneServer.Send(wp.GameSession.SessionId, wp.GameSession.SessionUid, packetEvent.PacketCode, packetEvent.PacketBytes);
+                        _huntZoneServer.Send(wp.Pid, packetEvent.PacketCode, packetEvent.PacketBytes);
                     }
                 }
             }

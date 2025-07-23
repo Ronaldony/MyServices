@@ -6,7 +6,7 @@ namespace Server_World.Zones.HuntZone.District
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_World.Core.Worlds;
+    using Server_World.Core.Entities;
 
     /// <summary>
     /// DistrictProcessor.
@@ -16,9 +16,9 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// 플레이어 이동 처리.
         /// </summary>
-        private void MoveStart(World_Player worldPlayer, GamePacketCS_MoveStart packet)
+        private void MoveStart(PlayerEntity pe, GamePacketCS_MoveStart packet)
         {
-            var playInfo = worldPlayer.PlayInfo;
+            var playInfo = pe.PlayInfo;
             var location = playInfo.Location;
 
             // PlayInfo 갱신.
@@ -29,9 +29,9 @@ namespace Server_World.Zones.HuntZone.District
             //_logger.LogDebug($"MoveStart - pos: {location.Position}, move: {packet.MoveDirection}");
 
             // 패킷 전송 - 이동 시작.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_MoveStart, new GamePacketSC_MoveStart
+            SendPacket_AroundSections(pe.Pid, pe.Section, GamePacketCode.SC_MoveStart, new GamePacketSC_MoveStart
             {
-                Pid = worldPlayer.Pid,
+                Pid = pe.Pid,
                 Direction = packet.Direction
             });
         }
@@ -39,7 +39,7 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// 플레이어 이동 처리.
         /// </summary>
-        private void MoveEnd(World_Player worldPlayer, GamePacketCS_MoveEnd packet)
+        private void MoveEnd(PlayerEntity pe, GamePacketCS_MoveEnd packet)
         {
             //_logger.LogDebug($"MoveEnd - pos: {packet.EndPos}");
 
@@ -51,7 +51,7 @@ namespace Server_World.Zones.HuntZone.District
             }
 
             // 플레이어 정보.
-            var playInfo = worldPlayer.PlayInfo;
+            var playInfo = pe.PlayInfo;
             var location = playInfo.Location;
 
             // 이동 거리 계산 및 유효성 검사.
@@ -60,9 +60,9 @@ namespace Server_World.Zones.HuntZone.District
             if (false == IsValidPosition(deltaTime, playInfo.Stat.Velocity, location.MoveDirection, location.Pos, packet.EndPos))
             {
                 // 패킷 전송 - 이동 수정.
-                SendPacket_AroundSections(worldPlayer.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
+                SendPacket_AroundSections(pe.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
-                    Pid = worldPlayer.Pid,
+                    Pid = pe.Pid,
                     FixedPos = location.Pos
                 });
 
@@ -77,9 +77,9 @@ namespace Server_World.Zones.HuntZone.District
             location.PosEnd = packet.EndPos;
 
             // 패킷 전송 - 이동 정지.
-            SendPacket_AroundSections(worldPlayer.GameSession, worldPlayer.Section, GamePacketCode.SC_MoveEnd, new GamePacketSC_MoveEnd
+            SendPacket_AroundSections(pe.Pid, pe.Section, GamePacketCode.SC_MoveEnd, new GamePacketSC_MoveEnd
             {
-                Pid = worldPlayer.Pid,
+                Pid = pe.Pid,
                 EndPos = packet.EndPos
             });
         }

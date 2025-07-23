@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Server_World.Core.Entities;
+using System.Collections.Concurrent;
 
 namespace Server_World.Core.Worlds
 {
@@ -15,22 +16,22 @@ namespace Server_World.Core.Worlds
         /// <summary>
         /// HuntZone_Player dictionary.
         /// key: Pid.
-        /// value: World_Player.
+        /// value: PlayerEntity.
         /// </summary>
-        public Dictionary<string, World_Player> PlayerDict { get; set; }
+        public Dictionary<string, PlayerEntity> PlayerDict { get; set; }
 
         /// <summary>
         /// 섹션 단위 플레이어 정보.
         /// key: Section.
         /// value: Player dictionary (key: pid).
         /// </summary>
-        public Dictionary<SectionId, ConcurrentDictionary<string, World_Player>> SectionPlayerDict { get; set; }
+        public Dictionary<SectionId, ConcurrentDictionary<string, PlayerEntity>> SectionPlayerDict { get; set; }
 
         /// <summary>
         /// 섹션 단위 적 정보.
         /// key: Section.
         /// value: Wolrd_enemy dictionary (key: EnemeyUId).
         /// </summary>
-        public Dictionary<SectionId, ConcurrentDictionary<ulong, World_Enemy>> SectionEnemyDict { get; set; }
+        public Dictionary<SectionId, ConcurrentDictionary<ulong, EnemyEntity>> SectionEnemyDict { get; set; }
     }
 }

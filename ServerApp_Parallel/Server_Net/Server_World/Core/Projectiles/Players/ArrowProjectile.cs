@@ -13,7 +13,7 @@ namespace Server_World.Core.Projectiles.Players
     {
         private readonly SphereHitbox _hitbox;
 
-        public ArrowProjectile() 
+        public ArrowProjectile()
             : base(Type_Projectile.Arrow)
         {
             _hitbox = new SphereHitbox();
@@ -74,7 +74,7 @@ namespace Server_World.Core.Projectiles.Players
         /// <summary>
         /// Get hitbox.
         /// </summary>
-        public override Hitbox GetHitbox()
+        public override IHitbox GetHitbox()
         {
             return _hitbox;
         }

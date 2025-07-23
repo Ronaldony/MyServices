@@ -1,5 +1,5 @@
 ﻿
-#define TEST_LOCAL
+//#define TEST_LOCAL
 
 using Dapper;
 using Dapper.ColumnMapper;

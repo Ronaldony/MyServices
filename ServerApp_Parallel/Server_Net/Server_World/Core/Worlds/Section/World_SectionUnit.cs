@@ -14,14 +14,14 @@ namespace Server_World.Core.Worlds.Section
     {
         public World_SectionUnit()
         {
-            PlayInfoDict = new ConcurrentDictionary<GameSession, DTO_PlayInfo>();
+            PlayInfoDict = new ConcurrentDictionary<string, DTO_PlayInfo>();
             Enemies = new ConcurrentBag<DTO_Enemy>();
         }
 
         /// <summary>
         /// Player.
         /// </summary>
-        public ConcurrentDictionary<GameSession, DTO_PlayInfo> PlayInfoDict { get; set; }
+        public ConcurrentDictionary<string, DTO_PlayInfo> PlayInfoDict { get; set; }
 
         /// <summary>
         /// Enemy. 

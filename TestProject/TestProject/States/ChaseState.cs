@@ -1,5 +1,4 @@
-﻿using MMORPGServer.AI;
-using System.Numerics;
+﻿using System.Numerics;
 using TestProject.Objects;
 using TestProject.Types;
 

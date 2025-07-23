@@ -101,7 +101,7 @@ namespace Server_World.Core.Projectiles.Players
         /// Get hit box.
         /// </summary>
         /// <returns></returns>
-        public abstract Hitbox GetHitbox();
+        public abstract IHitbox GetHitbox();
 
         /// <summary>
         /// Dispose.

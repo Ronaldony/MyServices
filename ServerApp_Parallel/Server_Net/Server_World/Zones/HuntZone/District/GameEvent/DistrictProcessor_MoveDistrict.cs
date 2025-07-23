@@ -1,5 +1,6 @@
 ﻿namespace Server_World.Zones.HuntZone.District
 {
+    using Dapper;
     using GameCore;
     using GameCore.GamePacket;
     using Server_World.Core.GameEvents;
@@ -17,10 +18,10 @@
             var GamePacket = _memoryPoolService.Rent<GamePacketSC_UpdateSectionMove>();
 
             // 현재 구역의 기존 플레이어에게 새로 진입한 플레이어 전송.
-            if (moveDistrictEvent.WorldEnemies.Any() || moveDistrictEvent.WorldPlayers.Any())
+            if (moveDistrictEvent.EnemyEntities.Any() || moveDistrictEvent.PlayerEntities.Any())
             {
-                GamePacket.PlayInfos.AddRange(moveDistrictEvent.WorldPlayers.Select(d => d.PlayInfo));
-                GamePacket.Enemies.AddRange(moveDistrictEvent.WorldEnemies.Select(d => d.Enemy));
+                GamePacket.PlayInfos.AddRange(moveDistrictEvent.PlayerEntities.Select(d => d.PlayInfo));
+                GamePacket.Enemies.AddRange(moveDistrictEvent.EnemyEntities.Select(d => d.Enemy));
 
                 // 패킷 전송.
                 SendPacket_ManagedSections(GamePacketCode.SC_UpdateSectionMove, GamePacket);
@@ -34,7 +35,7 @@
             {
                 // 현재 구역으로 이동한 경우.
                 // 구역에 플레이어 추가.
-                foreach (var wp in moveDistrictEvent.WorldPlayers)
+                foreach (var wp in moveDistrictEvent.PlayerEntities)
                 {
                     AddPlayerIntoDistrict(wp);
                 }
@@ -69,7 +70,7 @@
             // 현재 구역에 새로 진입한 플레이어에게 주변 섹션 전송.
             if (GamePacket.PlayInfos.Any() || GamePacket.Enemies.Any())
             {
-                SendPacket(moveDistrictEvent.WorldPlayers.Select(d => d.GameSession).ToList(), GamePacketCode.SC_UpdateSectionMove, GamePacket);
+                SendPacket(moveDistrictEvent.PlayerEntities.Select(d => d.Pid).AsList(), GamePacketCode.SC_UpdateSectionMove, GamePacket);
             }
 
             // Release.

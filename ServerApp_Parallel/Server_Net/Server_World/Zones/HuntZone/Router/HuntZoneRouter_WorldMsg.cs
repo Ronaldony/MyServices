@@ -27,7 +27,7 @@ namespace Server_World.Zones.HuntZone.Router
                             {
                                 // Spawn player.
                                 var msg = wm as WorldMsg_SpawnPlayer;
-                                var worldPlayer = msg.WorldPlayer;
+                                var worldPlayer = msg.PlayerEntity;
 
                                 if (false == IsValidSection(worldPlayer.Section))
                                 {

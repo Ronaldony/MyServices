@@ -1,4 +1,5 @@
 ﻿
+using Server_World.Core.Entities;
 using System.Collections.Concurrent;
 
 namespace Server_World.Core.Worlds.Section
@@ -10,24 +11,24 @@ namespace Server_World.Core.Worlds.Section
     {
         public World_DistrictUnit()
         {
-            WorldPlayers = new ConcurrentBag<World_Player>();
-            WorldEnemies = new ConcurrentBag<World_Enemy>();
+            PlayerEntities = new ConcurrentBag<PlayerEntity>();
+            EnemyEntities = new ConcurrentBag<EnemyEntity>();
         }
 
         /// <summary>
         /// WorldPlayers.
         /// </summary>
-        public ConcurrentBag<World_Player> WorldPlayers { get; set; }
+        public ConcurrentBag<PlayerEntity> PlayerEntities { get; set; }
 
         /// <summary>
         /// WorldEnemies.
         /// </summary>
-        public ConcurrentBag<World_Enemy> WorldEnemies { get; set; }
+        public ConcurrentBag<EnemyEntity> EnemyEntities { get; set; }
 
         public void Dispose()
         {
-            WorldPlayers.Clear();
-            WorldEnemies.Clear();
+            PlayerEntities.Clear();
+            EnemyEntities.Clear();
         }
     }
 }

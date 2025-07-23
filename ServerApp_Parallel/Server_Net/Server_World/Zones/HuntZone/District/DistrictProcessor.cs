@@ -8,8 +8,8 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Server_World.Zones.HuntZone.District
 {
-    using GameCore.Datas.Enemy;
     using GameCore.Interfaces;
+    using Server_World.Core.Entities;
     using Server_World.Core.GameEvents;
     using Server_World.Core.Services;
     using Server_World.Core.Types;
@@ -18,8 +18,6 @@ namespace Server_World.Zones.HuntZone.District
     using Server_World.Server.HuntZone;
     using Server_World.Zones.HuntZone.Router;
     using Server_World.Zones.HuntZone.Scheduler;
-    using System.Buffers;
-    using System.Collections.Generic;
 
     /// <summary>
     /// DistrictProcessor.
@@ -50,7 +48,7 @@ namespace Server_World.Zones.HuntZone.District
         private readonly District _district;
 
         // 외부 섹션 플레이어.
-        private Dictionary<SectionId, List<World_Player>> _outsideWorldPlayers;
+        private Dictionary<SectionId, List<PlayerEntity>> _outsideWorldPlayers;
 
         // Queue.
         private readonly ConcurrentQueue<GameEvent> _gameEventQueue;
@@ -183,9 +181,9 @@ namespace Server_World.Zones.HuntZone.District
         /// <summary>
         /// Initialize outside players.
         /// </summary>
-        private Dictionary<SectionId, List<World_Player>> Initialize_OutsidePlayers()
+        private Dictionary<SectionId, List<PlayerEntity>> Initialize_OutsidePlayers()
         {
-            var outsidePlayers = new Dictionary<SectionId, List<World_Player>>();
+            var outsidePlayers = new Dictionary<SectionId, List<PlayerEntity>>();
 
             // 관리 구역 근처 외부 섹션 저장.
             foreach (var section in _worldGroup.ManagedSections)
@@ -205,7 +203,7 @@ namespace Server_World.Zones.HuntZone.District
                 // Add outside section.
                 foreach (var addSection in outsideSections)
                 {
-                    outsidePlayers.TryAdd(addSection, new List<World_Player>());
+                    outsidePlayers.TryAdd(addSection, new List<PlayerEntity>());
                 }
             }
 

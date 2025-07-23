@@ -81,7 +81,7 @@ namespace TestProject.Systems
             // Trigger combat events
             OnAttackPerformed?.Invoke(_owner, target, damage);
         }
-
+        
         private void ApplyDamage(IWorldObject target, float damage)
         {
             // In real implementation, would interact with health system
