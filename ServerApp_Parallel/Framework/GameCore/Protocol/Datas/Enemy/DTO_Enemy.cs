@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GameCore.Datas.Enemy
 {
     using GameCore.Datas.Items;
-    using System.Security.Cryptography.X509Certificates;
+    using GameCore.Datas.Plays;
 
     /// <summary>
     /// DTO_Enemy.
@@ -16,7 +17,8 @@ namespace GameCore.Datas.Enemy
     {
         public DTO_Enemy()
         {
-            Location = new DTO_EnemyLocation();
+            Stat = new DTO_Stat();
+            Location = new DTO_Location();
             DropItems = new List<Type_Item>();
         }
 
@@ -33,39 +35,27 @@ namespace GameCore.Datas.Enemy
         public int EnemyId { get; set; }
 
         /// <summary>
-        /// 체력.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public int Health { get; set; }
-
-        /// <summary>
-        /// Track pid.
-        /// </summary>
-        [MemoryPackOrder(3)]
-        public string TrackPid { get; set; }
-
-        /// <summary>
         /// 행동 유형.
         /// </summary>
-        [MemoryPackOrder(4)]
-        public Type_EnemyAction Action { get; set; }
+        [MemoryPackOrder(2)]
+        public Type_AIAction AIActionType { get; set; }
 
         /// <summary>
-        /// 최근 공격 시간.
+        /// 능력치.
         /// </summary>
-        [MemoryPackOrder(5)]
-        public DateTime LastAttackTime { get; set; }
+        [MemoryPackOrder(3)]
+        public DTO_Stat Stat { get; set; }
 
         /// <summary>
         /// Location.
         /// </summary>
-        [MemoryPackOrder(6)]
-        public DTO_EnemyLocation Location { get; set; }
+        [MemoryPackOrder(4)]
+        public DTO_Location Location { get; set; }
 
         /// <summary>
         /// 드랍 아이템.
         /// </summary>
-        [MemoryPackOrder(7)]
+        [MemoryPackOrder(5)]
         public List<Type_Item> DropItems { get; set; }
     }
 }

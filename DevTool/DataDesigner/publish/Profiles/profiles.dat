@@ -13,7 +13,7 @@
         "Target": "Server",
         "ProjectPath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore",
         "ProtocolPath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCor\\Code",
+        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Code",
         "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Database"
       }
     ]

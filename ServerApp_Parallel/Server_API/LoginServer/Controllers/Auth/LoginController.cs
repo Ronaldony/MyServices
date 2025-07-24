@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LoginServer.Controllers.Auth
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.GameObjects;
+    using Framework.Core.Database.DataObjects;
     using Framework.Core.WebAPI.ActionFilter;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;

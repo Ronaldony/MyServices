@@ -1,0 +1,98 @@
+﻿
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+namespace Server_Realm.Core.Services
+{
+    using Dapper;
+    using GameCore;
+    using GameCore.Datas.Enemy;
+    using GameCore.Interfaces;
+
+    /// <summary>
+    /// UnitInitializeService.
+    /// </summary>
+    public class UnitInitializeService
+    {
+        private readonly ILogger<UnitInitializeService> _logger;
+
+        // Services.
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ITDBService _tdbService;
+
+        // Datas.
+        private readonly List<Type_Item> _itemTypes;
+        private readonly List<CONF_Area> _confAreas;
+
+        // Random.
+        private readonly Random _rand;
+
+        public UnitInitializeService(IServiceProvider serviceProvider)
+        {
+            _logger = serviceProvider.GetRequiredService<ILogger<UnitInitializeService>>();
+
+            _serviceProvider = serviceProvider;
+            _tdbService = serviceProvider.GetService<ITDBService>();
+
+            _itemTypes = Enum.GetValues<Type_Item>().Where(d => d != Type_Item.None).ToList();
+            _confAreas = _tdbService.SelectAll<CONF_Area>().ToList();
+
+            _rand = new Random();
+        }
+
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        public void Initialize()
+        {
+            _logger.LogInformation($"UnitInitializeService initialized.");
+        }
+
+        /// <summary>
+        /// Get enemy template.
+        /// </summary>
+        public DTO_Enemy CreateEnemy(int refId, Type_Area areaType)
+        {
+            var tbEnemy = _tdbService.GetById<TB_Enemy>(refId);
+            var confArea = _confAreas.FirstOrDefault(d => d.Area == areaType);
+
+            // 데이터 검사.
+            if (tbEnemy == null || confArea == null)
+            {
+                return null;
+            }
+
+            // 유닛 생성.
+            var dtoEnemy = new DTO_Enemy
+            {
+                EnemyId = refId,
+                AIActionType = Type_AIAction.None,
+                //Health = enemy.Health,
+                //Action = Type_EnemyAction.None
+            };
+
+
+            // Generate random section.
+            var x = _rand.Next(confArea.MinX, confArea.MaxX);
+            var y = _rand.Next(confArea.MinY, confArea.MaxY);
+
+            // Stat.
+            dtoEnemy.Stat.HealthMax = tbEnemy.Health;
+            dtoEnemy.Stat.Health = tbEnemy.Health;
+            dtoEnemy.Stat.Power = tbEnemy.Attack;
+            dtoEnemy.Stat.Defense = 0;
+            dtoEnemy.Stat.Velocity = tbEnemy.MoveSpeed;
+
+            // Location.
+            //dtoEnemy.Location.PosEnd
+
+            // DropItems.
+            for (int repeat = 0; repeat < _rand.Next(0, 4); repeat++)
+            {
+                dtoEnemy.DropItems.Add(_itemTypes.OrderBy(d => new Guid()).First());
+            }
+
+            return dtoEnemy;
+        }
+    }
+}

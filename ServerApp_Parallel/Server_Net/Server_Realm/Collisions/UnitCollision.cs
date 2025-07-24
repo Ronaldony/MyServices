@@ -1,0 +1,71 @@
+﻿using System.Numerics;
+
+namespace Server_Realm.Collisions
+{
+    using GameCore;
+    using Server_Realm.HitBoxes;
+
+    /// <summary>
+    /// HitCollisionBox.
+    /// </summary>
+    public class UnitCollision : Collision
+    {
+        /// <summary>
+        /// SquareHitbox.
+        /// </summary>
+        private readonly SquareHitbox _hitbox;
+
+        public UnitCollision()
+        {
+            _hitbox = new SquareHitbox();
+        }
+
+        /// <summary>
+        /// 충돌 관련 값 셋업.
+        /// </summary>
+        public override void Setup(Type_Collision collisionType, float width, float height, float offsetX, float offsetY)
+        {
+            _collisionType = collisionType;
+            Width = width / 2;
+            Height = height / 2;
+            Offset = new Vector2(offsetX, offsetY);
+        }
+
+        /// <summary>
+        /// 위치 업데이트.
+        /// </summary>
+        public override void Update(Vector2 pos, Vector2 angle)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 위치 업데이트.
+        /// </summary>c
+        /// <param name="pos">위치</param>
+        public override void Update(Vector2 pos)
+        {
+            // 최솟값 = 현재 좌표 + offset - 충돌 범위.
+            _hitbox.Min = new Vector2(pos.X + Offset.X - Width, pos.Y + Offset.Y - Height);
+
+            // 최댓값 = 현재 좌표 + offset + 충돌 범위.
+            _hitbox.Max = new Vector2(pos.X + Offset.Y + Width, pos.Y + Offset.Y + Height);
+        }
+
+        /// <summary>
+        /// 히트박스.
+        /// </summary>
+        public override IHitbox GetHitbox()
+        {
+            return _hitbox;
+        }
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public override void Dispose()
+        {
+        }
+
+    }
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "Summary": ""
+  },
+  {
+    "Id": 1,
+    "Name": "Idle",
+    "Summary": ""
+  },
+  {
+    "Id": 2,
+    "Name": "Roam",
+    "Summary": ""
+  },
+  {
+    "Id": 3,
+    "Name": "Track",
+    "Summary": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Return",
+    "Summary": ""
+  },
+  {
+    "Id": 5,
+    "Name": "Attack",
+    "Summary": ""
+  },
+  {
+    "Id": 6,
+    "Name": "AttackCooldown",
+    "Summary": ""
+  },
+  {
+    "Id": 7,
+    "Name": "Hit",
+    "Summary": ""
+  },
+  {
+    "Id": 8,
+    "Name": "Death",
+    "Summary": ""
+  }
+]
