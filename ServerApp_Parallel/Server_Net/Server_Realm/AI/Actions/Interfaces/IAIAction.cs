@@ -1,6 +1,5 @@
-﻿namespace Server_Realm.AI.Actions
+﻿namespace Server_Realm.AI.Actions.Interfaces
 {
-    using GameCore;
     using Server_Realm.Entities;
 
     /// <summary>
@@ -12,11 +11,6 @@
         /// Onwer.
         /// </summary>
         Unit Owner { get; }
-
-        /// <summary>
-        /// Type_AIAction.
-        /// </summary>
-        Type_AIAction AIActionType { get; }
 
         /// <summary>
         /// Start.

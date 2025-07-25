@@ -6,6 +6,7 @@ namespace Server_Realm.Zones.HuntZone.District
     using GameCore.Datas.Enemy;
     using GameCore.GamePacket;
     using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
 

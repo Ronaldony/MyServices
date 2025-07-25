@@ -3,7 +3,6 @@
 namespace Server_Realm.GameEvents
 {
     using GameCore;
-    using GameCore.GamePacket;
     using Server_Realm.Core.Types;
 
     /// <summary>
@@ -19,19 +18,9 @@ namespace Server_Realm.GameEvents
         }
 
         /// <summary>
-        /// GamePacket.
-        /// </summary>
-        public GamePacketSC_Attack GamePacket { get; set; }
-
-        /// <summary>
         /// Damage.
         /// </summary>
         public int Damage { get; set; }
-
-        /// <summary>
-        /// 공격 시간.
-        /// </summary>
-        public DateTime AttackTime { get; set; }
 
         /// <summary>
         /// 공격 각도.

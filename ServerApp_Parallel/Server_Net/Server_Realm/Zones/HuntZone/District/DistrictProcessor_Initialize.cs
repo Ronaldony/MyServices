@@ -3,6 +3,7 @@
 namespace Server_Realm.Zones.HuntZone.District
 {
     using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
 
     /// <summary>
@@ -28,6 +29,7 @@ namespace Server_Realm.Zones.HuntZone.District
             {
                 PlayerDict = new Dictionary<string, PlayerUnit>(),
                 SectionPlayerDict = sectionPlayerDict,
+                EnemyDict = new Dictionary<ulong, EnemyUnit>(),
                 SectionEnemyDict = sectionEnemyDict,
                 ManagedSections = managedSections
             };

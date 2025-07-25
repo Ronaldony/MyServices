@@ -2,6 +2,7 @@
 {
     using Server_Realm.Core.Types;
     using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
 
     /// <summary>

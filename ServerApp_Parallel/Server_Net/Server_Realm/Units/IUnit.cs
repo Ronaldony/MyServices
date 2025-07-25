@@ -4,7 +4,9 @@ namespace Server_Realm.Entities
 {
     using Server_Realm.Collisions;
     using Server_Realm.Core.Types;
+    using Server_Realm.UnitHandler;
     using Server_Realm.Worlds;
+    using Server_Realm.Zones;
 
     /// <summary>
     /// IUnit.
@@ -14,31 +16,31 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Entity 활성 여부.
         /// </summary>
-        bool IsActive { get; set; }
+        bool IsActive { get; }
 
         /// <summary>
-        /// Type_Unit.
+        /// Type_Entity.
         /// </summary>
-        Type_Unit UnitType { get; init; }
+        Type_Unit UnitType { get; }
 
         /// <summary>
         /// 현재 위치.
         /// </summary>
-        public Vector2 Position { get; set; }
+        Vector2 Position { get; }
 
         /// <summary>
         /// 현재 섹션.
         /// </summary>
-        public SectionId Section { get; set; }
+        SectionId Section { get; }
 
         /// <summary>
         /// Collision.
         /// </summary>
-        public Collision Collision { get; set; }
+        Collision UnitCollision { get; }
 
         /// <summary>
         /// Update.
         /// </summary>
-        void Update(float deltaTime);
+        abstract void Update(float deltaTime);
     }
 }

@@ -32,6 +32,8 @@ namespace Server_Realm.Zones.HuntZone.District
                 packet.PlayInfos.Clear();
                 packet.Enemies.Clear();
             }
+
+            _memoryPoolService.Release(packet);
         }
     }
 }

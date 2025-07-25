@@ -51,7 +51,7 @@ namespace Server_Realm.Zones.HuntZone.District
                 // 적과 투사체 충돌 처리.
                 foreach (var eu in eus)
                 {
-                    var enemyHitbox = eu.Collision.GetHitbox();
+                    var enemyHitbox = eu.UnitCollision.GetHitbox();
 
                     // 충돌 검사.
                     if (hitbox.IsHit(enemyHitbox))
@@ -98,7 +98,7 @@ namespace Server_Realm.Zones.HuntZone.District
             foreach (var ee in updateProjectile.DeathEnemies)
             {
                 _worldGroup.SectionEnemyDict[ee.Section].Remove(ee.EnemyUid, out _);
-                _collisionService.Release(ee.Collision);
+                _collisionService.Release(ee.UnitCollision);
             }
 
             // Relase.

@@ -1,7 +1,7 @@
 ﻿namespace Server_Realm.Worlds.Msg
 {
-    using GameCore.Datas.Enemy;
     using Server_Realm.Core.Types;
+    using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
 
     /// <summary>
@@ -12,12 +12,12 @@
         public WorldMsg_SpawnEnemy()
             : base(Type_WorldMsg.SpawnEnemy)
         {
-
+            Enemies = new Dictionary<SectionId, List<EnemyUnit>>();
         }
 
         /// <summary>
         /// Enemies.
         /// </summary>
-        public Dictionary<SectionId, List<DTO_Enemy>> Enemies { get; set; }
+        public Dictionary<SectionId, List<EnemyUnit>> Enemies { get; set; }
     }
 }

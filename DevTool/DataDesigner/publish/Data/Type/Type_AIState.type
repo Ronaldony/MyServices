@@ -21,27 +21,17 @@
   },
   {
     "Id": 4,
-    "Name": "Return",
+    "Name": "Combat",
     "Summary": ""
   },
   {
     "Id": 5,
-    "Name": "Attack",
+    "Name": "Return",
     "Summary": ""
   },
   {
     "Id": 6,
-    "Name": "AttackCooldown",
-    "Summary": ""
-  },
-  {
-    "Id": 7,
-    "Name": "Hit",
-    "Summary": ""
-  },
-  {
-    "Id": 8,
-    "Name": "Death",
+    "Name": "Dead",
     "Summary": ""
   }
 ]

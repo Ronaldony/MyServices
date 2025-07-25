@@ -15,7 +15,7 @@ namespace Server_Realm.Zones.HuntZone.Router
     /// <summary>
     /// HuntZoneRouter.
     /// </summary>
-    public partial class HuntZoneRouter
+    public partial class HuntZoneRouter : IZoneRouter
     {
         private readonly ILogger<HuntZoneRouter> _logger;
 
@@ -107,7 +107,7 @@ namespace Server_Realm.Zones.HuntZone.Router
         /// <summary>
         /// Get district.
         /// </summary>
-        private District GetDistrict(SectionId section)
+        public District GetDistrict(SectionId section)
         {
             return _worldSectionGroup.DistrictDict[section];
         }
@@ -128,9 +128,9 @@ namespace Server_Realm.Zones.HuntZone.Router
         /// <summary>
         /// Post world packet.
         /// </summary>
-        public bool RouteGameEvent(GameEvent worldPacket)
+        public bool RouteGameEvent(GameEvent gameEvent)
         {
-            return _gameEventPipeline.Post(worldPacket);
+            return _gameEventPipeline.Post(gameEvent);
         }
 
         /// <summary>

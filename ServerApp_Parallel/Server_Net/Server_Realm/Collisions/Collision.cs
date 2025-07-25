@@ -30,17 +30,17 @@ namespace Server_Realm.Collisions
         /// <summary>
         /// 셋업.
         /// </summary>
-        public abstract void Setup(Type_Collision collisionType, float width, float height, float offsetX, float offsetY);
+        public abstract Collision Setup(Type_Collision collisionType, float width, float height, float offsetX, float offsetY);
 
         /// <summary>
         /// 위치 업데이트.
         /// </summary>
-        public abstract void Update(Vector2 pos, Vector2 angle);
+        public abstract Collision Update(Vector2 pos, Vector2 angle);
 
         /// <summary>
         /// 위치 업데이트.
         /// </summary>
-        public abstract void Update(Vector2 pos);
+        public abstract Collision Update(Vector2 pos);
 
         /// <summary>
         /// 히트박스.

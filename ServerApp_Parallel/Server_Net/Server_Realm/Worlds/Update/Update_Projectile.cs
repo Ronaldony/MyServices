@@ -1,7 +1,7 @@
 ﻿namespace Server_Realm.Worlds.Update
 {
-    using Server_Realm.Entities;
     using Server_Realm.Projectiles.Players;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// Update_Projectile.

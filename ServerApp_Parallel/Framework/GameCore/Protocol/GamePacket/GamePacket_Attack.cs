@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 namespace GameCore.GamePacket
 {
     /// <summary>
-    /// GamePacketCS_Attack.
+    /// GamePacketCS_AttackMelee.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketCS_Attack : GamePacketBase_CS
+    public partial class GamePacketCS_AttackMelee : GamePacketBase_CS
     {
         /// <summary>
         /// Attack angle.
@@ -18,10 +18,10 @@ namespace GameCore.GamePacket
     }
 
     /// <summary>
-    /// GamePacketSC_Attack.
+    /// GamePacketSC_AttackMelee.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketSC_Attack : GamePacketBase_SC
+    public partial class GamePacketSC_AttackMelee : GamePacketBase_SC
     {
         /// <summary>
         /// 공격 Pid.

@@ -8,7 +8,7 @@
     "AttackRange": 4,
     "AttackCooldown": 0,
     "MoveSpeed": 2,
-    "Summary": null
+    "Defense": 1
   },
   {
     "Id": 3,
@@ -19,6 +19,6 @@
     "AttackRange": 2,
     "AttackCooldown": 0,
     "MoveSpeed": 3,
-    "Summary": null
+    "Defense": 1
   }
 ]

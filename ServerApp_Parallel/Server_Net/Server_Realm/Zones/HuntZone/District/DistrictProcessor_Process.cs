@@ -39,7 +39,7 @@ namespace Server_Realm.Zones.HuntZone.District
                         MoveEnd(worldPlayer, packetEvent.Packet as GamePacketCS_MoveEnd);
                         break;
                     case GamePacketCode.CS_Attack:
-                        Attack(worldPlayer, packetEvent.Packet as GamePacketCS_Attack);
+                        AttackMelee(worldPlayer, packetEvent.Packet as GamePacketCS_Attack);
                         break;
                     case GamePacketCode.CS_AttackProjectile:
                         AttackProjctile(worldPlayer, packetEvent.Packet as GamePacketCS_AttackProjectile);

@@ -25,16 +25,14 @@ namespace Server_Realm.Zones.HuntZone.District
 
             foreach (var pair in _worldGroup.SectionEnemyDict)
             {
-                var worldEnemies = pair.Value.Values;
+                var enemyUnits = pair.Value.Values;
                 var section = pair.Key;
 
                 updateEnemieDict.Add(section, new List<DTO_Enemy>());
 
                 // 업데이트 이동 패턴 확인 및 대상 추가.
-                foreach (var worldEnemy in worldEnemies)
+                foreach (var eu in enemyUnits)
                 {
-                    var enemy = worldEnemy.Enemy;
-
                     if (msg.MovePattern != enemy.Location.MovePattern)
                     {
                         continue;

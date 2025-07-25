@@ -40,6 +40,6 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        public string Summary { get; set; }
+        public int Defense { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace Server_Realm.AI.Actions
 {
-    using GameCore;
+    using Server_Realm.AI.Actions.Interfaces;
     using Server_Realm.Entities;
 
     /// <summary>
@@ -9,10 +9,9 @@ namespace Server_Realm.AI.Actions
     /// </summary>
     public class AIAction : IAIAction
     {
-        public AIAction(Unit owner, Type_AIAction aiAction)
+        public AIAction(Unit owner)
         {
             Owner = owner;
-            AIActionType = aiAction;
         }
 
         /// <summary>
@@ -20,11 +19,7 @@ namespace Server_Realm.AI.Actions
         /// </summary>
         public Unit Owner { get; }
 
-        /// <summary>
-        /// AIActionType.
-        /// </summary>
-        public Type_AIAction AIActionType { get; }
-
+        #region Action
         /// <summary>
         /// Start.
         /// </summary>
@@ -56,5 +51,6 @@ namespace Server_Realm.AI.Actions
         {
 
         }
+        #endregion
     }
 }

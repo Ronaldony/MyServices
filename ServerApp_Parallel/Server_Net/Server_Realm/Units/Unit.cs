@@ -2,9 +2,12 @@
 
 namespace Server_Realm.Entities
 {
+    using Server_Realm.AI;
     using Server_Realm.Collisions;
     using Server_Realm.Core.Types;
+    using Server_Realm.UnitHandler;
     using Server_Realm.Worlds;
+    using Server_Realm.Zones;
 
     /// <summary>
     /// Unit.
@@ -34,7 +37,32 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Collision.
         /// </summary>
-        public Collision Collision { get; set; }
+        public Collision UnitCollision { get; init; }
+
+        /// <summary>
+        /// Zone router.
+        /// </summary>
+        public IZoneRouter ZoneRouter { get; set; }
+
+        /// <summary>
+        /// AI head.
+        /// </summary>
+        public AIBrain AIBrain { get; init; }
+
+        /// <summary>
+        /// Combat handler.
+        /// </summary>
+        public UnitCombatHandler CombatHandler { get; init; }
+
+        /// <summary>
+        /// Movement handler.
+        /// </summary>
+        public UnitMovementHandler MovementHandler { get; init; }
+
+        /// <summary>
+        /// Stat handler.
+        /// </summary>
+        public UnitStatHandler StatHandler { get; init; }
 
         /// <summary>
         /// Update.

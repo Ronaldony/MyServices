@@ -1,18 +1,16 @@
 ﻿using Akka.Event;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Numerics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace Server_Realm.Zones.HuntZone.Scheduler
 {
     using GameCore;
-    using GameCore.Datas.Enemy;
-    using GameCore.Datas.Plays;
     using GameCore.Interfaces;
     using Server_Realm.Core.ActorProviders;
     using Server_Realm.Core.Services;
+    using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
 
@@ -31,16 +29,12 @@ namespace Server_Realm.Zones.HuntZone.Scheduler
         // Schduler.
         private readonly CompositeDisposable _subscriptions;
         
-        // 지역 정보.
+        // Configuration.
         private readonly CONF_Area _confArea;
         private readonly CONF_Enemy _confEnemy;
 
-        private readonly List<Type_Item> _itemTypes;
-        private readonly List<Type_MovePattern> _movePatterns;
+        // Enemy.
         private readonly List<TB_Enemy> _tbEnemies;
-
-        // 임의 섹션 생성기.
-        private readonly Random _rand;
 
         // Enemy 고유 id.
         private ulong _enemyUid;
@@ -60,10 +54,6 @@ namespace Server_Realm.Zones.HuntZone.Scheduler
             _confEnemy = tdbService.First<CONF_Enemy>(d => d.Area.Equals(Type_Area.HuntZone));
 
             _tbEnemies = tdbService.SelectAll<TB_Enemy>().ToList();
-            _itemTypes = Enum.GetValues<Type_Item>().Where(d => d != Type_Item.None).ToList();
-            _movePatterns = Enum.GetValues<Type_MovePattern>().Where(d => d != Type_MovePattern.None).ToList();
-
-            _rand = new Random((int)DateTime.Now.Ticks);
 
             _subscriptions = new CompositeDisposable();
         }
@@ -108,12 +98,11 @@ namespace Server_Realm.Zones.HuntZone.Scheduler
             {
                 // Create spawn enemy message.
                 var spawnMsg = new WorldMsg_SpawnEnemy();
-                spawnMsg.Enemies = new Dictionary<SectionId, List<DTO_Enemy>>();
 
                 foreach (var enemy in _tbEnemies)
                 {
                     // 유닛 생성.
-                    var dtoEnemy = _unitInitializeService.CreateEnemy(enemy.Id, Type_Area.HuntZone);
+                    var dtoEnemy = _unitInitializeService.CreateEnemy(enemy.Id, Type_Area.HuntZone, ++_enemyUid);
 
                     if (null == dtoEnemy)
                     {
@@ -121,36 +110,18 @@ namespace Server_Realm.Zones.HuntZone.Scheduler
                         continue;
                     }
 
-                    // Enemy uid.
-                    dtoEnemy.EnemeyUid = ++_enemyUid;
-
-                    // 이동 정보.
-                    var location = dtoEnemy.Location;
-
-                    location.Veltocity = enemy.MoveSpeed;
-                    location.MovePattern = _movePatterns.OrderBy(d => new Guid()).First();
-
-                    // Spawn pos.
-                    location.SpawnPos = new Vector2(x, y);
-                    location.Pos = location.SpawnPos;
-
-                    // Next pos.
-                    location.NextPos = location.SpawnPos;
-
-                    // Set direction.
-                    location.NextPosDir = new Vector2();
-
-                    _logger.LogDebug($"Spawn enemy. pos: ({x}, {y}), pattern: {location.MovePattern}");
-
                     // Get section.
-                    var section = new SectionId(x / GameData.SECTION_WIDTH, y / GameData.SECTION_HEIGHT);
+                    var section = SectionId.GetSection(dtoEnemy.Location.Pos);
 
                     if (false == spawnMsg.Enemies.ContainsKey(section))
                     {
-                        spawnMsg.Enemies.Add(section, new List<DTO_Enemy>());
+                        spawnMsg.Enemies.Add(section, new List<EnemyUnit>());
                     }
 
-                    spawnMsg.Enemies[section].Add(dtoEnemy);
+                    spawnMsg.Enemies[section].Add(new EnemyUnit
+                    {
+                        Enemy = dtoEnemy,
+                    });
                 }
 
                 // 메시지 전달.

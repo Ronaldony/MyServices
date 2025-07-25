@@ -38,7 +38,7 @@ namespace GameCore.Datas.Enemy
         /// 행동 유형.
         /// </summary>
         [MemoryPackOrder(2)]
-        public Type_AIAction AIActionType { get; set; }
+        public Type_AIState AIState { get; set; }
 
         /// <summary>
         /// 능력치.

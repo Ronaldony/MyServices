@@ -107,12 +107,16 @@ namespace Server_Realm.Server.World.Handlers
                 SessionUid = sessionUid
             };
 
+            var worldMsg = new WorldMsg_SpawnPlayer();
+
+            worldMsg.PlayerUnit = new PlayerUnit();
+
             var worldMsg = new WorldMsg_SpawnPlayer
             {
                 PlayerUnit = new PlayerUnit
                 {
                     PlayInfo = playInfo,
-                    Collision = collisionBox,
+                    UnitCollision = collisionBox,
                     Position = playInfo.Location.Pos,
                     Section = SectionId.GetSection(playInfo.Location.Pos),
                     Pid = playInfo.Pid

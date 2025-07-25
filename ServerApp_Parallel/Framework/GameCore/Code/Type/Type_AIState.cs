@@ -1,6 +1,6 @@
 namespace GameCore
 {
-    public enum Type_AIAction
+    public enum Type_AIState
     {
         /// <summary>
         /// 
@@ -21,22 +21,14 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Return = 4,
+        Combat = 4,
         /// <summary>
         /// 
         /// </summary>
-        Attack = 5,
+        Return = 5,
         /// <summary>
         /// 
         /// </summary>
-        AttackCooldown = 6,
-        /// <summary>
-        /// 
-        /// </summary>
-        Hit = 7,
-        /// <summary>
-        /// 
-        /// </summary>
-        Death = 8
+        Dead = 6
     }
 }

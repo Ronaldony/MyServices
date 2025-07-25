@@ -59,7 +59,7 @@ namespace Server_Realm.Zones.HuntZone.District
             }
 
             // Release.
-            _collisionService.Release(wp.Collision);
+            _collisionService.Release(wp.UnitCollision);
 
             return true;
         }

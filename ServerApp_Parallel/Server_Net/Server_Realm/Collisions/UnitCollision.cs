@@ -23,7 +23,7 @@ namespace Server_Realm.Collisions
         /// <summary>
         /// 충돌 관련 값 셋업.
         /// </summary>
-        public override void Setup(Type_Collision collisionType, float width, float height, float offsetX, float offsetY)
+        public override Collision Setup(Type_Collision collisionType, float width, float height, float offsetX, float offsetY)
         {
             _collisionType = collisionType;
             Width = width / 2;
@@ -34,7 +34,7 @@ namespace Server_Realm.Collisions
         /// <summary>
         /// 위치 업데이트.
         /// </summary>
-        public override void Update(Vector2 pos, Vector2 angle)
+        public override Collision Update(Vector2 pos, Vector2 angle)
         {
             throw new NotImplementedException();
         }
@@ -43,13 +43,15 @@ namespace Server_Realm.Collisions
         /// 위치 업데이트.
         /// </summary>c
         /// <param name="pos">위치</param>
-        public override void Update(Vector2 pos)
+        public override Collision Update(Vector2 pos)
         {
             // 최솟값 = 현재 좌표 + offset - 충돌 범위.
             _hitbox.Min = new Vector2(pos.X + Offset.X - Width, pos.Y + Offset.Y - Height);
 
             // 최댓값 = 현재 좌표 + offset + 충돌 범위.
             _hitbox.Max = new Vector2(pos.X + Offset.Y + Width, pos.Y + Offset.Y + Height);
+
+            return this;
         }
 
         /// <summary>
@@ -66,6 +68,5 @@ namespace Server_Realm.Collisions
         public override void Dispose()
         {
         }
-
     }
 }
