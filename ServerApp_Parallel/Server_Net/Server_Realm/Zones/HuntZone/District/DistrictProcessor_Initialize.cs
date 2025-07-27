@@ -17,20 +17,20 @@ namespace Server_Realm.Zones.HuntZone.District
         private World_Group Initialize_WorldGroup(HashSet<SectionId> managedSections)
         {
             var sectionPlayerDict = new Dictionary<SectionId, ConcurrentDictionary<string, PlayerUnit>>();
-            var sectionEnemyDict = new Dictionary<SectionId, ConcurrentDictionary<ulong, EnemyUnit>>();
+            var sectionEnemyDict = new Dictionary<SectionId, ConcurrentDictionary<long, MobUnit>>();
 
             foreach (var section in managedSections)
             {
                 sectionPlayerDict.Add(section, new ConcurrentDictionary<string, PlayerUnit>());
-                sectionEnemyDict.Add(section, new ConcurrentDictionary<ulong, EnemyUnit>());
+                sectionEnemyDict.Add(section, new ConcurrentDictionary<long, MobUnit>());
             }
 
             return new World_Group
             {
                 PlayerDict = new Dictionary<string, PlayerUnit>(),
                 SectionPlayerDict = sectionPlayerDict,
-                EnemyDict = new Dictionary<ulong, EnemyUnit>(),
-                SectionEnemyDict = sectionEnemyDict,
+                MobDict = new Dictionary<long, MobUnit>(),
+                SectionMobDict = sectionEnemyDict,
                 ManagedSections = managedSections
             };
         }

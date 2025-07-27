@@ -13,5 +13,22 @@ namespace Server_Realm.AI.Actions.States
         {
 
         }
+
+        public override void Reset()
+        {
+        }
+
+        public override void Start()
+        {
+        }
+
+        public override void Update(double deltaTime)
+        {
+        }
+
+        public override void Stop()
+        {
+        }
+
     }
 }

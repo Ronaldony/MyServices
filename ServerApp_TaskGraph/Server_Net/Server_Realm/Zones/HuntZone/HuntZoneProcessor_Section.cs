@@ -1,0 +1,48 @@
+﻿using System.Numerics;
+
+namespace Server_Realm.Zones.HuntZone
+{
+    using Server_Realm.Worlds;
+
+    /// <summary>
+    /// DistrictProcessor.
+    /// </summary>
+    public partial class HuntZoneProcessor
+    {
+        /// <summary>
+        /// Check valid section.
+        /// </summary>
+        public bool IsValidSection(SectionId section)
+        {
+            if (_worldGroup.AroundSectionDict.ContainsKey(section))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check valid section.
+        /// </summary>
+        public bool IsValidSection(Vector2 pos)
+        {
+            var section = SectionId.GetSection(pos);
+
+            if (_worldGroup.AroundSectionDict.ContainsKey(section))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get around sections.
+        /// </summary>
+        public HashSet<SectionId> GetAroundSections(SectionId section)
+        {
+            return _worldGroup.AroundSectionDict[section];
+        }
+    }
+}

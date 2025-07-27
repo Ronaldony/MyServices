@@ -115,7 +115,7 @@ namespace Server_Realm.Zones.HuntZone.Scheduler
 
                     if (false == spawnMsg.Enemies.ContainsKey(section))
                     {
-                        spawnMsg.Enemies.Add(section, new List<EnemyUnit>());
+                        spawnMsg.Enemies.Add(section, new List<MobUnit>());
                     }
 
                     spawnMsg.Enemies[section].Add(new EnemyUnit

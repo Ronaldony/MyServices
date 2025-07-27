@@ -13,7 +13,7 @@ namespace GameCore.GamePacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketSC_UpdateSectionMove : GamePacketBase_SC, IDisposable
+    public partial class GamePacketSC_UpdateSectionMove : GamePacketBase_SC
     {
         public GamePacketSC_UpdateSectionMove()
         {
@@ -33,7 +33,7 @@ namespace GameCore.GamePacket
         [MemoryPackOrder(1)]
         public List<DTO_Enemy> Enemies { get; set; }
 
-        public void Dispose()
+        public new void Dispose()
         {
             PlayInfos.Clear(); 
             Enemies.Clear();

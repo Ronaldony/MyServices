@@ -4,15 +4,18 @@ namespace Server_Realm.Entities
 {
     using Server_Realm.Collisions;
     using Server_Realm.Core.Types;
-    using Server_Realm.UnitHandler;
     using Server_Realm.Worlds;
-    using Server_Realm.Zones;
 
     /// <summary>
     /// IUnit.
     /// </summary>
     public interface IUnit : IDisposable
     {
+        /// <summary>
+        /// Unit id.
+        /// </summary>
+        long UnitId { get; }
+
         /// <summary>
         /// Entity 활성 여부.
         /// </summary>
@@ -41,6 +44,6 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Update.
         /// </summary>
-        abstract void Update(float deltaTime);
+        abstract void Update(double deltaTime);
     }
 }

@@ -69,9 +69,17 @@ namespace ServerEngine.Core.Services
         }
 
         /// <summary>
-        /// Generate unique id.
+        /// Generate id as string.
         /// </summary>
         public string GenerateId()
+        {
+            return GenerateIdAsLong().ToString("X16");
+        }
+
+        /// <summary>
+        /// Generate id as long.
+        /// </summary>
+        public long GenerateIdAsLong()
         {
             lock (this)
             {
@@ -96,14 +104,15 @@ namespace ServerEngine.Core.Services
                 }
 
                 _lastTimestamp = timestamp;
-                
+
                 // ID.
                 // Position: (MSB)Time | DataCenter | WorkerId | Sequence.
                 var id = ((timestamp - _epoch) << TimestampShift) | (_dcId << DatacenterIdShift) | (_workerId << WorkerIdShift) | _sequence;
-                
-                return id.ToString("X16");
+
+                return id;
             }
         }
+
 
         /// <summary>
         /// Get current time in utc milli seconds.

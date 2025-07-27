@@ -14,16 +14,10 @@ namespace GameCore.GamePacket
     public partial class GamePacketCS_AttackProjectile : GamePacketBase_CS
     {
         /// <summary>
-        /// 투사체 스폰 지점.
+        /// Projectile.
         /// </summary>
         [MemoryPackOrder(0)]
-        public Vector2 SpawnPos { get; set; }
-
-        /// <summary>
-        /// Angle.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public Vector2 Angle { get; set; }
+        public DTO_Projectile Projectile { get; set; }
     }
 
     /// <summary>

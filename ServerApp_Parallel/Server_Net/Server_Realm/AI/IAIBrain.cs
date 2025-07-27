@@ -2,8 +2,6 @@
 namespace Server_Realm.AI
 {
     using GameCore;
-    using Server_Realm.AI.Actions;
-    using Server_Realm.AI.Actions.Interfaces;
 
     /// <summary>
     /// IAIBrain.
@@ -13,8 +11,11 @@ namespace Server_Realm.AI
         /// <summary>
         /// Update action.
         /// </summary>
-        IAIAction UpdateAction();
+        void Update(double deltaTime);
 
-        AIAction UpdateState(Type_AIState state);
+        /// <summary>
+        /// Change state.
+        /// </summary>
+        void ChangeState(Type_AIState state);
     }
 }

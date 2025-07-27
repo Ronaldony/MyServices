@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Network.UDP;
 
 namespace Server_Realm.Server.World.Handlers
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Session;
     using GameCore;
     using GameCore.Datas.Play;
     using Server_Realm.Core.ActorProviders;
     using Server_Realm.Core.Services;
     using Server_Realm.Entities;
     using Server_Realm.Server.HuntZone;
-    using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
 
     /// <summary>
@@ -22,6 +21,8 @@ namespace Server_Realm.Server.World.Handlers
     {
         private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
 
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IUniqueIdService _uniqueIdService;
         private readonly CollisionService _collisionService;
 
         private readonly DBPlayInfo _dbPlayInfo;
@@ -35,6 +36,8 @@ namespace Server_Realm.Server.World.Handlers
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
 
+            _serviceProvider = serviceProvider;
+            _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
             _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
@@ -94,37 +97,21 @@ namespace Server_Realm.Server.World.Handlers
         private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
         {
             // 충돌 박스.
-            var collisionBox = _collisionService.Rent(Type_Collision.Player);
-            if (null == collisionBox)
+            var playerColllision = _collisionService.Rent(Type_Collision.Player);
+            if (null == playerColllision)
             {
                 return;
             }
 
-            // 세션.
-            var gameSession = new GameSession
-            {
-                SessionId = sessionId,
-                SessionUid = sessionUid
-            };
-
-            var worldMsg = new WorldMsg_SpawnPlayer();
-
-            worldMsg.PlayerUnit = new PlayerUnit();
-
-            var worldMsg = new WorldMsg_SpawnPlayer
-            {
-                PlayerUnit = new PlayerUnit
-                {
-                    PlayInfo = playInfo,
-                    UnitCollision = collisionBox,
-                    Position = playInfo.Location.Pos,
-                    Section = SectionId.GetSection(playInfo.Location.Pos),
-                    Pid = playInfo.Pid
-                }
-            };
+            // Create player unit.
+            var unitId = _uniqueIdService.GenerateIdAsLong();
+            var playerUnit = new PlayerUnit(_serviceProvider, unitId, playInfo, playerColllision);
 
             // 메시지 전달.
-            _worldServerActorProvider.Tell<WorldMsg>(worldMsg);
+            _worldServerActorProvider.Tell<WorldMsg>(new WorldMsg_SpawnPlayer
+            {
+                PlayerUnit = playerUnit
+            });
         }
     }
 }

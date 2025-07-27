@@ -15,6 +15,6 @@
         MoveSection = 10,                   // 섹션 이동.
         MoveDistrict = 11,                  // 구역 이동.
         MoveDistrictProjectile = 12,        // 투사체 구역 이동.
-        Attack = 13,                        // 공격.
+        AttackMelee = 13,                        // 공격.
     }
 }

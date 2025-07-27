@@ -1,0 +1,104 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Numerics;
+
+namespace Server_Realm.UnitHandler
+{
+    using GameCore;
+    using Server_Realm.Core.Services;
+    using Server_Realm.Entities;
+    using Server_Realm.HitBoxes;
+    using Server_Realm.Projectiles;
+
+    /// <summary>
+    /// UnitCombatHandler.
+    /// </summary>
+    public class UnitCombatHandler
+    {
+        private readonly ILogger<UnitCombatHandler> _logger;
+
+        // Projectile service.
+        private readonly ProjectileService _projectileService;
+
+        // Unit.
+        private readonly Unit _owner;
+
+        // Projectiles
+        private readonly HashSet<Projectile> _projectiles;
+        private readonly List<Projectile> _distroyProjectiles;
+
+        #region common
+        public bool HasProjectiles() => _projectiles.Any();
+        #endregion
+
+        public UnitCombatHandler(IServiceProvider serviceProvider, Unit owner)
+        {
+            _logger = serviceProvider.GetRequiredService<ILogger<UnitCombatHandler>>();
+            
+            _projectileService = serviceProvider.GetRequiredService<ProjectileService>();
+            
+            _owner = owner;
+
+            _projectiles = new HashSet<Projectile>();
+            _distroyProjectiles = new List<Projectile>();
+        }
+
+        /// <summary>
+        /// Update.
+        /// </summary>
+        public void Update(double deltaTime)
+        {
+            // 투사체 이동.
+            foreach (var prjt in _projectiles)
+            {
+                prjt.MoveNextFrame(deltaTime);
+
+                if (!prjt.IsMaxRange())
+                {
+                    _distroyProjectiles.Add(prjt);
+                }
+            }
+
+            // Distroy Projectiles.
+            DistroyProjectiles();
+        }
+
+        /// <summary>
+        /// 피격.
+        /// </summary>
+        public void Hit(IHitbox hitbox, int damage)
+        {
+            // Hit box 충돌 검사.
+            if (true == hitbox.IsHit(_owner.UnitCollision.GetHitbox()))
+            {
+                _owner.StatHandler.Damage(damage);
+            }
+        }
+
+        #region projectiles
+        /// <summary>
+        /// Projectile.
+        /// </summary>
+        public void OwnProjectile(Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
+        {
+            // Add projectile.
+            _projectiles.Add(_projectileService.Rent(_owner, projectileType, spawnPos, angle, damage));
+        }
+
+        /// <summary>
+        /// Distroy projectile.
+        /// </summary>
+        public void DistroyProjectiles()
+        {
+            // Distroy Projectiles.
+            foreach (var prjt in _distroyProjectiles)
+            {
+                _projectiles.Remove(prjt);
+                _projectileService.Release(prjt);
+            }
+
+            _distroyProjectiles.Clear();
+        }
+        #endregion
+    }
+}

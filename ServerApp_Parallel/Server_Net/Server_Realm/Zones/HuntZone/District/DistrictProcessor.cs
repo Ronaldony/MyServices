@@ -26,6 +26,7 @@ namespace Server_Realm.Zones.HuntZone.District
     {
         private readonly ILogger<DistrictProcessor> _logger;
 
+        private readonly IServiceProvider _serviceProvider;
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
@@ -35,7 +36,7 @@ namespace Server_Realm.Zones.HuntZone.District
         // Server.
         private readonly HuntZoneServer _huntZoneServer;
 
-        // WorldGroup.
+        // WorldGroup. 
         private readonly World_Group _worldGroup;
 
         // WorldProjectile.
@@ -69,6 +70,7 @@ namespace Server_Realm.Zones.HuntZone.District
             _logger = serviceProvider.GetRequiredService<ILogger<DistrictProcessor>>();
 
             // service.
+            _serviceProvider = serviceProvider;
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();

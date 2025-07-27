@@ -27,7 +27,7 @@ namespace Server_Realm.Zones.HuntZone.District
                 {
                     // 유닛 추가.
                     sectionMovePacket.PlayInfos.AddRange(_worldGroup.SectionPlayerDict[section].Select(d => d.Value.PlayInfo));
-                    sectionMovePacket.Enemies.AddRange(_worldGroup.SectionEnemyDict[section].Select(d => d.Value.Enemy));
+                    sectionMovePacket.Enemies.AddRange(_worldGroup.SectionMobDict[section].Select(d => d.Value.Mob));
                 }
             }
 

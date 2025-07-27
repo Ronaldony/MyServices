@@ -7,7 +7,6 @@ namespace Server_Realm.Entities
     using Server_Realm.Core.Types;
     using Server_Realm.UnitHandler;
     using Server_Realm.Worlds;
-    using Server_Realm.Zones;
 
     /// <summary>
     /// Unit.
@@ -15,9 +14,19 @@ namespace Server_Realm.Entities
     public abstract class Unit : IUnit
     {
         /// <summary>
+        /// Unit id.
+        /// </summary>
+        public long UnitId { get; init; }
+
+        /// <summary>
         /// Entity 활성 여부.
         /// </summary>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Updated.
+        /// </summary>
+        public bool UnitUpdated { get; set; }
 
         /// <summary>
         /// Type_Entity.
@@ -38,11 +47,6 @@ namespace Server_Realm.Entities
         /// Collision.
         /// </summary>
         public Collision UnitCollision { get; init; }
-
-        /// <summary>
-        /// Zone router.
-        /// </summary>
-        public IZoneRouter ZoneRouter { get; set; }
 
         /// <summary>
         /// AI head.
@@ -67,7 +71,7 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Update.
         /// </summary>
-        public abstract void Update(float deltaTime);
+        public abstract void Update(double deltaTime);
 
         /// <summary>
         /// Dispose.

@@ -9,7 +9,6 @@ namespace Server_Realm.Entities
     using Server_Realm.Core.Types;
     using Server_Realm.UnitHandler;
     using Server_Realm.Worlds;
-    using Server_Realm.Zones;
 
     /// <summary>
     /// PlayerUnit.
@@ -17,18 +16,18 @@ namespace Server_Realm.Entities
     public partial class PlayerUnit : Unit
     {
         #region constructor
-        public PlayerUnit(IServiceProvider serviceProvider, IZoneRouter zoneRouter, DTO_PlayInfo playInfo, Collision collision)
+        public PlayerUnit(IServiceProvider serviceProvider, long unitId, DTO_PlayInfo playInfo, Collision collision)
         {
             // Unit.
+            UnitId = unitId;
             IsActive = true;
             UnitType = Type_Unit.Player;
             Position = playInfo.Location.Pos;
             Section = SectionId.GetSection(this.Position);
             UnitCollision = collision;
-            ZoneRouter = zoneRouter;
 
             // handler.
-            CombatHandler = new UnitCombatHandler(serviceProvider, this, playInfo.Location, playInfo.Stat);
+            CombatHandler = new UnitCombatHandler(serviceProvider, this, playInfo.Stat);
             MovementHandler = new UnitMovementHandler(serviceProvider, this, playInfo.Location, playInfo.Stat);
             StatHandler = new UnitStatHandler(serviceProvider, this, playInfo.Stat);
             EquipmentHandler = new UnitEquipmentHandler(serviceProvider, this, playInfo.Equipment);
@@ -71,7 +70,7 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Update.
         /// </summary>
-        public override void Update(float deltaTime)
+        public override void Update(double deltaTime)
         {
             StatHandler.Update(deltaTime);
             CombatHandler.Update(deltaTime);

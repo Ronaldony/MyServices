@@ -24,9 +24,9 @@
         
         public AIActionCollection(Unit owner)
         {
-            _aiAcionDict = Initialize_AIActions(owner);
-
             Owner = owner;
+
+            _aiAcionDict = Initialize_AIActions(owner);
         }
 
         /// <summary>

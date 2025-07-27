@@ -11,5 +11,24 @@
             : base(owner)
         {
         }
+
+        public override void Reset()
+        {
+        }
+
+        public override void Start()
+        {
+            // Move stop.
+            Owner.MovementHandler.MoveStop();
+        }
+
+        public override void Update(double deltaTime)
+        {
+        }
+
+        public override void Stop()
+        {
+        }
+
     }
 }

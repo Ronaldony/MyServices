@@ -7,7 +7,7 @@ namespace Server_Realm.AI.Actions
     /// <summary>
     /// AIAction.
     /// </summary>
-    public class AIAction : IAIAction
+    public abstract class AIAction : IAIAction
     {
         public AIAction(Unit owner)
         {
@@ -17,40 +17,31 @@ namespace Server_Realm.AI.Actions
         /// <summary>
         /// Unit.
         /// </summary>
-        public Unit Owner { get; }
+        protected Unit Owner { get; }
 
-        #region Action
+        /// <summary>
+        /// Need to update.
+        /// </summary>
+        public bool NeedsUpdate { get; set; }
+
         /// <summary>
         /// Start.
         /// </summary>
-        public void Start()
-        {
-
-        }
+        public abstract void Start();
 
         /// <summary>
         /// Update.
         /// </summary>
-        public void Update()
-        {
-
-        }
+        public abstract void Update(double deltaTime);
 
         /// <summary>
         /// Stop.
         /// </summary>
-        public void Stop()
-        {
-
-        }
+        public abstract void Stop();
 
         /// <summary>
         /// Reset.
         /// </summary>
-        public void Reset()
-        {
-
-        }
-        #endregion
+        public abstract void Reset();
     }
 }

@@ -8,8 +8,13 @@
         void Initialize(DateTime baseTime, int dcId, int serverId);
 
         /// <summary>
-        /// Generate primary key.
+        /// Generate id as string.
         /// </summary>
         string GenerateId();
+
+        /// <summary>
+        /// Generate id as long.
+        /// </summary>
+        long GenerateIdAsLong();
     }
 }

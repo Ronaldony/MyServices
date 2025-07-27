@@ -9,10 +9,10 @@
         /// UDP 
 
         // Auth.
-        public const int CS_Login = 10;                         // 로그인.
-        public const int SC_Login = 11;                         // 로그인.
-        public const int CS_LogOut= 12;                         // 로그 아웃.
-        public const int SC_LogOut = 13;                        // 로그 아웃.
+        public const int CS_Enter = 10;                         // 플레이어 진입.
+        public const int SC_Enter = 11;                         // 플레이어 진입.
+        public const int CS_Leave = 12;                         // 플레이어 퇴장.
+        public const int SC_Leave = 13;                         // 플레이어 퇴장.
 
         // Spawn.
         public const int CS_SpawnPlayer = 20;                   // 플레이어 스폰.
@@ -37,12 +37,12 @@
         public const int SC_UpdateMovePattern = 121;            // 이동 패턴 업데이트.
 
         // 공격.
-        public const int CS_Attack = 130;                       // 공격.
-        public const int SC_Attack = 131;                       // 공격.
-        public const int CS_AttackProjectile = 132;             // 공격 - 투사체.
-        public const int SC_AttackProjectile = 133;             // 공격 - 투사체.
-        public const int CS_HitEnemy = 134;                     // Enemy 피격.
-        public const int SC_HitEnemy = 135;                     // Enemy 피격.
+        public const int CS_AttackMelee = 130;                  // 근접 공격.
+        public const int SC_AttackMelee = 131;                  // 근접 공격.
+        public const int CS_AttackProjectile = 132;             // 투사체 공격.
+        public const int SC_AttackProjectile = 133;             // 투사체 공격.
+        public const int CS_HitUnits = 134;                     // Unit 피격.
+        public const int SC_HitUnits = 135;                     // Unit 피격.
 
         // 섹션.
         public const int CS_UpdateSectionMove = 140;            // 섹션 업데이트 - 이동.

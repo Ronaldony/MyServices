@@ -7,7 +7,7 @@
 		<Platforms>AnyCPU;x64</Platforms>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../Packages/</PackageOutputPath>
-		<Version>1.0.12</Version>
+		<Version>1.0.13</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

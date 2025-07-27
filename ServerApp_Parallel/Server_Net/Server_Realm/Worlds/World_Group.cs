@@ -1,9 +1,11 @@
-﻿using Server_Realm.Entities;
-using Server_Realm.Units.Enemy;
+﻿
 using System.Collections.Concurrent;
 
 namespace Server_Realm.Worlds
 {
+    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
+
     /// <summary>
     /// World_Group.
     /// </summary>
@@ -30,16 +32,16 @@ namespace Server_Realm.Worlds
 
         /// <summary>
         /// Enemy 리스트.
-        /// key: Pid.
+        /// key: UnitId.
         /// value: EnemyUnit.
         /// </summary>
-        public Dictionary<ulong, EnemyUnit> EnemyDict { get; set; }
+        public Dictionary<long, MobUnit> MobDict { get; set; }
 
         /// <summary>
         /// 섹션 단위 적 정보.
         /// key: Section.
-        /// value: EnemyUnit dictionary (key: EnemeyUId).
+        /// value: EnemyUnit dictionary (key: UnitId).
         /// </summary>
-        public Dictionary<SectionId, ConcurrentDictionary<ulong, EnemyUnit>> SectionEnemyDict { get; set; }
+        public Dictionary<SectionId, ConcurrentDictionary<long, MobUnit>> SectionMobDict { get; set; }
     }
 }

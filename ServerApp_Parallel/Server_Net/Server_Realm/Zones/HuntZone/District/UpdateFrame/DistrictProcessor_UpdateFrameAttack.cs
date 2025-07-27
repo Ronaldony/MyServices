@@ -4,8 +4,6 @@ using System.Numerics;
 namespace Server_Realm.Zones.HuntZone.District
 {
     using GameCore;
-    using Server_Realm.Worlds;
-    using Server_Realm.Worlds.Section;
     using Server_Realm.Worlds.Update;
 
     /// <summary>
@@ -16,7 +14,7 @@ namespace Server_Realm.Zones.HuntZone.District
         /// <summary>
         /// 프레임 업데이트 - 공격 처리.
         /// </summary>
-        private void UpdateFrame_Attack(float deltaTime, World_UpdateFrame updateFrame)
+        private void UpdateFrame_Attack(double deltaTime, WorldUpdate_Frame updateFrame)
         {
             // 투사체 업데이트.
             UpdateFrame_Projectiles(deltaTime, updateFrame);
@@ -28,11 +26,11 @@ namespace Server_Realm.Zones.HuntZone.District
         /// <summary>
         /// 프레임 업데이트 - 플레이어 투사체 처리.
         /// </summary>
-        private void UpdateFrame_Projectiles(float deltaTime, World_UpdateFrame updateFrame)
+        private void UpdateFrame_Projectiles(double deltaTime, WorldUpdate_Frame updateFrame)
         {
             var nowTime = TimeUtil.Now;
-            var hitSectionUnit = updateFrame.HitSectionUnit;
-            var moveDistrictProjectile = updateFrame.MoveDistrictProjectile;
+            var hitSectionUnit = updateFrame.HitUnits;
+            var moveDistrictProjectile = updateFrame.MoveDistrictProjectiles;
 
             // 투사체 생성.
             foreach (var projectile in _worldProjectile.SpawnProjectiles)
@@ -40,13 +38,13 @@ namespace Server_Realm.Zones.HuntZone.District
                 _worldProjectile.Projectiles.Add(projectile);
             }
 
-            var updateProjectile = _memoryPoolService.Rent<Update_Projectile>();
+            var updateProjectile = _memoryPoolService.Rent<WorldUpdate_Projectile>();
 
             // 투사체 처리.
             foreach (var projectile in _worldProjectile.Projectiles)
             {
                 var hitbox = projectile.GetHitbox();
-                var eus = _worldGroup.SectionEnemyDict[projectile.Section].Values;
+                var eus = _worldGroup.SectionMobDict[projectile.Section].Values;
 
                 // 적과 투사체 충돌 처리.
                 foreach (var eu in eus)
@@ -56,13 +54,13 @@ namespace Server_Realm.Zones.HuntZone.District
                     // 충돌 검사.
                     if (hitbox.IsHit(enemyHitbox))
                     {
-                        var hitSectionUnits = hitSectionUnit.GetOrAdd(eu.Section, section => new World_SectionUnit());
-                        hitSectionUnits.Enemies.Add(eu.Enemy);
+                        var hitSectionUnits = hitSectionUnit.GetOrAdd(eu.Section, section => new ());
+                        hitSectionUnits.Enemies.Add(eu.Mob);
 
                         // 데미지.
-                        eu.Enemy.Health -= projectile.Damage;
+                        eu.Mob.Health -= projectile.Damage;
 
-                        if (eu.Enemy.Health < 0)
+                        if (eu.Mob.Health < 0)
                         {
                             updateProjectile.DeathEnemies.Add(eu);
                         }
@@ -82,7 +80,7 @@ namespace Server_Realm.Zones.HuntZone.District
                     // 투사체가 구역을 이동한 경우, 해당 구역에 전달.
                     if (IsManagedSection(projectile.Section))
                     {
-                        var moveProjectiles = moveDistrictProjectile.GetOrAdd(projectile.Section, section => new World_DistrictProjectile());
+                        var moveProjectiles = moveDistrictProjectile.GetOrAdd(projectile.Section, section => new WorldUpdate_DistrictProjectile());
                         moveProjectiles.Projectiles.Add(projectile);
                     }
                 }
@@ -97,7 +95,7 @@ namespace Server_Realm.Zones.HuntZone.District
             // 죽은 적 처리.
             foreach (var ee in updateProjectile.DeathEnemies)
             {
-                _worldGroup.SectionEnemyDict[ee.Section].Remove(ee.EnemyUid, out _);
+                _worldGroup.SectionMobDict[ee.Section].Remove(ee.UnitId, out _);
                 _collisionService.Release(ee.UnitCollision);
             }
 
@@ -108,17 +106,17 @@ namespace Server_Realm.Zones.HuntZone.District
         /// <summary>
         /// 프레임 업데이트 - 적 투사체 처리.
         /// </summary>
-        private void UpdateFrame_EnemyScanPlayer(float deltaTime, World_UpdateFrame updateFrame)
+        private void UpdateFrame_EnemyScanPlayer(double deltaTime, WorldUpdate_Frame updateFrame)
         {
             var nowTime = TimeUtil.Now;
 
             // Enemy 시야 스캔.
-            foreach (var wePair in _worldGroup.SectionEnemyDict.Values)
+            foreach (var wePair in _worldGroup.SectionMobDict.Values)
             {
                 foreach (var we in wePair.Values)
                 {
                     // 액션 검사.
-                    switch (we.Enemy.Action)
+                    switch (we.Mob.Action)
                     {
                         case Type_EnemyAction.Track:
                             // 현재 위치가 스폰 지점에서 너무 먼 경우 Return 상태로 변경.
@@ -133,15 +131,15 @@ namespace Server_Realm.Zones.HuntZone.District
                                 if (GameData.ENEMY_SCAN_DISTANCE_SQUARE > (int)Vector2.DistanceSquared(wp.Position, we.Position))
                                 {
                                     // 추적대상 감지.
-                                    we.Enemy.Action = Type_EnemyAction.Track;
-                                    we.Enemy.TrackPid = wp.Pid;
-                                    we.Enemy.Location.NextPos = wp.Position;
+                                    we.Mob.Action = Type_EnemyAction.Track;
+                                    we.Mob.TrackPid = wp.Pid;
+                                    we.Mob.Location.NextPos = wp.Position;
                                     break;
                                 }
                             }
 
                             // 추적대상 감지됨.
-                            if (we.Enemy.Action == Type_EnemyAction.Track)
+                            if (we.Mob.Action == Type_EnemyAction.Track)
                             {
                                 continue;
                             }
@@ -163,15 +161,15 @@ namespace Server_Realm.Zones.HuntZone.District
                                     if (GameData.ENEMY_SCAN_DISTANCE_SQUARE > (int)Vector2.DistanceSquared(wp.Position, we.Position))
                                     {
                                         // 플레이어 감지.
-                                        we.Enemy.Action = Type_EnemyAction.Track;
-                                        we.Enemy.TrackPid = wp.Pid;
-                                        we.Enemy.Location.NextPos = wp.Position;    // 원거리 공격인 경우엔?
+                                        we.Mob.Action = Type_EnemyAction.Track;
+                                        we.Mob.TrackPid = wp.Pid;
+                                        we.Mob.Location.NextPos = wp.Position;    // 원거리 공격인 경우엔?
                                         break;
                                     }
                                 }
 
                                 // 추적대상 감지됨.
-                                if (we.Enemy.Action == Type_EnemyAction.Track)
+                                if (we.Mob.Action == Type_EnemyAction.Track)
                                 {
                                     break;
                                 }

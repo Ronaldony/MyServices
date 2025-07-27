@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Numerics;
 
 namespace Server_Realm.UnitHandler
 {
@@ -22,6 +21,7 @@ namespace Server_Realm.UnitHandler
 
         #region
         public int GetPower() => _stat.Power;
+        public DTO_Stat GetStat() => _stat;
         #endregion
 
         public UnitStatHandler(IServiceProvider serviceProvider, Unit owner, DTO_Stat stat)
@@ -35,15 +35,7 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// Update.
         /// </summary>
-        public void Update(float deltaTime)
-        {
-
-        }
-
-        /// <summary>
-        /// Move.
-        /// </summary>
-        public void Hit(Vector2 position)
+        public void Update(double deltaTime)
         {
 
         }

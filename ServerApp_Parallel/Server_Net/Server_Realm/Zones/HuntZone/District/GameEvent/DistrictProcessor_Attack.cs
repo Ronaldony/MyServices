@@ -1,11 +1,7 @@
-﻿
-namespace Server_Realm.Zones.HuntZone.District
+﻿namespace Server_Realm.Zones.HuntZone.District
 {
-    using GameCore;
-    using GameCore.Datas.Enemy;
-    using GameCore.GamePacket;
+    using Server_Realm.Entities;
     using Server_Realm.GameEvents;
-    using Server_Realm.Worlds;
 
     /// <summary>
     /// DistrictProcessor.
@@ -15,51 +11,18 @@ namespace Server_Realm.Zones.HuntZone.District
         /// <summary>
         /// Process AttackEvent.
         /// </summary>
-        public void Proc_AttackEvent(AttackEvent ge)
+        public void Proc_AttackMeleeEvent(AttackMeleeEvent gameEvent)
         {
-            // 공격 패킷 전송.
-            SendPacket_ManagedSections(GamePacketCode.SC_Attack, ge.GamePacket);
+            var total = _worldGroup.SectionMobDict.Values.Count();
+            var enemyUnits = new List<Unit>(total);
 
-            // 근처 섹션 enemy 충돌 검사.
-            var attackAroundSections = _router.GetAroundSections(ge.RouteSection);
-            var hitEnemyDict = new Dictionary<SectionId, List<DTO_Enemy>>();
-
-            // 충돌 박스.
-            var collision = _collisionService.Rent(ge.WeaponCollisionType);
-            collision.Update(ge.AttackerPos, ge.Angle);
-
-            var hitbox = collision.GetHitbox();
-
-            foreach (var hitSection in _worldGroup.ManagedSections)
+            foreach (var pair in _worldGroup.SectionMobDict.Values)
             {
-                // Hit 유닛 검사.
-                if (attackAroundSections.Contains(hitSection))
-                {
-                    hitEnemyDict.Add(hitSection, new List<DTO_Enemy>());
-                    HitEnemies(ge.Damage, hitSection, hitEnemyDict[hitSection], hitbox, ge.AttackTime);
-                }
+                enemyUnits.AddRange(pair.Values);
             }
 
-            // 피격 패킷 전송.
-            if (hitEnemyDict.Any())
-            {
-                var hitEnemyPacket = new GamePacketSC_HitEnemy();
-
-                foreach (var pair in hitEnemyDict)
-                {
-                    // 피격 유닛이 있는 경우에만 전송.
-                    if (pair.Value.Any())
-                    {
-                        hitEnemyPacket.Damage = ge.Damage;
-                        hitEnemyPacket.Enemies = pair.Value;
-
-                        SendPacket_AroundSections(pair.Key, GamePacketCode.SC_HitEnemy, hitEnemyPacket);
-                    }
-                }
-            }
-
-            // Release.
-            _collisionService.Release(collision);
+            // 근정 공격.
+            gameEvent.PlayerUnit.AttackMelee(gameEvent.Angle, _worldGroup.MobDict.Values);
         }
     }
 }

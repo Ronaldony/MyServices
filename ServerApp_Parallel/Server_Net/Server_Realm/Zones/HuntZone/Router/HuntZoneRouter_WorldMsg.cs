@@ -45,10 +45,10 @@ namespace Server_Realm.Zones.HuntZone.Router
                                 _logger.LogDebug($"Login player. pid: {worldPlayer.Pid}");
                             }
                             break;
-                        case Type_WorldMsg.OutPlayer:
+                        case Type_WorldMsg.LeavePlayer:
                             {
                                 // Out player.
-                                var msg = wm as WorldMsg_OutPlayer;
+                                var msg = wm as WorldMsg_LeavePlayer;
 
                                 // Remove player.
                                 _playerDistrictDict.Remove(msg.Pid, out var district);

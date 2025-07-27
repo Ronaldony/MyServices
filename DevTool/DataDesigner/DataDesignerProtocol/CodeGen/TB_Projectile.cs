@@ -34,8 +34,8 @@ namespace GameCore
         /// </summary>
         public bool IsPenetrates { get; set; }
         /// <summary>
-        /// summary
+        /// 
         /// </summary>
-        public string Summary { get; set; }
+        public bool IsGrenade { get; set; }
     }
 }

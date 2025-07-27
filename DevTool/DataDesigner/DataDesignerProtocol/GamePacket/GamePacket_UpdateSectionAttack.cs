@@ -15,7 +15,7 @@ namespace GameCore.GamePacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacket_UpdateSectionAttack : GamePacketBase_SC, IDisposable
+    public partial class GamePacket_UpdateSectionAttack : GamePacketBase_SC
     {
         public GamePacket_UpdateSectionAttack()
         {
@@ -31,7 +31,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Dispose.
         /// </summary>
-        public void Dispose()
+        public new void Dispose()
         {
             Projectiles.Clear();
         }

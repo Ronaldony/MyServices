@@ -13,6 +13,6 @@
         UpdateDummy = 13,           // Update dummy.
 
         SpawnPlayer = 100,          // Spanw player.
-        OutPlayer = 101,            // Out player.
+        LeavePlayer = 101,            // Out player.
     }
 }

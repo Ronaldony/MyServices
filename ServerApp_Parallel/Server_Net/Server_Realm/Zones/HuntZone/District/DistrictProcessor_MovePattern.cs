@@ -18,45 +18,45 @@ namespace Server_Realm.Zones.HuntZone.District
         /// </summary>
         private void UpdateMovePattern(WorldMsg_UpdateMovePattern msg)
         {
-            var movePos = msg.MovePos;
+            //var movePos = msg.MovePos;
 
-            // 이동 패턴 업데이트.
-            var updateEnemieDict = new Dictionary<SectionId, List<DTO_Enemy>>();
+            //// 이동 패턴 업데이트.
+            //var updateEnemieDict = new Dictionary<SectionId, List<DTO_Enemy>>();
 
-            foreach (var pair in _worldGroup.SectionEnemyDict)
-            {
-                var enemyUnits = pair.Value.Values;
-                var section = pair.Key;
+            //foreach (var pair in _worldGroup.SectionEnemyDict)
+            //{
+            //    var enemyUnits = pair.Value.Values;
+            //    var section = pair.Key;
 
-                updateEnemieDict.Add(section, new List<DTO_Enemy>());
+            //    updateEnemieDict.Add(section, new List<DTO_Enemy>());
 
-                // 업데이트 이동 패턴 확인 및 대상 추가.
-                foreach (var eu in enemyUnits)
-                {
-                    if (msg.MovePattern != enemy.Location.MovePattern)
-                    {
-                        continue;
-                    }
+            //    // 업데이트 이동 패턴 확인 및 대상 추가.
+            //    foreach (var eu in enemyUnits)
+            //    {
+            //        if (msg.MovePattern != enemy.Location.MovePattern)
+            //        {
+            //            continue;
+            //        }
 
-                    // 다음 이동 패턴 업데이트.
-                    var location = enemy.Location;
+            //        // 다음 이동 패턴 업데이트.
+            //        var location = enemy.Location;
 
-                    location.NextPos = new Vector2(location.SpawnPos.X + movePos.X, location.SpawnPos.Y + movePos.Y);
-                    location.NextPosDir = Vector2.Normalize(location.NextPos - location.Pos);
+            //        location.NextPos = new Vector2(location.SpawnPos.X + movePos.X, location.SpawnPos.Y + movePos.Y);
+            //        location.NextPosDir = Vector2.Normalize(location.NextPos - location.Pos);
 
-                    // 업데이트 대상 리스트업.
-                    updateEnemieDict[section].Add(enemy);
-                }
-            }
+            //        // 업데이트 대상 리스트업.
+            //        updateEnemieDict[section].Add(enemy);
+            //    }
+            //}
 
-            // MovePattern 패킷 전송.
-            var GamePacket = new GamePacketSC_UpdateMovePattern();
+            //// MovePattern 패킷 전송.
+            //var GamePacket = new GamePacketSC_UpdateMovePattern();
 
-            foreach (var pair in updateEnemieDict)
-            {
-                GamePacket.Enemies = pair.Value;
-                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_UpdateMovePattern, GamePacket);
-            }
+            //foreach (var pair in updateEnemieDict)
+            //{
+            //    GamePacket.Enemies = pair.Value;
+            //    SendPacket_AroundSections(pair.Key, GamePacketCode.SC_UpdateMovePattern, GamePacket);
+            //}
         }
     }
 }

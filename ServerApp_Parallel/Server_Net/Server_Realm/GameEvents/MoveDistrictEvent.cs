@@ -15,8 +15,8 @@
         public MoveDistrictEvent()
             : base(Type_GameEvent.MoveDistrict)
         {
-            PlayerEntities = new List<PlayerUnit>();
-            EnemyEntities = new List<EnemyUnit>();
+            PlayerUnits = new List<PlayerUnit>();
+            EnemyUnits = new List<MobUnit>();
         }
 
         /// <summary>
@@ -27,11 +27,11 @@
         /// <summary>
         /// World_Player.
         /// </summary>
-        public List<PlayerUnit> PlayerEntities { get; set; }
+        public List<PlayerUnit> PlayerUnits { get; set; }
 
         /// <summary>
         /// World_Enemy.
         /// </summary>
-        public List<EnemyUnit> EnemyEntities { get; set; }
+        public List<MobUnit> EnemyUnits { get; set; }
     }
 }

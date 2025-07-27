@@ -3,7 +3,6 @@
 namespace Server_Realm.Zones.HuntZone.District
 {
     using GameCore;
-    using GameCore.Datas.Enemy;
     using GameCore.GamePacket;
     using Server_Realm.Entities;
     using Server_Realm.Units.Enemy;
@@ -22,53 +21,51 @@ namespace Server_Realm.Zones.HuntZone.District
         {
             _logger.LogDebug($"Spawn plaeyr in processor");
 
-            var wp = worldMsg.PlayerUnit;
+            var pu = worldMsg.PlayerUnit;
+            var section = pu.Section;
 
-            // 세션 정보 가져오기.
-            var section = wp.Section;
-
-            if (false == IsManagedSection(wp.Section))
+            // 관심 섹션인지 검사.
+            if (false == IsManagedSection(section))
             {
-                _logger.LogError($"not managed section. section: {wp.Section}");
+                _logger.LogError($"not managed section. section: {pu.Section}");
                 return;
             }
 
-            // Add player into district.
-            AddPlayerIntoDistrict(wp);
+            // 플레이어 스폰..
+            SpawnPlayerIntoZone(pu);
 
             // 인근 섹션 플레이어, 적 정보 전달.
-            var GamePacket = _memoryPoolService.Rent<GamePacketSC_SpawnPlayer>();
+            var gamePacket = _memoryPoolService.Rent<GamePacketSC_SpawnPlayer>();
 
             foreach (var targetSection in _worldGroup.ManagedSections)
             {
                 // Players.
                 foreach (var player in _worldGroup.SectionPlayerDict[section].Values)
                 {
-                    GamePacket.PlayInfos.Add(player.PlayInfo);
+                    gamePacket.PlayInfos.Add(player.PlayInfo);
                 }
 
                 // Enemies.
-                foreach (var we in _worldGroup.SectionEnemyDict[section].Values)
+                foreach (var we in _worldGroup.SectionMobDict[section].Values)
                 {
-                    GamePacket.Enemies.Add(we.Enemy);
+                    gamePacket.Enemies.Add(we.Mob);
                 }
             }
 
             // 로그인 유저에게 인근 세션 유닛 정보 전송.
-            SendPacket(wp.Pid, GamePacketCode.SC_SpawnPlayer, GamePacket);
+            SendPacket(pu.Pid, GamePacketCode.SC_SpawnPlayer, gamePacket);
 
             // Reset packet.
-            GamePacket.PlayInfos.Clear();
-            GamePacket.Enemies.Clear();
+            gamePacket.Dispose();
 
             // Add login player.
-            GamePacket.PlayInfos.Add(wp.PlayInfo);
+            gamePacket.PlayInfos.Add(pu.PlayInfo);
 
             // 주변 섹션에 로그인 유저 정보 전송.
-            SendPacket_AroundSections(wp.Pid, section, GamePacketCode.SC_SpawnPlayer, GamePacket);
+            SendPacket_AroundSections(pu.Pid, section, GamePacketCode.SC_SpawnPlayer, gamePacket);
 
             // Release pool.
-            _memoryPoolService.Release(GamePacket);
+            _memoryPoolService.Release(gamePacket);
         }
 
         /// <summary>
@@ -76,8 +73,8 @@ namespace Server_Realm.Zones.HuntZone.District
         /// </summary>
         private void SpawnEnemy(WorldMsg_SpawnEnemy msg)
         {
-            // key: 섹션에 있는 세션, value: 스폰 적 유닛.
-            var spawnEnemyDict = new Dictionary<SectionId, List<DTO_Enemy>>();
+            // key: 섹션, value: 스폰 유닛.
+            var spawnEnemyDict = new Dictionary<SectionId, List<MobUnit>>();
 
             // Enemy 스폰.
             foreach (var section in _worldGroup.ManagedSections)
@@ -89,28 +86,19 @@ namespace Server_Realm.Zones.HuntZone.District
                 }
 
                 // 섹션에 적 정보 추가.
-                var sectionEnemy = _worldGroup.SectionEnemyDict[section];
+                var sectionEnemy = _worldGroup.SectionMobDict[section];
 
-                foreach (var enemy in msg.Enemies[section])
+                foreach (var eu in msg.Enemies[section])
                 {
-                    var ee = new EnemyUnit
-                    {
-                        Enemy = enemy,
-                        EnemyUid = enemy.EnemeyUid,
-                        Section = SectionId.GetSection(enemy.Location.Pos),
-                        Collision = _collisionService.Rent(Type_Collision.Enemy)
-                    };
-
                     // Add enemy into section.
-                    sectionEnemy.AddOrUpdate(enemy.EnemeyUid, ee, (_, _) => ee);
+                    sectionEnemy.AddOrUpdate(eu.UnitId, eu, (_, _) => eu);
                 }
 
                 if (false == spawnEnemyDict.ContainsKey(section))
                 {
-                    spawnEnemyDict.Add(section, new List<DTO_Enemy>());
+                    spawnEnemyDict.Add(section, new List<MobUnit>());
                 }
 
-                // 스폰 대상 추가.
                 spawnEnemyDict[section].AddRange(msg.Enemies[section]);
             }
 
@@ -121,23 +109,23 @@ namespace Server_Realm.Zones.HuntZone.District
             }
 
             // Send packet.
-            var GamePacket = new GamePacketSC_SpawnEnemy();
+            var gamePacket = new GamePacketSC_SpawnEnemy();
 
             foreach (var pair in spawnEnemyDict)
             {
-                GamePacket.Enemies = pair.Value;
-                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_SpawnEnemy, GamePacket);
+                gamePacket.Enemies = pair.Value.Select(d => d.Mob).ToList();
+                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_SpawnEnemy, gamePacket);
             }
         }
 
         /// <summary>
-        /// Add player into district.
+        /// 플레이어 스폰.
         /// </summary>
-        private void AddPlayerIntoDistrict(PlayerUnit pe)
+        private void SpawnPlayerIntoZone(PlayerUnit pu)
         {
             // 구역에 플레이어 추가.
-            _worldGroup.SectionPlayerDict[pe.Section].AddOrUpdate(pe.Pid, pe, (_, _) => pe);
-            _worldGroup.PlayerDict.Add(pe.Pid, pe);
+            _worldGroup.SectionPlayerDict[pu.Section].AddOrUpdate(pu.Pid, pu, (_, _) => pu);
+            _worldGroup.PlayerDict.Add(pu.Pid, pu);
         }
     }
 }

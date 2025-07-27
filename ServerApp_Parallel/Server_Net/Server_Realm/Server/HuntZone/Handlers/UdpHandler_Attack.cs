@@ -40,7 +40,7 @@ namespace Server_Realm.Server.World.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
         {
-            var GamePacket = _dataSerializer.Deserialize<GamePacketCS_Attack>(packet.Data);
+            var GamePacket = _dataSerializer.Deserialize<GamePacketCS_AttackMelee>(packet.Data);
 
             // Delivery msg.
             _worldServerActorProvider.Tell<GameEvent>(new ReceivePacketEvent

@@ -12,12 +12,12 @@
         public WorldMsg_SpawnEnemy()
             : base(Type_WorldMsg.SpawnEnemy)
         {
-            Enemies = new Dictionary<SectionId, List<EnemyUnit>>();
+            Enemies = new Dictionary<SectionId, List<MobUnit>>();
         }
 
         /// <summary>
         /// Enemies.
         /// </summary>
-        public Dictionary<SectionId, List<EnemyUnit>> Enemies { get; set; }
+        public Dictionary<SectionId, List<MobUnit>> Enemies { get; set; }
     }
 }

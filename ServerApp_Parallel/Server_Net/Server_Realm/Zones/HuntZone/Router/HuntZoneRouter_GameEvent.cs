@@ -42,7 +42,7 @@ namespace Server_Realm.Zones.HuntZone.Router
                                 var moveDistrict = GetDistrict(moveDistrictEvent.RouteSection);
                                 
                                 // 플레이어 구역 갱신.
-                                foreach (var wp in moveDistrictEvent.PlayerEntities)
+                                foreach (var wp in moveDistrictEvent.PlayerUnits)
                                 {
                                     _playerDistrictDict.AddOrUpdate(wp.Pid, moveDistrict, (_, _) => moveDistrict);
                                 }

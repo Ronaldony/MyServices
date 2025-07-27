@@ -10,7 +10,10 @@
     /// <summary>
     /// GamePacketBase_SC.
     /// </summary>
-    public class GamePacketBase_SC
+    public class GamePacketBase_SC : IDisposable
     {
+        public void Dispose()
+        {
+        }
     }
 }

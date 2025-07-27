@@ -3,7 +3,6 @@ namespace Server_Realm.AI
 {
     using GameCore;
     using Server_Realm.AI.Actions;
-    using Server_Realm.AI.Actions.Interfaces;
     using Server_Realm.Entities;
 
     /// <summary>
@@ -17,28 +16,37 @@ namespace Server_Realm.AI
         private readonly AIActionCollection _actionCollection;
 
         /// <summary>
-        /// Unit.
+        /// Now AI Action.
         /// </summary>
-        private readonly Unit _owner;
+        private AIAction _curAIAction;
 
         public AIBrain(Unit owner)
         {
-            _owner = owner;
-
             _actionCollection = new AIActionCollection(owner);
+            
         }
 
         /// <summary>
         /// Update action.
         /// </summary>
-        public IAIAction UpdateAction()
+        public void Update(double deltaTime)
         {
-            throw new NotImplementedException();
+            _curAIAction?.Update(deltaTime);
         }
 
-        public AIAction UpdateState(Type_AIState state)
+        /// <summary>
+        /// Update state.
+        /// </summary>
+        public void ChangeState(Type_AIState state)
         {
-            throw new NotImplementedException();
+            _curAIAction?.Stop();
+            _curAIAction?.Reset();
+
+            var aiAction = _actionCollection.GetAIActoin(state);
+
+            aiAction.Start();
+
+            _curAIAction = aiAction;
         }
     }
 }

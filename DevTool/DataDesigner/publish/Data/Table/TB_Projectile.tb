@@ -7,6 +7,6 @@
     "MaxRange": 0,
     "Velocity": 0,
     "IsPenetrates": false,
-    "Summary": null
+    "IsGrenade": false
   }
 ]

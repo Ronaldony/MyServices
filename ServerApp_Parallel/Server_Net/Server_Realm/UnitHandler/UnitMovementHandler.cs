@@ -34,14 +34,10 @@ namespace Server_Realm.UnitHandler
         // Move status.
         private bool _isMoveing;
 
-        // Setion status.
-        private bool _isSectionUpdate;
-
         #region get_status
         public Vector2 NowPos() => _location.Pos;
         public Vector2 NowDir() => _location.MoveDirection;
         public SectionId NowSection() => _section;
-        public bool IsSectionUpdated() => _isSectionUpdate;
         public bool IsMoving() => _isMoveing;
         #endregion
 
@@ -73,9 +69,21 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// Update.
         /// </summary>
-        public void Update(float deltaTime)
+        public void Update(double deltaTime)
         {
-            _isSectionUpdate = false;
+            if (_isMoveing)
+            {
+                var deltaPos = _location.MoveDirection * (float)deltaTime * _stat.Velocity;
+                var movePos = _location.Pos + deltaPos;
+
+                // valid section.
+
+                // Refresh postion.
+                _location.Pos = movePos;
+
+                // Post process.
+                PostProcess();
+            }
         }
 
         /// <summary>
@@ -98,8 +106,18 @@ namespace Server_Realm.UnitHandler
             _location.Pos = endPos;
             _isMoveing = false;
 
-            // 포스트 업데이트.
-            PostUpdate();
+            // Post process.
+            PostProcess();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Move stop.
+        /// </summary>
+        public bool MoveStop()
+        {
+            _isMoveing = false;
 
             return true;
         }
@@ -132,7 +150,7 @@ namespace Server_Realm.UnitHandler
             _location.Pos = knockbackPos;
 
             // 포스트 업데이트.
-            PostUpdate();
+            PostProcess();
 
             return true;
         }
@@ -151,7 +169,7 @@ namespace Server_Realm.UnitHandler
             _location.Pos = dashPos;
 
             // 포스트 업데이트.
-            PostUpdate();
+            PostProcess();
 
             return true;
         }
@@ -161,7 +179,7 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// Post udpate.
         /// </summary>
-        private void PostUpdate()
+        private void PostProcess()
         {
             // 섹션 이동한 경우 갱신.
             var newSection = SectionId.GetSection(_location.Pos);
@@ -170,7 +188,7 @@ namespace Server_Realm.UnitHandler
             {
                 _oldSection = _owner.Section;
                 _owner.Section = newSection;
-                _isSectionUpdate = true;
+                _isSectionChanged = true;
             }
 
             // Collision 갱신.

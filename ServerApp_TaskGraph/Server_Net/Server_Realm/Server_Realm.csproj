@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>portable</DebugType>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ActorMessage\**" />
+    <Compile Remove="Zones\BattleZone\**" />
+    <Compile Remove="Zones\HuntZone\Manager\**" />
+    <Compile Remove="Zones\Inventory\**" />
+    <Compile Remove="Zones\Village\**" />
+    <EmbeddedResource Remove="ActorMessage\**" />
+    <EmbeddedResource Remove="Zones\BattleZone\**" />
+    <EmbeddedResource Remove="Zones\HuntZone\Manager\**" />
+    <EmbeddedResource Remove="Zones\Inventory\**" />
+    <EmbeddedResource Remove="Zones\Village\**" />
+    <None Remove="ActorMessage\**" />
+    <None Remove="Zones\BattleZone\**" />
+    <None Remove="Zones\HuntZone\Manager\**" />
+    <None Remove="Zones\Inventory\**" />
+    <None Remove="Zones\Village\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.Company.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Akka" Version="1.5.40" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
+    <PackageReference Include="PowerArgs" Version="4.0.3" />
+    <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.1" />
+    <PackageReference Include="ServerEngine.Core" Version="1.0.13" />
+    <PackageReference Include="ServerEngine.GeoIP" Version="1.0.1" />
+    <PackageReference Include="ServerEngine.Network" Version="1.0.8" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Framework.Config\Framework.Config.csproj" />
+    <ProjectReference Include="..\..\Framework\Framework.Core\Framework.Core.csproj" />
+  </ItemGroup>
+
+</Project>

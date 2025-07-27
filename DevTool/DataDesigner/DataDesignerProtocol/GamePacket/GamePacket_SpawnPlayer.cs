@@ -21,7 +21,7 @@ namespace GameCore.GamePacket
     /// GamePacketSC_SpawnPlayer.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketSC_SpawnPlayer : GamePacketBase_SC, IDisposable
+    public partial class GamePacketSC_SpawnPlayer : GamePacketBase_SC
     {
         public GamePacketSC_SpawnPlayer()
         {
@@ -41,7 +41,7 @@ namespace GameCore.GamePacket
         [MemoryPackOrder(1)]
         public List<DTO_Enemy> Enemies { get; set; }
 
-        public void Dispose()
+        public new void Dispose()
         {
             PlayInfos.Clear();
             Enemies.Clear();

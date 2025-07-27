@@ -1,4 +1,4 @@
-﻿using GameCore.Datas.Enemy;
+﻿using GameCore.Datas.Plays;
 using MemoryPack;
 using System.Collections.Generic;
 using System.Numerics;
@@ -10,7 +10,7 @@ namespace GameCore.GamePacket
     /// GamePacketCS_HitEnemy.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketCS_HitEnemy : GamePacketBase_CS
+    public partial class GamePacketCS_HitUnits : GamePacketBase_CS
     {
     }
 
@@ -18,18 +18,14 @@ namespace GameCore.GamePacket
     /// GamePacketSC_HitEnemy.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketSC_HitEnemy : GamePacketBase_SC
+    public partial class GamePacketSC_HitUnits : GamePacketBase_SC
     {
-        /// <summary>
-        /// Damage.
+        /// <summary>s
+        /// Units.
+        /// key: unit id.
+        /// value: stat. 
         /// </summary>
         [MemoryPackOrder(0)]
-        public int Damage { get; set; }
-
-        /// <summary>
-        /// Enemies.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public List<DTO_Enemy> Enemies { get; set; }
+        public Dictionary<long, DTO_Stat> Enemies { get; set; }
     }
 }

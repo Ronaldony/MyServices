@@ -20,11 +20,11 @@ namespace Server_Realm.Zones.HuntZone.District
             foreach (var section in _worldGroup.ManagedSections)
             {
                 var sectionPlayer = _worldGroup.SectionPlayerDict[section];
-                var sectionEnemy = _worldGroup.SectionEnemyDict[section];
+                var sectionEnemy = _worldGroup.SectionMobDict[section];
 
                 // set dummy.
                 packet.PlayInfos = sectionPlayer.Select(d => d.Value.PlayInfo).ToList();
-                packet.Enemies = sectionEnemy.Select(d => d.Value.Enemy).ToList();
+                packet.Enemies = sectionEnemy.Select(d => d.Value.Mob).ToList();
 
                 SendPacket_AroundSections(section, GamePacketCode.SC_DummyMove, packet);
 

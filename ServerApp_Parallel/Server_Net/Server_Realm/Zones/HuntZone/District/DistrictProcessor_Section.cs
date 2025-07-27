@@ -8,7 +8,7 @@
     public partial class DistrictProcessor
     {
         /// <summary>
-        /// Get section or default.
+        /// Get interest section.
         /// </summary>
         private bool IsManagedSection(SectionId section)
         {

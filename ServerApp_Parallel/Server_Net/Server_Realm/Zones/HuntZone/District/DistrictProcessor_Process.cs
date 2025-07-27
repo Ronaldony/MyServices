@@ -38,8 +38,8 @@ namespace Server_Realm.Zones.HuntZone.District
                     case GamePacketCode.CS_MoveEnd:
                         MoveEnd(worldPlayer, packetEvent.Packet as GamePacketCS_MoveEnd);
                         break;
-                    case GamePacketCode.CS_Attack:
-                        AttackMelee(worldPlayer, packetEvent.Packet as GamePacketCS_Attack);
+                    case GamePacketCode.CS_AttackMelee:
+                        AttackMelee(worldPlayer, packetEvent.Packet as GamePacketCS_AttackMelee);
                         break;
                     case GamePacketCode.CS_AttackProjectile:
                         AttackProjctile(worldPlayer, packetEvent.Packet as GamePacketCS_AttackProjectile);
@@ -66,8 +66,8 @@ namespace Server_Realm.Zones.HuntZone.District
                     case Type_GameEvent.MoveDistrict:
                         Proc_MoveDistrictEvent(gameEvent as MoveDistrictEvent);
                         break;
-                    case Type_GameEvent.Attack:
-                        Proc_AttackEvent(gameEvent as AttackEvent);
+                    case Type_GameEvent.AttackMelee:
+                        Proc_AttackMeleeEvent(gameEvent as AttackMeleeEvent);
                         break;
                 }
             }
@@ -95,8 +95,8 @@ namespace Server_Realm.Zones.HuntZone.District
                 case Type_WorldMsg.SpawnPlayer:
                     SpawnPlayer(worldMsg as WorldMsg_SpawnPlayer);
                     break;
-                case Type_WorldMsg.OutPlayer:
-                    OutPlayer(worldMsg as WorldMsg_OutPlayer);
+                case Type_WorldMsg.LeavePlayer:
+                    LeavePlayer(worldMsg as WorldMsg_LeavePlayer);
                     break;
             }
         }

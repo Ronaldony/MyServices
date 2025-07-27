@@ -1,16 +1,14 @@
 ﻿namespace Server_Realm.AI.Actions.Interfaces
 {
-    using Server_Realm.Entities;
-
     /// <summary>
     /// IAIAction.
     /// </summary>
     public interface IAIAction
     {
         /// <summary>
-        /// Onwer.
+        /// Need to update.
         /// </summary>
-        Unit Owner { get; }
+        bool NeedsUpdate { get; set; }
 
         /// <summary>
         /// Start.
@@ -20,7 +18,7 @@
         /// <summary>
         /// Update.
         /// </summary>
-        void Update();
+        void Update(double deltaTime);
 
         /// <summary>
         /// Stop.

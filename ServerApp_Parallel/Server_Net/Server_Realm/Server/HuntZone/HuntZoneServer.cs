@@ -62,7 +62,7 @@ namespace Server_Realm.Server.HuntZone
             _gameSessionDict.TryRemove(pid, out _);
 
             // Send message.
-            _huntZoneProvider.Tell<WorldMsg_OutPlayer>(new WorldMsg_OutPlayer
+            _huntZoneProvider.Tell<WorldMsg_LeavePlayer>(new WorldMsg_LeavePlayer
             {
                 Pid = pid
             });
