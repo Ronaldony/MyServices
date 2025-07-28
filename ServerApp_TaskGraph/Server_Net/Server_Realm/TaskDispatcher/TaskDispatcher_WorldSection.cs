@@ -98,6 +98,7 @@ namespace Server_Realm.TaskSchedulers
                     if (prevStartNode != null)
                     {
                         prevStartNode = prevStartNode.NextNode;
+                        prevStartNode.DependancyNode = taskNode;
                         taskNode.DependentNode = prevStartNode;
                     }
 

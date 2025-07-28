@@ -64,11 +64,6 @@ namespace Server_Realm.Entities
         public UnitStatHandler StatHandler { get; init; }
 
         /// <summary>
-        /// Update.
-        /// </summary>
-        public abstract void Update(double deltaTime);
-
-        /// <summary>
         /// Dispose.
         /// </summary>
         public abstract void Dispose();

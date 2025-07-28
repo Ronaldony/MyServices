@@ -71,13 +71,6 @@ namespace Server_Realm.Entities
         #endregion
 
         /// <summary>
-        /// Update.
-        /// </summary>
-        public override void Update(double deltaTime)
-        {
-        }
-
-        /// <summary>
         /// Dispose.
         /// </summary>
         public override void Dispose()

@@ -39,18 +39,6 @@ namespace Server_Realm.Units.Enemy
         #endregion
 
         /// <summary>
-        /// Update.
-        /// </summary>
-        public override void Update(double deltaTime)
-        {
-            CombatHandler.Update(deltaTime);
-            MovementHandler.Update(deltaTime);
-            StatHandler.Update(deltaTime);
-
-            AIBrain.Update(deltaTime);
-        }
-
-        /// <summary>
         /// Dispose.
         /// </summary>
         public override void Dispose()

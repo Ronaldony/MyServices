@@ -5,13 +5,17 @@ namespace GameCore.GamePacket
     /// <summary>
     /// GamePacketBase_CS.
     /// </summary>
-    public class GamePacketBase_CS
+    public class GamePacketBase_CS : IDisposable
     {
         /// <summary>
         /// Unit id.
         /// </summary>
         [MemoryPackOrder(0)]
         public long UnitId { get; set; }
+
+        public void Dispose()
+        {
+        }
     }
 
     /// <summary>

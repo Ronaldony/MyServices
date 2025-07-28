@@ -27,6 +27,9 @@ namespace Server_Realm.UnitHandler
         // 최근 이동 시작 시간.
         private DateTime _lastMoveTime;
 
+        // 섹션 업데이트 여부.
+        private bool _isSectionUpdated;
+
         // Sections.
         public SectionId Section { get; private set; }
         public SectionId OldSection { get; private set; }
@@ -34,7 +37,10 @@ namespace Server_Realm.UnitHandler
         // Move status.
         private bool _isMoveing;
 
-        #region get_status
+        // 상태.
+        private bool _statusChaned;
+
+        #region get status
         public Vector2 NowPos() => _location.Pos;
         public Vector2 NowDir() => _location.MoveDirection;
         public bool IsMoving() => _isMoveing;
@@ -75,8 +81,6 @@ namespace Server_Realm.UnitHandler
                 var deltaPos = _location.MoveDirection * (float)deltaTime * _stat.Velocity;
                 var movePos = _location.Pos + deltaPos;
 
-                // valid section.
-
                 // Refresh postion.
                 _location.Pos = movePos;
 
@@ -101,8 +105,9 @@ namespace Server_Realm.UnitHandler
             }
 
             // 이동 정보 갱신.
-            _lastMoveTime = nowTime;
+            _location.MoveDirection = Vector2.Zero;
             _location.Pos = endPos;
+            _lastMoveTime = nowTime;
             _isMoveing = false;
 
             // Post process.
@@ -114,11 +119,9 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// Move stop.
         /// </summary>
-        public bool MoveStop()
+        public void MoveStop()
         {
             _isMoveing = false;
-
-            return true;
         }
         #endregion
 
@@ -171,6 +174,18 @@ namespace Server_Realm.UnitHandler
             PostMove();
 
             return true;
+        }
+        #endregion
+
+        #region common
+        /// <summary>
+        /// Refresh status.
+        /// </summary>
+        public bool RefreshStatus()
+        {
+            var oldStatus = _statusChaned;
+            _statusChaned = false;
+            return oldStatus;
         }
         #endregion
 

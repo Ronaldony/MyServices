@@ -28,6 +28,6 @@ namespace GameCore.GamePacket
         /// value: stat. 
         /// </summary>
         [MemoryPackOrder(0)]
-        public Dictionary<long, DTO_Stat> UnitStatDict { get; set; }
+        public Dictionary<long, DTO_Location> UnitLocationDict { get; set; }
     }
 }

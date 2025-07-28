@@ -24,6 +24,11 @@ namespace Server_Realm.TaskDispatcher.Node
         public TaskNode_WorldSection NextNode;
 
         /// <summary>
+        /// 의존 노드.
+        /// </summary>
+        public TaskNode_WorldSection DependancyNode;
+
+        /// <summary>
         /// 의지하는 노드.
         /// </summary>
         public TaskNode_WorldSection DependentNode;

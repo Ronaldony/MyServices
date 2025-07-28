@@ -23,7 +23,6 @@ namespace Server_Realm.AI
         public AIBrain(Unit owner)
         {
             _actionCollection = new AIActionCollection(owner);
-            
         }
 
         /// <summary>
