@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 2,
+    "Name": "Ghost",
+    "Health": 6,
+    "Damage": 3,
+    "AttackRange": 4,
+    "AttackCooldown": 3,
+    "Speed": 2,
+    "Defense": 1
+  },
+  {
+    "Id": 3,
+    "Name": "BlueSlime",
+    "Health": 15,
+    "Damage": 2,
+    "AttackRange": 2,
+    "AttackCooldown": 2,
+    "Speed": 3,
+    "Defense": 1
+  }
+]

@@ -54,7 +54,7 @@ namespace Server_Realm.UnitHandler
                 return;
             }
 
-            // 
+            // 스탯 상태 변경.
             _statusChaned = true;
 
             _stat.Health -= (damage - _stat.Defense);

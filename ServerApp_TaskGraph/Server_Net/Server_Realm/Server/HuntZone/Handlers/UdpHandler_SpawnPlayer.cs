@@ -22,7 +22,6 @@ namespace Server_Realm.Server.World.Handlers
         private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
 
         private readonly IServiceProvider _serviceProvider;
-        private readonly IUniqueIdService _uniqueIdService;
         private readonly CollisionService _collisionService;
 
         private readonly DBPlayInfo _dbPlayInfo;
@@ -37,7 +36,6 @@ namespace Server_Realm.Server.World.Handlers
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
 
             _serviceProvider = serviceProvider;
-            _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _collisionService = serviceProvider.GetRequiredService<CollisionService>();
 
             _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
@@ -58,20 +56,14 @@ namespace Server_Realm.Server.World.Handlers
             {
                 _logger.LogDebug($"Player Spawn");
 
-                var pid = _huntZoneServer.GetPid(sessionUid);
-
-                // check pid.
-                if (string.IsNullOrEmpty(pid))
-                {
-                    _huntZoneServer.Disconnect(sessionId, sessionUid);
-                    return;
-                }
+                var unitId = _huntZoneServer.GetUnitId(sessionUid);
+                var gameSession = _huntZoneServer.GetGameSession(sessionUid);
 
                 ////////////////////////////////////////////////////////////////////
                 /// Load info datas.
 
                 // PlayInfo.
-                var playInfo = await _dbPlayInfo.SelectAsync(pid);
+                var playInfo = await _dbPlayInfo.SelectAsync(gameSession.Pid);
                 if (null == playInfo)
                 {
                     _huntZoneServer.Disconnect(sessionId, sessionUid);
@@ -79,7 +71,7 @@ namespace Server_Realm.Server.World.Handlers
                 }
 
                 // InventoryInfo.
-                var inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
+                var inventoryInfo = await _dbInventoryInfo.SelectAsync(gameSession.Pid);
                 if (null == inventoryInfo)
                 {
                     _huntZoneServer.Disconnect(sessionId, sessionUid);
@@ -87,14 +79,14 @@ namespace Server_Realm.Server.World.Handlers
                 }
 
                 // Spawn player into world.
-                SpawnPlayerIntoWorld(sessionId, sessionUid, playInfo);
+                SpawnPlayerIntoWorld(sessionId, sessionUid, unitId, playInfo);
             });
         }
 
         /// <summary>
         /// Spawn player into world.
         /// </summary>
-        private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
+        private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, long unitId, DTO_PlayInfo playInfo)
         {
             // 충돌 박스.
             var playerColllision = _collisionService.Rent(Type_Collision.Player);
@@ -104,11 +96,10 @@ namespace Server_Realm.Server.World.Handlers
             }
 
             // Create player unit.
-            var unitId = _uniqueIdService.GenerateIdAsLong();
             var playerUnit = new PlayerUnit(_serviceProvider, unitId, playInfo, playerColllision);
 
             // 메시지 전달.
-            _worldServerActorProvider.Tell<WorldMsgBase>(new WorldMsg_SpawnPlayer
+            _worldServerActorProvider.Tell<WorldMsg_SpawnPlayer>(new WorldMsg_SpawnPlayer
             {
                 PlayerUnit = playerUnit
             });

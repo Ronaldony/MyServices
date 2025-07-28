@@ -14,8 +14,8 @@
         /// </summary>
         private void AttackMelee(PlayerUnit pu, GamePacketCS_AttackMelee packet)
         {
-            var aroundSections = GetAroundSections(pu.Section);
             var enemyUnits = new List<Unit>();
+            var aroundSections = GetAroundSections(pu.Section);
 
             foreach (var section in aroundSections)
             {
@@ -29,7 +29,7 @@
             SendPacket_AroundSections(pu.Pid, pu.Section, GamePacketCode.SC_AttackMelee,
                 new GamePacketSC_AttackMelee
                 {
-                    Pid = pu.Pid,
+                    UnitId = pu.UnitId,
                     Angle = packet.Angle
                 });
         }

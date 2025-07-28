@@ -10,6 +10,7 @@ namespace Server_Realm.Zones.HuntZone
     using GameCore.Interfaces;
     using Server_Realm.Core.Services;
     using Server_Realm.Core.Utilities;
+    using Server_Realm.Entities;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.TaskSchedulers;
     using Server_Realm.Worlds;
@@ -36,17 +37,18 @@ namespace Server_Realm.Zones.HuntZone
         // WorldGroup. 
         private readonly World_Group _worldGroup;
 
-        // WorldProjectile.
-        private readonly World_Projectile _worldProjectile;
-
-        // Scheduler spawn mob.
-        private readonly WorldMsgTrigger_SpawnMob _msgTriggerSpawnMob;
-
         // TaskDispatcher.
         private readonly TaskDispatcher_WorldSection _taskDispatcher;
 
         // Frame time.
         private DateTime _lastFrameUpdateTime;
+        private double _frameDeltaSec;
+
+        // Cancel token.
+        private CancellationTokenSource _cts;
+
+        // Scheduler spawn mob.
+        private readonly WorldMsgTrigger_SpawnMob _msgTriggerSpawnMob;
 
         public HuntZoneProcessor()
         {
@@ -63,7 +65,6 @@ namespace Server_Realm.Zones.HuntZone
             // Worlds.
             _huntZoneServer = ServiceUtility.GetService<HuntZoneServer>();
             _worldGroup = Initialize_WorldGroup();
-            _worldProjectile = new World_Projectile();
 
             // Shceduler.
             _msgTriggerSpawnMob = new WorldMsgTrigger_SpawnMob(_serviceProvider, this);
@@ -71,10 +72,14 @@ namespace Server_Realm.Zones.HuntZone
             // Frame time.
             _lastFrameUpdateTime = TimeUtil.Now;
 
-            _taskDispatcher = new TaskDispatcher_WorldSection(_worldGroup.AroundSectionDict.Keys);
+            // Dispatcher.
+            _taskDispatcher = new TaskDispatcher_WorldSection(_cts.Token);
+            _taskDispatcher.Initialize(_worldGroup.AroundSectionDict.Keys, UpdateFrame);
 
             // Register receiver.
             RegisterReceiver();
+
+            _cts = new CancellationTokenSource();
 
             // Schedulers.
             _msgTriggerSpawnMob.Start();
@@ -94,7 +99,7 @@ namespace Server_Realm.Zones.HuntZone
         private void RegisterReceiver()
         {
             // Update frame.
-            Receive<WorldMsg_UpdateFrame>(wm => UpdateFrame(wm));
+            ReceiveAsync<WorldMsg_UpdateFrame>(async wm => await DispatchUpdateFrameAsync(wm));
 
             // Spawn.
             Receive<WorldMsg_SpawnEnemy>(wm => SpawnEnemy(wm));
@@ -108,8 +113,15 @@ namespace Server_Realm.Zones.HuntZone
             Receive<WorldMsg_GamePacket>(wm =>
             {
                 // World player.
-                var pu = _worldGroup.PlayerDict.GetValueOrDefault(wm.Pid);
-                if (default == pu)
+                var unit = _worldGroup.UnitDict.GetValueOrDefault(wm.UnitId);
+                if (default == unit)
+                {
+                    return;
+                }
+
+                // Check is PlayerUnit.
+                var pu = unit as PlayerUnit;
+                if (pu == null)
                 {
                     return;
                 }

@@ -23,17 +23,17 @@ namespace Server_Realm.HitBoxes
         /// <summary>
         /// 반지름.
         /// </summary>
-        public int Radius { get; set; }
+        public int Radius;
 
         /// <summary>
         /// 반지름 제곱.
         /// </summary>
-        public int RadiusSqr { get; set; }
+        public int RadiusSqr;
 
         /// <summary>
         /// 중심 위치.
         /// </summary>
-        public Vector2 Center { get; set; }
+        public Vector2 Center;
 
         /// <summary>
         /// Setup hit box.

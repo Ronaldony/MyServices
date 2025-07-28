@@ -12,6 +12,7 @@ namespace Server_Realm.Worlds.MsgTrigger
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Zones;
+    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
     /// WorldMsgTrigger_SpawnMob.
@@ -21,6 +22,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         private readonly ILogger<WorldMsgTrigger_SpawnMob> _logger;
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly IUniqueIdService _uniqueIdService;
         private readonly UnitInitializeService _unitInitializeService;
         private readonly CollisionService _collisionSerivce;
 
@@ -37,14 +39,12 @@ namespace Server_Realm.Worlds.MsgTrigger
         // Disposables.
         private readonly CompositeDisposable _subscriptions;
 
-        // Enemy 고유 id.
-        private ulong _mobUid;
-
         public WorldMsgTrigger_SpawnMob(IServiceProvider serviceProvider, IZoneProcessor zoneProcessor)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<WorldMsgTrigger_SpawnMob>>();
 
             _serviceProvider = serviceProvider;
+            _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _unitInitializeService = serviceProvider.GetRequiredService< UnitInitializeService>();
             _collisionSerivce = serviceProvider.GetRequiredService<CollisionService>();
 
@@ -105,23 +105,23 @@ namespace Server_Realm.Worlds.MsgTrigger
                 foreach (var mob in _tbMobs)
                 {
                     // 유닛 생성.
-                    var dtoMob = _unitInitializeService.CreateEnemy(mob.Id, Type_Area.HuntZone, ++_mobUid);
+                    var dtoMob = _unitInitializeService.CreateEnemy(mob.Id, Type_Area.HuntZone);
 
                     if (null == dtoMob)
                     {
-                        _logger.LogError($"fail to create mob. enemyId: {dtoMob.EnemyId}");
+                        _logger.LogError($"fail to create mob. mobId: {dtoMob.MobId}");
                         continue;
                     }
 
                     // Get section.
-                    var section = SectionId.GetSection(dtoMob.Location.Pos);
+                    var section = SectionId.WorldPosToSection(dtoMob.Location.Pos);
 
                     if (false == spawnMsg.MobUnits.ContainsKey(section))
                     {
                         spawnMsg.MobUnits.Add(section, new List<MobUnit>());
                     }
 
-                    spawnMsg.MobUnits[section].Add(new MobUnit(_serviceProvider, dtoMob, _collisionSerivce.Rent(Type_Collision.Enemy)));
+                    spawnMsg.MobUnits[section].Add(new MobUnit(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob, _collisionSerivce.Rent(Type_Collision.Enemy)));
                 }
 
                 // 메시지 전달.

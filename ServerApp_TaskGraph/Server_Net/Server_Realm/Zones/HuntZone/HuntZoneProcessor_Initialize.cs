@@ -2,7 +2,6 @@
 {
     using GameCore;
     using Server_Realm.Entities;
-    using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
 
     /// <summary>
@@ -57,8 +56,7 @@
 
             return new World_Group
             {
-                MobDict = new Dictionary<long, MobUnit>(),
-                PlayerDict = new Dictionary<string, PlayerUnit>(),
+                UnitDict = new Dictionary<long, Unit>(),
                 AroundSectionDict = aroundSessionDict,
                 WorldSectionDict = worldSectionDict
             };

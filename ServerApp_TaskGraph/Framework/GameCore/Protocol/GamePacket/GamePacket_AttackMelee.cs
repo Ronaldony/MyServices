@@ -8,12 +8,13 @@ namespace GameCore.GamePacket
     /// GamePacketCS_AttackMelee.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_AttackMelee)]
     public partial class GamePacketCS_AttackMelee : GamePacketBase_CS
     {
         /// <summary>
         /// Attack angle.
         /// </summary>
-        [MemoryPackOrder(0)]
+        [MemoryPackOrder(1)]
         public Vector2 Angle { get; set; }
     }
 
@@ -21,13 +22,14 @@ namespace GameCore.GamePacket
     /// GamePacketSC_AttackMelee.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_AttackMelee)]
     public partial class GamePacketSC_AttackMelee : GamePacketBase_SC
     {
         /// <summary>
-        /// 공격 Pid.
+        /// 공격 Unit id.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
+        public long UnitId { get; set; }
 
         /// <summary>
         /// Attack angle.

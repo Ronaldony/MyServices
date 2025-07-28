@@ -5,9 +5,9 @@ namespace Server_Realm.Zones.HuntZone
 {
     using GameCore;
     using GameCore.GamePacket;
+    using Server_Realm.TaskDispatcher.Node;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
-    using Server_Realm.Worlds.Update;
 
     /// <summary>
     /// DistrictProcessor.
@@ -15,87 +15,80 @@ namespace Server_Realm.Zones.HuntZone
     public partial class HuntZoneProcessor
     {
         /// <summary>
-        /// 프레임 업데이트.
+        /// 업데이트 프레임 디스패치.
         /// </summary>
-        private void UpdateFrame(WorldMsg_UpdateFrame worldMsg)
+        private async Task DispatchUpdateFrameAsync(WorldMsg_UpdateFrame worldMsg)
         {
             // 프레임 시간차.
             var nowTime = TimeUtil.Now;
-            var frameDeltaTime = (nowTime - _lastFrameUpdateTime).TotalSeconds;
 
-            // refersh frame time.
+            // update frame times.
+            _frameDeltaSec = (nowTime - _lastFrameUpdateTime).TotalSeconds;
             _lastFrameUpdateTime = nowTime;
 
-            // TaskSection 스케줄링.
-            var taskNodes = _taskDispatcher.GetTaskNodes();
+            // 테스크 디스패처 실행.
+            await _taskDispatcher.DispatchAndExecuteTasks();
+        }
 
-            var updateFrame = _memoryPoolService.Rent<WorldUpdate_Frame>();
+        /// <summary>
+        /// Update frame.
+        /// </summary>
+        private void UpdateFrame(TaskNode_WorldSection taskNode)
+        {
+            foreach (var srcSection in taskNode.TaskSections)
+            {
+                // 유닛 업데이트.
+                var worldSection = _worldGroup.WorldSectionDict[taskNode.Section];
 
-            // 유닛 업데이트.
-            UpdateFrame_UpdateUnits(frameDeltaTime, updateFrame.MoveSectionUnits);
+                // 이동 업데이트.
+                UpdateFrame_Movement(_frameDeltaSec, worldSection);
 
-            // 유닛 충돌 처리.
+                // 유닛 충돌 처리.
+                UpdateFrame_Combat(_frameDeltaSec, worldSection);
 
-            // 업데이트 프레임 적용.
-            UpdateFrame_Apply(updateFrame);
+                // 업데이트 프레임 적용.
+                UpdateFrame_Broadcast();
 
-            // Release memory.
-            _memoryPoolService.Release(updateFrame.MoveSectionUnits.Values);
-            _memoryPoolService.Release(updateFrame.HitUnits.Values);
-            _memoryPoolService.Release(updateFrame);
+                // 작업이 완료된 후 본 노드에 의지하는 노드 작업을 전달.
+                if (taskNode.DependentNode != null)
+                {
+                    taskNode.DependentNode.NodeGroup.ExecuteNextTaskNode(taskNode.DependentNode);
+                }
+            }
         }
 
         /// <summary>
         /// 업데이트 프레임 적용.
         /// </summary>
-        private void UpdateFrame_Apply(WorldUpdate_Frame updateFrame)
+        private void UpdateFrame_Broadcast()
         {
-            // Apply - move section.
-            UpdateFrame_ApplyMoveSection(updateFrame.MoveSectionUnits);
+            //// Apply - move section.
+            //UpdateFrame_ApplyMoveSection(updateFrame.MoveSectionUnits);
 
-            // Apply - hit unit.
-            UpdateFrame_ApplyHitUnit(updateFrame.HitUnits);
+            //// Apply - hit unit.
+            //UpdateFrame_ApplyHitUnit(updateFrame.HitUnits);
+
+            
         }
 
         /// <summary>
-        /// 업데이트 프레임 적용 - 섹션 이동.
+        /// 이동 정보 전파.
         /// </summary>
-        private void UpdateFrame_ApplyMoveSection(ConcurrentDictionary<SectionId, WorldUpdate_SectionUnit> moveSectionUnit)
+        private void UpdatFrame_BroadcastMovement()
         {
-            // Rent.
-            var updateSectionPacket = _memoryPoolService.Rent<GamePacketSC_UpdateSectionMove>();
-
-            // 섹션 이동 유닛 처리.
-            foreach (var pair in moveSectionUnit)
-            {
-                var sectionUnit = pair.Value;
-
-                if (false == sectionUnit.PlayInfoDict.Any() 
-                    && false == sectionUnit.MobDict.Any())
-                {
-                    continue;
-                }
-
-                // 섹션 이동 유닛.
-                updateSectionPacket.PlayInfos.AddRange(sectionUnit.PlayInfoDict.Values);
-                updateSectionPacket.Enemies.AddRange(sectionUnit.MobDict);
-
-                // Send packet.
-                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_UpdateSectionMove, updateSectionPacket);
-
-                // clear.
-                updateSectionPacket.PlayInfos.Clear();
-                updateSectionPacket.Enemies.Clear();
-            }
-
-            // Release.
-            _memoryPoolService.Release<GamePacketSC_UpdateSectionMove>(updateSectionPacket);
         }
 
         /// <summary>
-        /// 업데이트 프레임 적용 - 피격 유닛.
+        /// 이동 정보 전파.
         /// </summary>
-        private void UpdateFrame_ApplyHitUnit(ConcurrentDictionary<SectionId, WorldUpdate_HitUnit> hitSectionUnit)
+        private void UpdateFrame_BroadcastStat()
+        {
+        }
+
+        /// <summary>
+        /// 장비 정보 전파.
+        /// </summary>
+        private void UpdateFrame_BraodcastEquipment()
         {
 
         }

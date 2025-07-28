@@ -27,10 +27,6 @@ namespace Server_Realm.UnitHandler
         private readonly HashSet<Projectile> _projectiles;
         private readonly List<Projectile> _distroyProjectiles;
 
-        #region common
-        public bool HasProjectiles() => _projectiles.Any();
-        #endregion
-
         public UnitCombatHandler(IServiceProvider serviceProvider, Unit owner)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitCombatHandler>>();
@@ -76,6 +72,21 @@ namespace Server_Realm.UnitHandler
         }
 
         #region projectiles
+        /// <summary>
+        /// 유닛과 투사체 충돌.
+        /// </summary>
+        public void CollideProjectiles(IEnumerable<Unit> units)
+        {
+            // 유닛-투사체 충돌 검사.
+            foreach (var prjt in _projectiles)
+            {
+                foreach (var unit in units)
+                {
+                    unit.CombatHandler.Hit(prjt.GetHitbox(), prjt.Damage);
+                }
+            }
+        }
+
         /// <summary>
         /// Projectile.
         /// </summary>

@@ -18,6 +18,6 @@
         /// <summary>
         /// Enemies.
         /// </summary>
-        public Dictionary<SectionId, List<MobUnit>> MobUnits { get; set; }
+        public Dictionary<SectionId, List<MobUnit>> MobUnits;
     }
 }

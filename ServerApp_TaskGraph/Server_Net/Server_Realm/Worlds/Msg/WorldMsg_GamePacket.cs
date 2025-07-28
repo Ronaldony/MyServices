@@ -12,18 +12,18 @@ namespace Server_Realm.Worlds.Msg
 
         }
         /// <summary>
-        /// Pid.
+        /// UnitId.
         /// </summary>
-        public string Pid { get; set; }
+        public long UnitId;
 
         /// <summary>
         /// Packet code.
         /// </summary>
-        public int PacketCode { get; set; }
+        public int PacketCode;  
 
         /// <summary>
         /// Packet.
         /// </summary>
-        public GamePacketBase_CS Packet { get; set; }
+        public GamePacketBase_CS Packet;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Server_Realm.Units.Enemy
 {
-    using GameCore.Datas.Enemy;
+    using GameCore.Datas.Mobs;
     using Server_Realm.AI;
     using Server_Realm.Collisions;
     using Server_Realm.Core.Types;
@@ -14,13 +14,14 @@ namespace Server_Realm.Units.Enemy
     /// </summary>
     public class MobUnit : Unit
     {
-        public MobUnit(IServiceProvider serviceProvider, DTO_Enemy dtoMob, Collision collision)
+        public MobUnit(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob, Collision collision)
         {
             // Unit.
+            UnitId = unitId;
             IsActive = true;
             UnitType = Type_Unit.Enemy;
             Position = dtoMob.Location.Pos;
-            Section = SectionId.GetSection(Position);
+            Section = SectionId.WorldPosToSection(Position);
             UnitCollision = collision;
             AIBrain = new AIBrain(this);
 
@@ -32,14 +33,9 @@ namespace Server_Realm.Units.Enemy
 
         #region props
         /// <summary>
-        /// DTO_Enemy.
+        /// Mob.
         /// </summary>
-        public DTO_Enemy Mob { get; }
-
-        /// <summary>
-        /// Enemy uid.
-        /// </summary>
-        public ulong MobUid { get; set; }
+        public DTO_Mob Mob { get; }
         #endregion
 
         /// <summary>

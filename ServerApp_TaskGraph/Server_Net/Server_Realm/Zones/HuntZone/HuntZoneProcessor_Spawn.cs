@@ -24,7 +24,7 @@ namespace Server_Realm.Zones.HuntZone
             var section = pu.MovementHandler.Section;
 
             // 월드에 플레이어 추가.
-            _worldGroup.PlayerDict.Add(pu.Pid, pu);
+            _worldGroup.UnitDict.Add(pu.UnitId, pu);
             _worldGroup.WorldSectionDict[section].EnterPlayer(pu);
 
             // 인근 섹션 플레이어, 적 정보 전달.
@@ -34,26 +34,26 @@ namespace Server_Realm.Zones.HuntZone
             foreach (var targetSection in aroundSections)
             {
                 // Players.
-                foreach (var player in _worldGroup.WorldSectionDict[section].GetPlayUnits())
+                foreach (var targetPu in _worldGroup.WorldSectionDict[section].GetPlayerUnits())
                 {
-                    gamePacket.PlayInfos.Add(player.PlayInfo);
+                    gamePacket.PlayInfos.Add(targetPu.UnitId, targetPu.PlayInfo);
                 }
 
                 // Enemies.
-                foreach (var we in _worldGroup.WorldSectionDict[section].GetMobUnits())
+                foreach (var targetWu in _worldGroup.WorldSectionDict[section].GetMobUnits())
                 {
-                    gamePacket.Enemies.Add(we.Mob);
+                    gamePacket.Mobs.Add(targetWu.UnitId, targetWu.Mob);
                 }
             }
 
             // 로그인 유저에게 인근 세션 유닛 정보 전송.
-            SendPacket(pu.Pid, GamePacketCode.SC_SpawnPlayer, gamePacket);
+            SendPacket(pu.UnitId, GamePacketCode.SC_SpawnPlayer, gamePacket);
 
             // Reset packet.
             gamePacket.Dispose();
 
             // Add login player.
-            gamePacket.PlayInfos.Add(pu.PlayInfo);
+            gamePacket.PlayInfos.Add(pu.UnitId, pu.PlayInfo);
 
             // 주변 섹션에 로그인 유저 정보 전송.
             SendPacket_AroundSections(pu.Pid, section, GamePacketCode.SC_SpawnPlayer, gamePacket);
@@ -97,12 +97,12 @@ namespace Server_Realm.Zones.HuntZone
             }
 
             // 패킷.
-            var gamePacket = new GamePacketSC_SpawnEnemy();
+            var gamePacket = new GamePacketSC_SpawnMob();
 
             foreach (var pair in spawnEnemyDict)
             {
-                gamePacket.Enemies = pair.Value.Select(d => d.Mob).ToList();
-                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_SpawnEnemy, gamePacket);
+                gamePacket.Mobs = pair.Value.ToDictionary(d => d.UnitId, d => d.Mob);
+                SendPacket_AroundSections(pair.Key, GamePacketCode.SC_SpawnMob, gamePacket);
             }
         }
     }

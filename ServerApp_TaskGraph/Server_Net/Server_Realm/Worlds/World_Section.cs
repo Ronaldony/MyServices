@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Concurrent;
+
 namespace Server_Realm.Worlds
 {
     using Server_Realm.Entities;
@@ -12,8 +13,8 @@ namespace Server_Realm.Worlds
         public World_Section(SectionId section)
         {
             Section = section;
-            _playerUnitDict = new Dictionary<string, PlayerUnit>();
-            _mobUnitDict = new Dictionary<long, MobUnit>();
+            _playerUnitDict = new ConcurrentDictionary<long, PlayerUnit>();
+            _mobUnitDict = new ConcurrentDictionary<long, MobUnit>();
         }
 
         /// <summary>
@@ -26,17 +27,17 @@ namespace Server_Realm.Worlds
         /// key: Pid.
         /// value: player unit.
         /// </summary>
-        private Dictionary<string, PlayerUnit> _playerUnitDict;
+        private ConcurrentDictionary<long, PlayerUnit> _playerUnitDict;
 
         /// <summary>
         /// Mob unit.
         /// key: unit id.
         /// value: mob unit.
         /// </summary>
-        private Dictionary<long, MobUnit> _mobUnitDict;
+        private ConcurrentDictionary<long, MobUnit> _mobUnitDict;
 
         // Get units.
-        public IEnumerable<PlayerUnit> GetPlayUnits() => _playerUnitDict.Values;
+        public IEnumerable<PlayerUnit> GetPlayerUnits() => _playerUnitDict.Values;
         public IEnumerable<MobUnit> GetMobUnits() => _mobUnitDict.Values;
 
         /// <summary>
@@ -51,9 +52,9 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// Remove player from section.
         /// </summary>
-        public PlayerUnit LeavePlayer(string pid)
+        public PlayerUnit LeavePlayer(long unitId)
         {
-            _playerUnitDict.Remove(pid, out var playerUnit);
+            _playerUnitDict.Remove(unitId, out var playerUnit);
             return playerUnit;
         }
 
@@ -70,7 +71,7 @@ namespace Server_Realm.Worlds
         /// </summary>
         public bool EnterPlayer(PlayerUnit pu)
         {
-            return _playerUnitDict.TryAdd(pu.Pid, pu);
+            return _playerUnitDict.TryAdd(pu.UnitId, pu);
         }
     }
 }

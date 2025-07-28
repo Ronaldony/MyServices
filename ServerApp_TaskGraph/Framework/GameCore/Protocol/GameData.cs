@@ -16,7 +16,7 @@
         public const int SECTION_HEIGHT = 10;                        // 섹션 세로 길이.
 
         // Mob.
-        public const int MAX_ENEMY_SPAWN = 50;                       // 최대 적 스폰 수.
+        public const int MAX_MOB_SPAWN = 50;                       // 최대 적 스폰 수.
 
         // KnockBack.
         public const float KNOCKBACK_THRUST = 10f;                  // 넉백 쓰러스트.
@@ -39,7 +39,7 @@
         public const int PROJECTILE_SPAWN_DISTANCE_SQUARE = 100;    // 투사체 스폰 거리 제곱근. (거리 비교용)
 
         // Enemy.
-        public const int ENEMY_SCAN_DISTANCE = 10;                  // Enemy 공격 감지 거리.
-        public const int ENEMY_SCAN_DISTANCE_SQUARE = 100;          // Enemy 공격 감지 거리 제곱근. (거리 비교용)
+        public const int MOB_SCAN_DISTANCE = 10;                  // Enemy 공격 감지 거리.
+        public const int MOB_SCAN_DISTANCE_SQUARE = 100;          // Enemy 공격 감지 거리 제곱근. (거리 비교용)
     }
 }

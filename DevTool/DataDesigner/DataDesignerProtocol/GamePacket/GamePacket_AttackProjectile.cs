@@ -11,12 +11,13 @@ namespace GameCore.GamePacket
     /// GamePacketCS_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_AttackProjectile)]
     public partial class GamePacketCS_AttackProjectile : GamePacketBase_CS
     {
         /// <summary>
         /// Projectile.
         /// </summary>
-        [MemoryPackOrder(0)]
+        [MemoryPackOrder(1)]
         public DTO_Projectile Projectile { get; set; }
     }
 
@@ -24,6 +25,7 @@ namespace GameCore.GamePacket
     /// GamePacketSC_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_AttackProjectile)]
     public partial class GamePacketSC_AttackProjectile : GamePacketBase_SC
     {
         /// <summary>

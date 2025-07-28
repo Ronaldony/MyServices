@@ -21,9 +21,7 @@ namespace Server_Realm.UnitHandler
         // Unit.
         private readonly Unit _owner;
 
-        // DTO.
         private readonly DTO_Equipment _equipment;
-
         private TB_Weapon _nowTBWeapon;
 
         #region common

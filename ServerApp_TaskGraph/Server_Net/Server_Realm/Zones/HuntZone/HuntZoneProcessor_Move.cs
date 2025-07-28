@@ -24,9 +24,9 @@ namespace Server_Realm.Zones.HuntZone
             _logger.LogDebug($"MoveStart - pos: {pu.MovementHandler.NowPos()}, move: {packet.Direction}");
 
             // 패킷 전송 - 이동 시작.
-            SendPacket_AroundSections(pu.Pid, pu.MovementHandler.Section(), GamePacketCode.SC_MoveStart, new GamePacketSC_MoveStart
+            SendPacket_AroundSections(pu.Pid, pu.MovementHandler.Section, GamePacketCode.SC_MoveStart, new GamePacketSC_MoveStart
             {
-                Pid = pu.Pid,
+                UnitId = pu.UnitId,
                 Direction = packet.Direction
             });
         }
@@ -51,7 +51,7 @@ namespace Server_Realm.Zones.HuntZone
                 // 패킷 전송 - 이동 수정.
                 SendPacket_AroundSections(pu.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
-                    Pid = pu.Pid,
+                    UnitId = pu.UnitId,
                     FixedPos = pu.MovementHandler.NowPos()
                 });
 
@@ -63,7 +63,7 @@ namespace Server_Realm.Zones.HuntZone
             // 패킷 전송 - 이동 정지.
             SendPacket_AroundSections(pu.Pid, pu.Section, GamePacketCode.SC_MoveEnd, new GamePacketSC_MoveEnd
             {
-                Pid = pu.Pid,
+                UnitId = pu.UnitId,
                 EndPos = packet.EndPos
             });
         }

@@ -8,12 +8,12 @@
         /// <summary>
         /// 유저 Id.
         /// </summary>
-        public string UserId { get; set; }
+        public string UserId;
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public string Uid { get; set; }
+        public string Uid;
 
         /// <summary>
         /// Pid.
@@ -23,21 +23,21 @@
         /// <summary>
         /// IP Address.
         /// </summary>
-        public string Address { get; set; }
+        public string Address;
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public string AccessToken { get; set; }
+        public string AccessToken;
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public string RefreshToken { get; set; }
+        public string RefreshToken;
 
         /// <summary>
         /// Uid.
         /// </summary>
-        public DateTime TokenExpireTime { get; set; }
+        public DateTime TokenExpireTime;
     }
 }

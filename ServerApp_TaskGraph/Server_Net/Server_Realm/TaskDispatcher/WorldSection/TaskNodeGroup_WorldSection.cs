@@ -1,0 +1,68 @@
+﻿using System.Threading.Tasks.Dataflow;
+
+namespace Server_Realm.TaskDispatcher.Node
+{
+    using Server_Realm.TaskDispatcher.WorldSection;
+
+    /// <summary>
+    /// TaskNodeGroup_WorldSection.
+    /// </summary>
+    public class TaskNodeGroup_WorldSection
+    {
+        /// <summary>
+        /// Group Id.
+        /// </summary>
+        public int GroupId;
+
+        /// <summary>
+        /// Task pipe line.
+        /// </summary>
+        public ActionBlock<TaskNode_WorldSection> TaskPipeline;
+
+        /// <summary>
+        /// TaskNode.
+        /// </summary>
+        public List<TaskNode_WorldSection> TaskNodes;
+
+        /// <summary>
+        /// 옵저버.
+        /// </summary>
+        private TaskNodeObserver_WorldSection _observer;
+
+        /// <summary>
+        /// CancelToken.
+        /// </summary>
+        public CancellationToken CancelToken;
+
+        public TaskNodeGroup_WorldSection(int groupId, TaskNodeObserver_WorldSection observer, CancellationToken ct)
+        {
+            GroupId = groupId;
+            CancelToken = ct;
+            _observer = observer;
+        }
+
+        /// <summary>
+        /// Add task node.
+        /// </summary>
+        public void ExecuteNextTaskNode(TaskNode_WorldSection taskNode)
+        {
+            TaskPipeline.Post(taskNode);
+        }
+
+        /// <summary>
+        /// Start task.
+        /// </summary>
+        public void StartTask()
+        {
+            TaskPipeline.Post(TaskNodes.First());
+        }
+
+        /// <summary>
+        /// Alert completed.
+        /// </summary>
+        public void AlertCompletedToObserver()
+        {
+            _observer.AlertCompletedNodeGroup(this);
+        }
+    }
+}

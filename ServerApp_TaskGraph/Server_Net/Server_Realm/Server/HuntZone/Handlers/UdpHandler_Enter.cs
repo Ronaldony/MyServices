@@ -20,6 +20,8 @@ namespace Server_Realm.Server.World.Handlers
         private readonly ILogger<UdpHandler_Enter> _logger;
 
         private readonly HuntZoneServer _huntZoneServer;
+
+        private readonly IUniqueIdService _uniqueIdService;
         private readonly IDataSerializer _dataSerializer;
 
         // Data objects.
@@ -35,6 +37,8 @@ namespace Server_Realm.Server.World.Handlers
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_Enter>>();
 
             _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
+
+            _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             // Session object.
@@ -68,8 +72,9 @@ namespace Server_Realm.Server.World.Handlers
                     // 세션 토큰 검사.
                     if (false == sessionInfo.AccessToken.Equals(GamePacket.Token)) throw new ServerException($"not exist session. pid: {pid}");
 
-                    // Pid 등록.
-                    if (false == _huntZoneServer.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
+                    // UnitId 생성, 등록.
+                    var unitId = _uniqueIdService.GenerateIdAsLong();
+                    if (false == _huntZoneServer.RegisterUnitId(sessionId, sessionUid, pid, unitId)) throw new ServerException($"already exist player. pid: {pid}");
 
                     ////////////////////////////////////////////////////////////////////
                     /// Load info datas.
@@ -93,8 +98,8 @@ namespace Server_Realm.Server.World.Handlers
                 catch (ServerException ex)
                 {
                     _logger.LogWarning(ex.Message);
-
                     _huntZoneServer.Disconnect(sessionId, sessionUid);
+
                     return;
                 }
                 catch (Exception ex)

@@ -7,12 +7,13 @@ namespace GameCore.GamePacket
     /// GamePacketCS_SwitchWeapon.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_SiwtchEquipment)]
     public partial class GamePacketCS_SwitchWeapon : GamePacketBase_CS
     {
         /// <summary>
         /// Switch weapon id.
         /// </summary>
-        [MemoryPackOrder(0)]
+        [MemoryPackOrder(1)]
         public int WeaponId { get; set; }
     }
 
@@ -20,13 +21,14 @@ namespace GameCore.GamePacket
     /// GamePacketSC_SwitchWeapon.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_SiwtchEquipment)]
     public partial class GamePacketSC_SwitchWeapon : GamePacketBase_SC
     {
         /// <summary>
-        /// Pid.
+        /// Unit id.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
+        public long UnitId { get; set; }
 
         /// <summary>
         /// Switch weapon id.

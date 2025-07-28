@@ -22,7 +22,7 @@ namespace Server_Realm.Zones.HuntZone
                 // 패킷 전송 - 이동 수정.
                 SendPacket_AroundSections(pu.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
-                    Pid = pu.Pid,
+                    UnitId = pu.UnitId,
                     FixedPos = pu.MovementHandler.NowPos()
                 });
 
@@ -33,7 +33,7 @@ namespace Server_Realm.Zones.HuntZone
             // 주변 섹션에 대시 전송.
             SendPacket_AroundSections(pu.Pid, pu.Section, GamePacketCode.SC_Dash, new GamePacketSC_Dash
             {
-                Pid = pu.Pid,
+                UnitId = pu.UnitId,
                 Direction = pu.MovementHandler.NowDir()
             });
         }

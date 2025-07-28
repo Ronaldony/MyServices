@@ -29,6 +29,8 @@ namespace Server_Realm.Collisions
             Width = width / 2;
             Height = height / 2;
             Offset = new Vector2(offsetX, offsetY);
+
+            return this;
         }
 
         /// <summary>

@@ -8,8 +8,8 @@ namespace Server_Realm.Server.World.Handlers
     using GameCore;
     using GameCore.GamePacket;
     using Server_Realm.Core.ActorProviders;
-    using Server_Realm.GameEvents;
     using Server_Realm.Server.HuntZone;
+    using Server_Realm.Worlds.Msg;
 
     /// <summary>
     /// UdpHandler_Move.
@@ -40,14 +40,14 @@ namespace Server_Realm.Server.World.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
         {
-            var GamePacket = _dataSerializer.Deserialize<GamePacketCS_MoveStart>(packet.Data);
+            var gamePacket = _dataSerializer.Deserialize<GamePacketCS_MoveStart>(packet.Data);
 
             // Delivery msg.
-            _worldServerActorProvider.Tell<GameEvent>(new ReceivePacketEvent
+            _worldServerActorProvider.Tell<WorldMsg_GamePacket>(new WorldMsg_GamePacket
             {
-                Pid = _huntZonedServer.GetPid(sessionUid),
+                UnitId = gamePacket.UnitId,
                 PacketCode = GamePacketCode.CS_MoveStart,
-                Packet = GamePacket,
+                Packet = gamePacket,
             });
         }
     }

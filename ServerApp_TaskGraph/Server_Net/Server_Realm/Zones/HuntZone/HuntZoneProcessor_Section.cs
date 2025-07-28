@@ -27,7 +27,7 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         public bool IsValidSection(Vector2 pos)
         {
-            var section = SectionId.GetSection(pos);
+            var section = SectionId.WorldPosToSection(pos);
 
             if (_worldGroup.AroundSectionDict.ContainsKey(section))
             {

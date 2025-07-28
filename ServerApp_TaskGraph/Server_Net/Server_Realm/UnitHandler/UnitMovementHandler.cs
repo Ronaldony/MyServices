@@ -50,7 +50,7 @@ namespace Server_Realm.UnitHandler
 
             _lastMoveTime = TimeUtil.Now;
 
-            Section = SectionId.GetSection(_location.Pos);
+            Section = SectionId.WorldPosToSection(_location.Pos);
             OldSection = Section;
         }
 
@@ -81,7 +81,7 @@ namespace Server_Realm.UnitHandler
                 _location.Pos = movePos;
 
                 // Post process.
-                PostProcess();
+                PostMove();
             }
         }
 
@@ -106,7 +106,7 @@ namespace Server_Realm.UnitHandler
             _isMoveing = false;
 
             // Post process.
-            PostProcess();
+            PostMove();
 
             return true;
         }
@@ -149,7 +149,7 @@ namespace Server_Realm.UnitHandler
             _location.Pos = knockbackPos;
 
             // 포스트 업데이트.
-            PostProcess();
+            PostMove();
 
             return true;
         }
@@ -168,7 +168,7 @@ namespace Server_Realm.UnitHandler
             _location.Pos = dashPos;
 
             // 포스트 업데이트.
-            PostProcess();
+            PostMove();
 
             return true;
         }
@@ -178,10 +178,10 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// Post udpate.
         /// </summary>
-        private void PostProcess()
+        private void PostMove()
         {
             // 섹션 이동한 경우 갱신.
-            var newSection = SectionId.GetSection(_location.Pos);
+            var newSection = SectionId.WorldPosToSection(_location.Pos);
 
             if (newSection != Section)
             {

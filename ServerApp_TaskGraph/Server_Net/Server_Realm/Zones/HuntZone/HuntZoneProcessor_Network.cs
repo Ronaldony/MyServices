@@ -12,13 +12,13 @@ namespace Server_Realm.Zones.HuntZone
         /// <summary>
         /// Send packet.
         /// </summary>
-        private bool SendPacket<T>(string pid, int packetCode, T packet)
+        private bool SendPacket<T>(long unitId, int packetCode, T packet)
             where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize(packet);
 
             // Send.
-            return _huntZoneServer.Send(pid, packetCode, packetBytes);
+            return _huntZoneServer.Send(unitId, packetCode, packetBytes);
         }
 
         /// <summary>
@@ -32,11 +32,11 @@ namespace Server_Realm.Zones.HuntZone
             // 주변 섹션에 전파.
             foreach (var targetSection in GetAroundSections(section))
             {
-                foreach (var pu in _worldGroup.WorldSectionDict[targetSection].GetPlayUnits())
+                foreach (var pu in _worldGroup.WorldSectionDict[targetSection].GetPlayerUnits())
                 {
                     if (!ignorePid.Equals(pu.Pid))
                     {
-                        _huntZoneServer.Send(pu.Pid, packetCode, packetBytes);
+                        _huntZoneServer.Send(pu.UnitId, packetCode, packetBytes);
                     }
                 }
             }
@@ -53,9 +53,9 @@ namespace Server_Realm.Zones.HuntZone
             // 주변 섹션에 전파.
             foreach (var targetSection in GetAroundSections(section))
             {
-                foreach (var pu in _worldGroup.WorldSectionDict[targetSection].GetPlayUnits())
+                foreach (var pu in _worldGroup.WorldSectionDict[targetSection].GetPlayerUnits())
                 {
-                    _huntZoneServer.Send(pu.Pid, packetCode, packetBytes);
+                    _huntZoneServer.Send(pu.UnitId, packetCode, packetBytes);
                 }
             }
         }

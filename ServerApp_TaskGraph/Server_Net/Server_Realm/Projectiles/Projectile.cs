@@ -29,11 +29,6 @@ namespace Server_Realm.Projectiles
         public Unit Owner { get; protected set; }
 
         /// <summary>
-        /// 활성 여부.
-        /// </summary>
-        public bool IsActive { get; set; }
-
-        /// <summary>
         /// 관통 여부.
         /// </summary>
         public bool IsPenetrates { get; protected set; }
@@ -52,6 +47,11 @@ namespace Server_Realm.Projectiles
         /// Damage.
         /// </summary>
         public int Damage { get; protected set; }
+
+        /// <summary>
+        /// 활성 여부.
+        /// </summary>
+        public bool IsActive;
 
         /// <summary>
         /// 투사체 생성 위치. 

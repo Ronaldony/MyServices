@@ -22,8 +22,8 @@ namespace Server_Realm.Zones.HuntZone
                 var ws = _worldGroup.WorldSectionDict[section];
 
                 // set dummy.
-                packet.PlayInfos = ws.GetPlayUnits().Select(d => d.PlayInfo).ToList();
-                packet.Enemies = ws.GetMobUnits().Select(d => d.Mob).ToList();
+                packet.PlayInfos = ws.GetPlayerUnits().ToDictionary(d => d.UnitId, d => d.PlayInfo);
+                packet.Mobs = ws.GetMobUnits().ToDictionary(d => d.UnitId, d => d.Mob);
 
                 SendPacket_AroundSections(section, GamePacketCode.SC_DummyMove, packet);
 

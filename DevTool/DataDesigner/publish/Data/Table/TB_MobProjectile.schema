@@ -1,0 +1,71 @@
+{
+  "Name": "TB_MobProjectile",
+  "Category": "Projectile",
+  "Description": "",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "Name",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "Radius",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 4,
+      "Name": "ProjectileType",
+      "IsIndexed": false,
+      "Type": "Type_MobProjectile",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "MaxRange",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "Velocity",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 7,
+      "Name": "IsPenetrates",
+      "IsIndexed": false,
+      "Type": "bool",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 8,
+      "Name": "IsGrenade",
+      "IsIndexed": false,
+      "Type": "bool",
+      "RefTable": "",
+      "Summary": ""
+    }
+  ]
+}

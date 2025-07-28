@@ -11,29 +11,10 @@
       },
       {
         "Target": "Server",
-        "ProjectPath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore",
-        "ProtocolPath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Code",
-        "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ServerApp_Parallel\\Framework\\GameCore\\Database"
-      }
-    ]
-  },
-  "Profile": {
-    "Name": "Profile",
-    "FilePathList": [
-      {
-        "Target": "Client",
-        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore",
-        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Code",
-        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Database"
-      },
-      {
-        "Target": "Server",
-        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore",
-        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Code",
-        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Database"
+        "ProjectPath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore",
+        "ProtocolPath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Code",
+        "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Database"
       }
     ]
   }

@@ -22,8 +22,8 @@ namespace Server_Realm.HitBoxes
         /// <summary>
         /// 위치 정보.
         /// </summary>
-        public Vector2 Min { get; set; }
-        public Vector2 Max { get; set; }
+        public Vector2 Min;
+        public Vector2 Max;
 
         /// <summary>
         /// Check hit with target hit box.

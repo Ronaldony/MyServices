@@ -1,10 +1,17 @@
-﻿namespace GameCore.GamePacket
+﻿using MemoryPack;
+
+namespace GameCore.GamePacket
 {
     /// <summary>
     /// GamePacketBase_CS.
     /// </summary>
     public class GamePacketBase_CS
     {
+        /// <summary>
+        /// Unit id.
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public long UnitId { get; set; }
     }
 
     /// <summary>

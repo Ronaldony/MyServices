@@ -17,6 +17,6 @@
         /// <summary>
         /// PlayerEntity.
         /// </summary>
-        public PlayerUnit PlayerUnit { get; set; }
+        public PlayerUnit PlayerUnit;
     }
 }

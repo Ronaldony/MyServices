@@ -10,13 +10,14 @@ namespace GameCore.GamePacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_MoveFixed)]
     public partial class GamePacketSC_MoveFixed : GamePacketBase_SC
     {
         /// <summary>
-        /// Pid.
+        /// Fixed unit id.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
+        public long UnitId { get; set; }
 
         /// <summary>
         /// 수정 위치.

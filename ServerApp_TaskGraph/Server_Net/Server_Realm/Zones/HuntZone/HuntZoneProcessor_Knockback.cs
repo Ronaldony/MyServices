@@ -30,7 +30,7 @@ namespace Server_Realm.Zones.HuntZone
                 // 패킷 전송 - 이동 수정.
                 SendPacket_AroundSections(pu.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
-                    Pid = pu.Pid,
+                    UnitId = pu.UnitId,
                     FixedPos = pu.MovementHandler.NowPos()
                 });
 

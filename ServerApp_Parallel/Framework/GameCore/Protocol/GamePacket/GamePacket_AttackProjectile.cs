@@ -11,25 +11,21 @@ namespace GameCore.GamePacket
     /// GamePacketCS_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_AttackProjectile)]
     public partial class GamePacketCS_AttackProjectile : GamePacketBase_CS
     {
         /// <summary>
-        /// 투사체 스폰 지점.
-        /// </summary>
-        [MemoryPackOrder(0)]
-        public Vector2 SpawnPos { get; set; }
-
-        /// <summary>
-        /// Angle.
+        /// Projectile.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 Angle { get; set; }
+        public DTO_Projectile Projectile { get; set; }
     }
 
     /// <summary>
     /// GamePacketSC_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_AttackProjectile)]
     public partial class GamePacketSC_AttackProjectile : GamePacketBase_SC
     {
         /// <summary>

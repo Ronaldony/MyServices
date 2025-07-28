@@ -18,11 +18,11 @@ namespace Server_Realm.Worlds.Msg
         /// <summary>
         /// MovePattern.
         /// </summary>
-        public Type_MovePattern MovePattern { get; set; }
+        public Type_MovePattern MovePattern;
 
         /// <summary>
         /// Move position.
         /// </summary>
-        public Vector2 MovePos { get; set; }
+        public Vector2 MovePos;
     }
 }

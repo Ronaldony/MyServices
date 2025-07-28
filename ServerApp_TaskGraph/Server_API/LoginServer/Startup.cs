@@ -17,10 +17,9 @@ namespace LoginServer
 
     public class Startup
     {
-        public WebApplication WebApp { get; set; }
-
-        private readonly Arguments _arguments;
+        public WebApplication WebApp;
         private WebApplicationBuilder _webAppBuilder;
+        private readonly Arguments _arguments;
 
         public Startup(string[] args, Arguments arguments)
         {

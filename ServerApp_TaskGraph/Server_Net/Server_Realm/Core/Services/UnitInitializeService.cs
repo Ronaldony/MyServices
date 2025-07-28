@@ -6,7 +6,7 @@ using System.Numerics;
 namespace Server_Realm.Core.Services
 {
     using GameCore;
-    using GameCore.Datas.Enemy;
+    using GameCore.Datas.Mobs;
     using GameCore.Interfaces;
 
     /// <summary>
@@ -51,7 +51,7 @@ namespace Server_Realm.Core.Services
         /// <summary>
         /// Get enemy template.
         /// </summary>
-        public DTO_Enemy CreateEnemy(int refId, Type_Area areaType, ulong enemyUid)
+        public DTO_Mob CreateEnemy(int refId, Type_Area areaType)
         {
             var tbEnemy = _tdbService.GetById<TB_Enemy>(refId);
             var confArea = _confAreas.FirstOrDefault(d => d.Area == areaType);
@@ -63,10 +63,9 @@ namespace Server_Realm.Core.Services
             }
 
             // 유닛 생성.
-            var dtoEnemy = new DTO_Enemy
+            var dtoEnemy = new DTO_Mob
             {
-                EnemyId = refId,
-                EnemeyUid = enemyUid,
+                MobId = refId,
             };
 
             // Generate random section.

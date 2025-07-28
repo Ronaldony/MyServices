@@ -23,7 +23,7 @@ namespace Server_Realm.Entities
             IsActive = true;
             UnitType = Type_Unit.Player;
             Position = playInfo.Location.Pos;
-            Section = SectionId.GetSection(this.Position);
+            Section = SectionId.WorldPosToSection(this.Position);
             UnitCollision = collision;
 
             // handler.
@@ -75,9 +75,6 @@ namespace Server_Realm.Entities
         /// </summary>
         public override void Update(double deltaTime)
         {
-            StatHandler.Update(deltaTime);
-            CombatHandler.Update(deltaTime);
-            MovementHandler.Update(deltaTime);
         }
 
         /// <summary>

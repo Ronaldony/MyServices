@@ -15,6 +15,6 @@ namespace Server_Realm.Worlds.Msg
         /// <summary>
         /// Type_WorldMsg.
         /// </summary>
-        public Type_WorldMsg MsgType { get; set; }
+        public Type_WorldMsg MsgType;
     }
 }

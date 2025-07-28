@@ -18,17 +18,17 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// X section.
         /// </summary>
-        public int X { get; set; }
+        public int X;
 
         /// <summary>
         /// Y section.
         /// </summary>
-        public int Y { get; set; }
+        public int Y;
 
         /// <summary>
-        /// Get section.
+        /// Convert position to section.
         /// </summary>
-        public static SectionId GetSection(Vector2 position)
+        public static SectionId WorldPosToSection(Vector2 position)
         {
             return new SectionId((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
         }

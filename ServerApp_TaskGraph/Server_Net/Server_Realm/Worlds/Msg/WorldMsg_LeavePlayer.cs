@@ -14,8 +14,8 @@
         }
 
         /// <summary>
-        /// Pid.
+        /// Leave unit id.
         /// </summary>
-        public string Pid { get; set; }
+        public long UnitId;
     }
 }
