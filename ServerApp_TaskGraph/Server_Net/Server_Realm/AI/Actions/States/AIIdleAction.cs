@@ -11,11 +11,6 @@
             : base(owner)
         {
         }
-
-        public override void Reset()
-        {
-        }
-
         public override void Start()
         {
             // Move stop.

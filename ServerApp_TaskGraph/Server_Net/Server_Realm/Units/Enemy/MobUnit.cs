@@ -10,9 +10,9 @@ namespace Server_Realm.Units.Enemy
     using Server_Realm.Worlds;
 
     /// <summary>
-    /// EnemyUnit.
+    /// MobUnit.
     /// </summary>
-    public class MobUnit : Unit
+    public partial class MobUnit : Unit
     {
         public MobUnit(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob, Collision collision)
         {

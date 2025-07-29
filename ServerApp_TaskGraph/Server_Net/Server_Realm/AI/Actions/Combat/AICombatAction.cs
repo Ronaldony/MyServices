@@ -1,5 +1,6 @@
 ﻿namespace Server_Realm.AI.Actions.Movement
 {
+    using GameCore;
     using Server_Realm.Entities;
 
     /// <summary>
@@ -12,20 +13,21 @@
         {
         }
 
-        public override void Reset()
-        {
-        }
-
         public override void Start()
         {
         }
 
         public override void Update(double deltaTime)
         {
+
         }
 
         public override void Stop()
         {
+            // TODO: 표적 제거.
+            
+            // AIReturn 상태 변경.
+            Owner.AIBrain.ChangeState(Type_AIState.Return);
         }
     }
 }

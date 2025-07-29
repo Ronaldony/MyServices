@@ -8,7 +8,7 @@ namespace Server_Realm.Zones.HuntZone
     using GameCore;
     using GameCore.GamePacket;
     using GameCore.Interfaces;
-    using Server_Realm.Core.Services;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Core.Utilities;
     using Server_Realm.Entities;
     using Server_Realm.Server.HuntZone;
@@ -28,8 +28,8 @@ namespace Server_Realm.Zones.HuntZone
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
-        private readonly CollisionService _collisionService;
-        private readonly ProjectileService _projectileService;
+        private readonly CollisionFactory _collisionService;
+        private readonly ProjectileFactory _projectileService;
 
         // Server.
         private readonly HuntZoneServer _huntZoneServer;
@@ -59,8 +59,8 @@ namespace Server_Realm.Zones.HuntZone
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
             _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
-            _collisionService = ServiceUtility.GetService<CollisionService>();
-            _projectileService = ServiceUtility.GetService<ProjectileService>();
+            _collisionService = ServiceUtility.GetService<CollisionFactory>();
+            _projectileService = ServiceUtility.GetService<ProjectileFactory>();
 
             // Worlds.
             _huntZoneServer = ServiceUtility.GetService<HuntZoneServer>();

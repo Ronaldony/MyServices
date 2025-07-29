@@ -7,6 +7,7 @@ namespace Server_Realm.Worlds.MsgTrigger
 {
     using GameCore;
     using GameCore.Interfaces;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Core.Services;
     using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
@@ -24,7 +25,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         private readonly IServiceProvider _serviceProvider;
         private readonly IUniqueIdService _uniqueIdService;
         private readonly UnitInitializeService _unitInitializeService;
-        private readonly CollisionService _collisionSerivce;
+        private readonly CollisionFactory _collisionSerivce;
 
         // Actor provider.
         private readonly IZoneProcessor _zoneProcessor;
@@ -46,7 +47,7 @@ namespace Server_Realm.Worlds.MsgTrigger
             _serviceProvider = serviceProvider;
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _unitInitializeService = serviceProvider.GetRequiredService< UnitInitializeService>();
-            _collisionSerivce = serviceProvider.GetRequiredService<CollisionService>();
+            _collisionSerivce = serviceProvider.GetRequiredService<CollisionFactory>();
 
             _zoneProcessor = zoneProcessor;
 
@@ -121,7 +122,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                         spawnMsg.MobUnits.Add(section, new List<MobUnit>());
                     }
 
-                    spawnMsg.MobUnits[section].Add(new MobUnit(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob, _collisionSerivce.Rent(Type_Collision.Enemy)));
+                    spawnMsg.MobUnits[section].Add(new MobUnit(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob, _collisionSerivce.Create(Type_Collision.Enemy)));
                 }
 
                 // 메시지 전달.

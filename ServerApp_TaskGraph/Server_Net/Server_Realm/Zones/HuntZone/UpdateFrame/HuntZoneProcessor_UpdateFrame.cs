@@ -91,13 +91,13 @@ namespace Server_Realm.Zones.HuntZone
                 // 이동.
                 if (mu.MovementHandler.RefreshStatus())
                 {
-                    updateUnitMovement.UnitLocationDict.Add(pu.UnitId, mu.Mob.Location);
+                    updateUnitMovement.UnitLocationDict.Add(mu.UnitId, mu.Mob.Location);
                 }
 
                 // 스텟.
                 if (mu.StatHandler.RefreshStatus())
                 {
-                    updateUnitStat.UnitStatDict.Add(pu.UnitId, mu.Mob.Stat);
+                    updateUnitStat.UnitStatDict.Add(mu.UnitId, mu.Mob.Stat);
                 }
             }
 

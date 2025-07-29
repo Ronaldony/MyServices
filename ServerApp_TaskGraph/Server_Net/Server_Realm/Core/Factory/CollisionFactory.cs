@@ -2,27 +2,27 @@
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 
-namespace Server_Realm.Core.Services
+namespace Server_Realm.Core.Factory
 {
     using GameCore;
     using GameCore.Interfaces;
     using Server_Realm.Collisions;
 
     /// <summary>
-    /// CollisionService.
+    /// CollisionFactory.
     /// </summary>
-    public class CollisionService
+    public class CollisionFactory
     {
-        private readonly ILogger<CollisionService> _logger;
+        private readonly ILogger<CollisionFactory> _logger;
 
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
 
         private readonly Dictionary<Type_Collision, TB_Collision> _tbCollisionDict;
 
-        public CollisionService(IServiceProvider serviceProvider)
+        public CollisionFactory(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<CollisionService>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<CollisionFactory>>();
 
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
@@ -42,13 +42,13 @@ namespace Server_Realm.Core.Services
         /// </summary>
         public void Initialize()
         {
-            _logger.LogInformation("CollisionService initialized");
+            _logger.LogInformation("CollisionFactory initialized");
         }
 
         /// <summary>
-        /// Get collision box.
+        /// Create collision.
         /// </summary>
-        public Collision Rent(Type_Collision collisionType)
+        public Collision Create(Type_Collision collisionType)
         {
             // Collision.
             var collision = GetCollision(collisionType);
@@ -60,24 +60,24 @@ namespace Server_Realm.Core.Services
         }
 
         /// <summary>
-        /// Release collision box.
+        /// Return collision box.
         /// </summary>
-        public void Release(Collision collisionBox)
+        public void Return(Collision collisionBox)
         {
             switch (collisionBox.CollisionType)
             {
                 case Type_Collision.Player:
                 case Type_Collision.Enemy:
-                    _memoryPoolService.Release<UnitCollision>(collisionBox as UnitCollision);
+                    _memoryPoolService.Release(collisionBox as UnitCollision);
                     break;
                 case Type_Collision.Sword:
-                    _memoryPoolService.Release<SwordCollision>(collisionBox as SwordCollision);
+                    _memoryPoolService.Release(collisionBox as SwordCollision);
                     break;
             }
         }
 
         /// <summary>
-        /// Take collision box.
+        /// Get collision.
         /// </summary>
         private Collision GetCollision(Type_Collision collisionType)
         {

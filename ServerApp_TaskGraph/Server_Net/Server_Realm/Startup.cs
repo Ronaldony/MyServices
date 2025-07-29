@@ -14,7 +14,7 @@ namespace Server_Realm
     using GameCore;
     using GameCore.Interfaces;
     using Server_Realm.Core.ActorProviders;
-    using Server_Realm.Core.Services;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Server.HuntZone;
 
     /// <summary>
@@ -38,8 +38,8 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             appBuilder.Services.AddSingleton<ITDBService, TDBService>();
 
-            appBuilder.Services.AddSingleton<CollisionService>();
-            appBuilder.Services.AddSingleton<ProjectileService>();
+            appBuilder.Services.AddSingleton<CollisionFactory>();
+            appBuilder.Services.AddSingleton<ProjectileFactory>();
             
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));

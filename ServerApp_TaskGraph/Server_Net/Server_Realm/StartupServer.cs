@@ -16,7 +16,7 @@ namespace Server_Realm
     using Framework.Config.ConfigManager;
     using Framework.Core.Database.Attributes;
     using GameCore.Interfaces;
-    using Server_Realm.Core.Services;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Core.Utilities;
     using Server_Realm.Server.HuntZone;
 
@@ -57,11 +57,11 @@ namespace Server_Realm
             tdbService.Initialize();
 
             // CollisionService.
-            var collisionService = _serviceProvider.GetRequiredService<CollisionService>();
+            var collisionService = _serviceProvider.GetRequiredService<CollisionFactory>();
             collisionService.Initialize();
 
             // ProjectileService.
-            var projectileService = _serviceProvider.GetRequiredService<ProjectileService>();
+            var projectileService = _serviceProvider.GetRequiredService<ProjectileFactory>();
             projectileService.Initialize();
 
             // Utilies.

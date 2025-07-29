@@ -5,7 +5,7 @@ namespace Server_Realm.Entities
     using GameCore.Datas.Play;
     using GameCore.Interfaces;
     using Server_Realm.Collisions;
-    using Server_Realm.Core.Services;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Core.Types;
     using Server_Realm.UnitHandler;
     using Server_Realm.Worlds;
@@ -38,8 +38,8 @@ namespace Server_Realm.Entities
 
             // Services.
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
-            _collisionService = serviceProvider.GetRequiredService<CollisionService>();
-            _projectileService = serviceProvider.GetRequiredService<ProjectileService>();
+            _collisionService = serviceProvider.GetRequiredService<CollisionFactory>();
+            _projectileService = serviceProvider.GetRequiredService<ProjectileFactory>();
 
             // Switch weapon.
             EquipmentHandler.SwitchWeapon(playInfo.Equipment.Weapon);
@@ -66,8 +66,8 @@ namespace Server_Realm.Entities
         #region field
         // Services.
         private readonly ITDBService _tdbService;
-        private readonly CollisionService _collisionService;
-        private readonly ProjectileService _projectileService;
+        private readonly CollisionFactory _collisionService;
+        private readonly ProjectileFactory _projectileService;
         #endregion
 
         /// <summary>

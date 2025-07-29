@@ -56,7 +56,7 @@ namespace Server_Realm.Zones.HuntZone
             }
 
             // Release.
-            _collisionService.Release(pu.UnitCollision);
+            _collisionService.Return(pu.UnitCollision);
 
             return true;
         }

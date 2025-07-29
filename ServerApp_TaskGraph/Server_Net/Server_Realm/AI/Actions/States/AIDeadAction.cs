@@ -14,10 +14,6 @@ namespace Server_Realm.AI.Actions.States
 
         }
 
-        public override void Reset()
-        {
-        }
-
         public override void Start()
         {
         }

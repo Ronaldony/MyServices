@@ -27,9 +27,6 @@ namespace Server_Realm.UnitHandler
         // 최근 이동 시작 시간.
         private DateTime _lastMoveTime;
 
-        // 섹션 업데이트 여부.
-        private bool _isSectionUpdated;
-
         // Sections.
         public SectionId Section { get; private set; }
         public SectionId OldSection { get; private set; }

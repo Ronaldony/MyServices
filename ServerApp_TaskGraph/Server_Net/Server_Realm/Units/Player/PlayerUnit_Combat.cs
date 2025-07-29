@@ -17,7 +17,7 @@ namespace Server_Realm.Entities
             var damage = EquipmentHandler.GetDamage() + StatHandler.GetPower();
             
             // 피격 적 유닛 탐색.
-            var collision = _collisionService.Rent(collisionType).Update(MovementHandler.NowPos(), angle);
+            var collision = _collisionService.Create(collisionType).Update(MovementHandler.NowPos(), angle);
             var hitbox = collision.GetHitbox();
 
             // 유닛 공격.
@@ -27,7 +27,7 @@ namespace Server_Realm.Entities
             }
 
             // 공격 유닛 탐색.
-            _collisionService.Release(collision);
+            _collisionService.Return(collision);
         }
 
         /// <summary>

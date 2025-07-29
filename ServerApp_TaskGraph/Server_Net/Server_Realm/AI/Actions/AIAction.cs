@@ -2,14 +2,14 @@
 namespace Server_Realm.AI.Actions
 {
     using Server_Realm.AI.Actions.Interfaces;
-    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AIAction.
     /// </summary>
     public abstract class AIAction : IAIAction
     {
-        public AIAction(Unit owner)
+        public AIAction(MobUnit owner)
         {
             Owner = owner;
         }
@@ -17,12 +17,12 @@ namespace Server_Realm.AI.Actions
         /// <summary>
         /// Unit.
         /// </summary>
-        protected Unit Owner { get; }
+        protected MobUnit Owner { get; }
 
         /// <summary>
         /// Need to update.
         /// </summary>
-        public bool NeedsUpdate { get; set; }
+        public bool StatusUpdated { get; set; }
 
         /// <summary>
         /// Start.
@@ -38,10 +38,5 @@ namespace Server_Realm.AI.Actions
         /// Stop.
         /// </summary>
         public abstract void Stop();
-
-        /// <summary>
-        /// Reset.
-        /// </summary>
-        public abstract void Reset();
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using System.Numerics;
 
-namespace Server_Realm.Core.Services
+namespace Server_Realm.Core.Factory
 {
     using GameCore;
     using GameCore.Interfaces;
@@ -11,20 +11,20 @@ namespace Server_Realm.Core.Services
     using Server_Realm.Projectiles;
 
     /// <summary>
-    /// ProjectileService.
+    /// ProjectileFactory.
     /// </summary>
-    public class ProjectileService
+    public class ProjectileFactory
     {
-        private readonly ILogger<ProjectileService> _logger;
+        private readonly ILogger<ProjectileFactory> _logger;
 
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
 
         private readonly Dictionary<Type_Projectile, TB_Projectile> _tbProjectileDict;
 
-        public ProjectileService(IServiceProvider serviceProvider)
+        public ProjectileFactory(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<ProjectileService>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<ProjectileFactory>>();
 
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
@@ -38,13 +38,13 @@ namespace Server_Realm.Core.Services
         /// </summary>
         public void Initialize()
         {
-            _logger.LogInformation("ProjectileService initialized");
+            _logger.LogInformation("ProjectileFactory initialized");
         }
 
         /// <summary>
-        /// Rent projectile.
+        /// Create projectile.
         /// </summary>
-        public Projectile Rent(Unit owner, Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
+        public Projectile Create(Unit owner, Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
         {
             var projectile = GetProjectile(projectileType);
             if (projectile == null)
@@ -61,14 +61,14 @@ namespace Server_Realm.Core.Services
         }
 
         /// <summary>
-        /// Release projectile.
+        /// Return projectile.
         /// </summary>
-        public void Release(Projectile projectile)
+        public void Return(Projectile projectile)
         {
             switch (projectile.ProjectilType)
             {
                 case Type_Projectile.Arrow:
-                    _memoryPoolService.Release<ArrowProjectile>(projectile as ArrowProjectile);
+                    _memoryPoolService.Release(projectile as ArrowProjectile);
                     break;
                 default:
                     break;
@@ -76,7 +76,7 @@ namespace Server_Realm.Core.Services
         }
 
         /// <summary>
-        /// Take projectile.
+        /// Get projectile.
         /// </summary>
         private Projectile GetProjectile(Type_Projectile projectileType)
         {

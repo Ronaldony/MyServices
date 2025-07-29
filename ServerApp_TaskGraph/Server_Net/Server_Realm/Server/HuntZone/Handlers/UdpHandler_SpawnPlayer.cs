@@ -9,7 +9,7 @@ namespace Server_Realm.Server.World.Handlers
     using GameCore;
     using GameCore.Datas.Play;
     using Server_Realm.Core.ActorProviders;
-    using Server_Realm.Core.Services;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Entities;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.Worlds.Msg;
@@ -22,7 +22,7 @@ namespace Server_Realm.Server.World.Handlers
         private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
 
         private readonly IServiceProvider _serviceProvider;
-        private readonly CollisionService _collisionService;
+        private readonly CollisionFactory _collisionService;
 
         private readonly DBPlayInfo _dbPlayInfo;
         private readonly DBInventoryInfo _dbInventoryInfo;
@@ -36,7 +36,7 @@ namespace Server_Realm.Server.World.Handlers
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
 
             _serviceProvider = serviceProvider;
-            _collisionService = serviceProvider.GetRequiredService<CollisionService>();
+            _collisionService = serviceProvider.GetRequiredService<CollisionFactory>();
 
             _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
             _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
@@ -89,7 +89,7 @@ namespace Server_Realm.Server.World.Handlers
         private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, long unitId, DTO_PlayInfo playInfo)
         {
             // 충돌 박스.
-            var playerColllision = _collisionService.Rent(Type_Collision.Player);
+            var playerColllision = _collisionService.Create(Type_Collision.Player);
             if (null == playerColllision)
             {
                 return;

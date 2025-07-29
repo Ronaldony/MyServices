@@ -26,6 +26,7 @@ namespace Server_Realm.TaskSchedulers
         {
             _taskNodeObserver = new TaskNodeObserver_WorldSection(ct);
             _ct = ct;
+            _taskNodeGroups = new List<TaskNodeGroup_WorldSection>();
         }
 
         #region initialize

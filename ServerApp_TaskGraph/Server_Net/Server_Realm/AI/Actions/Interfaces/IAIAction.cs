@@ -6,9 +6,9 @@
     public interface IAIAction
     {
         /// <summary>
-        /// Need to update.
+        /// Status is updated.
         /// </summary>
-        bool NeedsUpdate { get; set; }
+        bool StatusUpdated { get; set; }
 
         /// <summary>
         /// Start.
@@ -24,10 +24,5 @@
         /// Stop.
         /// </summary>
         void Stop();
-
-        /// <summary>
-        /// Reset.
-        /// </summary>
-        void Reset();
     }
 }

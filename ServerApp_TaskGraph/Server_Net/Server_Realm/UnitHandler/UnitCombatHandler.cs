@@ -5,7 +5,7 @@ using System.Numerics;
 namespace Server_Realm.UnitHandler
 {
     using GameCore;
-    using Server_Realm.Core.Services;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Entities;
     using Server_Realm.HitBoxes;
     using Server_Realm.Projectiles;
@@ -18,7 +18,7 @@ namespace Server_Realm.UnitHandler
         private readonly ILogger<UnitCombatHandler> _logger;
 
         // Projectile service.
-        private readonly ProjectileService _projectileService;
+        private readonly ProjectileFactory _projectileService;
 
         // Unit.
         private readonly Unit _owner;
@@ -31,7 +31,7 @@ namespace Server_Realm.UnitHandler
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitCombatHandler>>();
             
-            _projectileService = serviceProvider.GetRequiredService<ProjectileService>();
+            _projectileService = serviceProvider.GetRequiredService<ProjectileFactory>();
             
             _owner = owner;
 
@@ -93,7 +93,7 @@ namespace Server_Realm.UnitHandler
         public void OwnProjectile(Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
         {
             // Add projectile.
-            _projectiles.Add(_projectileService.Rent(_owner, projectileType, spawnPos, angle, damage));
+            _projectiles.Add(_projectileService.Create(_owner, projectileType, spawnPos, angle, damage));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Server_Realm.UnitHandler
             foreach (var prjt in _distroyProjectiles)
             {
                 _projectiles.Remove(prjt);
-                _projectileService.Release(prjt);
+                _projectileService.Return(prjt);
             }
 
             _distroyProjectiles.Clear();

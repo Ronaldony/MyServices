@@ -40,10 +40,5 @@ namespace Server_Realm.Entities
         /// Collision.
         /// </summary>
         Collision UnitCollision { get; }
-
-        /// <summary>
-        /// Update.
-        /// </summary>
-        abstract void Update(double deltaTime);
     }
 }
