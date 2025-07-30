@@ -10,10 +10,16 @@
         /// <summary>
         /// 프레임 업데이트 - 전투.
         /// </summary>
-        private void UpdateFrame_Combat(double deltaTime, World_Section worldSection)
+        private void UpdateFrame_Combat(double deltaTime, List<SectionId> sections)
         {
-            // 투사체 업데이트.
-            UpdateFrame_Projectile(deltaTime, worldSection);
+            foreach (var section in sections)
+            {
+                // 유닛 업데이트.
+                var worldSection = _worldGroup.WorldSectionDict[section];
+
+                // 투사체 업데이트.
+                UpdateFrame_Projectile(deltaTime, worldSection);
+            }
         }
 
         /// <summary>

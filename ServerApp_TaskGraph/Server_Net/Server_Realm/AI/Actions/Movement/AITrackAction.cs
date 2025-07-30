@@ -1,13 +1,13 @@
 ﻿namespace Server_Realm.AI.Actions.Movement
 {
-    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AITrackAction.
     /// </summary>
     public class AITrackAction : AIAction
     {
-        public AITrackAction(Unit owner)
+        public AITrackAction(MobUnit owner)
             : base(owner)
         {
         }

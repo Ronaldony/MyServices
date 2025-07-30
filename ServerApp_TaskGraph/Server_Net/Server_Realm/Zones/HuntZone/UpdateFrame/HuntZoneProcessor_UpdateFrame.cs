@@ -4,6 +4,7 @@ namespace Server_Realm.Zones.HuntZone
 {
     using GameCore;
     using GameCore.GamePacket;
+    using Server_Realm.Core.Types;
     using Server_Realm.TaskDispatcher.Node;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
@@ -25,40 +26,50 @@ namespace Server_Realm.Zones.HuntZone
             _frameDeltaSec = (nowTime - _lastFrameUpdateTime).TotalSeconds;
             _lastFrameUpdateTime = nowTime;
 
+            // 이동 처리.
+            // 전투, AI 등의 처리를 위치 기반으로 처리하기 때문에 모든 처리 전에 좌표를 동기화 시킴.
+            await UpdateFrame_MovementAsync(_frameDeltaSec);
+
             // 테스크 디스패처 실행.
-            await _taskDispatcher.DispatchAndExecuteTasks();
+            foreach (var nodeType in _taskNodeTypes)
+            {
+                await _taskDispatcher.DispatchAndExecuteTasks(nodeType);
+            }
+
+            await UpdateFrame_AIAsync(_frameDeltaSec);
         }
 
         /// <summary>
         /// Update frame.
         /// </summary>
-        private void UpdateFrame(TaskNode_WorldSection taskNode)
+        private void UpdateFrame((TaskNode_WorldSection taskNode, Type_TaskNode taskNodeType) tuple)
         {
-            foreach (var srcSection in taskNode.TaskSections)
+            var taskNode = tuple.taskNode;
+            var taskNodeType = tuple.taskNodeType;
+
+            switch (taskNodeType)
             {
-                // 유닛 업데이트.
-                var worldSection = _worldGroup.WorldSectionDict[taskNode.Section];
+                case Type_TaskNode.Combat:
+                    UpdateFrame_Combat(_frameDeltaSec, taskNode.TaskSections);
+                    break;
+                default:
+                    break;
+            }
 
-                // 이동 업데이트.
-                UpdateFrame_Movement(_frameDeltaSec, worldSection);
+            // 작업이 완료된 후 본 노드에 의지하는 노드 작업을 전달.
+            taskNode.DependentNode?.NodeGroup.ExecuteNextTaskNode(taskNode.DependentNode, taskNodeType);
 
-                // 유닛 충돌 처리.
-                UpdateFrame_Combat(_frameDeltaSec, worldSection);
-
-                // 업데이트 프레임 적용.
-                UpdateFrame_Broadcast(worldSection);
-
-                // 작업이 완료된 후 본 노드에 의지하는 노드 작업을 전달.
-                taskNode.DependentNode?.NodeGroup.ExecuteNextTaskNode(taskNode.DependentNode);
-
-                if (taskNode.NextNode != null)
+            if (taskNode.NextNode != null)
+            {
+                // 다음 노드의 의존 노드가 없는 경우, 해당 노드 작업 스케줄링.
+                if (taskNode.NextNode.DependancyNode == null)
                 {
-                    // 다음 노드의 의존 노드가 없는 경우, 해당 노드 작업 스케줄링.
-                    if (taskNode.NextNode.DependancyNode == null)
-                    {
-                        taskNode.NodeGroup.ExecuteNextTaskNode(taskNode.NextNode);
-                    }
+                    taskNode.NodeGroup.ExecuteNextTaskNode(taskNode.NextNode, taskNodeType);
                 }
+            }
+            else
+            {
+                taskNode.NodeGroup.AlertCompletedToObserver();
             }
         }
 

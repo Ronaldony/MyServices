@@ -64,6 +64,11 @@ namespace Server_Realm.Entities
         public UnitStatHandler StatHandler { get; init; }
 
         /// <summary>
+        /// World section.
+        /// </summary>
+        public World_Section WorldSection { get; set; }
+
+        /// <summary>
         /// Dispose.
         /// </summary>
         public abstract void Dispose();

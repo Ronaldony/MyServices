@@ -1,13 +1,13 @@
 ﻿namespace Server_Realm.AI.Actions.Movement
 {
-    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AIReturnAction.
     /// </summary>
     public class AIReturnAction : AIAction
     {
-        public AIReturnAction(Unit owner) 
+        public AIReturnAction(MobUnit owner) 
             : base(owner)
         {
         }

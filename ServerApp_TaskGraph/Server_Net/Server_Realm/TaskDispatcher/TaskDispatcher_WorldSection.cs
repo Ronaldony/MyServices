@@ -2,6 +2,7 @@
 
 namespace Server_Realm.TaskSchedulers
 {
+    using Server_Realm.Core.Types;
     using Server_Realm.TaskDispatcher.Node;
     using Server_Realm.TaskDispatcher.WorldSection;
     using Server_Realm.Worlds;
@@ -33,7 +34,7 @@ namespace Server_Realm.TaskSchedulers
         /// <summary>
         /// Initialize task node.
         /// </summary>
-        public void Initialize(IEnumerable<SectionId> allSections, Action<TaskNode_WorldSection> action)
+        public void Initialize(IEnumerable<SectionId> allSections, Action<(TaskNode_WorldSection, Type_TaskNode)> action)
         {
             // Task nodes.
             Initialize_TaskNodes(allSections, _ct);
@@ -111,7 +112,7 @@ namespace Server_Realm.TaskSchedulers
         /// <summary>
         /// Initialize for register task.
         /// </summary>
-        private void Initialize_RegisterTask(Action<TaskNode_WorldSection> action)
+        private void Initialize_RegisterTask(Action<(TaskNode_WorldSection, Type_TaskNode)> action)
         {
             var options = new ExecutionDataflowBlockOptions
             {
@@ -121,7 +122,7 @@ namespace Server_Realm.TaskSchedulers
 
             foreach (var group in _taskNodeGroups)
             {
-                group.TaskPipeline = new ActionBlock<TaskNode_WorldSection>(action, options);
+                group.TaskPipeline = new ActionBlock<(TaskNode_WorldSection, Type_TaskNode)>(action, options);
             }
         }
 #endregion
@@ -129,7 +130,7 @@ namespace Server_Realm.TaskSchedulers
         /// <summary>
         /// Refresh observer.
         /// </summary>
-        public async Task DispatchAndExecuteTasks()
+        public async Task DispatchAndExecuteTasks(Type_TaskNode taskNodeType)
         {
             // Refresh pipeline.
             _taskNodeObserver.RefreshPipeline();
@@ -137,7 +138,7 @@ namespace Server_Realm.TaskSchedulers
             // Start tasks.
             foreach (var nodeGroup in _taskNodeGroups)
             {
-                nodeGroup.StartTask();
+                nodeGroup.StartTask(taskNodeType);
             }
 
             await _taskNodeObserver.WaitCompleted();

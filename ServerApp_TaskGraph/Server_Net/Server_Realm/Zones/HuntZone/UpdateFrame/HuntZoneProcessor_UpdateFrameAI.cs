@@ -1,7 +1,5 @@
 ﻿namespace Server_Realm.Zones.HuntZone
 {
-    using Server_Realm.Worlds;
-
     /// <summary>
     /// DistrictProcessor.
     /// </summary>
@@ -10,12 +8,16 @@
         /// <summary>
         /// 프레임 업데이트 - AI.
         /// </summary>
-        private void UpdateFrame_AI(double deltaTime, World_Section worldSection)
+        private async Task UpdateFrame_AIAsync(double deltaTime)
         {
-            foreach (var mu in worldSection.GetMobUnits())
+            // Mobs.
+            await Task.Run(() =>
             {
-                mu.AIBrain.Update(deltaTime);
-            }
+                Parallel.ForEach(_worldGroup.MobUnitDict.Values, mu =>
+                {
+                    mu.AIBrain.Update(deltaTime);
+                });
+            });
         }
     }
 }

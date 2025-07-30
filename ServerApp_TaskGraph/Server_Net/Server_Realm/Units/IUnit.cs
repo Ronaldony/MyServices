@@ -40,5 +40,10 @@ namespace Server_Realm.Entities
         /// Collision.
         /// </summary>
         Collision UnitCollision { get; }
+
+        /// <summary>
+        /// World section.
+        /// </summary>
+        World_Section WorldSection { get; }
     }
 }

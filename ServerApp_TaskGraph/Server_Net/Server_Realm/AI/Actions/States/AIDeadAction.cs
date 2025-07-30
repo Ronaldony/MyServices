@@ -1,14 +1,14 @@
 ﻿
 namespace Server_Realm.AI.Actions.States
 {
-    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AIDeadAction.
     /// </summary>
     public class AIDeadAction : AIAction
     {
-        public AIDeadAction(Unit owner)
+        public AIDeadAction(MobUnit owner)
             :base(owner)
         {
 

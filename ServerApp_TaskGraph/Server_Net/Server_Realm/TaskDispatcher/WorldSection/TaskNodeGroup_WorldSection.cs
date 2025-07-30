@@ -2,6 +2,7 @@
 
 namespace Server_Realm.TaskDispatcher.Node
 {
+    using Server_Realm.Core.Types;
     using Server_Realm.TaskDispatcher.WorldSection;
 
     /// <summary>
@@ -17,7 +18,7 @@ namespace Server_Realm.TaskDispatcher.Node
         /// <summary>
         /// Task pipe line.
         /// </summary>
-        public ActionBlock<TaskNode_WorldSection> TaskPipeline;
+        public ActionBlock<(TaskNode_WorldSection, Type_TaskNode)> TaskPipeline;
 
         /// <summary>
         /// TaskNode.
@@ -44,17 +45,17 @@ namespace Server_Realm.TaskDispatcher.Node
         /// <summary>
         /// Add task node.
         /// </summary>
-        public void ExecuteNextTaskNode(TaskNode_WorldSection taskNode)
+        public void ExecuteNextTaskNode(TaskNode_WorldSection taskNode, Type_TaskNode taskNodeType)
         {
-            TaskPipeline.Post(taskNode);
+            TaskPipeline.Post((taskNode, taskNodeType));
         }
 
         /// <summary>
         /// Start task.
         /// </summary>
-        public void StartTask()
+        public void StartTask(Type_TaskNode taskNodeType)
         {
-            TaskPipeline.Post(TaskNodes.First());
+            TaskPipeline.Post((TaskNodes.First(), taskNodeType));
         }
 
         /// <summary>

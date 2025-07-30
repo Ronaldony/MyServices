@@ -1,14 +1,14 @@
 ﻿namespace Server_Realm.AI.Actions.Movement
 {
     using GameCore;
-    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AICombatAction.
     /// </summary>
     public class AICombatAction : AIAction
     {
-        public AICombatAction(Unit owner)
+        public AICombatAction(MobUnit owner)
             : base(owner)
         {
         }

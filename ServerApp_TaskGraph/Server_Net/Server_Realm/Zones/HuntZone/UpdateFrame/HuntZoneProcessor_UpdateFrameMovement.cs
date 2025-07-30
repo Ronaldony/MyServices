@@ -1,52 +1,61 @@
 ﻿namespace Server_Realm.Zones.HuntZone
 {
-    using Server_Realm.Worlds;
-
     /// <summary>
-    /// DistrictProcessor.
+    /// HuntZoneProcessor.
     /// </summary>
     public partial class HuntZoneProcessor
     {
         /// <summary>
         /// 프레임 업데이트 - 이동.
         /// </summary>
-        private void UpdateFrame_Movement(double deltaTime, World_Section worldSection)
+        private async Task UpdateFrame_MovementAsync(double deltaTime)
         {
-            #region update players
-            // 플레이어 업데이트.
-            foreach (var pu in worldSection.GetPlayerUnits())
+            // Players.
+            var playerTask = Task.Run(() =>
             {
-                // 이동 업데이트
-                pu.MovementHandler.Update(deltaTime);
-
-                var newSection = pu.MovementHandler.Section;
-
-                if (newSection != worldSection.Section)
+                Parallel.ForEach(_worldGroup.PlayerUnitDict.Values, pu =>
                 {
-                    // 섹션 업데이트.
-                    worldSection.LeavePlayer(pu.UnitId);
-                    _worldGroup.WorldSectionDict[newSection].EnterPlayer(pu);
-                }
-            }
-            #endregion
+                    var oldSection = pu.MovementHandler.Section;
 
-            #region update mobs
-            // 몹 업데이트.
-            foreach (var mu in worldSection.GetMobUnits())
+                    pu.MovementHandler.Update(deltaTime);
+
+                    var newSection = pu.MovementHandler.Section;
+
+                    // 섹션 이동 검사.
+                    if (newSection != oldSection)
+                    {
+                        // 섹션 업데이트
+                        pu.WorldSection.LeavePlayer(pu.UnitId);
+                        pu.WorldSection = _worldGroup.WorldSectionDict[newSection];
+                        pu.WorldSection.EnterPlayer(pu);
+                    }
+                });
+            });
+
+            // Mobs.
+            var mobTask = Task.Run(() =>
             {
-                mu.MovementHandler.Update(deltaTime);
-
-                // 적 위치 계산.
-                var moveSection = mu.MovementHandler.Section;
-
-                if (moveSection != worldSection.Section)
+                Parallel.ForEach(_worldGroup.MobUnitDict.Values, mu =>
                 {
-                    // 섹션 업데이트.
-                    worldSection.LeaveMob(mu.UnitId);
-                    _worldGroup.WorldSectionDict[moveSection].EnterMob(mu);
-                }
-            }
-            #endregion
+                    var oldSection = mu.MovementHandler.Section;
+
+                    mu.MovementHandler.Update(deltaTime);
+
+                    var newSection = mu.MovementHandler.Section;
+
+                    // 섹션 이동 검사.
+                    if (newSection != oldSection)
+                    {
+                        // 섹션 업데이트
+                        mu.WorldSection.LeaveMob(mu.UnitId);
+                        mu.WorldSection = _worldGroup.WorldSectionDict[newSection];
+                        mu.WorldSection.EnterMob(mu);
+                    }
+                });
+            });
+
+            // wait for movements.
+            await Task.WhenAll(playerTask, mobTask);
         }
     }
 }

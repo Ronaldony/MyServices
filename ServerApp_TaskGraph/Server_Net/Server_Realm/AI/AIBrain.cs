@@ -3,7 +3,7 @@ namespace Server_Realm.AI
 {
     using GameCore;
     using Server_Realm.AI.Actions;
-    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AIBrain.
@@ -20,7 +20,7 @@ namespace Server_Realm.AI
         /// </summary>
         private AIAction _curAIAction;
 
-        public AIBrain(Unit owner)
+        public AIBrain(MobUnit owner)
         {
             _actionCollection = new AIActionCollection(owner);
         }
@@ -39,7 +39,6 @@ namespace Server_Realm.AI
         public void ChangeState(Type_AIState state)
         {
             _curAIAction?.Stop();
-            _curAIAction?.Reset();
 
             var aiAction = _actionCollection.GetAIActoin(state);
 

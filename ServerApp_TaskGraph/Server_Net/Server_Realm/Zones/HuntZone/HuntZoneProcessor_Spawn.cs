@@ -24,7 +24,7 @@ namespace Server_Realm.Zones.HuntZone
             var section = pu.MovementHandler.Section;
 
             // 월드에 플레이어 추가.
-            _worldGroup.UnitDict.Add(pu.UnitId, pu);
+            _worldGroup.PlayerUnitDict.Add(pu.UnitId, pu);
             _worldGroup.WorldSectionDict[section].EnterPlayer(pu);
 
             // 인근 섹션 플레이어, 적 정보 전달.
@@ -76,10 +76,11 @@ namespace Server_Realm.Zones.HuntZone
                 // 섹션에 적 정보 추가.
                 var worldSection = _worldGroup.WorldSectionDict[section];
 
-                foreach (var eu in msg.MobUnits[section])
+                foreach (var mu in msg.MobUnits[section])
                 {
-                    // 섹션에 몹 진입.
-                    worldSection.EnterMob(eu);
+                    // 몹 진입.
+                    worldSection.EnterMob(mu);
+                    _worldGroup.MobUnitDict.Add(mu.UnitId, mu);
                 }
 
                 if (false == spawnEnemyDict.ContainsKey(section))

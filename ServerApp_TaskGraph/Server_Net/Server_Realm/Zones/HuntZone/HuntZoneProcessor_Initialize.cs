@@ -2,6 +2,7 @@
 {
     using GameCore;
     using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
     using Server_Realm.Worlds;
 
     /// <summary>
@@ -36,6 +37,8 @@
 
                     aroundSessionDict.Add(section, new HashSet<SectionId>());
                     worldSectionDict.Add(section, new World_Section(section));
+
+                    // TODO: WorldSecitonDict에 주변 섹션 WorldSection group 추가하기.
                 }
             }
 
@@ -56,7 +59,8 @@
 
             return new World_Group
             {
-                UnitDict = new Dictionary<long, Unit>(),
+                PlayerUnitDict = new Dictionary<long, PlayerUnit>(),
+                MobUnitDict = new Dictionary<long, MobUnit>(),
                 AroundSectionDict = aroundSessionDict,
                 WorldSectionDict = worldSectionDict
             };

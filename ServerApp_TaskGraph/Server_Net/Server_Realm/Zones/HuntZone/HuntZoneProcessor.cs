@@ -9,8 +9,8 @@ namespace Server_Realm.Zones.HuntZone
     using GameCore.GamePacket;
     using GameCore.Interfaces;
     using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Types;
     using Server_Realm.Core.Utilities;
-    using Server_Realm.Entities;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.TaskSchedulers;
     using Server_Realm.Worlds;
@@ -39,6 +39,7 @@ namespace Server_Realm.Zones.HuntZone
 
         // TaskDispatcher.
         private readonly TaskDispatcher_WorldSection _taskDispatcher;
+        private List<Type_TaskNode> _taskNodeTypes;
 
         // Frame time.
         private DateTime _lastFrameUpdateTime;
@@ -75,6 +76,9 @@ namespace Server_Realm.Zones.HuntZone
             // Dispatcher.
             _taskDispatcher = new TaskDispatcher_WorldSection(_cts.Token);
             _taskDispatcher.Initialize(_worldGroup.AroundSectionDict.Keys, UpdateFrame);
+
+            _taskNodeTypes = new List<Type_TaskNode>();
+            _taskNodeTypes.Add(Type_TaskNode.Combat);
 
             // Register receiver.
             RegisterReceiver();
@@ -113,15 +117,8 @@ namespace Server_Realm.Zones.HuntZone
             Receive<WorldMsg_GamePacket>(wm =>
             {
                 // World player.
-                var unit = _worldGroup.UnitDict.GetValueOrDefault(wm.UnitId);
-                if (default == unit)
-                {
-                    return;
-                }
-
-                // Check is PlayerUnit.
-                var pu = unit as PlayerUnit;
-                if (pu == null)
+                var pu = _worldGroup.PlayerUnitDict.GetValueOrDefault(wm.UnitId);
+                if (default == pu)
                 {
                     return;
                 }

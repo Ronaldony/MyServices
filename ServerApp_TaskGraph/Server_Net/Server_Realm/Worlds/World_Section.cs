@@ -20,7 +20,7 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// This section.
         /// </summary>
-        public SectionId Section;
+        public SectionId Section { get; private set; }
 
         /// <summary>
         /// Player unit.
@@ -36,9 +36,22 @@ namespace Server_Realm.Worlds
         /// </summary>
         private ConcurrentDictionary<long, MobUnit> _mobUnitDict;
 
+        /// <summary>
+        /// Around sections.
+        /// </summary>
+        private List<World_Section> AroundWorldSections;
+
         // Get units.
         public IEnumerable<PlayerUnit> GetPlayerUnits() => _playerUnitDict.Values;
         public IEnumerable<MobUnit> GetMobUnits() => _mobUnitDict.Values;
+
+        /// <summary>
+        /// Add around world section.
+        /// </summary>
+        public void AddAroundWorldSection(World_Section worldSection)
+        {
+            AroundWorldSections.Add(worldSection);
+        }
 
         /// <summary>
         /// Remove mob from section.
@@ -61,17 +74,17 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// Enter mob.
         /// </summary>
-        public bool EnterMob(MobUnit mu)
+        public void EnterMob(MobUnit mu)
         {
-            return _mobUnitDict.TryAdd(mu.UnitId, mu);
+            _mobUnitDict.AddOrUpdate(mu.UnitId, mu, (key, old) => mu);
         }
 
         /// <summary>
         /// Enter player.
         /// </summary>
-        public bool EnterPlayer(PlayerUnit pu)
+        public void EnterPlayer(PlayerUnit pu)
         {
-            return _playerUnitDict.TryAdd(pu.UnitId, pu);
+            _playerUnitDict.AddOrUpdate(pu.UnitId, pu, (key, old) => pu);
         }
     }
 }

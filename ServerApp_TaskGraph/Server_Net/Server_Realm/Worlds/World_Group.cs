@@ -1,6 +1,7 @@
 ﻿namespace Server_Realm.Worlds
 {
     using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// World_Group.
@@ -15,11 +16,18 @@
         public Dictionary<SectionId, HashSet<SectionId>> AroundSectionDict;
 
         /// <summary>
-        /// Unit 리스트.
+        /// Player unit 리스트.
         /// key: UnitId.
-        /// value: Unit.
+        /// value: PlayerUnit.
         /// </summary>
-        public Dictionary<long, Unit> UnitDict;
+        public Dictionary<long, PlayerUnit> PlayerUnitDict { get; set; }
+
+        /// <summary>
+        /// Mob unit 리스트.
+        /// key: UnitId.
+        /// value: MobUnit.
+        /// </summary>
+        public Dictionary<long, MobUnit> MobUnitDict { get; set; }
 
         /// <summary>
         /// 섹션 단위 정보.

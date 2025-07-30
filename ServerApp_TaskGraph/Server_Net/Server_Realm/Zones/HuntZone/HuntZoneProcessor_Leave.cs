@@ -18,7 +18,7 @@ namespace Server_Realm.Zones.HuntZone
         {
             _logger.LogWarning($"leave player. unitID: {msg.UnitId}");
 
-            if (false == _worldGroup.UnitDict.TryGetValue(msg.UnitId, out var pu))
+            if (false == _worldGroup.PlayerUnitDict.TryGetValue(msg.UnitId, out var pu))
             {
                 _logger.LogError($"not exist player. unitId: {msg.UnitId}");
                 return;
@@ -42,7 +42,7 @@ namespace Server_Realm.Zones.HuntZone
         private bool PostLeavePlayer(long unitId)
         {
             // Leave zone.
-            if (false == _worldGroup.UnitDict.Remove(unitId, out var pu))
+            if (false == _worldGroup.PlayerUnitDict.Remove(unitId, out var pu))
             {
                 _logger.LogError($"remove player error. unitId: {unitId}, section: {pu.Section}");
                 return false;

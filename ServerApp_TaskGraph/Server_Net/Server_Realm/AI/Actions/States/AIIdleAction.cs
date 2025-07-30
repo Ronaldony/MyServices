@@ -1,13 +1,13 @@
 ﻿namespace Server_Realm.AI.Actions.States
 {
-    using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AIIdleAction.
     /// </summary>
     public class AIIdleAction : AIAction
     {
-        public AIIdleAction(Unit owner)
+        public AIIdleAction(MobUnit owner)
             : base(owner)
         {
         }

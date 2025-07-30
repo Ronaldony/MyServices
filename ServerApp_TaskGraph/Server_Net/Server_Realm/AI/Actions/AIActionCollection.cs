@@ -4,6 +4,7 @@
     using Server_Realm.AI.Actions.Movement;
     using Server_Realm.AI.Actions.States;
     using Server_Realm.Entities;
+    using Server_Realm.Units.Enemy;
 
     /// <summary>
     /// AIActionCollection.
@@ -22,7 +23,7 @@
         /// </summary>
         public Unit Owner { get; }
         
-        public AIActionCollection(Unit owner)
+        public AIActionCollection(MobUnit owner)
         {
             Owner = owner;
 
@@ -32,7 +33,7 @@
         /// <summary>
         /// Initialize AIActions.
         /// </summary>
-        private Dictionary<Type_AIState, AIAction> Initialize_AIActions(Unit owner)
+        private Dictionary<Type_AIState, AIAction> Initialize_AIActions(MobUnit owner)
         {
             var aiActions = new Dictionary<Type_AIState, AIAction>();
 
