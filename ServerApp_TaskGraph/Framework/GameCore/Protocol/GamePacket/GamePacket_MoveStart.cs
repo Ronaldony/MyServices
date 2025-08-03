@@ -35,7 +35,7 @@ namespace GameCore.GamePacket
     public partial class GamePacketSC_MoveStart : GamePacketBase_SC
     {
         /// <summary>
-        /// MoveStart uni id.
+        /// UnitId.
         /// </summary>
         [MemoryPackOrder(0)]
         public long UnitId { get; set; }

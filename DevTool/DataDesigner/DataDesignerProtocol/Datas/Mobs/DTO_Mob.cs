@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace GameCore.Datas.Mobs
 {
-    using GameCore.Datas.Items;
     using GameCore.Datas.Plays;
 
     /// <summary>
@@ -29,10 +27,10 @@ namespace GameCore.Datas.Mobs
         public int MobId { get; set; }
 
         /// <summary>
-        /// 행동 유형.
+        /// 공격 유형.
         /// </summary>
         [MemoryPackOrder(2)]
-        public Type_AIState AIState { get; set; }
+        public Type_MobAttack AttackType { get; set; }
 
         /// <summary>
         /// 능력치.

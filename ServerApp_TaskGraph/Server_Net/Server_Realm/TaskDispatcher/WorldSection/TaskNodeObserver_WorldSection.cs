@@ -2,7 +2,6 @@
 
 namespace Server_Realm.TaskDispatcher.WorldSection
 {
-    using Akka.Dispatch;
     using Server_Realm.TaskDispatcher.Node;
 
     /// <summary>
@@ -62,9 +61,17 @@ namespace Server_Realm.TaskDispatcher.WorldSection
         /// <summary>
         /// Wait observer pipeline completed.
         /// </summary>
-        public async Task WaitCompleted()
+        public async Task WaitCompletedAsync()
         {
             await _observePipeline.Completion;
+        }
+
+        /// <summary>
+        /// Add observation.
+        /// </summary>
+        public void AddObservation(TaskNodeGroup_WorldSection taskNodeGroup)
+        {
+            _observations.Add(taskNodeGroup);
         }
     }
 }

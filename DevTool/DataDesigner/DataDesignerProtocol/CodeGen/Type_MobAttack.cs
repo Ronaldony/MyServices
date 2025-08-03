@@ -1,22 +1,22 @@
 namespace GameCore
 {
-    public enum Type_EnemyAction
+    public enum Type_MobAttack
     {
         /// <summary>
-        /// none
+        /// 
         /// </summary>
-        None = 1,
+        None = 0,
         /// <summary>
-        /// moving
+        /// 
         /// </summary>
-        Move = 2,
+        Melee = 1,
         /// <summary>
-        /// tracking player
+        /// 
         /// </summary>
-        Track = 3,
+        RasorBall = 2,
         /// <summary>
-        /// return to spawn position
+        /// 
         /// </summary>
-        Return = 4
+        Grenade = 3
     }
 }

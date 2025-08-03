@@ -35,7 +35,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         private readonly CONF_Enemy _confEnemy;
 
         // Enemy.
-        private readonly List<TB_Enemy> _tbMobs;
+        private readonly List<TB_Mob> _tbMobs;
 
         // Disposables.
         private readonly CompositeDisposable _subscriptions;
@@ -46,7 +46,7 @@ namespace Server_Realm.Worlds.MsgTrigger
 
             _serviceProvider = serviceProvider;
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
-            _unitInitializeService = serviceProvider.GetRequiredService< UnitInitializeService>();
+            _unitInitializeService = serviceProvider.GetRequiredService<UnitInitializeService>();
             _collisionSerivce = serviceProvider.GetRequiredService<CollisionFactory>();
 
             _zoneProcessor = zoneProcessor;
@@ -57,7 +57,7 @@ namespace Server_Realm.Worlds.MsgTrigger
             _confArea = tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
             _confEnemy = tdbService.First<CONF_Enemy>(d => d.Area.Equals(Type_Area.HuntZone));
 
-            _tbMobs = tdbService.SelectAll<TB_Enemy>().ToList();
+            _tbMobs = tdbService.SelectAll<TB_Mob>().ToList();
 
             _subscriptions = new CompositeDisposable();
         }
@@ -115,7 +115,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                     }
 
                     // Get section.
-                    var section = SectionId.WorldPosToSection(dtoMob.Location.Pos);
+                    var section = SectionId.ToSection(dtoMob.Location.Pos);
 
                     if (false == spawnMsg.MobUnits.ContainsKey(section))
                     {
@@ -126,7 +126,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                 }
 
                 // 메시지 전달.
-                _zoneProcessor.SelfTell(spawnMsg);
+                _zoneProcessor.Tell(spawnMsg);
             }
             catch (Exception ex)
             {

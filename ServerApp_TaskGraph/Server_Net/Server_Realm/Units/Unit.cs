@@ -16,22 +16,17 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Unit id.
         /// </summary>
-        public long UnitId { get; init; }
+        public long UnitId { get; protected set; }
 
         /// <summary>
         /// Entity 활성 여부.
         /// </summary>
-        public bool IsActive { get; set; }
+        public bool IsDead { get; set; }
 
         /// <summary>
         /// Type_Entity.
         /// </summary>
-        public Type_Unit UnitType { get; init; }
-
-        /// <summary>
-        /// 현재 위치.
-        /// </summary>
-        public Vector2 Position { get; set; }
+        public Type_Unit UnitType { get; protected set; }
 
         /// <summary>
         /// 현재 섹션.
@@ -41,27 +36,27 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Collision.
         /// </summary>
-        public Collision UnitCollision { get; init; }
+        public Collision UnitCollision { get; protected set; }
 
         /// <summary>
         /// AI head.
         /// </summary>
-        public AIBrain AIBrain { get; init; }
+        public AIBrain AIBrain { get; protected set; }
 
         /// <summary>
         /// Combat handler.
         /// </summary>
-        public UnitCombatHandler CombatHandler { get; init; }
+        public UnitCombatHandler CombatHandler { get; protected set; }
 
         /// <summary>
         /// Movement handler.
         /// </summary>
-        public UnitMovementHandler MovementHandler { get; init; }
+        public UnitMovementHandler MovementHandler { get; protected set; }
 
         /// <summary>
         /// Stat handler.
         /// </summary>
-        public UnitStatHandler StatHandler { get; init; }
+        public UnitStatHandler StatHandler { get; protected set; }
 
         /// <summary>
         /// World section.

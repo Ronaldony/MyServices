@@ -40,7 +40,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                 Observable.Interval(TimeSpan.FromMilliseconds(33)) // 33ms
                 .Subscribe(repeat =>
                 {
-                    _zoneProcessor.SelfTell(new WorldMsg_UpdateDummy());
+                    _zoneProcessor.Tell(new WorldMsg_UpdateDummy());
                 }));
 
             _logger.LogInformation("start world dummy.");

@@ -11,10 +11,5 @@
             : base(Type_WorldMsg.UpdateFrame)
         {
         }
-
-        /// <summary>
-        /// 프레임 시간 간격.
-        /// </summary>
-        public float FrameDeltaTime;
     }
 }

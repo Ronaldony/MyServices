@@ -18,11 +18,11 @@ namespace Server_Realm.AI
         /// <summary>
         /// Now AI Action.
         /// </summary>
-        private AIAction _curAIAction;
+        private AIAction _nowAIAction;
 
-        public AIBrain(MobUnit owner)
+        public AIBrain(IServiceProvider serviceProvider, MobUnit owner)
         {
-            _actionCollection = new AIActionCollection(owner);
+            _actionCollection = new AIActionCollection(serviceProvider, owner);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Server_Realm.AI
         /// </summary>
         public void Update(double deltaTime)
         {
-            _curAIAction?.Update(deltaTime);
+            _nowAIAction?.Update(deltaTime);
         }
 
         /// <summary>
@@ -38,13 +38,13 @@ namespace Server_Realm.AI
         /// </summary>
         public void ChangeState(Type_AIState state)
         {
-            _curAIAction?.Stop();
+            _nowAIAction?.Stop();
 
             var aiAction = _actionCollection.GetAIActoin(state);
 
             aiAction.Start();
 
-            _curAIAction = aiAction;
+            _nowAIAction = aiAction;
         }
     }
 }

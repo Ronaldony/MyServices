@@ -7,7 +7,8 @@
     "AttackRange": 4,
     "AttackCooldown": 3,
     "Speed": 2,
-    "Defense": 1
+    "Defense": 1,
+    "AttackType": "RasorBall"
   },
   {
     "Id": 3,
@@ -17,6 +18,7 @@
     "AttackRange": 2,
     "AttackCooldown": 2,
     "Speed": 3,
-    "Defense": 1
+    "Defense": 1,
+    "AttackType": "Grenade"
   }
 ]

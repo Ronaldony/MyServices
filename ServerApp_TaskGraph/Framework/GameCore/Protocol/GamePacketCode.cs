@@ -47,14 +47,12 @@
         public const int SC_UpdateUnitMovement = 171;           // 업데이트 - 이동.
         public const int CS_UpdateUnitStat = 172;               // 업데이트 - 스텟.
         public const int SC_UpdateUnitStat = 173;               // 업데이트 - 스텟.
+        public const int CS_UpdateUnitAttack = 174;             // 업데이트 - 공격.
+        public const int SC_UpdateUnitAttack = 175;             // 업데이트 - 공격.
 
         // 장비.
         public const int CS_SiwtchEquipment = 1000;             // 장비 교체.
         public const int SC_SiwtchEquipment = 1001;             // 장비 교체.
-
-        // 몹 이동 업데이트.
-        public const int CS_UpdateMobRoam = 2000;               // 몹 관찰 지역 업데이트.
-        public const int SC_UpdateMobRoam = 2001;               // 몹 관찰 지역 업데이트.
 
         // 더미.
         public const int CS_DummyMove = 10000;                  // 더미 이동.

@@ -17,18 +17,14 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Track = 3,
+        Combat = 3,
         /// <summary>
         /// 
         /// </summary>
-        Combat = 4,
+        Return = 4,
         /// <summary>
         /// 
         /// </summary>
-        Return = 5,
-        /// <summary>
-        /// 
-        /// </summary>
-        Dead = 6
+        Dead = 5
     }
 }

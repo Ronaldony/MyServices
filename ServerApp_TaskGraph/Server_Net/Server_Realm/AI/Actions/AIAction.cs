@@ -12,6 +12,7 @@ namespace Server_Realm.AI.Actions
         public AIAction(MobUnit owner)
         {
             Owner = owner;
+            Brain = owner.AIBrain;
         }
 
         /// <summary>
@@ -23,6 +24,11 @@ namespace Server_Realm.AI.Actions
         /// Need to update.
         /// </summary>
         public bool StatusUpdated { get; set; }
+
+        /// <summary>
+        /// AI brain.
+        /// </summary>
+        public AIBrain Brain { get; protected set; }
 
         /// <summary>
         /// Start.

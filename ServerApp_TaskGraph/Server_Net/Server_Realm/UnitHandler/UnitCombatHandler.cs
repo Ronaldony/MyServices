@@ -18,7 +18,7 @@ namespace Server_Realm.UnitHandler
         private readonly ILogger<UnitCombatHandler> _logger;
 
         // Projectile service.
-        private readonly ProjectileFactory _projectileService;
+        private readonly ProjectileFactory _projectilefActory;
 
         // Unit.
         private readonly Unit _owner;
@@ -31,7 +31,7 @@ namespace Server_Realm.UnitHandler
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitCombatHandler>>();
             
-            _projectileService = serviceProvider.GetRequiredService<ProjectileFactory>();
+            _projectilefActory = serviceProvider.GetRequiredService<ProjectileFactory>();
             
             _owner = owner;
 
@@ -93,7 +93,7 @@ namespace Server_Realm.UnitHandler
         public void OwnProjectile(Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
         {
             // Add projectile.
-            _projectiles.Add(_projectileService.Create(_owner, projectileType, spawnPos, angle, damage));
+            _projectiles.Add(_projectilefActory.Create(_owner, projectileType, spawnPos, angle, damage));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Server_Realm.UnitHandler
             foreach (var prjt in _distroyProjectiles)
             {
                 _projectiles.Remove(prjt);
-                _projectileService.Return(prjt);
+                _projectilefActory.Return(prjt);
             }
 
             _distroyProjectiles.Clear();

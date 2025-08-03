@@ -29,14 +29,6 @@
     },
     {
       "Idx": 4,
-      "Name": "ProjectileType",
-      "IsIndexed": false,
-      "Type": "Type_MobProjectile",
-      "RefTable": "",
-      "Summary": ""
-    },
-    {
-      "Idx": 5,
       "Name": "MaxRange",
       "IsIndexed": false,
       "Type": "int",
@@ -44,7 +36,7 @@
       "Summary": ""
     },
     {
-      "Idx": 6,
+      "Idx": 5,
       "Name": "Velocity",
       "IsIndexed": false,
       "Type": "int",
@@ -52,7 +44,7 @@
       "Summary": ""
     },
     {
-      "Idx": 7,
+      "Idx": 6,
       "Name": "IsPenetrates",
       "IsIndexed": false,
       "Type": "bool",
@@ -60,10 +52,18 @@
       "Summary": ""
     },
     {
-      "Idx": 8,
+      "Idx": 7,
       "Name": "IsGrenade",
       "IsIndexed": false,
       "Type": "bool",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 8,
+      "Name": "AttackType",
+      "IsIndexed": false,
+      "Type": "Type_MobAttack",
       "RefTable": "",
       "Summary": ""
     }

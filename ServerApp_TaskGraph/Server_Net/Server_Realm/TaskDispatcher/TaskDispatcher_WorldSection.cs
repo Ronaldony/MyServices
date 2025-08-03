@@ -6,6 +6,7 @@ namespace Server_Realm.TaskSchedulers
     using Server_Realm.TaskDispatcher.Node;
     using Server_Realm.TaskDispatcher.WorldSection;
     using Server_Realm.Worlds;
+    using SQLitePCL;
 
     /// <summary>
     /// TaskDispatcher_WorldSection.
@@ -34,7 +35,7 @@ namespace Server_Realm.TaskSchedulers
         /// <summary>
         /// Initialize task node.
         /// </summary>
-        public void Initialize(IEnumerable<SectionId> allSections, Action<(TaskNode_WorldSection, Type_TaskNode)> action)
+        public void Initialize(IEnumerable<SectionId> allSections, Func<(TaskNode_WorldSection, Type_TaskNode), (TaskNode_WorldSection, Type_TaskNode)> action)
         {
             // Task nodes.
             Initialize_TaskNodes(allSections, _ct);
@@ -62,17 +63,21 @@ namespace Server_Realm.TaskSchedulers
 
             foreach (var section in filteredSections)
             {
+                Console.WriteLine($"task node section: {section}");
+
                 // X 섹션이 동일한 영역만 가져옴.
                 var taskSections = allSections.Where(d => d.X == section.X).ToList();
                 var taskNode = new TaskNode_WorldSection
                 {
                     Section = section,
                     TaskSections = taskSections,
+                    NodeGroup = taskNodeGroup
                 };
 
                 // Group 개수 검사.
                 if (taskNodeGroup.TaskNodes.Count() == 0)
                 {
+                    _taskNodeObserver.AddObservation(taskNodeGroup);
                     _taskNodeGroups.Add(taskNodeGroup);
 
                     // save start node.
@@ -85,6 +90,9 @@ namespace Server_Realm.TaskSchedulers
                 // 노드 최대 개수인지 검사.
                 if (taskNodeGroup.TaskNodes.Count() == MAX_TASKNODE_NUM)
                 {
+                    // 다음 작업 노드 추가.
+                    prevNode.NextNode = taskNode;
+
                     groupId++;
                     taskNodeGroup = new TaskNodeGroup_WorldSection(groupId, _taskNodeObserver, ct); ;
                     prevNode = null;
@@ -112,7 +120,8 @@ namespace Server_Realm.TaskSchedulers
         /// <summary>
         /// Initialize for register task.
         /// </summary>
-        private void Initialize_RegisterTask(Action<(TaskNode_WorldSection, Type_TaskNode)> action)
+        private void Initialize_RegisterTask
+            (Func<(TaskNode_WorldSection, Type_TaskNode), (TaskNode_WorldSection, Type_TaskNode)> action)
         {
             var options = new ExecutionDataflowBlockOptions
             {
@@ -122,7 +131,35 @@ namespace Server_Realm.TaskSchedulers
 
             foreach (var group in _taskNodeGroups)
             {
-                group.TaskPipeline = new ActionBlock<(TaskNode_WorldSection, Type_TaskNode)>(action, options);
+                // Task pipeline.
+                group.TaskPipeline = new TransformBlock<(TaskNode_WorldSection, Type_TaskNode), (TaskNode_WorldSection, Type_TaskNode)>(action, options);
+
+                // Post task pipeline.
+                group.PostTaskPipeline = new ActionBlock<(TaskNode_WorldSection TaskNode, Type_TaskNode TaskNodeType)>(
+                    action: tuple =>
+                    {
+                        var taskNode = tuple.TaskNode;
+
+                        // 작업이 완료된 후 본 노드에 의지하는 노드 작업을 전달.
+                        taskNode.DependentNode?.NodeGroup.ExecuteNextTaskNode(taskNode.DependentNode, tuple.TaskNodeType);
+
+                        if (taskNode.NextNode != null)
+                        {
+                            // 다음 노드의 의존 노드가 없는 경우, 해당 노드 작업 스케줄링.
+                            if (taskNode.NextNode.DependancyNode == null)
+                            {
+                                taskNode.NodeGroup.ExecuteNextTaskNode(taskNode.NextNode, tuple.TaskNodeType);
+                            }
+                        }
+                        else
+                        {
+                            // 노드 그룹 작업 완료.
+                            taskNode.NodeGroup.AlertCompletedToObserver();
+                        }
+                    }, 
+                    dataflowBlockOptions: options);
+
+                group.TaskPipeline.LinkTo(group.PostTaskPipeline);
             }
         }
 #endregion
@@ -130,7 +167,7 @@ namespace Server_Realm.TaskSchedulers
         /// <summary>
         /// Refresh observer.
         /// </summary>
-        public async Task DispatchAndExecuteTasks(Type_TaskNode taskNodeType)
+        public async Task DispatchTasksAsync(Type_TaskNode taskNodeType)
         {
             // Refresh pipeline.
             _taskNodeObserver.RefreshPipeline();
@@ -141,7 +178,7 @@ namespace Server_Realm.TaskSchedulers
                 nodeGroup.StartTask(taskNodeType);
             }
 
-            await _taskNodeObserver.WaitCompleted();
+            await _taskNodeObserver.WaitCompletedAsync();
         }
     }
 }

@@ -8,6 +8,6 @@
         /// <summary>
         /// Self tell.
         /// </summary>
-        void SelfTell<T>(T msg);
+        void Tell<T>(T msg);
     }
 }

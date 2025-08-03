@@ -6,11 +6,16 @@
   },
   {
     "Id": 1,
-    "Name": "RasorBall",
+    "Name": "Melee",
     "Summary": ""
   },
   {
     "Id": 2,
+    "Name": "RasorBall",
+    "Summary": ""
+  },
+  {
+    "Id": 3,
     "Name": "Grenade",
     "Summary": ""
   }

@@ -1,4 +1,5 @@
-﻿using ServerEngine.Core.Util;
+﻿using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Util;
 
 namespace Server_Realm.Zones.HuntZone
 {
@@ -6,7 +7,6 @@ namespace Server_Realm.Zones.HuntZone
     using GameCore.GamePacket;
     using Server_Realm.Core.Types;
     using Server_Realm.TaskDispatcher.Node;
-    using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
 
     /// <summary>
@@ -28,21 +28,25 @@ namespace Server_Realm.Zones.HuntZone
 
             // 이동 처리.
             // 전투, AI 등의 처리를 위치 기반으로 처리하기 때문에 모든 처리 전에 좌표를 동기화 시킴.
-            await UpdateFrame_MovementAsync(_frameDeltaSec);
+            UpdateFrame_Movement(_frameDeltaSec);
+            UpdateFrame_AI(_frameDeltaSec);
 
-            // 테스크 디스패처 실행.
+            // 테스크 디스패처 실행. 
             foreach (var nodeType in _taskNodeTypes)
             {
-                await _taskDispatcher.DispatchAndExecuteTasks(nodeType);
+                await _taskDispatcher.DispatchTasksAsync(nodeType);
             }
 
-            await UpdateFrame_AIAsync(_frameDeltaSec);
+            // Barodcast.
+            UpdateFrame_Braodcast();
+
+            _logger.LogDebug($"frame update time: {(TimeUtil.Now - nowTime).Milliseconds}");
         }
 
         /// <summary>
         /// Update frame.
         /// </summary>
-        private void UpdateFrame((TaskNode_WorldSection taskNode, Type_TaskNode taskNodeType) tuple)
+        private (TaskNode_WorldSection, Type_TaskNode) UpdateFrame((TaskNode_WorldSection taskNode, Type_TaskNode taskNodeType) tuple)
         {
             var taskNode = tuple.taskNode;
             var taskNodeType = tuple.taskNodeType;
@@ -56,69 +60,66 @@ namespace Server_Realm.Zones.HuntZone
                     break;
             }
 
-            // 작업이 완료된 후 본 노드에 의지하는 노드 작업을 전달.
-            taskNode.DependentNode?.NodeGroup.ExecuteNextTaskNode(taskNode.DependentNode, taskNodeType);
-
-            if (taskNode.NextNode != null)
-            {
-                // 다음 노드의 의존 노드가 없는 경우, 해당 노드 작업 스케줄링.
-                if (taskNode.NextNode.DependancyNode == null)
-                {
-                    taskNode.NodeGroup.ExecuteNextTaskNode(taskNode.NextNode, taskNodeType);
-                }
-            }
-            else
-            {
-                taskNode.NodeGroup.AlertCompletedToObserver();
-            }
+            return tuple;
         }
 
         /// <summary>
         /// 업데이트 프레임 적용.
         /// </summary>
-        private void UpdateFrame_Broadcast(World_Section worldSection)
+        private void UpdateFrame_Braodcast()
         {
-            var updateUnitMovement = _memoryPoolService.Rent<GamePacketSC_UpdateUnitMovement>();
-            var updateUnitStat = _memoryPoolService.Rent<GamePacketSC_UpdateUnitStat>();
-
-            // 플레이어.
-            foreach (var pu in worldSection.GetPlayerUnits())
+            Parallel.ForEach(_worldGroup.WorldSectionDict.Values, ws =>
             {
-                // 이동.
-                if (pu.MovementHandler.RefreshStatus())
+                var updateUnitMovement = _memoryPoolService.Rent<GamePacketSC_UpdateUnitMovement>();
+                var updateUnitStat = _memoryPoolService.Rent<GamePacketSC_UpdateUnitStat>();
+
+                // 플레이어 업데이트.
+                foreach (var pu in ws.GetPlayerUnits())
                 {
-                    updateUnitMovement.UnitLocationDict.Add(pu.UnitId, pu.PlayInfo.Location);
+                    // 이동.
+                    if (pu.MovementHandler.NeedsStatusUpdated())
+                    {
+                        updateUnitMovement.UnitLocations.Add(pu.UnitId, pu.PlayInfo.Location);
+                    }
+
+                    // 스텟.
+                    if (pu.StatHandler.NeedsStatusUpdated())
+                    {
+                        updateUnitStat.UnitStats.Add(pu.UnitId, pu.PlayInfo.Stat);
+                    }
                 }
 
-                // 스텟.
-                if (pu.StatHandler.RefreshStatus())
+                // 몹 업데이트.
+                foreach (var mu in ws.GetMobUnits())
                 {
-                    updateUnitStat.UnitStatDict.Add(pu.UnitId, pu.PlayInfo.Stat);
+                    // 이동.
+                    if (mu.MovementHandler.NeedsStatusUpdated())
+                    {
+                        updateUnitMovement.UnitLocations.Add(mu.UnitId, mu.Mob.Location);
+                    }
+
+                    // 스텟.
+                    if (mu.StatHandler.NeedsStatusUpdated())
+                    {
+                        updateUnitStat.UnitStats.Add(mu.UnitId, mu.Mob.Stat);
+                    }
                 }
-            }
 
-            foreach (var mu in worldSection.GetMobUnits())
-            {
-                // 이동.
-                if (mu.MovementHandler.RefreshStatus())
-                {
-                    updateUnitMovement.UnitLocationDict.Add(mu.UnitId, mu.Mob.Location);
-                }
+                // 패킷 전송.
+                SendPacket_AroundSections(ws.Section, GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
+                SendPacket_AroundSections(ws.Section, GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
 
-                // 스텟.
-                if (mu.StatHandler.RefreshStatus())
-                {
-                    updateUnitStat.UnitStatDict.Add(mu.UnitId, mu.Mob.Stat);
-                }
-            }
+                _memoryPoolService.Release(updateUnitMovement);
+                _memoryPoolService.Release(updateUnitStat);
+            });
+        }
 
-            // 패킷 전송.
-            SendPacket_AroundSections(worldSection.Section, GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
-            SendPacket_AroundSections(worldSection.Section, GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
+        /// <summary>
+        /// UpdateFrame 
+        /// </summary>
+        private void UpdateFrame_CollectDeathUnits()
+        {
 
-            // Release.
-            _memoryPoolService.Release(updateUnitMovement);
-            _memoryPoolService.Release(updateUnitStat);
         }
     }
 }

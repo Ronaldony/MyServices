@@ -20,10 +20,8 @@ namespace Server_Realm.Entities
         {
             // Unit.
             UnitId = unitId;
-            IsActive = true;
             UnitType = Type_Unit.Player;
-            Position = playInfo.Location.Pos;
-            Section = SectionId.WorldPosToSection(this.Position);
+            Section = SectionId.ToSection(playInfo.Location.Pos);
             UnitCollision = collision;
 
             // handler.
@@ -38,7 +36,7 @@ namespace Server_Realm.Entities
 
             // Services.
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
-            _collisionService = serviceProvider.GetRequiredService<CollisionFactory>();
+            _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
             _projectileService = serviceProvider.GetRequiredService<ProjectileFactory>();
 
             // Switch weapon.
@@ -66,7 +64,7 @@ namespace Server_Realm.Entities
         #region field
         // Services.
         private readonly ITDBService _tdbService;
-        private readonly CollisionFactory _collisionService;
+        private readonly CollisionFactory _collisionFactory;
         private readonly ProjectileFactory _projectileService;
         #endregion
 
@@ -76,5 +74,6 @@ namespace Server_Realm.Entities
         public override void Dispose()
         {
         }
+
     }
 }

@@ -20,20 +20,20 @@
         /// key: UnitId.
         /// value: PlayerUnit.
         /// </summary>
-        public Dictionary<long, PlayerUnit> PlayerUnitDict { get; set; }
+        public Dictionary<long, PlayerUnit> PlayerUnitDict;
 
         /// <summary>
         /// Mob unit 리스트.
         /// key: UnitId.
         /// value: MobUnit.
         /// </summary>
-        public Dictionary<long, MobUnit> MobUnitDict { get; set; }
+        public Dictionary<long, MobUnit> MobUnitDict;
 
         /// <summary>
         /// 섹션 단위 정보.
         /// key: section.
         /// value: world section.
         /// </summary>
-        public Dictionary<SectionId, World_Section> WorldSectionDict;
+        public Dictionary<SectionId, World_Section> WorldSectionDict { get; set; }
     }
 }

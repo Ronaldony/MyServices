@@ -13,5 +13,15 @@
     "Id": 2,
     "Name": "Rasor",
     "Summary": "rasor"
+  },
+  {
+    "Id": 100,
+    "Name": "RasorBall",
+    "Summary": "rasor ball"
+  },
+  {
+    "Id": 101,
+    "Name": "Grenade",
+    "Summary": "grenade"
   }
 ]

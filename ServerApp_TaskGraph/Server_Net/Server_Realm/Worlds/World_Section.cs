@@ -2,8 +2,10 @@
 
 namespace Server_Realm.Worlds
 {
+    using GameCore;
     using Server_Realm.Entities;
     using Server_Realm.Units.Enemy;
+    using System.Numerics;
 
     /// <summary>
     /// World_Section.
@@ -15,6 +17,7 @@ namespace Server_Realm.Worlds
             Section = section;
             _playerUnitDict = new ConcurrentDictionary<long, PlayerUnit>();
             _mobUnitDict = new ConcurrentDictionary<long, MobUnit>();
+            AroundWorldSections = new List<World_Section>();
         }
 
         /// <summary>
@@ -85,6 +88,49 @@ namespace Server_Realm.Worlds
         public void EnterPlayer(PlayerUnit pu)
         {
             _playerUnitDict.AddOrUpdate(pu.UnitId, pu, (key, old) => pu);
+        }
+
+        /// <summary>
+        /// Detect around mobs.
+        /// </summary>
+        public List<MobUnit> DetectAroundMobs()
+        {
+            return _mobUnitDict.Values.Concat(AroundWorldSections.SelectMany(d => d.GetMobUnits())).ToList();
+        }
+
+        /// <summary>
+        /// Detect player from around.
+        /// </summary>
+        /// <param name="srcUnitId">Srouce unit id</param>
+        /// <param name="detectRangeSqr">Detect range square</param>
+        public PlayerUnit DetectPlayerAround(long srcUnitId)
+        {
+            // Find this section.
+            var srcPos = _mobUnitDict[srcUnitId].MovementHandler.NowPos();
+
+            foreach (var pu in _playerUnitDict.Values)
+            {
+                if (GameData.MOB_DETECT_RANGE_SQUARE >= Vector2.DistanceSquared(srcPos, pu.MovementHandler.NowPos()))
+                {
+                    // 플레이어 감지.
+                    return pu;
+                }
+            }
+
+            // Find around sections.
+            foreach (var ws in AroundWorldSections)
+            {
+                foreach (var pu in ws.GetPlayerUnits())
+                {
+                    if (GameData.MOB_DETECT_RANGE_SQUARE >= Vector2.DistanceSquared(srcPos, pu.MovementHandler.NowPos()))
+                    {
+                        // 플레이어 감지.
+                        return pu;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

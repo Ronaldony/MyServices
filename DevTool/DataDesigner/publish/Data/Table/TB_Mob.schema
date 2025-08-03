@@ -66,6 +66,14 @@
       "Type": "int",
       "RefTable": "",
       "Summary": ""
+    },
+    {
+      "Idx": 9,
+      "Name": "AttackType",
+      "IsIndexed": false,
+      "Type": "Type_MobAttack",
+      "RefTable": "",
+      "Summary": ""
     }
   ]
 }

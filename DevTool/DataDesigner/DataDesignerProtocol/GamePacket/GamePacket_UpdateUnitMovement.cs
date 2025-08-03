@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.GamePacket
 {
     /// <summary>
-    /// GamePacketCS_UpdateStat.
+    /// GamePacketCS_UpdateUnitMovement.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     [GamePacketAttribute(GamePacketCode.CS_UpdateUnitMovement)]
@@ -16,18 +16,18 @@ namespace GameCore.GamePacket
     }
 
     /// <summary>
-    /// GamePacketSC_UpdateStat.
+    /// GamePacketSC_UpdateUnitMovement.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     [GamePacketAttribute(GamePacketCode.SC_UpdateUnitMovement)]
     public partial class GamePacketSC_UpdateUnitMovement : GamePacketBase_SC
     {
         /// <summary>
-        /// Unit stats.
+        /// Unit locations.
         /// key: unit id.
-        /// value: stat. 
+        /// value: DTO_Location.
         /// </summary>
         [MemoryPackOrder(0)]
-        public Dictionary<long, DTO_Stat> UnitStatDict { get; set; }
+        public Dictionary<long, DTO_Location> UnitLocations { get; set; }
     }
 }

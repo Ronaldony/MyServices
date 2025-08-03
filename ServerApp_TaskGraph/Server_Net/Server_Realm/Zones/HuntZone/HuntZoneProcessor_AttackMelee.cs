@@ -14,16 +14,8 @@
         /// </summary>
         private void AttackMelee(PlayerUnit pu, GamePacketCS_AttackMelee packet)
         {
-            var enemyUnits = new List<Unit>();
-            var aroundSections = GetAroundSections(pu.Section);
-
-            foreach (var section in aroundSections)
-            {
-                enemyUnits.AddRange(_worldGroup.WorldSectionDict[pu.Section].GetMobUnits());
-            }
-
             // 근정 공격.
-            pu.AttackMelee(packet.Angle, enemyUnits);
+            pu.AttackMelee(packet.Angle);
 
             //공격 패킷 전송.
             SendPacket_AroundSections(pu.Pid, pu.Section, GamePacketCode.SC_AttackMelee,

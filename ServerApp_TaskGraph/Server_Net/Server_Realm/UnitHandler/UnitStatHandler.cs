@@ -20,13 +20,11 @@ namespace Server_Realm.UnitHandler
         // DTO.
         private readonly DTO_Stat _stat;
 
-        // 상태.
-        private bool _statusChaned;
+        // 상태 업데이트 여부.
+        private bool _needsStatusUpdate;
 
-        #region common
         public int GetPower() => _stat.Power;
         public DTO_Stat GetStat() => _stat;
-        #endregion
 
         public UnitStatHandler(IServiceProvider serviceProvider, Unit owner, DTO_Stat stat)
         {
@@ -49,35 +47,41 @@ namespace Server_Realm.UnitHandler
         /// </summary>
         public void Damage(int damage)
         {
-            if (!_owner.IsActive)
+            if (_owner.IsDead)
             {
                 return;
             }
-
-            // 스탯 상태 변경.
-            _statusChaned = true;
 
             _stat.Health -= (damage - _stat.Defense);
 
             if (_stat.Health <= 0)
             {
-                // 죽음 상태 전환.
+                // 유닛 죽음.
                 _owner?.AIBrain.ChangeState(Type_AIState.Dead);
-
-                // Unit 비활성화.
-                _owner.IsActive = false;
+                _owner.IsDead = true;
             }
+
+            // 상태 업데이트.
+            _needsStatusUpdate = true;
         }
 
         #region common
         /// <summary>
         /// Refresh status.
         /// </summary>
-        public bool RefreshStatus()
+        public bool NeedsStatusUpdated()
         {
-            var oldStatus = _statusChaned;
-            _statusChaned = false;
+            var oldStatus = _needsStatusUpdate;
+            _needsStatusUpdate = false;
             return oldStatus;
+        }
+
+        /// <summary>
+        /// Refresh HP.
+        /// </summary>
+        public void RefreshHP()
+        {
+            _stat.Health = _stat.HealthMax;
         }
         #endregion
     }

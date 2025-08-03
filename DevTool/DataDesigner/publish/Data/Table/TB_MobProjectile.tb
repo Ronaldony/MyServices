@@ -3,10 +3,10 @@
     "Id": 0,
     "Name": "None",
     "Radius": 0,
-    "ProjectileType": "None",
     "MaxRange": 0,
     "Velocity": 0,
     "IsPenetrates": false,
-    "IsGrenade": false
+    "IsGrenade": false,
+    "AttackType": "None"
   }
 ]

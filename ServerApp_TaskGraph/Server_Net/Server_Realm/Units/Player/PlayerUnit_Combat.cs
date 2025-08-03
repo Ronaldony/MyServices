@@ -11,23 +11,27 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Attack melee.
         /// </summary>
-        public void AttackMelee(Vector2 angle, ICollection<Unit> units)
+        public void AttackMelee(Vector2 angle)
         {
+            // 주변 몹 정보.
+            var aroundMobs = WorldSection.DetectAroundMobs();
+
+            // 충돌 처리 관련.
             var collisionType = EquipmentHandler.GetWeaponCollisionType();
             var damage = EquipmentHandler.GetDamage() + StatHandler.GetPower();
             
             // 피격 적 유닛 탐색.
-            var collision = _collisionService.Create(collisionType).Update(MovementHandler.NowPos(), angle);
+            var collision = _collisionFactory.Create(collisionType).Update(MovementHandler.NowPos(), angle);
             var hitbox = collision.GetHitbox();
 
             // 유닛 공격.
-            foreach (var unit in units)
+            foreach (var mu in aroundMobs)
             {
-                unit.CombatHandler.Hit(hitbox, damage);
+                mu.CombatHandler.Hit(hitbox, damage);
             }
 
             // 공격 유닛 탐색.
-            _collisionService.Return(collision);
+            _collisionFactory.Return(collision);
         }
 
         /// <summary>

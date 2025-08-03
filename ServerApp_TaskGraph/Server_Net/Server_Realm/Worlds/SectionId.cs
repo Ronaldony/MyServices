@@ -28,7 +28,7 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// Convert position to section.
         /// </summary>
-        public static SectionId WorldPosToSection(Vector2 position)
+        public static SectionId ToSection(Vector2 position)
         {
             return new SectionId((int)position.X / GameData.SECTION_WIDTH, (int)position.Y / GameData.SECTION_HEIGHT);
         }

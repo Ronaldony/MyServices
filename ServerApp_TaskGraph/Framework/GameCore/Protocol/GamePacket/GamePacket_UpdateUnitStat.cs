@@ -25,9 +25,9 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Unit stats.
         /// key: unit id.
-        /// value: stat. 
+        /// value: DTO_Stat. 
         /// </summary>
         [MemoryPackOrder(0)]
-        public Dictionary<long, DTO_Stat> UnitStatDict { get; set; }
+        public Dictionary<long, DTO_Stat> UnitStats { get; set; }
     }
 }

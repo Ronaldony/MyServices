@@ -24,7 +24,7 @@ namespace Server_Realm.Zones.HuntZone
         /// <summary>
         /// Send packet for around sections.
         /// </summary>
-        private void SendPacket_AroundSections<T>(string ignorePid, SectionId section, int packetCode, T packet)
+        private void SendPacket_AroundSections<T>(string ignoreUnitId, SectionId section, int packetCode, T packet)
             where T : GamePacketBase_SC
         {
             var packetBytes = _dataSerializer.Serialize<T>(packet);
@@ -34,7 +34,7 @@ namespace Server_Realm.Zones.HuntZone
             {
                 foreach (var pu in _worldGroup.WorldSectionDict[targetSection].GetPlayerUnits())
                 {
-                    if (!ignorePid.Equals(pu.Pid))
+                    if (!ignoreUnitId.Equals(pu.UnitId))
                     {
                         _huntZoneServer.Send(pu.UnitId, packetCode, packetBytes);
                     }

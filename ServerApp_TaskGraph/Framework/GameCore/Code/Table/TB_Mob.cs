@@ -1,6 +1,7 @@
 namespace GameCore
 {
     using System;
+    using GameCore;
 
     public class TB_Mob : ITableBase
     {
@@ -36,5 +37,9 @@ namespace GameCore
         /// 
         /// </summary>
         public int Defense { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Type_MobAttack AttackType { get; set; }
     }
 }

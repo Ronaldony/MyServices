@@ -33,7 +33,7 @@ namespace Server_Realm.Projectiles
 
             SpawnPos = spawnPos;
             Angle = angle;
-            Section = SectionId.WorldPosToSection(spawnPos);
+            Section = SectionId.ToSection(spawnPos);
 
             Damage = damage;
             Velocity = velocity;
@@ -57,7 +57,7 @@ namespace Server_Realm.Projectiles
             _hitbox.Center = Pos;
 
             // Update section.
-            Section = SectionId.WorldPosToSection(Pos);
+            Section = SectionId.ToSection(Pos);
         }
 
         /// <summary>

@@ -2,12 +2,15 @@
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
+using System.Reactive.Linq;
 
 namespace Server_Realm.Zones.HuntZone
 {
+    using Akka.Event;
     using GameCore;
     using GameCore.GamePacket;
     using GameCore.Interfaces;
+    using Server_Realm.Core.ActorProviders;
     using Server_Realm.Core.Factory;
     using Server_Realm.Core.Types;
     using Server_Realm.Core.Utilities;
@@ -28,11 +31,11 @@ namespace Server_Realm.Zones.HuntZone
         private readonly IDataSerializer _dataSerializer;
         private readonly ITDBService _tdbService;
         private readonly IMemoryPoolService _memoryPoolService;
-        private readonly CollisionFactory _collisionService;
-        private readonly ProjectileFactory _projectileService;
+        private readonly CollisionFactory _collisionFactory;
 
         // Server.
         private readonly HuntZoneServer _huntZoneServer;
+        private readonly HuntZoneProcessorProvider _zoneProcessorProvider;
 
         // WorldGroup. 
         private readonly World_Group _worldGroup;
@@ -51,6 +54,8 @@ namespace Server_Realm.Zones.HuntZone
         // Scheduler spawn mob.
         private readonly WorldMsgTrigger_SpawnMob _msgTriggerSpawnMob;
 
+        private readonly IDisposable _updateFrameObserver;
+
         public HuntZoneProcessor()
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneProcessor>>();
@@ -60,20 +65,19 @@ namespace Server_Realm.Zones.HuntZone
             _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
             _tdbService = ServiceUtility.GetService<ITDBService>();
             _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
-            _collisionService = ServiceUtility.GetService<CollisionFactory>();
-            _projectileService = ServiceUtility.GetService<ProjectileFactory>();
+            _collisionFactory = ServiceUtility.GetService<CollisionFactory>();
 
             // Worlds.
             _huntZoneServer = ServiceUtility.GetService<HuntZoneServer>();
+            _zoneProcessorProvider = ServiceUtility.GetService<HuntZoneProcessorProvider>();
             _worldGroup = Initialize_WorldGroup();
-
-            // Shceduler.
-            _msgTriggerSpawnMob = new WorldMsgTrigger_SpawnMob(_serviceProvider, this);
 
             // Frame time.
             _lastFrameUpdateTime = TimeUtil.Now;
 
-            // Dispatcher.
+            _cts = new CancellationTokenSource();
+
+            // Task nodes.
             _taskDispatcher = new TaskDispatcher_WorldSection(_cts.Token);
             _taskDispatcher.Initialize(_worldGroup.AroundSectionDict.Keys, UpdateFrame);
 
@@ -83,18 +87,24 @@ namespace Server_Realm.Zones.HuntZone
             // Register receiver.
             RegisterReceiver();
 
-            _cts = new CancellationTokenSource();
-
-            // Schedulers.
+            // Message trigger.
+            _msgTriggerSpawnMob = new WorldMsgTrigger_SpawnMob(_serviceProvider, this);
             _msgTriggerSpawnMob.Start();
+
+            // Update frame trigger - 30FPS.
+            _updateFrameObserver = Observable.Interval(TimeSpan.FromSeconds(0.033))
+                                            .Subscribe(count =>
+                                            {
+                                                Tell(new WorldMsg_UpdateFrame());
+                                            });
         }
 
         /// <summary>
         /// Self tell.
         /// </summary>
-        public void SelfTell<T>(T msg)
+        public void Tell<T>(T msg)
         {
-            Self.Tell(msg);
+            _zoneProcessorProvider.Tell(msg);
         }
 
         /// <summary>

@@ -24,11 +24,9 @@ namespace Server_Realm.UnitHandler
         private readonly DTO_Equipment _equipment;
         private TB_Weapon _nowTBWeapon;
 
-        #region common
         public Type_Collision GetWeaponCollisionType() => _nowTBWeapon.CollisionType;
         public int GetDamage() => _nowTBWeapon.Damage;
         public Type_Projectile GetProjectileType() => _nowTBWeapon.ProjectileType;
-        #endregion
 
         public UnitEquipmentHandler(IServiceProvider serviceProvider, Unit owner, DTO_Equipment equipment)
         {

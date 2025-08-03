@@ -33,7 +33,7 @@ namespace GameCore.GamePacket
         public long UnitId { get; set; }
 
         /// <summary>
-        /// 대시 위치.
+        /// 대시 방향.
         /// </summary>
         [MemoryPackOrder(1)]
         public Vector2 Direction { get; set; }

@@ -49,7 +49,7 @@ namespace Server_Realm.Zones.HuntZone
             // 로그인 유저에게 인근 세션 유닛 정보 전송.
             SendPacket(pu.UnitId, GamePacketCode.SC_SpawnPlayer, gamePacket);
 
-            // Reset packet.
+            // Dispose.
             gamePacket.Dispose();
 
             // Add login player.
@@ -79,8 +79,8 @@ namespace Server_Realm.Zones.HuntZone
                 foreach (var mu in msg.MobUnits[section])
                 {
                     // 몹 진입.
-                    worldSection.EnterMob(mu);
                     _worldGroup.MobUnitDict.Add(mu.UnitId, mu);
+                    worldSection.EnterMob(mu);
                 }
 
                 if (false == spawnEnemyDict.ContainsKey(section))

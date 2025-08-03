@@ -17,19 +17,14 @@ namespace Server_Realm.Entities
         long UnitId { get; }
 
         /// <summary>
-        /// Entity 활성 여부.
+        /// 유닛 죽음 여부.
         /// </summary>
-        bool IsActive { get; }
+        bool IsDead { get; }
 
         /// <summary>
         /// Type_Entity.
         /// </summary>
         Type_Unit UnitType { get; }
-
-        /// <summary>
-        /// 현재 위치.
-        /// </summary>
-        Vector2 Position { get; }
 
         /// <summary>
         /// 현재 섹션.

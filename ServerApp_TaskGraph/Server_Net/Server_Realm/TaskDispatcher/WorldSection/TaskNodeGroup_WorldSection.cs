@@ -18,7 +18,12 @@ namespace Server_Realm.TaskDispatcher.Node
         /// <summary>
         /// Task pipe line.
         /// </summary>
-        public ActionBlock<(TaskNode_WorldSection, Type_TaskNode)> TaskPipeline;
+        public TransformBlock<(TaskNode_WorldSection, Type_TaskNode), (TaskNode_WorldSection, Type_TaskNode)> TaskPipeline;
+
+        /// <summary>
+        /// Post task pipe line.
+        /// </summary>
+        public ActionBlock<(TaskNode_WorldSection, Type_TaskNode)> PostTaskPipeline;
 
         /// <summary>
         /// TaskNode.
@@ -26,18 +31,19 @@ namespace Server_Realm.TaskDispatcher.Node
         public List<TaskNode_WorldSection> TaskNodes;
 
         /// <summary>
-        /// 옵저버.
-        /// </summary>
-        private TaskNodeObserver_WorldSection _observer;
-
-        /// <summary>
         /// CancelToken.
         /// </summary>
         public CancellationToken CancelToken;
 
+        /// <summary>
+        /// 옵저버.
+        /// </summary>
+        private TaskNodeObserver_WorldSection _observer;
+
         public TaskNodeGroup_WorldSection(int groupId, TaskNodeObserver_WorldSection observer, CancellationToken ct)
         {
             GroupId = groupId;
+            TaskNodes = new List<TaskNode_WorldSection>();
             CancelToken = ct;
             _observer = observer;
         }

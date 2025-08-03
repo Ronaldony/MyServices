@@ -8,15 +8,12 @@
         /// <summary>
         /// 프레임 업데이트 - AI.
         /// </summary>
-        private async Task UpdateFrame_AIAsync(double deltaTime)
+        private void UpdateFrame_AI(double deltaTime)
         {
             // Mobs.
-            await Task.Run(() =>
+            Parallel.ForEach(_worldGroup.MobUnitDict.Values, mu =>
             {
-                Parallel.ForEach(_worldGroup.MobUnitDict.Values, mu =>
-                {
-                    mu.AIBrain.Update(deltaTime);
-                });
+                mu.AIBrain.Update(deltaTime);
             });
         }
     }

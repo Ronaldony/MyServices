@@ -1,6 +1,8 @@
 ﻿namespace Server_Realm.AI.Actions
 {
     using GameCore;
+    using GameCore.Interfaces;
+    using Microsoft.Extensions.DependencyInjection;
     using Server_Realm.AI.Actions.Movement;
     using Server_Realm.AI.Actions.States;
     using Server_Realm.Entities;
@@ -23,18 +25,21 @@
         /// </summary>
         public Unit Owner { get; }
         
-        public AIActionCollection(MobUnit owner)
+        public AIActionCollection(IServiceProvider serviceProvider, MobUnit owner)
         {
             Owner = owner;
 
-            _aiAcionDict = Initialize_AIActions(owner);
+            _aiAcionDict = Initialize_AIActions(serviceProvider, owner);
         }
 
         /// <summary>
         /// Initialize AIActions.
         /// </summary>
-        private Dictionary<Type_AIState, AIAction> Initialize_AIActions(MobUnit owner)
+        private Dictionary<Type_AIState, AIAction> Initialize_AIActions(IServiceProvider serviceProvider, MobUnit owner)
         {
+            var tdbService = serviceProvider.GetRequiredService<ITDBService>();
+            var tbMob = tdbService.GetById<TB_Mob>(owner.Mob.MobId);
+
             var aiActions = new Dictionary<Type_AIState, AIAction>();
 
             // States.
@@ -43,11 +48,10 @@
 
             // Movement.
             aiActions.Add(Type_AIState.Roam, new AIRoamAction(owner));
-            aiActions.Add(Type_AIState.Track, new AITrackAction(owner));
             aiActions.Add(Type_AIState.Return, new AIReturnAction(owner));
 
             // Combat.
-            aiActions.Add(Type_AIState.Combat, new AICombatAction (owner));
+            aiActions.Add(Type_AIState.Combat, new AICombatAction(owner, tbMob));
 
             return aiActions;
         }

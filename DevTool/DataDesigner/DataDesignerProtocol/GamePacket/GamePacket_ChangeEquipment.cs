@@ -1,9 +1,10 @@
-﻿using GameCore.Datas.Play;
-using MemoryPack;
+﻿using MemoryPack;
 using System.Runtime.InteropServices;
 
 namespace GameCore.GamePacket
 {
+    using GameCore.Datas.Play;
+
     /// <summary>
     /// GamePacketCS_ChangeEquipment.
     /// </summary>

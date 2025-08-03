@@ -53,11 +53,11 @@ namespace Server_Realm.Core.Services
         /// </summary>
         public DTO_Mob CreateEnemy(int refId, Type_Area areaType)
         {
-            var tbEnemy = _tdbService.GetById<TB_Enemy>(refId);
+            var tbMob = _tdbService.GetById<TB_Mob>(refId);
             var confArea = _confAreas.FirstOrDefault(d => d.Area == areaType);
 
             // 데이터 검사.
-            if (tbEnemy == null || confArea == null)
+            if (tbMob == null || confArea == null)
             {
                 return null;
             }
@@ -73,17 +73,20 @@ namespace Server_Realm.Core.Services
             var y = _rand.Next(confArea.MinY, confArea.MaxY);
 
             // Stat.
-            dtoEnemy.Stat.HealthMax = tbEnemy.Health;
-            dtoEnemy.Stat.Health = tbEnemy.Health;
-            dtoEnemy.Stat.Power = tbEnemy.Attack;
-            dtoEnemy.Stat.Defense = tbEnemy.Defense;
-            dtoEnemy.Stat.Velocity = tbEnemy.MoveSpeed;
+            dtoEnemy.Stat.HealthMax = tbMob.Health;
+            dtoEnemy.Stat.Health = tbMob.Health;
+            dtoEnemy.Stat.Power = tbMob.Damage;
+            dtoEnemy.Stat.Defense = tbMob.Defense;
+            dtoEnemy.Stat.Velocity = tbMob.Speed;
 
             // Location.
             dtoEnemy.Location.Area = areaType;
             dtoEnemy.Location.Pos = new Vector2(x, y);
             dtoEnemy.Location.PosEnd = Vector2.Zero;
             dtoEnemy.Location.MoveDirection = Vector2.Zero;
+
+            // AttackType.
+            dtoEnemy.AttackType = tbMob.AttackType;
 
             // DropItems.
             for (int repeat = 0; repeat < _rand.Next(0, 4); repeat++)

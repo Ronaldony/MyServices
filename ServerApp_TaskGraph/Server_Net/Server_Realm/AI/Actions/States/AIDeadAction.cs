@@ -16,6 +16,7 @@ namespace Server_Realm.AI.Actions.States
 
         public override void Start()
         {
+            Owner.IsDead = true;
         }
 
         public override void Update(double deltaTime)
@@ -25,6 +26,5 @@ namespace Server_Realm.AI.Actions.States
         public override void Stop()
         {
         }
-
     }
 }

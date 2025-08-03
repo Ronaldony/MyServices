@@ -37,23 +37,25 @@
 
                     aroundSessionDict.Add(section, new HashSet<SectionId>());
                     worldSectionDict.Add(section, new World_Section(section));
-
-                    // TODO: WorldSecitonDict에 주변 섹션 WorldSection group 추가하기.
                 }
             }
 
             // 근처 섹션 계산.
-            foreach (var pair in aroundSessionDict)
+            foreach (var (srcSection, aroundSections) in aroundSessionDict)
             {
-                var aroundSections = pair.Value;
-                var sectionX = pair.Key.X;
-                var sectionY = pair.Key.Y;
-
                 // 근처 섹션 추가.
-                var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, sectionX, sectionY);
+                var calcAroundSections = Calc_AroundSections(sectionMinX, sectionMaxX, sectionMinY, sectionMaxY, srcSection.X, srcSection.Y);
+
                 foreach (var section in calcAroundSections)
                 {
+                    // 인접한 Section 추가.
                     aroundSections.Add(section);
+
+                    // 인접한 WorldSection 추가.
+                    if (srcSection != section)
+                    {
+                        worldSectionDict[srcSection].AddAroundWorldSection(worldSectionDict[section]);
+                    }
                 }
             }
 

@@ -34,14 +34,11 @@ namespace Server_Realm.UnitHandler
         // Move status.
         private bool _isMoveing;
 
-        // 상태.
-        private bool _statusChaned;
+        // 상태 업데이트 여부.
+        private bool _needsStatusUpdate;
 
-        #region get status
         public Vector2 NowPos() => _location.Pos;
         public Vector2 NowDir() => _location.MoveDirection;
-        public bool IsMoving() => _isMoveing;
-        #endregion
 
         public UnitMovementHandler(IServiceProvider serviceProvider,  Unit owner, DTO_Location location, DTO_Stat stat)
         {
@@ -53,7 +50,7 @@ namespace Server_Realm.UnitHandler
 
             _lastMoveTime = TimeUtil.Now;
 
-            Section = SectionId.WorldPosToSection(_location.Pos);
+            Section = SectionId.ToSection(_location.Pos);
             OldSection = Section;
         }
 
@@ -66,6 +63,9 @@ namespace Server_Realm.UnitHandler
             _lastMoveTime = TimeUtil.Now;
             _isMoveing = true;
             _location.MoveDirection = moveDireciton;
+
+            // Update status.
+            _needsStatusUpdate = true;
         }
 
         /// <summary>
@@ -110,6 +110,9 @@ namespace Server_Realm.UnitHandler
             // Post process.
             PostMove();
 
+            // Update status.
+            _needsStatusUpdate = true;
+
             return true;
         }
 
@@ -118,11 +121,16 @@ namespace Server_Realm.UnitHandler
         /// </summary>
         public void MoveStop()
         {
+            _lastMoveTime = TimeUtil.Now;
+            _location.MoveDirection = Vector2.Zero;
             _isMoveing = false;
+
+            // Update status.
+            _needsStatusUpdate = true;
         }
         #endregion
 
-        #region knockback
+        #region knockback & dash
         /// <summary>
         /// Knockback.
         /// </summary>
@@ -153,9 +161,10 @@ namespace Server_Realm.UnitHandler
 
             return true;
         }
-        #endregion
 
-        #region dash
+        /// <summary>
+        /// Dash.
+        /// </summary>
         public bool Dash(Vector2 dashPos)
         {
             // 대시 결과 유효성 검사.
@@ -178,10 +187,10 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// Refresh status.
         /// </summary>
-        public bool RefreshStatus()
+        public bool NeedsStatusUpdated()
         {
-            var oldStatus = _statusChaned;
-            _statusChaned = false;
+            var oldStatus = _needsStatusUpdate;
+            _needsStatusUpdate = false;
             return oldStatus;
         }
         #endregion
@@ -193,7 +202,7 @@ namespace Server_Realm.UnitHandler
         private void PostMove()
         {
             // 섹션 이동한 경우 갱신.
-            var newSection = SectionId.WorldPosToSection(_location.Pos);
+            var newSection = SectionId.ToSection(_location.Pos);
 
             if (newSection != Section)
             {

@@ -20,10 +20,6 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        public Type_MobProjectile ProjectileType { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
         public int MaxRange { get; set; }
         /// <summary>
         /// 
@@ -37,5 +33,9 @@ namespace GameCore
         /// 
         /// </summary>
         public bool IsGrenade { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Type_MobAttack AttackType { get; set; }
     }
 }
