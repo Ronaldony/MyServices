@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Akka.Event;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
@@ -6,7 +7,6 @@ using System.Reactive.Linq;
 
 namespace Server_Realm.Zones.HuntZone
 {
-    using Akka.Event;
     using GameCore;
     using GameCore.GamePacket;
     using GameCore.Interfaces;
@@ -38,7 +38,8 @@ namespace Server_Realm.Zones.HuntZone
         private readonly HuntZoneProcessorProvider _zoneProcessorProvider;
 
         // WorldGroup. 
-        private readonly World_Group _worldGroup;
+        private readonly WorldGroup _worldGroup;
+        private readonly WorldUnitCollector _worldUnitCollector;
 
         // TaskDispatcher.
         private readonly TaskDispatcher_WorldSection _taskDispatcher;
@@ -54,6 +55,7 @@ namespace Server_Realm.Zones.HuntZone
         // Scheduler spawn mob.
         private readonly WorldMsgTrigger_SpawnMob _msgTriggerSpawnMob;
 
+        // Observers.
         private readonly IDisposable _updateFrameObserver;
 
         public HuntZoneProcessor()
@@ -70,7 +72,9 @@ namespace Server_Realm.Zones.HuntZone
             // Worlds.
             _huntZoneServer = ServiceUtility.GetService<HuntZoneServer>();
             _zoneProcessorProvider = ServiceUtility.GetService<HuntZoneProcessorProvider>();
-            _worldGroup = Initialize_WorldGroup();
+
+            _worldGroup = Initialize_WorldGroup(_serviceProvider, this);
+            _worldUnitCollector = new WorldUnitCollector();
 
             // Frame time.
             _lastFrameUpdateTime = TimeUtil.Now;
@@ -116,7 +120,7 @@ namespace Server_Realm.Zones.HuntZone
             ReceiveAsync<WorldMsg_UpdateFrame>(async wm => await DispatchUpdateFrameAsync(wm));
 
             // Spawn.
-            Receive<WorldMsg_SpawnEnemy>(wm => SpawnEnemy(wm));
+            Receive<WorldMsg_SpawnMob>(wm => SpawnMobs(wm));
             Receive<WorldMsg_SpawnPlayer>(wm => SpawnPlayer(wm));
             Receive<WorldMsg_LeavePlayer>(wm => LeavePlayer(wm));
 
@@ -127,7 +131,7 @@ namespace Server_Realm.Zones.HuntZone
             Receive<WorldMsg_GamePacket>(wm =>
             {
                 // World player.
-                var pu = _worldGroup.PlayerUnitDict.GetValueOrDefault(wm.UnitId);
+                var pu = _worldGroup.PlayerUnitDict.GetValueOrDefault(wm.Pid);
                 if (default == pu)
                 {
                     return;

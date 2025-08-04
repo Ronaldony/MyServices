@@ -50,7 +50,7 @@ export default function GenerateMenu({ selectedProfile, setSelectedProfile }) {
 
   // onError
   const onError = useCallback(
-    (msg) => {
+    (msg) => {  
       setErrorMsg(msg);
       setOpenErrorModal(true);
     },
@@ -58,12 +58,12 @@ export default function GenerateMenu({ selectedProfile, setSelectedProfile }) {
   );
 
   // switch selected data
-  const onSelectedProfile = useCallback(
-    (selectedData) => {
+  const onSelectedProfile = useCallback((selectedData) => 
+    {
       setSelectedProfile(selectedData);
-    },
-    [setSelectedProfile]
-  );
+      console.log(`onSelectedProfile1 ${selectedData}`);
+      console.log(`onSelectedProfile2 ${selectedProfile}`);
+    },[selectedProfile, setSelectedProfile]);
 
   // on add profile.
   const onAddProfile = useCallback(() => {

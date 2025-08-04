@@ -13,7 +13,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Switch weapon id.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public int WeaponId { get; set; }
     }
 

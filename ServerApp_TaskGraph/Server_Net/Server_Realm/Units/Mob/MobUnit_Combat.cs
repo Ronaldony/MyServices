@@ -1,9 +1,11 @@
-﻿
-namespace Server_Realm.Units.Enemy
+﻿using System.Numerics;
+
+namespace Server_Realm.Units.Mob
 {
     using GameCore;
+    using GameCore.Datas.Projectiles;
+    using GameCore.GamePacket;
     using Server_Realm.Entities;
-    using System.Numerics;
 
     /// <summary>
     /// MobUnit.
@@ -42,6 +44,7 @@ namespace Server_Realm.Units.Enemy
             {
                 // 근접 공격.
                 case Type_MobAttack.Melee:
+                    AttackMelee(target);
                     break;
                 // 원거리 공격.
                 case Type_MobAttack.RasorBall:
@@ -54,15 +57,44 @@ namespace Server_Realm.Units.Enemy
         }
 
         /// <summary>
+        /// 근접 공격.
+        /// </summary>
+        private void AttackMelee(Unit target)
+        {
+            var angle = Vector2.Normalize(this.MovementHandler.NowPos() - target.MovementHandler.NowPos());
+
+            // 패킷 전송 - 근접 공격.
+            WorldSection.SendPacket_AroundSections(GamePacketCode.SC_AttackMelee, new GamePacketSC_AttackMelee
+            {
+                UnitId = this.UnitId,
+                Angle = angle
+            });
+        }
+
+        /// <summary>
         /// 원거리 공격.
         /// </summary>
         private void AttackRange(Type_Projectile projectileType, Unit target)
         {
-            var spawnPos = target.MovementHandler.NowPos();
+            var spawnPos = MovementHandler.NowPos();
             var angle = Vector2.Normalize(this.MovementHandler.NowPos() - target.MovementHandler.NowPos());
 
             // 투사체 삽입.
             CombatHandler.OwnProjectile(projectileType, spawnPos, angle, this.StatHandler.GetPower());
+
+            // 투사체 공격.
+            var gamePacket = new GamePacketSC_AttackProjectile();
+
+            gamePacket.UnitId = this.UnitId;
+            gamePacket.Projectile = new DTO_Projectile
+            {
+                SpawnPos = spawnPos,
+                Angle = angle,
+                ProjectileType = projectileType
+            };
+
+            // 패킷 전송 - 투사체.
+            WorldSection.SendPacket_AroundSections(GamePacketCode.SC_AttackProjectile, gamePacket);
         }
     }
 }

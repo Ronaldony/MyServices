@@ -10,7 +10,7 @@ namespace Server_Realm.UnitHandler
     /// <summary>
     /// UnitStatHandler.
     /// </summary>
-    public class UnitStatHandler
+    public class UnitStatHandler : UnitHandlerBase
     {
         private readonly ILogger<UnitStatHandler> _logger;
 
@@ -39,7 +39,6 @@ namespace Server_Realm.UnitHandler
         /// </summary>
         public void Update(double deltaTime)
         {
-
         }
 
         /// <summary>
@@ -82,6 +81,13 @@ namespace Server_Realm.UnitHandler
         public void RefreshHP()
         {
             _stat.Health = _stat.HealthMax;
+        }
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public override void Dispose()
+        {
         }
         #endregion
     }

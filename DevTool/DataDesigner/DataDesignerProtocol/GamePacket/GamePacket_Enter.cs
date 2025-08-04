@@ -16,12 +16,6 @@ namespace GameCore.GamePacket
     public partial class GamePacketCS_Enter : GamePacketBase_CS
     {
         /// <summary>
-        /// Pid.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public string Pid { get; set; }
-
-        /// <summary>
         /// Token.
         /// </summary>
         [MemoryPackOrder(2)]

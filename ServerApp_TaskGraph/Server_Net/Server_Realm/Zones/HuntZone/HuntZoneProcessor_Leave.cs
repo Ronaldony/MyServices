@@ -12,51 +12,51 @@ namespace Server_Realm.Zones.HuntZone
     public partial class HuntZoneProcessor
     {
         /// <summary>
-        /// Out player.
+        /// Leave player.
         /// </summary>
         private void LeavePlayer(WorldMsg_LeavePlayer msg)
         {
-            _logger.LogWarning($"leave player. unitID: {msg.UnitId}");
+            _logger.LogWarning($"leave player. pid: {msg.Pid}");
 
-            if (false == _worldGroup.PlayerUnitDict.TryGetValue(msg.UnitId, out var pu))
+            if (false == _worldGroup.PlayerUnitDict.TryGetValue(msg.Pid, out var pu))
             {
-                _logger.LogError($"not exist player. unitId: {msg.UnitId}");
+                _logger.LogError($"not exist player. pid: {msg.Pid}");
                 return;
             }
 
             // 로그 아웃 패킷 전송.
-            SendPacket_AroundSections(pu.Section, GamePacketCode.SC_Leave, new GamePacketSC_Leave());
+            pu.WorldSection.SendPacket_AroundSections(GamePacketCode.SC_Leave, new GamePacketSC_Leave());
 
             // Remove player from distrcit.
-            if (false == PostLeavePlayer(msg.UnitId))
+            if (false == PostLeavePlayer(msg.Pid))
             {
                 return;
             }
 
-            _logger.LogWarning($"Log out end. unitId: {msg.UnitId}");
+            _logger.LogWarning($"Log out end. pid: {msg.Pid}");
         }
 
         /// <summary>
-        /// Remove player from district.
+        /// Post process liveaing player.
         /// </summary>
-        private bool PostLeavePlayer(long unitId)
+        private bool PostLeavePlayer(string pid)
         {
             // Leave zone.
-            if (false == _worldGroup.PlayerUnitDict.Remove(unitId, out var pu))
+            if (false == _worldGroup.PlayerUnitDict.Remove(pid, out var pu))
             {
-                _logger.LogError($"remove player error. unitId: {unitId}, section: {pu.Section}");
+                _logger.LogError($"remove player error. pid: {pu.Pid}, section: {pu.MovementHandler.Section}");
                 return false;
             }
 
             // Leave section.
-            if (null == _worldGroup.WorldSectionDict[pu.Section].LeavePlayer(pu.UnitId))
+            if (null == pu.WorldSection.LeavePlayer(pu.UnitId))
             {
-                _logger.LogError($"remove player from section. unitId: {unitId}, section: {pu.Section}");
+                _logger.LogError($"remove player from section. unitId: {pu.UnitId}, section: {pu.MovementHandler.Section}");
                 return false;
             }
 
-            // Release.
-            _collisionFactory.Return(pu.UnitCollision);
+            // Player dispose.
+            pu.Dispose();
 
             return true;
         }

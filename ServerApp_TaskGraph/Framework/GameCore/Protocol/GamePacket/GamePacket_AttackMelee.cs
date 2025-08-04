@@ -14,7 +14,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Attack angle.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public Vector2 Angle { get; set; }
     }
 

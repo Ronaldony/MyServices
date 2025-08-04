@@ -16,13 +16,13 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Last position.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public Vector2 EndPos { get; set; }
 
         /// <summary>
         /// PacketTime.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(3)]
         public DateTime PacketTime { get; set; }
     }
 

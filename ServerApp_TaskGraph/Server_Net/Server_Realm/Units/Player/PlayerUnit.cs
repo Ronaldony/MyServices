@@ -3,12 +3,10 @@
 namespace Server_Realm.Entities
 {
     using GameCore.Datas.Play;
-    using GameCore.Interfaces;
     using Server_Realm.Collisions;
     using Server_Realm.Core.Factory;
     using Server_Realm.Core.Types;
     using Server_Realm.UnitHandler;
-    using Server_Realm.Worlds;
 
     /// <summary>
     /// PlayerUnit.
@@ -21,7 +19,6 @@ namespace Server_Realm.Entities
             // Unit.
             UnitId = unitId;
             UnitType = Type_Unit.Player;
-            Section = SectionId.ToSection(playInfo.Location.Pos);
             UnitCollision = collision;
 
             // handler.
@@ -34,17 +31,14 @@ namespace Server_Realm.Entities
             Pid = playInfo.Pid;
             PlayInfo = playInfo;
 
-            // Services.
-            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
-            _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
-            _projectileService = serviceProvider.GetRequiredService<ProjectileFactory>();
+            // Factories.
+            CollisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
 
             // Switch weapon.
             EquipmentHandler.SwitchWeapon(playInfo.Equipment.Weapon);
         }
         #endregion
 
-        #region props
         /// <summary>
         /// Pid.
         /// </summary>
@@ -59,21 +53,17 @@ namespace Server_Realm.Entities
         /// UnitEquipmentHandler.
         /// </summary>
         public UnitEquipmentHandler EquipmentHandler { get; }
-        #endregion
-
-        #region field
-        // Services.
-        private readonly ITDBService _tdbService;
-        private readonly CollisionFactory _collisionFactory;
-        private readonly ProjectileFactory _projectileService;
-        #endregion
 
         /// <summary>
         /// Dispose.
         /// </summary>
         public override void Dispose()
         {
+            // Release memory.
+            CollisionFactory.Return(UnitCollision);
+            
+            // Dispose.
+            CombatHandler.Dispose();
         }
-
     }
 }

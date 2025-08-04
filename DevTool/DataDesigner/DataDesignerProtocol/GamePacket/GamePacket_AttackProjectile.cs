@@ -17,7 +17,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Projectile.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public DTO_Projectile Projectile { get; set; }
     }
 
@@ -29,9 +29,15 @@ namespace GameCore.GamePacket
     public partial class GamePacketSC_AttackProjectile : GamePacketBase_SC
     {
         /// <summary>
-        /// Projectile.
+        /// 공격 Unit id.
         /// </summary>
         [MemoryPackOrder(0)]
+        public long UnitId { get; set; }
+
+        /// <summary>
+        /// Projectile.
+        /// </summary>
+        [MemoryPackOrder(1)]
         public DTO_Projectile Projectile { get; set; }
     }
 }

@@ -14,12 +14,25 @@ namespace GameCore.GamePacket
     [GamePacketAttribute(GamePacketCode.CS_SpawnMob)]
     public partial class GamePacketSC_SpawnMob : GamePacketBase_SC
     {
+        public GamePacketSC_SpawnMob()
+        {
+            Mobs = new Dictionary<long, DTO_Mob>();
+        }
+
         /// <summary>
-        /// 적 정보.
+        /// Mobs.
         /// key: unit id.
         /// value: Mob.
         /// </summary>
         [MemoryPackOrder(0)]
         public Dictionary<long, DTO_Mob> Mobs { get; set; }
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public new void Dispose()
+        {
+            Mobs.Clear();
+        }
     }
 }

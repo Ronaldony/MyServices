@@ -11,7 +11,7 @@ namespace Server_Realm.UnitHandler
     /// <summary>
     /// UnitEquipmentHandler.
     /// </summary>
-    public class UnitEquipmentHandler   
+    public class UnitEquipmentHandler : UnitHandlerBase
     {
         private readonly ILogger<UnitEquipmentHandler> _logger;
 
@@ -21,11 +21,12 @@ namespace Server_Realm.UnitHandler
         // Unit.
         private readonly Unit _owner;
 
+        // Datas.
         private readonly DTO_Equipment _equipment;
         private TB_Weapon _nowTBWeapon;
 
-        public Type_Collision GetWeaponCollisionType() => _nowTBWeapon.CollisionType;
         public int GetDamage() => _nowTBWeapon.Damage;
+        public Type_Collision GetWeaponCollisionType() => _nowTBWeapon.CollisionType;
         public Type_Projectile GetProjectileType() => _nowTBWeapon.ProjectileType;
 
         public UnitEquipmentHandler(IServiceProvider serviceProvider, Unit owner, DTO_Equipment equipment)
@@ -56,6 +57,13 @@ namespace Server_Realm.UnitHandler
             _nowTBWeapon = tbWeapon;
 
             return true;
+        }
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public override void Dispose()
+        {
         }
     }
 }

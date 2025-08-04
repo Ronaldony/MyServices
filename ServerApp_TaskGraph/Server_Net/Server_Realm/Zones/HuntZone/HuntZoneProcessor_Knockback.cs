@@ -28,7 +28,7 @@ namespace Server_Realm.Zones.HuntZone
             if (false == pu.MovementHandler.Knockback(packet.Position))
             {
                 // 패킷 전송 - 이동 수정.
-                SendPacket_AroundSections(pu.Section, GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
+                pu.WorldSection.SendPacket_AroundSections(GamePacketCode.SC_MoveFixed, new GamePacketSC_MoveFixed
                 {
                     UnitId = pu.UnitId,
                     FixedPos = pu.MovementHandler.NowPos()

@@ -4,7 +4,7 @@ namespace Server_Realm.AI.Actions.Movement
 {
     using GameCore;
     using GameCore.Datas.Plays;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
 
     /// <summary>
     /// AIRoamAction.

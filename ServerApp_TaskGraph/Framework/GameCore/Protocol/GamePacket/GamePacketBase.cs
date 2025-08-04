@@ -8,9 +8,15 @@ namespace GameCore.GamePacket
     public class GamePacketBase_CS
     {
         /// <summary>
-        /// Unit id.
+        /// Pid.
         /// </summary>
         [MemoryPackOrder(0)]
+        public string Pid { get; set; }
+
+        /// <summary>
+        /// Unit id.
+        /// </summary>
+        [MemoryPackOrder(1)]
         public long UnitId { get; set; }
     }
 

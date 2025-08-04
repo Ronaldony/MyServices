@@ -9,7 +9,7 @@ namespace Server_Realm.Worlds.MsgTrigger
     using GameCore.Interfaces;
     using Server_Realm.Core.Factory;
     using Server_Realm.Core.Services;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Zones;
@@ -101,7 +101,7 @@ namespace Server_Realm.Worlds.MsgTrigger
             try
             {
                 // Create spawn enemy message.
-                var spawnMsg = new WorldMsg_SpawnEnemy();
+                var spawnMsg = new WorldMsg_SpawnMob();
 
                 foreach (var mob in _tbMobs)
                 {

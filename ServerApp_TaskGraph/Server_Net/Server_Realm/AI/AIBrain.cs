@@ -3,7 +3,7 @@ namespace Server_Realm.AI
 {
     using GameCore;
     using Server_Realm.AI.Actions;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
 
     /// <summary>
     /// AIBrain.

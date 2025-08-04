@@ -13,7 +13,7 @@ namespace Server_Realm.UnitHandler
     /// <summary>
     /// UnitMovementHandler.
     /// </summary>
-    public class UnitMovementHandler
+    public class UnitMovementHandler : UnitHandlerBase
     {
         private readonly ILogger<UnitMovementHandler> _logger;
 
@@ -206,8 +206,8 @@ namespace Server_Realm.UnitHandler
 
             if (newSection != Section)
             {
-                OldSection = _owner.Section;
-                _owner.Section = newSection;
+                OldSection = this.Section;
+                this.Section = newSection;
             }
 
             // Collision 갱신.
@@ -329,5 +329,12 @@ namespace Server_Realm.UnitHandler
             return true;
         }
         #endregion
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public override void Dispose()
+        {
+        }
     }
 }

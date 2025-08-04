@@ -16,13 +16,13 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Direction.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public Vector2 Direction { get; set; }
 
         /// <summary>
         /// Packet time.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(3)]
         public DateTime PacketTime { get; set; }
     }
 

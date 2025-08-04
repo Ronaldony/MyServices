@@ -1,4 +1,6 @@
-﻿namespace Server_Realm.Zones.HuntZone
+﻿using Server_Realm.Entities;
+
+namespace Server_Realm.Zones.HuntZone
 {
     /// <summary>
     /// HuntZoneProcessor.
@@ -13,18 +15,17 @@
             // Players.
             Parallel.ForEach(_worldGroup.PlayerUnitDict.Values, pu =>
             {
+                // Sections.
                 var oldSection = pu.MovementHandler.Section;
 
                 pu.MovementHandler.Update(deltaTime);
 
-                var newSection = pu.MovementHandler.Section;
-
                 // 섹션 이동 검사.
-                if (newSection != oldSection)
+                if (pu.MovementHandler.Section != oldSection)
                 {
                     // 섹션 업데이트
                     pu.WorldSection.LeavePlayer(pu.UnitId);
-                    pu.WorldSection = _worldGroup.WorldSectionDict[newSection];
+                    pu.WorldSection = _worldGroup.WorldSectionDict[pu.MovementHandler.Section];
                     pu.WorldSection.EnterPlayer(pu);
                 }
             });
@@ -36,14 +37,12 @@
 
                 mu.MovementHandler.Update(deltaTime);
 
-                var newSection = mu.MovementHandler.Section;
-
                 // 섹션 이동 검사.
-                if (newSection != oldSection)
+                if (mu.MovementHandler.Section != oldSection)
                 {
                     // 섹션 업데이트
                     mu.WorldSection.LeaveMob(mu.UnitId);
-                    mu.WorldSection = _worldGroup.WorldSectionDict[newSection];
+                    mu.WorldSection = _worldGroup.WorldSectionDict[mu.MovementHandler.Section];
                     mu.WorldSection.EnterMob(mu);
                 }
             });

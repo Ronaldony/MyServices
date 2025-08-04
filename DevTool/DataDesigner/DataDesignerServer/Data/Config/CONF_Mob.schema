@@ -1,0 +1,31 @@
+{
+  "Name": "CONF_Mob",
+  "Category": "Mob",
+  "Description": "",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "Area",
+      "IsIndexed": false,
+      "Type": "Type_Area",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "SpawnTimeSec",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    }
+  ]
+}

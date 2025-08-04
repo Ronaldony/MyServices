@@ -45,7 +45,7 @@ namespace Server_Realm.Server.World.Handlers
             // Delivery msg.
             _worldServerActorProvider.Tell<WorldMsg_GamePacket>(new WorldMsg_GamePacket
             {
-                UnitId = gamePacket.UnitId,
+                Pid = gamePacket.Pid,
                 PacketCode = GamePacketCode.CS_AttackMelee,
                 Packet = gamePacket,
             });

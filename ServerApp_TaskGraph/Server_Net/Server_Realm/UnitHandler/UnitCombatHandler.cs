@@ -13,12 +13,13 @@ namespace Server_Realm.UnitHandler
     /// <summary>
     /// UnitCombatHandler.
     /// </summary>
-    public class UnitCombatHandler
+    public class UnitCombatHandler : UnitHandlerBase
     {
         private readonly ILogger<UnitCombatHandler> _logger;
 
-        // Projectile service.
-        private readonly ProjectileFactory _projectilefActory;
+        // Projectile factory.
+        private readonly ProjectileFactory _projectileFactory;
+        private readonly CollisionFactory _collisionFactory;
 
         // Unit.
         private readonly Unit _owner;
@@ -31,8 +32,9 @@ namespace Server_Realm.UnitHandler
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitCombatHandler>>();
             
-            _projectilefActory = serviceProvider.GetRequiredService<ProjectileFactory>();
-            
+            _projectileFactory = serviceProvider.GetRequiredService<ProjectileFactory>();
+            _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
+
             _owner = owner;
 
             _projectiles = new HashSet<Projectile>();
@@ -71,6 +73,27 @@ namespace Server_Realm.UnitHandler
             }
         }
 
+        #region melee
+        /// <summary>
+        /// 유닛과 근접 공격 처리.
+        /// </summary>
+        public void CollideMelee(Type_Collision collisionType, Vector2 angle, int damage, IEnumerable<Unit> units)
+        {
+            // 피격 적 유닛 탐색.
+            var collision = _collisionFactory.Create(collisionType).Update(_owner.MovementHandler.NowPos(), angle);
+            var hitbox = collision.GetHitbox();
+
+            // 히트 판정.
+            foreach (var unit in units)
+            {
+                unit.CombatHandler.Hit(hitbox, damage);
+            }
+
+            // Release.
+            _collisionFactory.Return(collision);
+        }
+        #endregion
+
         #region projectiles
         /// <summary>
         /// 유닛과 투사체 충돌.
@@ -93,7 +116,7 @@ namespace Server_Realm.UnitHandler
         public void OwnProjectile(Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
         {
             // Add projectile.
-            _projectiles.Add(_projectilefActory.Create(_owner, projectileType, spawnPos, angle, damage));
+            _projectiles.Add(_projectileFactory.Create(_owner, projectileType, spawnPos, angle, damage));
         }
 
         /// <summary>
@@ -105,11 +128,22 @@ namespace Server_Realm.UnitHandler
             foreach (var prjt in _distroyProjectiles)
             {
                 _projectiles.Remove(prjt);
-                _projectilefActory.Return(prjt);
+                _projectileFactory.Return(prjt);
             }
 
             _distroyProjectiles.Clear();
         }
         #endregion
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public override void Dispose()
+        {
+            foreach (var prjt in _projectiles)
+            {
+                _projectileFactory.Return(prjt);
+            }
+        }
     }
 }

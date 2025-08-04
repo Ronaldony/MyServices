@@ -2,7 +2,7 @@
 namespace Server_Realm.AI.Actions
 {
     using Server_Realm.AI.Actions.Interfaces;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
 
     /// <summary>
     /// AIAction.

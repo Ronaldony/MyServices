@@ -17,13 +17,12 @@
             // 근정 공격.
             pu.AttackMelee(packet.Angle);
 
-            //공격 패킷 전송.
-            SendPacket_AroundSections(pu.Pid, pu.Section, GamePacketCode.SC_AttackMelee,
-                new GamePacketSC_AttackMelee
-                {
-                    UnitId = pu.UnitId,
-                    Angle = packet.Angle
-                });
+            // 패킷 전송 - 공격.
+            pu.WorldSection.SendPacket_AroundSections(pu.UnitId, GamePacketCode.SC_AttackMelee, new GamePacketSC_AttackMelee
+            {
+                UnitId = pu.UnitId,
+                Angle = packet.Angle
+            });
         }
     }
 }

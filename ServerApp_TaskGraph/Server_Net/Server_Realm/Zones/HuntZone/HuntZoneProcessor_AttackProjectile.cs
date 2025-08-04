@@ -36,7 +36,7 @@ namespace Server_Realm.Zones.HuntZone
             };
 
             // Send packet.
-            SendPacket_AroundSections(pu.Pid, pu.Section, GamePacketCode.SC_AttackProjectile, gamePacket);
+            pu.WorldSection.SendPacket_AroundSections(pu.UnitId, GamePacketCode.SC_AttackProjectile, gamePacket);
         }
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System.Numerics;
 
-namespace Server_Realm.Units.Enemy
+namespace Server_Realm.Units.Mob
 {
     using GameCore.Datas.Mobs;
+    using Microsoft.Extensions.DependencyInjection;
     using Server_Realm.AI;
     using Server_Realm.Collisions;
+    using Server_Realm.Core.Factory;
     using Server_Realm.Core.Types;
     using Server_Realm.Entities;
     using Server_Realm.UnitHandler;
-    using Server_Realm.Worlds;
 
     /// <summary>
     /// MobUnit.
@@ -20,14 +21,16 @@ namespace Server_Realm.Units.Enemy
         {
             // Unit.
             UnitId = unitId;
-            UnitType = Type_Unit.Enemy;
-            Section = SectionId.ToSection(dtoMob.Location.Pos);
+            UnitType = Type_Unit.Mob;
             UnitCollision = collision;
 
             // handler.
             CombatHandler = new UnitCombatHandler(serviceProvider, this);
             MovementHandler = new UnitMovementHandler(serviceProvider, this, dtoMob.Location, dtoMob.Stat);
             StatHandler = new UnitStatHandler(serviceProvider, this, dtoMob.Stat);
+
+            // Factories.
+            CollisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
 
             // MobUnit.
             Mob = dtoMob;
@@ -36,7 +39,6 @@ namespace Server_Realm.Units.Enemy
         }
         #endregion
 
-        #region props
         /// <summary>
         /// Spawn position.
         /// </summary>
@@ -45,13 +47,17 @@ namespace Server_Realm.Units.Enemy
         /// Mob.
         /// </summary>
         public DTO_Mob Mob { get; private set; }
-        #endregion
 
         /// <summary>
         /// Dispose.
         /// </summary>
         public override void Dispose()
         {
+            // Release memory.
+            CollisionFactory.Return(UnitCollision);
+
+            // Dispose.
+            CombatHandler.Dispose();
         }
     }
 }

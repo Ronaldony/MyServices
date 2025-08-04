@@ -12,10 +12,10 @@ namespace GameCore.Datas.Projectiles
     public partial class DTO_Projectile : IDisposable
     {
         /// <summary>
-        /// Projectile id.
+        /// Projectile type.
         /// </summary>
         [MemoryPackOrder(0)]
-        public int ProjectileId { get; set; }
+        public Type_Projectile ProjectileType { get; set; }
 
         /// <summary>
         /// 투사체 스폰 지점.

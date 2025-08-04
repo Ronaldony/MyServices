@@ -2,8 +2,9 @@
 {
     using GameCore;
     using Server_Realm.Entities;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// DistrictProcessor.
@@ -13,10 +14,10 @@
         /// <summary>
         /// Initialize world group.
         /// </summary>
-        private World_Group Initialize_WorldGroup()
+        private WorldGroup Initialize_WorldGroup(IServiceProvider serviceProvider, IZoneProcessor zoneProcessor)
         {
             var aroundSessionDict = new Dictionary<SectionId, HashSet<SectionId>>();
-            var worldSectionDict = new Dictionary<SectionId, World_Section>();
+            var worldSectionDict = new Dictionary<SectionId, WorldSection>();
 
             // 지역 정보 불러오기.
             var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
@@ -36,7 +37,7 @@
                     var section = new SectionId(sectionX, sectionY);
 
                     aroundSessionDict.Add(section, new HashSet<SectionId>());
-                    worldSectionDict.Add(section, new World_Section(section));
+                    worldSectionDict.Add(section, new WorldSection(serviceProvider, zoneProcessor, section));
                 }
             }
 
@@ -59,9 +60,9 @@
                 }
             }
 
-            return new World_Group
+            return new WorldGroup
             {
-                PlayerUnitDict = new Dictionary<long, PlayerUnit>(),
+                PlayerUnitDict = new Dictionary<string, PlayerUnit>(),
                 MobUnitDict = new Dictionary<long, MobUnit>(),
                 AroundSectionDict = aroundSessionDict,
                 WorldSectionDict = worldSectionDict

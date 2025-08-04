@@ -61,11 +61,11 @@
     },
     {
       "Idx": 8,
-      "Name": "Summary",
+      "Name": "IsGrenade",
       "IsIndexed": false,
-      "Type": "string",
+      "Type": "bool",
       "RefTable": "",
-      "Summary": "summary"
+      "Summary": ""
     }
   ]
 }

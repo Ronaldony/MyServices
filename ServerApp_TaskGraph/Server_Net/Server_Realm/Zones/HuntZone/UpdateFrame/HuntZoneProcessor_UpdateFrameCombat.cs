@@ -25,7 +25,7 @@
         /// <summary>
         /// 프레임 업데이트 - 투사체 충돌 처리.
         /// </summary>
-        private void UpdateFrame_Projectile(double deltaTime, World_Section worldSection)
+        private void UpdateFrame_Projectile(double deltaTime, WorldSection worldSection)
         {
             var aroundSections = GetAroundSections(worldSection.Section);
 

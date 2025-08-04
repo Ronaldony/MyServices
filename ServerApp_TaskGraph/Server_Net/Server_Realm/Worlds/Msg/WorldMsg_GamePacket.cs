@@ -11,10 +11,11 @@ namespace Server_Realm.Worlds.Msg
         {
 
         }
+
         /// <summary>
-        /// UnitId.
+        /// Pid.
         /// </summary>
-        public long UnitId;
+        public string Pid;
 
         /// <summary>
         /// Packet code.

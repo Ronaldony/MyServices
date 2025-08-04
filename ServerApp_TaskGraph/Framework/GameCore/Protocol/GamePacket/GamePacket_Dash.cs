@@ -15,7 +15,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// 대시 위치.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
          public Vector2 Position { get; set; }
     }
 

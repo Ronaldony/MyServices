@@ -15,7 +15,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// PlayInfo.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public DTO_PlayInfo PlayInfo { get; set; }
     }
 

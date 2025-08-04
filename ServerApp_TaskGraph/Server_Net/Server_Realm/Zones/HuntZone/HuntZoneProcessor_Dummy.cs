@@ -25,7 +25,8 @@ namespace Server_Realm.Zones.HuntZone
                 packet.PlayInfos = ws.GetPlayerUnits().ToDictionary(d => d.UnitId, d => d.PlayInfo);
                 packet.Mobs = ws.GetMobUnits().ToDictionary(d => d.UnitId, d => d.Mob);
 
-                SendPacket_AroundSections(section, GamePacketCode.SC_DummyMove, packet);
+                // 패킷 전송 - 더미.
+                ws.SendPacket_AroundSections(GamePacketCode.SC_DummyMove, packet);
 
                 // Dispose.
                 packet.Dispose();

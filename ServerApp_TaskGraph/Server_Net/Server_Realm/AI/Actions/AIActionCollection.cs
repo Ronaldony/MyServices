@@ -6,7 +6,7 @@
     using Server_Realm.AI.Actions.Movement;
     using Server_Realm.AI.Actions.States;
     using Server_Realm.Entities;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
 
     /// <summary>
     /// AIActionCollection.

@@ -19,19 +19,9 @@ namespace Server_Realm.Entities
             // 충돌 처리 관련.
             var collisionType = EquipmentHandler.GetWeaponCollisionType();
             var damage = EquipmentHandler.GetDamage() + StatHandler.GetPower();
-            
-            // 피격 적 유닛 탐색.
-            var collision = _collisionFactory.Create(collisionType).Update(MovementHandler.NowPos(), angle);
-            var hitbox = collision.GetHitbox();
 
-            // 유닛 공격.
-            foreach (var mu in aroundMobs)
-            {
-                mu.CombatHandler.Hit(hitbox, damage);
-            }
-
-            // 공격 유닛 탐색.
-            _collisionFactory.Return(collision);
+            // Collide melee.
+            CombatHandler.CollideMelee(collisionType, angle, damage, aroundMobs);
         }
 
         /// <summary>

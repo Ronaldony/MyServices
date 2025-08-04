@@ -14,8 +14,8 @@
         }
 
         /// <summary>
-        /// Leave unit id.
+        /// Pid.
         /// </summary>
-        public long UnitId;
+        public string Pid;
     }
 }

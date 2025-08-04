@@ -73,8 +73,7 @@ namespace Server_Realm.Server.World.Handlers
                     if (false == sessionInfo.AccessToken.Equals(GamePacket.Token)) throw new ServerException($"not exist session. pid: {pid}");
 
                     // UnitId 생성, 등록.
-                    var unitId = _uniqueIdService.GenerateIdAsLong();
-                    if (false == _huntZoneServer.RegisterUnitId(sessionId, sessionUid, pid, unitId)) throw new ServerException($"already exist player. pid: {pid}");
+                    if (false == _huntZoneServer.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
 
                     ////////////////////////////////////////////////////////////////////
                     /// Load info datas.

@@ -22,6 +22,11 @@ namespace GameCore.GamePacket
     [GamePacketAttribute(GamePacketCode.SC_UpdateUnitMovement)]
     public partial class GamePacketSC_UpdateUnitMovement : GamePacketBase_SC
     {
+        public GamePacketSC_UpdateUnitMovement()
+        {
+            UnitLocations = new Dictionary<long, DTO_Location>();
+        }
+
         /// <summary>
         /// Unit locations.
         /// key: unit id.
@@ -29,5 +34,13 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(0)]
         public Dictionary<long, DTO_Location> UnitLocations { get; set; }
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public new void Dispose()
+        {
+            UnitLocations.Clear();
+        }
     }
 }

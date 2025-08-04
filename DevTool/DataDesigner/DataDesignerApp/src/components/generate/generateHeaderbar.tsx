@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from '@mui/material';
-import React, { Fragment, useCallback, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Request_Delete, Request_Patch } from '../../apis/restAPI.ts';
 import { RES_Error } from '../../classes/shared/protocols/error.ts';
@@ -25,6 +25,11 @@ export default function GenerateHeaderbar({ profileName, profile }: any) {
     // edit
     const [editMsg, setEditMsg] = useState('');
     const [openEditModal, setOpenEditModal] = useState(false);
+
+    // Set ori profile name.
+    useEffect(() => {
+        setOriProfileName(profileName);
+    }, [profileName]);
 
     // on error
     const onError = useCallback(
@@ -69,7 +74,7 @@ export default function GenerateHeaderbar({ profileName, profile }: any) {
     // on request delete
     const onRequestDelete = useCallback(() => {
         // parameters
-        const req = new REQ_DeleteProfile(profileName);
+        const req = new REQ_DeleteProfile(oriProfileName);
 
         // request
         Request_Delete<RES_DeleteProfile>(process.env.REACT_APP_API_SUB_GENERATE_DELETE_PROFILE, req)
@@ -80,12 +85,7 @@ export default function GenerateHeaderbar({ profileName, profile }: any) {
 
         // reset modal
         setOpenDeleteModal(false)
-    }, [profileName, navigate, onError])
-
-    // check schema name
-    if (!profileName) {
-        return <Fragment></Fragment>
-    }
+    }, [oriProfileName, navigate, onError])
 
     // Render header
     return (

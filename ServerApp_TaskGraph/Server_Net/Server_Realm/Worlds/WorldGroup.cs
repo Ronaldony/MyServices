@@ -1,12 +1,13 @@
 ﻿namespace Server_Realm.Worlds
 {
     using Server_Realm.Entities;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
+    using System.Collections.Concurrent;
 
     /// <summary>
-    /// World_Group.
+    /// WorldGroup.
     /// </summary>
-    public class World_Group
+    public class WorldGroup
     {
         /// <summary>
         /// Around section dictionary.
@@ -16,14 +17,14 @@
         public Dictionary<SectionId, HashSet<SectionId>> AroundSectionDict;
 
         /// <summary>
-        /// Player unit 리스트.
-        /// key: UnitId.
+        /// Player units.
+        /// key: Pid.
         /// value: PlayerUnit.
         /// </summary>
-        public Dictionary<long, PlayerUnit> PlayerUnitDict;
+        public Dictionary<string, PlayerUnit> PlayerUnitDict;
 
         /// <summary>
-        /// Mob unit 리스트.
+        /// Mob units.
         /// key: UnitId.
         /// value: MobUnit.
         /// </summary>
@@ -34,6 +35,6 @@
         /// key: section.
         /// value: world section.
         /// </summary>
-        public Dictionary<SectionId, World_Section> WorldSectionDict { get; set; }
+        public Dictionary<SectionId, WorldSection> WorldSectionDict;
     }
 }

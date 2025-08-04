@@ -42,6 +42,19 @@ namespace Server_Realm.Core.Factory
         }
 
         /// <summary>
+        /// Get projectile id.
+        /// </summary>
+        public int GetProjectileId(Type_Projectile projectileType)
+        {
+            if (_tbProjectileDict.ContainsKey(projectileType))
+            {
+                return _tbProjectileDict[projectileType].Id;
+            }
+
+            return 0;
+        }
+
+        /// <summary>
         /// Create projectile.
         /// </summary>
         public Projectile Create(Unit owner, Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
@@ -69,6 +82,12 @@ namespace Server_Realm.Core.Factory
             {
                 case Type_Projectile.Arrow:
                     _memoryPoolService.Release(projectile as ArrowProjectile);
+                    break;
+                case Type_Projectile.Rasor:
+                    break;
+                case Type_Projectile.RasorBall:
+                    break;
+                case Type_Projectile.Grenade:
                     break;
                 default:
                     break;

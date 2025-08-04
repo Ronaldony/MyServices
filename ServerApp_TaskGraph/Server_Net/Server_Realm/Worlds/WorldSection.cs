@@ -1,29 +1,49 @@
-﻿using System.Collections.Concurrent;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ServerEngine.Core.Services.Interfaces;
+using System.Collections.Concurrent;
+using System.Numerics;
 
 namespace Server_Realm.Worlds
 {
     using GameCore;
     using Server_Realm.Entities;
-    using Server_Realm.Units.Enemy;
-    using System.Numerics;
+    using Server_Realm.Units.Mob;
+    using Server_Realm.Zones;
 
     /// <summary>
-    /// World_Section.
+    /// WorldSection.
     /// </summary>
-    public class World_Section
+    public partial class WorldSection
     {
-        public World_Section(SectionId section)
+        public WorldSection(IServiceProvider serviceProvider, IZoneProcessor zoneProcessor, SectionId section)
         {
+            _zoneProcessor = zoneProcessor;
+            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
+
             Section = section;
             _playerUnitDict = new ConcurrentDictionary<long, PlayerUnit>();
             _mobUnitDict = new ConcurrentDictionary<long, MobUnit>();
-            AroundWorldSections = new List<World_Section>();
+            _aroundWorldSections = new List<WorldSection>();
         }
 
         /// <summary>
         /// This section.
         /// </summary>
         public SectionId Section { get; private set; }
+
+        // Get units.
+        public IEnumerable<PlayerUnit> GetPlayerUnits() => _playerUnitDict.Values;
+        public IEnumerable<MobUnit> GetMobUnits() => _mobUnitDict.Values;
+
+        /// <summary>
+        /// ZoneProcessor.
+        /// </summary>
+        private readonly IZoneProcessor _zoneProcessor;
+
+        /// <summary>
+        /// DataSerializer.
+        /// </summary>
+        private readonly IDataSerializer _dataSerializer;
 
         /// <summary>
         /// Player unit.
@@ -42,18 +62,14 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// Around sections.
         /// </summary>
-        private List<World_Section> AroundWorldSections;
-
-        // Get units.
-        public IEnumerable<PlayerUnit> GetPlayerUnits() => _playerUnitDict.Values;
-        public IEnumerable<MobUnit> GetMobUnits() => _mobUnitDict.Values;
+        private List<WorldSection> _aroundWorldSections;
 
         /// <summary>
         /// Add around world section.
         /// </summary>
-        public void AddAroundWorldSection(World_Section worldSection)
+        public void AddAroundWorldSection(WorldSection worldSection)
         {
-            AroundWorldSections.Add(worldSection);
+            _aroundWorldSections.Add(worldSection);
         }
 
         /// <summary>
@@ -95,7 +111,7 @@ namespace Server_Realm.Worlds
         /// </summary>
         public List<MobUnit> DetectAroundMobs()
         {
-            return _mobUnitDict.Values.Concat(AroundWorldSections.SelectMany(d => d.GetMobUnits())).ToList();
+            return _mobUnitDict.Values.Concat(_aroundWorldSections.SelectMany(d => d.GetMobUnits())).ToList();
         }
 
         /// <summary>
@@ -118,7 +134,7 @@ namespace Server_Realm.Worlds
             }
 
             // Find around sections.
-            foreach (var ws in AroundWorldSections)
+            foreach (var ws in _aroundWorldSections)
             {
                 foreach (var pu in ws.GetPlayerUnits())
                 {

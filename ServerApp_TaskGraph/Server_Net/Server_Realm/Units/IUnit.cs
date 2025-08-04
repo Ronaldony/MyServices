@@ -27,11 +27,6 @@ namespace Server_Realm.Entities
         Type_Unit UnitType { get; }
 
         /// <summary>
-        /// 현재 섹션.
-        /// </summary>
-        SectionId Section { get; }
-
-        /// <summary>
         /// Collision.
         /// </summary>
         Collision UnitCollision { get; }
@@ -39,6 +34,6 @@ namespace Server_Realm.Entities
         /// <summary>
         /// World section.
         /// </summary>
-        World_Section WorldSection { get; }
+        WorldSection WorldSection { get; }
     }
 }

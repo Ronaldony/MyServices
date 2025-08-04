@@ -1,0 +1,79 @@
+{
+  "Name": "TB_Mob",
+  "Category": "Unit",
+  "Description": "",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "Name",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "Health",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 4,
+      "Name": "Damage",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "AttackRange",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "AttackCooldown",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 7,
+      "Name": "Speed",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 8,
+      "Name": "Defense",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 9,
+      "Name": "AttackType",
+      "IsIndexed": false,
+      "Type": "Type_MobAttack",
+      "RefTable": "",
+      "Summary": ""
+    }
+  ]
+}

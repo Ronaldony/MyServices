@@ -1,7 +1,7 @@
 ﻿namespace Server_Realm.AI.Actions.States
 {
     using GameCore;
-    using Server_Realm.Units.Enemy;
+    using Server_Realm.Units.Mob;
 
     /// <summary>
     /// AIIdleAction.

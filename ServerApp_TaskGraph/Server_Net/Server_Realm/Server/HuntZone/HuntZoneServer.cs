@@ -25,22 +25,22 @@ namespace Server_Realm.Server.HuntZone
         /// key: Session uid.
         /// value: PId.
         /// </summary>
-        private ConcurrentDictionary<ulong, long> _sessionDict;
+        private ConcurrentDictionary<ulong, string> _sessionDict;
 
         /// <summary>
         /// GameSessoin dictionary.
         /// key: pid.
         /// value: game session.
         /// </summary>
-        private ConcurrentDictionary<long, GameSession> _gameSessionDict;
+        private ConcurrentDictionary<string, GameSession> _gameSessionDict;
 
         public HuntZoneServer(IServiceProvider serviceProvider)
             : base(serviceProvider, serviceProvider.GetRequiredService<ActorSystem>())
         {
             _logger = serviceProvider.GetService<ILogger<HuntZoneServer>>();
 
-            _sessionDict = new ConcurrentDictionary<ulong, long>();
-            _gameSessionDict = new ConcurrentDictionary<long, GameSession>();
+            _sessionDict = new ConcurrentDictionary<ulong, string>();
+            _gameSessionDict = new ConcurrentDictionary<string, GameSession>();
 
             _huntZoneProvider = serviceProvider.GetService<HuntZoneProcessorProvider>();
         }
@@ -58,13 +58,13 @@ namespace Server_Realm.Server.HuntZone
         protected override void OnDisconnected(int sessionId, ulong sessionUid)
         {
             // Remove session.
-            _sessionDict.TryRemove(sessionUid, out var unitId);
-            _gameSessionDict.TryRemove(unitId, out _);
+            _sessionDict.TryRemove(sessionUid, out var pid);
+            _gameSessionDict.TryRemove(pid, out _);
 
             // Send message.
             _huntZoneProvider.Tell<WorldMsg_LeavePlayer>(new WorldMsg_LeavePlayer
             {
-                UnitId = unitId
+                Pid = pid
             });
         }
 
@@ -79,10 +79,10 @@ namespace Server_Realm.Server.HuntZone
         /// <summary>
         /// Add pid.
         /// </summary>
-        public bool RegisterUnitId(int sessionId, ulong sessionUid, string pid, long unitId)
+        public bool RegisterPid(int sessionId, ulong sessionUid, string pid)
         {
             if (_sessionDict.ContainsKey(sessionUid)    // 세션 중복 
-                || _gameSessionDict.ContainsKey(unitId))   // 이미 접속한 유저
+                || _gameSessionDict.ContainsKey(pid))   // 이미 접속한 유저
             {
                 return false;
             }
@@ -93,8 +93,8 @@ namespace Server_Realm.Server.HuntZone
                 SessionUid = sessionUid,
             };
 
-            _sessionDict.AddOrUpdate(sessionUid, unitId, (key, old) => unitId);
-            _gameSessionDict.AddOrUpdate(unitId, gameSession, (key, old) => gameSession);
+            _sessionDict.AddOrUpdate(sessionUid, pid, (key, old) => pid);
+            _gameSessionDict.AddOrUpdate(pid, gameSession, (key, old) => gameSession);
 
             return true;
         }
@@ -113,19 +113,19 @@ namespace Server_Realm.Server.HuntZone
         /// <summary>
         /// Get pid.
         /// </summary>
-        public long GetUnitId(ulong sessionUid)
+        public string GetPid(ulong sessionUid)
         {
-            _sessionDict.TryGetValue(sessionUid, out var unitId);
+            _sessionDict.TryGetValue(sessionUid, out var pid);
 
-            return unitId;
+            return pid;
         }
 
         /// <summary>
         /// Send packet.
         /// </summary>
-        public bool Send(long unitId, int packetCode, byte[] packetData)
+        public bool Send(string pid, int packetCode, byte[] packetData)
         {
-            if (_gameSessionDict.TryGetValue(unitId, out var gameSession))
+            if (_gameSessionDict.TryGetValue(pid, out var gameSession))
             {
                 return false;
             }

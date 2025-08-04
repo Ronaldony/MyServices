@@ -6,32 +6,27 @@
   },
   {
     "Id": 1,
-    "Name": "Pattern1",
+    "Name": "Idle",
     "Summary": ""
   },
   {
     "Id": 2,
-    "Name": "Pattern2",
+    "Name": "Roam",
     "Summary": ""
   },
   {
     "Id": 3,
-    "Name": "Pattern3",
+    "Name": "Combat",
     "Summary": ""
   },
   {
     "Id": 4,
-    "Name": "Pattern4",
+    "Name": "Return",
     "Summary": ""
   },
   {
     "Id": 5,
-    "Name": "Pattern5",
-    "Summary": ""
-  },
-  {
-    "Id": 6,
-    "Name": "Pattern6",
+    "Name": "Dead",
     "Summary": ""
   }
 ]

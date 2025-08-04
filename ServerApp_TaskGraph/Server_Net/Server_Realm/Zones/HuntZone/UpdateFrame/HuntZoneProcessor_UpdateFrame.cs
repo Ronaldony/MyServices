@@ -40,6 +40,9 @@ namespace Server_Realm.Zones.HuntZone
             // Barodcast.
             UpdateFrame_Braodcast();
 
+            // Collect dead units.
+            UpdateFrame_CollectDeadUnits();
+
             _logger.LogDebug($"frame update time: {(TimeUtil.Now - nowTime).Milliseconds}");
         }
 
@@ -49,9 +52,8 @@ namespace Server_Realm.Zones.HuntZone
         private (TaskNode_WorldSection, Type_TaskNode) UpdateFrame((TaskNode_WorldSection taskNode, Type_TaskNode taskNodeType) tuple)
         {
             var taskNode = tuple.taskNode;
-            var taskNodeType = tuple.taskNodeType;
 
-            switch (taskNodeType)
+            switch (tuple.taskNodeType)
             {
                 case Type_TaskNode.Combat:
                     UpdateFrame_Combat(_frameDeltaSec, taskNode.TaskSections);
@@ -106,8 +108,8 @@ namespace Server_Realm.Zones.HuntZone
                 }
 
                 // 패킷 전송.
-                SendPacket_AroundSections(ws.Section, GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
-                SendPacket_AroundSections(ws.Section, GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
+                ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
+                ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
 
                 _memoryPoolService.Release(updateUnitMovement);
                 _memoryPoolService.Release(updateUnitStat);
@@ -115,11 +117,11 @@ namespace Server_Realm.Zones.HuntZone
         }
 
         /// <summary>
-        /// UpdateFrame 
+        /// Collect dead units.
         /// </summary>
-        private void UpdateFrame_CollectDeathUnits()
+        private void UpdateFrame_CollectDeadUnits()
         {
-
+            // Collect dead units.
         }
     }
 }
