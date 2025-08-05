@@ -29,9 +29,8 @@ namespace Server_Realm.Zones.HuntZone
             // 이동 처리.
             // 전투, AI 등의 처리를 위치 기반으로 처리하기 때문에 모든 처리 전에 좌표를 동기화 시킴.
             UpdateFrame_Movement(_frameDeltaSec);
-            UpdateFrame_AI(_frameDeltaSec);
 
-            // 테스크 디스패처 실행. 
+            // 테스크 디스패치. 
             foreach (var nodeType in _taskNodeTypes)
             {
                 await _taskDispatcher.DispatchTasksAsync(nodeType);
@@ -55,6 +54,9 @@ namespace Server_Realm.Zones.HuntZone
 
             switch (tuple.taskNodeType)
             {
+                case Type_TaskNode.AI:
+                    UpdateFrame_AI(_frameDeltaSec, taskNode.TaskSections);
+                    break;
                 case Type_TaskNode.Combat:
                     UpdateFrame_Combat(_frameDeltaSec, taskNode.TaskSections);
                     break;
@@ -121,7 +123,21 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private void UpdateFrame_CollectDeadUnits()
         {
-            // Collect dead units.
+            /////////////////////////////////////////////////////
+            // 죽은 몹 수거.
+            foreach (var mu in _worldUnitCollector.DeadMobUnitDict.Values)
+            {
+                // Leave section.
+                mu.WorldSection.LeaveMob(mu.UnitId);
+
+                // Leave zone.
+                _worldGroup.MobUnitDict.Remove(mu.UnitId);
+
+                // Return unit.
+                _unitFactory.Return(mu);
+            }
+
+            _worldUnitCollector.DeadMobUnitDict.Clear();
         }
     }
 }

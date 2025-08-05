@@ -1,11 +1,8 @@
 {
   "profiles": {
-    "http": {
+    "DataDesignerServer": {
       "commandName": "Project",
-      "commandLineArgs": "-p 7000",
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:8010"
+      "commandLineArgs": "-p 7000"
     }
-  },
-  "$schema": "https://json.schemastore.org/launchsettings.json"
+  }
 }

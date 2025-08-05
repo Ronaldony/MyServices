@@ -1,13 +1,12 @@
-﻿using System.Numerics;
-
-namespace Server_Realm.Entities
+﻿namespace Server_Realm.Entities
 {
     using Server_Realm.AI;
     using Server_Realm.Collisions;
-    using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
     using Server_Realm.UnitHandler;
     using Server_Realm.Worlds;
+    using Server_Realm.Zones;
 
     /// <summary>
     /// Unit.
@@ -32,7 +31,7 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Collision.
         /// </summary>
-        public Collision UnitCollision { get; protected set; }
+        public Collision UnitCollision { get; set; }
 
         /// <summary>
         /// AI head.
@@ -60,14 +59,9 @@ namespace Server_Realm.Entities
         public WorldSection WorldSection { get; set; }
 
         /// <summary>
-        /// World section.
+        /// Zone processor.
         /// </summary>
-        public WorldUnitCollector UnitCollector { get; set; }
-
-        /// <summary>
-        /// CollisionFactory.
-        /// </summary>
-        public CollisionFactory CollisionFactory { get; protected set; }
+        public IZoneProcessor ZoneProcessor { get; set; }
 
         /// <summary>
         /// Dispose.

@@ -9,7 +9,8 @@ namespace Server_Realm.Server.World.Handlers
     using GameCore;
     using GameCore.Datas.Play;
     using Server_Realm.Core.ActorProviders;
-    using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Factories;
+    using Server_Realm.Core.Types;
     using Server_Realm.Entities;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.Worlds.Msg;
@@ -23,7 +24,8 @@ namespace Server_Realm.Server.World.Handlers
 
         private readonly IServiceProvider _serviceProvider;
         private readonly IUniqueIdService _uniqueIdService;
-        private readonly CollisionFactory _collisionService;
+        private readonly UnitFactory _unitFactory;
+        private readonly CollisionFactory _collisionFactory;
 
         private readonly DBPlayInfo _dbPlayInfo;
         private readonly DBInventoryInfo _dbInventoryInfo;
@@ -38,7 +40,8 @@ namespace Server_Realm.Server.World.Handlers
 
             _serviceProvider = serviceProvider;
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
-            _collisionService = serviceProvider.GetRequiredService<CollisionFactory>();
+            _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
+            _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
 
             _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
             _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
@@ -54,7 +57,7 @@ namespace Server_Realm.Server.World.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
-            Task.Run(async () => 
+            Task.Run(async () =>
             {
                 _logger.LogDebug($"Player Spawn");
 
@@ -89,21 +92,17 @@ namespace Server_Realm.Server.World.Handlers
         /// </summary>
         private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
         {
-            // 충돌 박스.
-            var playerColllision = _collisionService.Create(Type_Collision.Player);
-            if (null == playerColllision)
-            {
-                return;
-            }
-
             // Create player unit.
             var unitId = _uniqueIdService.GenerateIdAsLong();
-            var playerUnit = new PlayerUnit(_serviceProvider, unitId, playInfo, playerColllision);
+
+            // Setup player unit.
+            var pu = _unitFactory.CreateUnit<PlayerUnit>(Type_Unit.Player);
+            pu.Setup(unitId, playInfo);
 
             // 메시지 전달.
             _worldServerActorProvider.Tell<WorldMsg_SpawnPlayer>(new WorldMsg_SpawnPlayer
             {
-                PlayerUnit = playerUnit
+                PlayerUnit = pu
             });
         }
     }

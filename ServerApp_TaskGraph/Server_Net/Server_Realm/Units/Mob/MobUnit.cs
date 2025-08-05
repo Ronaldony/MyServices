@@ -1,13 +1,13 @@
-﻿using System.Numerics;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Numerics;
 
 namespace Server_Realm.Units.Mob
 {
     using GameCore.Datas.Mobs;
-    using Microsoft.Extensions.DependencyInjection;
     using Server_Realm.AI;
-    using Server_Realm.Collisions;
-    using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
+    using Server_Realm.Core.Utilities;
     using Server_Realm.Entities;
     using Server_Realm.UnitHandler;
 
@@ -16,21 +16,34 @@ namespace Server_Realm.Units.Mob
     /// </summary>
     public partial class MobUnit : Unit
     {
-        #region constructor
-        public MobUnit(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob, Collision collision)
+        public MobUnit()
         {
+            var serviceProvider = ServiceUtility.GetServiceProvider();
+
             // Unit.
-            UnitId = unitId;
             UnitType = Type_Unit.Mob;
-            UnitCollision = collision;
 
             // handler.
-            CombatHandler = new UnitCombatHandler(serviceProvider, this);
-            MovementHandler = new UnitMovementHandler(serviceProvider, this, dtoMob.Location, dtoMob.Stat);
-            StatHandler = new UnitStatHandler(serviceProvider, this, dtoMob.Stat);
+            CombatHandler = new UnitCombatHandler(serviceProvider);
+            MovementHandler = new UnitMovementHandler(serviceProvider);
+            StatHandler = new UnitStatHandler(serviceProvider);
+        }
 
-            // Factories.
-            CollisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
+        #region setup
+        /// <summary>
+        /// Setup.
+        /// </summary>
+        public void Setup(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob)
+        {
+            // Unit.
+            IsDead = false;
+            UnitId = unitId;
+            UnitType = Type_Unit.Mob;
+
+            // handler.
+            CombatHandler.Setup(this);
+            MovementHandler.Setup(this, dtoMob.Location, dtoMob.Stat);
+            StatHandler.Setup(this, dtoMob.Stat);
 
             // MobUnit.
             Mob = dtoMob;
@@ -43,6 +56,7 @@ namespace Server_Realm.Units.Mob
         /// Spawn position.
         /// </summary>
         public Vector2 SpawnPos { get; private set; }
+
         /// <summary>
         /// Mob.
         /// </summary>
@@ -53,9 +67,6 @@ namespace Server_Realm.Units.Mob
         /// </summary>
         public override void Dispose()
         {
-            // Release memory.
-            CollisionFactory.Return(UnitCollision);
-
             // Dispose.
             CombatHandler.Dispose();
         }

@@ -1,4 +1,6 @@
 ﻿
+using System.Reflection.Emit;
+
 namespace DataDesignerServer.Core.DataManager.ClassData
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace DataDesignerServer.Core.DataManager.ClassData
         public bool UpdateRows(string className, List<object> rows)
         {
             // Find type.
-            var tb = FindTypeBuilder(className);
+            var tb = FindTableBuilder(className);
             if (null == tb)
             {
                 return false;
@@ -19,12 +21,18 @@ namespace DataDesignerServer.Core.DataManager.ClassData
             // Create type.
             var type = tb.CreateType();
 
-            var newRows = new List<object>();
-            foreach (var row in rows)
+            // Get new data rows.
+            var newRows = GetNewRows(type, rows);
+            if (null == newRows)
             {
-                // Add row.
-                var rowData = GetRowData(type, row);
-                newRows.Add(rowData);
+                // Table 빌더 Refresh.
+                var classGroup = GetClassGroup(className);
+                var newTB = CreateTypeBuilder(classGroup.Schema.Name, classGroup.Schema);
+
+                AddOrUpdateClassGroup(classGroup.Schema.Name, tb: newTB);
+
+                // Get new rows.
+                newRows = GetNewRows(classGroup.Builder.CreateType(), rows);
             }
 
             AddOrUpdateClassGroup(className, rows: newRows);
@@ -35,6 +43,29 @@ namespace DataDesignerServer.Core.DataManager.ClassData
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Get new data rows.
+        /// </summary>
+        private List<object> GetNewRows(Type type, List<object> rows)
+        {
+            var newRows = new List<object>();
+            foreach (var row in rows)
+            {
+                // Add row.
+                var rowData = GetRowData(type, row);
+
+                if (null == rowData)
+                {
+                    // Table 빌더 Refresh.
+                    return null;
+                }
+
+                newRows.Add(rowData);
+            }
+
+            return newRows;
         }
 
         /// <summary>
@@ -68,6 +99,13 @@ namespace DataDesignerServer.Core.DataManager.ClassData
                     }
 
                     prop.SetValue(rowData, value);
+
+                    if (false == prop.GetValue(rowData).Equals(value))
+                    {
+                        // Type이 변경되었지만, Table에는 반영되지 않은 경우 발생.
+                        // 이 경우, Table 빌더를 Refresh 해줘야 함.
+                        return null;
+                    }
                 }
                 else
                 {

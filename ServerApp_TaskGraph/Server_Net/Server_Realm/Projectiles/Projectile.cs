@@ -49,11 +49,6 @@ namespace Server_Realm.Projectiles
         public int Damage { get; protected set; }
 
         /// <summary>
-        /// 활성 여부.
-        /// </summary>
-        public bool IsActive;
-
-        /// <summary>
         /// 투사체 생성 위치. 
         /// </summary>
         protected Vector2 SpawnPos;

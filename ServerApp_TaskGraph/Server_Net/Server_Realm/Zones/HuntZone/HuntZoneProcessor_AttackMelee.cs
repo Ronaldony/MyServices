@@ -5,7 +5,7 @@
     using Server_Realm.Entities;
 
     /// <summary>
-    /// DistrictProcessor.
+    /// HuntZoneProcessor.
     /// </summary>
     public partial class HuntZoneProcessor
     {

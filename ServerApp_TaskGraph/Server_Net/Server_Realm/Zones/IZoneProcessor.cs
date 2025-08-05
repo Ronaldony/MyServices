@@ -1,7 +1,8 @@
-﻿using GameCore.GamePacket;
-
-namespace Server_Realm.Zones
+﻿namespace Server_Realm.Zones
 {
+    using GameCore.GamePacket;
+    using Server_Realm.Entities;
+
     /// <summary>
     /// IZoneProcessor.
     /// </summary>
@@ -11,6 +12,16 @@ namespace Server_Realm.Zones
         /// Tell.
         /// </summary>
         void Tell<T>(T msg);
+
+        /// <summary>
+        /// Get player unit.
+        /// </summary>
+        public PlayerUnit GetPlayer(string pid);
+
+        /// <summary>
+        /// Collect dead unit.
+        /// </summary>
+        public void CollectDeadUnit(Unit unit);
 
         /// <summary>
         /// Send pakcet.

@@ -1,13 +1,15 @@
 ﻿namespace Server_Realm.Zones.HuntZone
 {
     using GameCore;
+    using GameCore.Interfaces;
+    using Microsoft.Extensions.DependencyInjection;
     using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
     using System.Collections.Concurrent;
 
     /// <summary>
-    /// DistrictProcessor.
+    /// HuntZoneProcessor.
     /// </summary>
     public partial class HuntZoneProcessor
     {
@@ -20,7 +22,8 @@
             var worldSectionDict = new Dictionary<SectionId, WorldSection>();
 
             // 지역 정보 불러오기.
-            var confArea = _tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
+            var tdbService = serviceProvider.GetRequiredService<ITDBService>();
+            var confArea = tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
 
             // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
             var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;

@@ -12,13 +12,13 @@ namespace Server_Realm.UnitHandler
     /// </summary>
     public class UnitStatHandler : UnitHandlerBase
     {
-        private readonly ILogger<UnitStatHandler> _logger;
+        private ILogger<UnitStatHandler> _logger;
 
         // Unit.
-        private readonly Unit _owner;
+        private Unit _owner;
 
         // DTO.
-        private readonly DTO_Stat _stat;
+        private DTO_Stat _stat;
 
         // 상태 업데이트 여부.
         private bool _needsStatusUpdate;
@@ -26,12 +26,20 @@ namespace Server_Realm.UnitHandler
         public int GetPower() => _stat.Power;
         public DTO_Stat GetStat() => _stat;
 
-        public UnitStatHandler(IServiceProvider serviceProvider, Unit owner, DTO_Stat stat)
+        public UnitStatHandler(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitStatHandler>>();
+        }
 
+        /// <summary>
+        /// 기본 상태 초기화.
+        /// </summary>
+        public void Setup(Unit owner, DTO_Stat stat)
+        {
             _owner = owner;
             _stat = stat;
+
+            _needsStatusUpdate = false;
         }
 
         /// <summary>
@@ -39,6 +47,8 @@ namespace Server_Realm.UnitHandler
         /// </summary>
         public void Update(double deltaTime)
         {
+            // 유닛 죽음 판정 확인.
+            if (_owner.IsDead) return;
         }
 
         /// <summary>

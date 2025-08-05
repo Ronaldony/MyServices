@@ -8,7 +8,7 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Entities;
 
     /// <summary>
-    /// DistrictProcessor.
+    /// HuntZoneProcessor.
     /// </summary>
     public partial class HuntZoneProcessor
     {

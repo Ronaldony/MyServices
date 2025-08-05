@@ -15,12 +15,12 @@ namespace GameCore
         /// </summary>
         Rasor = 2,
         /// <summary>
+        /// Grape
+        /// </summary>
+        Grape = 100,
+        /// <summary>
         /// rasor ball
         /// </summary>
-        RasorBall = 100,
-        /// <summary>
-        /// grenade
-        /// </summary>
-        Grenade = 101
+        RasorBall = 101
     }
 }

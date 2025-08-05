@@ -16,7 +16,7 @@ namespace Server_Realm
     using Framework.Config.ConfigManager;
     using Framework.Core.Database.Attributes;
     using GameCore.Interfaces;
-    using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
     using Server_Realm.Core.Utilities;
     using Server_Realm.Server.HuntZone;
@@ -65,9 +65,13 @@ namespace Server_Realm
             var projectileFactory = _serviceProvider.GetRequiredService<ProjectileFactory>();
             projectileFactory.Initialize();
 
-            // UnitInitializeService.
-            var unitInitializeService = _serviceProvider.GetRequiredService<UnitInitializeService>();
-            unitInitializeService.Initialize();
+            // UnitFactory.
+            var unitFactory = _serviceProvider.GetRequiredService<UnitFactory>();
+            unitFactory.Initialize();
+
+            // MobCreateService.
+            var mobCreateService = _serviceProvider.GetRequiredService<MobCreateService>();
+            mobCreateService.Initialize();
 
             // Utilies.
             ServiceUtility.Initialize(_serviceProvider);

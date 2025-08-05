@@ -1,8 +1,9 @@
-﻿namespace Server_Realm.AI.Actions
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Server_Realm.AI.Actions
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Microsoft.Extensions.DependencyInjection;
     using Server_Realm.AI.Actions.Movement;
     using Server_Realm.AI.Actions.States;
     using Server_Realm.Entities;

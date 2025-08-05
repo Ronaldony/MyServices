@@ -3,7 +3,6 @@
 namespace Server_Realm.AI.Actions.Movement
 {
     using GameCore;
-    using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
 
     /// <summary>
@@ -18,7 +17,7 @@ namespace Server_Realm.AI.Actions.Movement
         private readonly int _attackRangeSqr;       // 공격 사거리 제곱근. (거리 비교용)
 
         // Target.
-        private PlayerUnit _target;
+        private string _targetPid;
         private Vector2 _targetPos;
 
         public AICombatAction(MobUnit owner, TB_Mob tbMob)
@@ -43,8 +42,8 @@ namespace Server_Realm.AI.Actions.Movement
             }
 
             // Set position.
-            _target = detectPlayer;
-            _targetPos = _target.MovementHandler.NowPos();
+            _targetPid = detectPlayer.Pid;
+            _targetPos = detectPlayer.MovementHandler.NowPos();
 
             // Move start.
             Owner.MovementHandler.MoveStart(Vector2.Normalize(Owner.MovementHandler.NowPos() - _targetPos));
@@ -52,8 +51,10 @@ namespace Server_Realm.AI.Actions.Movement
 
         public override void Update(double deltaTime)
         {
-            // 타겟이 죽거나 비활성화 상태인 경우, Idle 상태 진입.
-            if (_target.IsDead)
+            var target = Owner.ZoneProcessor.GetPlayer(_targetPid);
+            
+            // 타겟이 Zone에 없거나 죽은 경우 Idle 상태 진입.
+            if (null == target || target.IsDead)
             {
                 // Combat -> Idle.
                 Brain.ChangeState(Type_AIState.Idle);
@@ -62,7 +63,7 @@ namespace Server_Realm.AI.Actions.Movement
 
             _nowCooldown += deltaTime;
 
-            var nowTargetPos = _target.MovementHandler.NowPos();
+            var nowTargetPos = target.MovementHandler.NowPos();
             var ownerPos = Owner.MovementHandler.NowPos();
 
             // 타겟이 공격 사정 거리인지 확인.
@@ -75,7 +76,7 @@ namespace Server_Realm.AI.Actions.Movement
                     _nowCooldown = 0;
 
                     // 공격.
-                    Owner.Attack(_target);
+                    Owner.Attack(target);
                 }
 
                 return;
@@ -101,7 +102,7 @@ namespace Server_Realm.AI.Actions.Movement
         public override void Stop()
         {
             // 초기화.
-            _target = null;
+            _targetPid = string.Empty;
             _nowCooldown = 0;
         }
     }

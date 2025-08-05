@@ -55,7 +55,7 @@ namespace DataDesignerServer.Core.DataManager.ClassData
             // Check column.
             var rows = FindRowsOrDefault(schema.Name).ToList();
 
-            var oldTB = FindTypeBuilder(oldSchema.Name);
+            var oldTB = FindTableBuilder(oldSchema.Name);
             var newTB = oldTB;
 
             if (IsColumnChanged(oldSchema.Columns, schema.Columns))

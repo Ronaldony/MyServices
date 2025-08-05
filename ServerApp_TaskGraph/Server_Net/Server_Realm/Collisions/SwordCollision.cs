@@ -34,7 +34,7 @@ namespace Server_Realm.Collisions
         }
 
         /// <summary>
-        /// 위치 업데이트.
+        /// 위치 업데이트 - 방향성이 있는 충돌 처리.
         /// </summary>
         /// <param name="pos">위치</param>
         /// <param name="angle">회전 축</param>
@@ -60,7 +60,7 @@ namespace Server_Realm.Collisions
         }
 
         /// <summary>
-        /// 위치 업데이트.
+        /// 위치 업데이트 - 방향성이 없는 충돌 처리.
         /// </summary>
         public override Collision Update(Vector2 pos)
         {

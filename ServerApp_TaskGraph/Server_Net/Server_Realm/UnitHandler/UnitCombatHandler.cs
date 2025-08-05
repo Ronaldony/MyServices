@@ -5,7 +5,7 @@ using System.Numerics;
 namespace Server_Realm.UnitHandler
 {
     using GameCore;
-    using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Factories;
     using Server_Realm.Entities;
     using Server_Realm.HitBoxes;
     using Server_Realm.Projectiles;
@@ -22,23 +22,31 @@ namespace Server_Realm.UnitHandler
         private readonly CollisionFactory _collisionFactory;
 
         // Unit.
-        private readonly Unit _owner;
+        private Unit _owner;
 
         // Projectiles
         private readonly HashSet<Projectile> _projectiles;
+        private readonly HashSet<Projectile> _grenades;
         private readonly List<Projectile> _distroyProjectiles;
 
-        public UnitCombatHandler(IServiceProvider serviceProvider, Unit owner)
+        public UnitCombatHandler(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitCombatHandler>>();
-            
+
             _projectileFactory = serviceProvider.GetRequiredService<ProjectileFactory>();
             _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
 
-            _owner = owner;
-
             _projectiles = new HashSet<Projectile>();
+            _grenades = new HashSet<Projectile>();
             _distroyProjectiles = new List<Projectile>();
+        }
+
+        /// <summary>
+        /// 기본 상태 초기화.
+        /// </summary>
+        public void Setup(Unit owner)
+        {
+            _owner = owner;
         }
 
         /// <summary>
@@ -51,12 +59,29 @@ namespace Server_Realm.UnitHandler
             {
                 prjt.MoveNextFrame(deltaTime);
 
-                if (!prjt.IsMaxRange())
+                if (prjt.IsMaxRange())
                 {
                     _distroyProjectiles.Add(prjt);
                 }
             }
 
+            // 유탄 처리.
+            foreach (var grenade in _grenades)
+            {
+                grenade.MoveNextFrame(deltaTime);
+
+                if (grenade.IsMaxRange())
+                {
+                    _distroyProjectiles.Add(grenade);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Post update.
+        /// </summary>
+        public void PostUpdate()
+        {
             // Distroy Projectiles.
             DistroyProjectiles();
         }
@@ -64,10 +89,10 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// 피격.
         /// </summary>
-        public void Hit(IHitbox hitbox, int damage)
+        public void Hit(IHitbox srcHitbox, int damage)
         {
             // Hit box 충돌 검사.
-            if (true == hitbox.IsHit(_owner.UnitCollision.GetHitbox()))
+            if (true == srcHitbox.IsHit(_owner.UnitCollision.GetHitbox()))
             {
                 _owner.StatHandler.Damage(damage);
             }
@@ -111,12 +136,41 @@ namespace Server_Realm.UnitHandler
         }
 
         /// <summary>
+        /// 유닛과 투사체 충돌.
+        /// </summary>
+        public void CollideGrenade(IEnumerable<Unit> units)
+        {
+            // 유닛-투사체 충돌 검사.
+            foreach (var grenade in _grenades)
+            {
+                if (grenade.IsMaxRange())
+                {
+                    foreach (var unit in units)
+                    {
+                        unit.CombatHandler.Hit(grenade.GetHitbox(), grenade.Damage);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Projectile.
         /// </summary>
         public void OwnProjectile(Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
         {
-            // Add projectile.
-            _projectiles.Add(_projectileFactory.Create(_owner, projectileType, spawnPos, angle, damage));
+            var prjt = _projectileFactory.Create(_owner, projectileType, spawnPos, angle, damage);
+
+            // 유탄과 일반 투사체를 구분. (충돌 처리 구별)
+            if (prjt.IsGrenade)
+            {
+                // 유탄.
+                _grenades.Add(prjt);
+            }
+            else 
+            {
+                // 일반 투사체.
+                _projectiles.Add(prjt);
+            }
         }
 
         /// <summary>
@@ -128,6 +182,7 @@ namespace Server_Realm.UnitHandler
             foreach (var prjt in _distroyProjectiles)
             {
                 _projectiles.Remove(prjt);
+                _grenades.Remove(prjt);
                 _projectileFactory.Return(prjt);
             }
 
@@ -140,9 +195,16 @@ namespace Server_Realm.UnitHandler
         /// </summary>
         public override void Dispose()
         {
+            // Projectile.
             foreach (var prjt in _projectiles)
             {
                 _projectileFactory.Return(prjt);
+            }
+
+            // Grenade.
+            foreach (var grenade in _grenades)
+            {
+                _projectileFactory.Return(grenade);
             }
         }
     }

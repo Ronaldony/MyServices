@@ -44,14 +44,14 @@ namespace Server_Realm.Units.Mob
             {
                 // 근접 공격.
                 case Type_MobAttack.Melee:
-                    AttackMelee(target);
+                    //AttackMelee(target);
                     break;
                 // 원거리 공격.
                 case Type_MobAttack.RasorBall:
                     AttackRange(Type_Projectile.RasorBall, target);
                     break;
-                case Type_MobAttack.Grenade:
-                    AttackRange(Type_Projectile.Grenade, target);
+                case Type_MobAttack.Grape:
+                    AttackRange(Type_Projectile.Grape, target);
                     break;
             }
         }
@@ -61,14 +61,14 @@ namespace Server_Realm.Units.Mob
         /// </summary>
         private void AttackMelee(Unit target)
         {
-            var angle = Vector2.Normalize(this.MovementHandler.NowPos() - target.MovementHandler.NowPos());
+            //var angle = Vector2.Normalize(this.MovementHandler.NowPos() - target.MovementHandler.NowPos());
 
             // 패킷 전송 - 근접 공격.
-            WorldSection.SendPacket_AroundSections(GamePacketCode.SC_AttackMelee, new GamePacketSC_AttackMelee
-            {
-                UnitId = this.UnitId,
-                Angle = angle
-            });
+            //WorldSection.SendPacket_AroundSections(GamePacketCode.SC_AttackMelee, new GamePacketSC_AttackMelee
+            //{
+            //    UnitId = this.UnitId,
+            //    Angle = angle
+            //});
         }
 
         /// <summary>

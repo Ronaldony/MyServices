@@ -7,6 +7,7 @@
     {
         None = 0,
         
-        Combat = 1,         // 전투
+        AI = 1,             // AI
+        Combat = 2,         // 전투
     }
 }

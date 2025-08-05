@@ -7,8 +7,9 @@ namespace Server_Realm.Worlds.MsgTrigger
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
+    using Server_Realm.Core.Types;
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
@@ -24,8 +25,10 @@ namespace Server_Realm.Worlds.MsgTrigger
 
         private readonly IServiceProvider _serviceProvider;
         private readonly IUniqueIdService _uniqueIdService;
-        private readonly UnitInitializeService _unitInitializeService;
-        private readonly CollisionFactory _collisionSerivce;
+        private readonly MobCreateService _mobCreateService;
+
+        private readonly UnitFactory _unitFactory;
+        private readonly CollisionFactory _collisionFactory;
 
         // Actor provider.
         private readonly IZoneProcessor _zoneProcessor;
@@ -46,8 +49,10 @@ namespace Server_Realm.Worlds.MsgTrigger
 
             _serviceProvider = serviceProvider;
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
-            _unitInitializeService = serviceProvider.GetRequiredService<UnitInitializeService>();
-            _collisionSerivce = serviceProvider.GetRequiredService<CollisionFactory>();
+            _mobCreateService = serviceProvider.GetRequiredService<MobCreateService>();
+
+            _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
+            _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
 
             _zoneProcessor = zoneProcessor;
 
@@ -106,7 +111,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                 foreach (var mob in _tbMobs)
                 {
                     // 유닛 생성.
-                    var dtoMob = _unitInitializeService.CreateEnemy(mob.Id, Type_Area.HuntZone);
+                    var dtoMob = _mobCreateService.CreateMob(mob.Id, Type_Area.HuntZone);
 
                     if (null == dtoMob)
                     {
@@ -122,7 +127,11 @@ namespace Server_Realm.Worlds.MsgTrigger
                         spawnMsg.MobUnits.Add(section, new List<MobUnit>());
                     }
 
-                    spawnMsg.MobUnits[section].Add(new MobUnit(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob, _collisionSerivce.Create(Type_Collision.Enemy)));
+                    // Create mob unit.
+                    var mu = _unitFactory.CreateUnit<MobUnit>(Type_Unit.Mob);
+                    mu.Setup(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob);
+
+                    spawnMsg.MobUnits[section].Add(mu);
                 }
 
                 // 메시지 전달.

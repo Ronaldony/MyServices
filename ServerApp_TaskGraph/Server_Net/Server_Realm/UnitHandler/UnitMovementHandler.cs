@@ -18,18 +18,18 @@ namespace Server_Realm.UnitHandler
         private readonly ILogger<UnitMovementHandler> _logger;
 
         // Unit.
-        private readonly Unit _owner;
+        private Unit _owner;
 
         // DTO.
-        private readonly DTO_Location _location;
-        private readonly DTO_Stat _stat;
-
-        // 최근 이동 시작 시간.
-        private DateTime _lastMoveTime;
+        private DTO_Location _location;
+        private DTO_Stat _stat;
 
         // Sections.
         public SectionId Section { get; private set; }
         public SectionId OldSection { get; private set; }
+
+        // 최근 이동 시작 시간.
+        private DateTime _lastMoveTime;
 
         // Move status.
         private bool _isMoveing;
@@ -40,18 +40,26 @@ namespace Server_Realm.UnitHandler
         public Vector2 NowPos() => _location.Pos;
         public Vector2 NowDir() => _location.MoveDirection;
 
-        public UnitMovementHandler(IServiceProvider serviceProvider,  Unit owner, DTO_Location location, DTO_Stat stat)
+        public UnitMovementHandler(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitMovementHandler>>();
+        }
 
+        /// <summary>
+        /// 기본 상태 초기화.
+        /// </summary>
+        public void Setup(Unit owner, DTO_Location location, DTO_Stat stat)
+        {
             _owner = owner;
             _location = location;
             _stat = stat;
 
-            _lastMoveTime = TimeUtil.Now;
-
             Section = SectionId.ToSection(_location.Pos);
             OldSection = Section;
+
+            _isMoveing = false;
+            _needsStatusUpdate = false;
+            _lastMoveTime = TimeUtil.Now;
         }
 
         #region move
@@ -73,6 +81,9 @@ namespace Server_Realm.UnitHandler
         /// </summary>
         public void Update(double deltaTime)
         {
+            // 유닛 죽음 판정 확인.
+            if (_owner.IsDead) return;
+
             if (_isMoveing)
             {
                 var deltaPos = _location.MoveDirection * (float)deltaTime * _stat.Velocity;

@@ -41,8 +41,6 @@ namespace Server_Realm.Projectiles
             MaxRangeSqr = maxRange * maxRange;
             IsPenetrates = isPenetrates;
             IsGrenade = isGrenade;
-
-            IsActive = true;
         }
 
         /// <summary>

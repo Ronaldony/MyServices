@@ -33,33 +33,27 @@ namespace GameCore.Datas.Play
         public string PlayerName { get; set; }
 
         /// <summary>
-        /// Action.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public Type_Action Action { get; set; }
-
-        /// <summary>
         /// DTO_Location.
         /// </summary>
-        [MemoryPackOrder(3)]
+        [MemoryPackOrder(2)]
         public DTO_Location Location { get; set; }
 
         /// <summary>
         /// 장비.
         /// </summary>
-        [MemoryPackOrder(4)]
+        [MemoryPackOrder(3)]
         public DTO_Equipment Equipment { get; set; }
 
         /// <summary>
         /// 능력치.
         /// </summary>
-        [MemoryPackOrder(5)]
+        [MemoryPackOrder(4)]
         public DTO_Stat Stat { get; set; }
 
         /// <summary>
         /// regtime.
         /// </summary>
-        [MemoryPackOrder(7)]
+        [MemoryPackOrder(5)]
         public DateTime Regtime { get; set; }
     }
 }

@@ -14,11 +14,10 @@
         {
             foreach (var section in sections)
             {
-                // 유닛 업데이트.
-                var worldSection = _worldGroup.WorldSectionDict[section];
+                var ws = _worldGroup.WorldSectionDict[section];
 
                 // 투사체 업데이트.
-                UpdateFrame_Projectile(deltaTime, worldSection);
+                UpdateFrame_Projectile(deltaTime, ws);
             }
         }
 
@@ -32,25 +31,35 @@
             // 플레이어 투사체와 몹 충돌 처리.
             foreach (var pu in worldSection.GetPlayerUnits())
             {
+                // Update.
                 pu.CombatHandler.Update(deltaTime);
 
                 // 주변 섹션 대상으로 투사체 충돌.
                 Parallel.ForEach(aroundSections, section =>
                 {
                     pu.CombatHandler.CollideProjectiles(_worldGroup.WorldSectionDict[section].GetMobUnits());
+                    pu.CombatHandler.CollideGrenade(_worldGroup.WorldSectionDict[section].GetMobUnits());
                 });
+
+                // Post.
+                pu.CombatHandler.PostUpdate();
             }
 
             // 몹 투사체와 플레이어 충돌 처리.
             foreach (var mu in worldSection.GetMobUnits())
             {
+                // Update.
                 mu.CombatHandler.Update(deltaTime);
 
                 // 주변 섹션 대상으로 투사체 충돌.
                 Parallel.ForEach(aroundSections, section =>
                 {
                     mu.CombatHandler.CollideProjectiles(_worldGroup.WorldSectionDict[section].GetPlayerUnits());
+                    mu.CombatHandler.CollideGrenade(_worldGroup.WorldSectionDict[section].GetMobUnits());
                 });
+
+                // Post.
+                mu.CombatHandler.PostUpdate();
             }
         }
     }

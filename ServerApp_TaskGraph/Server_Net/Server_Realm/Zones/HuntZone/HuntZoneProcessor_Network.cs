@@ -4,7 +4,7 @@ namespace Server_Realm.Zones.HuntZone
     using GameCore.GamePacket;
 
     /// <summary>
-    /// DistrictProcessor.
+    /// HuntZoneProcessor.
     /// </summary>
     public partial class HuntZoneProcessor
     {

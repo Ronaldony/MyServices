@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 
-namespace Server_Realm.Core.Factory
+namespace Server_Realm.Core.Factories
 {
     using GameCore;
     using GameCore.Interfaces;

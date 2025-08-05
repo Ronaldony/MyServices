@@ -5,7 +5,7 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Worlds;
 
     /// <summary>
-    /// DistrictProcessor.
+    /// HuntZoneProcessor.
     /// </summary>
     public partial class HuntZoneProcessor
     {

@@ -146,9 +146,9 @@ namespace DataDesignerServer.Core.DataManager.ClassData
         }
 
         /// <summary>
-        /// Get TypeBuilder.
+        /// Get table builder.
         /// </summary>
-        private TypeBuilder FindTypeBuilder(string className)
+        private TypeBuilder FindTableBuilder(string className)
         {
             // check key.
             if (false == _classGroupDict.ContainsKey(className))

@@ -13,10 +13,10 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        RasorBall = 2,
+        Grape = 2,
         /// <summary>
         /// 
         /// </summary>
-        Grenade = 3
+        RasorBall = 3
     }
 }

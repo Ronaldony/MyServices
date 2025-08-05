@@ -10,11 +10,11 @@ namespace Server_Realm.Core.Services
     using GameCore.Interfaces;
 
     /// <summary>
-    /// UnitInitializeService.
+    /// MobCreateService.
     /// </summary>
-    public class UnitInitializeService
+    public class MobCreateService
     {
-        private readonly ILogger<UnitInitializeService> _logger;
+        private readonly ILogger<MobCreateService> _logger;
 
         // Services.
         private readonly IServiceProvider _serviceProvider;
@@ -27,9 +27,9 @@ namespace Server_Realm.Core.Services
         // Random.
         private readonly Random _rand;
 
-        public UnitInitializeService(IServiceProvider serviceProvider)
+        public MobCreateService(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<UnitInitializeService>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<MobCreateService>>();
 
             _serviceProvider = serviceProvider;
             _tdbService = serviceProvider.GetService<ITDBService>();
@@ -45,13 +45,13 @@ namespace Server_Realm.Core.Services
         /// </summary>
         public void Initialize()
         {
-            _logger.LogInformation($"UnitInitializeService initialized.");
+            _logger.LogInformation($"MobCreateService initialized.");
         }
 
         /// <summary>
-        /// Get enemy template.
+        /// Get mob as template.
         /// </summary>
-        public DTO_Mob CreateEnemy(int refId, Type_Area areaType)
+        public DTO_Mob CreateMob(int refId, Type_Area areaType)
         {
             var tbMob = _tdbService.GetById<TB_Mob>(refId);
             var confArea = _confAreas.FirstOrDefault(d => d.Area == areaType);

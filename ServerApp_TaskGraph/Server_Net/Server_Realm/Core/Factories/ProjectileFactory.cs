@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using System.Numerics;
 
-namespace Server_Realm.Core.Factory
+namespace Server_Realm.Core.Factories
 {
     using GameCore;
     using GameCore.Interfaces;
@@ -60,11 +60,6 @@ namespace Server_Realm.Core.Factory
         public Projectile Create(Unit owner, Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
         {
             var projectile = GetProjectile(projectileType);
-            if (projectile == null)
-            {
-                return null;
-            }
-
             var tbProjectile = _tbProjectileDict.GetValueOrDefault(projectileType);
 
             // Steup projectile.
@@ -87,7 +82,7 @@ namespace Server_Realm.Core.Factory
                     break;
                 case Type_Projectile.RasorBall:
                     break;
-                case Type_Projectile.Grenade:
+                case Type_Projectile.Grape:
                     break;
                 default:
                     break;

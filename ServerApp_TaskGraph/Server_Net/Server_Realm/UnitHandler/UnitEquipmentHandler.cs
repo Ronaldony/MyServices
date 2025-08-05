@@ -19,24 +19,33 @@ namespace Server_Realm.UnitHandler
         private readonly ITDBService _tdbService;
 
         // Unit.
-        private readonly Unit _owner;
+        private Unit _owner;
 
         // Datas.
-        private readonly DTO_Equipment _equipment;
+        private DTO_Equipment _equipment;
         private TB_Weapon _nowTBWeapon;
 
         public int GetDamage() => _nowTBWeapon.Damage;
         public Type_Collision GetWeaponCollisionType() => _nowTBWeapon.CollisionType;
         public Type_Projectile GetProjectileType() => _nowTBWeapon.ProjectileType;
 
-        public UnitEquipmentHandler(IServiceProvider serviceProvider, Unit owner, DTO_Equipment equipment)
+        public UnitEquipmentHandler(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitEquipmentHandler>>();
 
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
+        }
 
+        /// <summary>
+        /// 기본 상태 초기화.
+        /// </summary>
+        public void Setup(Unit owner, DTO_Equipment equipment)
+        {
             _owner = owner;
             _equipment = equipment;
+
+            // Switch weapon.
+            SwitchWeapon(_equipment.Weapon);
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Server_Realm
     using GameCore;
     using GameCore.Interfaces;
     using Server_Realm.Core.ActorProviders;
-    using Server_Realm.Core.Factory;
+    using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
     using Server_Realm.Server.HuntZone;
 
@@ -41,8 +41,9 @@ namespace Server_Realm
             
             appBuilder.Services.AddSingleton<CollisionFactory>();
             appBuilder.Services.AddSingleton<ProjectileFactory>();
-            appBuilder.Services.AddSingleton<UnitInitializeService>();
-            
+            appBuilder.Services.AddSingleton<MobCreateService>();
+            appBuilder.Services.AddSingleton<UnitFactory>();
+
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
             appBuilder.Services.AddSingleton<HuntZoneProcessorProvider>();

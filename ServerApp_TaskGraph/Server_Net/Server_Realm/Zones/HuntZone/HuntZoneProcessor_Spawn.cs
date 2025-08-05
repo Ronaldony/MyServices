@@ -9,7 +9,7 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Worlds.Msg;
 
     /// <summary>
-    /// DistrictProcessor.
+    /// HuntZoneProcessor.
     /// </summary>
     public partial class HuntZoneProcessor
     {
@@ -27,7 +27,7 @@ namespace Server_Realm.Zones.HuntZone
             _worldGroup.PlayerUnitDict.Add(pu.Pid, pu);
 
             // Setup player unit.
-            pu.UnitCollector = _worldUnitCollector;
+            pu.ZoneProcessor = this;
             pu.WorldSection = _worldGroup.WorldSectionDict[section];
             pu.WorldSection.EnterPlayer(pu);
 
@@ -87,7 +87,7 @@ namespace Server_Realm.Zones.HuntZone
                     mu.WorldSection.EnterMob(mu);
 
                     // Setup.
-                    mu.UnitCollector = _worldUnitCollector;
+                    mu.ZoneProcessor = this;
                 }
 
                 if (false == spawnMobDict.ContainsKey(section))
