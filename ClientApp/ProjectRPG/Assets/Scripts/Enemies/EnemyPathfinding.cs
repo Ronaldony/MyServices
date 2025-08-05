@@ -6,8 +6,7 @@ public class EnemyPathfinding : MonoBehaviour
 
     private Rigidbody2D _rb;
 
-    private Vector2 _nextPos;
-    private Vector2 _nextDir;
+    private Vector2 _moveDirection;
 
     private Knockback _knockBack;
     private SpriteRenderer _spriteRenderer;
@@ -17,8 +16,6 @@ public class EnemyPathfinding : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _knockBack = GetComponent<Knockback>();
         _rb = GetComponent<Rigidbody2D>();
-
-        _nextPos = _rb.position;
     }
 
     private void FixedUpdate()
@@ -27,19 +24,20 @@ public class EnemyPathfinding : MonoBehaviour
         if (_knockBack.GettingKnockedBack) { return; }
 
         // check next position.
-        _rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);
+        //_rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);
+        _rb.position += _moveDirection * _velocity * Time.fixedDeltaTime;
 
-        if (_nextDir.x < 0) { _spriteRenderer.flipX = true; }
-        else if (_nextDir.x > 0) { _spriteRenderer.flipX = false; }
+
+        if (_moveDirection.x < 0) { _spriteRenderer.flipX = true; }
+        else if (_moveDirection.x > 0) { _spriteRenderer.flipX = false; }
     }
 
     /// <summary>
     /// Move to.
     /// </summary>
-    public void MoveTo(System.Numerics.Vector2 nextPos)
+    public void MoveTo(System.Numerics.Vector2 nextDir)
     {
-        _nextPos = new Vector2(nextPos.X, nextPos.Y);
-        _nextDir = _nextPos.normalized;
+        _moveDirection = new Vector2(nextDir.X, nextDir.Y);
     }
 
     /// <summary>
@@ -47,17 +45,15 @@ public class EnemyPathfinding : MonoBehaviour
     /// </summary>
     public void StopMoving()
     {
-        _nextPos = Vector3.zero;
+        _moveDirection = Vector3.zero;
     }
 
     /// <summary>
     /// Initialize spawn.
     /// </summary>
-    public void Initialize_Spawn(int velocity, System.Numerics.Vector2 nextPos)
+    public void Initialize_Spawn(int velocity)
     {
         _velocity = velocity;
-        _nextPos = new Vector2(nextPos.X, nextPos.Y);
-        _nextDir = _nextPos.normalized;
     }
 
     /// <summary>

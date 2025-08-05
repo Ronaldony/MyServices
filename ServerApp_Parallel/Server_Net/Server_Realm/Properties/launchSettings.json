@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "Server_Realm": {
-      "commandName": "Project",
-      "commandLineArgs": "-N LoginServer -C appsettings.Development.Company.json -P 9010 -D 1 -S 2",
-      "nativeDebugging": true
-    }
-  }
-}

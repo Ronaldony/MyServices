@@ -6,13 +6,14 @@ using System.Runtime.InteropServices;
 
 namespace GameCore.GamePacket
 {
-    using GameCore.Datas.Enemy;
+    using GameCore.Datas.Mobs;
     using GameCore.Datas.Play;
 
     /// <summary>
     /// GamePacketCS_SpawnPlayer.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_SpawnPlayer)]
     public partial class GamePacketCS_SpawnPlayer : GamePacketBase_CS
     {
     }
@@ -21,30 +22,35 @@ namespace GameCore.GamePacket
     /// GamePacketSC_SpawnPlayer.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketSC_SpawnPlayer : GamePacketBase_SC, IDisposable
+    [GamePacketAttribute(GamePacketCode.SC_SpawnPlayer)]
+    public partial class GamePacketSC_SpawnPlayer : GamePacketBase_SC
     {
         public GamePacketSC_SpawnPlayer()
         {
-            PlayInfos = new List<DTO_PlayInfo>();
-            Enemies = new List<DTO_Enemy>();
+            PlayInfos = new Dictionary<long, DTO_PlayInfo>();
+            Mobs = new Dictionary<long, DTO_Mob>();
         }
 
         /// <summary>
         /// 유저 플레이 정보.
+        /// key: unit id.
+        /// value: PlayInfo.
         /// </summary>
         [MemoryPackOrder(0)]
-        public List<DTO_PlayInfo> PlayInfos { get; set; }
+        public Dictionary<long, DTO_PlayInfo> PlayInfos { get; set; }
 
         /// <summary>
-        /// 적 정보.
+        /// 몹 정보.
+        /// key: unit id.
+        /// value: Mob.
         /// </summary>
         [MemoryPackOrder(1)]
-        public List<DTO_Enemy> Enemies { get; set; }
+        public Dictionary<long, DTO_Mob> Mobs { get; set; }
 
-        public void Dispose()
+        public new void Dispose()
         {
             PlayInfos.Clear();
-            Enemies.Clear();
+            Mobs.Clear();
         }
     }
 }

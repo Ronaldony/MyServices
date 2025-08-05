@@ -6,7 +6,7 @@ using ServerEngine.Core.Util;
 namespace LoginServer.Controllers.Auth
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.GameObjects;
+    using Framework.Core.Database.DataObjects;
     using Framework.Core.WebAPI.ActionFilter;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
@@ -88,7 +88,6 @@ namespace LoginServer.Controllers.Auth
 
             playInfo.Pid = pid;
             playInfo.PlayerName = pid;
-            playInfo.UpdateTime = nowTime;
             playInfo.Location.Area = Type_Area.HuntZone;
             playInfo.Stat.Velocity = 4;
             playInfo.Equipment.Weapon = 1;

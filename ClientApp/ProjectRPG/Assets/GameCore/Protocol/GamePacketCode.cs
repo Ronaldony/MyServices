@@ -9,55 +9,53 @@
         /// UDP 
 
         // Auth.
-        public const int CS_Login = 10;                     // 로그인.
-        public const int SC_Login = 11;                     // 로그인.
-        public const int CS_LogOut= 12;                     // 로그 아웃.
-        public const int SC_LogOut = 13;                    // 로그 아웃.
+        public const int CS_Enter = 10;                         // 플레이어 진입.
+        public const int SC_Enter = 11;                         // 플레이어 진입.
+        public const int CS_Leave = 12;                         // 플레이어 퇴장.
+        public const int SC_Leave = 13;                         // 플레이어 퇴장.
 
         // Spawn.
-        public const int CS_SpawnPlayer = 20;               // 플레이어 스폰.
-        public const int SC_SpawnPlayer = 21;               // 플레이어 스폰.
-        public const int CS_SpawnEnemy = 22;                // 적 스폰.
-        public const int SC_SpawnEnemy = 23;                // 적 스폰.
+        public const int CS_SpawnPlayer = 20;                   // 플레이어 스폰.
+        public const int SC_SpawnPlayer = 21;                   // 플레이어 스폰.
+        public const int CS_SpawnMob = 22;                      // 몹 스폰.
+        public const int SC_SpawnMob = 23;                      // 몹 스폰.
 
         // 이동.
-        public const int CS_MoveStart = 100;                // 이동 시작.
-        public const int SC_MoveStart = 101;                // 이동 시작.
-        public const int CS_MoveEnd = 102;                  // 이동 종료.
-        public const int SC_MoveEnd = 103;                  // 이동 종료.
-        public const int CS_MoveFixed = 104;                // 이동 수정.
-        public const int SC_MoveFixed = 105;                // 이동 수정.
-
-        // 지역 이동.
-        public const int CS_MoveArea = 110;                 // 장소 이동.
-        public const int SC_MoveArea = 111;                 // 장소 이동.
-
-        // 이동 패턴.
-        public const int CS_UpdateMovePattern = 120;        // 이동 패턴 업데이트.
-        public const int SC_UpdateMovePattern = 121;        // 이동 패턴 업데이트.
+        public const int CS_MoveStart = 100;                    // 이동 시작.
+        public const int SC_MoveStart = 101;                    // 이동 시작.
+        public const int CS_MoveEnd = 102;                      // 이동 종료.
+        public const int SC_MoveEnd = 103;                      // 이동 종료.
+        public const int CS_MoveFixed = 104;                    // 이동 수정.
+        public const int SC_MoveFixed = 105;                    // 이동 수정.
 
         // 공격.
-        public const int CS_Attack = 130;                   // 공격.
-        public const int SC_Attack = 131;                   // 공격.
-        public const int CS_AttackProjectile = 132;         // 공격 - 투사체.
-        public const int SC_AttackProjectile = 133;         // 공격 - 투사체.
-        public const int CS_HitEnemy = 134;                 // Enemy 피격.
-        public const int SC_HitEnemy = 135;                 // Enemy 피격.
-
-        // 섹션.
-        public const int CS_UpdateSection = 140;            // 섹션 업데이트.
-        public const int SC_UpdateSection = 141;            // 섹션 업데이트.
+        public const int CS_AttackMelee = 130;                  // 근접 공격.
+        public const int SC_AttackMelee = 131;                  // 근접 공격.
+        public const int CS_AttackProjectile = 132;             // 투사체 공격.
+        public const int SC_AttackProjectile = 133;             // 투사체 공격.
 
         // 넉백.
-        public const int CS_KnockBack = 150;                // 넉백.
-        public const int SC_KnockBack = 151;                // 넉백.
+        public const int CS_KnockBack = 150;                    // 넉백.
+        public const int SC_KnockBack = 151;                    // 넉백.
 
         // 대시.
-        public const int CS_Dash = 160;                     // 대시.
-        public const int SC_Dash = 161;                     // 대시.
+        public const int CS_Dash = 160;                         // 대시.
+        public const int SC_Dash = 161;                         // 대시.
+
+        // 업데이트.
+        public const int CS_UpdateUnitMovement = 170;           // 업데이트 - 이동.
+        public const int SC_UpdateUnitMovement = 171;           // 업데이트 - 이동.
+        public const int CS_UpdateUnitStat = 172;               // 업데이트 - 스텟.
+        public const int SC_UpdateUnitStat = 173;               // 업데이트 - 스텟.
+        public const int CS_UpdateSection = 174;                // 업데이트 - 섹션.
+        public const int SC_UpdateSection = 175;                // 업데이트 - 섹션.
+
+        // 장비.
+        public const int CS_SiwtchEquipment = 1000;             // 장비 교체.
+        public const int SC_SiwtchEquipment = 1001;             // 장비 교체.
 
         // 더미.
-        public const int CS_DummyMove = 10000;              // 더미 이동.
-        public const int SC_DummyMove = 10001;              // 더미 이동.
+        public const int CS_DummyMove = 10000;                  // 더미 이동.
+        public const int SC_DummyMove = 10001;                  // 더미 이동.
     }
 }

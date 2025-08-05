@@ -9,7 +9,7 @@ public class EnemyHealth : MonoBehaviour
     private int _health;
     private Knockback _knockback;
     private Flash _flash;
-    private ulong _enemyUid;
+    private long _unitId;
 
     private void Awake()
     {
@@ -32,6 +32,16 @@ public class EnemyHealth : MonoBehaviour
         // hit routine.
         StartCoroutine(_flash.FlashRoutine());
         StartCoroutine(CheckDetectDeathRoutine());
+    }
+
+    /// <summary>
+    /// Set health.
+    /// </summary>
+    public void UpdateHealth(int hp)
+    {
+        Debug.Log($"Set health: {hp}");
+
+        _health = hp;
     }
 
     /// <summary>
@@ -75,16 +85,16 @@ public class EnemyHealth : MonoBehaviour
             Destroy(gameObject);
 
             // Kill enemy.
-            EnemyManagement.Instance.KillEnemy(_enemyUid);
+            EnemyManagement.Instance.KillEnemy(_unitId);
         }
     }
 
     /// <summary>
     /// Initialize spawn.
     /// </summary>
-    public void Initialize_Spawn(int health, ulong enemyUid)
+    public void Initialize_Spawn(int health, long unitId)
     {
         _health = health;
-        _enemyUid = enemyUid;
+        _unitId = unitId;
     }
 }

@@ -8,11 +8,16 @@
         /// <summary>
         /// Session id.
         /// </summary>
-        public int SessionId { get; set; }
+        public int SessionId;
 
         /// <summary>
         /// Session uid.
         /// </summary>
-        public ulong SessionUid { get; set; }
+        public ulong SessionUid;
+
+        /// <summary>
+        /// Pid.
+        /// </summary>
+        public string Pid;
     }
 }

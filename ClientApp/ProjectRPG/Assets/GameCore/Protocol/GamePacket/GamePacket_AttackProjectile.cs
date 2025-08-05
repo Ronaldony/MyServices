@@ -1,56 +1,43 @@
-﻿using MemoryPack;
+﻿
+using MemoryPack;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace GameCore.GamePacket
 {
+    using GameCore.Datas.Projectiles;
+
     /// <summary>
     /// GamePacketCS_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_AttackProjectile)]
     public partial class GamePacketCS_AttackProjectile : GamePacketBase_CS
     {
         /// <summary>
-        /// 투사체 스폰 지점.
+        /// Projectile.
         /// </summary>
-        [MemoryPackOrder(0)]
-        public Vector2 SpawnPos { get; set; }
-
-        /// <summary>
-        /// Angle.
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public Vector2 Angle { get; set; }
+        [MemoryPackOrder(2)]
+        public DTO_Projectile Projectile { get; set; }
     }
 
     /// <summary>
     /// GamePacketSC_Attack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_AttackProjectile)]
     public partial class GamePacketSC_AttackProjectile : GamePacketBase_SC
     {
         /// <summary>
-        /// 공격 Pid.
+        /// 공격 Unit id.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
+        public long UnitId { get; set; }
 
         /// <summary>
-        /// 투사체 스폰 지점.
+        /// Projectile.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 SpawnPos { get; set; }
-
-        /// <summary>
-        /// Angle.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public Vector2 Angle { get; set; }
-
-        /// <summary>
-        /// Projectile id.
-        /// </summary>
-        [MemoryPackOrder(3)]
-        public int ProjectileId { get; set; }
+        public DTO_Projectile Projectile { get; set; }
     }
 }

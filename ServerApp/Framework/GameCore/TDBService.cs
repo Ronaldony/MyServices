@@ -6,7 +6,6 @@ using System.Collections;
 namespace GameCore
 {
     using GameCore.Interfaces;
-    using System.Threading;
 
     /// <summary>
     /// TDBService.
@@ -73,16 +72,7 @@ namespace GameCore
             }
 
             // Create table.
-            lock (_lock)
-            {
-                // double check.
-                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
-                {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
-
-                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
-                }
-            }
+            CreateHashTable<T>();
 
             return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).GetById(id);
         }
@@ -98,16 +88,7 @@ namespace GameCore
             }
 
             // Create table.
-            lock (_lock)
-            {
-                // double check.
-                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
-                {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
-
-                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
-                }
-            }
+            CreateHashTable<T>();
 
             return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).First(predExpr);
         }
@@ -123,16 +104,7 @@ namespace GameCore
             }
 
             // Create table.
-            lock (_lock)
-            {
-                // double check.
-                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
-                {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
-
-                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
-                }
-            }
+            CreateHashTable<T>();
 
             return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Last(predExpr);
         }
@@ -148,16 +120,7 @@ namespace GameCore
             }
 
             // Create table.
-            lock (_lock)
-            {
-                // double check.
-                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
-                {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
-
-                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
-                }
-            }
+            CreateHashTable<T>();
 
             return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Select(predExpr);
         }
@@ -173,16 +136,7 @@ namespace GameCore
             }
 
             // Create table.
-            lock (_lock)
-            {
-                // double check.
-                if (false == _dataCacheHashTable.ContainsKey(typeof(T).Name))
-                {
-                    var datas = _dbConnectionDict[typeof(T).Name].Query<T>($"SELECT * FROM {typeof(T).Name}");
-
-                    _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
-                }
-            }
+            CreateHashTable<T>();
 
             return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).SelectAll();
         }
@@ -198,6 +152,17 @@ namespace GameCore
             }
 
             // Create table.
+            CreateHashTable<T>();
+
+            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Count();
+        }
+
+        /// <summary>
+        /// Create hash table.
+        /// </summary>
+        private void CreateHashTable<T>() where T : class, ITableBase, new()
+        {
+            // Create table.
             lock (_lock)
             {
                 // double check.
@@ -208,8 +173,6 @@ namespace GameCore
                     _dataCacheHashTable.Add(typeof(T).Name, new TableCache<T>(datas));
                 }
             }
-
-            return (_dataCacheHashTable[typeof(T).Name] as TableCache<T>).Count();
         }
     }
 }

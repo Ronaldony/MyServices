@@ -19,5 +19,10 @@ namespace GameCore.GamePacket
     [GamePacketAttribute(GamePacketCode.SC_Leave)]
     public partial class GamePacketSC_Leave : GamePacketBase_SC
     {
+        /// <summary>
+        /// Unit id.
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public long UnitId { get; set; }
     }
 }

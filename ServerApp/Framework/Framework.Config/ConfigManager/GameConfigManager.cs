@@ -11,7 +11,7 @@ namespace Framework.Config.ConfigManager
         /// <summary>
         /// Game configuration.
         /// </summary>
-        public static Config_Game _configGame { get; private set; }
+        public static Config_Game ConfigGame { get; private set; }
 
         /// <summary>
         /// MySQL connections.
@@ -36,7 +36,7 @@ namespace Framework.Config.ConfigManager
             List<Config_CouchbaseConnection> couchbaseConnections)
         {
             // ConsuleGame.
-            _configGame = consulGame;
+            ConfigGame = consulGame;
 
             // MySQL.
             _mysqlConnectStringDict = new Dictionary<string, string>();

@@ -10,18 +10,19 @@ namespace GameCore.GamePacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_MoveStart)]
     public partial class GamePacketCS_MoveStart : GamePacketBase_CS
     {
         /// <summary>
         /// Direction.
         /// </summary>
-        [MemoryPackOrder(0)]
+        [MemoryPackOrder(2)]
         public Vector2 Direction { get; set; }
 
         /// <summary>
         /// Packet time.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(3)]
         public DateTime PacketTime { get; set; }
     }
 
@@ -30,13 +31,14 @@ namespace GameCore.GamePacket
     /// </summary>
 
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_MoveStart)]
     public partial class GamePacketSC_MoveStart : GamePacketBase_SC
     {
         /// <summary>
-        /// Pid.
+        /// UnitId.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
+        public long UnitId { get; set; }
 
         /// <summary>
         /// Direction.

@@ -47,8 +47,8 @@
         public const int SC_UpdateUnitMovement = 171;           // 업데이트 - 이동.
         public const int CS_UpdateUnitStat = 172;               // 업데이트 - 스텟.
         public const int SC_UpdateUnitStat = 173;               // 업데이트 - 스텟.
-        public const int CS_UpdateUnitAttack = 174;             // 업데이트 - 공격.
-        public const int SC_UpdateUnitAttack = 175;             // 업데이트 - 공격.
+        public const int CS_UpdateSection = 174;                // 업데이트 - 섹션.
+        public const int SC_UpdateSection = 175;                // 업데이트 - 섹션.
 
         // 장비.
         public const int CS_SiwtchEquipment = 1000;             // 장비 교체.

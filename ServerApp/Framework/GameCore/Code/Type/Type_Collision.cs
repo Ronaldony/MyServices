@@ -3,28 +3,20 @@ namespace GameCore
     public enum Type_Collision
     {
         /// <summary>
-        /// None
+        /// none
         /// </summary>
         None = 0,
         /// <summary>
-        /// Player
+        /// player
         /// </summary>
         Player = 1,
         /// <summary>
-        /// Sword
+        /// enemy
         /// </summary>
-        Sword = 2,
+        Enemy = 2,
         /// <summary>
-        /// Arrow
+        /// sword
         /// </summary>
-        Arrow = 3,
-        /// <summary>
-        /// Rasor
-        /// </summary>
-        Rasor = 4,
-        /// <summary>
-        /// Enemy
-        /// </summary>
-        Enemy = 5
+        Sword = 1000
     }
 }

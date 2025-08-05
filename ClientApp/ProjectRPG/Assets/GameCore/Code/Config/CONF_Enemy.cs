@@ -17,9 +17,5 @@ namespace GameCore
         /// 
         /// </summary>
         public int SpawnTimeSec { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int RoamTimeSec { get; set; }
     }
 }

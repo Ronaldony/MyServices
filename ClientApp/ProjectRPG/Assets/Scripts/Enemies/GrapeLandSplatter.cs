@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GrapeLandSplatter : MonoBehaviour
@@ -28,5 +26,4 @@ public class GrapeLandSplatter : MonoBehaviour
     {
         GetComponent<CapsuleCollider2D>().enabled = false;
     }
-
 }

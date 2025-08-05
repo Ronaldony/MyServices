@@ -9,12 +9,13 @@ namespace GameCore.GamePacket
     /// GamePacketCS_KnockBack.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_KnockBack)]
     public partial class GamePacketCS_KnockBack : GamePacketBase_CS
     {
         /// <summary>
         /// 넉백 위치.
         /// </summary>
-        [MemoryPackOrder(0)]
+        [MemoryPackOrder(2)]
         public Vector2 Position { get; set; }
     }
 }

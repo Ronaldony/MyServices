@@ -1,3 +1,4 @@
+using GameCore.Datas.Projectiles;
 using System.Collections;
 using UnityEngine;
 
@@ -9,12 +10,12 @@ public class EnemyAI : MonoBehaviour
         Attacking
     }
 
-    [SerializeField] private MonoBehaviour _enemyType;
+    [SerializeField] private MonoBehaviour _mobType;
 
     [SerializeField] private float _attackRange = 0f;
     [SerializeField] private float _attackCooldown = 2f;
     [SerializeField] private bool _stopMovingWhileAttacking = false;
-    [SerializeField] private int _enemyId;
+    [SerializeField] private int _unitId;
 
     // Status.
     private bool _canAttack = true;
@@ -31,7 +32,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        MovementStateControl();
+        //MovementStateControl();
+
     }
 
     /// <summary>
@@ -73,6 +75,22 @@ public class EnemyAI : MonoBehaviour
     }
 
     /// <summary>
+    /// Attack.
+    /// </summary>
+    private void Attack()
+    {
+        (_mobType as IEnemy)?.Attack();
+    }
+
+    /// <summary>
+    /// Attack.
+    /// </summary>
+    private void AttackProjectile(DTO_Projectile projectile)
+    {
+        (_mobType as IEnemy)?.Attack();
+    }
+
+    /// <summary>
     /// Try to attack.
     /// </summary>
     private void Attacking()
@@ -87,7 +105,7 @@ public class EnemyAI : MonoBehaviour
         {
             _canAttack = false;
 
-            (_enemyType as IEnemy)?.Attack();
+            (_mobType as IEnemy)?.Attack();
 
             if (_stopMovingWhileAttacking)
             {
@@ -108,7 +126,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     /// <summary>
-    /// Get enemy id.
+    /// Get unit id.
     /// </summary>
-    public int GetEnemyId() => _enemyId;
+    public int GetUnitId() => _unitId;
 }

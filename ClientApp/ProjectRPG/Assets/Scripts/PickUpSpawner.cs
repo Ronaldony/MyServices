@@ -1,4 +1,5 @@
 using GameCore;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PickUpSpawner : MonoBehaviour
@@ -6,7 +7,8 @@ public class PickUpSpawner : MonoBehaviour
     [SerializeField] private GameObject goldCoin, healthGlobe, staminaGlobe;
 
     private Type_Item _itemType;
-    
+    private IEnumerable<Type_Item> _dropItems;
+
     /// <summary>
     /// Drop items.
     /// </summary>
@@ -29,8 +31,8 @@ public class PickUpSpawner : MonoBehaviour
     /// <summary>
     /// Initialize spawn.
     /// </summary>
-    public void Initialize_Spawn(Type_Item itemType)
+    public void Initialize_Spawn(IEnumerable<Type_Item> dropItems)
     {
-        _itemType = itemType;
+        _dropItems = dropItems;
     }
 }

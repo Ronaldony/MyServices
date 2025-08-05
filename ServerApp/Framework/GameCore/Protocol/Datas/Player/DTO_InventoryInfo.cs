@@ -1,10 +1,10 @@
 ﻿using MemoryPack;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Inventory
 {
-    using GameCore.Datas.Player.Inventory;
+    using GameCore.Datas.Items;
 
     /// <summary>
     /// 인벤토리 정보.
@@ -14,13 +14,13 @@ namespace GameCore.Datas.Inventory
     {
         public DTO_InventoryInfo()
         {
-            ItemSlots = new List<DTO_ItemSlot>();
+            Items = new List<DTO_Item>();
         }
 
         /// <summary>
         /// Item slots.
         /// </summary>
         [MemoryPackOrder(0)]
-        public List<DTO_ItemSlot> ItemSlots { get; set; }
+        public List<DTO_Item> Items { get; set; }
     }
 }

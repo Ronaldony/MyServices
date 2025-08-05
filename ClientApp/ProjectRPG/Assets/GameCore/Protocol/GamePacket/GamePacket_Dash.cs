@@ -9,12 +9,13 @@ namespace GameCore.GamePacket
     /// GamePacketCS_Dash.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_Dash)]
     public partial class GamePacketCS_Dash : GamePacketBase_CS
     {
         /// <summary>
         /// 대시 위치.
         /// </summary>
-        [MemoryPackOrder(0)]
+        [MemoryPackOrder(2)]
          public Vector2 Position { get; set; }
     }
 
@@ -22,16 +23,17 @@ namespace GameCore.GamePacket
     /// GamePacketSC_Dash.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.SC_Dash)]
     public partial class GamePacketSC_Dash : GamePacketBase_SC
     {
         /// <summary>
-        /// 대시 플레이어.
+        /// 대시 Unit id.
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Pid { get; set; }
+        public long UnitId { get; set; }
 
         /// <summary>
-        /// 대시 위치.
+        /// 대시 방향.
         /// </summary>
         [MemoryPackOrder(1)]
         public Vector2 Direction { get; set; }

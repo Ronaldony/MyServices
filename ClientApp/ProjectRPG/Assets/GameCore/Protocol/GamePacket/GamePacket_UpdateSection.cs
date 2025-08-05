@@ -1,42 +1,47 @@
-﻿using MemoryPack;
+﻿
+using MemoryPack;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System;
 
 namespace GameCore.GamePacket
 {
-    using GameCore.Datas.Enemy;
+    using GameCore.Datas.Mobs;
     using GameCore.Datas.Play;
 
     /// <summary>
     /// GamePacketSC_UpdateSection.
     /// </summary>
-
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class GamePacketSC_UpdateSection : GamePacketBase_SC, IDisposable
+    [GamePacketAttribute(GamePacketCode.SC_UpdateSection)]
+    public partial class GamePacketSC_UpdateSection : GamePacketBase_SC
     {
         public GamePacketSC_UpdateSection()
         {
-            PlayInfos = new List<DTO_PlayInfo>();
-            Enemies = new List<DTO_Enemy>();
+            PlayInfos = new Dictionary<long, DTO_PlayInfo>();
+            Mobs = new Dictionary<long, DTO_Mob>();
         }
 
         /// <summary>
-        /// Play info list.
+        /// 유저 플레이 정보.
+        /// key: unit id.
+        /// value: PlayInfo.
         /// </summary>
         [MemoryPackOrder(0)]
-        public List<DTO_PlayInfo> PlayInfos { get; set; }
+        public Dictionary<long, DTO_PlayInfo> PlayInfos { get; set; }
 
         /// <summary>
-        /// Enemies.
+        /// 몹 정보.
+        /// key: unit id.
+        /// value: Mob.
         /// </summary>
         [MemoryPackOrder(1)]
-        public List<DTO_Enemy> Enemies { get; set; }
+        public Dictionary<long, DTO_Mob> Mobs { get; set; }
 
-        public void Dispose()
+        public new void Dispose()
         {
-            PlayInfos.Clear(); 
-            Enemies.Clear();
+            PlayInfos.Clear();
+            Mobs.Clear();
         }
     }
 }
