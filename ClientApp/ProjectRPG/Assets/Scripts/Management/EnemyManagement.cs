@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class EnemyManagement : Singleton<EnemyManagement>
 {
@@ -92,25 +91,25 @@ public class EnemyManagement : Singleton<EnemyManagement>
                 case GamePacketCode.CS_AttackProjectile:
                     {
                         var packet = updatePacket.Data as GamePacketSC_AttackProjectile;
-
+                        AttackProjectile(packet);
                     }
                     break;
                 case GamePacketCode.SC_SpawnMob:
                     {
                         var packet = updatePacket.Data as GamePacketSC_SpawnMob;
-                        SpawnEnemies(packet.Mobs);
+                        Spawnmobs(packet.Mobs);
                     }
                     break;
                 case GamePacketCode.SC_SpawnPlayer:
                     {
                         var packet = updatePacket.Data as GamePacketSC_SpawnPlayer;
-                        SpawnEnemies(packet.Mobs);
+                        Spawnmobs(packet.Mobs);
                     }
                     break;
                 case GamePacketCode.SC_UpdateSection:
                     {
                         var packet = updatePacket.Data as GamePacketSC_UpdateSection;
-                        SpawnEnemies(packet.Mobs);
+                        Spawnmobs(packet.Mobs);
                     }
                     break;
                 case GamePacketCode.SC_UpdateUnitMovement:
@@ -181,7 +180,9 @@ public class EnemyManagement : Singleton<EnemyManagement>
             return;
         }
 
-
+        // EnemyAI.
+        var mobAI = mobObj.GetComponent<EnemyAI>();
+        mobAI.AttackProjectile(packet.Projectile);
     }
 
     /// <summary>
@@ -199,8 +200,8 @@ public class EnemyManagement : Singleton<EnemyManagement>
             }
 
             // Update health.
-            var enemyPath = mobObj.GetComponent<EnemyHealth>();
-            enemyPath.UpdateHealth(pair.Value.Health);
+            var mobPath = mobObj.GetComponent<EnemyHealth>();
+            mobPath.UpdateHealth(pair.Value.Health);
         }
     }
 
@@ -219,20 +220,20 @@ public class EnemyManagement : Singleton<EnemyManagement>
             }
 
             // Udpate hit.
-            var pathFinding = mobObj.GetComponent<EnemyPathfinding>();
-            pathFinding.MoveTo(pair.Value.MoveDirection);
+            var mobPathfinding = mobObj.GetComponent<EnemyPathfinding>();
+            mobPathfinding.MoveTo(pair.Value.MoveDirection);
         }
     }
 
     /// <summary>
-    /// Update section.
+    /// Spawn mobs.
     /// </summary>
-    private void SpawnEnemies(Dictionary<long, DTO_Mob> mobs)
+    private void Spawnmobs(Dictionary<long, DTO_Mob> mobs)
     {
         foreach (var pair in mobs)
         {
             // Spawn enemy.
-            if (false == SpawnEnemy(pair.Key, pair.Value))
+            if (false == SpawnMob(pair.Key, pair.Value))
             {
                 continue;
             }
@@ -242,7 +243,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// <summary>
     /// Spawn enemy.
     /// </summary>
-    private bool SpawnEnemy(long unitId, DTO_Mob mob)
+    private bool SpawnMob(long unitId, DTO_Mob mob)
     {
         // Find enemy infos.
         var tbEnemy = _tbMobs.FirstOrDefault(d => d.Id == mob.MobId);
@@ -275,11 +276,9 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
         // Set Enemy AI.
         var enemyAI = enemyObject.GetComponent<EnemyAI>();
-        enemyAI.Initialize_Spawn(tbEnemy.Damage, tbEnemy.AttackCooldown);
 
         // Set Enemy path.
         var enemyPathfinding = enemyObject.GetComponent<EnemyPathfinding>();
-        enemyPathfinding.Initialize_Spawn(mob.Stat.Velocity);
 
         // Set Enemy Health.
         var enemyHealth = enemyObject.GetComponent<EnemyHealth>();

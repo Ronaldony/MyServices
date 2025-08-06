@@ -169,14 +169,14 @@ public class LoginManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // Send Login packet.
-        var gamePacket = new GamePacketCS_Login
+        var gamePacket = new GamePacketCS_Enter
         {
             Pid = pid,
             Token = token,
         };
 
         // Send packet.
-        if (false == _GamePacketManager.Send<GamePacketCS_Login>(GamePacketCode.CS_Login, gamePacket))
+        if (false == _GamePacketManager.Send<GamePacketCS_Enter>(GamePacketCode.CS_Enter, gamePacket))
         {
             _noticeText.text = "Fail to send pakcet login.";
         }

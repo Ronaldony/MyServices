@@ -1,4 +1,7 @@
+
+using UnityEngine;
+
 interface IEnemy
 {
-    void Attack();
+    void Attack(Vector2 targetPos, Vector2 projectileSpawnPos);
 }

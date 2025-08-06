@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UnitDummy : MonoBehaviour
 {
-    private ulong _enemyUid;
+    private long _unitId;
 
     private Rigidbody2D _rb2d;
 
@@ -19,19 +19,19 @@ public class UnitDummy : MonoBehaviour
     }
 
     /// <summary>
-    /// Get enemy uid.
+    /// Get enemy unit id.
     /// </summary>
-    public ulong GetUid()
+    public long GetUnitId()
     {
-        return _enemyUid;
+        return _unitId;
     }
 
     /// <summary>
     /// Initialize.
     /// </summary>
-    public void Initialize(ulong enemyUid, System.Numerics.Vector2 pos)
+    public void Initialize(long enemyUid, System.Numerics.Vector2 pos)
     {
-        _enemyUid = enemyUid;
+        _unitId = enemyUid;
         _rb2d.position = new Vector2(pos.X, pos.Y);
     }
 

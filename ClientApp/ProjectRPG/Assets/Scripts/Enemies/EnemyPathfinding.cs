@@ -1,10 +1,13 @@
+using GameCore;
 using UnityEngine;
 
 public class EnemyPathfinding : MonoBehaviour
 {
-    [SerializeField] private float _velocity = 1f;
+    [SerializeField] private int MobId;
 
     private Rigidbody2D _rb;
+
+    private float _velocity;
 
     private Vector2 _moveDirection;
 
@@ -16,6 +19,10 @@ public class EnemyPathfinding : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _knockBack = GetComponent<Knockback>();
         _rb = GetComponent<Rigidbody2D>();
+
+        var tbMob = TDBManagement.Instance.GetById<TB_Mob>(MobId);
+
+        _velocity = tbMob.Speed;
     }
 
     private void FixedUpdate()
@@ -46,14 +53,6 @@ public class EnemyPathfinding : MonoBehaviour
     public void StopMoving()
     {
         _moveDirection = Vector3.zero;
-    }
-
-    /// <summary>
-    /// Initialize spawn.
-    /// </summary>
-    public void Initialize_Spawn(int velocity)
-    {
-        _velocity = velocity;
     }
 
     /// <summary>

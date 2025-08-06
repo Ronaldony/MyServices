@@ -11,10 +11,10 @@ namespace Network
     /// <summary>
     /// UdpHandler_SpawnEnemy.
     /// </summary>
-    public class UdpHandler_SpawnEnemy : UdpHandler
+    public class UdpHandler_SpawnMob : UdpHandler
     {
-        public UdpHandler_SpawnEnemy()
-            : base(GamePacketCode.SC_SpawnEnemy)
+        public UdpHandler_SpawnMob()
+            : base(GamePacketCode.SC_SpawnMob)
         {
         }
 
@@ -29,10 +29,10 @@ namespace Network
             var dummyManagement = DummyManagement.Instance;
 
             // packet.
-            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_SpawnEnemy>(packet.Data);
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_SpawnMob>(packet.Data);
             var updatePacket = new UpdatePacket
             {
-                PacketCode = GamePacketCode.SC_SpawnEnemy,
+                PacketCode = GamePacketCode.SC_SpawnMob,
                 Data = packetData,
             };
 

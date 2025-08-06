@@ -17,7 +17,7 @@ namespace Network
         private readonly GamePacketCS_SpawnPlayer _sendPacket;
 
         public UdpHandler_Login()
-            : base(GamePacketCode.SC_Login)
+            : base(GamePacketCode.SC_Enter)
         {
             _sendPacket = new GamePacketCS_SpawnPlayer();
         }
@@ -29,7 +29,7 @@ namespace Network
         {
             Debug.Log("HandlePacket - Login");
 
-            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_Login>(packet.Data);
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_Enter>(packet.Data);
 
             var playerDataManager = PlayerDataManager.Instance;
             var gamePacketManager = GamePacketManager.Instance;
@@ -40,18 +40,6 @@ namespace Network
 
             // Load scene.
             loginActor.LoadScene(playerDataManager.PlayInfo.Location.Area.ToString());
-            //switch (playerDataManager.PlayInfo.Area)
-            //{
-            //    case Type_Area.HuntZone:
-            //        loginActor.LoadScene(Type_Area.HuntZone.ToString());
-            //        break;
-            //    case Type_Area.BattleZone:
-            //        loginActor.LoadScene(Type_Area.BattleZone.ToString());
-            //        break;
-            //    case Type_Area.Village:
-            //        loginActor.LoadScene(Type_Area.Village.ToString());
-            //        break;
-            //}
 
             // Delay.
             gamePacketManager.Send<GamePacketCS_SpawnPlayer>(GamePacketCode.CS_SpawnPlayer, _sendPacket);

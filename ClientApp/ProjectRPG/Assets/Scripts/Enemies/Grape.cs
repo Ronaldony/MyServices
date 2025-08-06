@@ -15,11 +15,11 @@ public class Grape : MonoBehaviour, IEnemy
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Attack()
+    public void Attack(Vector2 targetPos, Vector2 projectileSpawnPos)
     {
         myAnimator.SetTrigger(ATTACK_HASH);
 
-        if (transform.position.x - PlayerController.Instance.transform.position.x < 0)
+        if (transform.position.x - targetPos.x < 0)
         {
             spriteRenderer.flipX = false;
         }
@@ -27,10 +27,8 @@ public class Grape : MonoBehaviour, IEnemy
         {
             spriteRenderer.flipX = true;
         }
-    }
 
-    public void SpawnProjectileAnimEvent()
-    {
-        Instantiate(grapeProjectilePrefab, transform.position, Quaternion.identity);
+        // Spawn projectile.
+        Instantiate(grapeProjectilePrefab, projectileSpawnPos, Quaternion.identity);
     }
 }

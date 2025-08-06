@@ -12,13 +12,12 @@ GameObject:
   - component: {fileID: 5063367762025667712}
   - component: {fileID: 7886684305725178}
   - component: {fileID: 196109836902488972}
-  - component: {fileID: 2516064442157720856}
-  - component: {fileID: 4962816003445954637}
-  - component: {fileID: 7148950691776375057}
+  - component: {fileID: 8645841316860437178}
+  - component: {fileID: 4989305157047768865}
+  - component: {fileID: 9194441132209468459}
+  - component: {fileID: 8076375560759291828}
   - component: {fileID: 7636745889458891279}
   - component: {fileID: 3679951922834852855}
-  - component: {fileID: 2980224103637563294}
-  - component: {fileID: -7311424843269296981}
   - component: {fileID: 7598905128158785874}
   - component: {fileID: -1006927318150034633}
   m_Layer: 0
@@ -158,7 +157,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2516064442157720856
+--- !u!114 &8645841316860437178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,11 +166,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5464340256960616465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81661b46dbe85ea4c86c742516832fd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c931d13e799805419a51377faf7da1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _velocity: 1
---- !u!114 &4962816003445954637
+  bulletPrefab: {fileID: 0}
+  _projectileId: 0
+--- !u!114 &4989305157047768865
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,15 +180,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5464340256960616465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 215b98a501887834487ccbe2fd1b8274, type: 3}
+  m_Script: {fileID: 11500000, guid: d7887d023b496f742ad8fc7f9caa9427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyType: {fileID: 2516064442157720856}
-  _attackRange: 0
-  _attackCooldown: 2
-  _stopMovingWhileAttacking: 0
-  _enemyId: 2
---- !u!114 &7148950691776375057
+  MobId: 2
+--- !u!114 &9194441132209468459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -197,10 +193,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 5464340256960616465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e02ea999a43a8f94ab7831774f08ab4a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b2350da16f524c468bf10ae1f5b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _deathVFXPrefab: {fileID: 4377807823253097450, guid: 54661e1485a3376468e0f1ea28be50df, type: 3}
+--- !u!114 &8076375560759291828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464340256960616465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 353b4e6fb3fca0a40b06666a5c673fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mobType: {fileID: 8645841316860437178}
 --- !u!114 &7636745889458891279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,40 +236,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _whiteFlashMat: {fileID: 2100000, guid: 0154f1d6a696dc6428a89bb2c1a8a62d, type: 2}
   _restoreDefaultMatTime: 0.2
---- !u!114 &2980224103637563294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5464340256960616465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef1d6a7c2748adc43bdb797646ba7631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-7311424843269296981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5464340256960616465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aca912bcb98977498fb08977538319d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 4772483820718664203, guid: 8288e94025a40c8448b1b839a5c3c571, type: 3}
-  bulletMoveSpeed: 6
-  burstCount: 1
-  projectilesPerBurst: 3
-  angleSpread: 25
-  startingDistance: 0.3
-  timeBetweenBursts: 1
-  restTime: 0.1
-  stagger: 1
-  oscillate: 1
 --- !u!210 &7598905128158785874
 SortingGroup:
   m_ObjectHideFlags: 0

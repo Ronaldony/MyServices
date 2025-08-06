@@ -1,6 +1,6 @@
 ﻿using MemoryPack;
+using System;
 using System.Numerics;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Projectiles
@@ -24,10 +24,10 @@ namespace GameCore.Datas.Projectiles
         public Vector2 SpawnPos { get; set; }
 
         /// <summary>
-        /// Angle.
+        /// 타겟 지점.
         /// </summary>
         [MemoryPackOrder(2)]
-        public Vector2 Angle { get; set; }
+        public Vector2 TargetPos { get; set; }
 
         /// <summary>
         /// Dispose.

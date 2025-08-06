@@ -50,9 +50,9 @@ public class Sword : MonoBehaviour, IWeapon
         Debug.Log($"Attacl angle: {angle}");
         
         // Send Attack.
-        _GamePacketManager.Send<GamePacketCS_Attack>(
-            GamePacketCode.CS_Attack,
-            new GamePacketCS_Attack
+        _GamePacketManager.Send<GamePacketCS_AttackMelee>(
+            GamePacketCode.CS_AttackMelee,
+            new GamePacketCS_AttackMelee
             {
                 Angle = new System.Numerics.Vector2(angle.x, angle.y),
             });

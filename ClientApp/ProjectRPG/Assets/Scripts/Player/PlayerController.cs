@@ -4,7 +4,6 @@ using Network;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
@@ -53,7 +52,7 @@ public class PlayerController : Singleton<PlayerController>
         _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
 
         // Setup position.
-        _rb.position = new Vector2(_playerDataManager.PlayInfo.Location.Position.X, _playerDataManager.PlayInfo.Location.Position.Y);
+        _rb.position = new Vector2(_playerDataManager.PlayInfo.Location.Pos.X, _playerDataManager.PlayInfo.Location.Pos.Y);
 
         Initialize_CallBack();
     }
@@ -205,7 +204,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveStop()
     {
-        _playerDataManager.PlayInfo.Location.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        _playerDataManager.PlayInfo.Location.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
@@ -214,7 +213,7 @@ public class PlayerController : Singleton<PlayerController>
             GamePacketCode.CS_MoveEnd,
             new GamePacketCS_MoveEnd
             {
-                EndPos = _playerDataManager.PlayInfo.Location.Position,
+                EndPos = _playerDataManager.PlayInfo.Location.Pos,
                 PacketTime = packetTime,
             });
 
@@ -251,7 +250,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveFixed(float x, float y)
     {
-        _playerDataManager.PlayInfo.Location.Position = new System.Numerics.Vector2(x, y);
+        _playerDataManager.PlayInfo.Location.Pos = new System.Numerics.Vector2(x, y);
         _rb.position = new Vector2(x, y);
     }
 
@@ -346,7 +345,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void OnKnockBack(Vector2 knockBackPos)
     {
-        _playerDataManager.PlayInfo.Location.Position = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        _playerDataManager.PlayInfo.Location.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         if (_isMoving)
         {

@@ -1,5 +1,6 @@
 using GameCore;
-using GameCore.Datas.Enemy;
+using GameCore.Datas.Mobs;
+using GameCore.Datas.Play;
 using GameCore.GamePacket;
 using Network;
 using System.Collections.Concurrent;
@@ -14,24 +15,16 @@ public class DummyManagement : Singleton<DummyManagement>
     private ConcurrentQueue<UpdatePacket> _updatePacketQ;
 
     /// <summary>
-    /// Player dummy dictionary.
-    /// key: pid.
+    /// Dummy dictionary.
+    /// key: unit id.
     /// value: GameObject.
     /// </summary>
-    private Dictionary<string, GameObject> _playerDummyDict;
-
-    /// <summary>
-    /// Enemy GameObject dictionary.
-    /// key: Enemy uid.
-    /// value: Enemy GameObject.
-    /// </summary>
-    private Dictionary<ulong, GameObject> _enemyDummyDict;
+    private Dictionary<long, GameObject> _dummyDict;
 
     public DummyManagement()
     {
         _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
-        _enemyDummyDict = new Dictionary<ulong, GameObject>();
-        _playerDummyDict = new Dictionary<string, GameObject>();
+        _dummyDict = new Dictionary<long, GameObject>();
     }
 
     private void Start()
@@ -63,27 +56,27 @@ public class DummyManagement : Singleton<DummyManagement>
         {
             switch (updatePacket.PacketCode)
             {
-                case GamePacketCode.SC_SpawnEnemy:
+                case GamePacketCode.SC_SpawnMob:
                     {
-                        var packet = updatePacket.Data as GamePacketSC_SpawnEnemy;
-                        SpawnEnemies(packet.Enemies);
+                        var packet = updatePacket.Data as GamePacketSC_SpawnMob;
+                        SpawnMobDummy(packet.Mobs);
                     }
                     break;
                 case GamePacketCode.SC_UpdateSection:
                     {
                         var packet = updatePacket.Data as GamePacketSC_UpdateSection;
-                        SpawnEnemies(packet.Enemies);
+                        SpawnMobDummy(packet.Mobs);
                     }
                     break;
                 case GamePacketCode.SC_SpawnPlayer:
                     {
                         var packet = updatePacket.Data as GamePacketSC_SpawnPlayer;
-                        SpawnEnemies(packet.Enemies);
+                        SpawnMobDummy(packet.Mobs);
                     }
                     break;
                 case GamePacketCode.SC_DummyMove:
                     {
-                        MoveEnemies(updatePacket.Data as GamePacketSC_DummyMove);
+                        MoveMobs(updatePacket.Data as GamePacketSC_DummyMove);
                     }
                     break;
             }
@@ -91,59 +84,81 @@ public class DummyManagement : Singleton<DummyManagement>
     }
 
     /// <summary>
-    /// Update section.
+    /// Spawn mob duymmy.
     /// </summary>
-    private void SpawnEnemies(List<DTO_Enemy> enemies)
+    private void SpawnMobDummy(Dictionary<long, DTO_Mob> mobs)
     {
-        foreach (var enemy in enemies)
+        foreach (var pair in mobs)
         {
-            SpawnEnemy(enemy);
-        }
-    }
+            var unitid = pair.Key;
+            var mob = pair.Value;
 
-    private void MoveEnemies(GamePacketSC_DummyMove packet)
-    {
-        foreach (var playInfo in packet.PlayInfos)
-        {
-            if (_playerDummyDict.TryGetValue(playInfo.Pid, out var gameObject))
+            // Add Enemy chunk.
+            if (_dummyDict.ContainsKey(unitid))
             {
-                var dummy = gameObject.GetComponent<UnitDummy>();
-                dummy.Move(playInfo.Location.Position);
+                Debug.Log($"Already exist dummy. unitid: {unitid}");
+                continue;
             }
-        }
 
-        foreach (var enemy in packet.Enemies)
-        {
-            if (_enemyDummyDict.TryGetValue(enemy.EnemeyUid, out var gameObject))
-            {
-                var dummy = gameObject.GetComponent<UnitDummy>();
-                dummy.Move(enemy.Location.Pos);
-            }
+            // Create enemy object.
+            var dummyObject = Instantiate(_dummyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
+
+            _dummyDict.Add(unitid, dummyObject);
+
+            var enemyDummy = dummyObject.GetComponent<UnitDummy>();
+            enemyDummy.Initialize(unitid, mob.Location.Pos);
+
+            Debug.Log($"Spawn dummy - unitid: {unitid}, pos: {mob.Location.Pos}");
         }
     }
 
     /// <summary>
-    /// Spawn enemy.
+    /// Spawn player duymmy.
     /// </summary>
-    private bool SpawnEnemy(DTO_Enemy enemy)
+    private void SpawnPlayerDummy(Dictionary<long, DTO_PlayInfo> players)
     {
-        // Add Enemy chunk.
-        if (_enemyDummyDict.ContainsKey(enemy.EnemeyUid))
+        foreach (var pair in players)
         {
-            Debug.Log($"Already exist dummy. uid: {enemy.EnemeyUid}");
-            return false;
+            var unitid = pair.Key;
+            var player = pair.Value;
+
+            // Add Enemy chunk.
+            if (_dummyDict.ContainsKey(unitid))
+            {
+                Debug.Log($"Already exist dummy. unitid: {unitid}");
+                continue;
+            }
+
+            // Create enemy object.
+            var dummyObject = Instantiate(_dummyPrefab, new Vector3(player.Location.Pos.X, player.Location.Pos.Y), Quaternion.identity);
+
+            _dummyDict.Add(unitid, dummyObject);
+
+            var enemyDummy = dummyObject.GetComponent<UnitDummy>();
+            enemyDummy.Initialize(unitid, player.Location.Pos);
+
+            Debug.Log($"Spawn dummy - unitid: {unitid}, pos: {player.Location.Pos}");
+        }
+    }
+
+    private void MoveMobs(GamePacketSC_DummyMove packet)
+    {
+        foreach (var pair in packet.PlayInfos)
+        {
+            if (_dummyDict.TryGetValue(pair.Key, out var gameObject))
+            {
+                var dummy = gameObject.GetComponent<UnitDummy>();
+                dummy.Move(pair.Value.Location.Pos);
+            }
         }
 
-        // Create enemy object.
-        var dummyObject = Instantiate(_dummyPrefab, new Vector3(enemy.Location.Pos.X, enemy.Location.Pos.Y), Quaternion.identity);
-
-        _enemyDummyDict.Add(enemy.EnemeyUid, dummyObject);
-
-        var enemyDummy = dummyObject.GetComponent<UnitDummy>();
-        enemyDummy.Initialize(enemy.EnemeyUid, enemy.Location.Pos);
-
-        Debug.Log($"Spawn dummy - uid: {enemy.EnemeyUid}, pos: {enemy.Location.Pos}");
-
-        return true;
+        foreach (var pair in packet.Mobs)
+        {
+            if (_dummyDict.TryGetValue(pair.Key, out var gameObject))
+            {
+                var dummy = gameObject.GetComponent<UnitDummy>();
+                dummy.Move(pair.Value.Location.Pos);
+            }
+        }
     }
 }
