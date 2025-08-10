@@ -35,7 +35,7 @@ namespace Server_Realm.Worlds.MsgTrigger
 
         // Configuration.
         private readonly CONF_Area _confArea;
-        private readonly CONF_Enemy _confEnemy;
+        private readonly CONF_Mob _confMob;
 
         // Enemy.
         private readonly List<TB_Mob> _tbMobs;
@@ -60,7 +60,7 @@ namespace Server_Realm.Worlds.MsgTrigger
 
             // 데이터 초기화.
             _confArea = tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
-            _confEnemy = tdbService.First<CONF_Enemy>(d => d.Area.Equals(Type_Area.HuntZone));
+            _confMob = tdbService.First<CONF_Mob>(d => d.Area.Equals(Type_Area.HuntZone));
 
             _tbMobs = tdbService.SelectAll<TB_Mob>().ToList();
 
@@ -74,7 +74,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         {
             // 구독.
             _subscriptions.Add(
-                Observable.Interval(TimeSpan.FromSeconds(_confEnemy.SpawnTimeSec))
+                Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
                 .Subscribe(count =>
                 {
                     SpawnEnemy();

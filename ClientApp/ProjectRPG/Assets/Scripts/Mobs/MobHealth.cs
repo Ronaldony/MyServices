@@ -2,7 +2,7 @@ using GameCore;
 using System.Collections;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class MobHealth : MonoBehaviour
 {
     [SerializeField] private GameObject _deathVFXPrefab;
 

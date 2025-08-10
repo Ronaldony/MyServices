@@ -7,6 +7,7 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
+    using System.Diagnostics;
 
     /// <summary>
     /// HuntZoneProcessor.
@@ -19,6 +20,8 @@ namespace Server_Realm.Zones.HuntZone
         private void SpawnPlayer(WorldMsg_SpawnPlayer worldMsg)
         {
             _logger.LogDebug($"Spawn plaeyr in processor");
+            var totalSw = new Stopwatch();
+            totalSw.Start();
 
             var pu = worldMsg.PlayerUnit;
             var section = pu.MovementHandler.Section;
@@ -35,35 +38,45 @@ namespace Server_Realm.Zones.HuntZone
             var gamePacket = _memoryPoolService.Rent<GamePacketSC_SpawnPlayer>();
             var aroundSections = GetAroundSections(section);
 
-            foreach (var targetSection in aroundSections)
+            foreach (var srcSection in aroundSections)
             {
+                var ws = _worldGroup.WorldSectionDict[srcSection];
+
                 // Players.
-                foreach (var targetPu in pu.WorldSection.GetPlayerUnits())
+                foreach (var targetPu in ws.GetPlayerUnits())
                 {
                     gamePacket.PlayInfos.Add(targetPu.UnitId, targetPu.PlayInfo);
                 }
 
                 // Mobs.
-                foreach (var targetWu in pu.WorldSection.GetMobUnits())
+                foreach (var targetWu in ws.GetMobUnits())
                 {
                     gamePacket.Mobs.Add(targetWu.UnitId, targetWu.Mob);
                 }
             }
 
+            var packetSW1 = new Stopwatch();
+            packetSW1.Start();
             // 진입 유저에게 인근 세션 유닛 정보 전송.
             SendPacket(pu.Pid, GamePacketCode.SC_SpawnPlayer, gamePacket);
 
+            packetSW1.Stop();
             // Dispose.
             gamePacket.Dispose();
 
             // Add login player.
             gamePacket.PlayInfos.Add(pu.UnitId, pu.PlayInfo);
 
+            var packetSW2 = new Stopwatch();
+            packetSW2.Start();
             // 패킷 전송 - 주변 플레이어에게 진입 유저 정보 전파.
             pu.WorldSection.SendPacket_AroundSections(pu.UnitId, GamePacketCode.SC_SpawnPlayer, gamePacket);
-
+            packetSW2.Stop();
             // Release pool.
             _memoryPoolService.Release(gamePacket);
+
+            totalSw.Stop();
+            _logger.LogDebug($"Spawn player end. pid: {pu.Pid}, total ms: {totalSw.ElapsedMilliseconds}, packet1 ms: {packetSW1.ElapsedMilliseconds}, packet2 ms: {packetSW2.ElapsedMilliseconds}");
         }
 
         /// <summary>

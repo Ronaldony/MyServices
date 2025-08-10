@@ -141,6 +141,7 @@ public class LoginManager : MonoBehaviour
                 var res = MemoryPackDataSerializer.Deserialize<RES_Login>(responseData);
 
                 _playerDataManager.PlayerInfo = res.PlayerInfo;
+                _playerDataManager.Pid = pid;
 
                 // Net packet login.
                 var isConnected = _GamePacketManager.Connect();

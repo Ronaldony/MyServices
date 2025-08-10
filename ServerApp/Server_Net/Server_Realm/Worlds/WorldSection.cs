@@ -115,6 +115,14 @@ namespace Server_Realm.Worlds
         }
 
         /// <summary>
+        /// Detect around players.
+        /// </summary>
+        public List<PlayerUnit> DetectAroundPlayers()
+        {
+            return _playerUnitDict.Values.Concat(_aroundWorldSections.SelectMany(d => d.GetPlayerUnits())).ToList();
+        }
+
+        /// <summary>
         /// Detect player from around.
         /// </summary>
         /// <param name="srcUnitId">Srouce unit id</param>

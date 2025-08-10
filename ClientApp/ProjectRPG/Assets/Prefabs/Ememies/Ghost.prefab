@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 7886684305725178}
   - component: {fileID: 196109836902488972}
   - component: {fileID: 8645841316860437178}
+  - component: {fileID: -3299213753949747181}
   - component: {fileID: 4989305157047768865}
   - component: {fileID: 9194441132209468459}
-  - component: {fileID: 8076375560759291828}
   - component: {fileID: 7636745889458891279}
   - component: {fileID: 3679951922834852855}
   - component: {fileID: 7598905128158785874}
   - component: {fileID: -1006927318150034633}
+  - component: {fileID: -5544187079191925801}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -169,8 +170,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c931d13e799805419a51377faf7da1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 0}
-  _projectileId: 0
+  bulletPrefab: {fileID: 4772483820718664203, guid: 8288e94025a40c8448b1b839a5c3c571, type: 3}
+  _projectileId: 2
+--- !u!114 &-3299213753949747181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464340256960616465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a3b5f49d456d442b582332a1e0c06c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mobType: {fileID: 8645841316860437178}
 --- !u!114 &4989305157047768865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,19 +211,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deathVFXPrefab: {fileID: 4377807823253097450, guid: 54661e1485a3376468e0f1ea28be50df, type: 3}
---- !u!114 &8076375560759291828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5464340256960616465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 353b4e6fb3fca0a40b06666a5c673fa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mobType: {fileID: 8645841316860437178}
 --- !u!114 &7636745889458891279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +264,18 @@ MonoBehaviour:
   goldCoin: {fileID: 7658257155594380743, guid: 12ea0dc6e799dba4c94734492416f346, type: 3}
   healthGlobe: {fileID: 7658257155594380743, guid: 48d5d090079c84f428d3991e1d9b55db, type: 3}
   staminaGlobe: {fileID: 7658257155594380743, guid: 9a227dd265d33934d9b6eea598086e3f, type: 3}
+--- !u!114 &-5544187079191925801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464340256960616465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff373f7fcee78e74194aed1228cebcb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6642038844564480677
 GameObject:
   m_ObjectHideFlags: 0

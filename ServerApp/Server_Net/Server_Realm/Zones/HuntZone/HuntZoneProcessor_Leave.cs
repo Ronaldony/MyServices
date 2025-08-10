@@ -24,14 +24,18 @@ namespace Server_Realm.Zones.HuntZone
                 return;
             }
 
-            // 로그 아웃 패킷 전송.
-            pu.WorldSection.SendPacket_AroundSections(GamePacketCode.SC_Leave, new GamePacketSC_Leave());
+            // Get WorldSection.
+            var ws = pu.WorldSection;
 
             // Remove player from distrcit.
             if (false == PostLeavePlayer(msg.Pid))
             {
+                _logger.LogError($"fail to post leave player");
                 return;
             }
+
+            // 로그 아웃 패킷 전송.
+            ws.SendPacket_AroundSections(GamePacketCode.SC_Leave, new GamePacketSC_Leave());
 
             _logger.LogWarning($"Log out end. pid: {msg.Pid}");
         }

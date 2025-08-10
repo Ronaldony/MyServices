@@ -1,5 +1,6 @@
 using Externals.Serializer;
 using Externals.UDP;
+using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
@@ -11,13 +12,14 @@ namespace Network
         [SerializeField] private int _port;
 
         private UdpClient _client;
-
         private UdpPacket _sendPacket;
+        private PlayerDataManager _playerDataManger;
 
         public GamePacketManager()
         {
             _client = new UdpClient();
             _sendPacket = new UdpPacket();
+            _playerDataManger = PlayerDataManager.Instance;
         }
 
         /// <summary>
@@ -28,9 +30,11 @@ namespace Network
             return _client.Connect(_address, _port);
         }
 
-        public bool Send<T>(int pakcetCode, T data) where T : class
+        public bool Send<T>(int pakcetCode, T packet) where T : GamePacketBase_CS
         {
-            var bytes = MemoryPackDataSerializer.Serialize<T>(data);
+            packet.Pid = PlayerDataManager.Instance.Pid;
+
+            var bytes = MemoryPackDataSerializer.Serialize<T>(packet);
 
             _sendPacket.PacketCode = pakcetCode;
             _sendPacket.Data = bytes;

@@ -44,7 +44,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        var enemy = collision.gameObject.GetComponent<EnemyAI>();
+        var enemy = collision.gameObject.GetComponent<MobAI>();
 
         if (enemy)
         {

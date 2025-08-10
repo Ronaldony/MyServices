@@ -140,7 +140,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         // Scan enemy.
         foreach (var pair in _mobObjectDict)
         {
-            var pathFinding = pair.Value.GetComponent<EnemyPathfinding>();
+            var pathFinding = pair.Value.GetComponent<MobPathfinding>();
             if (null == pathFinding)
             {
                 continue;
@@ -181,7 +181,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         }
 
         // EnemyAI.
-        var mobAI = mobObj.GetComponent<EnemyAI>();
+        var mobAI = mobObj.GetComponent<MobAI>();
         mobAI.AttackProjectile(packet.Projectile);
     }
 
@@ -200,7 +200,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             }
 
             // Update health.
-            var mobPath = mobObj.GetComponent<EnemyHealth>();
+            var mobPath = mobObj.GetComponent<MobHealth>();
             mobPath.UpdateHealth(pair.Value.Health);
         }
     }
@@ -220,7 +220,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             }
 
             // Udpate hit.
-            var mobPathfinding = mobObj.GetComponent<EnemyPathfinding>();
+            var mobPathfinding = mobObj.GetComponent<MobPathfinding>();
             mobPathfinding.MoveTo(pair.Value.MoveDirection);
         }
     }
@@ -254,7 +254,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             return false;
         }
 
-        var findEnemyPrefab = _enemyPrefabs.FirstOrDefault(d => d.GetComponent<EnemyAI>().GetUnitId() == tbEnemy.Id);
+        var findEnemyPrefab = _enemyPrefabs.FirstOrDefault(d => d.GetComponent<MobAI>().GetUnitId() == tbEnemy.Id);
 
         if (default == findEnemyPrefab)
         {
@@ -275,13 +275,13 @@ public class EnemyManagement : Singleton<EnemyManagement>
         _mobObjectDict.Add(unitId, enemyObject);
 
         // Set Enemy AI.
-        var enemyAI = enemyObject.GetComponent<EnemyAI>();
+        var enemyAI = enemyObject.GetComponent<MobAI>();
 
         // Set Enemy path.
-        var enemyPathfinding = enemyObject.GetComponent<EnemyPathfinding>();
+        var enemyPathfinding = enemyObject.GetComponent<MobPathfinding>();
 
         // Set Enemy Health.
-        var enemyHealth = enemyObject.GetComponent<EnemyHealth>();
+        var enemyHealth = enemyObject.GetComponent<MobHealth>();
         enemyHealth.Initialize_Spawn(mob.Stat.Health, unitId);
 
         // Set Pick up spawner.

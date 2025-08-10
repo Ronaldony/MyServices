@@ -104,8 +104,8 @@ namespace Server_Realm.Server.HuntZone
         /// </summary>
         public GameSession GetGameSession(ulong sessionUid)
         {
-            _sessionDict.TryGetValue(sessionUid, out var unitId);
-            _gameSessionDict.TryGetValue(unitId, out var gameSession);
+            _sessionDict.TryGetValue(sessionUid, out var pid);
+            _gameSessionDict.TryGetValue(pid, out var gameSession);
 
             return gameSession;
         }

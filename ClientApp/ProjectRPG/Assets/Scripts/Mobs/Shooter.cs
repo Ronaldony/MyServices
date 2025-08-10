@@ -1,7 +1,7 @@
 using GameCore;
 using UnityEngine;
 
-public class Shooter : MonoBehaviour, IEnemy
+public class Shooter : MonoBehaviour, IMob
 {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private int _projectileId;

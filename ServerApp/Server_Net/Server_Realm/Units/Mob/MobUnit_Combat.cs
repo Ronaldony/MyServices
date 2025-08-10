@@ -89,7 +89,7 @@ namespace Server_Realm.Units.Mob
             gamePacket.Projectile = new DTO_Projectile
             {
                 SpawnPos = spawnPos,
-                Angle = angle,
+                TargetPos = target.MovementHandler.NowPos(),
                 ProjectileType = projectileType
             };
 

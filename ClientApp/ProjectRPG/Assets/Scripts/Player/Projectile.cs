@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+        MobHealth enemyHealth = collision.gameObject.GetComponent<MobHealth>();
         Indestructible indestructible = collision.gameObject.GetComponent<Indestructible>();
         PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
 

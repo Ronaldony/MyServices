@@ -34,8 +34,11 @@ namespace Server_Realm.UnitHandler
         // Move status.
         private bool _isMoveing;
 
-        // 상태 업데이트 여부.
-        private bool _needsStatusUpdate;
+        // 섹션 업데이트 여부.
+        private bool _isSectionUpdated;
+
+        // 이동 상태 변화.
+        private bool _isMoveStatusUpdated;
 
         public Vector2 NowPos() => _location.Pos;
         public Vector2 NowDir() => _location.MoveDirection;
@@ -58,7 +61,8 @@ namespace Server_Realm.UnitHandler
             OldSection = Section;
 
             _isMoveing = false;
-            _needsStatusUpdate = false;
+            _isSectionUpdated = false;
+            _isMoveStatusUpdated = false;
             _lastMoveTime = TimeUtil.Now;
         }
 
@@ -72,8 +76,8 @@ namespace Server_Realm.UnitHandler
             _isMoveing = true;
             _location.MoveDirection = moveDireciton;
 
-            // Update status.
-            _needsStatusUpdate = true;
+            // 상태 업데이트.
+            _isMoveStatusUpdated = true;
         }
 
         /// <summary>
@@ -116,13 +120,13 @@ namespace Server_Realm.UnitHandler
             _location.MoveDirection = Vector2.Zero;
             _location.Pos = endPos;
             _lastMoveTime = nowTime;
+
+            // 상태 업데이트.
             _isMoveing = false;
+            _isMoveStatusUpdated = true;
 
             // Post process.
             PostMove();
-
-            // Update status.
-            _needsStatusUpdate = true;
 
             return true;
         }
@@ -134,10 +138,10 @@ namespace Server_Realm.UnitHandler
         {
             _lastMoveTime = TimeUtil.Now;
             _location.MoveDirection = Vector2.Zero;
-            _isMoveing = false;
 
-            // Update status.
-            _needsStatusUpdate = true;
+            // 상태 업데이트.
+            _isMoveing = false;
+            _isMoveStatusUpdated = true;
         }
         #endregion
 
@@ -196,12 +200,22 @@ namespace Server_Realm.UnitHandler
 
         #region common
         /// <summary>
-        /// Refresh status.
+        /// Section updated.
         /// </summary>
-        public bool NeedsStatusUpdated()
+        public bool IsSectionUpdated()
         {
-            var oldStatus = _needsStatusUpdate;
-            _needsStatusUpdate = false;
+            var oldStatus = _isSectionUpdated;
+            _isSectionUpdated = false;
+            return oldStatus;
+        }
+
+        /// <summary>
+        /// Move status updated.
+        /// </summary>
+        public bool IsMoveStatusUpdated()
+        {
+            var oldStatus = _isMoveStatusUpdated;
+            _isMoveStatusUpdated = false;
             return oldStatus;
         }
         #endregion
@@ -219,6 +233,9 @@ namespace Server_Realm.UnitHandler
             {
                 OldSection = this.Section;
                 this.Section = newSection;
+
+                // Section updated.
+                _isSectionUpdated = true;
             }
 
             // Collision 갱신.

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.GamePacket
 {
     using GameCore.Datas.Plays;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// GamePacketCS_UpdateUnitStat.
@@ -25,7 +26,7 @@ namespace GameCore.GamePacket
     {
         public GamePacketSC_UpdateUnitStat()
         {
-            UnitStats = new Dictionary<long, DTO_Stat>();
+            UnitStats = new ConcurrentDictionary<long, DTO_Stat>();
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace GameCore.GamePacket
         /// value: DTO_Stat. 
         /// </summary>
         [MemoryPackOrder(0)]
-        public Dictionary<long, DTO_Stat> UnitStats { get; set; }
+        public ConcurrentDictionary<long, DTO_Stat> UnitStats { get; set; }
 
         /// <summary>
         /// Dispose.

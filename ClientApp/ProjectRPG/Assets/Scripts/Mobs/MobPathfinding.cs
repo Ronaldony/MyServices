@@ -1,7 +1,7 @@
 using GameCore;
 using UnityEngine;
 
-public class EnemyPathfinding : MonoBehaviour
+public class MobPathfinding : MonoBehaviour
 {
     [SerializeField] private int MobId;
 

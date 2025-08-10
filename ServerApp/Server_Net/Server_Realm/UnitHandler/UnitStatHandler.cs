@@ -21,7 +21,7 @@ namespace Server_Realm.UnitHandler
         private DTO_Stat _stat;
 
         // 상태 업데이트 여부.
-        private bool _needsStatusUpdate;
+        private bool _isStatUpdate;
 
         public int GetPower() => _stat.Power;
         public DTO_Stat GetStat() => _stat;
@@ -39,7 +39,7 @@ namespace Server_Realm.UnitHandler
             _owner = owner;
             _stat = stat;
 
-            _needsStatusUpdate = false;
+            _isStatUpdate = false;
         }
 
         /// <summary>
@@ -71,17 +71,17 @@ namespace Server_Realm.UnitHandler
             }
 
             // 상태 업데이트.
-            _needsStatusUpdate = true;
+            _isStatUpdate = true;
         }
 
         #region common
         /// <summary>
         /// Refresh status.
         /// </summary>
-        public bool NeedsStatusUpdated()
+        public bool IsStatUpdated()
         {
-            var oldStatus = _needsStatusUpdate;
-            _needsStatusUpdate = false;
+            var oldStatus = _isStatUpdate;
+            _isStatUpdate = false;
             return oldStatus;
         }
 

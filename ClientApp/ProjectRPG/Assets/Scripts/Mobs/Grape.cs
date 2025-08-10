@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Grape : MonoBehaviour, IEnemy
+public class Grape : MonoBehaviour, IMob
 {
     [SerializeField] private GameObject grapeProjectilePrefab;
 

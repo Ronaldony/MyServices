@@ -12,14 +12,15 @@ GameObject:
   - component: {fileID: 6899945493844062322}
   - component: {fileID: 131889943010496941}
   - component: {fileID: 5025334022164760568}
-  - component: {fileID: 7715903607084293019}
-  - component: {fileID: 8919914078991155721}
-  - component: {fileID: -5053909688831029357}
+  - component: {fileID: -5090189636191321365}
+  - component: {fileID: -4124020016012222927}
+  - component: {fileID: 4662588101677183126}
+  - component: {fileID: 5353309665917613825}
   - component: {fileID: 5166218124766854792}
   - component: {fileID: 9019823740586593619}
+  - component: {fileID: 3606098101884904639}
   - component: {fileID: 2826894358945454948}
   - component: {fileID: 5977479484458147012}
-  - component: {fileID: 7818308863507339917}
   m_Layer: 0
   m_Name: Blue Slime
   m_TagString: Untagged
@@ -157,7 +158,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7715903607084293019
+--- !u!114 &-5090189636191321365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,11 +167,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2288677416517812029}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81661b46dbe85ea4c86c742516832fd9, type: 3}
+  m_Script: {fileID: 11500000, guid: d7887d023b496f742ad8fc7f9caa9427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _velocity: 1
---- !u!114 &8919914078991155721
+  MobId: 3
+--- !u!114 &-4124020016012222927
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,27 +180,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 2288677416517812029}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 215b98a501887834487ccbe2fd1b8274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemyType: {fileID: 7715903607084293019}
-  _attackRange: 0
-  _attackCooldown: 2
-  _stopMovingWhileAttacking: 0
-  _enemyId: 3
---- !u!114 &-5053909688831029357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2288677416517812029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e02ea999a43a8f94ab7831774f08ab4a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b2350da16f524c468bf10ae1f5b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _deathVFXPrefab: {fileID: 4377807823253097450, guid: 54661e1485a3376468e0f1ea28be50df, type: 3}
+--- !u!114 &4662588101677183126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2288677416517812029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a3b5f49d456d442b582332a1e0c06c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mobType: {fileID: -5090189636191321365}
+--- !u!114 &5353309665917613825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2288677416517812029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126d6f42e4f67b94db9d88cdc09b779d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grapeProjectilePrefab: {fileID: 2288677416517812029}
 --- !u!114 &5166218124766854792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +236,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _whiteFlashMat: {fileID: 2100000, guid: 0154f1d6a696dc6428a89bb2c1a8a62d, type: 2}
   _restoreDefaultMatTime: 0.2
+--- !u!114 &3606098101884904639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2288677416517812029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff373f7fcee78e74194aed1228cebcb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &2826894358945454948
 Animator:
   serializedVersion: 5
@@ -262,19 +284,6 @@ MonoBehaviour:
   goldCoin: {fileID: 7658257155594380743, guid: 12ea0dc6e799dba4c94734492416f346, type: 3}
   healthGlobe: {fileID: 7658257155594380743, guid: 48d5d090079c84f428d3991e1d9b55db, type: 3}
   staminaGlobe: {fileID: 7658257155594380743, guid: 9a227dd265d33934d9b6eea598086e3f, type: 3}
---- !u!114 &7818308863507339917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2288677416517812029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69c553869250b2140a86a60dc93d2938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grapeProjectilePrefab: {fileID: 7751192646340070506, guid: ccb195dcc08198c4689c73d67b673a13, type: 3}
 --- !u!1 &8023084837672669338
 GameObject:
   m_ObjectHideFlags: 0

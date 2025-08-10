@@ -1,7 +1,7 @@
-using GameCore.Datas.Projectiles;
 using UnityEngine;
+using GameCore.Datas.Projectiles;
 
-public class EnemyAI : MonoBehaviour
+public class MobAI : MonoBehaviour
 {
     private enum State
     {
@@ -18,7 +18,7 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     public void Attack(Vector2 targetPos)
     {
-        (_mobType as IEnemy)?.Attack(new Vector2(targetPos.x, targetPos.y), Vector2.zero);
+        (_mobType as IMob)?.Attack(new Vector2(targetPos.x, targetPos.y), Vector2.zero);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     public void AttackProjectile(DTO_Projectile projectile)
     {
-        (_mobType as IEnemy)?.Attack(
+        (_mobType as IMob)?.Attack(
             new Vector2(projectile.TargetPos.X, projectile.TargetPos.Y), 
             new Vector2(projectile.SpawnPos.X, projectile.SpawnPos.Y));
     }
