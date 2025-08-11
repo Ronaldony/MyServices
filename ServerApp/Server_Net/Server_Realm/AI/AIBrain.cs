@@ -1,4 +1,5 @@
-﻿
+﻿using ServerEngine.Core.Util;
+
 namespace Server_Realm.AI
 {
     using GameCore;
@@ -22,7 +23,7 @@ namespace Server_Realm.AI
 
         public AIBrain(IServiceProvider serviceProvider, MobUnit owner)
         {
-            _actionCollection = new AIActionCollection(serviceProvider, owner);
+            _actionCollection = new AIActionCollection(serviceProvider, owner, this);
         }
 
         /// <summary>
@@ -38,6 +39,8 @@ namespace Server_Realm.AI
         /// </summary>
         public void ChangeState(Type_AIState state)
         {
+            //Console.WriteLine($"{TimeUtil.Now.ToString("yyyy-MM-dd HH:mm:ss")} | Change state - prev state: {_nowAIAction}, next state: {state}");
+
             _nowAIAction?.Stop();
 
             var aiAction = _actionCollection.GetAIActoin(state);

@@ -30,7 +30,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Dispose.
         /// </summary>
-        public new void Dispose()
+        public override void Dispose()
         {
             Mobs.Clear();
         }

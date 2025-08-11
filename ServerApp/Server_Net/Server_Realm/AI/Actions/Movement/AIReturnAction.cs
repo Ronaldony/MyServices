@@ -10,8 +10,8 @@ namespace Server_Realm.AI.Actions.Movement
     /// </summary>
     public class AIReturnAction : AIAction
     {
-        public AIReturnAction(MobUnit owner) 
-            : base(owner)
+        public AIReturnAction(MobUnit owner, AIBrain brain) 
+            : base(owner, brain)
         {
         }
 

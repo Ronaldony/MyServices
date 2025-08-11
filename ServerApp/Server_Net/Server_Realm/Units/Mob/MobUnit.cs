@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Server_Realm.Units.Mob
 {
+    using GameCore;
     using GameCore.Datas.Mobs;
     using Server_Realm.AI;
-    using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
     using Server_Realm.Core.Utilities;
     using Server_Realm.Entities;
@@ -49,6 +48,7 @@ namespace Server_Realm.Units.Mob
             Mob = dtoMob;
             SpawnPos = dtoMob.Location.Pos;
             AIBrain = new AIBrain(serviceProvider, this);
+            AIBrain.ChangeState(Type_AIState.Roam);
         }
         #endregion
 

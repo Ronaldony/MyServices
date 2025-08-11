@@ -19,8 +19,8 @@ namespace Server_Realm.AI.Actions.Movement
         // 랜덤.
         private Random _rand;
 
-        public AIRoamAction(MobUnit owner)
-            : base(owner)
+        public AIRoamAction(MobUnit owner, AIBrain brain)
+            : base(owner, brain)
         {
             _location = owner.Mob.Location;
             _rand = new Random();
@@ -30,11 +30,11 @@ namespace Server_Realm.AI.Actions.Movement
         { 
             // 로밍 위치 설정.
             _roamPos = new Vector2(
-                x: Owner.Mob.Location.Pos.X + _rand.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT),
-                y: Owner.Mob.Location.Pos.Y + _rand.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT));
+                x: Owner.SpawnPos.X + _rand.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT),
+                y: Owner.SpawnPos.Y + _rand.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT));
 
             // 로밍 방향 갱신.
-            Owner.MovementHandler.MoveStart(Vector2.Normalize(_location.Pos - _roamPos));
+            Owner.MovementHandler.MoveStart(Vector2.Normalize(_roamPos - _location.Pos));
         }
 
         public override void Update(double deltaTime)

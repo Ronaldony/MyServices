@@ -35,5 +35,9 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(1)]
         public int WeaponId { get; set; }
+
+        public override void Dispose()
+        {
+        }
     }
 }

@@ -91,10 +91,7 @@ namespace Server_Realm.UnitHandler
             if (_isMoveing)
             {
                 var deltaPos = _location.MoveDirection * (float)deltaTime * _stat.Velocity;
-                var movePos = _location.Pos + deltaPos;
-
-                // Refresh postion.
-                _location.Pos = movePos;
+                _location.Pos += deltaPos;
 
                 // Post process.
                 PostMove();

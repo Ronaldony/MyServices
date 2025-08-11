@@ -109,7 +109,7 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// Detect around mobs.
         /// </summary>
-        public List<MobUnit> DetectAroundMobs()
+        public IEnumerable<MobUnit> DetectAroundMobs()
         {
             return _mobUnitDict.Values.Concat(_aroundWorldSections.SelectMany(d => d.GetMobUnits())).ToList();
         }
@@ -117,7 +117,7 @@ namespace Server_Realm.Worlds
         /// <summary>
         /// Detect around players.
         /// </summary>
-        public List<PlayerUnit> DetectAroundPlayers()
+        public IEnumerable<PlayerUnit> DetectAroundPlayers()
         {
             return _playerUnitDict.Values.Concat(_aroundWorldSections.SelectMany(d => d.GetPlayerUnits())).ToList();
         }

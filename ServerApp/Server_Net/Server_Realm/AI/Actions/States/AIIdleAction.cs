@@ -10,8 +10,8 @@
     {
         private double _idleTimeSec;       // Idle 상태 시간.
 
-        public AIIdleAction(MobUnit owner)
-            : base(owner)
+        public AIIdleAction(MobUnit owner, AIBrain brain)
+            : base(owner, brain)
         {
         }
 

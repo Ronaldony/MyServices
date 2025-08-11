@@ -20,8 +20,8 @@ namespace Server_Realm.AI.Actions.Movement
         private string _targetPid;
         private Vector2 _targetPos;
 
-        public AICombatAction(MobUnit owner, TB_Mob tbMob)
-            : base(owner)
+        public AICombatAction(MobUnit owner, TB_Mob tbMob, AIBrain brain)
+            : base(owner, brain)
         {
             // Setup.
             _attackCooldown = tbMob.AttackCooldown;

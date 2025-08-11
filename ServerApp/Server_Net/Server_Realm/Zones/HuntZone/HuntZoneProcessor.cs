@@ -59,6 +59,9 @@ namespace Server_Realm.Zones.HuntZone
         // Observers.
         private readonly IDisposable _updateFrameObserver;
 
+        private int _benchFrameCount;
+        private double _benchFrameSum;
+
         public HuntZoneProcessor()
         {
             _logger = ServiceUtility.GetService<ILogger<HuntZoneProcessor>>();
@@ -95,16 +98,16 @@ namespace Server_Realm.Zones.HuntZone
             // Register receiver.
             RegisterReceiver();
 
-            // Message trigger.
-            _msgTrgSpawnMob = new WorldMsgTrigger_SpawnMob(_serviceProvider, this);
-            _msgTrgSpawnMob.Start();
-
             // Update frame trigger - 30FPS.
             _updateFrameObserver = Observable.Interval(TimeSpan.FromSeconds(0.033))
                                             .Subscribe(count =>
                                             {
                                                 Tell(new WorldMsg_UpdateFrame());
                                             });
+
+            // Message trigger.
+            _msgTrgSpawnMob = new WorldMsgTrigger_SpawnMob(_serviceProvider, this);
+            _msgTrgSpawnMob.Start();
         }
 
         /// <summary>

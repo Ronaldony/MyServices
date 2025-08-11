@@ -1,12 +1,10 @@
 ﻿using MemoryPack;
-using System.Collections.Generic;
-using System.Numerics;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 
 namespace GameCore.GamePacket
 {
     using GameCore.Datas.Plays;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// GamePacketCS_UpdateUnitStat.
@@ -40,7 +38,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Dispose.
         /// </summary>
-        public new void Dispose()
+        public override void Dispose()
         {
             UnitStats.Clear();
         }

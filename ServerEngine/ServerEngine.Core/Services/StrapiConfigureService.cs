@@ -61,7 +61,7 @@ namespace ServerEngine.Core.Services
             {
                 if (_configStrapiDict.ContainsKey(nameKey))
                 {
-                    return _jsonSerializer.Deserialize<T>(_configStrapiDict[nameKey].Configuration.ToString());
+                    return _jsonSerializer.Deserialize<T>(_configStrapiDict[nameKey].Data.ToString());
                 }
 
                 using (var client = new HttpClient())
@@ -83,7 +83,7 @@ namespace ServerEngine.Core.Services
                         _configStrapiDict[data.Name] = data;
                     }
 
-                    return _jsonSerializer.Deserialize<T>(_configStrapiDict[nameKey].Configuration.ToString());
+                    return _jsonSerializer.Deserialize<T>(_configStrapiDict[nameKey].Data.ToString());
                 }
             }
             catch (Exception ex)

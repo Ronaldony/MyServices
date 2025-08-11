@@ -46,7 +46,7 @@ namespace GameCore.GamePacket
         /// <summary>
         /// Dispose.
         /// </summary>
-        public new void Dispose()
+        public override void Dispose()
         {
             PlayInfos.Clear();
             Mobs.Clear();

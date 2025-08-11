@@ -37,5 +37,9 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(1)]
         public Vector2 Direction { get; set; }
+
+        public override void Dispose()
+        {
+        }
     }
 }

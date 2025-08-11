@@ -11,7 +11,7 @@
 
         public string Name { get; init; }
 
-        public object Configuration { get; init; }
+        public object Data { get; init; }
 
         public DateTime CreatedAt { get; init; }
 

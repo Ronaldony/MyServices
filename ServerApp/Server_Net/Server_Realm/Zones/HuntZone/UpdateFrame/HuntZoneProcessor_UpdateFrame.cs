@@ -3,7 +3,6 @@ using ServerEngine.Core.Util;
 
 namespace Server_Realm.Zones.HuntZone
 {
-    using Couchbase.Management.Views;
     using GameCore;
     using GameCore.GamePacket;
     using Server_Realm.Core.Types;
@@ -44,7 +43,17 @@ namespace Server_Realm.Zones.HuntZone
             // Collect dead units.
             UpdateFrame_CollectDeadUnits();
 
-            //_logger.LogDebug($"frame update time: {(TimeUtil.Now - nowTime).Milliseconds}");
+            ++_benchFrameCount;
+            _benchFrameSum += (TimeUtil.Now - nowTime).TotalMilliseconds;
+
+            if (_benchFrameCount >= 300)
+            {
+                _logger.LogDebug($"frame update avg: {_benchFrameSum / _benchFrameCount} ms, total: {_benchFrameSum} ms, count: {_benchFrameCount}");
+
+                _benchFrameSum = 0;
+                _benchFrameCount = 0;
+            }
+
         }
 
         /// <summary>
@@ -76,11 +85,18 @@ namespace Server_Realm.Zones.HuntZone
         {
             Parallel.ForEach(_worldGroup.WorldSectionDict.Values, ws =>
             {
+                // 섹션에 새로 진입한 유저 리스트.
                 var newEnterPlayers = new List<PlayerUnit>();
 
-                var updateSectionOld = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
+                // Update 게임 패킷.
+                var updateSection = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
                 var updateUnitMovement = _memoryPoolService.Rent<GamePacketSC_UpdateUnitMovement>();
                 var updateUnitStat = _memoryPoolService.Rent<GamePacketSC_UpdateUnitStat>();
+
+                if (updateSection.Mobs.Any())
+                {
+                    _logger.LogDebug($"{ws.Section}, section. mob count: {updateSection.Mobs.Count()}");
+                }
 
                 // 플레이어 업데이트.
                 foreach (var pu in ws.GetPlayerUnits())
@@ -88,9 +104,7 @@ namespace Server_Realm.Zones.HuntZone
                     // 섹션 업데이트.
                     if (pu.MovementHandler.IsSectionUpdated())
                     {
-                        // Old player.
-                        if (false == updateSectionOld.PlayInfos.TryAdd(pu.UnitId, pu.PlayInfo)) _logger.LogDebug($"{ws.Section} add new player section. unitId: {pu.UnitId}");
-                        else _logger.LogError($"{ws.Section} failed to add new player section. unitId: {pu.UnitId}");
+                        if (false == updateSection.PlayInfos.TryAdd(pu.UnitId, pu.PlayInfo)) _logger.LogError($"{ws.Section} failed to add new player section. unitId: {pu.UnitId}");
 
                         // new players.
                         newEnterPlayers.Add(pu);
@@ -99,76 +113,57 @@ namespace Server_Realm.Zones.HuntZone
                     // 스텟 변화.
                     if (pu.StatHandler.IsStatUpdated())
                     {
-                        if (updateUnitStat.UnitStats.TryAdd(pu.UnitId, pu.PlayInfo.Stat)) _logger.LogDebug($"section {ws.Section} add player stat. unitId: {pu.UnitId}");
-                        else _logger.LogError($"section {ws.Section} failed to add player stat. unitId: {pu.UnitId}");
+                        if (false == updateUnitStat.UnitStats.TryAdd(pu.UnitId, pu.PlayInfo.Stat)) _logger.LogError($"{ws.Section} failed to add player stat. unitId: {pu.UnitId}");
                     }
                 }
 
                 // 몹 업데이트.
                 foreach (var mu in ws.GetMobUnits())
                 {
-                    // 이동 상태 변화.
-                    if (mu.MovementHandler.IsMoveStatusUpdated())
+                    // 섹션 업데이트.
+                    if (mu.MovementHandler.IsSectionUpdated())
                     {
-                        if (updateUnitMovement.UnitLocations.TryAdd(mu.UnitId, mu.Mob.Location))
-                        {
-                            _logger.LogDebug($"section {ws.Section} add mob movment. movment: {mu.UnitId}");
-                        }
-                        else
-                        {
-                            _logger.LogError($"section {ws.Section} failed to add mob movment. unitId: {mu.UnitId}");
-                        }
+                        if (false == updateSection.Mobs.TryAdd(mu.UnitId, mu.Mob)) _logger.LogError($"{ws.Section} failed to add new mob section. unitId: {mu.UnitId}");
                     }
 
                     // 이동 상태 변화.
                     if (mu.MovementHandler.IsMoveStatusUpdated())
                     {
-                        if (updateUnitMovement.UnitLocations.TryAdd(mu.UnitId, mu.Mob.Location))
-                        {
-                            _logger.LogDebug($"section {ws.Section} add mob movment. movment: {mu.UnitId}");
-                        }
-                        else
-                        {
-                            _logger.LogError($"section {ws.Section} failed to add mob movment. unitId: {mu.UnitId}");
-                        }
+                        if (false == updateUnitMovement.UnitLocations.TryAdd(mu.UnitId, mu.Mob.Location)) _logger.LogError($"{ws.Section} failed to add mob movment. unitId: {mu.UnitId}");
                     }
 
                     // 스텟 변화.
                     if (mu.StatHandler.IsStatUpdated())
                     {
-                        if (updateUnitStat.UnitStats.TryAdd(mu.UnitId, mu.Mob.Stat))
-                        {
-                            _logger.LogDebug($"section {ws.Section} add mob stat. movment: {mu.UnitId}");
-                        }
-                        else
-                        {
-                            _logger.LogError($"section {ws.Section} failed to add mob stat. unitId: {mu.UnitId}");
-                        }
+                        if (false == updateUnitStat.UnitStats.TryAdd(mu.UnitId, mu.Mob.Stat)) _logger.LogError($"{ws.Section} failed to add mob stat. unitId: {mu.UnitId}");
                     }
                 }
 
                 // 패킷 전송.
+                ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateSection, updateSection);
                 ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
                 ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
 
-                _memoryPoolService.Release(updateSectionOld);
+                _memoryPoolService.Release(updateSection);
                 _memoryPoolService.Release(updateUnitMovement);
                 _memoryPoolService.Release(updateUnitStat);
 
-                // Update section to new enter players.
+                // 섹션에 새로 진입한 유저 검사.
+                // TODO: 진입 전 섹션과 현재 섹션을 비교하여 갱신되지 않은 섹션 정보만 전달해줄 수 없을까? => 각 플레이어마다 다르기 떄문에 필터에서 부하 발생.
                 if (newEnterPlayers.Any())
                 {
-                    var updateSection = _memoryPoolService.Rent<GamePacketSC_UpdateSection>();
-
-                    var aroundSectionPlayers = ws.DetectAroundPlayers();
-                    var aroundSectionMobs = ws.DetectAroundMobs();
+                    // 섹션에 새로 진입한 유저에게 해당 섹션 주변 정보 전달하기.
+                    var updateSectionNewEnter = _memoryPoolService.Rent<GamePacketSC_UpdateSectionNewEnter>();
+                    
+                    updateSectionNewEnter.PlayInfos = ws.DetectAroundPlayers().Select(d => d.PlayInfo).ToList();
+                    updateSectionNewEnter.Mobs = ws.DetectAroundMobs().Select(d => d.Mob).ToList();
 
                     foreach (var pu in newEnterPlayers)
                     {
-                        SendPacket(pu.Pid, GamePacketCode.SC_UpdateSection, updateSection);
+                        SendPacket(pu.Pid, GamePacketCode.SC_UpdateSectionNewEnter, updateSectionNewEnter);
                     }
 
-                    _memoryPoolService.Release(updateSection);
+                    _memoryPoolService.Release(updateSectionNewEnter);
                 }
             });
         }

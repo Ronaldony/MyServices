@@ -30,10 +30,10 @@
       },
       {
         "Target": "Server",
-        "ProjectPath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore",
-        "ProtocolPath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Code",
-        "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ServerApp_TaskGraph\\Framework\\GameCore\\Database"
+        "ProjectPath": "C:\\Portfolio\\MyServices\\ServerApp\\Framework\\GameCore",
+        "ProtocolPath": "C:\\Portfolio\\MyServices\\ServerApp\\Framework\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Portfolio\\MyServices\\ServerApp\\Framework\\GameCore\\Code",
+        "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ServerApp\\Framework\\GameCore\\Database"
       }
     ]
   }

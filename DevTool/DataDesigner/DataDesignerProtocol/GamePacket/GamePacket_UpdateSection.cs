@@ -3,12 +3,12 @@ using MemoryPack;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Collections.Concurrent;
 
 namespace GameCore.GamePacket
 {
     using GameCore.Datas.Mobs;
     using GameCore.Datas.Play;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// GamePacketSC_UpdateSection.
@@ -39,7 +39,7 @@ namespace GameCore.GamePacket
         [MemoryPackOrder(1)]
         public ConcurrentDictionary<long, DTO_Mob> Mobs { get; set; }
 
-        public new void Dispose()
+        public override void Dispose()
         {
             PlayInfos.Clear();
             Mobs.Clear();

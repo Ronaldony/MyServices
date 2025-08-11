@@ -9,10 +9,10 @@ namespace Server_Realm.AI.Actions
     /// </summary>
     public abstract class AIAction : IAIAction
     {
-        public AIAction(MobUnit owner)
+        public AIAction(MobUnit owner, AIBrain brain)
         {
             Owner = owner;
-            Brain = owner.AIBrain;
+            Brain = brain;
         }
 
         /// <summary>

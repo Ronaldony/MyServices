@@ -8,8 +8,8 @@ namespace Server_Realm.AI.Actions.States
     /// </summary>
     public class AIDeadAction : AIAction
     {
-        public AIDeadAction(MobUnit owner)
-            :base(owner)
+        public AIDeadAction(MobUnit owner, AIBrain brain)
+            :base(owner, brain)
         {
 
         }

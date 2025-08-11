@@ -47,7 +47,7 @@ namespace GameCore.GamePacket
         [MemoryPackOrder(1)]
         public Dictionary<long, DTO_Mob> Mobs { get; set; }
 
-        public new void Dispose()
+        public override void Dispose()
         {
             PlayInfos.Clear();
             Mobs.Clear();

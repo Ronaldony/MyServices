@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Services.Interfaces;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -14,7 +15,6 @@ namespace Server_Realm.Worlds.MsgTrigger
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Zones;
-    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
     /// WorldMsgTrigger_SpawnMob.
@@ -74,7 +74,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         {
             // 구독.
             _subscriptions.Add(
-                Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
+                Observable.Interval(TimeSpan.FromSeconds(1))
                 .Subscribe(count =>
                 {
                     SpawnEnemy();
@@ -108,7 +108,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                 // Create spawn enemy message.
                 var spawnMsg = new WorldMsg_SpawnMob();
 
-                foreach (var mob in _tbMobs)
+                foreach (var mob in _tbMobs.Take(1))
                 {
                     // 유닛 생성.
                     var dtoMob = _mobCreateService.CreateMob(mob.Id, Type_Area.HuntZone);

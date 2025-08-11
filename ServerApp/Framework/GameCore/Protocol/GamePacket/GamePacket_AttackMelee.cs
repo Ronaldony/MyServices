@@ -36,5 +36,9 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(1)]
         public Vector2 Angle { get; set; }
+
+        public override void Dispose()
+        {
+        }
     }
 }

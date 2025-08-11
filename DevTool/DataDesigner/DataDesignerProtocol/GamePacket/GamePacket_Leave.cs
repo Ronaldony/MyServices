@@ -24,5 +24,9 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(0)]
         public long UnitId { get; set; }
+
+        public override void Dispose()
+        {
+        }
     }
 }
