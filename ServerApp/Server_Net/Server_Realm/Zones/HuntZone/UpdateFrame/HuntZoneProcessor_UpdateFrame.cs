@@ -48,12 +48,11 @@ namespace Server_Realm.Zones.HuntZone
 
             if (_benchFrameCount >= 300)
             {
-                _logger.LogDebug($"frame update avg: {_benchFrameSum / _benchFrameCount} ms, total: {_benchFrameSum} ms, count: {_benchFrameCount}");
+                _logger.LogDebug($"frame update avg: {Math.Round(_benchFrameSum / _benchFrameCount, 2)} ms, total: {Math.Round(_benchFrameSum, 2)} ms, count: {_benchFrameCount}");
 
                 _benchFrameSum = 0;
                 _benchFrameCount = 0;
             }
-
         }
 
         /// <summary>

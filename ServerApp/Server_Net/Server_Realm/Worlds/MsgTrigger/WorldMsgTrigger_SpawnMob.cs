@@ -74,7 +74,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         {
             // 구독.
             _subscriptions.Add(
-                Observable.Interval(TimeSpan.FromSeconds(1))
+                Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
                 .Subscribe(count =>
                 {
                     SpawnEnemy();

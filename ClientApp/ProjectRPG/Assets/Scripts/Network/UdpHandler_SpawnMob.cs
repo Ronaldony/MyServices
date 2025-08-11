@@ -23,7 +23,7 @@ namespace Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            Debug.Log("HandlePacket - SC_SpawnEnemy");
+            Debug.Log("HandlePacket - SC_SpawnMob");
 
             var enemyManagement = EnemyManagement.Instance;
             var dummyManagement = DummyManagement.Instance;

@@ -19,11 +19,6 @@
         public PlayerUnit GetPlayer(string pid);
 
         /// <summary>
-        /// Collect dead unit.
-        /// </summary>
-        public void CollectDeadUnit(Unit unit);
-
-        /// <summary>
         /// Send pakcet.
         /// </summary>
         public bool SendPacket<T>(string pid, int packetCode, T packet) where T : GamePacketBase_SC;

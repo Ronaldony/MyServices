@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Server_Realm.Zones.HuntZone
 {
@@ -7,7 +8,6 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
-    using System.Diagnostics;
 
     /// <summary>
     /// HuntZoneProcessor.

@@ -1,0 +1,31 @@
+using Externals.UDP;
+using GameCore;
+using GameCore.GamePacket;
+using ServerEngine.Network.UDP;
+using UnityEngine;
+
+namespace Network
+{
+
+    /// <summary>
+    /// UdpHandler_Dash.
+    /// </summary>
+    public class UdpHandler_Dash : UdpHandler
+    {
+        private readonly GamePacketCS_Dash _sendPacket;
+
+        public UdpHandler_Dash()
+            : base(GamePacketCode.SC_Dash)
+        {
+            _sendPacket = new GamePacketCS_Dash();
+        }
+
+        /// <summary>
+        /// Handle packet.
+        /// </summary>
+        public override void HandlePacket(UdpPacket packet)
+        {
+            Debug.Log("HandlePacket - Dash");
+        }
+    }
+}

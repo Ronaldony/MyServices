@@ -21,19 +21,5 @@
 
             return null;
         }
-
-        /// <summary>
-        /// Collect dead unit.
-        /// </summary>
-        public void CollectDeadUnit(Unit unit)
-        {
-            switch (unit.UnitType)
-            {
-                case Type_Unit.Mob:     // Mob
-                    var mu = unit as MobUnit;
-                    _worldUnitCollector.DeadMobUnitDict.Add(mu.UnitId, mu);
-                    break;
-            }
-        }
     }
 }

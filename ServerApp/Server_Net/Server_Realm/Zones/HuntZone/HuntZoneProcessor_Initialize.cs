@@ -1,12 +1,12 @@
-﻿namespace Server_Realm.Zones.HuntZone
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Server_Realm.Zones.HuntZone
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Microsoft.Extensions.DependencyInjection;
     using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// HuntZoneProcessor.
