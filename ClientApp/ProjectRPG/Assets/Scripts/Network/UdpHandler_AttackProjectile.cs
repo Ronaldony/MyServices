@@ -1,3 +1,4 @@
+using Externals.Serializer;
 using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
@@ -26,7 +27,19 @@ namespace Network
         {
             Debug.Log("HandlePacket - AttackProjectile");
 
-            // TODO: 투사체 소환.
+            // management.
+            var enemyManagement = EnemyManagement.Instance;
+            var dummyManagement = DummyManagement.Instance;
+
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_AttackProjectile>(packet.Data);
+            var updatePacket = new UpdatePacket
+            {
+                PacketCode = GamePacketCode.SC_AttackProjectile,
+                Data = packetData,
+            };
+
+            enemyManagement.AddUpdatePacket(updatePacket);
+            dummyManagement.AddUpdatePacket(updatePacket);
         }
     }
 }

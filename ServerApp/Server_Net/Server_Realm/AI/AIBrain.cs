@@ -39,7 +39,7 @@ namespace Server_Realm.AI
         /// </summary>
         public void ChangeState(Type_AIState state)
         {
-            //Console.WriteLine($"{TimeUtil.Now.ToString("yyyy-MM-dd HH:mm:ss")} | Change state - prev state: {_nowAIAction}, next state: {state}");
+            Console.WriteLine($"{TimeUtil.Now.ToString("yyyy-MM-dd HH:mm:ss")} | Change state - prev state: {_nowAIAction}, next state: {state}");
 
             _nowAIAction?.Stop();
 

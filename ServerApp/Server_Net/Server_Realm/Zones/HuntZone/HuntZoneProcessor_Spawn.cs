@@ -19,7 +19,7 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private void SpawnPlayer(WorldMsg_SpawnPlayer worldMsg)
         {
-            _logger.LogDebug($"Spawn plaeyr in processor");
+            _logger.LogDebug($"Spawn player in processor");
             var totalSw = new Stopwatch();
             totalSw.Start();
 

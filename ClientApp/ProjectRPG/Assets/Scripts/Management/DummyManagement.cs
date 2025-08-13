@@ -5,6 +5,7 @@ using GameCore.GamePacket;
 using Network;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DummyManagement : Singleton<DummyManagement>
@@ -87,6 +88,35 @@ public class DummyManagement : Singleton<DummyManagement>
     /// Spawn mob duymmy.
     /// </summary>
     private void SpawnMobDummy(Dictionary<long, DTO_Mob> mobs)
+    {
+        foreach (var pair in mobs)
+        {
+            var unitid = pair.Key;
+            var mob = pair.Value;
+
+            // Add Enemy chunk.
+            if (_dummyDict.ContainsKey(unitid))
+            {
+                Debug.Log($"Already exist dummy. unitid: {unitid}");
+                continue;
+            }
+
+            // Create enemy object.
+            var dummyObject = Instantiate(_dummyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
+
+            _dummyDict.Add(unitid, dummyObject);
+
+            var enemyDummy = dummyObject.GetComponent<UnitDummy>();
+            enemyDummy.Initialize(unitid, mob.Location.Pos);
+
+            Debug.Log($"Spawn dummy - unitid: {unitid}, pos: {mob.Location.Pos}");
+        }
+    }
+
+    /// <summary>
+    /// Spawn mob duymmy.
+    /// </summary>
+    private void SpawnMobDummy(ConcurrentDictionary<long, DTO_Mob> mobs)
     {
         foreach (var pair in mobs)
         {

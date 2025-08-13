@@ -114,13 +114,10 @@ namespace Server_Realm.UnitHandler
             }
 
             // 이동 정보 갱신.
-            _location.MoveDirection = Vector2.Zero;
             _location.Pos = endPos;
-            _lastMoveTime = nowTime;
 
-            // 상태 업데이트.
-            _isMoveing = false;
-            _isMoveStatusUpdated = true;
+            // Stop move.
+            MoveStop();
 
             // Post process.
             PostMove();
@@ -133,8 +130,8 @@ namespace Server_Realm.UnitHandler
         /// </summary>
         public void MoveStop()
         {
-            _lastMoveTime = TimeUtil.Now;
             _location.MoveDirection = Vector2.Zero;
+            _lastMoveTime = TimeUtil.Now;
 
             // 상태 업데이트.
             _isMoveing = false;
@@ -324,7 +321,7 @@ namespace Server_Realm.UnitHandler
                 else
                 {
                     // Down.
-                    if (dashedPos.Y + calcDist < playerPos.Y) { return false; }
+                    if (dashedPos.Y < playerPos.Y + calcDist) { return false; }
                 }
             }
 
@@ -347,7 +344,7 @@ namespace Server_Realm.UnitHandler
                 else
                 {
                     // Left.
-                    if (dashedPos.X + calcDist < playerPos.X) { return false; }
+                    if (dashedPos.X < playerPos.X + calcDist) { return false; }
                 }
             }
 

@@ -3,6 +3,7 @@ using MemoryPack;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Collections.Concurrent;
 
 namespace GameCore.GamePacket
 {
@@ -18,8 +19,8 @@ namespace GameCore.GamePacket
     {
         public GamePacketSC_UpdateSection()
         {
-            PlayInfos = new Dictionary<long, DTO_PlayInfo>();
-            Mobs = new Dictionary<long, DTO_Mob>();
+            PlayInfos = new ConcurrentDictionary<long, DTO_PlayInfo>();
+            Mobs = new ConcurrentDictionary<long, DTO_Mob>();
         }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace GameCore.GamePacket
         /// value: PlayInfo.
         /// </summary>
         [MemoryPackOrder(0)]
-        public Dictionary<long, DTO_PlayInfo> PlayInfos { get; set; }
+        public ConcurrentDictionary<long, DTO_PlayInfo> PlayInfos { get; set; }
 
         /// <summary>
         /// 몹 정보.
@@ -36,9 +37,9 @@ namespace GameCore.GamePacket
         /// value: Mob.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Dictionary<long, DTO_Mob> Mobs { get; set; }
+        public ConcurrentDictionary<long, DTO_Mob> Mobs { get; set; }
 
-        public new void Dispose()
+        public override void Dispose()
         {
             PlayInfos.Clear();
             Mobs.Clear();

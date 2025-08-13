@@ -59,6 +59,8 @@ namespace Server_Realm.UnitHandler
             {
                 prjt.MoveNextFrame(deltaTime);
 
+                _logger.LogDebug($"projectile pos: {prjt.Pos}");
+
                 if (prjt.IsMaxRange())
                 {
                     _distroyProjectiles.Add(prjt);
@@ -69,6 +71,8 @@ namespace Server_Realm.UnitHandler
             foreach (var grenade in _grenades)
             {
                 grenade.MoveNextFrame(deltaTime);
+
+                _logger.LogDebug($"grenade pos: {grenade.Pos}");
 
                 if (grenade.IsMaxRange())
                 {

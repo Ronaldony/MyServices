@@ -49,6 +49,8 @@
         public const int SC_UpdateUnitStat = 173;               // 업데이트 - 스텟.
         public const int CS_UpdateSection = 174;                // 업데이트 - 섹션.
         public const int SC_UpdateSection = 175;                // 업데이트 - 섹션.
+        public const int CS_UpdateSectionNewEnter = 176;        // 업데이트 - 섹션에 새로 진입한 유저.
+        public const int SC_UpdateSectionNewEnter = 177;        // 업데이트 - 섹션에 새로 진입한 유저.
 
         // 장비.
         public const int CS_SiwtchEquipment = 1000;             // 장비 교체.

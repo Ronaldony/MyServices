@@ -14,6 +14,8 @@ namespace Server_Realm.Core.Services
     /// </summary>
     public class MobCreateService
     {
+        private const int SPAWN_RANGE = 10;
+
         private readonly ILogger<MobCreateService> _logger;
 
         // Services.
@@ -22,7 +24,8 @@ namespace Server_Realm.Core.Services
 
         // Datas.
         private readonly List<Type_Item> _itemTypes;
-        private readonly List<CONF_Area> _confAreas;
+        private Dictionary<Type_Area, CONF_Area> _confAreas;
+        private Dictionary<Type_Area, List<TB_AreaSpawn>> _tbAreaSpawns;
 
         // Random.
         private readonly Random _rand;
@@ -35,8 +38,7 @@ namespace Server_Realm.Core.Services
             _tdbService = serviceProvider.GetService<ITDBService>();
 
             _itemTypes = Enum.GetValues<Type_Item>().Where(d => d != Type_Item.None).ToList();
-            _confAreas = _tdbService.SelectAll<CONF_Area>().ToList();
-
+            
             _rand = new Random();
         }
 
@@ -45,6 +47,23 @@ namespace Server_Realm.Core.Services
         /// </summary>
         public void Initialize()
         {
+            // initlaize datas.
+            _confAreas = _tdbService.SelectAll<CONF_Area>().ToDictionary(d => d.Area, d => d);
+            _tbAreaSpawns = new Dictionary<Type_Area, List<TB_AreaSpawn>>();
+
+            // TB_AreaSpawn.
+            var tbAreaSpawns = _tdbService.SelectAll<TB_AreaSpawn>();
+
+            foreach (var tb in tbAreaSpawns)
+            {
+                if (false == _tbAreaSpawns.ContainsKey(tb.Area))
+                {
+                    _tbAreaSpawns.Add(tb.Area, new List<TB_AreaSpawn>());
+                }
+
+                _tbAreaSpawns[tb.Area].Add(tb);
+            }
+
             _logger.LogInformation($"MobCreateService initialized.");
         }
 
@@ -54,7 +73,7 @@ namespace Server_Realm.Core.Services
         public DTO_Mob CreateMob(int refId, Type_Area areaType)
         {
             var tbMob = _tdbService.GetById<TB_Mob>(refId);
-            var confArea = _confAreas.FirstOrDefault(d => d.Area == areaType);
+            var confArea = _confAreas[areaType];
 
             // 데이터 검사.
             if (tbMob == null || confArea == null)
@@ -63,40 +82,53 @@ namespace Server_Realm.Core.Services
             }
 
             // 유닛 생성.
-            var dtoEnemy = new DTO_Mob
+            var dtoMob = new DTO_Mob
             {
                 MobId = refId,
             };
 
-            // Generate random section.
-            var x = _rand.Next(confArea.MinX, confArea.MaxX);
-            var y = _rand.Next(confArea.MinY, confArea.MaxY);
+            // 스폰 위치 생성.
+            var spawnPos = GetSpawnPosition(areaType);
 
             // Stat.
-            dtoEnemy.Stat.HealthMax = tbMob.Health;
-            dtoEnemy.Stat.Health = tbMob.Health;
-            dtoEnemy.Stat.Power = tbMob.Damage;
-            dtoEnemy.Stat.Defense = tbMob.Defense;
-            dtoEnemy.Stat.Velocity = tbMob.Speed;
+            dtoMob.Stat.HealthMax = tbMob.Health;
+            dtoMob.Stat.Health = tbMob.Health;
+            dtoMob.Stat.Power = tbMob.Damage;
+            dtoMob.Stat.Defense = tbMob.Defense;
+            dtoMob.Stat.Velocity = tbMob.Speed;
 
             // Location.
-            dtoEnemy.Location.Area = areaType;
-            dtoEnemy.Location.Pos = new Vector2(x, y);
-            dtoEnemy.Location.PosEnd = Vector2.Zero;
-            dtoEnemy.Location.MoveDirection = Vector2.Zero;
+            dtoMob.Location.Area = areaType;
+            dtoMob.Location.Pos = spawnPos;
+            dtoMob.Location.PosEnd = Vector2.Zero;
+            dtoMob.Location.MoveDirection = Vector2.Zero;
 
             // AttackType.
-            dtoEnemy.AttackType = tbMob.AttackType;
+            dtoMob.AttackType = tbMob.AttackType;
 
             // DropItems.
             for (int repeat = 0; repeat < _rand.Next(0, 4); repeat++)
             {
-                dtoEnemy.DropItems.Add(_itemTypes.OrderBy(d => new Guid()).First());
+                dtoMob.DropItems.Add(_itemTypes.OrderBy(d => new Guid()).First());
             }
 
-            _logger.LogDebug($"Spawn enemy. pos: ({x}, {y})");
+            _logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
 
-            return dtoEnemy;
+            return dtoMob;
+        }
+
+        /// <summary>
+        /// Get spawn position.
+        /// </summary>
+        private Vector2 GetSpawnPosition(Type_Area area)
+        {
+            var tbAreas = _tbAreaSpawns[area];
+            var tbArea = tbAreas.OrderBy(d => Guid.NewGuid()).First();
+
+            return new Vector2(30, 10);
+            //return new Vector2(
+            //    x: _rand.Next(tbArea.X - SPAWN_RANGE, tbArea.X + SPAWN_RANGE),
+            //    y: _rand.Next(tbArea.Y - SPAWN_RANGE, tbArea.Y + SPAWN_RANGE));
         }
     }
 }

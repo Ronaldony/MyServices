@@ -92,11 +92,6 @@ namespace Server_Realm.Zones.HuntZone
                 var updateUnitMovement = _memoryPoolService.Rent<GamePacketSC_UpdateUnitMovement>();
                 var updateUnitStat = _memoryPoolService.Rent<GamePacketSC_UpdateUnitStat>();
 
-                if (updateSection.Mobs.Any())
-                {
-                    _logger.LogDebug($"{ws.Section}, section. mob count: {updateSection.Mobs.Count()}");
-                }
-
                 // 플레이어 업데이트.
                 foreach (var pu in ws.GetPlayerUnits())
                 {
@@ -153,9 +148,9 @@ namespace Server_Realm.Zones.HuntZone
                 {
                     // 섹션에 새로 진입한 유저에게 해당 섹션 주변 정보 전달하기.
                     var updateSectionNewEnter = _memoryPoolService.Rent<GamePacketSC_UpdateSectionNewEnter>();
-                    
-                    updateSectionNewEnter.PlayInfos = ws.DetectAroundPlayers().Select(d => d.PlayInfo).ToList();
-                    updateSectionNewEnter.Mobs = ws.DetectAroundMobs().Select(d => d.Mob).ToList();
+
+                    updateSectionNewEnter.PlayInfos = ws.DetectAroundPlayers().ToDictionary(d => d.UnitId, d => d.PlayInfo);
+                    updateSectionNewEnter.Mobs = ws.DetectAroundMobs().ToDictionary(d => d.UnitId, d => d.Mob);
 
                     foreach (var pu in newEnterPlayers)
                     {

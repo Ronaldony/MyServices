@@ -26,5 +26,8 @@ namespace GameCore.GamePacket
     [GamePacketAttribute(GamePacketCode.SC_SiwtchEquipment)]
     public partial class GamePacketSC_ChangeEquipment : GamePacketBase_SC
     {
+        public override void Dispose()
+        {
+        }
     }
 }

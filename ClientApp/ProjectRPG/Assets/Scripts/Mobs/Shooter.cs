@@ -6,12 +6,12 @@ public class Shooter : MonoBehaviour, IMob
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private int _projectileId;
 
-    private float _speed;
+    private TB_Projectile _tbProjectile;
+    private float _range;
 
     private void Start()
     {
-        var tbProjectile = TDBManagement.Instance.GetById<TB_Projectile>(_projectileId);
-        _speed = tbProjectile.Velocity;
+        _tbProjectile = TDBManagement.Instance.GetById<TB_Projectile>(_projectileId);
     }
 
     private void OnValidate()
@@ -21,23 +21,15 @@ public class Shooter : MonoBehaviour, IMob
 
     public void Attack(Vector2 targetPos, Vector2 projectileSpawnPos)
     {
-        //if (transform.position.x - targetPos.x < 0)
-        //{
-        //    spriteRenderer.flipX = false;
-        //}
-        //else
-        //{
-        //    spriteRenderer.flipX = true;
-        //}
-
         // Spawn projectile.
         GameObject bullet = Instantiate(bulletPrefab, projectileSpawnPos, Quaternion.identity);
 
-        bullet.transform.right = bullet.transform.position - transform.position;
+        bullet.transform.right = new Vector3(targetPos.x, targetPos.y)  - bullet.transform.position;
 
         if (bullet.TryGetComponent<Projectile>(out var projectile))
         {
-            projectile.UpdateMoveSpeed(_speed);
+            projectile.UpdateMoveSpeed(_tbProjectile.Velocity);
+            projectile.UpdateProjectileRange(_tbProjectile.MaxRange);
         }
     }
 }

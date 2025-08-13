@@ -37,8 +37,9 @@ namespace Server_Realm.Worlds.MsgTrigger
         private readonly CONF_Area _confArea;
         private readonly CONF_Mob _confMob;
 
-        // Enemy.
+        // Mobs.
         private readonly List<TB_Mob> _tbMobs;
+        private readonly Random _rand;
 
         // Disposables.
         private readonly CompositeDisposable _subscriptions;
@@ -73,13 +74,14 @@ namespace Server_Realm.Worlds.MsgTrigger
         public void Start()
         {
             // 구독.
-            _subscriptions.Add(
-                Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
-                .Subscribe(count =>
-                {
-                    SpawnEnemy();
-                }));
+            //_subscriptions.Add(
+            //    Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
+            //    .Subscribe(count =>
+            //    {
+            //        SpawnMob();
+            //    }));
 
+            SpawnMob();
             _logger.LogInformation("start mob spawn.");
         }
 
@@ -101,7 +103,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         /// <summary>
         /// 주기적으로 적 스폰.
         /// </summary>
-        private void SpawnEnemy()
+        private void SpawnMob()
         {
             try
             {

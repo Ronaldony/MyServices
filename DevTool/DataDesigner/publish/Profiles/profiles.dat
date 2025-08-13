@@ -23,10 +23,10 @@
     "FilePathList": [
       {
         "Target": "Client",
-        "ProjectPath": "",
-        "ProtocolPath": "",
-        "DataCodePath": "",
-        "DatabaseFilePath": ""
+        "ProjectPath": "C:\\Portfolio\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore",
+        "ProtocolPath": "C:\\Portfolio\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Protocol",
+        "DataCodePath": "C:\\Portfolio\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Code",
+        "DatabaseFilePath": "C:\\Portfolio\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Database"
       },
       {
         "Target": "Server",

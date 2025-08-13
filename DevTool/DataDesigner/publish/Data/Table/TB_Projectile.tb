@@ -44,8 +44,8 @@
     "Name": "RasorBall",
     "Radius": 1,
     "ProjectileType": "RasorBall",
-    "MaxRange": 1,
-    "Velocity": 1,
+    "MaxRange": 8,
+    "Velocity": 2,
     "IsPenetrates": false,
     "IsGrenade": false
   }

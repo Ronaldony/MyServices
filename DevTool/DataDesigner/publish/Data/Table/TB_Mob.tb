@@ -5,14 +5,14 @@
     "Health": 6,
     "Damage": 3,
     "AttackRange": 4,
-    "AttackCooldown": 3,
+    "AttackCooldown": 10,
     "Speed": 2,
     "Defense": 1,
     "AttackType": "RasorBall"
   },
   {
     "Id": 3,
-    "Name": "BlueSlime",
+    "Name": "Grape",
     "Health": 15,
     "Damage": 2,
     "AttackRange": 2,

@@ -23,6 +23,9 @@
     <None Update="Database\CONF_Mob.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Database\TB_AreaSpawn.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Database\TB_Collision.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -18,8 +18,8 @@ namespace GameCore.GamePacket
     {
         public GamePacketSC_UpdateSectionNewEnter()
         {
-            PlayInfos = new List<DTO_PlayInfo>();
-            Mobs = new List<DTO_Mob>();
+            PlayInfos = new Dictionary<long, DTO_PlayInfo>();
+            Mobs = new Dictionary<long, DTO_Mob>();
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace GameCore.GamePacket
         /// value: PlayInfo.
         /// </summary>
         [MemoryPackOrder(0)]
-        public List<DTO_PlayInfo> PlayInfos { get; set; }
+        public Dictionary<long, DTO_PlayInfo> PlayInfos { get; set; }
 
         /// <summary>
         /// 몹 정보.
@@ -36,7 +36,7 @@ namespace GameCore.GamePacket
         /// value: Mob.
         /// </summary>
         [MemoryPackOrder(1)]
-        public List<DTO_Mob> Mobs { get; set; }
+        public Dictionary<long, DTO_Mob> Mobs { get; set; }
 
         public override void Dispose()
         {

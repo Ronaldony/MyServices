@@ -11,7 +11,7 @@ public class MobAI : MonoBehaviour
 
     [SerializeField] private MonoBehaviour _mobType;
 
-    private long _unitId;
+    [SerializeField] private long _mobId;
 
     /// <summary>
     /// Attack.
@@ -34,5 +34,5 @@ public class MobAI : MonoBehaviour
     /// <summary>
     /// Get unit id.
     /// </summary>
-    public long GetUnitId() => _unitId;
+    public long GetMobId() => _mobId;
 }

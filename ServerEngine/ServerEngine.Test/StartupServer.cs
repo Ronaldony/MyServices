@@ -7,6 +7,7 @@ namespace ServerEngine.Test
     using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Test.ConfigManager;
     using ServerEngine.Test.Database.DataObject;
     using ServerEngine.Test.Server;
 
@@ -31,6 +32,10 @@ namespace ServerEngine.Test
             remoteConfigureService.Initialize(configStrapi);
 
             var configGame = await remoteConfigureService.GetConfigData<Config_Game>(configStrapi.ContentType, "Devel_Game");
+            var mysqlConnections = await remoteConfigureService.GetConfigData<List<Config_MySQLConnection>>(configStrapi.ContentType, "Devel_MySQL");
+            var couchbaseConnections = await remoteConfigureService.GetConfigData<List<Config_CouchbaseConnection>>(configStrapi.ContentType, "Devel_Couchbase");
+
+            GameConfigManager.Initialize(configGame, mysqlConnections, couchbaseConnections);
 
             // MemoryPoolService
             var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
@@ -43,42 +48,9 @@ namespace ServerEngine.Test
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
-        }
 
-        /// <summary>
-        /// Configuration for Game server.
-        /// </summary>
-        public class Config_Game
-        {
-            /// <summary>
-            /// Environment for server.
-            /// </summary>
-            public string Environment { get; set; }
-
-            /// <summary>
-            /// Server.
-            /// </summary>
-            public string Server { get; set; }
-
-            /// <summary>
-            /// Service language.
-            /// </summary>
-            public string Language { get; set; }
-
-            /// <summary>
-            /// SnowflakeBaseTime.
-            /// </summary>
-            public DateTime SnowflakeBaseTime { get; set; }
-
-            /// <summary>
-            /// Frame rate.
-            /// </summary>
-            public int FrameRate { get; set; }
-
-            /// <summary>
-            /// ConfigCouchbase.
-            /// </summary>
-            public Config_Couchbase Couchbase { get; set; }
+            var playerObject = _serviceProvider.GetRequiredService<PlayerInfoObejct>();
+            await playerObject.SelectAsync<DTOPlayerInfo>("");
         }
     }
 }

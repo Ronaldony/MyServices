@@ -53,7 +53,7 @@ namespace ServerEngine.Database.DataObject
                     return await result.FirstAsync();
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return null;
             }

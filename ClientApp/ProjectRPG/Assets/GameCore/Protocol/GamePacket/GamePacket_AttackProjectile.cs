@@ -39,5 +39,9 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(1)]
         public DTO_Projectile Projectile { get; set; }
+
+        public override void Dispose()
+        {
+        }
     }
 }

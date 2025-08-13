@@ -18,7 +18,7 @@ namespace Server_Realm.AI.Actions.Movement
         public override void Start()
         {
             // 스폰 위치로 이동 위치 설정.
-            Owner.MovementHandler.MoveStart(Vector2.Normalize(Owner.MovementHandler.NowPos() - Owner.SpawnPos));
+            Owner.MovementHandler.MoveStart(Vector2.Normalize(Owner.SpawnPos - Owner.MovementHandler.NowPos()));
         }
 
         public override void Update(double deltaTime)

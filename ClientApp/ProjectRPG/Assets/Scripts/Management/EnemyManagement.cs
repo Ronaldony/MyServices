@@ -88,7 +88,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         {
             switch (updatePacket.PacketCode)
             {
-                case GamePacketCode.CS_AttackProjectile:
+                case GamePacketCode.SC_AttackProjectile:
                     {
                         var packet = updatePacket.Data as GamePacketSC_AttackProjectile;
                         AttackProjectile(packet);
@@ -106,12 +106,6 @@ public class EnemyManagement : Singleton<EnemyManagement>
                         Spawnmobs(packet.Mobs);
                     }
                     break;
-                case GamePacketCode.SC_UpdateSection:
-                    {
-                        var packet = updatePacket.Data as GamePacketSC_UpdateSection;
-                        Spawnmobs(packet.Mobs);
-                    }
-                    break;
                 case GamePacketCode.SC_UpdateUnitMovement:
                     {
                         var packet = updatePacket.Data as GamePacketSC_UpdateUnitMovement;
@@ -122,6 +116,18 @@ public class EnemyManagement : Singleton<EnemyManagement>
                     {
                         var packet = updatePacket.Data as GamePacketSC_UpdateUnitStat;
                         UpdateStat(packet);
+                    }
+                    break;
+                case GamePacketCode.SC_UpdateSection:
+                    {
+                        var packet = updatePacket.Data as GamePacketSC_UpdateSection;
+                        Spawnmobs(packet.Mobs);
+                    }
+                    break;
+                case GamePacketCode.SC_UpdateSectionNewEnter:
+                    {
+                        var packet = updatePacket.Data as GamePacketSC_UpdateSectionNewEnter;
+                        Spawnmobs(packet.Mobs);
                     }
                     break;
             }
@@ -241,6 +247,21 @@ public class EnemyManagement : Singleton<EnemyManagement>
     }
 
     /// <summary>
+    /// Spawn mobs.
+    /// </summary>
+    private void Spawnmobs(ConcurrentDictionary<long, DTO_Mob> mobs)
+    {
+        foreach (var pair in mobs)
+        {
+            // Spawn enemy.
+            if (false == SpawnMob(pair.Key, pair.Value))
+            {
+                continue;
+            }
+        }
+    }
+
+    /// <summary>
     /// Spawn enemy.
     /// </summary>
     private bool SpawnMob(long unitId, DTO_Mob mob)
@@ -254,7 +275,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             return false;
         }
 
-        var findEnemyPrefab = _enemyPrefabs.FirstOrDefault(d => d.GetComponent<MobAI>().GetUnitId() == tbEnemy.Id);
+        var findEnemyPrefab = _enemyPrefabs.FirstOrDefault(d => d.GetComponent<MobAI>().GetMobId() == tbEnemy.Id);
 
         if (default == findEnemyPrefab)
         {

@@ -125,7 +125,7 @@ namespace Server_Realm.Server.HuntZone
         /// </summary>
         public bool Send(string pid, int packetCode, byte[] packetData)
         {
-            if (_gameSessionDict.TryGetValue(pid, out var gameSession))
+            if (false == _gameSessionDict.TryGetValue(pid, out var gameSession))
             {
                 return false;
             }

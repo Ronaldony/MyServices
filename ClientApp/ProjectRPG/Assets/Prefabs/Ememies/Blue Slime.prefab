@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mobType: {fileID: -5090189636191321365}
+  _mobId: 3
 --- !u!114 &5353309665917613825
 MonoBehaviour:
   m_ObjectHideFlags: 0

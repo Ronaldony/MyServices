@@ -79,10 +79,13 @@ namespace Server_Realm.Core.Factories
                     _memoryPoolService.Release(projectile as ArrowProjectile);
                     break;
                 case Type_Projectile.Rasor:
-                    break;
-                case Type_Projectile.RasorBall:
+                    _memoryPoolService.Release(projectile as RasorProjectile);
                     break;
                 case Type_Projectile.Grape:
+                    _memoryPoolService.Release(projectile as GrapeProjectile);
+                    break;
+                case Type_Projectile.RasorBall:
+                    _memoryPoolService.Release(projectile as RasorBallProjectile);
                     break;
                 default:
                     break;
@@ -100,6 +103,15 @@ namespace Server_Realm.Core.Factories
             {
                 case Type_Projectile.Arrow:
                     projectile = _memoryPoolService.Rent<ArrowProjectile>();
+                    break;
+                case Type_Projectile.Rasor:
+                    projectile = _memoryPoolService.Rent<RasorProjectile>();
+                    break;
+                case Type_Projectile.Grape:
+                    projectile = _memoryPoolService.Rent<GrapeProjectile>();
+                    break;
+                case Type_Projectile.RasorBall:
+                    projectile = _memoryPoolService.Rent<RasorBallProjectile>();
                     break;
                 default:
                     return null;

@@ -46,5 +46,9 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(2)]
         public DTO_InventoryInfo InventoryInfo { get; set; }
+
+        public override void Dispose()
+        {
+        }
     }
 }

@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 22f;
     [SerializeField] private GameObject particleOnPrefabVFX;
     [SerializeField] private bool isEnemyProjectile = false;
-    [SerializeField] private float projectileRange = 10f;
+
+    // Projectiles.
+    private float _moveSpeed;
+    private float _range;
 
     private Vector3 startPosition;
 
@@ -22,12 +24,12 @@ public class Projectile : MonoBehaviour
 
     public void UpdateMoveSpeed(float speed)
     {
-        this.moveSpeed = speed;
+        this._moveSpeed = speed;
     }
 
     public void UpdateProjectileRange(float projectileRange)
     {
-        this.projectileRange = projectileRange;
+        this._range = projectileRange;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -60,7 +62,7 @@ public class Projectile : MonoBehaviour
     private void DetectFireDistance()
     {
         // Detect fire distance.
-        if (Vector3.Distance(transform.position, startPosition) > projectileRange)
+        if (Vector3.Distance(transform.position, startPosition) > _range)
         {
             Destroy(gameObject);
         }
@@ -69,6 +71,6 @@ public class Projectile : MonoBehaviour
     private void MoveProjectile()
     {
         // Move project tile.
-        transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
+        transform.Translate(Vector3.right * Time.deltaTime * _moveSpeed);
     }
 }

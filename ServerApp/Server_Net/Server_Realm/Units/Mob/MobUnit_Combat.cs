@@ -6,6 +6,7 @@ namespace Server_Realm.Units.Mob
     using GameCore.Datas.Projectiles;
     using GameCore.GamePacket;
     using Server_Realm.Entities;
+    using SQLitePCL;
 
     /// <summary>
     /// MobUnit.
@@ -77,10 +78,12 @@ namespace Server_Realm.Units.Mob
         private void AttackRange(Type_Projectile projectileType, Unit target)
         {
             var spawnPos = MovementHandler.NowPos();
-            var angle = Vector2.Normalize(this.MovementHandler.NowPos() - target.MovementHandler.NowPos());
+            var angle = Vector2.Normalize(target.MovementHandler.NowPos() - this.MovementHandler.NowPos());
 
             // 투사체 삽입.
             CombatHandler.OwnProjectile(projectileType, spawnPos, angle, this.StatHandler.GetPower());
+
+            Console.WriteLine($"Attack projectile. angle: {angle}, spawnPos: {spawnPos}");
 
             // 투사체 공격.
             var gamePacket = new GamePacketSC_AttackProjectile();

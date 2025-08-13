@@ -56,7 +56,7 @@ namespace Server_Realm.Projectiles
         /// <summary>
         /// 현재 위치. 
         /// </summary>
-        protected Vector2 Pos;
+        public Vector2 Pos;
 
         /// <summary>
         /// 투사 각도. 

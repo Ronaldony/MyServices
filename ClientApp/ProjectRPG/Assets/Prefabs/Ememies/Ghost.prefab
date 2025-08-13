@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 4772483820718664203, guid: 8288e94025a40c8448b1b839a5c3c571, type: 3}
-  _projectileId: 2
+  _projectileId: 4
 --- !u!114 &-3299213753949747181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mobType: {fileID: 8645841316860437178}
+  _mobId: 2
 --- !u!114 &4989305157047768865
 MonoBehaviour:
   m_ObjectHideFlags: 0

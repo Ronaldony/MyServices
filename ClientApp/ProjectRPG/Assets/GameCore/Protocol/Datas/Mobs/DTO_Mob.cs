@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 namespace GameCore.Datas.Mobs
 {
     using GameCore.Datas.Plays;
+    using System.Numerics;
 
     /// <summary>
     /// DTO_Mob.

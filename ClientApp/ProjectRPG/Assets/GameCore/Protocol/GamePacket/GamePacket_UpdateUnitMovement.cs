@@ -1,6 +1,6 @@
 ﻿using GameCore.Datas.Plays;
 using MemoryPack;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 
 namespace GameCore.GamePacket
@@ -23,7 +23,7 @@ namespace GameCore.GamePacket
     {
         public GamePacketSC_UpdateUnitMovement()
         {
-            UnitLocations = new Dictionary<long, DTO_Location>();
+            UnitLocations = new ConcurrentDictionary<long, DTO_Location>();
         }
 
         /// <summary>
@@ -32,12 +32,12 @@ namespace GameCore.GamePacket
         /// value: DTO_Location.
         /// </summary>
         [MemoryPackOrder(0)]
-        public Dictionary<long, DTO_Location> UnitLocations { get; set; }
+        public ConcurrentDictionary<long, DTO_Location> UnitLocations { get; set; }
 
         /// <summary>
         /// Dispose.
         /// </summary>
-        public new void Dispose()
+        public override void Dispose()
         {
             UnitLocations.Clear();
         }

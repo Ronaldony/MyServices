@@ -46,7 +46,7 @@ namespace Server_Realm.AI.Actions.Movement
             _targetPos = detectPlayer.MovementHandler.NowPos();
 
             // Move start.
-            Owner.MovementHandler.MoveStart(Vector2.Normalize(Owner.MovementHandler.NowPos() - _targetPos));
+            Owner.MovementHandler.MoveStart(Vector2.Normalize(_targetPos - Owner.MovementHandler.NowPos()));
         }
 
         public override void Update(double deltaTime)
@@ -79,11 +79,14 @@ namespace Server_Realm.AI.Actions.Movement
                     Owner.Attack(target);
                 }
 
+                // Stop.
+                Owner.MovementHandler.MoveStop();
+
                 return;
             }
 
             // 현재 위치가 스폰 위치로부터 벗어났는지 확인.
-            if (Vector2.DistanceSquared(Owner.SpawnPos, ownerPos) <= GameData.MOB_RETURN_DISTANCE_SQUARE)
+            if (Vector2.DistanceSquared(ownerPos, Owner.SpawnPos) > GameData.MOB_RETURN_DISTANCE_SQUARE)
             {
                 // Combat -> Return.
                 Brain.ChangeState(Type_AIState.Return);
@@ -95,7 +98,7 @@ namespace Server_Realm.AI.Actions.Movement
             {
                 // 추적 위치 갱신.
                 _targetPos = nowTargetPos;
-                Owner.MovementHandler.MoveStart(Vector2.Normalize(ownerPos - nowTargetPos));
+                Owner.MovementHandler.MoveStart(Vector2.Normalize(nowTargetPos - ownerPos));
             }
         }
 
