@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameCore.Datas.Projectiles;
+using GameCore;
 
 public class MobAI : MonoBehaviour
 {
@@ -11,7 +12,19 @@ public class MobAI : MonoBehaviour
 
     [SerializeField] private MonoBehaviour _mobType;
 
-    [SerializeField] private long _mobId;
+    [SerializeField] private int _mobId;
+
+    private TB_Mob _tbMob;
+
+    private void Start()
+    {
+        _tbMob = TDBManagement.Instance.GetById<TB_Mob>(_mobId);
+    }
+
+    public TB_Mob GetTBMob()
+    {
+        return _tbMob;
+    }
 
     /// <summary>
     /// Attack.
@@ -34,5 +47,5 @@ public class MobAI : MonoBehaviour
     /// <summary>
     /// Get unit id.
     /// </summary>
-    public long GetMobId() => _mobId;
+    public int GetMobId() => _mobId;
 }

@@ -16,7 +16,7 @@ namespace GameCore
         /// <summary>
         /// radius
         /// </summary>
-        public int Radius { get; set; }
+        public float Radius { get; set; }
         /// <summary>
         /// projectile type
         /// </summary>

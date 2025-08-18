@@ -2,6 +2,7 @@
 
 namespace Server_Realm.HitBoxes
 {
+    using Couchbase.KeyValue;
     using Server_Realm.Core.Types;
 
     /// <summary>
@@ -22,8 +23,18 @@ namespace Server_Realm.HitBoxes
         /// <summary>
         /// 위치 정보.
         /// </summary>
-        public Vector2 Min;
-        public Vector2 Max;
+        public Vector2 Min { get; private set; }
+        public Vector2 Max { get; private set; }
+
+        /// <summary>
+        /// Setup hit box.
+        /// </summary>
+        /// <param name="radius"></param>
+        public void Setup(Vector2 min, Vector2 max)
+        {
+            Min = min;
+            Max = max;
+        }
 
         /// <summary>
         /// Check hit with target hit box.

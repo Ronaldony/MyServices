@@ -23,24 +23,13 @@ namespace Server_Realm.Projectiles
         /// <summary>
         /// Setup.
         /// </summary>
-        public override void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 angle, int damage, int radius, int velocity, int maxRange, bool isPenetrates, bool isGrenade)
+        public override void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 angle, int damage, TB_Projectile tbProjectile)
         {
+            // Setup base.
+            base.Setup(projectileId, owner, spawnPos, angle, damage, tbProjectile);
+
             // Setup hitbox.
-            _hitbox.Setup(radius);
-
-            ProjectileId = projectileId;
-            Owner = owner;
-
-            SpawnPos = spawnPos;
-            Angle = angle;
-            Section = SectionId.ToSection(spawnPos);
-
-            Damage = damage;
-            Velocity = velocity;
-            MaxRange = maxRange;
-            MaxRangeSqr = maxRange * maxRange;
-            IsPenetrates = isPenetrates;
-            IsGrenade = isGrenade;
+            _hitbox.Setup(tbProjectile.Radius, spawnPos);
         }
 
         /// <summary>

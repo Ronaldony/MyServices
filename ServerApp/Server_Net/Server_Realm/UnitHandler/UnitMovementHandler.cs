@@ -253,7 +253,7 @@ namespace Server_Realm.UnitHandler
             }
             else
             {
-                var calcDist = Math.Abs(dirY * diffSeconds * velocity + GameData.MOVEMENT_ERROR);
+                var calcDist = Math.Abs(dirY * diffSeconds * velocity) + GameData.MOVEMENT_ERROR;
 
                 if (dirY > 0)
                 {
@@ -276,7 +276,7 @@ namespace Server_Realm.UnitHandler
             }
             else
             {
-                var calDist = Math.Abs(dirX * diffSeconds * velocity + GameData.MOVEMENT_ERROR);
+                var calDist = Math.Abs(dirX * diffSeconds * velocity) + GameData.MOVEMENT_ERROR;
 
                 if (dirX > 0)
                 {

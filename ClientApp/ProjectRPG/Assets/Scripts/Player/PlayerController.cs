@@ -109,7 +109,7 @@ public class PlayerController : Singleton<PlayerController>
     private void FixedUpdate()
     {
         // 넉백 혹은 죽음인 경우 처리 넘김.
-        if (_knockback.GettingKnockedBack || PlayerHealth.Instance.isDead)
+        if (_knockback.GettingKnockedBack || PlayerHealth.Instance._isDead)
         {
             return;
         }

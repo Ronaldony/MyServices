@@ -2,7 +2,7 @@
   {
     "Id": 0,
     "Name": "None",
-    "Radius": 0,
+    "Radius": 0.0,
     "ProjectileType": "None",
     "MaxRange": 0,
     "Velocity": 0,
@@ -12,7 +12,7 @@
   {
     "Id": 1,
     "Name": "Arrow",
-    "Radius": 1,
+    "Radius": 1.0,
     "ProjectileType": "Arrow",
     "MaxRange": 1,
     "Velocity": 1,
@@ -22,7 +22,7 @@
   {
     "Id": 2,
     "Name": "Rasor",
-    "Radius": 1,
+    "Radius": 1.0,
     "ProjectileType": "Rasor",
     "MaxRange": 1,
     "Velocity": 1,
@@ -32,7 +32,7 @@
   {
     "Id": 3,
     "Name": "Grape",
-    "Radius": 1,
+    "Radius": 1.0,
     "ProjectileType": "Grape",
     "MaxRange": 1,
     "Velocity": 1,
@@ -42,9 +42,9 @@
   {
     "Id": 4,
     "Name": "RasorBall",
-    "Radius": 1,
+    "Radius": 0.0223,
     "ProjectileType": "RasorBall",
-    "MaxRange": 8,
+    "MaxRange": 6,
     "Velocity": 2,
     "IsPenetrates": false,
     "IsGrenade": false

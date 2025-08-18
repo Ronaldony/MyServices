@@ -20,10 +20,9 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private async Task DispatchUpdateFrameAsync(WorldMsg_UpdateFrame worldMsg)
         {
-            // 프레임 시간차.
             var nowTime = TimeUtil.Now;
 
-            // update frame times.
+            // 프레임 델타 타임 계산.
             _frameDeltaSec = (nowTime - _lastFrameUpdateTime).TotalSeconds;
             _lastFrameUpdateTime = nowTime;
 
@@ -43,6 +42,7 @@ namespace Server_Realm.Zones.HuntZone
             // Collect dead units.
             UpdateFrame_CollectDeadUnits();
 
+            // Benchmark.
             ++_benchFrameCount;
             _benchFrameSum += (TimeUtil.Now - nowTime).TotalMilliseconds;
 
@@ -138,6 +138,7 @@ namespace Server_Realm.Zones.HuntZone
                 ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
                 ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
 
+                // Release.
                 _memoryPoolService.Release(updateSection);
                 _memoryPoolService.Release(updateUnitMovement);
                 _memoryPoolService.Release(updateUnitStat);

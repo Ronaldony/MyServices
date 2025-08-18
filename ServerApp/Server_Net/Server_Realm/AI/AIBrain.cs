@@ -43,11 +43,9 @@ namespace Server_Realm.AI
 
             _nowAIAction?.Stop();
 
-            var aiAction = _actionCollection.GetAIActoin(state);
-
-            aiAction.Start();
-
-            _nowAIAction = aiAction;
+            // Get new AI action.
+            _nowAIAction = _actionCollection.GetAIActoin(state);
+            _nowAIAction.Start();
         }
     }
 }

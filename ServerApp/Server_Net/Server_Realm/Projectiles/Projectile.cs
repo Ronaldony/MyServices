@@ -39,6 +39,11 @@ namespace Server_Realm.Projectiles
         public bool IsGrenade { get; protected set; }
 
         /// <summary>
+        /// 투사체 활성 여부.
+        /// </summary>
+        public bool IsActive { get; protected set; }
+
+        /// <summary>
         /// 섹션.
         /// </summary>
         public SectionId Section { get; protected set; }
@@ -49,14 +54,14 @@ namespace Server_Realm.Projectiles
         public int Damage { get; protected set; }
 
         /// <summary>
+        /// 현재 위치. 
+        /// </summary>
+        public Vector2 Pos { get; protected set; }
+
+        /// <summary>
         /// 투사체 생성 위치. 
         /// </summary>
         protected Vector2 SpawnPos;
-
-        /// <summary>
-        /// 현재 위치. 
-        /// </summary>
-        public Vector2 Pos;
 
         /// <summary>
         /// 투사 각도. 
@@ -86,7 +91,25 @@ namespace Server_Realm.Projectiles
         /// <summary>
         /// Setup.
         /// </summary>
-        public abstract void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 angle, int damage, int radius, int velocity, int maxRange, bool isPenetrates, bool isGrenade);
+        public virtual void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 angle, int damage, TB_Projectile tbProjectile)
+        {
+            ProjectileId = projectileId;
+            Owner = owner;
+
+            SpawnPos = spawnPos;
+            Pos = spawnPos;
+            Angle = angle;
+            Section = SectionId.ToSection(spawnPos);
+
+            Damage = damage;
+            Velocity = tbProjectile.Velocity;
+            MaxRange = tbProjectile.MaxRange;
+            MaxRangeSqr = MaxRange * MaxRange;
+
+            IsPenetrates = tbProjectile.IsPenetrates;
+            IsGrenade = tbProjectile.IsGrenade;
+            IsActive = true;
+        }
 
         /// <summary>
         /// Move for next frame.
@@ -103,6 +126,14 @@ namespace Server_Realm.Projectiles
         /// </summary>
         /// <returns></returns>
         public abstract IHitbox GetHitbox();
+
+        /// <summary>
+        /// Inactivate projectile.
+        /// </summary>
+        public void InActiveProjectile()
+        {
+            IsActive = false;
+        }
 
         /// <summary>
         /// Dispose.

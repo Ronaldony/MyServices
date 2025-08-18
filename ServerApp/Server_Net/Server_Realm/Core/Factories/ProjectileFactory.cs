@@ -63,7 +63,7 @@ namespace Server_Realm.Core.Factories
             var tbProjectile = _tbProjectileDict.GetValueOrDefault(projectileType);
 
             // Steup projectile.
-            projectile.Setup(tbProjectile.Id, owner, spawnPos, angle, damage, tbProjectile.Radius, tbProjectile.Velocity, tbProjectile.MaxRange, tbProjectile.IsPenetrates, tbProjectile.IsGrenade);
+            projectile.Setup(tbProjectile.Id, owner, spawnPos, angle, damage, tbProjectile);
 
             return projectile;
         }

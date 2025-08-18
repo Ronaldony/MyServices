@@ -12,6 +12,7 @@ namespace LoginServer.Controllers.Auth
     using Framework.WebAPI.Controllers;
     using GameCore;
     using GameCore.Http.Auth;
+    using GameCore.Interfaces;
 
     /// <summary>
     /// 플레이어 생성 컨트롤러.
@@ -22,6 +23,7 @@ namespace LoginServer.Controllers.Auth
         private readonly ILogger<CreatePlayerController> _logger;
 
         private readonly IUniqueIdService _uniqueIdService;
+        private readonly ITDBService _tdbService;
 
         private readonly DBPlayerData _dbPlayerData;
         private readonly DBIdentity _dbIdentity;
@@ -33,6 +35,7 @@ namespace LoginServer.Controllers.Auth
             _logger = serviceProvider.GetRequiredService<ILogger<CreatePlayerController>>();
 
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
+            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
 
             _dbPlayerData = serviceProvider.GetRequiredService<DBPlayerData>();
             _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
@@ -82,15 +85,27 @@ namespace LoginServer.Controllers.Auth
         /// </summary>
         private async Task CreateOrUpdatePlayerAsync(string uid, string pid, DateTime nowTime)
         {
+            var tbWeapon = _tdbService.SelectAll<TB_Weapon>().First();
+
             // PlayInfo.
             var playInfoObject = await GetObjectAsync<PlayInfoObject>();
             var playInfo = playInfoObject.PlayInfo;
 
             playInfo.Pid = pid;
             playInfo.PlayerName = pid;
+
+            // Location.
             playInfo.Location.Area = Type_Area.HuntZone;
+
+            // Stat.
+            playInfo.Stat.HealthMax = 10;
+            playInfo.Stat.Health = 10;
+            playInfo.Stat.Power = 1;
+            playInfo.Stat.Defense = 1;
             playInfo.Stat.Velocity = 4;
-            playInfo.Equipment.Weapon = 1;
+
+            // Equipment.
+            playInfo.Equipment.Weapon = tbWeapon.Id;
 
             // InventoryInfo.
             var inventoryInfoObject = await GetObjectAsync<InventoryInfoObject>();

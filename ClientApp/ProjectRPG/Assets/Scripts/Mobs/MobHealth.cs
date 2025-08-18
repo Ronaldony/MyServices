@@ -27,7 +27,7 @@ public class MobHealth : MonoBehaviour
         _health -= damage;
 
         // Knockback.
-        _knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
+        //_knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
 
         // hit routine.
         StartCoroutine(_flash.FlashRoutine());

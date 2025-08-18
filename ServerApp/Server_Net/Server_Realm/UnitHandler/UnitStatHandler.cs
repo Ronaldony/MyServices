@@ -61,12 +61,13 @@ namespace Server_Realm.UnitHandler
                 return;
             }
 
+            // Damage.
             _stat.Health -= (damage - _stat.Defense);
 
             if (_stat.Health <= 0)
             {
                 // 유닛 죽음.
-                _owner?.AIBrain.ChangeState(Type_AIState.Dead);
+                _owner.AIBrain?.ChangeState(Type_AIState.Dead);
                 _owner.IsDead = true;
             }
 

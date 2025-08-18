@@ -7,18 +7,18 @@ using UnityEngine.UI;
 
 public class PlayerHealth : Singleton<PlayerHealth>
 {
-    public bool isDead { get; private set; }
+    public bool _isDead { get; private set; }
 
-    [SerializeField] private int maxHealth = 3;
-    [SerializeField] private float damageRecoveryTime = 1f;
+    private int _maxHealth;
+    private float _damageRecoveryTime = 1f;
 
-    private Slider healthSlider;
-    private int currentHealth;
-    private bool canTakeDamage = true;
-    private Knockback knockback;
-    private Flash flash;
+    private Slider _healthSlider;
+    private int _currentHealth;
+    private bool _canTakeDamage = true;
+    private Knockback _knockback;
+    private Flash _flash;
 
-    private GamePacketManager _GamePacketManager;
+    private GamePacketManager _gpm;
 
     const string HEALTH_SLIDER_TEXT = "Health Slider";
     const string TOWN_TEXT = "Scene1";
@@ -28,74 +28,99 @@ public class PlayerHealth : Singleton<PlayerHealth>
     {
         base.Awake();
 
-        flash = GetComponent<Flash>();
-        knockback = GetComponent<Knockback>();
+        _flash = GetComponent<Flash>();
+        _knockback = GetComponent<Knockback>();
 
-        _GamePacketManager = GamePacketManager.Instance;
+        _gpm = GamePacketManager.Instance;
     }
 
     private void Start()
     {
-        isDead = false;
-        currentHealth = maxHealth;
+        var playerDataManager = PlayerDataManager.Instance;
 
+        _isDead = false;
+        _maxHealth = playerDataManager.PlayInfo.Stat.HealthMax;
+        _currentHealth = playerDataManager.PlayInfo.Stat.Health;
+
+        // Slider.
         UpdateHealthSlider();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        var enemy = collision.gameObject.GetComponent<MobAI>();
+        var mobAI = collision.gameObject.GetComponent<MobAI>();
 
-        if (enemy)
+        if (mobAI)
         {
-            TakeDamage(1, collision.transform);
+            TakeDamage(mobAI.GetTBMob().Damage, collision.transform);
         }
     }
 
+    /// <summary>
+    /// Setup.
+    /// </summary>
+    public void Setup(int maxHealth, float recoveryTime)
+    {
+        _maxHealth = maxHealth;
+        _damageRecoveryTime = recoveryTime;
+    }
+
+    /// <summary>
+    /// Heal player.
+    /// </summary>
     public void HealPlayer()
     {
-        if (currentHealth < maxHealth)
+        if (_currentHealth < _maxHealth)
         {
-            currentHealth += 1;
+            _currentHealth += 1;
             UpdateHealthSlider();
         }
     }
 
+    /// <summary>
+    /// Take damage.
+    /// </summary>
     public void TakeDamage(int damageAmount, Transform hitTransform)
     {
-        if (!canTakeDamage || isDead) { return; }
+        if (!_canTakeDamage || _isDead) { return; }
 
         // Screen snake.
         ScreenSnakeManager.Instance.SnakeScreen();
 
-        // �˹�.
-        knockback.GetKnockedBack(hitTransform.position, GameData.KNOCKBACK_THRUST);
+        // Knockback.
+        //knockback.GetKnockedBack(hitTransform.position, GameData.KNOCKBACK_THRUST);
 
         // flash.
-        StartCoroutine(flash.FlashRoutine());
+        StartCoroutine(_flash.FlashRoutine());
 
-        canTakeDamage = false;
-        currentHealth -= damageAmount;
-        StartCoroutine(DamageRecoveryRoutine());
+        _currentHealth -= damageAmount;
+        //_canTakeDamage = false;
+        //StartCoroutine(DamageRecoveryRoutine());
 
         UpdateHealthSlider();
         CheckIfPlayerDeath();
     }
 
+    /// <summary>
+    /// Check player death.
+    /// </summary>
     private void CheckIfPlayerDeath()
     {
-        if (currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             // Process death.
-            isDead = true;
+            _isDead = true;
             Destroy(ActiveWeapon.Instance.gameObject);
 
-            currentHealth = 0;
+            _currentHealth = 0;
             GetComponent<Animator>().SetTrigger(DEATH_HASH);
             StartCoroutine(DeathLoadSceneRoutine());
         }
     }
 
+    /// <summary>
+    /// Death load scene.
+    /// </summary>
     private IEnumerator DeathLoadSceneRoutine()
     {
         yield return new WaitForSeconds(2f);
@@ -105,20 +130,26 @@ public class PlayerHealth : Singleton<PlayerHealth>
         SceneManager.LoadScene(TOWN_TEXT);
     }
 
+    /// <summary>
+    /// Damage recovery routine.
+    /// </summary>
     private IEnumerator DamageRecoveryRoutine()
     {
-        yield return new WaitForSeconds(damageRecoveryTime);
-        canTakeDamage = true;
+        yield return new WaitForSeconds(_damageRecoveryTime);
+        _canTakeDamage = true;
     }
 
+    /// <summary>
+    /// Update health slider.
+    /// </summary>
     private void UpdateHealthSlider()
     {
-        if (healthSlider == null)
+        if (_healthSlider == null)
         {
-            healthSlider = GameObject.Find(HEALTH_SLIDER_TEXT).GetComponent<Slider>();
+            _healthSlider = GameObject.Find(HEALTH_SLIDER_TEXT).GetComponent<Slider>();
         }
 
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = currentHealth;
+        _healthSlider.maxValue = _maxHealth;
+        _healthSlider.value = _currentHealth;
     }
 }

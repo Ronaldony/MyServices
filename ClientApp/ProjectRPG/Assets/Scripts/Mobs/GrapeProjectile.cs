@@ -9,6 +9,8 @@ public class GrapeProjectile : MonoBehaviour
     [SerializeField] private GameObject grapeProjectileShadow;
     [SerializeField] private GameObject splatterPrefab;
 
+    private int _damage;
+
     private void Start()
     {
         GameObject grapeShadow = Instantiate(grapeProjectileShadow, transform.position + new Vector3(0, -0.3f, 0), Quaternion.identity);
@@ -39,8 +41,18 @@ public class GrapeProjectile : MonoBehaviour
             yield return null;
         }
 
-        Instantiate(splatterPrefab, transform.position, Quaternion.identity);
+        // Spawn splatter.
+        var splatterObject = Instantiate(splatterPrefab, transform.position, Quaternion.identity);
+        var splatter = splatterObject.GetComponent<GrapeLandSplatter>();
+
+        splatter.SetDamage(_damage);
+
         Destroy(gameObject);
+    }
+
+    public void SetDamage(int damage)
+    {
+        _damage = damage;
     }
 
     /// <summary>

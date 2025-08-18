@@ -5,7 +5,7 @@
     "Health": 6,
     "Damage": 3,
     "AttackRange": 4,
-    "AttackCooldown": 10,
+    "AttackCooldown": 2,
     "Speed": 2,
     "Defense": 1,
     "AttackType": "RasorBall"

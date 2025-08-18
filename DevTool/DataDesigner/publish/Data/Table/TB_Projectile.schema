@@ -23,7 +23,7 @@
       "Idx": 3,
       "Name": "Radius",
       "IsIndexed": false,
-      "Type": "int",
+      "Type": "float",
       "RefTable": "",
       "Summary": "radius"
     },

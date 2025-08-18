@@ -46,14 +46,16 @@ namespace Server_Realm.Collisions
             if (angle.X < 0)
             {
                 // 왼쪽.
-                _hitbox.Max = new Vector2(pos.X - Offset.X, pos.Y + Offset.Y + Height);
-                _hitbox.Min = new Vector2(pos.X - (Offset.X + Width), pos.Y + Offset.Y - Height);
+                _hitbox.Setup(
+                    min: new Vector2(pos.X - (Offset.X + Width), pos.Y + Offset.Y - Height),
+                    max: new Vector2(pos.X - Offset.X, pos.Y + Offset.Y + Height));
             }
             else
             {
                 // 오른쪽.
-                _hitbox.Max = new Vector2(pos.X + Offset.X + Width, pos.Y + Offset.Y + Height);
-                _hitbox.Min = new Vector2(pos.X + Offset.X, pos.Y + Offset.Y - Height);
+                _hitbox.Setup(
+                    min: new Vector2(pos.X + Offset.X, pos.Y + Offset.Y - Height),
+                    max: new Vector2(pos.X + Offset.X + Width, pos.Y + Offset.Y + Height));
             }
 
             return this;

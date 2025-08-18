@@ -57,12 +57,21 @@ namespace Server_Realm.UnitHandler
             // 투사체 이동.
             foreach (var prjt in _projectiles)
             {
-                prjt.MoveNextFrame(deltaTime);
-
-                _logger.LogDebug($"projectile pos: {prjt.Pos}");
-
-                if (prjt.IsMaxRange())
+                if (prjt.IsActive)
                 {
+                    prjt.MoveNextFrame(deltaTime);
+
+                    // 최대 이동거리 검사.
+                    if (prjt.IsMaxRange())
+                    {
+                        _logger.LogDebug($"Destroy projectile");
+                        _distroyProjectiles.Add(prjt);
+                    }
+                }
+                else
+                {
+                    // 비활성화 투사체.
+                    _logger.LogDebug($"Destroy projectile");
                     _distroyProjectiles.Add(prjt);
                 }
             }
@@ -70,12 +79,21 @@ namespace Server_Realm.UnitHandler
             // 유탄 처리.
             foreach (var grenade in _grenades)
             {
-                grenade.MoveNextFrame(deltaTime);
-
-                _logger.LogDebug($"grenade pos: {grenade.Pos}");
-
-                if (grenade.IsMaxRange())
+                if (grenade.IsActive)
                 {
+                    grenade.MoveNextFrame(deltaTime);
+
+                    // 최대 이동거리 검사.
+                    if (grenade.IsMaxRange())
+                    {
+                        _logger.LogDebug($"Destroy grenade");
+                        _distroyProjectiles.Add(grenade);
+                    }
+                }
+                else
+                {
+                    // 비활성화 투사체.
+                    _logger.LogDebug($"Destroy grenade");
                     _distroyProjectiles.Add(grenade);
                 }
             }
@@ -93,13 +111,18 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// 피격.
         /// </summary>
-        public void Hit(IHitbox srcHitbox, int damage)
+        public bool Hit(IHitbox srcHitbox, int damage)
         {
             // Hit box 충돌 검사.
             if (true == srcHitbox.IsHit(_owner.UnitCollision.GetHitbox()))
             {
+                _logger.LogDebug($"Hit unit. unit type: {_owner.UnitType}");
                 _owner.StatHandler.Damage(damage);
+
+                return true;
             }
+
+            return false;
         }
 
         #region melee
@@ -132,9 +155,23 @@ namespace Server_Realm.UnitHandler
             // 유닛-투사체 충돌 검사.
             foreach (var prjt in _projectiles)
             {
+                if (false == prjt.IsActive)
+                {
+                    continue;
+                }
+
                 foreach (var unit in units)
                 {
-                    unit.CombatHandler.Hit(prjt.GetHitbox(), prjt.Damage);
+                    // 피격 판정인 경우, 관통 여부 검사.
+                    if (unit.CombatHandler.Hit(prjt.GetHitbox(), prjt.Damage))
+                    {
+                        // 관통이 아닌 경우, 투사체 비활성화.
+                        if (false == prjt.IsPenetrates)
+                        {
+                            prjt.InActiveProjectile();
+                            break;
+                        }
+                    }
                 }
             }
         }

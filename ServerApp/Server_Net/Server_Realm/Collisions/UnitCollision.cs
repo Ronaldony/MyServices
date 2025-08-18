@@ -47,10 +47,10 @@ namespace Server_Realm.Collisions
         public override Collision Update(Vector2 pos)
         {
             // 최솟값 = 현재 좌표 + offset - 충돌 범위.
-            _hitbox.Min = new Vector2(pos.X + Offset.X - Width, pos.Y + Offset.Y - Height);
-
             // 최댓값 = 현재 좌표 + offset + 충돌 범위.
-            _hitbox.Max = new Vector2(pos.X + Offset.Y + Width, pos.Y + Offset.Y + Height);
+            _hitbox.Setup(
+                min: new Vector2(pos.X + Offset.X - Width, pos.Y + Offset.Y - Height),
+                max: new Vector2(pos.X + Offset.Y + Width, pos.Y + Offset.Y + Height));
 
             return this;
         }

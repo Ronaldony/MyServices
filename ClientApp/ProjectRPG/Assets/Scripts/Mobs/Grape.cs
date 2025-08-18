@@ -1,3 +1,4 @@
+using GameCore;
 using UnityEngine;
 
 public class Grape : MonoBehaviour, IMob
@@ -29,6 +30,14 @@ public class Grape : MonoBehaviour, IMob
         }
 
         // Spawn projectile.
-        Instantiate(grapeProjectilePrefab, projectileSpawnPos, Quaternion.identity);
+        var grapeObject = Instantiate(grapeProjectilePrefab, projectileSpawnPos, Quaternion.identity);
+        var grape = grapeObject.GetComponent<GrapeProjectile>();
+
+        // Set damage.
+        var mobAI = GetComponent<MobAI>();
+        var damage = mobAI.GetTBMob().Damage;
+
+        // Set damage.
+        grape.SetDamage(damage);
     }
 }

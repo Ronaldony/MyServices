@@ -23,12 +23,12 @@ namespace Server_Realm.HitBoxes
         /// <summary>
         /// 반지름.
         /// </summary>
-        public int Radius;
+        public float Radius;
 
         /// <summary>
         /// 반지름 제곱.
         /// </summary>
-        public int RadiusSqr;
+        public float RadiusSqr;
 
         /// <summary>
         /// 중심 위치.
@@ -39,8 +39,9 @@ namespace Server_Realm.HitBoxes
         /// Setup hit box.
         /// </summary>
         /// <param name="radius"></param>
-        public void Setup(int radius)
+        public void Setup(float radius, Vector2 center)
         {
+            Center = center;
             Radius = radius;
             RadiusSqr = radius * radius;
         }

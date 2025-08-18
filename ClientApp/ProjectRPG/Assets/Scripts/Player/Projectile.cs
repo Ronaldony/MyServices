@@ -42,9 +42,17 @@ public class Projectile : MonoBehaviour
         // Cond 2. EnemyHealth Indestructible.
         if (!collision.isTrigger && (enemyHealth || indestructible || playerHealth))
         {
-            if ((playerHealth && isEnemyProjectile) || (enemyHealth && !isEnemyProjectile))
+            if (playerHealth && isEnemyProjectile)
             {
                 playerHealth?.TakeDamage(1, transform);
+
+                // Collision.
+                Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
+            else if (enemyHealth && !isEnemyProjectile)
+            {
+                enemyHealth?.TakeDamage(1, transform.position);
 
                 // Collision.
                 Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);

@@ -182,7 +182,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         // Enemy Uid.
         if (false == _mobObjectDict.TryGetValue(packet.UnitId, out var mobObj))
         {
-            Debug.LogError($"not exist mob. unitId: {packet.UnitId}");
+            Debug.Log($"not exist mob. unitId: {packet.UnitId}");
             return;
         }
 
@@ -201,7 +201,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             // Enemy Uid.
             if (false == _mobObjectDict.TryGetValue(pair.Key, out var mobObj))
             {
-                Debug.LogError($"not exist mob. unitId: {pair.Key}");
+                Debug.Log($"not exist mob. unitId: {pair.Key}");
                 continue;
             }
 
@@ -221,7 +221,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             // Enemy Uid.
             if (false == _mobObjectDict.TryGetValue(pair.Key, out var mobObj))
             {
-                Debug.LogError($"not exist mob. unitId: {pair.Key}");
+                Debug.Log($"not exist mob. unitId: {pair.Key}");
                 continue;
             }
 

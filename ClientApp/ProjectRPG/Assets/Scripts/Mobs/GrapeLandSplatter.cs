@@ -3,6 +3,7 @@ using UnityEngine;
 public class GrapeLandSplatter : MonoBehaviour
 {
     private SpriteFade spriteFade;
+    private int _damage;
 
     private void Awake()
     {
@@ -19,7 +20,12 @@ public class GrapeLandSplatter : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-        playerHealth?.TakeDamage(1, transform);
+        playerHealth?.TakeDamage(_damage, transform);
+    }
+
+    public void SetDamage(int damage)
+    {
+        _damage = damage;
     }
 
     private void DisableCollider()
