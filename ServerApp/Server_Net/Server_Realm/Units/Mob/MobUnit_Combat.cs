@@ -83,8 +83,6 @@ namespace Server_Realm.Units.Mob
             // 투사체 삽입.
             CombatHandler.OwnProjectile(projectileType, spawnPos, angle, this.StatHandler.GetPower());
 
-            Console.WriteLine($"Attack projectile. angle: {angle}, spawnPos: {spawnPos}");
-
             // 투사체 공격.
             var gamePacket = new GamePacketSC_AttackProjectile();
 

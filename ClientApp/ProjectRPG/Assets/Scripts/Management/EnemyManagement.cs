@@ -267,15 +267,15 @@ public class EnemyManagement : Singleton<EnemyManagement>
     private bool SpawnMob(long unitId, DTO_Mob mob)
     {
         // Find enemy infos.
-        var tbEnemy = _tbMobs.FirstOrDefault(d => d.Id == mob.MobId);
+        var tbMob = _tbMobs.FirstOrDefault(d => d.Id == mob.MobId);
 
-        if (default == tbEnemy)
+        if (default == tbMob)
         {
             Debug.LogError($"Fail to spawn mob. 1");
             return false;
         }
 
-        var findEnemyPrefab = _enemyPrefabs.FirstOrDefault(d => d.GetComponent<MobAI>().GetMobId() == tbEnemy.Id);
+        var findEnemyPrefab = _enemyPrefabs.FirstOrDefault(d => d.GetComponent<MobAI>().GetMobId() == tbMob.Id);
 
         if (default == findEnemyPrefab)
         {
@@ -291,22 +291,22 @@ public class EnemyManagement : Singleton<EnemyManagement>
         }
 
         // Create enemy object.
-        var enemyObject = Instantiate(findEnemyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
+        var mobObject = Instantiate(findEnemyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
 
-        _mobObjectDict.Add(unitId, enemyObject);
+        _mobObjectDict.Add(unitId, mobObject);
 
         // Set Enemy AI.
-        var enemyAI = enemyObject.GetComponent<MobAI>();
+        var enemyAI = mobObject.GetComponent<MobAI>();
 
         // Set Enemy path.
-        var enemyPathfinding = enemyObject.GetComponent<MobPathfinding>();
+        var enemyPathfinding = mobObject.GetComponent<MobPathfinding>();
 
         // Set Enemy Health.
-        var enemyHealth = enemyObject.GetComponent<MobHealth>();
+        var enemyHealth = mobObject.GetComponent<MobHealth>();
         enemyHealth.Initialize_Spawn(mob.Stat.Health, unitId);
 
         // Set Pick up spawner.
-        var pickupSpawner = enemyObject.GetComponent<PickUpSpawner>();
+        var pickupSpawner = mobObject.GetComponent<PickUpSpawner>();
         pickupSpawner.Initialize_Spawn(mob.DropItems);
 
         Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");

@@ -2,6 +2,7 @@
 {
     using GameCore.GamePacket;
     using Server_Realm.Entities;
+    using Server_Realm.Units.Mob;
 
     /// <summary>
     /// IZoneProcessor.
@@ -27,5 +28,10 @@
         /// Send pakcet bytes.
         /// </summary>
         public bool SendPacket<T>(string pid, int packetCode, byte[] packetBytes) where T : GamePacketBase_SC;
+
+        /// <summary>
+        /// Collect dead unit.
+        /// </summary>
+        public void CollectDeadUnit(Unit unit);
     }
 }

@@ -347,19 +347,15 @@ public class PlayerController : Singleton<PlayerController>
     {
         _playerDataManager.PlayInfo.Location.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
-        if (_isMoving)
-        {
-            var pakcetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
+        // Send packet.
+        _GamePacketManager.Send<GamePacketCS_KnockBack>(
+            GamePacketCode.CS_KnockBack,
+            new GamePacketCS_KnockBack
+            {
+                Position = new System.Numerics.Vector2(knockBackPos.x, knockBackPos.y)
+            });
 
-            _GamePacketManager.Send<GamePacketCS_KnockBack>(
-                GamePacketCode.CS_KnockBack,
-                new GamePacketCS_KnockBack
-                {
-                    Position = new System.Numerics.Vector2(knockBackPos.x, knockBackPos.y)
-                });
-
-            _isMoving = false;
-            _moveDeltaTime = 0;
-        }
+        _isMoving = false;
+        _moveDeltaTime = 0;
     }
 }

@@ -88,14 +88,14 @@ public class PlayerHealth : Singleton<PlayerHealth>
         ScreenSnakeManager.Instance.SnakeScreen();
 
         // Knockback.
-        //knockback.GetKnockedBack(hitTransform.position, GameData.KNOCKBACK_THRUST);
+        _knockback.GetKnockedBack(hitTransform.position, GameData.KNOCKBACK_THRUST);
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());
 
         _currentHealth -= damageAmount;
-        //_canTakeDamage = false;
-        //StartCoroutine(DamageRecoveryRoutine());
+        _canTakeDamage = false;
+        StartCoroutine(DamageRecoveryRoutine());
 
         UpdateHealthSlider();
         CheckIfPlayerDeath();

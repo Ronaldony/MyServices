@@ -21,5 +21,13 @@
 
             return null;
         }
+
+        /// <summary>
+        /// Collect dead unit.
+        /// </summary>
+        public void CollectDeadUnit(Unit unit)
+        {
+            _worldUnitCollector.DeadUnits.AddOrUpdate(unit.UnitId, unit, (old, key) => unit);
+        }
     }
 }

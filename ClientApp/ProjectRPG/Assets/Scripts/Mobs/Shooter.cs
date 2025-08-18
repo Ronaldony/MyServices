@@ -14,11 +14,6 @@ public class Shooter : MonoBehaviour, IMob
         _tbProjectile = TDBManagement.Instance.GetById<TB_Projectile>(_projectileId);
     }
 
-    private void OnValidate()
-    {
-
-    }
-
     public void Attack(Vector2 targetPos, Vector2 projectileSpawnPos)
     {
         // Spawn projectile.
@@ -28,8 +23,10 @@ public class Shooter : MonoBehaviour, IMob
 
         if (bullet.TryGetComponent<Projectile>(out var projectile))
         {
-            projectile.UpdateMoveSpeed(_tbProjectile.Velocity);
-            projectile.UpdateProjectileRange(_tbProjectile.MaxRange);
+            var mobAI = GetComponent<MobAI>();
+            var tbMob = mobAI.GetTBMob();
+
+            projectile.Setup(_tbProjectile.Velocity, _tbProjectile.MaxRange, tbMob.Damage);
         }
     }
 }

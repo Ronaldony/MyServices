@@ -1,6 +1,8 @@
 ﻿namespace Server_Realm.Worlds
 {
+    using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// WorldUnitCollector.
@@ -9,7 +11,7 @@
     {
         public WorldUnitCollector()
         {
-            DeadMobUnitDict = new Dictionary<long, MobUnit>();
+            DeadUnits = new ConcurrentDictionary<long, Unit>();
         }
 
         /// <summary>
@@ -17,14 +19,14 @@
         /// key: UnitId.
         /// value: MobUnit.
         /// </summary>
-        public Dictionary<long, MobUnit> DeadMobUnitDict;
+        public ConcurrentDictionary<long, Unit> DeadUnits;
 
         /// <summary>
         /// Clears.
         /// </summary>
         public void Clears()
         {
-            DeadMobUnitDict.Clear();
+            DeadUnits.Clear();
         }
     }
 }

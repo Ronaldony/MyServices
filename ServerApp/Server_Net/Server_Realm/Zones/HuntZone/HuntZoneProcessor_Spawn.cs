@@ -20,8 +20,6 @@ namespace Server_Realm.Zones.HuntZone
         private void SpawnPlayer(WorldMsg_SpawnPlayer worldMsg)
         {
             _logger.LogDebug($"Spawn player in processor");
-            var totalSw = new Stopwatch();
-            totalSw.Start();
 
             var pu = worldMsg.PlayerUnit;
             var section = pu.MovementHandler.Section;
@@ -55,28 +53,22 @@ namespace Server_Realm.Zones.HuntZone
                 }
             }
 
-            var packetSW1 = new Stopwatch();
-            packetSW1.Start();
             // 진입 유저에게 인근 세션 유닛 정보 전송.
             SendPacket(pu.Pid, GamePacketCode.SC_SpawnPlayer, gamePacket);
 
-            packetSW1.Stop();
             // Dispose.
             gamePacket.Dispose();
 
             // Add login player.
             gamePacket.PlayInfos.Add(pu.UnitId, pu.PlayInfo);
 
-            var packetSW2 = new Stopwatch();
-            packetSW2.Start();
             // 패킷 전송 - 주변 플레이어에게 진입 유저 정보 전파.
             pu.WorldSection.SendPacket_AroundSections(pu.UnitId, GamePacketCode.SC_SpawnPlayer, gamePacket);
-            packetSW2.Stop();
+
             // Release pool.
             _memoryPoolService.Release(gamePacket);
 
-            totalSw.Stop();
-            _logger.LogDebug($"Spawn player end. pid: {pu.Pid}, total ms: {totalSw.ElapsedMilliseconds}, packet1 ms: {packetSW1.ElapsedMilliseconds}, packet2 ms: {packetSW2.ElapsedMilliseconds}");
+            _logger.LogDebug($"Spawn player end. pid: {pu.Pid}");
         }
 
         /// <summary>

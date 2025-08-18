@@ -64,11 +64,15 @@ namespace Server_Realm.UnitHandler
             // Damage.
             _stat.Health -= (damage - _stat.Defense);
 
+            _logger.LogDebug($"Damage. damage: {damage}, health: {_stat.Health}");
+
             if (_stat.Health <= 0)
             {
                 // 유닛 죽음.
                 _owner.AIBrain?.ChangeState(Type_AIState.Dead);
                 _owner.IsDead = true;
+
+                _owner.ZoneProcessor.CollectDeadUnit(_owner);
             }
 
             // 상태 업데이트.

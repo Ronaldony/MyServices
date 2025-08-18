@@ -170,19 +170,28 @@ namespace Server_Realm.Zones.HuntZone
         {
             /////////////////////////////////////////////////////
             // 죽은 몹 수거.
-            foreach (var mu in _worldUnitCollector.DeadMobUnitDict.Values)
+            foreach (var unit in _worldUnitCollector.DeadUnits.Values)
             {
                 // Leave section.
-                mu.WorldSection.LeaveMob(mu.UnitId);
+                switch (unit.UnitType)
+                {
+                    case Type_Unit.Player:
+                        var pu = unit as PlayerUnit;
 
-                // Leave zone.
-                _worldGroup.MobUnitDict.Remove(mu.UnitId);
+                        unit.WorldSection.LeavePlayer(unit.UnitId);
+                        _worldGroup.PlayerUnitDict.Remove(pu.Pid);
+                        break;
+                    case Type_Unit.Mob:
+                        unit.WorldSection.LeaveMob(unit.UnitId);
+                        _worldGroup.MobUnitDict.Remove(unit.UnitId);
+                        break;
+                }
 
                 // Return unit.
-                _unitFactory.Return(mu);
+                _unitFactory.Return(unit);
             }
 
-            _worldUnitCollector.DeadMobUnitDict.Clear();
+            _worldUnitCollector.DeadUnits.Clear();
         }
     }
 }
