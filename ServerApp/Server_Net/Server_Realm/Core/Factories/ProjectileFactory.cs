@@ -57,13 +57,13 @@ namespace Server_Realm.Core.Factories
         /// <summary>
         /// Create projectile.
         /// </summary>
-        public Projectile Create(Unit owner, Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
+        public Projectile Create(Unit owner, Type_Projectile projectileType, Vector2 spawnPos, Vector2 endPos, int damage)
         {
             var projectile = GetProjectile(projectileType);
             var tbProjectile = _tbProjectileDict.GetValueOrDefault(projectileType);
 
             // Steup projectile.
-            projectile.Setup(tbProjectile.Id, owner, spawnPos, angle, damage, tbProjectile);
+            projectile.Setup(tbProjectile.Id, owner, spawnPos, endPos, damage, tbProjectile);
 
             return projectile;
         }

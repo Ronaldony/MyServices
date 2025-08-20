@@ -24,7 +24,6 @@ namespace Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            Debug.Log("HandlePacket - MoveStart");
         }
     }
 }

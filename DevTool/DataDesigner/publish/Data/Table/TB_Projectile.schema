@@ -66,6 +66,14 @@
       "Type": "bool",
       "RefTable": "",
       "Summary": ""
+    },
+    {
+      "Idx": 9,
+      "Name": "Duration",
+      "IsIndexed": false,
+      "Type": "float",
+      "RefTable": "",
+      "Summary": ""
     }
   ]
 }

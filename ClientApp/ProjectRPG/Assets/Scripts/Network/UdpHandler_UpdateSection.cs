@@ -23,8 +23,6 @@ namespace Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            Debug.Log("HandlePacket - SC_UpdateSection");
-
             // management.
             var enemyManagement = EnemyManagement.Instance;
             var dummyManagement = DummyManagement.Instance;

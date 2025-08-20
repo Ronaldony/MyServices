@@ -9,17 +9,23 @@ public class GrapeProjectile : MonoBehaviour
     [SerializeField] private GameObject grapeProjectileShadow;
     [SerializeField] private GameObject splatterPrefab;
 
+    private Vector2 _endPos;
     private int _damage;
 
     private void Start()
     {
         GameObject grapeShadow = Instantiate(grapeProjectileShadow, transform.position + new Vector3(0, -0.3f, 0), Quaternion.identity);
 
-        Vector3 playerPos = PlayerController.Instance.transform.position;
         Vector3 grapeShadowStartPos = grapeShadow.transform.position;
 
-        StartCoroutine(ProjectileCurveRoutine(transform.position, playerPos));
-        StartCoroutine(MoveGrapeShadowRoutine(grapeShadow, grapeShadowStartPos, playerPos));
+        StartCoroutine(ProjectileCurveRoutine(transform.position, _endPos));
+        StartCoroutine(MoveGrapeShadowRoutine(grapeShadow, grapeShadowStartPos, _endPos));
+    }
+
+    public void Setup(int damage, Vector2 endPos)
+    {
+        _endPos = endPos;
+        _damage = damage;
     }
 
     /// <summary>
@@ -48,11 +54,6 @@ public class GrapeProjectile : MonoBehaviour
         splatter.SetDamage(_damage);
 
         Destroy(gameObject);
-    }
-
-    public void SetDamage(int damage)
-    {
-        _damage = damage;
     }
 
     /// <summary>

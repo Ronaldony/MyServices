@@ -27,17 +27,15 @@ namespace Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            Debug.Log("HandlePacket - Enter");
-
             var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_Enter>(packet.Data);
-
             var playerDataManager = PlayerDataManager.Instance;
-            var gamePacketManager = GamePacketManager.Instance;
 
             playerDataManager.PlayInfo = packetData.PlayInfo;
             playerDataManager.InventoryInfo = packetData.InventoryInfo;
 
             // Delay.
+            var gamePacketManager = GamePacketManager.Instance;
+
             gamePacketManager.Send<GamePacketCS_SpawnPlayer>(GamePacketCode.CS_SpawnPlayer, _sendPacket);
 
             //Load scene.

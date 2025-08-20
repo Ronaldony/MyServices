@@ -67,7 +67,7 @@ namespace Server_Realm.Core.Factories
             switch (collisionBox.CollisionType)
             {
                 case Type_Collision.Player:
-                case Type_Collision.Enemy:
+                case Type_Collision.Mob:
                     _memoryPoolService.Release(collisionBox as UnitCollision);
                     break;
                 case Type_Collision.Sword:
@@ -86,7 +86,7 @@ namespace Server_Realm.Core.Factories
             switch (collisionType)
             {
                 case Type_Collision.Player:
-                case Type_Collision.Enemy:
+                case Type_Collision.Mob:
                     collisionBox = _memoryPoolService.Rent<UnitCollision>();
                     break;
                 case Type_Collision.Sword:

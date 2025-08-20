@@ -37,5 +37,9 @@ namespace GameCore
         /// 
         /// </summary>
         public bool IsGrenade { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Duration { get; set; }
     }
 }

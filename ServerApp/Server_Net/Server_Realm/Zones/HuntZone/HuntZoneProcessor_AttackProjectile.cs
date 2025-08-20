@@ -27,7 +27,7 @@ namespace Server_Realm.Zones.HuntZone
             }
 
             // Create projectile.
-            //pu.CreateProjectile(packet.Projectile.SpawnPos, packet.Projectile.Angle);
+            pu.CreateProjectile(packet.Projectile.SpawnPos, packet.Projectile.TargetPos);
 
             // 투사체 공격 패킷.
             var gamePacket = new GamePacketSC_AttackProjectile

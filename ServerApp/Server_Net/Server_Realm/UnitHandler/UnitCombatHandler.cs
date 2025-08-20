@@ -197,9 +197,9 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// Projectile.
         /// </summary>
-        public void OwnProjectile(Type_Projectile projectileType, Vector2 spawnPos, Vector2 angle, int damage)
+        public void OwnProjectile(Type_Projectile projectileType, Vector2 spawnPos, Vector2 endPos, int damage)
         {
-            var prjt = _projectileFactory.Create(_owner, projectileType, spawnPos, angle, damage);
+            var prjt = _projectileFactory.Create(_owner, projectileType, spawnPos, endPos, damage);
 
             // 유탄과 일반 투사체를 구분. (충돌 처리 구별)
             if (prjt.IsGrenade)

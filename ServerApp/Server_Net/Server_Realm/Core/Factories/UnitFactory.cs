@@ -53,7 +53,7 @@ namespace Server_Realm.Core.Factories
                     var mu = _memoryPoolService.Rent<MobUnit>();
 
                     // Set collision.
-                    if (null == mu.UnitCollision) mu.UnitCollision = _collisionFactory.Create(Type_Collision.Enemy);
+                    if (null == mu.UnitCollision) mu.UnitCollision = _collisionFactory.Create(Type_Collision.Mob);
 
                     return mu as T;
             }

@@ -25,8 +25,6 @@ namespace Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            Debug.Log("HandlePacket - AttackProjectile");
-
             // management.
             var enemyManagement = EnemyManagement.Instance;
             var dummyManagement = DummyManagement.Instance;

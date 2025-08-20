@@ -11,9 +11,9 @@ namespace GameCore
         /// </summary>
         Player = 1,
         /// <summary>
-        /// enemy
+        /// mob
         /// </summary>
-        Enemy = 2,
+        Mob = 2,
         /// <summary>
         /// sword
         /// </summary>

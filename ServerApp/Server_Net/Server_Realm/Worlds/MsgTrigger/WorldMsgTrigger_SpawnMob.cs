@@ -75,7 +75,8 @@ namespace Server_Realm.Worlds.MsgTrigger
         {
             // 구독.
             //_subscriptions.Add(
-            //    Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
+            //    //Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
+            //    Observable.Interval(TimeSpan.FromSeconds(1))
             //    .Subscribe(count =>
             //    {
             //        SpawnMob();
@@ -110,7 +111,8 @@ namespace Server_Realm.Worlds.MsgTrigger
                 // Create spawn enemy message.
                 var spawnMsg = new WorldMsg_SpawnMob();
 
-                foreach (var mob in _tbMobs.Take(1))
+                var mob = _tbMobs.Last();
+                //foreach (var mob in _tbMobs.Take(1))
                 {
                     // 유닛 생성.
                     var dtoMob = _mobCreateService.CreateMob(mob.Id, Type_Area.HuntZone);
@@ -118,7 +120,8 @@ namespace Server_Realm.Worlds.MsgTrigger
                     if (null == dtoMob)
                     {
                         _logger.LogError($"fail to create mob. mobId: {dtoMob.MobId}");
-                        continue;
+                        //continue;
+                        return;
                     }
 
                     // Get section.

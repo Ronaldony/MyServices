@@ -22,8 +22,6 @@ namespace Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            Debug.Log("HandlePacket - SpawnPlayer");
-
             var enemyManagement = EnemyManagement.Instance;
             var dummyManagement = DummyManagement.Instance;
 

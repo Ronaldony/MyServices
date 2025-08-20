@@ -7,7 +7,8 @@
     "MaxRange": 0,
     "Velocity": 0,
     "IsPenetrates": false,
-    "IsGrenade": false
+    "IsGrenade": false,
+    "Duration": 0.0
   },
   {
     "Id": 1,
@@ -17,7 +18,8 @@
     "MaxRange": 1,
     "Velocity": 1,
     "IsPenetrates": false,
-    "IsGrenade": false
+    "IsGrenade": false,
+    "Duration": 0.0
   },
   {
     "Id": 2,
@@ -27,7 +29,8 @@
     "MaxRange": 1,
     "Velocity": 1,
     "IsPenetrates": true,
-    "IsGrenade": false
+    "IsGrenade": false,
+    "Duration": 0.0
   },
   {
     "Id": 3,
@@ -37,7 +40,8 @@
     "MaxRange": 1,
     "Velocity": 1,
     "IsPenetrates": false,
-    "IsGrenade": true
+    "IsGrenade": true,
+    "Duration": 1.0
   },
   {
     "Id": 4,
@@ -47,6 +51,7 @@
     "MaxRange": 6,
     "Velocity": 2,
     "IsPenetrates": false,
-    "IsGrenade": false
+    "IsGrenade": false,
+    "Duration": 0.0
   }
 ]

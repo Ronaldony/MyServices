@@ -10,11 +10,10 @@ public class PlayerHealth : Singleton<PlayerHealth>
     public bool _isDead { get; private set; }
 
     private int _maxHealth;
-    private float _damageRecoveryTime = 1f;
+    private int _defense;
 
     private Slider _healthSlider;
     private int _currentHealth;
-    private bool _canTakeDamage = true;
     private Knockback _knockback;
     private Flash _flash;
 
@@ -36,11 +35,13 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
     private void Start()
     {
+        _isDead = false;
+
         var playerDataManager = PlayerDataManager.Instance;
 
-        _isDead = false;
         _maxHealth = playerDataManager.PlayInfo.Stat.HealthMax;
         _currentHealth = playerDataManager.PlayInfo.Stat.Health;
+        _defense = playerDataManager.PlayInfo.Stat.Defense;
 
         // Slider.
         UpdateHealthSlider();
@@ -54,15 +55,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
         {
             TakeDamage(mobAI.GetTBMob().Damage, collision.transform);
         }
-    }
-
-    /// <summary>
-    /// Setup.
-    /// </summary>
-    public void Setup(int maxHealth, float recoveryTime)
-    {
-        _maxHealth = maxHealth;
-        _damageRecoveryTime = recoveryTime;
     }
 
     /// <summary>
@@ -82,29 +74,37 @@ public class PlayerHealth : Singleton<PlayerHealth>
     /// </summary>
     public void TakeDamage(int damageAmount, Transform hitTransform)
     {
-        if (!_canTakeDamage || _isDead) { return; }
+        if (_isDead) { return; }
 
         // Screen snake.
         ScreenSnakeManager.Instance.SnakeScreen();
 
         // Knockback.
-        _knockback.GetKnockedBack(hitTransform.position, GameData.KNOCKBACK_THRUST);
+        //_knockback.GetKnockedBack(hitTransform.position, GameData.KNOCKBACK_THRUST);
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());
 
-        _currentHealth -= damageAmount;
-        _canTakeDamage = false;
-        StartCoroutine(DamageRecoveryRoutine());
+        var damage = damageAmount - _defense;
+
+        if (damage > 0)
+        {
+            _currentHealth -= damage;
+        }
+        else
+        {
+            // Damage가 0이하인 경우.
+            _currentHealth--;
+        }
 
         UpdateHealthSlider();
-        CheckIfPlayerDeath();
+        CheckPlayerDeath();
     }
 
     /// <summary>
     /// Check player death.
     /// </summary>
-    private void CheckIfPlayerDeath()
+    private void CheckPlayerDeath()
     {
         if (_currentHealth <= 0)
         {
@@ -128,15 +128,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
         // Respawn player.
         Destroy(gameObject);
         SceneManager.LoadScene(TOWN_TEXT);
-    }
-
-    /// <summary>
-    /// Damage recovery routine.
-    /// </summary>
-    private IEnumerator DamageRecoveryRoutine()
-    {
-        yield return new WaitForSeconds(_damageRecoveryTime);
-        _canTakeDamage = true;
     }
 
     /// <summary>

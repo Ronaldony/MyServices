@@ -14,6 +14,9 @@ namespace Server_Realm.Projectiles
     {
         private readonly SphereHitbox _hitbox;
 
+        private float _timePassed;
+        private float _duration;
+
         public GrapeProjectile()
             : base(Type_Projectile.Grape)
         {
@@ -23,13 +26,17 @@ namespace Server_Realm.Projectiles
         /// <summary>
         /// Setup.
         /// </summary>
-        public override void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 angle, int damage, TB_Projectile tbProjectile)
+        public override void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 endPos, int damage, TB_Projectile tbProjectile)
         {
             // Setup base.
-            base.Setup(projectileId, owner, spawnPos, angle, damage, tbProjectile);
+            base.Setup(projectileId, owner, spawnPos, endPos, damage, tbProjectile);
 
             // Setup hitbox.
             _hitbox.Setup(tbProjectile.Radius, spawnPos);
+
+            // Setup times.
+            _duration = tbProjectile.Duration;
+            _timePassed = 0;
         }
 
         /// <summary>
@@ -37,9 +44,10 @@ namespace Server_Realm.Projectiles
         /// </summary>
         public override void MoveNextFrame(double deltaTime)
         {
-            Pos = new Vector2(
-                x: Pos.X + Angle.X * (float)deltaTime * Velocity,
-                y: Pos.Y + Angle.Y * (float)deltaTime * Velocity);
+            // Delta time.
+            _timePassed += (float)deltaTime;
+
+            Pos = Vector2.Lerp(SpawnPos, EndPos, _timePassed / _duration);
 
             _hitbox.Center = Pos;
 
@@ -52,7 +60,7 @@ namespace Server_Realm.Projectiles
         /// </summary>
         public override bool IsMaxRange()
         {
-            if (MaxRangeSqr <= Vector2.DistanceSquared(Pos, SpawnPos))
+            if (GameData.PROJECTILE_ARRIVAL_RANGE_SQUARE >= Vector2.DistanceSquared(Pos, EndPos))
             {
                 return true;
             }

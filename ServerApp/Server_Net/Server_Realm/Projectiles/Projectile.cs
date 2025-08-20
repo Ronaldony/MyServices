@@ -64,6 +64,11 @@ namespace Server_Realm.Projectiles
         protected Vector2 SpawnPos;
 
         /// <summary>
+        /// 투사체 타겟 위치. 
+        /// </summary>
+        protected Vector2 EndPos;
+
+        /// <summary>
         /// 투사 각도. 
         /// </summary>
         protected Vector2 Angle;
@@ -91,14 +96,15 @@ namespace Server_Realm.Projectiles
         /// <summary>
         /// Setup.
         /// </summary>
-        public virtual void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 angle, int damage, TB_Projectile tbProjectile)
+        public virtual void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 endPos, int damage, TB_Projectile tbProjectile)
         {
             ProjectileId = projectileId;
             Owner = owner;
 
             SpawnPos = spawnPos;
             Pos = spawnPos;
-            Angle = angle;
+            EndPos = endPos;
+            Angle = Vector2.Normalize(endPos - spawnPos);
             Section = SectionId.ToSection(spawnPos);
 
             Damage = damage;

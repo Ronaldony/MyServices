@@ -27,7 +27,7 @@ namespace Server_Realm.Entities
         /// <summary>
         /// Create projectile.
         /// </summary>
-        public void CreateProjectile(Vector2 spawnPos, Vector2 angle)
+        public void CreateProjectile(Vector2 spawnPos, Vector2 endPos)
         {
             var projectileType = EquipmentHandler.GetProjectileType();
 
@@ -37,7 +37,7 @@ namespace Server_Realm.Entities
             }
 
             // 투사체 삽입.
-            CombatHandler.OwnProjectile(projectileType, spawnPos, angle, EquipmentHandler.GetDamage());
+            CombatHandler.OwnProjectile(projectileType, spawnPos, endPos, EquipmentHandler.GetDamage());
         }
     }
 }

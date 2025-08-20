@@ -11,8 +11,8 @@
   },
   {
     "Id": 2,
-    "Name": "Enemy",
-    "Summary": "enemy"
+    "Name": "Mob",
+    "Summary": "mob"
   },
   {
     "Id": 1000,

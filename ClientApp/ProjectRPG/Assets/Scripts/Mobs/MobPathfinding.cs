@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class MobPathfinding : MonoBehaviour
 {
-    [SerializeField] private int MobId;
-
     private Rigidbody2D _rb;
 
     private float _velocity;
@@ -20,7 +18,8 @@ public class MobPathfinding : MonoBehaviour
         _knockBack = GetComponent<Knockback>();
         _rb = GetComponent<Rigidbody2D>();
 
-        var tbMob = TDBManagement.Instance.GetById<TB_Mob>(MobId);
+        var mobAI = GetComponent<MobAI>();
+        var tbMob = TDBManagement.Instance.GetById<TB_Mob>(mobAI.GetMobId());
 
         _velocity = tbMob.Speed;
     }
@@ -34,6 +33,7 @@ public class MobPathfinding : MonoBehaviour
         //_rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);
         _rb.position += _moveDirection * _velocity * Time.fixedDeltaTime;
 
+        //Debug.Log($"Path finding. now pos: {_rb.position}, dir: {_moveDirection}");
 
         if (_moveDirection.x < 0) { _spriteRenderer.flipX = true; }
         else if (_moveDirection.x > 0) { _spriteRenderer.flipX = false; }
@@ -42,8 +42,9 @@ public class MobPathfinding : MonoBehaviour
     /// <summary>
     /// Move to.
     /// </summary>
-    public void MoveTo(System.Numerics.Vector2 nextDir)
+    public void UpdateMovement(System.Numerics.Vector2 nextDir, System.Numerics.Vector2 pos)
     {
+        _rb.position = new Vector2(pos.X, pos.Y);
         _moveDirection = new Vector2(nextDir.X, nextDir.Y);
     }
 
@@ -53,6 +54,14 @@ public class MobPathfinding : MonoBehaviour
     public void StopMoving()
     {
         _moveDirection = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Now position.
+    /// </summary>
+    public Vector2 NowPos()
+    {
+        return _rb.position;
     }
 
     /// <summary>

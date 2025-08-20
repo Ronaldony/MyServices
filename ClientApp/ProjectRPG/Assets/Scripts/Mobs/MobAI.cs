@@ -4,12 +4,6 @@ using GameCore;
 
 public class MobAI : MonoBehaviour
 {
-    private enum State
-    {
-        Roaming,
-        Attacking
-    }
-
     [SerializeField] private MonoBehaviour _mobType;
 
     [SerializeField] private int _mobId;

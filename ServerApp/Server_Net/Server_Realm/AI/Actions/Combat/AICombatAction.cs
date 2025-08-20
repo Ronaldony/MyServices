@@ -79,8 +79,11 @@ namespace Server_Realm.AI.Actions.Movement
                     Owner.Attack(target);
                 }
 
-                // Stop.
-                Owner.MovementHandler.MoveStop();
+                if (Owner.MovementHandler.IsMoving())
+                {
+                    // Stop.
+                    Owner.MovementHandler.MoveStop();
+                }
 
                 return;
             }

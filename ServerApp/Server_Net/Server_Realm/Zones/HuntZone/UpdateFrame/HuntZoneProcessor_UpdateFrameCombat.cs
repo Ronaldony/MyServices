@@ -55,7 +55,7 @@
                 Parallel.ForEach(aroundSections, section =>
                 {
                     mu.CombatHandler.CollideProjectiles(_worldGroup.WorldSectionDict[section].GetPlayerUnits());
-                    mu.CombatHandler.CollideGrenade(_worldGroup.WorldSectionDict[section].GetMobUnits());
+                    mu.CombatHandler.CollideGrenade(_worldGroup.WorldSectionDict[section].GetPlayerUnits());
                 });
 
                 // Post.

@@ -227,7 +227,9 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
             // Udpate hit.
             var mobPathfinding = mobObj.GetComponent<MobPathfinding>();
-            mobPathfinding.MoveTo(pair.Value.MoveDirection);
+            mobPathfinding.UpdateMovement(pair.Value.MoveDirection, pair.Value.Pos);
+
+            //Debug.Log($"update movement. now pos: {mobPathfinding.NowPos()} dir: {pair.Value.MoveDirection}");
         }
     }
 

@@ -42,6 +42,7 @@ namespace Server_Realm.UnitHandler
 
         public Vector2 NowPos() => _location.Pos;
         public Vector2 NowDir() => _location.MoveDirection;
+        public bool IsMoving() => _isMoveing;
 
         public UnitMovementHandler(IServiceProvider serviceProvider)
         {
@@ -74,10 +75,16 @@ namespace Server_Realm.UnitHandler
         {
             _lastMoveTime = TimeUtil.Now;
             _isMoveing = true;
-            _location.MoveDirection = moveDireciton;
+
+            _location.MoveDirection = new Vector2(MathF.Round(moveDireciton.X, 2), MathF.Round(moveDireciton.Y, 2));
 
             // 상태 업데이트.
             _isMoveStatusUpdated = true;
+
+            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
+            {
+                //_logger.LogDebug($"Update movement. pos: {_location.Pos}, dir: {_location.MoveDirection}");
+            }
         }
 
         /// <summary>
@@ -92,6 +99,11 @@ namespace Server_Realm.UnitHandler
             {
                 var deltaPos = _location.MoveDirection * (float)deltaTime * _stat.Velocity;
                 _location.Pos += deltaPos;
+
+                if (_owner.UnitType == Core.Types.Type_Unit.Mob)
+                {
+                    //_logger.LogDebug($"Update movement. pos: {_location.Pos}, dir: {_location.MoveDirection}");
+                }
 
                 // Post process.
                 PostMove();
@@ -136,6 +148,11 @@ namespace Server_Realm.UnitHandler
             // 상태 업데이트.
             _isMoveing = false;
             _isMoveStatusUpdated = true;
+
+            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
+            {
+                //_logger.LogDebug($"Update movement. pos: {_location.Pos}, dir: {_location.MoveDirection}");
+            }
         }
         #endregion
 

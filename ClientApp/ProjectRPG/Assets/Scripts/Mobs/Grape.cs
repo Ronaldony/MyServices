@@ -29,15 +29,15 @@ public class Grape : MonoBehaviour, IMob
             spriteRenderer.flipX = true;
         }
 
-        // Spawn projectile.
-        var grapeObject = Instantiate(grapeProjectilePrefab, projectileSpawnPos, Quaternion.identity);
-        var grape = grapeObject.GetComponent<GrapeProjectile>();
-
         // Set damage.
         var mobAI = GetComponent<MobAI>();
         var damage = mobAI.GetTBMob().Damage;
 
-        // Set damage.
-        grape.SetDamage(damage);
+        // Spawn projectile.
+        var grapeObject = Instantiate(grapeProjectilePrefab, projectileSpawnPos, Quaternion.identity);
+        var grape = grapeObject.GetComponent<GrapeProjectile>();
+
+        // Setup.
+        grape.Setup(damage, targetPos);
     }
 }

@@ -19,8 +19,8 @@
   },
   {
     "Id": 3,
-    "Name": "Enemy",
-    "CollisionType": "Enemy",
+    "Name": "Mob",
+    "CollisionType": "Mob",
     "Width": 0.8,
     "Height": 0.8,
     "OffsetX": 0.03,

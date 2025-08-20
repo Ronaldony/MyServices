@@ -12,11 +12,11 @@
   },
   {
     "Id": 3,
-    "Name": "Grape",
+    "Name": "Blue Slime",
     "Health": 15,
-    "Damage": 2,
-    "AttackRange": 2,
-    "AttackCooldown": 2,
+    "Damage": 4,
+    "AttackRange": 5,
+    "AttackCooldown": 3,
     "Speed": 3,
     "Defense": 1,
     "AttackType": "Grape"

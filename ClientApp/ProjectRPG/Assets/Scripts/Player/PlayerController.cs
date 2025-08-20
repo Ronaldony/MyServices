@@ -170,7 +170,9 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         // �̵� ���� ����.
-        _moveDirection = _movement.normalized;
+        var moveDir = _movement.normalized;
+
+        _moveDirection = new Vector2((float)Math.Round(moveDir.x, 2), (float)Math.Round(moveDir.y, 2));
     }
 
     /// <summary>

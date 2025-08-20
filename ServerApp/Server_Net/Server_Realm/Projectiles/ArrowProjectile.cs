@@ -23,10 +23,10 @@ namespace Server_Realm.Projectiles
         /// <summary>
         /// Setup.
         /// </summary>
-        public override void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 angle, int damage, TB_Projectile tbProjectile)
+        public override void Setup(int projectileId, Unit owner, Vector2 spawnPos, Vector2 endPos, int damage, TB_Projectile tbProjectile)
         {
             // Setup base.
-            base.Setup(projectileId, owner, spawnPos, angle, damage, tbProjectile);
+            base.Setup(projectileId, owner, spawnPos, endPos, damage, tbProjectile);
 
             // Setup hitbox.
             _hitbox.Setup(tbProjectile.Radius, spawnPos);

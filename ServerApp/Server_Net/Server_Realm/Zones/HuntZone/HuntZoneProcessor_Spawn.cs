@@ -32,6 +32,9 @@ namespace Server_Realm.Zones.HuntZone
             pu.WorldSection = _worldGroup.WorldSectionDict[section];
             pu.WorldSection.EnterPlayer(pu);
 
+            var totalSW = new Stopwatch();
+            totalSW.Start();
+
             // 인근 섹션 플레이어, 적 정보 전달.
             var gamePacket = _memoryPoolService.Rent<GamePacketSC_SpawnPlayer>();
             var aroundSections = GetAroundSections(section);
@@ -68,7 +71,9 @@ namespace Server_Realm.Zones.HuntZone
             // Release pool.
             _memoryPoolService.Release(gamePacket);
 
-            _logger.LogDebug($"Spawn player end. pid: {pu.Pid}");
+            totalSW.Stop();
+
+            _logger.LogDebug($"Spawn player end. pid: {pu.Pid}, total sw: {totalSW.ElapsedMilliseconds}");
         }
 
         /// <summary>

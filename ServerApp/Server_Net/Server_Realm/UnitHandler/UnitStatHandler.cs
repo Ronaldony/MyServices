@@ -62,9 +62,7 @@ namespace Server_Realm.UnitHandler
             }
 
             // Damage.
-            _stat.Health -= (damage - _stat.Defense);
-
-            _logger.LogDebug($"Damage. damage: {damage}, health: {_stat.Health}");
+            //_stat.Health -= (damage - _stat.Defense);
 
             if (_stat.Health <= 0)
             {
