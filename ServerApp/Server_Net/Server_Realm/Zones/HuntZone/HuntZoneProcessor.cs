@@ -128,7 +128,7 @@ namespace Server_Realm.Zones.HuntZone
 
             // Spawn.
             Receive<WorldMsg_SpawnMob>(wm => SpawnMobs(wm));
-            Receive<WorldMsg_SpawnPlayer>(wm => SpawnPlayer(wm));
+            Receive<WorldMsg_SpawnUnits>(wm => SpawnPlayer(wm));
             Receive<WorldMsg_LeavePlayer>(wm => LeavePlayer(wm));
 
             // Update.
@@ -163,6 +163,9 @@ namespace Server_Realm.Zones.HuntZone
                         break;
                     case GamePacketCode.CS_Dash:
                         Dash(pu, wm.Packet as GamePacketCS_Dash);
+                        break;
+                    case GamePacketCode.CS_SwitchWeapon:
+                        SwitchWeapon(pu, wm.Packet as GamePacketCS_SwitchWeapon);
                         break;
                 }
             });

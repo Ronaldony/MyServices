@@ -62,7 +62,10 @@ namespace Server_Realm.UnitHandler
             }
 
             // Damage.
-            //_stat.Health -= (damage - _stat.Defense);
+            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
+            {
+                _stat.Health -= (damage - _stat.Defense);
+            }
 
             if (_stat.Health <= 0)
             {

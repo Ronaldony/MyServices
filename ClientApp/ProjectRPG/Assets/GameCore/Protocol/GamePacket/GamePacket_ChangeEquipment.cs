@@ -9,7 +9,7 @@ namespace GameCore.GamePacket
     /// GamePacketCS_ChangeEquipment.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    [GamePacketAttribute(GamePacketCode.CS_SiwtchEquipment)]
+    [GamePacketAttribute(GamePacketCode.CS_SwitchEquipment)]
     public partial class GamePacketCS_ChangeEquipment : GamePacketBase_CS
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace GameCore.GamePacket
     /// GamePacketSC_ChangeEquipment.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    [GamePacketAttribute(GamePacketCode.SC_SiwtchEquipment)]
+    [GamePacketAttribute(GamePacketCode.SC_SwitchEquipment)]
     public partial class GamePacketSC_ChangeEquipment : GamePacketBase_SC
     {
         public override void Dispose()

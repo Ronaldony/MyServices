@@ -28,14 +28,9 @@ namespace Server_Realm.Worlds.MsgTrigger
         private readonly MobCreateService _mobCreateService;
 
         private readonly UnitFactory _unitFactory;
-        private readonly CollisionFactory _collisionFactory;
 
         // Actor provider.
         private readonly IZoneProcessor _zoneProcessor;
-
-        // Configuration.
-        private readonly CONF_Area _confArea;
-        private readonly CONF_Mob _confMob;
 
         // Mobs.
         private readonly List<TB_Mob> _tbMobs;
@@ -53,15 +48,10 @@ namespace Server_Realm.Worlds.MsgTrigger
             _mobCreateService = serviceProvider.GetRequiredService<MobCreateService>();
 
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
-            _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
 
             _zoneProcessor = zoneProcessor;
 
             var tdbService = serviceProvider.GetRequiredService<ITDBService>();
-
-            // 데이터 초기화.
-            _confArea = tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
-            _confMob = tdbService.First<CONF_Mob>(d => d.Area.Equals(Type_Area.HuntZone));
 
             _tbMobs = tdbService.SelectAll<TB_Mob>().ToList();
 
@@ -75,14 +65,13 @@ namespace Server_Realm.Worlds.MsgTrigger
         {
             // 구독.
             //_subscriptions.Add(
-            //    //Observable.Interval(TimeSpan.FromSeconds(_confMob.SpawnTimeSec))
-            //    Observable.Interval(TimeSpan.FromSeconds(1))
+            //    Observable.Interval(TimeSpan.FromSeconds(10))
             //    .Subscribe(count =>
             //    {
             //        SpawnMob();
             //    }));
-
             SpawnMob();
+
             _logger.LogInformation("start mob spawn.");
         }
 
@@ -112,7 +101,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                 var spawnMsg = new WorldMsg_SpawnMob();
 
                 var mob = _tbMobs.Last();
-                //foreach (var mob in _tbMobs.Take(1))
+                //foreach (var mob in _tbMobs)
                 {
                     // 유닛 생성.
                     var dtoMob = _mobCreateService.CreateMob(mob.Id, Type_Area.HuntZone);

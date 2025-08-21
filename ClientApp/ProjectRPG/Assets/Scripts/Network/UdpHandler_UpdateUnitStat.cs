@@ -4,6 +4,7 @@ using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
+using UnityEditor;
 using UnityEngine;
 
 namespace Network
@@ -26,14 +27,18 @@ namespace Network
             // management.
             var enemyManagement = EnemyManagement.Instance;
             var dummyManagement = DummyManagement.Instance;
+            var playerManagement = PlayerManagement.Instance;
 
-            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_UpdateUnitStat>(packet.Data);
+            var gamePacket = MemoryPackDataSerializer.Deserialize<GamePacketSC_UpdateUnitStat>(packet.Data);
             var updatePacket = new UpdatePacket
             {
                 PacketCode = GamePacketCode.SC_UpdateUnitStat,
-                Data = packetData,
+                Data = gamePacket,
             };
 
+            Debug.Log($"HandlePacket - SC_UpdateUnitStat");
+
+            playerManagement.AddUpdatePacket(updatePacket);
             enemyManagement.AddUpdatePacket(updatePacket);
             dummyManagement.AddUpdatePacket(updatePacket);
         }

@@ -15,10 +15,12 @@
         public const int SC_Leave = 13;                         // 플레이어 퇴장.
 
         // Spawn.
-        public const int CS_SpawnPlayer = 20;                   // 플레이어 스폰.
-        public const int SC_SpawnPlayer = 21;                   // 플레이어 스폰.
-        public const int CS_SpawnMob = 22;                      // 몹 스폰.
-        public const int SC_SpawnMob = 23;                      // 몹 스폰.
+        public const int CS_EnterPlayer = 20;                   // 플레이어 진입.
+        public const int SC_EnterPlayer = 21;                   // 플레이어 진입.
+        public const int CS_SpawnUnits = 22;                   // 플레이어 스폰.
+        public const int SC_SpawnUnits = 23;                   // 플레이어 스폰.
+        public const int CS_SpawnMob = 24;                      // 몹 스폰.
+        public const int SC_SpawnMob = 25;                      // 몹 스폰.
 
         // 이동.
         public const int CS_MoveStart = 100;                    // 이동 시작.
@@ -53,11 +55,13 @@
         public const int SC_UpdateSectionNewEnter = 177;        // 업데이트 - 섹션에 새로 진입한 유저.
 
         // 장비.
-        public const int CS_SiwtchEquipment = 1000;             // 장비 교체.
-        public const int SC_SiwtchEquipment = 1001;             // 장비 교체.
+        public const int CS_SwitchWeapon = 500;                 // 무기 교체.
+        public const int SC_SwitchWeapon = 501;                 // 무기 교체.
+        public const int CS_SwitchEquipment = 502;              // 장비 교체.
+        public const int SC_SwitchEquipment = 503;              // 장비 교체.
 
         // 더미.
-        public const int CS_DummyMove = 10000;                  // 더미 이동.
-        public const int SC_DummyMove = 10001;                  // 더미 이동.
+        public const int CS_DummyMove = 1000;                  // 더미 이동.
+        public const int SC_DummyMove = 1001;                  // 더미 이동.
     }
 }

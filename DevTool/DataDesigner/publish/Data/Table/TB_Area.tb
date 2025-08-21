@@ -1,0 +1,11 @@
+[
+  {
+    "Id": 0,
+    "Name": "HuntZone",
+    "Area": "HuntZone",
+    "MinX": -140,
+    "MaxX": 130,
+    "MinY": -100,
+    "MaxY": 90
+  }
+]

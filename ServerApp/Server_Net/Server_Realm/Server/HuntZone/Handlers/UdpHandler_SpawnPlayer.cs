@@ -22,10 +22,8 @@ namespace Server_Realm.Server.World.Handlers
     {
         private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
 
-        private readonly IServiceProvider _serviceProvider;
         private readonly IUniqueIdService _uniqueIdService;
         private readonly UnitFactory _unitFactory;
-        private readonly CollisionFactory _collisionFactory;
 
         private readonly DBPlayInfo _dbPlayInfo;
         private readonly DBInventoryInfo _dbInventoryInfo;
@@ -34,14 +32,12 @@ namespace Server_Realm.Server.World.Handlers
         private readonly HuntZoneProcessorProvider _worldServerActorProvider;
 
         public UdpHandler_SpawnPlayer(IServiceProvider serviceProvider)
-            : base(GamePacketCode.CS_SpawnPlayer)
+            : base(GamePacketCode.CS_SpawnUnits)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
 
-            _serviceProvider = serviceProvider;
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
-            _collisionFactory = serviceProvider.GetRequiredService<CollisionFactory>();
 
             _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
             _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
@@ -100,7 +96,7 @@ namespace Server_Realm.Server.World.Handlers
             pu.Setup(unitId, playInfo);
 
             // 메시지 전달.
-            _worldServerActorProvider.Tell<WorldMsg_SpawnPlayer>(new WorldMsg_SpawnPlayer
+            _worldServerActorProvider.Tell<WorldMsg_SpawnUnits>(new WorldMsg_SpawnUnits
             {
                 PlayerUnit = pu
             });

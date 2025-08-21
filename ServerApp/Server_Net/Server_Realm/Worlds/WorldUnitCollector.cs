@@ -1,8 +1,8 @@
-﻿namespace Server_Realm.Worlds
+﻿using System.Collections.Concurrent;
+
+namespace Server_Realm.Worlds
 {
     using Server_Realm.Entities;
-    using Server_Realm.Units.Mob;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// WorldUnitCollector.
@@ -11,15 +11,13 @@
     {
         public WorldUnitCollector()
         {
-            DeadUnits = new ConcurrentDictionary<long, Unit>();
+            DeadUnits = new ConcurrentQueue<Unit>();
         }
 
         /// <summary>
-        /// Dead Mob units.
-        /// key: UnitId.
-        /// value: MobUnit.
+        /// Dead units Q.
         /// </summary>
-        public ConcurrentDictionary<long, Unit> DeadUnits;
+        public ConcurrentQueue<Unit> DeadUnits;
 
         /// <summary>
         /// Clears.

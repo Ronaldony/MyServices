@@ -5,7 +5,7 @@
     "Health": 6,
     "Damage": 3,
     "AttackRange": 4,
-    "AttackCooldown": 2,
+    "AttackCooldown": 1,
     "Speed": 2,
     "Defense": 1,
     "AttackType": "RasorBall"
@@ -13,12 +13,12 @@
   {
     "Id": 3,
     "Name": "Blue Slime",
-    "Health": 15,
+    "Health": 12,
     "Damage": 4,
-    "AttackRange": 5,
+    "AttackRange": 6,
     "AttackCooldown": 3,
     "Speed": 3,
-    "Defense": 1,
+    "Defense": 0,
     "AttackType": "Grape"
   }
 ]

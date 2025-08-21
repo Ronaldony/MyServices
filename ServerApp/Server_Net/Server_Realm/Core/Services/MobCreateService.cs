@@ -24,7 +24,7 @@ namespace Server_Realm.Core.Services
 
         // Datas.
         private readonly List<Type_Item> _itemTypes;
-        private Dictionary<Type_Area, CONF_Area> _confAreas;
+        private Dictionary<Type_Area, TB_Area> _confAreas;
         private Dictionary<Type_Area, List<TB_AreaSpawn>> _tbAreaSpawns;
 
         // Random.
@@ -48,7 +48,7 @@ namespace Server_Realm.Core.Services
         public void Initialize()
         {
             // initlaize datas.
-            _confAreas = _tdbService.SelectAll<CONF_Area>().ToDictionary(d => d.Area, d => d);
+            _confAreas = _tdbService.SelectAll<TB_Area>().ToDictionary(d => d.Area, d => d);
             _tbAreaSpawns = new Dictionary<Type_Area, List<TB_AreaSpawn>>();
 
             // TB_AreaSpawn.

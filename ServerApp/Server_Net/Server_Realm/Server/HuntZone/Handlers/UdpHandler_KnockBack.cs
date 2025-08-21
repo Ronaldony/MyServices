@@ -20,7 +20,6 @@ namespace Server_Realm.Server.World.Handlers
 
         private readonly IDataSerializer _dataSerializer;
 
-        private readonly HuntZoneServer _huntZoneServer;
         private readonly HuntZoneProcessorProvider _worldServerActorProvider;
 
         public UdpHandler_KnockBack(IServiceProvider serviceProvider)
@@ -29,8 +28,6 @@ namespace Server_Realm.Server.World.Handlers
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_KnockBack>>();
 
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
-
-            _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
 
             _worldServerActorProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
         }

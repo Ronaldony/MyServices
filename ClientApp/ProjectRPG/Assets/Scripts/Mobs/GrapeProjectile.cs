@@ -51,8 +51,6 @@ public class GrapeProjectile : MonoBehaviour
         var splatterObject = Instantiate(splatterPrefab, transform.position, Quaternion.identity);
         var splatter = splatterObject.GetComponent<GrapeLandSplatter>();
 
-        splatter.SetDamage(_damage);
-
         Destroy(gameObject);
     }
 

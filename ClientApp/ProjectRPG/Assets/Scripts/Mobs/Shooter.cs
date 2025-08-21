@@ -26,7 +26,7 @@ public class Shooter : MonoBehaviour, IMob
             var mobAI = GetComponent<MobAI>();
             var tbMob = mobAI.GetTBMob();
 
-            projectile.Setup(_tbProjectile.Velocity, _tbProjectile.MaxRange, tbMob.Damage);
+            projectile.Setup(_tbProjectile.Velocity, _tbProjectile.MaxRange);
         }
     }
 }

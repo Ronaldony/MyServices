@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
     [SerializeField] private bool isEnemyProjectile = false;
 
     // Projectiles.
-    private int _damage;
     private float _moveSpeed;
     private float _range;
 
@@ -23,9 +22,8 @@ public class Projectile : MonoBehaviour
         DetectFireDistance();
     }
 
-    public void Setup(float speed, float projectileRange, int damage)
+    public void Setup(float speed, float projectileRange)
     {
-        _damage = damage;
         this._moveSpeed = speed;
         this._range = projectileRange;
     }
@@ -42,7 +40,7 @@ public class Projectile : MonoBehaviour
         {
             if (playerHealth && isEnemyProjectile)
             {
-                playerHealth?.TakeDamage(_damage, transform);
+                playerHealth?.TakeDamage(transform);
 
                 // Collision.
                 Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
@@ -50,7 +48,7 @@ public class Projectile : MonoBehaviour
             }
             else if (mobHealth && !isEnemyProjectile)
             {
-                mobHealth?.TakeDamage(_damage, transform.position);
+                mobHealth?.TakeDamage(transform.position);
 
                 // Collision.
                 Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);

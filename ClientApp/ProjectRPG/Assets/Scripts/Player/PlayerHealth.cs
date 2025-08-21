@@ -1,6 +1,6 @@
-using GameCore;
 using Network;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,7 +10,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
     public bool _isDead { get; private set; }
 
     private int _maxHealth;
-    private int _defense;
 
     private Slider _healthSlider;
     private int _currentHealth;
@@ -41,7 +40,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
         _maxHealth = playerDataManager.PlayInfo.Stat.HealthMax;
         _currentHealth = playerDataManager.PlayInfo.Stat.Health;
-        _defense = playerDataManager.PlayInfo.Stat.Defense;
 
         // Slider.
         UpdateHealthSlider();
@@ -53,7 +51,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
         if (mobAI)
         {
-            TakeDamage(mobAI.GetTBMob().Damage, collision.transform);
+            TakeDamage(collision.transform);
         }
     }
 
@@ -72,7 +70,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     /// <summary>
     /// Take damage.
     /// </summary>
-    public void TakeDamage(int damageAmount, Transform hitTransform)
+    public void TakeDamage(Transform hitTransform)
     {
         if (_isDead) { return; }
 
@@ -84,20 +82,14 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());
+    }
 
-        var damage = damageAmount - _defense;
-
-        if (damage > 0)
-        {
-            _currentHealth -= damage;
-        }
-        else
-        {
-            // Damage가 0이하인 경우.
-            _currentHealth--;
-        }
+    public void UpdateHealth(int health)
+    {
+        _currentHealth = health;
 
         UpdateHealthSlider();
+
         CheckPlayerDeath();
     }
 
@@ -127,7 +119,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
         // Respawn player.
         Destroy(gameObject);
-        SceneManager.LoadScene(TOWN_TEXT);
+        //SceneManager.LoadScene(TOWN_TEXT);
     }
 
     /// <summary>

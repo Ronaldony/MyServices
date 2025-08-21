@@ -14,12 +14,12 @@ namespace Network
     /// </summary>
     public class UdpHandler_Enter : UdpHandler
     {
-        private readonly GamePacketCS_SpawnPlayer _sendPacket;
+        private readonly GamePacketCS_SpawnUnits _sendPacket;
 
         public UdpHandler_Enter()
             : base(GamePacketCode.SC_Enter)
         {
-            _sendPacket = new GamePacketCS_SpawnPlayer();
+            _sendPacket = new GamePacketCS_SpawnUnits();
         }
 
         /// <summary>
@@ -27,18 +27,18 @@ namespace Network
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_Enter>(packet.Data);
+            var gamePacketEnter = MemoryPackDataSerializer.Deserialize<GamePacketSC_Enter>(packet.Data);
             var playerDataManager = PlayerDataManager.Instance;
 
-            playerDataManager.PlayInfo = packetData.PlayInfo;
-            playerDataManager.InventoryInfo = packetData.InventoryInfo;
+            playerDataManager.PlayInfo = gamePacketEnter.PlayInfo;
+            playerDataManager.InventoryInfo = gamePacketEnter.InventoryInfo;
 
             // Delay.
             var gamePacketManager = GamePacketManager.Instance;
 
-            gamePacketManager.Send<GamePacketCS_SpawnPlayer>(GamePacketCode.CS_SpawnPlayer, _sendPacket);
+            gamePacketManager.Send<GamePacketCS_SpawnUnits>(GamePacketCode.CS_SpawnUnits, _sendPacket);
 
-            //Load scene.
+            // Load scene.
             var loginActor = LoginActor.Instance;
             loginActor.LoadScene(playerDataManager.PlayInfo.Location.Area.ToString());
         }

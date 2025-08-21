@@ -1,8 +1,9 @@
-﻿using GameCore;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Server_Realm.Entities
 {
+    using GameCore;
+
     /// <summary>
     /// PlayerUnit.
     /// </summary>
@@ -18,10 +19,9 @@ namespace Server_Realm.Entities
 
             // 충돌 처리 관련.
             var collisionType = EquipmentHandler.GetWeaponCollisionType();
-            var damage = EquipmentHandler.GetDamage() + StatHandler.GetPower();
 
             // Collide melee.
-            CombatHandler.CollideMelee(collisionType, angle, damage, aroundMobs);
+            CombatHandler.CollideMelee(collisionType, angle, EquipmentHandler.GetDamage(), aroundMobs);
         }
 
         /// <summary>

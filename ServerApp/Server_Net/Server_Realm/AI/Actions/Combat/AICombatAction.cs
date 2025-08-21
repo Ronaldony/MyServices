@@ -108,7 +108,7 @@ namespace Server_Realm.AI.Actions.Movement
         public override void Stop()
         {
             // 초기화.
-            _targetPid = string.Empty;
+            _targetPid = null;
             _nowCooldown = 0;
         }
     }

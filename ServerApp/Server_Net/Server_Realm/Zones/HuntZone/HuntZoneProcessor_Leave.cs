@@ -20,7 +20,6 @@ namespace Server_Realm.Zones.HuntZone
 
             if (false == _worldGroup.PlayerUnitDict.TryGetValue(msg.Pid, out var pu))
             {
-                _logger.LogError($"not exist player. pid: {msg.Pid}");
                 return;
             }
 
@@ -53,13 +52,7 @@ namespace Server_Realm.Zones.HuntZone
             }
 
             // Leave section.
-            if (null == pu.WorldSection.LeavePlayer(pu.UnitId))
-            {
-                _logger.LogError($"remove player from section. unitId: {pu.UnitId}, section: {pu.MovementHandler.Section}");
-                return false;
-            }
-
-            // Player dispose.
+            pu.WorldSection.LeavePlayer(pu.UnitId);
             pu.Dispose();
 
             return true;

@@ -1,5 +1,3 @@
-using GameCore;
-using System.Collections;
 using UnityEngine;
 
 public class MobHealth : MonoBehaviour
@@ -20,18 +18,15 @@ public class MobHealth : MonoBehaviour
     /// <summary>
     /// Take damage.
     /// </summary>
-    public void TakeDamage(int damage, Vector3 srcPosition)
+    public void TakeDamage(Vector3 srcPosition)
     {
         Debug.Log($"DetectDeath. health: {_health}");
-
-        _health -= damage;
 
         // Knockback.
         //_knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
 
         // hit routine.
         StartCoroutine(_flash.FlashRoutine());
-        StartCoroutine(CheckDetectDeathRoutine());
     }
 
     /// <summary>
@@ -42,29 +37,17 @@ public class MobHealth : MonoBehaviour
         Debug.Log($"Set health: {hp}");
 
         _health = hp;
+
+        DetectDeath();
     }
 
     /// <summary>
     /// Take damage.
     /// </summary>
-    public void TakeDamage(int damage)
+    public void TakeDamage()
     {
-        Debug.Log($"damage. health: {_health}");
-
-        _health -= damage;
-
         // hit routine.
         StartCoroutine(_flash.FlashRoutine());
-        StartCoroutine(CheckDetectDeathRoutine());
-    }
-
-    /// <summary>
-    /// Check detect death routine.
-    /// </summary>
-    private IEnumerator CheckDetectDeathRoutine()
-    {
-        yield return new WaitForSeconds(_flash.GetRestoreMatTime());
-        DetectDeath();
     }
 
     /// <summary>
@@ -92,7 +75,7 @@ public class MobHealth : MonoBehaviour
     /// <summary>
     /// Initialize spawn.
     /// </summary>
-    public void Initialize_Spawn(int health, long unitId)
+    public void SetupHealth(int health, long unitId)
     {
         _health = health;
         _unitId = unitId;

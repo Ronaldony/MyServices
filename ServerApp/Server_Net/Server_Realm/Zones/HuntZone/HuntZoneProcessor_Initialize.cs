@@ -23,7 +23,7 @@ namespace Server_Realm.Zones.HuntZone
 
             // 지역 정보 불러오기.
             var tdbService = serviceProvider.GetRequiredService<ITDBService>();
-            var confArea = tdbService.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
+            var confArea = tdbService.First<TB_Area>(d => d.Area.Equals(Type_Area.HuntZone));
 
             // 가로, 세로 섹션의 최소, 최댓 값을 사용하여 섹션 분리.
             var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;

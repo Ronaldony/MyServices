@@ -21,7 +21,6 @@ namespace Server_Realm.Server.World.Handlers
 
         private readonly HuntZoneServer _huntZoneServer;
 
-        private readonly IUniqueIdService _uniqueIdService;
         private readonly IDataSerializer _dataSerializer;
 
         // Data objects.
@@ -38,7 +37,6 @@ namespace Server_Realm.Server.World.Handlers
 
             _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
 
-            _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             // Session object.
@@ -86,13 +84,14 @@ namespace Server_Realm.Server.World.Handlers
                     var inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
                     if (null == inventoryInfo) throw new ServerException($"not exist player. pid: {pid}");
 
-                    // Send Login packet.
-                    _huntZoneServer.Send(sessionId, sessionUid, GamePacketCode.SC_Enter,
-                        _dataSerializer.Serialize(new GamePacketSC_Enter
-                        {
-                            PlayInfo = playInfo,
-                            InventoryInfo = inventoryInfo
-                        }));
+                    // Send Enter packet.
+                    var enterPacket = _dataSerializer.Serialize(new GamePacketSC_Enter
+                    {
+                        PlayInfo = playInfo,
+                        InventoryInfo = inventoryInfo
+                    });
+
+                    _huntZoneServer.Send(sessionId, sessionUid, GamePacketCode.SC_Enter, enterPacket);
                 }
                 catch (ServerException ex)
                 {

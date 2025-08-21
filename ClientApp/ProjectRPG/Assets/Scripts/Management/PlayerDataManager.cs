@@ -16,6 +16,9 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
     public string Pid { get; set; }
     public string PlayerName { get; set; }
 
+    // Unit.
+    public long UnitId { get; set; }
+
     // Infos.
     public DTO_PlayerInfo PlayerInfo { get; set; }
     public DTO_InventoryInfo InventoryInfo { get; set; }

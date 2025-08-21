@@ -2,7 +2,6 @@
 
 namespace Server_Realm.HitBoxes
 {
-    using Couchbase.KeyValue;
     using Server_Realm.Core.Types;
 
     /// <summary>
@@ -29,7 +28,6 @@ namespace Server_Realm.HitBoxes
         /// <summary>
         /// Setup hit box.
         /// </summary>
-        /// <param name="radius"></param>
         public void Setup(Vector2 min, Vector2 max)
         {
             Min = min;
@@ -68,7 +66,7 @@ namespace Server_Realm.HitBoxes
             // 가로 충돌.
             // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
             // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
-            if (Min.X > target.Max.X || Max.X < target.Max.X)
+            if (Min.X > target.Max.X || Max.X < target.Min.X)
             {
                 return false;
             }
@@ -76,7 +74,7 @@ namespace Server_Realm.HitBoxes
             // 세로 충돌.
             // Cond 1. src의 왼쪽 변이 dst의 오른쪽보다 왼쪽인 경우.
             // Cond 2. src의 오른쪽 변이 dst의 왼쪽 변보다 오른쪽인 경우.
-            if (Min.Y > target.Max.Y && Max.Y < target.Min.Y)
+            if (Min.Y > target.Max.Y || Max.Y < target.Min.Y)
             {
                 return false;
             }

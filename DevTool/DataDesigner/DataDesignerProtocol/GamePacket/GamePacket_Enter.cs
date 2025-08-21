@@ -30,21 +30,15 @@ namespace GameCore.GamePacket
     public partial class GamePacketSC_Enter : GamePacketBase_SC
     {
         /// <summary>
-        /// Enter Unit id.
-        /// </summary>
-        [MemoryPackOrder(0)]
-        public long UnitId { get; set; }
-
-        /// <summary>
         /// 플레이 정보.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(10)]
         public DTO_PlayInfo PlayInfo { get; set; }
 
         /// <summary>
         /// 인벤토리 정보.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(1)]
         public DTO_InventoryInfo InventoryInfo { get; set; }
 
         public override void Dispose()

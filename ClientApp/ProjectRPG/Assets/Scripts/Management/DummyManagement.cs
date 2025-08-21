@@ -69,9 +69,15 @@ public class DummyManagement : Singleton<DummyManagement>
                         SpawnMobDummy(packet.Mobs);
                     }
                     break;
-                case GamePacketCode.SC_SpawnPlayer:
+                case GamePacketCode.SC_EnterPlayer:
                     {
-                        var packet = updatePacket.Data as GamePacketSC_SpawnPlayer;
+                        var packet = updatePacket.Data as GamePacketSC_EnterPlayer;
+                        SpawnMobDummy(packet.Mobs);
+                    }
+                    break;
+                case GamePacketCode.SC_SpawnUnits:
+                    {
+                        var packet = updatePacket.Data as GamePacketSC_SpawnUnits;
                         SpawnMobDummy(packet.Mobs);
                     }
                     break;

@@ -1,0 +1,63 @@
+{
+  "Name": "TB_Area",
+  "Category": "",
+  "Description": "",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "Name",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 3,
+      "Name": "Area",
+      "IsIndexed": false,
+      "Type": "Type_Area",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 4,
+      "Name": "MinX",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 5,
+      "Name": "MaxX",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "MinY",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 7,
+      "Name": "MaxY",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    }
+  ]
+}

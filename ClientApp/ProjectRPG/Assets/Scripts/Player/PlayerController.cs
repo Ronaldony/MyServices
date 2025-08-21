@@ -31,7 +31,7 @@ public class PlayerController : Singleton<PlayerController>
     private bool _isDashCoolDown;
 
     // Data Manger.
-    private GamePacketManager _GamePacketManager;
+    private GamePacketManager _gamePacketManager;
     private PlayerDataManager _playerDataManager;
 
     private ConcurrentQueue<UpdatePacket> _updatePacketQ; 
@@ -46,8 +46,9 @@ public class PlayerController : Singleton<PlayerController>
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _knockback = GetComponent<Knockback>();
 
-        _GamePacketManager = GamePacketManager.Instance;
+        _gamePacketManager = GamePacketManager.Instance;
         _playerDataManager = PlayerDataManager.Instance;
+
 
         _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
 
@@ -71,6 +72,8 @@ public class PlayerController : Singleton<PlayerController>
         _playerControls.Combat.Dash.performed += _ => OnDash();
         _startingMoveSpeed = moveSpeed;
 
+        var playerManagement = PlayerManagement.Instance;
+        playerManagement.SetPlayerObject(gameObject);
     }
 
     private void OnEnable()
@@ -211,7 +214,7 @@ public class PlayerController : Singleton<PlayerController>
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
         // Send MoveEnd.
-        _GamePacketManager.Send<GamePacketCS_MoveEnd>(
+        _gamePacketManager.Send<GamePacketCS_MoveEnd>(
             GamePacketCode.CS_MoveEnd,
             new GamePacketCS_MoveEnd
             {
@@ -236,7 +239,7 @@ public class PlayerController : Singleton<PlayerController>
         var packetTime = DateTime.Now.AddSeconds(_moveDeltaTime);
 
         // Send MoveEnd.
-        _GamePacketManager.Send<GamePacketCS_MoveStart>(
+        _gamePacketManager.Send<GamePacketCS_MoveStart>(
             GamePacketCode.CS_MoveStart,
             new GamePacketCS_MoveStart
             {
@@ -300,7 +303,7 @@ public class PlayerController : Singleton<PlayerController>
             // Dash.
             var dashedPosition = _rb.position + _movement * (moveSpeed * GameData.DASH_TIME);
 
-            _GamePacketManager.Send<GamePacketCS_Dash>(
+            _gamePacketManager.Send<GamePacketCS_Dash>(
                 GamePacketCode.CS_Dash,
                 new GamePacketCS_Dash
                 {
@@ -327,7 +330,7 @@ public class PlayerController : Singleton<PlayerController>
         //Debug.Log($"Move Start (Dash) - Dir: {_moveDirection}, DateTIme: {DateTime.Now}");
 
         // Send MoveStart.
-        _GamePacketManager.Send<GamePacketCS_MoveStart>(
+        _gamePacketManager.Send<GamePacketCS_MoveStart>(
             GamePacketCode.CS_MoveStart,
             new GamePacketCS_MoveStart
             {
@@ -350,7 +353,7 @@ public class PlayerController : Singleton<PlayerController>
         _playerDataManager.PlayInfo.Location.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         // Send packet.
-        _GamePacketManager.Send<GamePacketCS_KnockBack>(
+        _gamePacketManager.Send<GamePacketCS_KnockBack>(
             GamePacketCode.CS_KnockBack,
             new GamePacketCS_KnockBack
             {

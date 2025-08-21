@@ -2,6 +2,7 @@ using GameCore;
 using GameCore.Datas.Mobs;
 using GameCore.GamePacket;
 using Network;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,8 @@ using UnityEngine;
 
 public class EnemyManagement : Singleton<EnemyManagement>
 {
-    [SerializeField] private List<GameObject> _enemyPrefabs;
+    [SerializeField] private List<GameObject> _mobPrefabs;
 
-    private GamePacketManager _pakcetManager;
     private SectionManagement _sectionManagement;
 
     // Table datas.
@@ -37,7 +37,6 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
     private void Start()
     {
-        _pakcetManager = GamePacketManager.Instance;
         _sectionManagement = SectionManagement.Instance;
         _tbMobs = TDBManagement.Instance.SelectAll<TB_Mob>();
     }
@@ -100,9 +99,15 @@ public class EnemyManagement : Singleton<EnemyManagement>
                         Spawnmobs(packet.Mobs);
                     }
                     break;
-                case GamePacketCode.SC_SpawnPlayer:
+                case GamePacketCode.SC_EnterPlayer:
                     {
-                        var packet = updatePacket.Data as GamePacketSC_SpawnPlayer;
+                        var packet = updatePacket.Data as GamePacketSC_EnterPlayer;
+                        Spawnmobs(packet.Mobs);
+                    }
+                    break;
+                case GamePacketCode.SC_SpawnUnits:
+                    {
+                        var packet = updatePacket.Data as GamePacketSC_SpawnUnits;
                         Spawnmobs(packet.Mobs);
                     }
                     break;
@@ -277,7 +282,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             return false;
         }
 
-        var findEnemyPrefab = _enemyPrefabs.FirstOrDefault(d => d.GetComponent<MobAI>().GetMobId() == tbMob.Id);
+        var findEnemyPrefab = _mobPrefabs.FirstOrDefault(d => d.GetComponent<MobAI>().GetMobId() == tbMob.Id);
 
         if (default == findEnemyPrefab)
         {
@@ -293,25 +298,32 @@ public class EnemyManagement : Singleton<EnemyManagement>
         }
 
         // Create enemy object.
-        var mobObject = Instantiate(findEnemyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
+        try
+        {
+            var mobObject = Instantiate(findEnemyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
 
-        _mobObjectDict.Add(unitId, mobObject);
+            _mobObjectDict.Add(unitId, mobObject);
 
-        // Set Enemy AI.
-        var enemyAI = mobObject.GetComponent<MobAI>();
+            // Set Enemy AI.
+            var enemyAI = mobObject.GetComponent<MobAI>();
 
-        // Set Enemy path.
-        var enemyPathfinding = mobObject.GetComponent<MobPathfinding>();
+            // Set Enemy path.
+            var enemyPathfinding = mobObject.GetComponent<MobPathfinding>();
 
-        // Set Enemy Health.
-        var enemyHealth = mobObject.GetComponent<MobHealth>();
-        enemyHealth.Initialize_Spawn(mob.Stat.Health, unitId);
+            // Set Enemy Health.
+            var enemyHealth = mobObject.GetComponent<MobHealth>();
+            enemyHealth.SetupHealth(mob.Stat.Health, unitId);
 
-        // Set Pick up spawner.
-        var pickupSpawner = mobObject.GetComponent<PickUpSpawner>();
-        pickupSpawner.Initialize_Spawn(mob.DropItems);
+            // Set Pick up spawner.
+            var pickupSpawner = mobObject.GetComponent<PickUpSpawner>();
+            pickupSpawner.Initialize_Spawn(mob.DropItems);
 
-        Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
+            Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
+        }
+        catch (Exception ex)
+        {
+            int i = 3;
+        }
 
         return true;
     }

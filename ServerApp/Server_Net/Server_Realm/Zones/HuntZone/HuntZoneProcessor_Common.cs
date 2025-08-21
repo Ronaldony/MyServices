@@ -27,7 +27,7 @@
         /// </summary>
         public void CollectDeadUnit(Unit unit)
         {
-            _worldUnitCollector.DeadUnits.AddOrUpdate(unit.UnitId, unit, (old, key) => unit);
+            _worldUnitCollector.DeadUnits.Enqueue(unit);
         }
     }
 }

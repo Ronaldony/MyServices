@@ -100,7 +100,6 @@ namespace LoginServer.Controllers.Auth
             // Stat.
             playInfo.Stat.HealthMax = 10;
             playInfo.Stat.Health = 10;
-            playInfo.Stat.Power = 1;
             playInfo.Stat.Defense = 1;
             playInfo.Stat.Velocity = 4;
 

@@ -134,9 +134,9 @@ namespace Server_Realm.Zones.HuntZone
                 }
 
                 // 패킷 전송.
-                ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateSection, updateSection);
-                ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
-                ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
+                if (updateSection.Mobs.Any() || updateSection.PlayInfos.Any()) ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateSection, updateSection);
+                if (updateUnitMovement.UnitLocations.Any()) ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitMovement, updateUnitMovement);
+                if (updateUnitStat.UnitStats.Any()) ws.SendPacket_AroundSections(GamePacketCode.SC_UpdateUnitStat, updateUnitStat);
 
                 // Release.
                 _memoryPoolService.Release(updateSection);
@@ -170,7 +170,7 @@ namespace Server_Realm.Zones.HuntZone
         {
             /////////////////////////////////////////////////////
             // 죽은 몹 수거.
-            foreach (var unit in _worldUnitCollector.DeadUnits.Values)
+            while (_worldUnitCollector.DeadUnits.TryDequeue(out var unit))
             {
                 // Leave section.
                 switch (unit.UnitType)
@@ -180,18 +180,19 @@ namespace Server_Realm.Zones.HuntZone
 
                         unit.WorldSection.LeavePlayer(unit.UnitId);
                         _worldGroup.PlayerUnitDict.Remove(pu.Pid);
+                _logger.LogDebug($"Collect player");
                         break;
                     case Type_Unit.Mob:
                         unit.WorldSection.LeaveMob(unit.UnitId);
                         _worldGroup.MobUnitDict.Remove(unit.UnitId);
+                _logger.LogDebug($"Collect mob");
                         break;
                 }
+
 
                 // Return unit.
                 _unitFactory.Return(unit);
             }
-
-            _worldUnitCollector.DeadUnits.Clear();
         }
     }
 }

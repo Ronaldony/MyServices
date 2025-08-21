@@ -47,7 +47,14 @@ namespace Server_Realm.Projectiles
             // Delta time.
             _timePassed += (float)deltaTime;
 
-            Pos = Vector2.Lerp(SpawnPos, EndPos, _timePassed / _duration);
+            if (_timePassed >= _duration)
+            {
+                Pos = EndPos;
+            }
+            else
+            {
+                Pos = Vector2.Lerp(SpawnPos, EndPos, _timePassed / _duration);
+            }
 
             _hitbox.Center = Pos;
 

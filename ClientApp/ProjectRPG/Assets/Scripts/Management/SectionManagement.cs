@@ -12,7 +12,7 @@ public class SectionManagement : Singleton<SectionManagement>
 
     private void Start()
     {
-        var confArea = TDBManagement.Instance.First<CONF_Area>(d => d.Area.Equals(Type_Area.HuntZone));
+        var confArea = TDBManagement.Instance.First<TB_Area>(d => d.Area.Equals(Type_Area.HuntZone));
 
         var sectionMinX = confArea.MinX / GameData.SECTION_WIDTH;
         var sectionMaxX = confArea.MaxX / GameData.SECTION_WIDTH;
