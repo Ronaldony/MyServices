@@ -13,10 +13,10 @@
   {
     "Id": 1,
     "Name": "Arrow",
-    "Radius": 1.0,
+    "Radius": 0.4,
     "ProjectileType": "Arrow",
     "MaxRange": 1,
-    "Velocity": 1,
+    "Velocity": 5,
     "IsPenetrates": false,
     "IsGrenade": false,
     "Duration": 0.0

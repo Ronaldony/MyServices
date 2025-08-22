@@ -28,6 +28,8 @@ namespace Network
                 PacketCode = GamePacketCode.SC_SwitchWeapon,
                 Data = packetData,
             };
+
+
         }
     }
 }

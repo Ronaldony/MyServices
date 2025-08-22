@@ -57,6 +57,8 @@ namespace Server_Realm.UnitHandler
             // 투사체 이동.
             foreach (var prjt in _projectiles)
             {
+                _logger.LogDebug($"projectile. pos: {prjt.Pos}");
+
                 if (prjt.IsActive)
                 {
                     prjt.MoveNextFrame(deltaTime);

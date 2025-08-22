@@ -14,18 +14,11 @@ public class Bow : MonoBehaviour, IWeapon
 
     private Animator myAnimator;
 
-    private TB_Weapon _tbWeapon;
-    private TB_Projectile _tbProjectile;
-
     private GamePacketManager _gpm;
 
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
-
-        _tbWeapon = TDBManagement.Instance.GetById<TB_Weapon>(weaponInfo.weaponId);
-        _tbProjectile = TDBManagement.Instance.First<TB_Projectile>(d => d.ProjectileType == _tbWeapon.ProjectileType);
-
         _gpm = GamePacketManager.Instance;
     }
 
@@ -42,7 +35,10 @@ public class Bow : MonoBehaviour, IWeapon
         GameObject arrowObject = Instantiate(arrowPrefab, arrowSpawnPoint.position, ActiveWeapon.Instance.transform.rotation);
         Projectile projectile = arrowObject.GetComponent<Projectile>();
 
-        projectile.Setup(_tbProjectile.Velocity, _tbWeapon.Range);
+        var tbWeapon = TDBManagement.Instance.GetById<TB_Weapon>(weaponInfo.weaponId);
+        var tbProjectile = TDBManagement.Instance.First<TB_Projectile>(d => d.ProjectileType == tbWeapon.ProjectileType);
+
+        projectile.Setup(tbProjectile.Velocity, tbWeapon.Range);
 
         // Mouse pos.
         Vector3 mousePos = Input.mousePosition;

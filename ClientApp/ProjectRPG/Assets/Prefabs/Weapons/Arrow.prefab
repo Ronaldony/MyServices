@@ -30,13 +30,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8066312604991287102}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.34, y: 0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6651318567436750463
 SpriteRenderer:
@@ -122,8 +122,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0057938057, y: 0.04055496}
-  m_Size: {x: 0.7103202, y: 0.31635588}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.4, y: 0.4}
   m_Direction: 1
 --- !u!50 &1659135035247145715
 Rigidbody2D:
@@ -289,10 +289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333aef2963c29b3418bc803295fd13b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 22
   particleOnPrefabVFX: {fileID: 7728350581625992223, guid: 4f3f8451d8bb7da4da5823e0d906fe73, type: 3}
   isEnemyProjectile: 0
-  projectileRange: 10
 --- !u!114 &6435683372932901126
 MonoBehaviour:
   m_ObjectHideFlags: 0

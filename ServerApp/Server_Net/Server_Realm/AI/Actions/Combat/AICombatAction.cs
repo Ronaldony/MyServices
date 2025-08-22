@@ -76,7 +76,7 @@ namespace Server_Realm.AI.Actions.Movement
                     _nowCooldown = 0;
 
                     // 공격.
-                    Owner.Attack(target);
+                    //Owner.Attack(target);
                 }
 
                 if (Owner.MovementHandler.IsMoving())

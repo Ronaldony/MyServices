@@ -15,7 +15,7 @@
     "Range": 6,
     "CoolTime": 4,
     "CollisionType": "None",
-    "ProjectileType": "Arrow"
+    "ProjectileType": "Rasor"
   },
   {
     "Id": 3,
@@ -24,6 +24,6 @@
     "Range": 5,
     "CoolTime": 2,
     "CollisionType": "None",
-    "ProjectileType": "Rasor"
+    "ProjectileType": "Arrow"
   }
 ]

@@ -1,4 +1,7 @@
 using GameCore;
+using GameCore.Datas.Projectiles;
+using GameCore.GamePacket;
+using Network;
 using UnityEngine;
 
 public class ActiveInventory : Singleton<ActiveInventory>
@@ -74,12 +77,21 @@ public class ActiveInventory : Singleton<ActiveInventory>
         Debug.Log($"_activeSlotIndexNum: {_activeSlotIndexNum}");
 
         // TB_Weapon.
-        var tbWeapon = TDBManagement.Instance.Select<TB_Weapon>(d => d.Id == (_activeSlotIndexNum + 1));
+        var tbWeapon = TDBManagement.Instance.GetById<TB_Weapon>(_activeSlotIndexNum + 1);
         if (null == tbWeapon)
         {
             Debug.LogError("No weapon!");
             return;
         }
+
+        // Refresh WeaponInfo.
+        weaponInfo.weaponId = tbWeapon.Id;
+
+        // Send switch weapon.
+        GamePacketManager.Instance.Send<GamePacketCS_SwitchWeapon>(GamePacketCode.CS_SwitchWeapon, new GamePacketCS_SwitchWeapon
+        {
+            WeaponId = weaponInfo.weaponId
+        });
 
         // New weapon.
         GameObject weaponToSpawn = weaponInfo.weaponPrefab;
