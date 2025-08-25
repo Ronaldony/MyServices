@@ -29,6 +29,13 @@ namespace Server_Realm.UnitHandler
         private readonly HashSet<Projectile> _grenades;
         private readonly List<Projectile> _distroyProjectiles;
 
+        /// <summary>
+        /// Aggro units.
+        /// key: Unit.
+        /// value: aggro point.
+        /// </summary>
+        private readonly Dictionary<Unit, int> _aggroPoints;
+
         public UnitCombatHandler(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UnitCombatHandler>>();
@@ -39,6 +46,8 @@ namespace Server_Realm.UnitHandler
             _projectiles = new HashSet<Projectile>();
             _grenades = new HashSet<Projectile>();
             _distroyProjectiles = new List<Projectile>();
+
+            _aggroPoints = new Dictionary<Unit, int>();
         }
 
         /// <summary>
@@ -107,13 +116,21 @@ namespace Server_Realm.UnitHandler
         /// <summary>
         /// 피격.
         /// </summary>
-        public bool Hit(IHitbox srcHitbox, int damage)
+        public bool Hit(Unit aggroUnit, IHitbox srcHitbox, int damage)
         {
             // Hit box 충돌 검사.
             if (true == srcHitbox.IsHit(_owner.UnitCollision.GetHitbox()))
             {
                 _logger.LogDebug($"Hit unit. unit type: {_owner.UnitType}");
                 _owner.StatHandler.Damage(damage);
+
+                // Aggro 유닛 데미지 축적.
+                if (false == _aggroPoints.ContainsKey(aggroUnit))
+                {
+                    _aggroPoints.Add(aggroUnit, 0);
+                }
+
+                _aggroPoints[aggroUnit] += damage;
 
                 return true;
             }
@@ -134,7 +151,7 @@ namespace Server_Realm.UnitHandler
             // 히트 판정.
             foreach (var unit in units)
             {
-                unit.CombatHandler.Hit(hitbox, damage);
+                unit.CombatHandler.Hit(_owner, hitbox, damage);
             }
 
             // Release.
@@ -159,7 +176,7 @@ namespace Server_Realm.UnitHandler
                 foreach (var unit in units)
                 {
                     // 피격 판정인 경우, 관통 여부 검사.
-                    if (unit.CombatHandler.Hit(prjt.GetHitbox(), prjt.Damage))
+                    if (unit.CombatHandler.Hit(_owner, prjt.GetHitbox(), prjt.Damage))
                     {
                         // 관통이 아닌 경우, 투사체 비활성화.
                         if (false == prjt.IsPenetrates)
@@ -184,7 +201,7 @@ namespace Server_Realm.UnitHandler
                 {
                     foreach (var unit in units)
                     {
-                        unit.CombatHandler.Hit(grenade.GetHitbox(), grenade.Damage);
+                        unit.CombatHandler.Hit(_owner, grenade.GetHitbox(), grenade.Damage);
                     }
                 }
             }
@@ -224,6 +241,24 @@ namespace Server_Realm.UnitHandler
             }
 
             _distroyProjectiles.Clear();
+        }
+        #endregion
+
+        #region aggro
+        /// <summary>
+        /// Aggro 유닛 초기화.
+        /// </summary>
+        public void ClearAggroPoints()
+        {
+            _aggroPoints.Clear();
+        }
+
+        /// <summary>
+        /// Aggro 포인트 반환.
+        /// </summary>
+        public Dictionary<Unit, int> GetAggroPoints()
+        {
+            return _aggroPoints;
         }
         #endregion
 

@@ -178,17 +178,16 @@ namespace Server_Realm.Zones.HuntZone
                     case Type_Unit.Player:
                         var pu = unit as PlayerUnit;
 
+                        // Leave zone.
                         unit.WorldSection.LeavePlayer(unit.UnitId);
                         _worldGroup.PlayerUnitDict.Remove(pu.Pid);
-                _logger.LogDebug($"Collect player");
                         break;
                     case Type_Unit.Mob:
+                        // Leave zone.
                         unit.WorldSection.LeaveMob(unit.UnitId);
                         _worldGroup.MobUnitDict.Remove(unit.UnitId);
-                _logger.LogDebug($"Collect mob");
                         break;
                 }
-
 
                 // Return unit.
                 _unitFactory.Return(unit);

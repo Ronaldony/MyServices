@@ -7,6 +7,7 @@ namespace Server_Realm.Server.World.Handlers
 {
     using Framework.Core.Database.DAO;
     using GameCore;
+    using GameCore.Datas.Inventory;
     using GameCore.Datas.Play;
     using Server_Realm.Core.ActorProviders;
     using Server_Realm.Core.Factories;
@@ -79,21 +80,21 @@ namespace Server_Realm.Server.World.Handlers
                 }
 
                 // Spawn player into world.
-                SpawnPlayerIntoWorld(sessionId, sessionUid, playInfo);
+                SpawnPlayerIntoWorld(sessionId, sessionUid, playInfo, inventoryInfo);
             });
         }
 
         /// <summary>
         /// Spawn player into world.
         /// </summary>
-        private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo)
+        private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo, DTO_InventoryInfo inventoryInfo)
         {
             // Create player unit.
             var unitId = _uniqueIdService.GenerateIdAsLong();
 
             // Setup player unit.
             var pu = _unitFactory.CreateUnit<PlayerUnit>(Type_Unit.Player);
-            pu.Setup(unitId, playInfo);
+            pu.Setup(unitId, playInfo, inventoryInfo);
 
             // 메시지 전달.
             _worldServerActorProvider.Tell<WorldMsg_SpawnUnits>(new WorldMsg_SpawnUnits

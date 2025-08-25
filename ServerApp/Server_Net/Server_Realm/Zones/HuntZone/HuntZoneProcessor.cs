@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
 using System.Reactive.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Server_Realm.Zones.HuntZone
 {
@@ -64,19 +65,20 @@ namespace Server_Realm.Zones.HuntZone
 
         public HuntZoneProcessor()
         {
-            _logger = ServiceUtility.GetService<ILogger<HuntZoneProcessor>>();
+            _serviceProvider = ServiceUtility.GetServiceProvider();
+
+            _logger = _serviceProvider.GetRequiredService<ILogger<HuntZoneProcessor>>();
 
             // service.
-            _serviceProvider = ServiceUtility.GetServiceProvider();
-            _dataSerializer = ServiceUtility.GetService<IDataSerializer>();
-            _memoryPoolService = ServiceUtility.GetService<IMemoryPoolService>();
+            _dataSerializer = _serviceProvider.GetRequiredService<IDataSerializer>();
+            _memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
 
             // Factories.
-            _unitFactory = ServiceUtility.GetService<UnitFactory>();
+            _unitFactory = _serviceProvider.GetRequiredService<UnitFactory>();
 
             // Zones.
-            _huntZoneServer = ServiceUtility.GetService<HuntZoneServer>();
-            _zoneProcessorProvider = ServiceUtility.GetService<HuntZoneProcessorProvider>();
+            _huntZoneServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
+            _zoneProcessorProvider = _serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
 
             // Worlds.
             _worldGroup = Initialize_WorldGroup(_serviceProvider, this);
@@ -91,6 +93,7 @@ namespace Server_Realm.Zones.HuntZone
             _taskDispatcher = new TaskDispatcher_WorldSection(_cts.Token);
             _taskDispatcher.Initialize(_worldGroup.AroundSectionDict.Keys, UpdateFrame);
 
+            // Add task node types.
             _taskNodeTypes = new List<Type_TaskNode>();
             _taskNodeTypes.Add(Type_TaskNode.AI);
             _taskNodeTypes.Add(Type_TaskNode.Combat);
@@ -163,6 +166,9 @@ namespace Server_Realm.Zones.HuntZone
                         break;
                     case GamePacketCode.CS_Dash:
                         Dash(pu, wm.Packet as GamePacketCS_Dash);
+                        break;
+                    case GamePacketCode.CS_RootItem:
+                        RootItem(pu, wm.Packet as GamePacketCS_RootItem);
                         break;
                     case GamePacketCode.CS_SwitchWeapon:
                         SwitchWeapon(pu, wm.Packet as GamePacketCS_SwitchWeapon);

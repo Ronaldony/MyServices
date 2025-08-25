@@ -6,7 +6,6 @@ using System.Numerics;
 namespace Server_Realm.Core.Services
 {
     using GameCore;
-    using GameCore.Datas.Items;
     using GameCore.Datas.Mobs;
     using GameCore.Interfaces;
 
@@ -21,7 +20,6 @@ namespace Server_Realm.Core.Services
 
         // Services.
         private readonly ITDBService _tdbService;
-        private readonly ItemCreateService _itemCreateService;
 
         // Datas.
         private readonly List<Type_Item> _itemTypes;
@@ -36,7 +34,6 @@ namespace Server_Realm.Core.Services
             _logger = serviceProvider.GetRequiredService<ILogger<MobCreateService>>();
 
             _tdbService = serviceProvider.GetRequiredService<ITDBService>();
-            _itemCreateService = serviceProvider.GetRequiredService<ItemCreateService>();
 
             _itemTypes = Enum.GetValues<Type_Item>().Where(d => d != Type_Item.None).ToList();
             
@@ -105,10 +102,6 @@ namespace Server_Realm.Core.Services
 
             // AttackType.
             dtoMob.AttackType = tbMob.AttackType;
-
-            // DropItems.
-            var dtoItems = _itemCreateService.CreateItemGroups(tbMob.ItemGroupId);
-            dtoMob.DropItems.AddRange(dtoItems);
 
             _logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
 

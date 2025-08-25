@@ -2,6 +2,8 @@
 
 namespace Server_Realm.Entities
 {
+    using GameCore.Datas.Inventory;
+    using GameCore.Datas.Items;
     using GameCore.Datas.Play;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
@@ -25,10 +27,13 @@ namespace Server_Realm.Entities
             MovementHandler = new UnitMovementHandler(serviceProvider);
             StatHandler = new UnitStatHandler(serviceProvider);
             EquipmentHandler = new UnitEquipmentHandler(serviceProvider);
+
+            // Drop items.
+            MobDropItems = new Dictionary<long, DTO_Item>();
         }
 
         #region setup
-        public void Setup(long unitId, DTO_PlayInfo playInfo)
+        public void Setup(long unitId, DTO_PlayInfo playInfo, DTO_InventoryInfo inventoryInfo)
         {
             // Unit.
             IsDead = false;
@@ -41,9 +46,13 @@ namespace Server_Realm.Entities
             StatHandler.Setup(this, playInfo.Stat);
             EquipmentHandler.Setup(this, playInfo.Equipment);
 
+            // Drop items.
+            MobDropItems.Clear();
+
             // Player.
             Pid = playInfo.Pid;
             PlayInfo = playInfo;
+            InventoryInfo = inventoryInfo;
         }
         #endregion
 
@@ -53,14 +62,26 @@ namespace Server_Realm.Entities
         public string Pid { get; private set; }
 
         /// <summary>
-        /// PlayInfo.
+        /// DTO_PlayInfo.
         /// </summary>
         public DTO_PlayInfo PlayInfo { get; private set; }
+
+        /// <summary>
+        /// DTO_InventoryInfo.
+        /// </summary>
+        public DTO_InventoryInfo InventoryInfo { get; private set; }
 
         /// <summary>
         /// UnitEquipmentHandler.
         /// </summary>
         public UnitEquipmentHandler EquipmentHandler { get; private set; }
+
+        /// <summary>
+        /// Mob drop items.
+        /// key: Drop id.
+        /// value: DTO_Item.
+        /// </summary>
+        public Dictionary<long, DTO_Item> MobDropItems { get; private set; }
 
         /// <summary>
         /// Dispose.

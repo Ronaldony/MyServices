@@ -3,8 +3,10 @@
 namespace Server_Realm.Units.Mob
 {
     using GameCore;
+    using GameCore.Datas.Items;
     using GameCore.Datas.Mobs;
     using Server_Realm.AI;
+    using Server_Realm.Core.Items;
     using Server_Realm.Core.Types;
     using Server_Realm.Core.Utilities;
     using Server_Realm.Entities;
@@ -32,7 +34,7 @@ namespace Server_Realm.Units.Mob
         /// <summary>
         /// Setup.
         /// </summary>
-        public void Setup(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob)
+        public void Setup(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob, Dictionary<int, List<DropItem>> dropItems)
         {
             // Unit.
             IsDead = false;
@@ -49,6 +51,9 @@ namespace Server_Realm.Units.Mob
             SpawnPos = dtoMob.Location.Pos;
             AIBrain = new AIBrain(serviceProvider, this);
             AIBrain.ChangeState(Type_AIState.Roam);
+
+            // Items.
+            DropItems = dropItems;
         }
         #endregion
 
@@ -61,6 +66,13 @@ namespace Server_Realm.Units.Mob
         /// Mob.
         /// </summary>
         public DTO_Mob Mob { get; private set; }
+
+        /// <summary>
+        /// Drop items.
+        /// key: aggro order.
+        /// value: DropItems.
+        /// </summary>
+        public Dictionary<int, List<DropItem>> DropItems { get; private set; }
 
         /// <summary>
         /// Dispose.

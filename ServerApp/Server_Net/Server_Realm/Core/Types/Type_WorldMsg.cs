@@ -11,10 +11,11 @@
         SpawnEnemy = 11,            // Spanw enemy.
         UpdateMovePattern = 12,     // Update move pattern.
         UpdateDummy = 13,           // Update dummy.
+        Post = 14,                  // Post.
 
         GamePacket = 20,
 
         SpawnPlayer = 100,          // Spanw player.
-        LeavePlayer = 101,            // Out player.
+        LeavePlayer = 101,          // Out player.
     }
 }

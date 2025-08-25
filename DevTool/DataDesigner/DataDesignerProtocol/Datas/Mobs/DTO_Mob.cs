@@ -18,7 +18,6 @@ namespace GameCore.Datas.Mobs
         {
             Stat = new DTO_Stat();
             Location = new DTO_Location();
-            DropItems = new List<DTO_Item>();
         }
 
         /// <summary>
@@ -44,11 +43,5 @@ namespace GameCore.Datas.Mobs
         /// </summary>
         [MemoryPackOrder(4)]
         public DTO_Location Location { get; set; }
-
-        /// <summary>
-        /// 드랍 아이템.
-        /// </summary>
-        [MemoryPackOrder(5)]
-        public List<DTO_Item> DropItems { get; set; }
     }
 }

@@ -8,11 +8,11 @@ namespace Server_Realm.Core.ActorProviders
     /// </summary>
     public class HuntZoneProcessorProvider
     {
-        private IActorRef _huntZoneProvider;
+        private IActorRef _actorProvider;
 
         public HuntZoneProcessorProvider(ActorSystem actorSystem)
         {
-            _huntZoneProvider = actorSystem.ActorOf<HuntZoneProcessor>();
+            _actorProvider = actorSystem.ActorOf<HuntZoneProcessor>();
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Server_Realm.Core.ActorProviders
         /// </summary>
         public void Tell<T>(T data)
         {
-            _huntZoneProvider.Tell(data);
+            _actorProvider.Tell(data);
         }
     }
 }

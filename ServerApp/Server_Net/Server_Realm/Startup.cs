@@ -49,6 +49,7 @@ namespace Server_Realm
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
             appBuilder.Services.AddSingleton<HuntZoneProcessorProvider>();
+            appBuilder.Services.AddSingleton<PostPushActorProvider>();
 
             appBuilder.Services.AddSingleton<DBInventoryInfo>();
             appBuilder.Services.AddSingleton<DBPlayerInfo>();

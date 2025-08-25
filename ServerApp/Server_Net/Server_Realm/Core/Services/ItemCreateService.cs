@@ -92,7 +92,7 @@ namespace Server_Realm.Core.Services
         /// <summary>
         /// Create item groups.
         /// </summary>
-        public List<DTO_Item> CreateItemGroups(int groupId)
+        public List<DTO_Item> CreateItemGroups(int groupId, int extraRateWeight = 0)
         {
             if (false == _itemGroupDict.ContainsKey(groupId))
             {
@@ -105,13 +105,15 @@ namespace Server_Realm.Core.Services
             // Count 재계산.
             foreach (var item in itemGroups)
             {
-                var totalRate = 100 / (double)(item.Rate + item.Rate);
+                // 드랍 확률 = 100 / (Rate * 2)
+                // Rate가 높을수록 드랍 확률이 낮아짐.
+                var dropRate = 100 / (double)(item.Rate + item.Rate + extraRateWeight);
                 var randomNum = _random.NextDouble() * 100;
 
-                _logger.LogDebug($"item refId: {item.RefId}, rate: {item.Rate}, total rate: {totalRate}, randomNum: {randomNum}");
+                _logger.LogDebug($"item refId: {item.RefId}, rate: {item.Rate}, total rate: {dropRate}, randomNum: {randomNum}");
 
                 // 난수가 확률 보다 큰 경우, 해당 아이템 제외.
-                if (totalRate < randomNum)
+                if (dropRate < randomNum)
                 {
                     removeItems.Add(item);
                 }

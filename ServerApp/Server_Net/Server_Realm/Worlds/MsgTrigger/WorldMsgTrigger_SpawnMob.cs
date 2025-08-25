@@ -6,15 +6,19 @@ using System.Reactive.Linq;
 
 namespace Server_Realm.Worlds.MsgTrigger
 {
+    using Consul;
     using GameCore;
+    using GameCore.GamePacket;
     using GameCore.Interfaces;
     using Server_Realm.Core.Factories;
+    using Server_Realm.Core.Items;
     using Server_Realm.Core.Services;
     using Server_Realm.Core.Types;
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Zones;
+    using System.Reflection.Metadata;
 
     /// <summary>
     /// WorldMsgTrigger_SpawnMob.
@@ -25,7 +29,9 @@ namespace Server_Realm.Worlds.MsgTrigger
 
         private readonly IServiceProvider _serviceProvider;
         private readonly IUniqueIdService _uniqueIdService;
+
         private readonly MobCreateService _mobCreateService;
+        private readonly ItemCreateService _itemCreateService;
 
         private readonly UnitFactory _unitFactory;
 
@@ -45,7 +51,9 @@ namespace Server_Realm.Worlds.MsgTrigger
 
             _serviceProvider = serviceProvider;
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
+
             _mobCreateService = serviceProvider.GetRequiredService<MobCreateService>();
+            _itemCreateService = serviceProvider.GetRequiredService<ItemCreateService>();
 
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
 
@@ -100,10 +108,10 @@ namespace Server_Realm.Worlds.MsgTrigger
                 var spawnMsg = new WorldMsg_SpawnMob();
 
                 //var mob = _tbMobs.Last();
-                foreach (var mob in _tbMobs)
+                foreach (var tbMob in _tbMobs)
                 {
                     // 유닛 생성.
-                    var dtoMob = _mobCreateService.CreateMob(mob.Id, Type_Area.HuntZone);
+                    var dtoMob = _mobCreateService.CreateMob(tbMob.Id, Type_Area.HuntZone);
 
                     if (null == dtoMob)
                     {
@@ -112,18 +120,41 @@ namespace Server_Realm.Worlds.MsgTrigger
                     }
 
                     // Get section.
-                    var section = SectionId.ToSection(dtoMob.Location.Pos);
+                    var spawnPos = SectionId.ToSection(dtoMob.Location.Pos);
 
-                    if (false == spawnMsg.MobUnits.ContainsKey(section))
+                    if (false == spawnMsg.MobUnits.ContainsKey(spawnPos))
                     {
-                        spawnMsg.MobUnits.Add(section, new List<MobUnit>());
+                        spawnMsg.MobUnits.Add(spawnPos, new List<MobUnit>());
+                    }
+
+                    // 드랍 아이템 처리.
+                    var dropItems = new Dictionary<int, List<DropItem>>();
+
+                    for (int aggroOrder = 0; aggroOrder < GameData.MAX_MOB_SPAWN; aggroOrder++)
+                    {
+                        dropItems.Add(aggroOrder, new List<DropItem>());
+
+                        // Create item groups.
+                        // Aggro 순서가 증가할 때마다 드랍 확률 떨어짐.
+                        var dtoItems = _itemCreateService.CreateItemGroups(tbMob.ItemGroupId, aggroOrder);
+
+                        foreach (var item in dtoItems)
+                        {
+                            var dropId = _uniqueIdService.GenerateIdAsLong();
+
+                            dropItems[aggroOrder].Add(new DropItem 
+                            {
+                                DropId = dropId,
+                                Item = item
+                            });
+                        }
                     }
 
                     // Create mob unit.
                     var mu = _unitFactory.CreateUnit<MobUnit>(Type_Unit.Mob);
-                    mu.Setup(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob);
+                    mu.Setup(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob, dropItems);
 
-                    spawnMsg.MobUnits[section].Add(mu);
+                    spawnMsg.MobUnits[spawnPos].Add(mu);
                 }
 
                 // 메시지 전달.

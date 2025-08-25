@@ -14,13 +14,13 @@ namespace GameCore.Datas.Inventory
     {
         public DTO_InventoryInfo()
         {
-            Items = new List<DTO_Item>();
+            Items = new Dictionary<int, DTO_Item>();
         }
 
         /// <summary>
         /// Item slots.
         /// </summary>
         [MemoryPackOrder(0)]
-        public List<DTO_Item> Items { get; set; }
+        public Dictionary<int, DTO_Item> Items { get; set; }
     }
 }

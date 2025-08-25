@@ -45,7 +45,7 @@ namespace Server_Realm.AI.Actions
 
             // States.
             aiActions.Add(Type_AIState.Idle, new AIIdleAction(owner, brain));
-            aiActions.Add(Type_AIState.Dead, new AIDeadAction(owner, brain));
+            aiActions.Add(Type_AIState.Dead, new AIDeadAction(serviceProvider, owner, brain));
 
             // Movement.
             aiActions.Add(Type_AIState.Roam, new AIRoamAction(owner, brain));

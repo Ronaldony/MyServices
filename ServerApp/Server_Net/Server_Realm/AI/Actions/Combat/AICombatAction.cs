@@ -110,6 +110,9 @@ namespace Server_Realm.AI.Actions.Movement
             // 초기화.
             _targetPid = null;
             _nowCooldown = 0;
+
+            // Aggro 초기화.
+            Owner.CombatHandler.ClearAggroPoints();
         }
     }
 }
