@@ -73,6 +73,10 @@ namespace Server_Realm
             var mobCreateService = _serviceProvider.GetRequiredService<MobCreateService>();
             mobCreateService.Initialize();
 
+            // ItemCreateService.
+            var itemCreateService = _serviceProvider.GetRequiredService<ItemCreateService>();
+            itemCreateService.Initialize();
+
             // Utilies.
             ServiceUtility.Initialize(_serviceProvider);
 

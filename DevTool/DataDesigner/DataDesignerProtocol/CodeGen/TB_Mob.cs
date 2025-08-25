@@ -41,5 +41,9 @@ namespace GameCore
         /// 
         /// </summary>
         public Type_MobAttack AttackType { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ItemGroupId { get; set; }
     }
 }

@@ -38,7 +38,7 @@ public class Bow : MonoBehaviour, IWeapon
         var tbWeapon = TDBManagement.Instance.GetById<TB_Weapon>(weaponInfo.weaponId);
         var tbProjectile = TDBManagement.Instance.First<TB_Projectile>(d => d.ProjectileType == tbWeapon.ProjectileType);
 
-        projectile.Setup(tbProjectile.Velocity, tbWeapon.Range);
+        projectile.Setup(tbProjectile.Velocity, tbProjectile.MaxRange);
 
         // Mouse pos.
         Vector3 mousePos = Input.mousePosition;

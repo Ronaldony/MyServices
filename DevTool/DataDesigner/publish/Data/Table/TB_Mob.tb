@@ -1,6 +1,6 @@
 [
   {
-    "Id": 2,
+    "Id": 1,
     "Name": "Ghost",
     "Health": 6,
     "Damage": 3,
@@ -8,10 +8,11 @@
     "AttackCooldown": 1,
     "Speed": 2,
     "Defense": 1,
-    "AttackType": "RasorBall"
+    "AttackType": "RasorBall",
+    "ItemGroupId": 100
   },
   {
-    "Id": 3,
+    "Id": 2,
     "Name": "Blue Slime",
     "Health": 12,
     "Damage": 4,
@@ -19,6 +20,7 @@
     "AttackCooldown": 3,
     "Speed": 3,
     "Defense": 0,
-    "AttackType": "Grape"
+    "AttackType": "Grape",
+    "ItemGroupId": 101
   }
 ]

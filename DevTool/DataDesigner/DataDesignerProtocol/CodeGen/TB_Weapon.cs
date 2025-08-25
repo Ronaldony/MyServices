@@ -18,10 +18,6 @@ namespace GameCore
         /// </summary>
         public int Damage { get; set; }
         /// <summary>
-        /// range
-        /// </summary>
-        public int Range { get; set; }
-        /// <summary>
         /// cool time
         /// </summary>
         public int CoolTime { get; set; }

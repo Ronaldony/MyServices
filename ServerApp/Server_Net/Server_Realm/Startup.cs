@@ -41,8 +41,10 @@ namespace Server_Realm
             
             appBuilder.Services.AddSingleton<CollisionFactory>();
             appBuilder.Services.AddSingleton<ProjectileFactory>();
-            appBuilder.Services.AddSingleton<MobCreateService>();
             appBuilder.Services.AddSingleton<UnitFactory>();
+
+            appBuilder.Services.AddSingleton<MobCreateService>();
+            appBuilder.Services.AddSingleton<ItemCreateService>();
 
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
@@ -56,7 +58,7 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<DBIdentity>();
             appBuilder.Services.AddSingleton<DBUser>();
             appBuilder.Services.AddSingleton<DBPlayerData>();
-
+            
             // servers.
             appBuilder.Services.AddSingleton<HuntZoneServer>();
 

@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mobType: {fileID: 8645841316860437178}
-  _mobId: 2
+  _mobId: 1
 --- !u!114 &4989305157047768865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7887d023b496f742ad8fc7f9caa9427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MobId: 2
 --- !u!114 &9194441132209468459
 MonoBehaviour:
   m_ObjectHideFlags: 0

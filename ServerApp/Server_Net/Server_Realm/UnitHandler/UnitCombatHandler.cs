@@ -57,8 +57,6 @@ namespace Server_Realm.UnitHandler
             // 투사체 이동.
             foreach (var prjt in _projectiles)
             {
-                _logger.LogDebug($"projectile. pos: {prjt.Pos}");
-
                 if (prjt.IsActive)
                 {
                     prjt.MoveNextFrame(deltaTime);
@@ -66,14 +64,12 @@ namespace Server_Realm.UnitHandler
                     // 최대 이동거리 검사.
                     if (prjt.IsMaxRange())
                     {
-                        _logger.LogDebug($"Destroy projectile");
                         _distroyProjectiles.Add(prjt);
                     }
                 }
                 else
                 {
                     // 비활성화 투사체.
-                    _logger.LogDebug($"Destroy projectile");
                     _distroyProjectiles.Add(prjt);
                 }
             }
@@ -88,14 +84,12 @@ namespace Server_Realm.UnitHandler
                     // 최대 이동거리 검사.
                     if (grenade.IsMaxRange())
                     {
-                        _logger.LogDebug($"Destroy grenade");
                         _distroyProjectiles.Add(grenade);
                     }
                 }
                 else
                 {
                     // 비활성화 투사체.
-                    _logger.LogDebug($"Destroy grenade");
                     _distroyProjectiles.Add(grenade);
                 }
             }

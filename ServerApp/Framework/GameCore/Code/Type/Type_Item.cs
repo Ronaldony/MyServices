@@ -13,10 +13,10 @@ namespace GameCore
         /// <summary>
         /// 
         /// </summary>
-        Stamina = 3,
+        Ingredient = 3,
         /// <summary>
         /// 
         /// </summary>
-        Heart = 4
+        Consume = 4
     }
 }

@@ -22,10 +22,10 @@ public class Projectile : MonoBehaviour
         DetectFireDistance();
     }
 
-    public void Setup(float speed, float projectileRange)
+    public void Setup(float speed, float range)
     {
-        this._moveSpeed = speed;
-        this._range = projectileRange;
+        _moveSpeed = speed;
+        _range = range;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -66,6 +66,8 @@ public class Projectile : MonoBehaviour
     private void DetectFireDistance()
     {
         // Detect fire distance.
+        Debug.Log($"arrow range:{_range}, start: {new Vector2(startPosition.x, startPosition.y)} pos: {new Vector2(transform.position.x, transform.position.y)}");
+
         if (Vector3.Distance(transform.position, startPosition) > _range)
         {
             Destroy(gameObject);

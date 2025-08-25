@@ -3,7 +3,6 @@
     "Id": 1,
     "Name": "Sword",
     "Damage": 3,
-    "Range": 1,
     "CoolTime": 2,
     "CollisionType": "Sword",
     "ProjectileType": "None"
@@ -12,7 +11,6 @@
     "Id": 2,
     "Name": "Staff",
     "Damage": 5,
-    "Range": 6,
     "CoolTime": 4,
     "CollisionType": "None",
     "ProjectileType": "Rasor"
@@ -21,7 +19,6 @@
     "Id": 3,
     "Name": "Bow",
     "Damage": 2,
-    "Range": 5,
     "CoolTime": 2,
     "CollisionType": "None",
     "ProjectileType": "Arrow"

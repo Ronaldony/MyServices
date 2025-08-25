@@ -1,0 +1,39 @@
+{
+  "Name": "TB_Item",
+  "Category": "",
+  "Description": "",
+  "Columns": [
+    {
+      "Idx": 1,
+      "Name": "Id",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": "Schema ID"
+    },
+    {
+      "Idx": 2,
+      "Name": "Name",
+      "IsIndexed": false,
+      "Type": "string",
+      "RefTable": "",
+      "Summary": "name"
+    },
+    {
+      "Idx": 3,
+      "Name": "ItemType",
+      "IsIndexed": false,
+      "Type": "Type_Item",
+      "RefTable": "",
+      "Summary": "Type_Item"
+    },
+    {
+      "Idx": 4,
+      "Name": "RateRef",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "TB_ItemRate",
+      "Summary": "Item rate"
+    }
+  ]
+}

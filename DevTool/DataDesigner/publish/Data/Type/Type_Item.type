@@ -11,12 +11,12 @@
   },
   {
     "Id": 3,
-    "Name": "Stamina",
+    "Name": "Ingredient",
     "Summary": ""
   },
   {
     "Id": 4,
-    "Name": "Heart",
+    "Name": "Consume",
     "Summary": ""
   }
 ]

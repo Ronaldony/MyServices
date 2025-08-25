@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Mobs
 {
+    using GameCore.Datas.Items;
     using GameCore.Datas.Plays;
-    using System.Numerics;
 
     /// <summary>
     /// DTO_Mob.
@@ -18,7 +18,7 @@ namespace GameCore.Datas.Mobs
         {
             Stat = new DTO_Stat();
             Location = new DTO_Location();
-            DropItems = new List<Type_Item>();
+            DropItems = new List<DTO_Item>();
         }
 
         /// <summary>
@@ -49,6 +49,6 @@ namespace GameCore.Datas.Mobs
         /// 드랍 아이템.
         /// </summary>
         [MemoryPackOrder(5)]
-        public List<Type_Item> DropItems { get; set; }
+        public List<DTO_Item> DropItems { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "Rate": 0,
+    "Rank": "None"
+  },
+  {
+    "Id": 1,
+    "Name": "Normal",
+    "Rate": 1,
+    "Rank": "Nomral"
+  },
+  {
+    "Id": 2,
+    "Name": "Rare",
+    "Rate": 2,
+    "Rank": "Rare"
+  },
+  {
+    "Id": 3,
+    "Name": "Unique",
+    "Rate": 3,
+    "Rank": "Unique"
+  }
+]

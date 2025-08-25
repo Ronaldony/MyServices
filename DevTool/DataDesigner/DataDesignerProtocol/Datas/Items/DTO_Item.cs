@@ -20,5 +20,11 @@ namespace GameCore.Datas.Items
         /// </summary>
         [MemoryPackOrder(1)]
         public int Count { get; set; }
+
+        /// <summary>
+        /// Rate.
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public int Rate { get; set; }
     }
 }

@@ -15,8 +15,8 @@
     "Name": "Arrow",
     "Radius": 0.4,
     "ProjectileType": "Arrow",
-    "MaxRange": 1,
-    "Velocity": 5,
+    "MaxRange": 7,
+    "Velocity": 8,
     "IsPenetrates": false,
     "IsGrenade": false,
     "Duration": 0.0

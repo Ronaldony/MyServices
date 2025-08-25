@@ -29,14 +29,6 @@
     },
     {
       "Idx": 4,
-      "Name": "Range",
-      "IsIndexed": false,
-      "Type": "int",
-      "RefTable": "",
-      "Summary": "range"
-    },
-    {
-      "Idx": 5,
       "Name": "CoolTime",
       "IsIndexed": false,
       "Type": "int",
@@ -44,7 +36,7 @@
       "Summary": "cool time"
     },
     {
-      "Idx": 6,
+      "Idx": 5,
       "Name": "CollisionType",
       "IsIndexed": false,
       "Type": "Type_Collision",
@@ -52,7 +44,7 @@
       "Summary": "collision type"
     },
     {
-      "Idx": 7,
+      "Idx": 6,
       "Name": "ProjectileType",
       "IsIndexed": false,
       "Type": "Type_Projectile",

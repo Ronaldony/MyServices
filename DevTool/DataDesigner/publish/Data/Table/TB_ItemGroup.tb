@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "GroupId": 0,
+    "ItemRefId": 0,
+    "MaxCount": 0,
+    "RateWeight": 0
+  },
+  {
+    "Id": 1,
+    "Name": "Group100_Gold",
+    "GroupId": 100,
+    "ItemRefId": 100,
+    "MaxCount": 10,
+    "RateWeight": 1
+  },
+  {
+    "Id": 2,
+    "Name": "Group100_Stamina",
+    "GroupId": 100,
+    "ItemRefId": 200,
+    "MaxCount": 2,
+    "RateWeight": 0
+  },
+  {
+    "Id": 10,
+    "Name": "Group101_Gold",
+    "GroupId": 101,
+    "ItemRefId": 100,
+    "MaxCount": 10,
+    "RateWeight": 1
+  },
+  {
+    "Id": 11,
+    "Name": "Group101_Heart",
+    "GroupId": 101,
+    "ItemRefId": 201,
+    "MaxCount": 2,
+    "RateWeight": 0
+  }
+]

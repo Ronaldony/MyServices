@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace Server_Realm.Units.Mob
+﻿namespace Server_Realm.Units.Mob
 {
     using GameCore;
     using GameCore.Datas.Projectiles;
@@ -41,10 +39,6 @@ namespace Server_Realm.Units.Mob
             // 원거리 공격.
             switch (Mob.AttackType)
             {
-                // 근접 공격.
-                case Type_MobAttack.Melee:
-                    //AttackMelee(target);
-                    break;
                 // 원거리 공격.
                 case Type_MobAttack.RasorBall:
                     AttackRange(Type_Projectile.RasorBall, target);
@@ -53,21 +47,6 @@ namespace Server_Realm.Units.Mob
                     AttackRange(Type_Projectile.Grape, target);
                     break;
             }
-        }
-
-        /// <summary>
-        /// 근접 공격.
-        /// </summary>
-        private void AttackMelee(Unit target)
-        {
-            //var angle = Vector2.Normalize(this.MovementHandler.NowPos() - target.MovementHandler.NowPos());
-
-            // 패킷 전송 - 근접 공격.
-            //WorldSection.SendPacket_AroundSections(GamePacketCode.SC_AttackMelee, new GamePacketSC_AttackMelee
-            //{
-            //    UnitId = this.UnitId,
-            //    Angle = angle
-            //});
         }
 
         /// <summary>

@@ -74,6 +74,14 @@
       "Type": "Type_MobAttack",
       "RefTable": "",
       "Summary": ""
+    },
+    {
+      "Idx": 10,
+      "Name": "ItemGroupId",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
     }
   ]
 }

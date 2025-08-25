@@ -6,6 +6,7 @@ using System.Numerics;
 namespace Server_Realm.Core.Services
 {
     using GameCore;
+    using GameCore.Datas.Items;
     using GameCore.Datas.Mobs;
     using GameCore.Interfaces;
 
@@ -19,8 +20,8 @@ namespace Server_Realm.Core.Services
         private readonly ILogger<MobCreateService> _logger;
 
         // Services.
-        private readonly IServiceProvider _serviceProvider;
         private readonly ITDBService _tdbService;
+        private readonly ItemCreateService _itemCreateService;
 
         // Datas.
         private readonly List<Type_Item> _itemTypes;
@@ -34,8 +35,8 @@ namespace Server_Realm.Core.Services
         {
             _logger = serviceProvider.GetRequiredService<ILogger<MobCreateService>>();
 
-            _serviceProvider = serviceProvider;
-            _tdbService = serviceProvider.GetService<ITDBService>();
+            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
+            _itemCreateService = serviceProvider.GetRequiredService<ItemCreateService>();
 
             _itemTypes = Enum.GetValues<Type_Item>().Where(d => d != Type_Item.None).ToList();
             
@@ -72,14 +73,13 @@ namespace Server_Realm.Core.Services
         /// </summary>
         public DTO_Mob CreateMob(int refId, Type_Area areaType)
         {
-            var tbMob = _tdbService.GetById<TB_Mob>(refId);
-            var confArea = _confAreas[areaType];
-
-            // 데이터 검사.
-            if (tbMob == null || confArea == null)
+            if (false == _confAreas.ContainsKey(areaType))
             {
                 return null;
             }
+
+            var tbMob = _tdbService.GetById<TB_Mob>(refId);
+            var confArea = _confAreas[areaType];
 
             // 유닛 생성.
             var dtoMob = new DTO_Mob
@@ -107,10 +107,8 @@ namespace Server_Realm.Core.Services
             dtoMob.AttackType = tbMob.AttackType;
 
             // DropItems.
-            for (int repeat = 0; repeat < _rand.Next(0, 4); repeat++)
-            {
-                dtoMob.DropItems.Add(_itemTypes.OrderBy(d => new Guid()).First());
-            }
+            var dtoItems = _itemCreateService.CreateItemGroups(tbMob.ItemGroupId);
+            dtoMob.DropItems.AddRange(dtoItems);
 
             _logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
 
@@ -125,10 +123,10 @@ namespace Server_Realm.Core.Services
             var tbAreas = _tbAreaSpawns[area];
             var tbArea = tbAreas.OrderBy(d => Guid.NewGuid()).First();
 
-            return new Vector2(30, 10);
-            //return new Vector2(
-            //    x: _rand.Next(tbArea.X - SPAWN_RANGE, tbArea.X + SPAWN_RANGE),
-            //    y: _rand.Next(tbArea.Y - SPAWN_RANGE, tbArea.Y + SPAWN_RANGE));
+            //return new Vector2(30, 10);
+            return new Vector2(
+                x: _rand.Next(tbArea.X - SPAWN_RANGE, tbArea.X + SPAWN_RANGE),
+                y: _rand.Next(tbArea.Y - SPAWN_RANGE, tbArea.Y + SPAWN_RANGE));
         }
     }
 }
