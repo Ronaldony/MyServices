@@ -8,8 +8,8 @@ using System.Net.Sockets;
 namespace Server_Realm.Server.HuntZone
 {
     using Framework.Core.Session;
-    using Server_Realm.Core.ActorProviders;
     using Server_Realm.Worlds.Msg;
+    using Server_Realm.Zones;
 
     /// <summary>
     /// HuntZoneServer.

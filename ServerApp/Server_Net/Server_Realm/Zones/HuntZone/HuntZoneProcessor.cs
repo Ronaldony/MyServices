@@ -1,16 +1,15 @@
 ﻿using Akka.Actor;
 using Akka.Event;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
 using System.Reactive.Linq;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Server_Realm.Zones.HuntZone
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_Realm.Core.ActorProviders;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
     using Server_Realm.Core.Utilities;
@@ -19,6 +18,7 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Worlds.MsgTrigger;
+    using Server_Realm.Zones;
 
     /// <summary>
     /// HuntZoneProcessor.
@@ -28,7 +28,6 @@ namespace Server_Realm.Zones.HuntZone
         private readonly ILogger<HuntZoneProcessor> _logger;
 
         // Services.
-        private readonly IServiceProvider _serviceProvider;
         private readonly IDataSerializer _dataSerializer;
         private readonly IMemoryPoolService _memoryPoolService;
 
@@ -65,23 +64,23 @@ namespace Server_Realm.Zones.HuntZone
 
         public HuntZoneProcessor()
         {
-            _serviceProvider = ServiceUtility.GetServiceProvider();
+            var serviceProvider = ServiceUtility.GetServiceProvider();
 
-            _logger = _serviceProvider.GetRequiredService<ILogger<HuntZoneProcessor>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneProcessor>>();
 
             // service.
-            _dataSerializer = _serviceProvider.GetRequiredService<IDataSerializer>();
-            _memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
+            _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
+            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
             // Factories.
-            _unitFactory = _serviceProvider.GetRequiredService<UnitFactory>();
+            _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
 
             // Zones.
-            _huntZoneServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
-            _zoneProcessorProvider = _serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
+            _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
+            _zoneProcessorProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
 
             // Worlds.
-            _worldGroup = Initialize_WorldGroup(_serviceProvider, this);
+            _worldGroup = Initialize_WorldGroup(serviceProvider, this);
             _worldUnitCollector = new WorldUnitCollector();
 
             // Frame time.
@@ -109,7 +108,7 @@ namespace Server_Realm.Zones.HuntZone
                                             });
 
             // Message trigger.
-            _msgTrgSpawnMob = new WorldMsgTrigger_SpawnMob(_serviceProvider, this);
+            _msgTrgSpawnMob = new WorldMsgTrigger_SpawnMob(serviceProvider, this);
             _msgTrgSpawnMob.Start();
         }
 
@@ -141,11 +140,13 @@ namespace Server_Realm.Zones.HuntZone
             Receive<WorldMsg_GamePacket>(wm =>
             {
                 // World player.
-                var pu = _worldGroup.PlayerUnitDict.GetValueOrDefault(wm.Pid);
-                if (default == pu)
+                if (false == _worldGroup.PlayerUnitDict.ContainsKey(wm.Pid))
                 {
                     return;
                 }
+
+                // Get pu.
+                var pu = _worldGroup.PlayerUnitDict[wm.Pid];
 
                 switch (wm.PacketCode)
                 {

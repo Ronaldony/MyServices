@@ -6,7 +6,7 @@ namespace Server_Realm.Core.Factories
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Server_Realm.Collisions;
+    using Server_Realm.Context.Collisions;
 
     /// <summary>
     /// CollisionFactory.

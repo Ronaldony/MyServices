@@ -1,17 +1,16 @@
 ﻿using Akka.Actor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServerEngine.Core.Services.Interfaces;
 
 namespace Server_Realm.Actors.Post
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.DBO;
     using GameCore.Datas.Items;
     using GameCore.Datas.Post;
-    using Microsoft.AspNetCore.Authentication;
-    using Server_Realm.Core.ActorProviders;
     using Server_Realm.Core.Utilities;
-    using ServerEngine.Core.Services.Interfaces;
+    using Server_Realm.Domain;
+    using Server_Realm.Domain.Play.Datas;
 
     /// <summary>
     /// PostPushActor.
@@ -21,8 +20,8 @@ namespace Server_Realm.Actors.Post
         private readonly ILogger<PostPushActor> _logger;
 
         private readonly IDataSerializer _dataSerializer;
-
-        private readonly HuntZoneProcessorProvider _huntZoneProcessorProvider;
+        private readonly IMemoryPoolService _memoryPoolService;
+        private readonly PlayDomainProvider _playDomainProvider;
 
         private readonly DBPost _dbPost;
 
@@ -33,7 +32,8 @@ namespace Server_Realm.Actors.Post
             _logger = serviceProvider.GetRequiredService<ILogger<PostPushActor>>();
 
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
-            _huntZoneProcessorProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
+            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
+            _playDomainProvider = serviceProvider.GetRequiredService<PlayDomainProvider>();
 
             _dbPost = serviceProvider.GetRequiredService<DBPost>();
 
@@ -55,7 +55,7 @@ namespace Server_Realm.Actors.Post
         public async Task FlushAsync()
         {
             var dboPosts = await _dbPost.SelectLimitAsync();
-            var dtoPostDict = new Dictionary<string, List<DTO_Post>>();
+            var domainMsg = new PlayDomainMsg_PostPush();
 
             // Read posts.
             foreach (var post in dboPosts)
@@ -64,19 +64,21 @@ namespace Server_Realm.Actors.Post
                 var dtoItems = _dataSerializer.Deserialize<List<DTO_Item>>(post.Items);
 
                 // Pid 확인.
-                if (dtoPostDict.ContainsKey(post.Pid))
+                if (domainMsg.Posts.ContainsKey(post.Pid))
                 {
-                    dtoPostDict.Add(post.Pid, new List<DTO_Post>());
+                    domainMsg.Posts.Add(post.Pid, new List<DTO_Post>());
                 }
 
                 // Add Post.
-                dtoPostDict[post.Pid].Add(new DTO_Post
+                domainMsg.Posts[post.Pid].Add(new DTO_Post
                 {
                     PostUid = post.Uid,
                     Items = dtoItems,
                 });
             }
 
+            // Tell.
+            _playDomainProvider.Tell<PlayDomainMsg_PostPush>(domainMsg);
         }
     }
 }

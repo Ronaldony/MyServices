@@ -6,7 +6,7 @@
     public static class GamePacketCode
     {
         //////////////////////////////////////////////////////////////////////
-        /// UDP 
+        /// Game
 
         // Auth.
         public const int CS_Enter = 10;                         // 플레이어 진입.

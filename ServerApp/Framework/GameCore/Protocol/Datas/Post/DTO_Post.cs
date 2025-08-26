@@ -1,4 +1,5 @@
 ﻿using MemoryPack;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Post
@@ -23,9 +24,15 @@ namespace GameCore.Datas.Post
         public string PostUid { get; set; }
 
         /// <summary>
-        /// 우편물.
+        /// 수령 여부.
         /// </summary>
         [MemoryPackOrder(1)]
+        public bool IsRetrived { get; set; }
+
+        /// <summary>
+        /// 우편물.
+        /// </summary>
+        [MemoryPackOrder(2)]
         public List<DTO_Item> Items { get; set; }
     }
 }

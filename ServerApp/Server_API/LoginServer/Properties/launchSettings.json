@@ -10,7 +10,7 @@
     },
     "https": {
       "commandName": "Project",
-      "commandLineArgs": "-N LoginServer -C appsettings.Development.json -P 9001 -D 1 -S 1",
+      "commandLineArgs": "-N LoginServer -C appsettings.Development.Company.json -P 9001 -D 1 -S 1",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

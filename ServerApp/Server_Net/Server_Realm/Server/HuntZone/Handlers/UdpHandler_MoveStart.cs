@@ -3,13 +3,12 @@ using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Network.UDP;
 
-namespace Server_Realm.Server.World.Handlers
+namespace Server_Realm.Server.HuntZone.Handlers
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_Realm.Core.ActorProviders;
-    using Server_Realm.Server.HuntZone;
     using Server_Realm.Worlds.Msg;
+    using Server_Realm.Zones;
 
     /// <summary>
     /// UdpHandler_Move.

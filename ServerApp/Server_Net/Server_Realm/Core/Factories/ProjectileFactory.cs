@@ -7,8 +7,8 @@ namespace Server_Realm.Core.Factories
 {
     using GameCore;
     using GameCore.Interfaces;
-    using Server_Realm.Entities;
-    using Server_Realm.Projectiles;
+    using Server_Realm.Context.Projectiles;
+    using Server_Realm.Context.Units;
 
     /// <summary>
     /// ProjectileFactory.

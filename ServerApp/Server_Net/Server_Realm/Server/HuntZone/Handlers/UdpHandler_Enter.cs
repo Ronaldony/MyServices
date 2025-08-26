@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Network.UDP;
 
-namespace Server_Realm.Server.World.Handlers
+namespace Server_Realm.Server.HuntZone.Handlers
 {
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObjects;
@@ -13,7 +13,7 @@ namespace Server_Realm.Server.World.Handlers
     using Server_Realm.Server.HuntZone;
 
     /// <summary>
-    /// UdpHandler_Login.
+    /// UdpHandler_Enter.
     /// </summary>
     public class UdpHandler_Enter : UdpHandler
     {
