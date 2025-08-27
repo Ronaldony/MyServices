@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server_Net", "Server_Net", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server_Realm", "Server_Net\Server_Realm\Server_Realm.csproj", "{86582E9B-9CFB-4E55-BBFB-776BA31EB8EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server_PlayHub", "Server_Net\Server_PlayHub\Server_PlayHub.csproj", "{2ED9DB60-1C50-4D81-B768-4D4F450241C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,14 @@ Global
 		{86582E9B-9CFB-4E55-BBFB-776BA31EB8EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86582E9B-9CFB-4E55-BBFB-776BA31EB8EE}.Release|x64.ActiveCfg = Release|x64
 		{86582E9B-9CFB-4E55-BBFB-776BA31EB8EE}.Release|x64.Build.0 = Release|x64
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Debug|x64.Build.0 = Debug|Any CPU
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +98,7 @@ Global
 		{FBA5288E-8BA6-4425-85BE-B93A8E125784} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
 		{E1A0FFF1-A175-47D1-B44D-E6E4333955BF} = {FAA23A8F-E86C-491B-92A9-2FFCCD6ABFEB}
 		{86582E9B-9CFB-4E55-BBFB-776BA31EB8EE} = {4F3C2510-E964-4200-ACE9-7104D508714E}
+		{2ED9DB60-1C50-4D81-B768-4D4F450241C9} = {4F3C2510-E964-4200-ACE9-7104D508714E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78DA1A54-3F98-4B84-9CCE-E1B93E7B8E05}

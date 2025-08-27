@@ -5,11 +5,11 @@ using ServerEngine.Network.UDP;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 
-namespace Server_Realm.Server.HuntZone
+namespace Server_PlayHub.Server.PlayDomain
 {
     using Framework.Core.Session;
-    using Server_Realm.Domain;
-    using Server_Realm.Worlds.Msg;
+    using Server_PlayHub.Domain;
+    using Server_PlayHub.Worlds.Msg;
 
     /// <summary>
     /// PlayDomainServer.

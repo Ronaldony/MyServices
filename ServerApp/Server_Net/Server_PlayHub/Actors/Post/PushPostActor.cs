@@ -10,32 +10,46 @@ namespace Server_Realm.Actors.Post
     using GameCore.Datas.Post;
     using Server_Realm.Core.Utilities;
     using Server_Realm.Domain;
-    using Server_Realm.Domain.Play.Datas;
+    using Server_Realm.Domain.Play.Msg;
+    using System.Reactive.Linq;
 
     /// <summary>
-    /// PostPushActor.
+    /// PushPostActor.
     /// </summary>
-    public class PostPushActor : ReceiveActor
+    public class PushPostActor : ReceiveActor
     {
-        private readonly ILogger<PostPushActor> _logger;
+        private readonly ILogger<PushPostActor> _logger;
 
         private readonly IDataSerializer _dataSerializer;
         private readonly IMemoryPoolService _memoryPoolService;
+
+        // Provider.
+        private readonly PushPostActorProvider _pushPostActorProvider;
         private readonly PlayDomainProvider _playDomainProvider;
 
         private readonly DBPost _dbPost;
 
-        public PostPushActor()
+        public PushPostActor()
         {
             var serviceProvider = ServiceUtility.GetServiceProvider();
 
-            _logger = serviceProvider.GetRequiredService<ILogger<PostPushActor>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<PushPostActor>>();
 
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
+
+            _pushPostActorProvider = serviceProvider.GetRequiredService<PushPostActorProvider>();
             _playDomainProvider = serviceProvider.GetRequiredService<PlayDomainProvider>();
 
             _dbPost = serviceProvider.GetRequiredService<DBPost>();
+
+            // Alarm.
+            Observable
+                .Interval(TimeSpan.FromSeconds(1))      // 1초 마다
+                .Subscribe(d =>                         // 메시지 전달.
+                {
+                    _pushPostActorProvider.Tell("flush");
+                });
 
             // Setup message.
             ReceiveAsync<string>(async msg =>
@@ -55,7 +69,7 @@ namespace Server_Realm.Actors.Post
         public async Task FlushAsync()
         {
             var dboPosts = await _dbPost.SelectLimitAsync();
-            var domainMsg = new PlayDomainMsg_PostPush();
+            var domainMsg = new PlayDomainMsg_PushPost();
 
             // Read posts.
             foreach (var post in dboPosts)
@@ -64,7 +78,7 @@ namespace Server_Realm.Actors.Post
                 var dtoItems = _dataSerializer.Deserialize<List<DTO_Item>>(post.Items);
 
                 // Pid 확인.
-                if (domainMsg.Posts.ContainsKey(post.Pid))
+                if (false == domainMsg.Posts.ContainsKey(post.Pid))
                 {
                     domainMsg.Posts.Add(post.Pid, new List<DTO_Post>());
                 }
@@ -77,8 +91,8 @@ namespace Server_Realm.Actors.Post
                 });
             }
 
-            // Tell.
-            _playDomainProvider.Tell<PlayDomainMsg_PostPush>(domainMsg);
+            // Domain에 메시지 전달.
+            _playDomainProvider.Tell<PlayDomainMsg_PushPost>(domainMsg);
         }
     }
 }

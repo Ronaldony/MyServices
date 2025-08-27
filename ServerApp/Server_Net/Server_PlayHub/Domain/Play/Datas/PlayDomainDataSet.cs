@@ -1,15 +1,16 @@
 ﻿using System.Threading.Tasks.Dataflow;
 
-namespace Server_Realm.Domain.Play.Datas
+namespace Server_PlayHub.Domain.Play.Datas
 {
     using GameCore.Datas.Player;
+    using Server_PlayHub.Domain.Play.Msg;
 
     /// <summary>
-    /// PlayDomainData.
+    /// PlayDomainDataSet.
     /// </summary>
-    public class PlayDomainData
+    public class PlayDomainDataSet
     {
-        public PlayDomainData()
+        public PlayDomainDataSet()
         {
         }
 
@@ -19,6 +20,11 @@ namespace Server_Realm.Domain.Play.Datas
         public string Pid { get; set; }
 
         /// <summary>
+        /// Domain 접속 여부.
+        /// </summary>
+        public bool IsEnter { get; set; }
+
+        /// <summary>
         /// PostInfo.
         /// </summary>
         public DTO_PostInfo PostInfo { get; set; }
@@ -26,6 +32,6 @@ namespace Server_Realm.Domain.Play.Datas
         /// <summary>
         /// 메시지 파이프라인.
         /// </summary>
-        public ActionBlock<(PlayDomainData, PlayDomainMsg)> DomainMsgPipeline { get; set; }
+        public ActionBlock<(PlayDomainDataSet, PlayDomainMsg)> DomainMsgPipeline { get; set; }
     }
 }

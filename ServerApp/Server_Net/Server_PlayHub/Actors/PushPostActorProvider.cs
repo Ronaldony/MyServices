@@ -1,18 +1,18 @@
 ﻿using Akka.Actor;
 using Server_Realm.Actors.Post;
 
-namespace Server_Realm.Domain
+namespace Server_Realm.Actors
 {
     /// <summary>
-    /// PlayDomainProvider.
+    /// PushPostActorProvider.
     /// </summary>
-    public class PlayDomainProvider
+    public class PushPostActorProvider
     {
         private IActorRef _actor;
 
-        public PlayDomainProvider(ActorSystem actorSystem)
+        public PushPostActorProvider(ActorSystem actorSystem)
         {
-            _actor = actorSystem.ActorOf<PostPushActor>();
+            _actor = actorSystem.ActorOf<PushPostActor>();
         }
 
         /// <summary>

@@ -1,14 +1,13 @@
-﻿
-namespace Server_Realm.Domain.Play.Datas
+﻿namespace Server_PlayHub.Domain.Play.Msg
 {
     using GameCore.Datas.Post;
 
     /// <summary>
-    /// PlayDomainMsg_PostPush.
+    /// PlayDomainMsg_PushPost.
     /// </summary>
-    public class PlayDomainMsg_PostPush : PlayDomainMsg
+    public class PlayDomainMsg_PushPost : PlayDomainMsg
     {
-        public PlayDomainMsg_PostPush()
+        public PlayDomainMsg_PushPost()
         {
             Posts = new Dictionary<string, List<DTO_Post>>();
         }
