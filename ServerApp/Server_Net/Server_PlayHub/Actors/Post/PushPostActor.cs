@@ -2,16 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
+using System.Reactive.Linq;
 
-namespace Server_Realm.Actors.Post
+namespace Server_PlayHub.Actors.Post
 {
     using Framework.Core.Database.DAO;
     using GameCore.Datas.Items;
     using GameCore.Datas.Post;
-    using Server_Realm.Core.Utilities;
-    using Server_Realm.Domain;
-    using Server_Realm.Domain.Play.Msg;
-    using System.Reactive.Linq;
+    using Server_PlayHub.Core.Utilities;
+    using Server_PlayHub.Hubs;
+    using Server_PlayHub.Hubs.Msg;
 
     /// <summary>
     /// PushPostActor.
@@ -25,7 +25,7 @@ namespace Server_Realm.Actors.Post
 
         // Provider.
         private readonly PushPostActorProvider _pushPostActorProvider;
-        private readonly PlayDomainProvider _playDomainProvider;
+        private readonly PlayHubProvider _playHubProvider;
 
         private readonly DBPost _dbPost;
 
@@ -39,7 +39,7 @@ namespace Server_Realm.Actors.Post
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
             _pushPostActorProvider = serviceProvider.GetRequiredService<PushPostActorProvider>();
-            _playDomainProvider = serviceProvider.GetRequiredService<PlayDomainProvider>();
+            _playHubProvider = serviceProvider.GetRequiredService<PlayHubProvider>();
 
             _dbPost = serviceProvider.GetRequiredService<DBPost>();
 
@@ -69,7 +69,7 @@ namespace Server_Realm.Actors.Post
         public async Task FlushAsync()
         {
             var dboPosts = await _dbPost.SelectLimitAsync();
-            var domainMsg = new PlayDomainMsg_PushPost();
+            var domainMsg = new HubMsg_PushPost();
 
             // Read posts.
             foreach (var post in dboPosts)
@@ -92,7 +92,7 @@ namespace Server_Realm.Actors.Post
             }
 
             // Domain에 메시지 전달.
-            _playDomainProvider.Tell<PlayDomainMsg_PushPost>(domainMsg);
+            _playHubProvider.Tell<HubMsg_PushPost>(domainMsg);
         }
     }
 }

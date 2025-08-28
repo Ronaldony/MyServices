@@ -17,6 +17,7 @@ namespace Server_PlayHub
     using Framework.Core.Database.Attributes;
     using GameCore.Interfaces;
     using Server_PlayHub.Core.Utilities;
+    using Server_PlayHub.Server.Hub;
 
     internal class StartupServer
     {
@@ -100,8 +101,8 @@ namespace Server_PlayHub
         private void BootstrapServer()
         {
             // Start server.
-            var worldServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
-            worldServer.Start(_arguments.Port, false);
+            var hubServer = _serviceProvider.GetRequiredService<HubServer>();
+            hubServer.Start(_arguments.Port, false);
         }
     }
 }

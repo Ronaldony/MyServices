@@ -1,8 +1,9 @@
 ﻿using Akka.Actor;
-using Server_Realm.Actors.Post;
 
-namespace Server_Realm.Actors
+namespace Server_PlayHub.Actors
 {
+    using Server_PlayHub.Actors.Post;
+
     /// <summary>
     /// PushPostActorProvider.
     /// </summary>

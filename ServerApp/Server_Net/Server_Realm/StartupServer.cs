@@ -123,8 +123,8 @@ namespace Server_Realm
         private void BootstrapServer()
         {
             // Start server.
-            var worldServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
-            worldServer.Start(_arguments.Port, false);
+            var huntZoneServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
+            huntZoneServer.Start(_arguments.Port, false);
         }
     }
 }

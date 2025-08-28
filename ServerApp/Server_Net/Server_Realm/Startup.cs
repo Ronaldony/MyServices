@@ -15,7 +15,6 @@ namespace Server_Realm
     using GameCore.Interfaces;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
-    using Server_Realm.Domain;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.Zones;
 
@@ -50,7 +49,6 @@ namespace Server_Realm
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
             appBuilder.Services.AddSingleton<HuntZoneProcessorProvider>();
-            appBuilder.Services.AddSingleton<PlayDomainProvider>();
 
             // Infos.
             appBuilder.Services.AddSingleton<DBInventoryInfo>();

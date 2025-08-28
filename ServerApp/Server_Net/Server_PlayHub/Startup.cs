@@ -13,6 +13,9 @@ namespace Server_PlayHub
     using Framework.Core.Database.DataObjects;
     using GameCore;
     using GameCore.Interfaces;
+    using Server_PlayHub.Actors;
+    using Server_PlayHub.Hubs;
+    using Server_PlayHub.Server.Hub;
 
     /// <summary>
     /// Startup.
@@ -37,6 +40,8 @@ namespace Server_PlayHub
 
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
+            appBuilder.Services.AddSingleton<PushPostActorProvider>();
+            appBuilder.Services.AddSingleton<PlayHubProvider>();
 
             // Infos.
             appBuilder.Services.AddSingleton<DBInventoryInfo>();
@@ -48,6 +53,9 @@ namespace Server_PlayHub
             appBuilder.Services.AddSingleton<DBIdentity>();
             appBuilder.Services.AddSingleton<DBUser>();
             appBuilder.Services.AddSingleton<DBPlayerData>();
+
+            // servers.
+            appBuilder.Services.AddSingleton<HubServer>();
 
             // Transient.
             appBuilder.Services.AddTransient<SessionInfoObject>();
