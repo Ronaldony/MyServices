@@ -17,10 +17,16 @@ namespace Server_PlayHub
         public string ConfigFile { get; set; }
 
         /// <summary>
-        /// UDP Port.
+        /// Port for HuntZone.
         /// </summary>
-        [ArgRequired(PromptIfMissing = true), ArgDescription("Port")]
-        public int Port { get; set; }
+        [ArgRequired(PromptIfMissing = true), ArgDescription("PortHuntZone")]
+        public int PortHuntZone { get; set; }
+
+        /// <summary>
+        /// Port for PlayHub.
+        /// </summary>
+        [ArgRequired(PromptIfMissing = true), ArgDescription("PortPlayHub")]
+        public int PortPlayHub { get; set; }
 
         /// <summary>
         /// DataCenter.

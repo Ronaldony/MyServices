@@ -1,4 +1,6 @@
 ﻿using MemoryPack;
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Player

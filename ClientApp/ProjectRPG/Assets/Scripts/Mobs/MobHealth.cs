@@ -62,7 +62,7 @@ public class MobHealth : MonoBehaviour
             Instantiate(_deathVFXPrefab, transform.position, Quaternion.identity);
 
             // Drop item.
-            GetComponent<PickUpSpawner>().DropItems();
+            //GetComponent<PickUpSpawner>().DropItems();
 
             // Destroy.
             Destroy(gameObject);

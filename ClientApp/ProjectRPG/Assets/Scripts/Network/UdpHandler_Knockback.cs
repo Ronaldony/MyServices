@@ -1,8 +1,6 @@
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
@@ -10,7 +8,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_Knockback.
     /// </summary>
-    public class UdpHandler_Knockback : UdpHandler
+    public class UdpHandler_Knockback : GamePacketHandler
     {
         private readonly GamePacketCS_KnockBack _sendPacket;
 

@@ -25,6 +25,19 @@ namespace Server_Realm.Zones.HuntZone
         }
 
         /// <summary>
+        /// Check valid section.
+        /// </summary>
+        public bool IsValidSection(SectionId section)
+        {
+            if (_worldGroup.AroundSectionDict.ContainsKey(section))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Get around sections.
         /// </summary>
         public HashSet<SectionId> GetAroundSections(SectionId section)

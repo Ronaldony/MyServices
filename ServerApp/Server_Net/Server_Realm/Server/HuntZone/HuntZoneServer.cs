@@ -73,7 +73,7 @@ namespace Server_Realm.Server.HuntZone
         /// </summary>
         protected override void OnNetError(SocketError sockError)
         {
-            _logger.LogError($"GameServer error. code: {sockError}");
+            _logger.LogError($"HuntZoneServer error. code: {sockError}");
         }
 
         /// <summary>

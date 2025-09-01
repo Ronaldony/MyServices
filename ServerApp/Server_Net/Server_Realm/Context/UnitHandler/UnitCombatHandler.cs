@@ -122,7 +122,8 @@ namespace Server_Realm.Context.UnitHandler
             if (true == srcHitbox.IsHit(_owner.UnitCollision.GetHitbox()))
             {
                 _logger.LogDebug($"Hit unit. unit type: {_owner.UnitType}");
-                _owner.StatHandler.Damage(damage);
+
+                var hitDamage = _owner.StatHandler.Damage(damage);
 
                 // Aggro 유닛 데미지 축적.
                 if (false == _aggroPoints.ContainsKey(aggroUnit))
@@ -130,7 +131,7 @@ namespace Server_Realm.Context.UnitHandler
                     _aggroPoints.Add(aggroUnit, 0);
                 }
 
-                _aggroPoints[aggroUnit] += damage;
+                _aggroPoints[aggroUnit] += hitDamage;
 
                 return true;
             }

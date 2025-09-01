@@ -103,8 +103,6 @@ namespace Server_Realm.Core.Services
             // AttackType.
             dtoMob.AttackType = tbMob.AttackType;
 
-            _logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
-
             return dtoMob;
         }
 
@@ -116,7 +114,7 @@ namespace Server_Realm.Core.Services
             var tbAreas = _tbAreaSpawns[area];
             var tbArea = tbAreas.OrderBy(d => Guid.NewGuid()).First();
 
-            //return new Vector2(30, 10);
+            //return new Vector2(-105, -68);
             return new Vector2(
                 x: _rand.Next(tbArea.X - SPAWN_RANGE, tbArea.X + SPAWN_RANGE),
                 y: _rand.Next(tbArea.Y - SPAWN_RANGE, tbArea.Y + SPAWN_RANGE));

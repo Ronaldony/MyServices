@@ -1,10 +1,8 @@
 
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEditor;
 using UnityEngine;
 
 namespace Network
@@ -12,7 +10,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_UpdateUnitStat.
     /// </summary>
-    public class UdpHandler_UpdateUnitStat : UdpHandler
+    public class UdpHandler_UpdateUnitStat : GamePacketHandler
     {
         public UdpHandler_UpdateUnitStat()
             : base(GamePacketCode.SC_UpdateUnitStat)

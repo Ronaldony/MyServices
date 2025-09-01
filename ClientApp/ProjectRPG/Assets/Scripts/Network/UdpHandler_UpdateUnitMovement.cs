@@ -1,6 +1,5 @@
 
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
@@ -10,7 +9,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_UpdateSectionUnitMovement.
     /// </summary>
-    public class UdpHandler_UpdateUnitMovement : UdpHandler
+    public class UdpHandler_UpdateUnitMovement : GamePacketHandler
     {
         public UdpHandler_UpdateUnitMovement()
             : base(GamePacketCode.SC_UpdateUnitMovement)

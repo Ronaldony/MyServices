@@ -1,5 +1,4 @@
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
@@ -9,7 +8,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_SpawnUnits.
     /// </summary>
-    public class UdpHandler_SpawnUnits : UdpHandler
+    public class UdpHandler_SpawnUnits : GamePacketHandler
     {
         public UdpHandler_SpawnUnits()
             : base(GamePacketCode.SC_SpawnUnits)

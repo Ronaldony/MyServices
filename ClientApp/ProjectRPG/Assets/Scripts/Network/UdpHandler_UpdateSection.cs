@@ -1,17 +1,15 @@
 
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
     /// <summary>
     /// UdpHandler_UpdateSection.
     /// </summary>
-    public class UdpHandler_UpdateSection : UdpHandler
+    public class UdpHandler_UpdateSection : GamePacketHandler
     {
         public UdpHandler_UpdateSection()
             : base(GamePacketCode.SC_UpdateSection)

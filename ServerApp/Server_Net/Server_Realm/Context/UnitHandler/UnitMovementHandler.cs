@@ -8,6 +8,7 @@ namespace Server_Realm.Context.UnitHandler
     using GameCore;
     using GameCore.Datas.Plays;
     using Server_Realm.Context.Units;
+    using Server_Realm.Core.Utilities;
     using Server_Realm.Worlds;
 
     /// <summary>
@@ -98,7 +99,14 @@ namespace Server_Realm.Context.UnitHandler
             if (_isMoveing)
             {
                 var deltaPos = _location.MoveDirection * (float)deltaTime * _stat.Velocity;
-                _location.Pos += deltaPos;
+                var movePos = _location.Pos + deltaPos;
+
+                if (false == _owner.ZoneProcessor.IsValidSection(movePos))
+                {
+                    return;
+                }
+
+                _location.Pos = movePos;
 
                 if (_owner.UnitType == Core.Types.Type_Unit.Mob)
                 {
@@ -115,12 +123,17 @@ namespace Server_Realm.Context.UnitHandler
         /// </summary>
         public bool MoveStop(Vector2 endPos)
         {
+            if (false == _owner.ZoneProcessor.IsValidSection(endPos))
+            {
+                return false;
+            }
+
             var nowTime = TimeUtil.Now;
 
             // 이동 거리 계산 및 유효성 검사.
             var deltaTime = (nowTime - _lastMoveTime).TotalSeconds + GameData.MOVEMENT_TIME_ERROR;
 
-            if (false == IsValidPosition(deltaTime, _stat.Velocity, _location.MoveDirection, _location.Pos, endPos))
+            if (false == IsValidMove(deltaTime, _stat.Velocity, _location.MoveDirection, _location.Pos, endPos))
             {
                 return false;
             }
@@ -162,9 +175,14 @@ namespace Server_Realm.Context.UnitHandler
         /// </summary>
         public bool Knockback(Vector2 knockbackPos)
         {
+            if (false == _owner.ZoneProcessor.IsValidSection(knockbackPos))
+            {
+                return false;
+            }
+
             // 운동량(P) = 질량(MASS) * 속도(V)
             // 위 공식은 Unity AddForce(Impulse)와 동일한 결과를 내기 위한 공식.
-            var momentum = Vector2.Normalize(knockbackPos - _location.Pos) * GameData.KNOCKBACK_THRUST * GameData.KNOCKBACK_MASS;
+            var momentum = VectorUtility.SafeNormalize(knockbackPos, _location.Pos) * GameData.KNOCKBACK_THRUST * GameData.KNOCKBACK_MASS;
 
             // 넉백 예상 위치 = 현재 위치 + (운동량 * 움직인 시간)
             var calcPosition = _location.Pos + momentum * GameData.KNOCKBACK_TIME;
@@ -193,6 +211,11 @@ namespace Server_Realm.Context.UnitHandler
         /// </summary>
         public bool Dash(Vector2 dashPos)
         {
+            if (false == _owner.ZoneProcessor.IsValidSection(dashPos))
+            {
+                return false;
+            }
+
             // 대시 결과 유효성 검사.
             if (false == IsValidDash(_stat.Velocity, _location.MoveDirection, _location.Pos, dashPos))
             {
@@ -256,7 +279,7 @@ namespace Server_Realm.Context.UnitHandler
         /// <summary>
         /// Validation for position from packet.
         /// </summary>
-        private bool IsValidPosition(double diffSeconds, int velocity, Vector2 direction, Vector2 lastPos, Vector2 endPos)
+        private bool IsValidMove(double diffSeconds, int velocity, Vector2 direction, Vector2 lastPos, Vector2 endPos)
         {
             var dirY = direction.Y;
             var dirX = direction.X;

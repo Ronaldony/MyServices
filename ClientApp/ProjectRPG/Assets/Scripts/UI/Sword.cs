@@ -12,7 +12,7 @@ public class Sword : MonoBehaviour, IWeapon
     private Transform weaponCollider;
     private Animator myAnimator;
 
-    private GamePacketManager _GamePacketManager;
+    private GamePacketManager _gpm;
     private PlayerDataManager _playerDataManager;
 
     private GameObject slashAnim;
@@ -21,7 +21,7 @@ public class Sword : MonoBehaviour, IWeapon
     {
         myAnimator = GetComponent<Animator>();
 
-        _GamePacketManager = GamePacketManager.Instance;
+        _gpm = GamePacketManager.Instance;
         _playerDataManager = PlayerDataManager.Instance;
     }
 
@@ -50,7 +50,7 @@ public class Sword : MonoBehaviour, IWeapon
         Debug.Log($"Attacl angle: {angle}");
         
         // Send Attack.
-        _GamePacketManager.Send<GamePacketCS_AttackMelee>(
+        _gpm.Send<GamePacketCS_AttackMelee>(
             GamePacketCode.CS_AttackMelee,
             new GamePacketCS_AttackMelee
             {

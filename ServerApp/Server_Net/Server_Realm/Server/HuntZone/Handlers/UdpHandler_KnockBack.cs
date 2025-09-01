@@ -14,7 +14,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
     /// <summary>
     /// UdpHandler_Move.
     /// </summary>
-    public class UdpHandler_KnockBack : UdpHandler
+    public class UdpHandler_KnockBack : HuntZoneHandler
     {
         private readonly ILogger<UdpHandler_KnockBack> _logger;
 

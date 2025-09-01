@@ -132,13 +132,13 @@ namespace ServerEngine.Network.UDP
         /// <param name="port">Server port</param>
         /// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
         /// <param name="pollingMilliseconds">Polling event time. Default time: 33ms (about 30 fps) </param>
-        public void Start(int port, bool allowPeerAddrChange)
+        public void Start<T>(int port, bool allowPeerAddrChange) where T : UdpHandler
         {
 			// Initialize listener.
 			Initialize_Listener();
 
             // Initialize handler.
-            Initialize_Handlers();
+            Initialize_Handlers<T>();
 
             // Register UDP packet.
             _packetProcessor.SubscribeReusable<UdpPacket, UdpSession>(HandlePacket);
@@ -336,16 +336,16 @@ namespace ServerEngine.Network.UDP
         /// <summary>
         /// Initialize handlers.
         /// </summary>
-        private void Initialize_Handlers()
+        private void Initialize_Handlers<T>() where T : UdpHandler
         {
             _handlerDict.Clear();
 
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (var type in asm.GetTypes().Where(d => d.IsSubclassOf(typeof(UdpHandler))))
+                foreach (var type in asm.GetTypes().Where(d => d.IsSubclassOf(typeof(T))))
                 {
-                    var handler = Activator.CreateInstance(type, _serviceProvider) as UdpHandler;
-                    var method = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
+                    var handler = Activator.CreateInstance(type, _serviceProvider) as T;
+                    var method = handler.GetType().GetMethod(nameof(handler.HandlePacket));
 
                     _handlerDict.Add(handler.PacketCode, (handler, method, new object[3]));
                 }

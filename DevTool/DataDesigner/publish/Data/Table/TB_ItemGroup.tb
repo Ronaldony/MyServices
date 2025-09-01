@@ -13,7 +13,7 @@
     "GroupId": 100,
     "ItemRefId": 100,
     "MaxCount": 10,
-    "RateWeight": 1
+    "RateWeight": 0
   },
   {
     "Id": 2,
@@ -25,18 +25,34 @@
   },
   {
     "Id": 10,
+    "Name": "Group100_Sand",
+    "GroupId": 100,
+    "ItemRefId": 300,
+    "MaxCount": 5,
+    "RateWeight": 0
+  },
+  {
+    "Id": 11,
     "Name": "Group101_Gold",
     "GroupId": 101,
     "ItemRefId": 100,
     "MaxCount": 10,
-    "RateWeight": 1
+    "RateWeight": 0
   },
   {
-    "Id": 11,
+    "Id": 12,
     "Name": "Group101_Heart",
     "GroupId": 101,
     "ItemRefId": 201,
     "MaxCount": 2,
     "RateWeight": 0
+  },
+  {
+    "Id": 13,
+    "Name": "Group101_Graphite",
+    "GroupId": 101,
+    "ItemRefId": 301,
+    "MaxCount": 3,
+    "RateWeight": 1
   }
 ]

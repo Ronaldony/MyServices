@@ -1,16 +1,14 @@
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
     /// <summary>
     /// UdpHandler_DummyMove.
     /// </summary>
-    public class UdpHandler_DummyMove : UdpHandler
+    public class UdpHandler_DummyMove : GamePacketHandler
     {
         public UdpHandler_DummyMove()
             : base(GamePacketCode.SC_DummyMove)

@@ -2,7 +2,6 @@ using GameCore;
 using GameCore.Datas.Mobs;
 using GameCore.GamePacket;
 using Network;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,6 +132,12 @@ public class EnemyManagement : Singleton<EnemyManagement>
                     {
                         var packet = updatePacket.Data as GamePacketSC_UpdateSectionNewEnter;
                         Spawnmobs(packet.Mobs);
+                    }
+                    break;
+                case GamePacketCode.SC_DropItems:
+                    {
+                        var packet = updatePacket.Data as GamePacketSC_DropItems;
+                        DropItems(packet);
                     }
                     break;
             }
@@ -298,34 +303,47 @@ public class EnemyManagement : Singleton<EnemyManagement>
         }
 
         // Create enemy object.
-        try
-        {
-            var mobObject = Instantiate(findEnemyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
+        var mobObject = Instantiate(findEnemyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
 
-            _mobObjectDict.Add(unitId, mobObject);
+        _mobObjectDict.Add(unitId, mobObject);
 
-            // Set Enemy AI.
-            var enemyAI = mobObject.GetComponent<MobAI>();
+        // Set Enemy AI.
+        var enemyAI = mobObject.GetComponent<MobAI>();
 
-            // Set Enemy path.
-            var enemyPathfinding = mobObject.GetComponent<MobPathfinding>();
+        // Set Enemy path.
+        var enemyPathfinding = mobObject.GetComponent<MobPathfinding>();
 
-            // Set Enemy Health.
-            var enemyHealth = mobObject.GetComponent<MobHealth>();
-            enemyHealth.SetupHealth(mob.Stat.Health, unitId);
+        // Set Enemy Health.
+        var enemyHealth = mobObject.GetComponent<MobHealth>();
+        enemyHealth.SetupHealth(mob.Stat.Health, unitId);
 
-            // Set Pick up spawner.
-            var pickupSpawner = mobObject.GetComponent<PickUpSpawner>();
-            pickupSpawner.Initialize_Spawn(mob.DropItems);
+        // Set Pick up spawner.
+        var pickupSpawner = mobObject.GetComponent<PickUpSpawner>();
 
-            Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
-        }
-        catch (Exception ex)
-        {
-            int i = 3;
-        }
+        Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
 
         return true;
+    }
+
+    /// <summary>
+    /// Drop items.
+    /// </summary>
+    private void DropItems(GamePacketSC_DropItems gp)
+    {
+        // Enemy Uid.
+        if (false == _mobObjectDict.TryGetValue(gp.UnitId, out var mobObj))
+        {
+            Debug.Log($"not exist mob. unitId: {gp.UnitId}");
+            return;
+        }
+
+        // PickUpSpawner.
+        var pickUpSpawner = mobObj.GetComponent<PickUpSpawner>();
+
+        foreach (var pair in gp.DropItems)
+        {
+            pickUpSpawner.DropItem(pair.Key, pair.Value);
+        }
     }
 
     /// <summary>

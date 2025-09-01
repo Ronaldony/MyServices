@@ -1,10 +1,8 @@
 
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
@@ -12,7 +10,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_Move.
     /// </summary>
-    public class UdpHandler_Enter : UdpHandler
+    public class UdpHandler_Enter : GamePacketHandler
     {
         private readonly GamePacketCS_SpawnUnits _sendPacket;
 

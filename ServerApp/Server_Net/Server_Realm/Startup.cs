@@ -13,8 +13,11 @@ namespace Server_Realm
     using Framework.Core.Database.DataObjects;
     using GameCore;
     using GameCore.Interfaces;
+    using Server_Realm.Actors;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
+    using Server_Realm.Hubs;
+    using Server_Realm.Server.Hub;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.Zones;
 
@@ -46,9 +49,14 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<MobCreateService>();
             appBuilder.Services.AddSingleton<ItemCreateService>();
 
+            // zones.
+            appBuilder.Services.AddSingleton<ZoneRouter>();
+
             // Actors.
             appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
             appBuilder.Services.AddSingleton<HuntZoneProcessorProvider>();
+            appBuilder.Services.AddSingleton<PlayHubProvider>();
+            appBuilder.Services.AddSingleton<PushPostActorProvider>();
 
             // Infos.
             appBuilder.Services.AddSingleton<DBInventoryInfo>();
@@ -60,9 +68,11 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<DBIdentity>();
             appBuilder.Services.AddSingleton<DBUser>();
             appBuilder.Services.AddSingleton<DBPlayerData>();
+            appBuilder.Services.AddSingleton<DBPost>();
 
             // servers.
             appBuilder.Services.AddSingleton<HuntZoneServer>();
+            appBuilder.Services.AddSingleton<HubServer>();
 
             // Transient.
             appBuilder.Services.AddTransient<SessionInfoObject>();

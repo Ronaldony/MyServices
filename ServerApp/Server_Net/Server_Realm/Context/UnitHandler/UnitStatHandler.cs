@@ -54,17 +54,23 @@ namespace Server_Realm.Context.UnitHandler
         /// <summary>
         /// Update.
         /// </summary>
-        public void Damage(int damage)
+        public int Damage(int damage)
         {
             if (_owner.IsDead)
             {
-                return;
+                return 0;
             }
 
-            // Damage.
+
             if (_owner.UnitType == Core.Types.Type_Unit.Mob)
             {
-                _stat.Health -= damage - _stat.Defense;
+                // Damage.
+                if (damage > _stat.Defense)
+                {
+                    _stat.Health -= damage - _stat.Defense;
+                }
+
+                _logger.LogDebug($"damage health: {_stat.Health}");
             }
 
             if (_stat.Health <= 0)
@@ -78,6 +84,8 @@ namespace Server_Realm.Context.UnitHandler
 
             // 상태 업데이트.
             _isStatUpdate = true;
+
+            return damage - _stat.Defense;
         }
 
         #region common

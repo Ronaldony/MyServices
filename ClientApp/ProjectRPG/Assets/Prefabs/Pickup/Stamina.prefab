@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cfae16ea72800124ebbb6ff48c54bfcc, type: 2}
+  - {fileID: 2100000, guid: 2df047418ef67844493940bb51a48373, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -162,7 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f5f726226a319049a1d544959768feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickUpType: 1
   pickUpDistance: 4
   accelerationRate: 0.4
   moveSpeed: 2
@@ -179,13 +178,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0586548
-      value: 0
-      inSlope: -2.1752918
-      outSlope: -2.1752918
+      time: 1.0615845
+      value: -0.00699234
+      inSlope: -1.942974
+      outSlope: -1.942974
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.052634947
+      inWeight: 0.049724568
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

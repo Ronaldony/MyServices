@@ -13,14 +13,20 @@ namespace Server_Realm
         /// <summary>
         /// Configuration file name.
         /// </summary>
-        [ArgRequired(PromptIfMissing = true), ArgDescription("Configuration file")]
+        [ArgRequired(PromptIfMissing = true), ArgDescription("Configuration file"), ]
         public string ConfigFile { get; set; }
 
         /// <summary>
-        /// UDP Port.
+        /// UDP Port for HuntZone.
         /// </summary>
-        [ArgRequired(PromptIfMissing = true), ArgDescription("Port")]
-        public int Port { get; set; }
+        [ArgRequired(PromptIfMissing = true), ArgDescription("Port"), ArgShortcut("p_hz")]
+        public int Port_HuntZone { get; set; }
+
+        /// <summary>
+        /// UDP Port for PlayHub.
+        /// </summary>
+        [ArgRequired(PromptIfMissing = true), ArgDescription("Port"), ArgShortcut("p_ph")]
+        public int Port_PlayHub { get; set; }
 
         /// <summary>
         /// DataCenter.

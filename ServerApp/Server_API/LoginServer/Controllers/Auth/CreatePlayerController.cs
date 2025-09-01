@@ -116,6 +116,12 @@ namespace LoginServer.Controllers.Auth
             playerInfo.Uid = uid;
             playerInfo.Pid = pid;
             playerInfo.RegTime = nowTime;
+
+            // InventoryInfo.
+            var postInfoObject = await GetObjectAsync<PostInfoObject>();
+            var postInfo = postInfoObject.PostInfo;
+
+            postInfo.RegTime = nowTime;
         }
     }
 }

@@ -55,6 +55,9 @@ namespace Server_Realm.Zones.HuntZone
             pu.WorldSection.LeavePlayer(pu.UnitId);
             pu.Dispose();
 
+            // Enter zone router.
+            _zoneRouter.LeavePlayer(pu.Pid);
+
             return true;
         }
     }

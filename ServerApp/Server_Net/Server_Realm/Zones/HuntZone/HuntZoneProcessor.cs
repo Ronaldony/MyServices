@@ -13,6 +13,7 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
     using Server_Realm.Core.Utilities;
+    using Server_Realm.Hubs;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.TaskSchedulers;
     using Server_Realm.Worlds;
@@ -35,7 +36,11 @@ namespace Server_Realm.Zones.HuntZone
         private readonly UnitFactory _unitFactory;
 
         // Zones.
-        private readonly HuntZoneServer _huntZoneServer;
+        private readonly HuntZoneServer _zoneServer;
+        private readonly ZoneRouter _zoneRouter;
+
+        // Providers.
+        private readonly PlayHubProvider _playHubProvider;
         private readonly HuntZoneProcessorProvider _zoneProcessorProvider;
 
         // Worlds.
@@ -75,9 +80,13 @@ namespace Server_Realm.Zones.HuntZone
             // Factories.
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
 
-            // Zones.
-            _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
+            // Providers.
+            _playHubProvider = serviceProvider.GetRequiredService<PlayHubProvider>();
             _zoneProcessorProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
+
+            // Zones.
+            _zoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
+            _zoneRouter = serviceProvider.GetRequiredService<ZoneRouter>();
 
             // Worlds.
             _worldGroup = Initialize_WorldGroup(serviceProvider, this);
@@ -135,6 +144,9 @@ namespace Server_Realm.Zones.HuntZone
 
             // Update.
             Receive<WorldMsg_UpdateDummy>(wm => UpdateDummy(wm));
+
+            // Post.
+            Receive<WorldMsg_RetrievePost>(wm => RetrievePost(wm));
 
             // GamePacket.
             Receive<WorldMsg_GamePacket>(wm =>

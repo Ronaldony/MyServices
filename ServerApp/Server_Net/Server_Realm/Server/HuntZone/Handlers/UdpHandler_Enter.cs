@@ -15,7 +15,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
     /// <summary>
     /// UdpHandler_Enter.
     /// </summary>
-    public class UdpHandler_Enter : UdpHandler
+    public class UdpHandler_Enter : HuntZoneHandler
     {
         private readonly ILogger<UdpHandler_Enter> _logger;
 

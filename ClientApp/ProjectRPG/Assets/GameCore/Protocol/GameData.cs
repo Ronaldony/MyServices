@@ -15,9 +15,6 @@
         public const int SECTION_WIDTH = 20;                         // 섹션 가로 길이.
         public const int SECTION_HEIGHT = 15;                        // 섹션 세로 길이.
 
-        // Mob.
-        public const int MAX_MOB_SPAWN = 50;                       // 최대 적 스폰 수.
-
         // KnockBack.
         public const float KNOCKBACK_THRUST = 10f;                          // 넉백 쓰러스트.
         public const float KNOCKBACK_TIME = 0.2f;                           // 넉백 시간.
@@ -40,6 +37,9 @@
         public const float PROJECTILE_ARRIVAL_RANGE = 0.05f;                        // 투사체 도착 판정 범위.
         public const float PROJECTILE_ARRIVAL_RANGE_SQUARE = 0.05f * 0.05f;         // 투사체 도착 판정 범위 제곱근. (거리 비교용)
 
+        // Mob.
+        public const int MAX_MOB_SPAWN = 50;                       // 최대 적 스폰 수.
+
         // Mob AI.
         public const int MOB_IDLE_TIME = 5;                         // Idle 상태 지속 시간.
         public const int MOB_ARRIVAL_RANGE = 2;                     // 도착 판정 범위.
@@ -48,5 +48,11 @@
         public const int MOB_DETECT_RANGE_SQUARE = 7 * 7;           // 감지 거리 제곱근. (거리 비교용)
         public const int MOB_RETURN_DISTANCE = 18;                  // Return 거리.
         public const int MOB_RETURN_DISTANCE_SQUARE = 18 * 18;      // Return 거리 제곱근. (거리 비교용)
+
+        // Drop system.
+        public const int MAX_DROP_UNITS = 3;
+
+        // Post.
+        public const int POST_RETRIEVE_COUNT = 3;
     }
 }

@@ -14,7 +14,7 @@ namespace Server_Realm.Entities
         public bool RootItem(long dropId)
         {
             // 드랍할 수 있는 아이템인지 검사.
-            if (MobDropItems.ContainsKey(dropId))
+            if (false == MobDropItems.ContainsKey(dropId))
             {
                 return false;
             }
@@ -44,7 +44,7 @@ namespace Server_Realm.Entities
         /// </summary>
         public void AddDropItemList(long dropId, DTO_Item dropItem)
         {
-
+            MobDropItems.TryAdd(dropId, dropItem);
         }
     }
 }

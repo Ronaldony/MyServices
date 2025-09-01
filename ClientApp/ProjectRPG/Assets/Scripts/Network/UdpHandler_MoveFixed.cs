@@ -1,9 +1,7 @@
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
@@ -11,7 +9,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_MoveFixed.
     /// </summary>
-    public class UdpHandler_MoveFixed : UdpHandler
+    public class UdpHandler_MoveFixed : GamePacketHandler
     {
         public UdpHandler_MoveFixed()
             : base(GamePacketCode.SC_MoveFixed)

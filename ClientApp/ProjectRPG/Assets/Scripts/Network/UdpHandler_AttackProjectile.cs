@@ -1,16 +1,14 @@
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
     /// <summary>
     /// UdpHandler_AttackProjectile.
     /// </summary>
-    public class UdpHandler_AttackProjectile : UdpHandler
+    public class UdpHandler_AttackProjectile : GamePacketHandler
     {
         private readonly GamePacketCS_AttackProjectile _sendPacket;
 

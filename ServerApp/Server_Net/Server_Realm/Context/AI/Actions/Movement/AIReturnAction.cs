@@ -5,6 +5,7 @@ namespace Server_Realm.Context.AI.Actions.Movement
     using GameCore;
     using Server_Realm.Context.AI;
     using Server_Realm.Context.AI.Actions;
+    using Server_Realm.Core.Utilities;
     using Server_Realm.Units.Mob;
 
     /// <summary>
@@ -20,7 +21,10 @@ namespace Server_Realm.Context.AI.Actions.Movement
         public override void Start()
         {
             // 스폰 위치로 이동 위치 설정.
-            Owner.MovementHandler.MoveStart(Vector2.Normalize(Owner.SpawnPos - Owner.MovementHandler.NowPos()));
+            Owner.MovementHandler.MoveStart(VectorUtility.SafeNormalize(Owner.SpawnPos, Owner.MovementHandler.NowPos()));
+
+            // Aggro 초기화.
+            Owner.CombatHandler.ClearAggroPoints();
         }
 
         public override void Update(double deltaTime)

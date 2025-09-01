@@ -1,0 +1,17 @@
+[
+  {
+    "Id": 0,
+    "Name": "None",
+    "ConsumeType": "None"
+  },
+  {
+    "Id": 1,
+    "Name": "HP_Plus",
+    "ConsumeType": "HP_Plus"
+  },
+  {
+    "Id": 2,
+    "Name": "Stamina_Plus",
+    "ConsumeType": "Stamina_Plus"
+  }
+]

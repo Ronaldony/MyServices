@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,11 +34,13 @@ public class Stamina : Singleton<Stamina>
         UpdateStaminaImages();
     }
 
-    public void RefreshStamina()
+    public void RefreshStamina(int refresh = 1)
     {
-        if (CurrentStamina < maxStamina)
+        CurrentStamina += refresh;
+
+        if (CurrentStamina > maxStamina)
         {
-            CurrentStamina++;
+            CurrentStamina = maxStamina;
         }
 
         UpdateStaminaImages();

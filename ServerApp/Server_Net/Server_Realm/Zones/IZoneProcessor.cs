@@ -1,9 +1,11 @@
-﻿namespace Server_Realm.Zones
+﻿using System.Numerics;
+
+namespace Server_Realm.Zones
 {
     using GameCore.GamePacket;
-    using Server_Realm.Entities;
     using Server_Realm.Context.Units;
-    using Server_Realm.Units.Mob;
+    using Server_Realm.Entities;
+    using Server_Realm.Worlds;
 
     /// <summary>
     /// IZoneProcessor.
@@ -34,5 +36,15 @@
         /// Collect dead unit.
         /// </summary>
         public void CollectDeadUnit(Unit unit);
+
+        /// <summary>
+        /// Check valid section.
+        /// </summary>
+        public bool IsValidSection(SectionId section);
+
+        /// <summary>
+        /// Check valid section.
+        /// </summary>
+        public bool IsValidSection(Vector2 pos);
     }
 }

@@ -17,7 +17,7 @@ namespace Server_Realm.Zones.HuntZone
             var packetBytes = _dataSerializer.Serialize(packet);
 
             // Send.
-            return _huntZoneServer.Send(pid, packetCode, packetBytes);
+            return _zoneServer.Send(pid, packetCode, packetBytes);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Server_Realm.Zones.HuntZone
             where T : GamePacketBase_SC
         {
             // Send.
-            return _huntZoneServer.Send(pid, packetCode, packetBytes);
+            return _zoneServer.Send(pid, packetCode, packetBytes);
         }
     }
 }

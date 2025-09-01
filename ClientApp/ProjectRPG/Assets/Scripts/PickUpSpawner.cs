@@ -1,38 +1,40 @@
-using GameCore;
-using System.Collections.Generic;
+using GameCore.Datas.Items;
+using System;
+using System.Linq;
 using UnityEngine;
 
 public class PickUpSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject goldCoin, healthGlobe, staminaGlobe;
-
-    private Type_Item _itemType;
-    private IEnumerable<Type_Item> _dropItems;
+    [SerializeField] private DropItem[] _dropItems;
 
     /// <summary>
-    /// Drop items.
+    /// Drop item.
     /// </summary>
-    public void DropItems()
+    public void DropItem(long dropId, DTO_Item dtoItem)
     {
-        switch (_itemType)
+        // Drop item.
+        var dropItem = _dropItems.FirstOrDefault(d => d.RefId == dtoItem.RefId);
+        
+        if (null !=  dropItem)
         {
-            case Type_Item.Gold:
-                Instantiate(goldCoin, transform.position, Quaternion.identity);
-                break;
-            case Type_Item.Stamina:
-            Instantiate(staminaGlobe, transform.position, Quaternion.identity);
-                break;
-            case Type_Item.Heart:
-            Instantiate(healthGlobe, transform.position, Quaternion.identity);
-                break;
+            var itemObject = Instantiate(dropItem.GameObject, transform.position, Quaternion.identity);
+            var pickup = itemObject.GetComponent<Pickup>();
+
+            pickup.SetDropItem(dropId, dtoItem);
+
+            Debug.Log($"Drop drop item. refId: {dtoItem.RefId}");
+        }
+        else
+        {
+            Debug.Log($"Fail to drop item. refId: {dtoItem.RefId}");
         }
     }
+}
 
-    /// <summary>
-    /// Initialize spawn.
-    /// </summary>
-    public void Initialize_Spawn(IEnumerable<Type_Item> dropItems)
-    {
-        _dropItems = dropItems;
-    }
+[Serializable]
+public class DropItem
+{
+    public int RefId;
+
+    public GameObject GameObject;
 }

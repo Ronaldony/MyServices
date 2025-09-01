@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
-    // Inspector¿¡¼­ °¢ ¾À¿¡ ¸Â´Â Canvas Prefab ÇÒ´ç
+    // Inspectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ Canvas Prefab ï¿½Ò´ï¿½
     [SerializeField] private GameObject _loginCanvas;
     [SerializeField] private GameObject _gameCanvas;
 
@@ -15,7 +15,7 @@ public class UIManager : Singleton<UIManager>
     {
         base.Awake();
 
-        // ¾À ·Îµå ¿Ï·á ½Ã OnSceneLoaded ¸Þ¼­µå È£Ãâ
+        // ï¿½ï¿½ ï¿½Îµï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½ OnSceneLoaded ï¿½Þ¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -32,20 +32,20 @@ public class UIManager : Singleton<UIManager>
     }
 
     /// <summary>
-    /// Update ui canvas.s
+    /// Update ui canvas.
     /// </summary>
     private void UpdateUICanvas(Scene scene)
     {
-        // ¾À ÀüÈ¯ °£ UI canvas ±³Ã¼.
+        // ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ UI canvas ï¿½ï¿½Ã¼.
         if (scene.name == "Login")
         {
-            // ·Î±×ÀÎ.
+            // ï¿½Î±ï¿½ï¿½ï¿½.
             _loginCanvas?.SetActive(true);
             _gameCanvas?.SetActive(false);
         }
         else
         {
-            // °ÔÀÓ ¾À.
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.
             _loginCanvas?.SetActive(false);
             _gameCanvas?.SetActive(true);
         }

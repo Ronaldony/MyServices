@@ -6,7 +6,7 @@
     public static class GamePacketCode
     {
         //////////////////////////////////////////////////////////////////////
-        /// UDP 
+        /// Game
 
         // Auth.
         public const int CS_Enter = 10;                         // 플레이어 진입.
@@ -53,6 +53,12 @@
         public const int SC_UpdateSection = 175;                // 업데이트 - 섹션.
         public const int CS_UpdateSectionNewEnter = 176;        // 업데이트 - 섹션에 새로 진입한 유저.
         public const int SC_UpdateSectionNewEnter = 177;        // 업데이트 - 섹션에 새로 진입한 유저.
+
+        // 아이템.
+        public const int CS_DropItems = 190;                    // 아이템 드랍.
+        public const int SC_DropItems = 191;                    // 아이템 드랍.
+        public const int CS_RootItem = 192;                     // 아이템 루트.
+        public const int SC_RootItem = 193;                     // 아이템 루트.
 
         // 장비.
         public const int CS_SwitchWeapon = 500;                 // 무기 교체.

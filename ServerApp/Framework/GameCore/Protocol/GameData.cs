@@ -51,5 +51,8 @@
 
         // Drop system.
         public const int MAX_DROP_UNITS = 3;
+
+        // Post.
+        public const int POST_RETRIEVE_COUNT = 3;
     }
 }

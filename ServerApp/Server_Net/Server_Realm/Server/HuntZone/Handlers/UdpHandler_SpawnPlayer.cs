@@ -19,7 +19,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
     /// <summary>
     /// UdpHandler_LoadPlayer.
     /// </summary>
-    public class UdpHandler_SpawnPlayer : UdpHandler
+    public class UdpHandler_SpawnPlayer : HuntZoneHandler
     {
         private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
 

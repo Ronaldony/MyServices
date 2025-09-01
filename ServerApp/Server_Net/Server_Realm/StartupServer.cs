@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ServerEngine.Config.Database;
 using ServerEngine.Config.Strapi;
 using ServerEngine.Core.Services.Interfaces;
+using System.Reactive.Linq;
 using System.Reflection;
 
 namespace Server_Realm
@@ -19,7 +20,9 @@ namespace Server_Realm
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
     using Server_Realm.Core.Utilities;
+    using Server_Realm.Server.Hub;
     using Server_Realm.Server.HuntZone;
+    using Server_Realm.Zones;
 
     internal class StartupServer
     {
@@ -77,6 +80,10 @@ namespace Server_Realm
             var itemCreateService = _serviceProvider.GetRequiredService<ItemCreateService>();
             itemCreateService.Initialize();
 
+            // zoneRouter.
+            var zoneRouter = _serviceProvider.GetRequiredService<ZoneRouter>();
+            zoneRouter.Initialize();
+
             // Utilies.
             ServiceUtility.Initialize(_serviceProvider);
 
@@ -96,6 +103,7 @@ namespace Server_Realm
             // Database data mapping.
             MappingDapper();
 
+            // Start servers.
             BootstrapServer();
         }
 
@@ -124,7 +132,11 @@ namespace Server_Realm
         {
             // Start server.
             var huntZoneServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
-            huntZoneServer.Start(_arguments.Port, false);
+            huntZoneServer.Start<HuntZoneHandler>(_arguments.Port_HuntZone, false);
+
+            // Start server.
+            var hubServer = _serviceProvider.GetRequiredService<HubServer>();
+            hubServer.Start<HubHanlder>(_arguments.Port_PlayHub, false);
         }
     }
 }

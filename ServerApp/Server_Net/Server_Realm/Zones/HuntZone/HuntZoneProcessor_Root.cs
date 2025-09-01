@@ -1,7 +1,9 @@
 ﻿namespace Server_Realm.Zones.HuntZone
 {
+    using Enyim.Caching.Memcached.Transcoders;
     using GameCore;
     using GameCore.GamePacket;
+    using Microsoft.Extensions.Logging;
     using Server_Realm.Entities;
 
     /// <summary>
@@ -14,13 +16,14 @@
         /// </summary>
         private void RootItem(PlayerUnit pu, GamePacketCS_RootItem packet)
         {
+            _logger.LogDebug($"Root Item. dropId:{packet.DropId}, items: {packet.Item.RefId}");
+
             // Root item.
             if (false == pu.RootItem(packet.DropId))
             {
                 // 루팅 실패.
                 var packetRootItem = _memoryPoolService.Rent<GamePacketSC_RootItem>();
                 packetRootItem.IsFailed = true;
-
                 SendPacket(pu.Pid, GamePacketCode.SC_RootItem, packetRootItem);
 
                 return;

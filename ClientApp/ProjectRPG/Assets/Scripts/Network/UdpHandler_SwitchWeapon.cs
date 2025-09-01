@@ -1,5 +1,4 @@
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
@@ -9,7 +8,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_SwitchWeapon.
     /// </summary>
-    public class UdpHandler_SwitchWeapon : UdpHandler
+    public class UdpHandler_SwitchWeapon : GamePacketHandler
     {
         public UdpHandler_SwitchWeapon()
             : base(GamePacketCode.SC_SwitchWeapon)

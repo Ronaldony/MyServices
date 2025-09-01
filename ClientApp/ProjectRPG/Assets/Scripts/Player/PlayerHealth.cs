@@ -1,8 +1,5 @@
-using Network;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHealth : Singleton<PlayerHealth>
@@ -16,8 +13,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
     private Knockback _knockback;
     private Flash _flash;
 
-    private GamePacketManager _gpm;
-
     const string HEALTH_SLIDER_TEXT = "Health Slider";
     const string TOWN_TEXT = "Scene1";
     readonly int DEATH_HASH = Animator.StringToHash("Death");
@@ -28,8 +23,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
         _flash = GetComponent<Flash>();
         _knockback = GetComponent<Knockback>();
-
-        _gpm = GamePacketManager.Instance;
     }
 
     private void Start()
@@ -58,13 +51,16 @@ public class PlayerHealth : Singleton<PlayerHealth>
     /// <summary>
     /// Heal player.
     /// </summary>
-    public void HealPlayer()
+    public void HealPlayer(int heal)
     {
-        if (_currentHealth < _maxHealth)
+        _currentHealth += heal;
+
+        if (_currentHealth > _maxHealth)
         {
-            _currentHealth += 1;
-            UpdateHealthSlider();
+            _currentHealth = _maxHealth;
         }
+
+        UpdateHealthSlider();
     }
 
     /// <summary>

@@ -1,11 +1,11 @@
 ﻿
 using MemoryPack;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace GameCore.HubPacket
 {
     using GameCore.Datas.Post;
-    using GameCore.HubPacket;
 
     /// <summary>
     /// HubPacketCS_PushPost.

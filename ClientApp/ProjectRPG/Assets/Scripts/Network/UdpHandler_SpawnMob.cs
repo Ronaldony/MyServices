@@ -1,17 +1,15 @@
 
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
     /// <summary>
     /// UdpHandler_SpawnEnemy.
     /// </summary>
-    public class UdpHandler_SpawnMob : UdpHandler
+    public class UdpHandler_SpawnMob : GamePacketHandler
     {
         public UdpHandler_SpawnMob()
             : base(GamePacketCode.SC_SpawnMob)

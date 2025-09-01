@@ -3,42 +3,70 @@
     "Id": 0,
     "Name": "None",
     "ItemType": "None",
-    "RateRef": 0
+    "RateRef": 0,
+    "Consume_Ref1": 0,
+    "Consume_Value1": 0,
+    "Consume_Ref2": 0,
+    "Consume_Value2": 0
   },
   {
     "Id": 100,
     "Name": "Gold",
     "ItemType": "Gold",
-    "RateRef": 1
+    "RateRef": 1,
+    "Consume_Ref1": 0,
+    "Consume_Value1": 0,
+    "Consume_Ref2": 0,
+    "Consume_Value2": 0
   },
   {
     "Id": 200,
     "Name": "Stamina",
     "ItemType": "Consume",
-    "RateRef": 1
+    "RateRef": 1,
+    "Consume_Ref1": 2,
+    "Consume_Value1": 1,
+    "Consume_Ref2": 0,
+    "Consume_Value2": 0
   },
   {
     "Id": 201,
     "Name": "Heart",
     "ItemType": "Consume",
-    "RateRef": 1
+    "RateRef": 1,
+    "Consume_Ref1": 1,
+    "Consume_Value1": 5,
+    "Consume_Ref2": 0,
+    "Consume_Value2": 0
   },
   {
     "Id": 300,
     "Name": "Sand",
     "ItemType": "Ingredient",
-    "RateRef": 1
+    "RateRef": 1,
+    "Consume_Ref1": 0,
+    "Consume_Value1": 0,
+    "Consume_Ref2": 0,
+    "Consume_Value2": 0
   },
   {
     "Id": 301,
     "Name": "Graphite",
     "ItemType": "Ingredient",
-    "RateRef": 2
+    "RateRef": 2,
+    "Consume_Ref1": 0,
+    "Consume_Value1": 0,
+    "Consume_Ref2": 0,
+    "Consume_Value2": 0
   },
   {
     "Id": 302,
     "Name": "Diamond",
     "ItemType": "Ingredient",
-    "RateRef": 3
+    "RateRef": 3,
+    "Consume_Ref1": 0,
+    "Consume_Value1": 0,
+    "Consume_Ref2": 0,
+    "Consume_Value2": 0
   }
 ]

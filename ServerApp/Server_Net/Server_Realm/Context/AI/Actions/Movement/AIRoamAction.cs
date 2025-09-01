@@ -6,6 +6,7 @@ namespace Server_Realm.Context.AI.Actions.Movement
     using GameCore.Datas.Plays;
     using Server_Realm.Context.AI;
     using Server_Realm.Context.AI.Actions;
+    using Server_Realm.Core.Utilities;
     using Server_Realm.Units.Mob;
 
     /// <summary>
@@ -36,7 +37,7 @@ namespace Server_Realm.Context.AI.Actions.Movement
                 y: Owner.SpawnPos.Y + _rand.Next(-GameData.MOVEMENT_RANGE_LIMIT, GameData.MOVEMENT_RANGE_LIMIT));
 
             // 로밍 방향 갱신.
-            Owner.MovementHandler.MoveStart(Vector2.Normalize(_roamPos - _location.Pos));
+            Owner.MovementHandler.MoveStart(VectorUtility.SafeNormalize(_roamPos, _location.Pos));
         }
 
         public override void Update(double deltaTime)

@@ -20,7 +20,7 @@ public class ActiveInventory : Singleton<ActiveInventory>
 
     private void Start()
     {
-        _playerControls.Inventory.keyboard.performed += ctx => ToggleActiveSlot((int)ctx.ReadValue<float>());
+        _playerControls.Weapons.keyboard.performed += ctx => ToggleActiveSlot((int)ctx.ReadValue<float>());
     }
 
     private void OnEnable()

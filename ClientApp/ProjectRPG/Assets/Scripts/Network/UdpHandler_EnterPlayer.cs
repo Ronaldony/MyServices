@@ -1,5 +1,4 @@
 using Externals.Serializer;
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
@@ -9,7 +8,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_EnterPlayer.
     /// </summary>
-    public class UdpHandler_EnterPlayer : UdpHandler
+    public class UdpHandler_EnterPlayer : GamePacketHandler
     {
         public UdpHandler_EnterPlayer()
             : base(GamePacketCode.SC_EnterPlayer)

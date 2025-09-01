@@ -4,7 +4,6 @@ using ServerEngine.Database.DataObject;
 namespace Framework.Core.Database.DAO
 {
     using Framework.Config.ConfigManager;
-    using GameCore.Datas.Play;
     using GameCore.Datas.Player;
 
     /// <summary>

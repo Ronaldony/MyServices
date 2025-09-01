@@ -59,11 +59,27 @@ namespace Externals.UDP
             // Initialize listener.
             Initialize_Listener();
 
-            // Initialize handler.
-            Initialize_Handlers();
-
             // Register UDP packet.
             _packetProcessor.SubscribeReusable<UdpPacket>(HandlePacket);
+        }
+
+        /// <summary>
+        /// Initialize handlers.
+        /// </summary>
+        public void Initialize_Handlers<T>() where T : UdpHandler
+        {
+            _handlerDict.Clear();
+
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var type in asm.GetTypes().Where(d => d.IsSubclassOf(typeof(T))))
+                {
+                    var handler = Activator.CreateInstance(type) as T;
+                    var method = handler.GetType().GetMethod(nameof(handler.HandlePacket));
+
+                    _handlerDict.Add(handler.PacketCode, (handler, method, new object[1]));
+                }
+            }
         }
 
         /// <summary>
@@ -165,25 +181,6 @@ namespace Externals.UDP
             {
                 _peer = peer;
             };
-        }
-
-        /// <summary>
-        /// Initialize handlers.
-        /// </summary>
-        private void Initialize_Handlers()
-        {
-            _handlerDict.Clear();
-
-            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in asm.GetTypes().Where(d => d.IsSubclassOf(typeof(UdpHandler))))
-                {
-                    var handler = Activator.CreateInstance(type) as UdpHandler;
-                    var method = handler.GetType().GetMethod(nameof(UdpHandler.HandlePacket));
-
-                    _handlerDict.Add(handler.PacketCode, (handler, method, new object[1]));
-                }
-            }
         }
 
         /// <summary>

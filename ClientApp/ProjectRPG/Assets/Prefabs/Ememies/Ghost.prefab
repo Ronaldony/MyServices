@@ -261,9 +261,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16bd5f4a656bba74586c74fd0a5b4ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldCoin: {fileID: 7658257155594380743, guid: 12ea0dc6e799dba4c94734492416f346, type: 3}
-  healthGlobe: {fileID: 7658257155594380743, guid: 48d5d090079c84f428d3991e1d9b55db, type: 3}
-  staminaGlobe: {fileID: 7658257155594380743, guid: 9a227dd265d33934d9b6eea598086e3f, type: 3}
+  _dropItems:
+  - RefId: 100
+    GameObject: {fileID: 7658257155594380743, guid: 12ea0dc6e799dba4c94734492416f346, type: 3}
+  - RefId: 200
+    GameObject: {fileID: 7658257155594380743, guid: b075159b402bedb448b86626e3f23c3b, type: 3}
+  - RefId: 201
+    GameObject: {fileID: 7658257155594380743, guid: 48d5d090079c84f428d3991e1d9b55db, type: 3}
+  - RefId: 300
+    GameObject: {fileID: 7658257155594380743, guid: 1ecad6fcc43ce794ba3234c622b6ec15, type: 3}
+  - RefId: 301
+    GameObject: {fileID: 7658257155594380743, guid: cb3db9c20c29bea408885c771403ae5c, type: 3}
+  - RefId: 302
+    GameObject: {fileID: 7658257155594380743, guid: 63811cd9aa26a2d4eab3a43ecbbf1fe1, type: 3}
 --- !u!114 &-5544187079191925801
 MonoBehaviour:
   m_ObjectHideFlags: 0

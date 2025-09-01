@@ -1,5 +1,5 @@
 ﻿using MemoryPack;
-using System.Numerics;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace GameCore.Datas.Post

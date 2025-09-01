@@ -32,6 +32,9 @@ namespace Server_Realm.Zones.HuntZone
             pu.WorldSection = _worldGroup.WorldSectionDict[section];
             pu.WorldSection.EnterPlayer(pu);
 
+            // Enter zone router.
+            _zoneRouter.EnterPlayer(pu.Pid, pu);
+
             var totalSW = new Stopwatch();
             totalSW.Start();
 
@@ -44,15 +47,15 @@ namespace Server_Realm.Zones.HuntZone
                 var ws = _worldGroup.WorldSectionDict[srcSection];
 
                 // Players.
-                foreach (var targetPu in ws.GetPlayerUnits())
+                foreach (var targetPU in ws.GetPlayerUnits())
                 {
-                    packetEnterPlayer.PlayInfos.Add(targetPu.UnitId, targetPu.PlayInfo);
+                    packetEnterPlayer.PlayInfos.Add(targetPU.UnitId, targetPU.PlayInfo);
                 }
 
                 // Mobs.
-                foreach (var targetWu in ws.GetMobUnits())
+                foreach (var targetMU in ws.GetMobUnits())
                 {
-                    packetEnterPlayer.Mobs.Add(targetWu.UnitId, targetWu.Mob);
+                    packetEnterPlayer.Mobs.Add(targetMU.UnitId, targetMU.Mob);
                 }
             }
 

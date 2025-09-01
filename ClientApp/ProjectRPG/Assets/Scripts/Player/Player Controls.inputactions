@@ -122,7 +122,7 @@
             ]
         },
         {
-            "name": "Inventory",
+            "name": "Weapons",
             "id": "00f14326-e150-47c2-b43f-59008109ddc8",
             "actions": [
                 {
@@ -188,6 +188,34 @@
                     "processors": "Scale(factor=5)",
                     "groups": "",
                     "action": "keyboard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Inventory",
+            "id": "2cdf4fbc-b740-49d8-9da9-ebc481c828a5",
+            "actions": [
+                {
+                    "name": "Toggle",
+                    "type": "Button",
+                    "id": "36933b05-a426-41b5-a8e7-f7d22aa96826",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "96e077f5-d887-43fa-b901-e8ab649c0d3f",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

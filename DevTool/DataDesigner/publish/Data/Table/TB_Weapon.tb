@@ -9,14 +9,6 @@
   },
   {
     "Id": 2,
-    "Name": "Staff",
-    "Damage": 5,
-    "CoolTime": 4,
-    "CollisionType": "None",
-    "ProjectileType": "Rasor"
-  },
-  {
-    "Id": 3,
     "Name": "Bow",
     "Damage": 2,
     "CoolTime": 2,

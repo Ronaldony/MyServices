@@ -1,8 +1,9 @@
 ﻿using Akka.Actor;
-using Server_Realm.Zones.HuntZone;
 
 namespace Server_Realm.Zones
 {
+    using Server_Realm.Zones.HuntZone;
+
     /// <summary>
     /// HuntZoneProcessorProvider.
     /// </summary>

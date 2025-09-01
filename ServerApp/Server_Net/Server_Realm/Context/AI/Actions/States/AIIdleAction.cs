@@ -21,6 +21,9 @@
         {
             // Move stop.
             Owner.MovementHandler.MoveStop();
+
+            // Aggro 초기화.
+            Owner.CombatHandler.ClearAggroPoints();
         }
 
         public override void Update(double deltaTime)

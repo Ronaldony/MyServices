@@ -21,5 +21,21 @@ namespace GameCore
         /// Item rate
         /// </summary>
         public int RateRef { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Consume_Ref1 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Consume_Value1 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Consume_Ref2 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Consume_Value2 { get; set; }
     }
 }

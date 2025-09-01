@@ -14,7 +14,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
     /// <summary>
     /// UdpHandler_Dash.
     /// </summary>
-    public class UdpHandler_Dash : UdpHandler
+    public class UdpHandler_Dash : HuntZoneHandler
     {
         private readonly ILogger<UdpHandler_Dash> _logger;
 

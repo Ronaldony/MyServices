@@ -144,7 +144,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Inventory"",
+            ""name"": ""Weapons"",
             ""id"": ""00f14326-e150-47c2-b43f-59008109ddc8"",
             ""actions"": [
                 {
@@ -214,6 +214,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Inventory"",
+            ""id"": ""2cdf4fbc-b740-49d8-9da9-ebc481c828a5"",
+            ""actions"": [
+                {
+                    ""name"": ""Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""36933b05-a426-41b5-a8e7-f7d22aa96826"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""96e077f5-d887-43fa-b901-e8ab649c0d3f"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -225,9 +253,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_Attack = m_Combat.FindAction("Attack", throwIfNotFound: true);
         m_Combat_Dash = m_Combat.FindAction("Dash", throwIfNotFound: true);
+        // Weapons
+        m_Weapons = asset.FindActionMap("Weapons", throwIfNotFound: true);
+        m_Weapons_keyboard = m_Weapons.FindAction("keyboard", throwIfNotFound: true);
         // Inventory
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
-        m_Inventory_keyboard = m_Inventory.FindAction("keyboard", throwIfNotFound: true);
+        m_Inventory_Toggle = m_Inventory.FindAction("Toggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -386,15 +417,61 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public CombatActions @Combat => new CombatActions(this);
 
+    // Weapons
+    private readonly InputActionMap m_Weapons;
+    private List<IWeaponsActions> m_WeaponsActionsCallbackInterfaces = new List<IWeaponsActions>();
+    private readonly InputAction m_Weapons_keyboard;
+    public struct WeaponsActions
+    {
+        private @PlayerControls m_Wrapper;
+        public WeaponsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @keyboard => m_Wrapper.m_Weapons_keyboard;
+        public InputActionMap Get() { return m_Wrapper.m_Weapons; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(WeaponsActions set) { return set.Get(); }
+        public void AddCallbacks(IWeaponsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_WeaponsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_WeaponsActionsCallbackInterfaces.Add(instance);
+            @keyboard.started += instance.OnKeyboard;
+            @keyboard.performed += instance.OnKeyboard;
+            @keyboard.canceled += instance.OnKeyboard;
+        }
+
+        private void UnregisterCallbacks(IWeaponsActions instance)
+        {
+            @keyboard.started -= instance.OnKeyboard;
+            @keyboard.performed -= instance.OnKeyboard;
+            @keyboard.canceled -= instance.OnKeyboard;
+        }
+
+        public void RemoveCallbacks(IWeaponsActions instance)
+        {
+            if (m_Wrapper.m_WeaponsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IWeaponsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_WeaponsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_WeaponsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public WeaponsActions @Weapons => new WeaponsActions(this);
+
     // Inventory
     private readonly InputActionMap m_Inventory;
     private List<IInventoryActions> m_InventoryActionsCallbackInterfaces = new List<IInventoryActions>();
-    private readonly InputAction m_Inventory_keyboard;
+    private readonly InputAction m_Inventory_Toggle;
     public struct InventoryActions
     {
         private @PlayerControls m_Wrapper;
         public InventoryActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @keyboard => m_Wrapper.m_Inventory_keyboard;
+        public InputAction @Toggle => m_Wrapper.m_Inventory_Toggle;
         public InputActionMap Get() { return m_Wrapper.m_Inventory; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -404,16 +481,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_InventoryActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_InventoryActionsCallbackInterfaces.Add(instance);
-            @keyboard.started += instance.OnKeyboard;
-            @keyboard.performed += instance.OnKeyboard;
-            @keyboard.canceled += instance.OnKeyboard;
+            @Toggle.started += instance.OnToggle;
+            @Toggle.performed += instance.OnToggle;
+            @Toggle.canceled += instance.OnToggle;
         }
 
         private void UnregisterCallbacks(IInventoryActions instance)
         {
-            @keyboard.started -= instance.OnKeyboard;
-            @keyboard.performed -= instance.OnKeyboard;
-            @keyboard.canceled -= instance.OnKeyboard;
+            @Toggle.started -= instance.OnToggle;
+            @Toggle.performed -= instance.OnToggle;
+            @Toggle.canceled -= instance.OnToggle;
         }
 
         public void RemoveCallbacks(IInventoryActions instance)
@@ -440,8 +517,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
-    public interface IInventoryActions
+    public interface IWeaponsActions
     {
         void OnKeyboard(InputAction.CallbackContext context);
+    }
+    public interface IInventoryActions
+    {
+        void OnToggle(InputAction.CallbackContext context);
     }
 }

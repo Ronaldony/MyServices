@@ -1,22 +1,22 @@
+using GameCore;
+using GameCore.Datas.Items;
+using GameCore.GamePacket;
+using Network;
 using System.Collections;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    private enum PickUpType
-    { 
-        GoldCoin,
-        StaminaGlobe,
-        HealthGlobe
-    }
-
-    [SerializeField] private PickUpType pickUpType;
     [SerializeField] private float pickUpDistance = 5f;
     [SerializeField] private float accelerationRate = .2f;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private AnimationCurve animCurve;
     [SerializeField] private float heightY = 1.5f;
     [SerializeField] private float popDuration = 1f;
+
+    // Items.
+    private long _dropId;
+    private DTO_Item _item;
 
     private Vector3 moveDir;
     private Rigidbody2D rb;
@@ -56,9 +56,15 @@ public class Pickup : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<PlayerController>())
         {
-            DetectPickupType();
+            PickupItem();
             Destroy(gameObject);
         }
+    }
+
+    public void SetDropItem(long dropId, DTO_Item item)
+    {
+        _dropId = dropId;
+        _item = item;
     }
 
     private IEnumerator AnimCurveSpawnRoutine()
@@ -83,19 +89,20 @@ public class Pickup : MonoBehaviour
         }
     }
 
-    private void DetectPickupType()
+    /// <summary>
+    /// PickupItem.
+    /// </summary>
+    private void PickupItem()
     {
-        switch (pickUpType)
+        var gpManager = GamePacketManager.Instance;
+
+        gpManager.Send<GamePacketCS_RootItem>(GamePacketCode.CS_RootItem, new GamePacketCS_RootItem
         {
-            case PickUpType.GoldCoin:
-                EconomyManager.Instance.UpdateCurrentGold();
-                break;
-            case PickUpType.HealthGlobe:
-                //PlayerHealth.Instance.HealPlayer();
-                break;
-            case PickUpType.StaminaGlobe:
-                Stamina.Instance.RefreshStamina();
-                break;
-        }
+            DropId = _dropId,
+            Item = _item
+        });
+
+        // Move to inventory.
+        Inventory.Instance.PickupItem(_item);
     }
 }

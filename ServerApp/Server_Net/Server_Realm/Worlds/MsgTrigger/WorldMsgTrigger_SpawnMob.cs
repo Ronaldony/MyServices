@@ -6,9 +6,7 @@ using System.Reactive.Linq;
 
 namespace Server_Realm.Worlds.MsgTrigger
 {
-    using Consul;
     using GameCore;
-    using GameCore.GamePacket;
     using GameCore.Interfaces;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Items;
@@ -18,7 +16,6 @@ namespace Server_Realm.Worlds.MsgTrigger
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Zones;
-    using System.Reflection.Metadata;
 
     /// <summary>
     /// WorldMsgTrigger_SpawnMob.
@@ -73,7 +70,7 @@ namespace Server_Realm.Worlds.MsgTrigger
         {
             // 구독.
             _subscriptions.Add(
-                Observable.Interval(TimeSpan.FromSeconds(1))
+                Observable.Interval(TimeSpan.FromSeconds(8))
                 .Subscribe(count =>
                 {
                     SpawnMob();
@@ -118,6 +115,8 @@ namespace Server_Realm.Worlds.MsgTrigger
                         _logger.LogError($"fail to create mob. mobId: {dtoMob.MobId}");
                         continue;
                     }
+
+                    //_logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
 
                     // Get section.
                     var spawnPos = SectionId.ToSection(dtoMob.Location.Pos);

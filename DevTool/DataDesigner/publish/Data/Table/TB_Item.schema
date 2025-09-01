@@ -34,6 +34,38 @@
       "Type": "int",
       "RefTable": "TB_ItemRate",
       "Summary": "Item rate"
+    },
+    {
+      "Idx": 5,
+      "Name": "Consume_Ref1",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "TB_ItemConsume",
+      "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "Consume_Value1",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
+    },
+    {
+      "Idx": 7,
+      "Name": "Consume_Ref2",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "TB_ItemConsume",
+      "Summary": ""
+    },
+    {
+      "Idx": 8,
+      "Name": "Consume_Value2",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
     }
   ]
 }

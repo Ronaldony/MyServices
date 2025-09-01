@@ -1,15 +1,13 @@
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
     /// <summary>
     /// UdpHandler_MoveStart.
     /// </summary>
-    public class UdpHandler_MoveStart : UdpHandler
+    public class UdpHandler_MoveStart : GamePacketHandler
     {
         private readonly GamePacketCS_MoveStart _sendPacket;
 

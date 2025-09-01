@@ -1,8 +1,6 @@
-using Externals.UDP;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
-using UnityEngine;
 
 namespace Network
 {
@@ -10,7 +8,7 @@ namespace Network
     /// <summary>
     /// UdpHandler_Dash.
     /// </summary>
-    public class UdpHandler_Dash : UdpHandler
+    public class UdpHandler_Dash : GamePacketHandler
     {
         private readonly GamePacketCS_Dash _sendPacket;
 

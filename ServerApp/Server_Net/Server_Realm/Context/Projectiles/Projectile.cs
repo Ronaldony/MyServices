@@ -5,6 +5,7 @@ namespace Server_Realm.Context.Projectiles
     using GameCore;
     using Server_Realm.Context.HitBoxes;
     using Server_Realm.Context.Units;
+    using Server_Realm.Core.Utilities;
     using Server_Realm.Worlds;
 
     /// <summary>
@@ -104,7 +105,7 @@ namespace Server_Realm.Context.Projectiles
             SpawnPos = spawnPos;
             Pos = spawnPos;
             EndPos = endPos;
-            Angle = Vector2.Normalize(endPos - spawnPos);
+            Angle = VectorUtility.SafeNormalize(endPos, spawnPos);
             Section = SectionId.ToSection(spawnPos);
 
             Damage = damage;

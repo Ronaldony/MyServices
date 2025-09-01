@@ -110,7 +110,7 @@ namespace Server_Realm.Core.Services
                 var dropRate = 100 / (double)(item.Rate + item.Rate + extraRateWeight);
                 var randomNum = _random.NextDouble() * 100;
 
-                _logger.LogDebug($"item refId: {item.RefId}, rate: {item.Rate}, total rate: {dropRate}, randomNum: {randomNum}");
+                //_logger.LogDebug($"item refId: {item.RefId}, rate: {item.Rate}, total rate: {dropRate}, randomNum: {randomNum}");
 
                 // 난수가 확률 보다 큰 경우, 해당 아이템 제외.
                 if (dropRate < randomNum)

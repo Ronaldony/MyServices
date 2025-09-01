@@ -13,7 +13,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
     /// <summary>
     /// UdpHandler_AttackMelee.
     /// </summary>
-    public class UdpHandler_AttackProjectile : UdpHandler
+    public class UdpHandler_AttackProjectile : HuntZoneHandler
     {
         private readonly ILogger<UdpHandler_AttackProjectile> _logger;
 

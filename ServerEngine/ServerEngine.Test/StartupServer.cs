@@ -7,6 +7,7 @@ namespace ServerEngine.Test
     using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Network.UDP;
     using ServerEngine.Test.ConfigManager;
     using ServerEngine.Test.Database.DataObject;
     using ServerEngine.Test.Server;
@@ -43,7 +44,7 @@ namespace ServerEngine.Test
 
             // TestServer
             var testServer = _serviceProvider.GetRequiredService<TestServer>();
-            testServer.Start(9050, false);    // port, peer address changable, polling interval.
+            testServer.Start<UdpHandler>(9050, false);    // port, peer address changable, polling interval.
 
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();

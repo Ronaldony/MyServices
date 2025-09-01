@@ -209,7 +209,7 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveStop()
     {
-        _playerDataManager.PlayInfo.Location.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        PlayerDataManager.Instance.PlayInfo.Location.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
 
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
@@ -218,7 +218,7 @@ public class PlayerController : Singleton<PlayerController>
             GamePacketCode.CS_MoveEnd,
             new GamePacketCS_MoveEnd
             {
-                EndPos = _playerDataManager.PlayInfo.Location.Pos,
+                EndPos = PlayerDataManager.Instance.PlayInfo.Location.Pos,
                 PacketTime = packetTime,
             });
 
@@ -337,7 +337,6 @@ public class PlayerController : Singleton<PlayerController>
                 Direction = new System.Numerics.Vector2(_moveDirection.x, _moveDirection.y),
                 PacketTime = DateTime.Now
             });
-
 
         _isDashing = false;
 

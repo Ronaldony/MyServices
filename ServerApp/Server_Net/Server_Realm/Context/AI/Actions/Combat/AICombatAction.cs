@@ -5,6 +5,7 @@ namespace Server_Realm.Context.AI.Actions.Combat
     using GameCore;
     using Server_Realm.Context.AI;
     using Server_Realm.Context.AI.Actions;
+    using Server_Realm.Core.Utilities;
     using Server_Realm.Units.Mob;
 
     /// <summary>
@@ -48,7 +49,7 @@ namespace Server_Realm.Context.AI.Actions.Combat
             _targetPos = detectPlayer.MovementHandler.NowPos();
 
             // Move start.
-            Owner.MovementHandler.MoveStart(Vector2.Normalize(_targetPos - Owner.MovementHandler.NowPos()));
+            Owner.MovementHandler.MoveStart(VectorUtility.SafeNormalize(_targetPos, Owner.MovementHandler.NowPos()));
         }
 
         public override void Update(double deltaTime)
@@ -78,7 +79,7 @@ namespace Server_Realm.Context.AI.Actions.Combat
                     _nowCooldown = 0;
 
                     // 공격.
-                    //Owner.Attack(target);
+                    Owner.Attack(target);
                 }
 
                 if (Owner.MovementHandler.IsMoving())
@@ -103,7 +104,7 @@ namespace Server_Realm.Context.AI.Actions.Combat
             {
                 // 추적 위치 갱신.
                 _targetPos = nowTargetPos;
-                Owner.MovementHandler.MoveStart(Vector2.Normalize(nowTargetPos - ownerPos));
+                Owner.MovementHandler.MoveStart(VectorUtility.SafeNormalize(nowTargetPos, ownerPos));
             }
         }
 
@@ -112,9 +113,6 @@ namespace Server_Realm.Context.AI.Actions.Combat
             // 초기화.
             _targetPid = null;
             _nowCooldown = 0;
-
-            // Aggro 초기화.
-            Owner.CombatHandler.ClearAggroPoints();
         }
     }
 }

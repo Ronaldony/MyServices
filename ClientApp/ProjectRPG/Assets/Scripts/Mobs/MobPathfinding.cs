@@ -7,7 +7,7 @@ public class MobPathfinding : MonoBehaviour
 
     private float _velocity;
 
-    private Vector2 _moveDirection;
+    private Vector2 _moveDirection = new Vector2();
 
     private Knockback _knockBack;
     private SpriteRenderer _spriteRenderer;
@@ -30,7 +30,6 @@ public class MobPathfinding : MonoBehaviour
         if (_knockBack.GettingKnockedBack) { return; }
 
         // check next position.
-        //_rb.position = Vector2.MoveTowards(_rb.position, _nextPos, _velocity * Time.fixedDeltaTime);
         _rb.position += _moveDirection * _velocity * Time.fixedDeltaTime;
 
         //Debug.Log($"Path finding. now pos: {_rb.position}, dir: {_moveDirection}");

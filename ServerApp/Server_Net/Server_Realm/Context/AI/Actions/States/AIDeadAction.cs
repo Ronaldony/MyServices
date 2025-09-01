@@ -1,32 +1,37 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ServerEngine.Core.Services.Interfaces;
 
 namespace Server_Realm.Context.AI.Actions.States
 {
     using GameCore;
     using GameCore.GamePacket;
-    using Server_Realm.Core.Types;
-    using Server_Realm.Entities;
+    using Microsoft.Extensions.Logging;
     using Server_Realm.Context.AI;
     using Server_Realm.Context.AI.Actions;
+    using Server_Realm.Core.Types;
+    using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
-    using ServerEngine.Core.Services.Interfaces;
 
     /// <summary>
     /// AIDeadAction.
     /// </summary>
     public class AIDeadAction : AIAction
     {
+        private readonly ILogger<AIDeadAction> _logger;
         private readonly IMemoryPoolService _memoryPoolService;
 
         public AIDeadAction(IServiceProvider serviceProvider, MobUnit owner, AIBrain brain)
             : base(owner, brain)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<AIDeadAction>>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
         }
 
         public override void Start()
         {
             Owner.IsDead = true;
+
+            _logger.LogDebug($"AI Dead.");
 
             // 드랍 아이템 처리.
             var aggroPoints = Owner.CombatHandler.GetAggroPoints();
@@ -44,7 +49,7 @@ namespace Server_Realm.Context.AI.Actions.States
                     var packet = _memoryPoolService.Rent<GamePacketSC_DropItems>();
 
                     // 드랍 위치.
-                    packet.Position = Owner.MovementHandler.NowPos();
+                    packet.UnitId = Owner.UnitId;
 
                     // 드랍 아이템.
                     foreach (var dropItem in Owner.DropItems[aggroOrder])
