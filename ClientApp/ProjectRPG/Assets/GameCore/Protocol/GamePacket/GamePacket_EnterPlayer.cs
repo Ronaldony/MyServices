@@ -29,11 +29,17 @@ namespace GameCore.GamePacket
         public long UnitId { get; set; }
 
         /// <summary>
+        /// Zone id.
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public string ZoneId { get; set; }
+
+        /// <summary>
         /// 유저 플레이 정보.
         /// key: unit id.
         /// value: PlayInfo.
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public Dictionary<long, DTO_PlayInfo> PlayInfos { get; set; }
 
         /// <summary>
@@ -41,7 +47,7 @@ namespace GameCore.GamePacket
         /// key: unit id.
         /// value: Mob.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(3)]
         public Dictionary<long, DTO_Mob> Mobs { get; set; }
 
         public override void Dispose()

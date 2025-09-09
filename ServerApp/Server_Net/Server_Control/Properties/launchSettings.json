@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Server_Control": {
+      "commandName": "Project",
+      "commandLineArgs": "-N ControlServer -C appsettings.Development.json -p_ph 9011 -D 1 -S 3"
+    }
+  }
+}

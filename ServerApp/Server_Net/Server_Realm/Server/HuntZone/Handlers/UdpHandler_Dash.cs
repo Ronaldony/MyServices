@@ -9,7 +9,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
     using GameCore.GamePacket;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.Worlds.Msg;
-    using Server_Realm.Zones;
+    using Server_Realm.Zones.Providers;
 
     /// <summary>
     /// UdpHandler_Dash.

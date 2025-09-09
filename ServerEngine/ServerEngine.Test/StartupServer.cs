@@ -49,9 +49,6 @@ namespace ServerEngine.Test
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();
             jsonSerializer.Initialize();
-
-            var playerObject = _serviceProvider.GetRequiredService<PlayerInfoObejct>();
-            await playerObject.SelectAsync<DTOPlayerInfo>("");
         }
     }
 }

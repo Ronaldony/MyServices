@@ -1,7 +1,6 @@
 ﻿namespace Server_Realm.Zones.HuntZone
 {
-    using GameCore;
-    using Server_Realm.Hubs.Msg;
+    using Framework.Core.Hubs;
     using Server_Realm.Worlds.Msg;
 
     /// <summary>
@@ -12,34 +11,23 @@
         /// <summary>
         /// 우편물 수령.
         /// </summary>
-        private void RetrievePost(WorldMsg_RetrievePost worldMsg)
+        private void ClaimPost(WorldMsg_ClaimPost worldMsg)
         {
             // 월드에 플레이어 추가.
             if (false == _worldGroup.PlayerUnitDict.TryGetValue(worldMsg.Pid, out var pu))
             {
                 // 다른 존으로 이동했거나, 게임 종료된 플레이어.
-                worldMsg.TryCount++;
-
-                if (worldMsg.TryCount < GameData.POST_RETRIEVE_COUNT)
+                _hubActorProvider.Tell<PlayHubMsg_FailClaimPost>(new PlayHubMsg_FailClaimPost
                 {
-                    // 우편물 수령 재시도.
-                    _zoneRouter.RouteToZone(worldMsg.Pid, worldMsg);
-                }
-                else
-                {
-                    // 우편물 수령 실패.
-                    _playHubProvider.Tell<HubMsg_FailRetrievePost>(new HubMsg_FailRetrievePost
-                    {
-                        PostUid = worldMsg.Post.PostUid,
-                        TargetPid = worldMsg.Pid
-                    });
-                }
+                    Pid = worldMsg.Pid,
+                    PostUid = worldMsg.Post.PostUid
+                });
 
                 return;
             }
 
-            // Inventory 처리.
-            pu.RetrievePost(worldMsg.Post);
+            // 우편물 수령.
+            pu.ClaimPost(worldMsg.Post);
         }
     }
 }

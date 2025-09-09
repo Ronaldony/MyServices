@@ -1,6 +1,6 @@
 using GameCore;
 using GameCore.GamePacket;
-using Network;
+using GamePackets;
 using UnityEngine;
 
 public class Sword : MonoBehaviour, IWeapon
@@ -47,8 +47,6 @@ public class Sword : MonoBehaviour, IWeapon
         Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
         Vector2 angle = (mousePos - playerScreenPoint).normalized;
 
-        Debug.Log($"Attacl angle: {angle}");
-        
         // Send Attack.
         _gpm.Send<GamePacketCS_AttackMelee>(
             GamePacketCode.CS_AttackMelee,

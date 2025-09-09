@@ -1,7 +1,7 @@
 
 using GameCore;
 using GameCore.GamePacket;
-using Network;
+using GamePackets;
 using System.Collections.Concurrent;
 using UnityEngine;
 
@@ -12,11 +12,11 @@ public class PlayerManagement : Singleton<PlayerManagement>
     private GameObject _playerObject;
 
     // Queue.
-    private ConcurrentQueue<UpdatePacket> _updatePacketQ;
+    private ConcurrentQueue<UpdateGamePacket> _updatePacketQ;
 
     public PlayerManagement()
     {
-        _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
+        _updatePacketQ = new ConcurrentQueue<UpdateGamePacket>();
     }
 
     private void Start()
@@ -39,7 +39,7 @@ public class PlayerManagement : Singleton<PlayerManagement>
     /// <summary>
     /// Enqueue update packet.
     /// </summary>
-    public void AddUpdatePacket(UpdatePacket updatePacket)
+    public void AddUpdatePacket(UpdateGamePacket updatePacket)
     {
         _updatePacketQ.Enqueue(updatePacket);
     }

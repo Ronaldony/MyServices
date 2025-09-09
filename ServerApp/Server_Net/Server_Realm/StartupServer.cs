@@ -1,6 +1,4 @@
 ﻿
-//#define TEST_LOCAL
-
 using Dapper;
 using Dapper.ColumnMapper;
 using Microsoft.Extensions.Configuration;
@@ -8,21 +6,21 @@ using Microsoft.Extensions.DependencyInjection;
 using ServerEngine.Config.Database;
 using ServerEngine.Config.Strapi;
 using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.MessageBus.RabbitMQs;
 using System.Reactive.Linq;
 using System.Reflection;
 
 namespace Server_Realm
 {
-    using Framework.Config;
     using Framework.Config.ConfigManager;
+    using Framework.Config.Configs;
+    using Framework.Config.MessageBus;
     using Framework.Core.Database.Attributes;
+    using Framework.Core.Utilities;
     using GameCore.Interfaces;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
-    using Server_Realm.Core.Utilities;
-    using Server_Realm.Server.Hub;
     using Server_Realm.Server.HuntZone;
-    using Server_Realm.Zones;
 
     internal class StartupServer
     {
@@ -39,17 +37,29 @@ namespace Server_Realm
 
         public async Task ConfigureAsync()
         {
+            // Utilies.
+            ServiceUtility.Initialize(_serviceProvider);
+
+            // Configuration.
             var configuration = _serviceProvider.GetService<IConfiguration>();
 
             // Get appsettins.
             var configStrapi = configuration.GetSection("Config_Strapi").Get<Config_Strapi>();
 
-			/// RemoteConfigureService.
-			var remoteConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
+            /// RemoteConfigureService.
+            var remoteConfigureService = _serviceProvider.GetRequiredService<IRemoteConfigureService>();
             remoteConfigureService.Initialize(configStrapi);
 
-			// MemoryPoolService
-			var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
+            // Configure.
+            var configGame = await remoteConfigureService.GetConfigData<Config_Game>(configStrapi.ContentType, "Devel_Game");
+            var mysqlConnections = await remoteConfigureService.GetConfigData<List<Config_MySQLConnection>>(configStrapi.ContentType, "Devel_MySQL");
+            var couchbaseConnections = await remoteConfigureService.GetConfigData<List<Config_CouchbaseConnection>>(configStrapi.ContentType, "Devel_Couchbase");
+            var messageBusDatas = await remoteConfigureService.GetConfigData<List<Config_MessageBusData>>(configStrapi.ContentType, "Devel_MessageBus");
+
+            GameConfigManager.Initialize(configGame, mysqlConnections, couchbaseConnections, messageBusDatas);
+
+            // MemoryPoolService
+            var memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
             memoryPoolService.Initialize();
 
             // IJsonSerializer.
@@ -80,25 +90,16 @@ namespace Server_Realm
             var itemCreateService = _serviceProvider.GetRequiredService<ItemCreateService>();
             itemCreateService.Initialize();
 
-            // zoneRouter.
-            var zoneRouter = _serviceProvider.GetRequiredService<ZoneRouter>();
-            zoneRouter.Initialize();
-
-            // Utilies.
-            ServiceUtility.Initialize(_serviceProvider);
-
-#if !TEST_LOCAL
-            var configGame = await remoteConfigureService.GetConfigData<Config_Game>(configStrapi.ContentType, "Devel_Game");
-            var mysqlConnections = await remoteConfigureService.GetConfigData<List<Config_MySQLConnection>>(configStrapi.ContentType, "Devel_MySQL");
-            var couchbaseConnections = await remoteConfigureService.GetConfigData<List<Config_CouchbaseConnection>>(configStrapi.ContentType, "Devel_Couchbase");
-
-            GameConfigManager.Initialize(configGame, mysqlConnections, couchbaseConnections);
-
             /////////////////////////////////////////////////////////////////////////////
             // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
-#endif
+
+            // rbmqConnection.
+            var rbmqConnection = _serviceProvider.GetRequiredService<RBMQConnection>();
+            var confMessageBus = GameConfigManager.ConfigGame.MessageBus;
+
+            await rbmqConnection.InitializeAsync(confMessageBus.Host, confMessageBus.User, confMessageBus.Pass, ServiceUtility.GetCTS().Token);
 
             // Database data mapping.
             MappingDapper();
@@ -133,10 +134,6 @@ namespace Server_Realm
             // Start server.
             var huntZoneServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
             huntZoneServer.Start<HuntZoneHandler>(_arguments.Port_HuntZone, false);
-
-            // Start server.
-            var hubServer = _serviceProvider.GetRequiredService<HubServer>();
-            hubServer.Start<HubHanlder>(_arguments.Port_PlayHub, false);
         }
     }
 }

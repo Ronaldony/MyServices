@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Server_PlayHub": {
-      "commandName": "Project",
-      "commandLineArgs": "-N PlayHubServer -C appsettings.Development.Company.json -P 9011 -D 1 -S 3"
-    }
-  }
-}

@@ -4,9 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace GameCore.HubPacket
 {
-    using GameCore.Datas.Inventory;
     using GameCore.Datas.Player;
-    using GameCore.HubPacket;
 
     /// <summary>
     /// HubPacketCS_Enter.

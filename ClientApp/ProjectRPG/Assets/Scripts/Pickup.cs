@@ -1,7 +1,7 @@
 using GameCore;
 using GameCore.Datas.Items;
 using GameCore.GamePacket;
-using Network;
+using GamePackets;
 using System.Collections;
 using UnityEngine;
 
@@ -94,9 +94,7 @@ public class Pickup : MonoBehaviour
     /// </summary>
     private void PickupItem()
     {
-        var gpManager = GamePacketManager.Instance;
-
-        gpManager.Send<GamePacketCS_RootItem>(GamePacketCode.CS_RootItem, new GamePacketCS_RootItem
+        GamePacketManager.Instance.Send<GamePacketCS_RootItem>(GamePacketCode.CS_RootItem, new GamePacketCS_RootItem
         {
             DropId = _dropId,
             Item = _item

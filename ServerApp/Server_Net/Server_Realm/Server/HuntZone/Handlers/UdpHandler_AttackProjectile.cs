@@ -8,7 +8,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
     using GameCore;
     using GameCore.GamePacket;
     using Server_Realm.Worlds.Msg;
-    using Server_Realm.Zones;
+    using Server_Realm.Zones.Providers;
 
     /// <summary>
     /// UdpHandler_AttackMelee.

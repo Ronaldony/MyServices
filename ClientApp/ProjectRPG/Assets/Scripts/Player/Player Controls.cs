@@ -242,6 +242,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PostBox"",
+            ""id"": ""b0b77482-b90c-4e9b-bbd0-4f20614778db"",
+            ""actions"": [
+                {
+                    ""name"": ""Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8431696-f021-4739-8250-ebc0ffbafd55"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4133cc64-090f-43c6-b183-f0d12f43a6bc"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -259,6 +287,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Inventory
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
         m_Inventory_Toggle = m_Inventory.FindAction("Toggle", throwIfNotFound: true);
+        // PostBox
+        m_PostBox = asset.FindActionMap("PostBox", throwIfNotFound: true);
+        m_PostBox_Toggle = m_PostBox.FindAction("Toggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -508,6 +539,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public InventoryActions @Inventory => new InventoryActions(this);
+
+    // PostBox
+    private readonly InputActionMap m_PostBox;
+    private List<IPostBoxActions> m_PostBoxActionsCallbackInterfaces = new List<IPostBoxActions>();
+    private readonly InputAction m_PostBox_Toggle;
+    public struct PostBoxActions
+    {
+        private @PlayerControls m_Wrapper;
+        public PostBoxActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Toggle => m_Wrapper.m_PostBox_Toggle;
+        public InputActionMap Get() { return m_Wrapper.m_PostBox; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PostBoxActions set) { return set.Get(); }
+        public void AddCallbacks(IPostBoxActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PostBoxActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PostBoxActionsCallbackInterfaces.Add(instance);
+            @Toggle.started += instance.OnToggle;
+            @Toggle.performed += instance.OnToggle;
+            @Toggle.canceled += instance.OnToggle;
+        }
+
+        private void UnregisterCallbacks(IPostBoxActions instance)
+        {
+            @Toggle.started -= instance.OnToggle;
+            @Toggle.performed -= instance.OnToggle;
+            @Toggle.canceled -= instance.OnToggle;
+        }
+
+        public void RemoveCallbacks(IPostBoxActions instance)
+        {
+            if (m_Wrapper.m_PostBoxActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPostBoxActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PostBoxActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PostBoxActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PostBoxActions @PostBox => new PostBoxActions(this);
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -522,6 +599,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnKeyboard(InputAction.CallbackContext context);
     }
     public interface IInventoryActions
+    {
+        void OnToggle(InputAction.CallbackContext context);
+    }
+    public interface IPostBoxActions
     {
         void OnToggle(InputAction.CallbackContext context);
     }

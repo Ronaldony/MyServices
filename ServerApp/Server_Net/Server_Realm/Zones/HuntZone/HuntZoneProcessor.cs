@@ -1,5 +1,4 @@
 ﻿using Akka.Actor;
-using Akka.Event;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
@@ -8,18 +7,19 @@ using System.Reactive.Linq;
 
 namespace Server_Realm.Zones.HuntZone
 {
+    using Framework.Core.Utilities;
     using GameCore;
     using GameCore.GamePacket;
+    using Server_Realm.Actors;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
-    using Server_Realm.Core.Utilities;
-    using Server_Realm.Hubs;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.TaskSchedulers;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Worlds.MsgTrigger;
     using Server_Realm.Zones;
+    using Server_Realm.Zones.Providers;
 
     /// <summary>
     /// HuntZoneProcessor.
@@ -29,19 +29,19 @@ namespace Server_Realm.Zones.HuntZone
         private readonly ILogger<HuntZoneProcessor> _logger;
 
         // Services.
+        private readonly IServiceProvider _serviceProvider;
         private readonly IDataSerializer _dataSerializer;
         private readonly IMemoryPoolService _memoryPoolService;
 
         // Factories.
         private readonly UnitFactory _unitFactory;
 
-        // Zones.
+        // Servers.
         private readonly HuntZoneServer _zoneServer;
-        private readonly ZoneRouter _zoneRouter;
 
         // Providers.
-        private readonly PlayHubProvider _playHubProvider;
         private readonly HuntZoneProcessorProvider _zoneProcessorProvider;
+        private readonly HubActorProvider _hubActorProvider;
 
         // Worlds.
         private readonly WorldGroup _worldGroup;
@@ -61,9 +61,6 @@ namespace Server_Realm.Zones.HuntZone
         // Scheduler spawn mob.
         private readonly WorldMsgTrigger_SpawnMob _msgTrgSpawnMob;
 
-        // Observers.
-        private readonly IDisposable _updateFrameObserver;
-
         private int _benchFrameCount;
         private double _benchFrameSum;
 
@@ -74,19 +71,19 @@ namespace Server_Realm.Zones.HuntZone
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneProcessor>>();
 
             // service.
+            _serviceProvider = serviceProvider;
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
             // Factories.
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
 
-            // Providers.
-            _playHubProvider = serviceProvider.GetRequiredService<PlayHubProvider>();
-            _zoneProcessorProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
-
-            // Zones.
+            // Servers.
             _zoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
-            _zoneRouter = serviceProvider.GetRequiredService<ZoneRouter>();
+
+            // Providers.
+            _zoneProcessorProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
+            _hubActorProvider = serviceProvider.GetRequiredService<HubActorProvider>();
 
             // Worlds.
             _worldGroup = Initialize_WorldGroup(serviceProvider, this);
@@ -95,7 +92,7 @@ namespace Server_Realm.Zones.HuntZone
             // Frame time.
             _lastFrameUpdateTime = TimeUtil.Now;
 
-            _cts = new CancellationTokenSource();
+            _cts = ServiceUtility.GetCTS();
 
             // Task nodes.
             _taskDispatcher = new TaskDispatcher_WorldSection(_cts.Token);
@@ -110,11 +107,11 @@ namespace Server_Realm.Zones.HuntZone
             RegisterReceiver();
 
             // Update frame trigger - 30FPS.
-            _updateFrameObserver = Observable.Interval(TimeSpan.FromSeconds(0.033))
-                                            .Subscribe(count =>
-                                            {
-                                                Tell(new WorldMsg_UpdateFrame());
-                                            });
+            Observable.Interval(TimeSpan.FromSeconds(0.033))
+                .Subscribe(count =>
+                {
+                    Tell(new WorldMsg_UpdateFrame());
+                });
 
             // Message trigger.
             _msgTrgSpawnMob = new WorldMsgTrigger_SpawnMob(serviceProvider, this);
@@ -146,7 +143,7 @@ namespace Server_Realm.Zones.HuntZone
             Receive<WorldMsg_UpdateDummy>(wm => UpdateDummy(wm));
 
             // Post.
-            Receive<WorldMsg_RetrievePost>(wm => RetrievePost(wm));
+            Receive<WorldMsg_ClaimPost>(wm => ClaimPost(wm));
 
             // GamePacket.
             Receive<WorldMsg_GamePacket>(wm =>

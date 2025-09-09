@@ -9,7 +9,7 @@ namespace Server_Realm.Server.HuntZone
 {
     using Framework.Core.Session;
     using Server_Realm.Worlds.Msg;
-    using Server_Realm.Zones;
+    using Server_Realm.Zones.Providers;
 
     /// <summary>
     /// HuntZoneServer.
@@ -59,6 +59,12 @@ namespace Server_Realm.Server.HuntZone
         {
             // Remove session.
             _sessionDict.TryRemove(sessionUid, out var pid);
+
+            if (string.IsNullOrEmpty(pid))
+            {
+                return;
+            }
+
             _gameSessionDict.TryRemove(pid, out _);
 
             // Send message.

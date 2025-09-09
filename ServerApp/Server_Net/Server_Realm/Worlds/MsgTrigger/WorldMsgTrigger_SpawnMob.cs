@@ -37,7 +37,6 @@ namespace Server_Realm.Worlds.MsgTrigger
 
         // Mobs.
         private readonly List<TB_Mob> _tbMobs;
-        private readonly Random _rand;
 
         // Disposables.
         private readonly CompositeDisposable _subscriptions;

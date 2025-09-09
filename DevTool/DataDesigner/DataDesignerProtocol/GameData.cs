@@ -53,6 +53,6 @@
         public const int MAX_DROP_UNITS = 3;
 
         // Post.
-        public const int POST_RETRIEVE_COUNT = 3;
+        public const int POST_CLAIM_TRYCOUNT = 3;
     }
 }

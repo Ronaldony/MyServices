@@ -13,8 +13,8 @@
 
         // Post.
         PushPost = 100,
-        RetrievePost = 101,
-        FailRetrievePost = 102,
+        ClaimPost = 101,
+        FailClaimPost = 102,
         DeletePost = 103,
     }
 }

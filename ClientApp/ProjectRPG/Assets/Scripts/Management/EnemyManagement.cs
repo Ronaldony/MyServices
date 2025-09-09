@@ -1,7 +1,7 @@
 using GameCore;
 using GameCore.Datas.Mobs;
 using GameCore.GamePacket;
-using Network;
+using GamePackets;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     private IEnumerable<TB_Mob> _tbMobs;
 
     // Queue.
-    private ConcurrentQueue<UpdatePacket> _updatePacketQ;
+    private ConcurrentQueue<UpdateGamePacket> _updatePacketQ;
     private ConcurrentQueue<long> _killedEnemyQ;
 
     /// <summary>
@@ -29,7 +29,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
     public EnemyManagement()
     {
-        _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
+        _updatePacketQ = new ConcurrentQueue<UpdateGamePacket>();
         _killedEnemyQ = new ConcurrentQueue<long>();
         _mobObjectDict = new Dictionary<long, GameObject>();
     }
@@ -56,7 +56,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// <summary>
     /// Enqueue update packet.
     /// </summary>
-    public void AddUpdatePacket(UpdatePacket updatePacket)
+    public void AddUpdatePacket(UpdateGamePacket updatePacket)
     {
         _updatePacketQ.Enqueue(updatePacket);
     }
@@ -102,6 +102,9 @@ public class EnemyManagement : Singleton<EnemyManagement>
                     {
                         var packet = updatePacket.Data as GamePacketSC_EnterPlayer;
                         Spawnmobs(packet.Mobs);
+
+                        // Enable controls.
+                        PlayerController.Instance.EnableControls();
                     }
                     break;
                 case GamePacketCode.SC_SpawnUnits:
@@ -169,7 +172,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             if (false == _sectionManagement.IsAroundSection(playerSection, mobSection))
             {
                 removemobs.Add(pair.Key);
-                Debug.Log($"Destroy mob. uid: {pair.Key}, player section: {playerSection}, enemy section: {mobSection}");
+                //Debug.Log($"Destroy mob. uid: {pair.Key}, player section: {playerSection}, enemy section: {mobSection}");
             }
         }
 
@@ -298,7 +301,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         // Add Enemy chunk.
         if (_mobObjectDict.ContainsKey(unitId))
         {
-            Debug.Log($"Already exist mob. uid: {unitId}, id: {mob.MobId}");
+            //Debug.Log($"Already exist mob. uid: {unitId}, id: {mob.MobId}");
             return false;
         }
 
@@ -320,7 +323,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         // Set Pick up spawner.
         var pickupSpawner = mobObject.GetComponent<PickUpSpawner>();
 
-        Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
+        //Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
 
         return true;
     }

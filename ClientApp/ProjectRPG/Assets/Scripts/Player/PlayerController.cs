@@ -1,6 +1,6 @@
 using GameCore;
 using GameCore.GamePacket;
-using Network;
+using GamePackets;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -34,7 +34,7 @@ public class PlayerController : Singleton<PlayerController>
     private GamePacketManager _gamePacketManager;
     private PlayerDataManager _playerDataManager;
 
-    private ConcurrentQueue<UpdatePacket> _updatePacketQ; 
+    private ConcurrentQueue<UpdateGamePacket> _updatePacketQ; 
 
     protected override void Awake()
     {
@@ -49,8 +49,7 @@ public class PlayerController : Singleton<PlayerController>
         _gamePacketManager = GamePacketManager.Instance;
         _playerDataManager = PlayerDataManager.Instance;
 
-
-        _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
+        _updatePacketQ = new ConcurrentQueue<UpdateGamePacket>();
 
         // Setup position.
         _rb.position = new Vector2(_playerDataManager.PlayInfo.Location.Pos.X, _playerDataManager.PlayInfo.Location.Pos.Y);
@@ -69,14 +68,17 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
+        // Player controls.
         _playerControls.Combat.Dash.performed += _ => OnDash();
+        _playerControls.Inventory.Toggle.performed += _ => OnToggleInventory();
+        _playerControls.PostBox.Toggle.performed += _ => OnTogglePostBox();
+
         _startingMoveSpeed = moveSpeed;
 
-        var playerManagement = PlayerManagement.Instance;
-        playerManagement.SetPlayerObject(gameObject);
+        PlayerManagement.Instance.SetPlayerObject(gameObject);
     }
 
-    private void OnEnable()
+    public void EnableControls()
     {
         _playerControls.Enable();
     }
@@ -262,7 +264,7 @@ public class PlayerController : Singleton<PlayerController>
     /// <summary>
     /// Enqueue UpdatePacket.
     /// </summary>
-    public void EnqueueUpdatePacket(UpdatePacket updatePacket)
+    public void EnQUpdatePacket(UpdateGamePacket updatePacket)
     {
         _updatePacketQ.Enqueue(updatePacket);
     }
@@ -361,5 +363,15 @@ public class PlayerController : Singleton<PlayerController>
 
         _isMoving = false;
         _moveDeltaTime = 0;
+    }
+
+    private void OnToggleInventory()
+    {
+        Inventory.Instance.Toggle();
+    }
+
+    private void OnTogglePostBox()
+    {
+        PostBox.Instance.Toggle();
     }
 }

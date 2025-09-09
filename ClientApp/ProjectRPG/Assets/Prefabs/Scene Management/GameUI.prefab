@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 6102694930584101181}
   - component: {fileID: 3589163785094911681}
   - component: {fileID: 2174792894753043308}
-  - component: {fileID: 3774945791117616161}
+  - component: {fileID: 4888276729951515472}
   m_Layer: 5
   m_Name: Inventory (1)
   m_TagString: Untagged
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3774945791117616161
+--- !u!114 &4888276729951515472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,10 +162,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099160327314065253}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1cfddced2e33a498053eebba1a912a, type: 3}
+  m_Script: {fileID: 11500000, guid: 92c5f14da08e1094589a2c431f09559b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponInfo: {fileID: 11400000, guid: fb6ad54c19bb1f941a8e430aaca96a34, type: 2}
+  weaponInfo: {fileID: 0}
 --- !u!1 &1750144780212984049
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 5560729120297441805}
   - component: {fileID: 6910406353425446482}
   - component: {fileID: 4454122168921498246}
-  - component: {fileID: 7692520214871498060}
+  - component: {fileID: 5712966183891037652}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7692520214871498060
+--- !u!114 &5712966183891037652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -718,10 +718,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3420060001352296007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1cfddced2e33a498053eebba1a912a, type: 3}
+  m_Script: {fileID: 11500000, guid: 92c5f14da08e1094589a2c431f09559b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponInfo: {fileID: 11400000, guid: 8001253093ce5744b8accb06a1be9c99, type: 2}
+  weaponInfo: {fileID: 0}
 --- !u!1 &3667877886599048434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1096,7 @@ GameObject:
   - component: {fileID: 8056462458465263986}
   - component: {fileID: 8486511577424567119}
   - component: {fileID: 8006610574659748165}
-  - component: {fileID: 5860126632279722137}
+  - component: {fileID: 8842459580380368342}
   m_Layer: 5
   m_Name: Inventory (3)
   m_TagString: Untagged
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5860126632279722137
+--- !u!114 &8842459580380368342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5106668282306623591}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1cfddced2e33a498053eebba1a912a, type: 3}
+  m_Script: {fileID: 11500000, guid: 92c5f14da08e1094589a2c431f09559b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponInfo: {fileID: 0}
@@ -1640,7 +1640,7 @@ GameObject:
   - component: {fileID: 8957053499205440444}
   - component: {fileID: 6954049346530176776}
   - component: {fileID: 5218876702393062583}
-  - component: {fileID: 2965553146116269916}
+  - component: {fileID: 8323361756924082613}
   m_Layer: 5
   m_Name: Inventory (4)
   m_TagString: Untagged
@@ -1707,7 +1707,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2965553146116269916
+--- !u!114 &8323361756924082613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1716,7 +1716,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7065737452124407825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1cfddced2e33a498053eebba1a912a, type: 3}
+  m_Script: {fileID: 11500000, guid: 92c5f14da08e1094589a2c431f09559b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponInfo: {fileID: 0}
@@ -1993,7 +1993,7 @@ GameObject:
   - component: {fileID: 9086828378136914403}
   - component: {fileID: 3490250786650222560}
   - component: {fileID: 167059832670007440}
-  - component: {fileID: 1210805071857251930}
+  - component: {fileID: 8039265064835399312}
   m_Layer: 5
   m_Name: Inventory (2)
   m_TagString: Untagged
@@ -2060,7 +2060,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1210805071857251930
+--- !u!114 &8039265064835399312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2069,10 +2069,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8194743930436168053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1cfddced2e33a498053eebba1a912a, type: 3}
+  m_Script: {fileID: 11500000, guid: 92c5f14da08e1094589a2c431f09559b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponInfo: {fileID: 11400000, guid: aa3d30ae9ea5c3e41b57cf42c5a5407a, type: 2}
+  weaponInfo: {fileID: 0}
 --- !u!1 &8435383509700939209
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using GameCore.HubPacket;
 using ServerEngine.Network.UDP;
 using UnityEngine;
 
-namespace Network
+namespace HubPackets
 { 
     public class HubPacketManager : Singleton<HubPacketManager>
     {
@@ -28,6 +28,14 @@ namespace Network
         public bool Connect()
         {
             return _client.Connect(_address, _port);
+        }
+
+        /// <summary>
+        /// Disconnect to server.
+        /// </summary>
+        public void Disconnect()
+        {
+            _client.Disconnect();
         }
 
         public bool Send<T>(int pakcetCode, T packet) where T : HubPacketBase_CS

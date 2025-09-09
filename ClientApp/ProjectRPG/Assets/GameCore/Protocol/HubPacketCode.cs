@@ -10,14 +10,16 @@
 
         public const int CS_Enter = 10;
         public const int SC_Enter = 11;
+        public const int CS_EnterZone = 12;
+        public const int SC_EnterZone = 13;
 
         // Posts.
         public const int CS_PushPost = 101;
         public const int SC_PushPost = 102;
-        public const int CS_RetrievePost = 103;
-        public const int SC_RetrievePost = 104;
-        public const int CS_FailRetrievePost = 1053;
-        public const int SC_FailRetrievePost = 106;
+        public const int CS_ClaimPost = 103;
+        public const int SC_ClaimPost = 104;
+        public const int CS_FailClaimPost = 1053;
+        public const int SC_FailClaimPost = 106;
         public const int CS_DeletePost = 107;
         public const int SC_DeletePost = 108;
     }

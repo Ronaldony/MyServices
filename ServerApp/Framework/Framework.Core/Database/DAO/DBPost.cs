@@ -9,6 +9,7 @@ namespace Framework.Core.Database.DAO
 {
     using Framework.Config.ConfigManager;
     using Framework.Core.Database.DBO;
+    using Framework.Core.Types;
 
     /// <summary>
     /// DBPost.
@@ -31,8 +32,8 @@ namespace Framework.Core.Database.DAO
         {
             const string SQL = """
                                 INSERT INTO TBL_Post 
-                                    (post_uid, pid, items, regtime) 
-                                    VALUES (@PostUid, @Pid, @Items, NOW())
+                                    (post_uid, pid, step, items, regtime) 
+                                    VALUES (@PostUid, @Pid, @Step, @Items, NOW())
                                 """;
 
             using (var connection = new MySqlConnection(_connectString))
@@ -43,7 +44,8 @@ namespace Framework.Core.Database.DAO
                     {
                         PostUid = postUid,
                         Pid = pid,
-                        Items = items
+                        Items = items,
+                        Step = 0
                     },
                     commandTimeout: 10,
                     commandType: CommandType.Text
@@ -69,7 +71,7 @@ namespace Framework.Core.Database.DAO
             }
 
             // SQL.
-            var sb = new StringBuilder("INSERT INTO TBL_Post (post_uid, pid, items, regtime) VALUES ");
+            var sb = new StringBuilder("INSERT INTO TBL_Post (post_uid, pid, step, items, regtime) VALUES ");
 
             // Last.
             var lastPost = posts.Last();
@@ -91,10 +93,11 @@ namespace Framework.Core.Database.DAO
                             // Add parameters.
                             command.Parameters.AddWithValue("@PostUid" + idx, post.Uid);
                             command.Parameters.AddWithValue("@Pid" + idx, post.Pid);
+                            command.Parameters.AddWithValue("@Step" + idx, post.PostStep);
                             command.Parameters.AddWithValue("@Items" + idx, post.Items);
 
                             // Query.
-                            sb.AppendFormat("(@PostUid{0}, @Pid{0}, @Items{0}, NOW())", idx);
+                            sb.AppendFormat("(@PostUid{0}, @Pid{0}, @Step{0}, @Items{0}, NOW())", idx);
 
                             if (lastPost == post)
                             {
@@ -135,17 +138,50 @@ namespace Framework.Core.Database.DAO
         /// <summary>
         /// Select .
         /// </summary>
-        public async Task<IEnumerable<DBO_Post>> SelectLimitAsync()
+        public async Task<IEnumerable<DBO_Post>> SelectPostsAsync(Type_PostStep step)
         {
-            const string SQL = "SELECT * FROM TBL_Post LIMIT 30";
+            const string SQL = "SELECT * FROM TBL_Post WHERE step=@Step LIMIT 30";
 
             using (var connection = new MySqlConnection(_connectString))
             {
                 return await connection.QueryAsync<DBO_Post>(
                     sql: SQL,
+                    param: new
+                    {
+                        Step = step
+                    },
                     commandTimeout: 10,
                     commandType: CommandType.Text
                     );
+            }
+        }
+
+        /// <summary>
+        /// Update post status.
+        /// </summary>
+        public async Task<bool> UpdatePostStatusAsync(IEnumerable<string> postUids, Type_PostStep step)
+        {
+            const string SQL = "UPDATE TBL_Post SET step=@Step WHERE post_uid IN @PostUids";
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                var rowAffect = await connection.ExecuteAsync(
+                    sql: SQL,
+                    param: new
+                    {
+                        Step = step,
+                        PostUids = postUids
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+
+                if (rowAffect > 0)
+                {
+                    return true;
+                }
+
+                return false;
             }
         }
 

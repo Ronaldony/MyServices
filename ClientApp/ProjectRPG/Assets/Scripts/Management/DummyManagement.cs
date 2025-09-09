@@ -2,10 +2,9 @@ using GameCore;
 using GameCore.Datas.Mobs;
 using GameCore.Datas.Play;
 using GameCore.GamePacket;
-using Network;
+using GamePackets;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DummyManagement : Singleton<DummyManagement>
@@ -13,7 +12,7 @@ public class DummyManagement : Singleton<DummyManagement>
     [SerializeField] private GameObject _dummyPrefab;
 
     // Queue.
-    private ConcurrentQueue<UpdatePacket> _updatePacketQ;
+    private ConcurrentQueue<UpdateGamePacket> _updatePacketQ;
 
     /// <summary>
     /// Dummy dictionary.
@@ -24,7 +23,7 @@ public class DummyManagement : Singleton<DummyManagement>
 
     public DummyManagement()
     {
-        _updatePacketQ = new ConcurrentQueue<UpdatePacket>();
+        _updatePacketQ = new ConcurrentQueue<UpdateGamePacket>();
         _dummyDict = new Dictionary<long, GameObject>();
     }
 
@@ -42,7 +41,7 @@ public class DummyManagement : Singleton<DummyManagement>
     /// <summary>
     /// Enqueue update packet.
     /// </summary>
-    public void AddUpdatePacket(UpdatePacket updatePacket)
+    public void AddUpdatePacket(UpdateGamePacket updatePacket)
     {
         //_updatePacketQ.Enqueue(updatePacket);
     }

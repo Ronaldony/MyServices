@@ -23,12 +23,6 @@ namespace Server_Realm
         public int Port_HuntZone { get; set; }
 
         /// <summary>
-        /// UDP Port for PlayHub.
-        /// </summary>
-        [ArgRequired(PromptIfMissing = true), ArgDescription("Port"), ArgShortcut("p_ph")]
-        public int Port_PlayHub { get; set; }
-
-        /// <summary>
         /// DataCenter.
         /// </summary>
         [ArgRequired(PromptIfMissing = true), ArgDescription("DataCenter")]

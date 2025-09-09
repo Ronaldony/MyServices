@@ -1,7 +1,7 @@
 using GameCore;
 using GameCore.Datas.Projectiles;
 using GameCore.GamePacket;
-using Network;
+using GamePackets;
 using UnityEngine;
 
 public class Bow : MonoBehaviour, IWeapon

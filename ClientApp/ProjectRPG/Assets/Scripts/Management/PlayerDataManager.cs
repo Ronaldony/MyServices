@@ -23,6 +23,7 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
     public DTO_PlayerInfo PlayerInfo { get; set; }
     public DTO_InventoryInfo InventoryInfo { get; set; }
     public DTO_PlayInfo PlayInfo { get; set; }
+    public DTO_PostInfo PostInfo { get; set; }
 
     /// <summary>
     /// Set authentication process.

@@ -56,7 +56,8 @@ namespace Server_Realm.Zones.HuntZone
             pu.Dispose();
 
             // Enter zone router.
-            _zoneRouter.LeavePlayer(pu.Pid);
+            // TODO: MessageBus에서 제거.
+            //_zoneRouter.LeavePlayer(pu.Pid);
 
             return true;
         }

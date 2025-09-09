@@ -1,4 +1,3 @@
-using Network;
 using UnityEngine;
 
 public class Staff : MonoBehaviour, IWeapon

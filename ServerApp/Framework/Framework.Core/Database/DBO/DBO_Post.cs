@@ -3,6 +3,7 @@
 namespace Framework.Core.Database.DBO
 {
     using Framework.Core.Database.Attributes;
+    using Framework.Core.Types;
 
     /// <summary>
     /// DBO_Post.
@@ -21,6 +22,12 @@ namespace Framework.Core.Database.DBO
         /// </summary>
         [ColumnMapping("pid")]
         public string Pid { get; set; }
+
+        /// <summary>
+        /// Type_PostStep.
+        /// </summary>
+        [ColumnMapping("step")]
+        public Type_PostStep PostStep { get; set; }
 
         /// <summary>
         /// Post items.

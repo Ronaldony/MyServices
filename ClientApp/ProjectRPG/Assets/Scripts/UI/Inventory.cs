@@ -1,42 +1,69 @@
 using GameCore;
 using GameCore.Datas.Items;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : Singleton<Inventory>
 {
-    private PlayerControls _playerControls;
+    /// <summary>
+    /// ItemPrefab.
+    /// </summary>
+    [Serializable]
+    public class ItemPrefab
+    {
+        public int RefId;
+
+        public Sprite ItemSprite;
+    }
+
+    [SerializeField] private GameObject _slotPrefab;
+    [SerializeField] private GameObject _inventoryObj;
+    [SerializeField] private GameObject _itemsObj;
+    [SerializeField] private ItemPrefab[] _itemSprites;
+
+    private readonly Dictionary<int, InventorySlot> _slots;
 
     private bool _showInventory = false;
+
+    public Inventory()
+    {
+        _slots = new Dictionary<int, InventorySlot>();
+    }
 
     protected override void Awake()
     {
         base.Awake();
-
-        _playerControls = new PlayerControls();
     }
-
-    private void Start()
-    {
-        _playerControls.Inventory.Toggle.performed += ctx => ToggleInventory();
-    }
-
-    private void OnEnable()
-    {
-        _playerControls.Enable();
-    }
-
     /// <summary>
     /// Toggle inventory.
     /// </summary>
-    private void ToggleInventory()
+    public void Toggle()
     {
+        Debug.Log($"ToggleInventory");
+
         if (_showInventory)
         {
             // Off inventory.
+            _showInventory = false;
+            _inventoryObj.SetActive(false);
         }
         else
         {
             // On inventory.
+            _showInventory = true;
+            _inventoryObj.SetActive(true);
         }
+    }
+
+    /// <summary>
+    /// Is show inventory.
+    /// </summary>
+    public bool IsShowInventory()
+    {
+        return _showInventory;
     }
 
     /// <summary>
@@ -95,9 +122,6 @@ public class Inventory : Singleton<Inventory>
                 Stamina.Instance.RefreshStamina(consumeValue);
                 break;
         }
-        //case PickUpType.GoldCoin:
-        //EconomyManager.Instance.UpdateCurrentGold();
-        //break;
     }
 
     /// <summary>
@@ -105,22 +129,57 @@ public class Inventory : Singleton<Inventory>
     /// </summary>
     public void PickupItem(DTO_Item item)
     {
+        Debug.Log($"PickupItem. refId: {item.RefId}");
+
         var tbItem = TDBManagement.Instance.GetById<TB_Item>(item.RefId);
 
-        foreach (var slotItem in GetComponentsInChildren<SlotItem>())
+        if (tbItem == null)
         {
-            if (slotItem.GetRefId() == item.RefId)
+            Debug.LogError($"Pick up item error. refId: {item.RefId}");
+            return;
+        }
+
+        if (_slots.ContainsKey(item.RefId))
+        {
+            // 인벤토리 슬롯에 이미 생성된 경우.
+            var slot = _slots[item.RefId];
+
+            slot.PlusItem(item.Count);
+
+        }
+        else if (tbItem.ItemType == Type_Item.Gold)
+        {
+            // Update gold score.
+            EconomyManager.Instance.PlusGold(item.Count);
+        }
+        else
+        {
+            // 아이템 이미지.
+            var findItemSprite = _itemSprites.FirstOrDefault(d => d.RefId == item.RefId);
+
+            if (null == findItemSprite)
             {
-                slotItem.AddItemCount(item.Count);
-
-                // Update gold score.
-                if (tbItem.ItemType == Type_Item.Gold)
-                {
-                    EconomyManager.Instance.UpdateCurrentGold(slotItem.GetCount());
-                }
-
-                break;
+                Debug.LogError($"Can't find item sprite. refId: {item.RefId}");
+                return;
             }
+
+            // 인벤토리 슬롯 생성.
+            var slotPrefab = Instantiate(_slotPrefab, transform.position, Quaternion.identity, _itemsObj.transform);
+            var slotImage = slotPrefab.GetComponentsInChildren<Image>().FirstOrDefault(d => d.name == "Item");
+
+            if (null == slotImage)
+            {
+                Debug.LogError($"Can't find item image.");
+                return;
+            }
+
+            slotImage.sprite = findItemSprite.ItemSprite;
+
+            // 슬롯 정보.
+            var slot = slotPrefab.GetComponent<InventorySlot>();
+            slot.SetSlot(item.RefId, item.Count);
+
+            _slots.Add(item.RefId, slot);
         }
     }
 }

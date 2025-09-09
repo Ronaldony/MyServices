@@ -3,7 +3,9 @@ using GameCore;
 using GameCore.GamePacket;
 using GameCore.Http;
 using GameCore.Http.Auth;
-using Network;
+using GameCore.HubPacket;
+using GamePackets;
+using HubPackets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +22,8 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private string _loadScene;
 
     private PlayerDataManager _playerDataManager;
-    private GamePacketManager _GamePacketManager;
+    private GamePacketManager _gamePacketManager;
+    private HubPacketManager _hubPacketManager;
 
     /// <summary>
     /// Web headers.
@@ -32,7 +35,8 @@ public class LoginManager : MonoBehaviour
     private void Start()
     {
         _playerDataManager = PlayerDataManager.Instance;
-        _GamePacketManager = GamePacketManager.Instance;
+        _gamePacketManager = GamePacketManager.Instance;
+        _hubPacketManager = HubPacketManager.Instance;
 
         _authHeaders = new Dictionary<string, string>();
     }
@@ -144,10 +148,18 @@ public class LoginManager : MonoBehaviour
                 _playerDataManager.Pid = pid;
 
                 // Net packet login.
-                var isConnected = _GamePacketManager.Connect();
-                if (isConnected == false)
+                var connectToGame = _gamePacketManager.Connect();
+                if (connectToGame == false)
                 {
-                    _noticeText.text = "Fail to connect to server";
+                    _noticeText.text = "Fail to connect to game server";
+                    return;
+                }
+
+                var connectToHub = _hubPacketManager.Connect();
+                if (connectToHub == false)
+                {
+                    _gamePacketManager.Disconnect();
+                    _noticeText.text = "Fail to connect to hub server";
                     return;
                 }
 
@@ -170,14 +182,14 @@ public class LoginManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // Send Login packet.
-        var gamePacket = new GamePacketCS_Enter
+        var hubPacket = new HubPacketCS_Enter
         {
             Pid = pid,
             Token = token,
         };
 
         // Send packet.
-        if (false == _GamePacketManager.Send<GamePacketCS_Enter>(GamePacketCode.CS_Enter, gamePacket))
+        if (false == _hubPacketManager.Send<HubPacketCS_Enter>(HubPacketCode.CS_Enter, hubPacket))
         {
             _noticeText.text = "Fail to send pakcet login.";
         }

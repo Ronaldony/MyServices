@@ -1,7 +1,10 @@
 ﻿
 namespace Framework.Config.ConfigManager
 {
+    using Framework.Config.Configs;
+    using Framework.Config.MessageBus;
     using ServerEngine.Config.Database;
+    using ServerEngine.Config.MessageBus;
 
     /// <summary>
     /// Game configuration manager.
@@ -14,11 +17,23 @@ namespace Framework.Config.ConfigManager
         public static Config_Game ConfigGame { get; private set; }
 
         /// <summary>
+        /// Game configuration.
+        /// </summary>
+        public static Config_MessageBus ConfigMessageBus { get; private set; }
+
+        /// <summary>
         /// MySQL connections.
         /// key: MySQL alias.
         /// value: MySQL connection string.
         /// </summary>
         private static Dictionary<string, string> _mysqlConnectStringDict;
+
+        /// <summary>
+        /// MessageBus.
+        /// key: MessageBus name.
+        /// value: .
+        /// </summary>
+        private static Dictionary<string, Config_MessageBusData> _messageBusDataDict;
 
         /// <summary>
         /// Couchbase connections.
@@ -30,13 +45,14 @@ namespace Framework.Config.ConfigManager
         /// <summary>
         /// Initialize.
         /// </summary>
-        public static bool Initialize(
-            Config_Game consulGame, 
+        public static void Initialize(
+            Config_Game configGame, 
             List<Config_MySQLConnection> mysqlConnections,
-            List<Config_CouchbaseConnection> couchbaseConnections)
+            List<Config_CouchbaseConnection> couchbaseConnections,
+            List<Config_MessageBusData> messageBusDatas)
         {
             // ConsuleGame.
-            ConfigGame = consulGame;
+            ConfigGame = configGame;
 
             // MySQL.
             _mysqlConnectStringDict = new Dictionary<string, string>();
@@ -54,7 +70,13 @@ namespace Framework.Config.ConfigManager
                 _couchbaseConnectionDict.Add(connection.Alias, connection);
             }
 
-            return false;
+            // Messagebus.
+            _messageBusDataDict = new Dictionary<string, Config_MessageBusData>();
+
+            foreach (var data in messageBusDatas)
+            {
+                _messageBusDataDict.Add(data.Alias, data);
+            }
         }
 
         /// <summary>
@@ -80,6 +102,20 @@ namespace Framework.Config.ConfigManager
             {
                 // exist.
                 return _couchbaseConnectionDict[alias];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get messagebus data.
+        /// </summary>
+        public static Config_MessageBusData GetMessageBusData(string alias)
+        {
+            if (true == _messageBusDataDict.ContainsKey(alias))
+            {
+                // exist.
+                return _messageBusDataDict[alias];
             }
 
             return null;

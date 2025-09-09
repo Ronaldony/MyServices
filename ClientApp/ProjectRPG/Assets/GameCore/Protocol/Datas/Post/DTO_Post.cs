@@ -27,12 +27,18 @@ namespace GameCore.Datas.Post
         /// 수령 여부.
         /// </summary>
         [MemoryPackOrder(1)]
-        public bool IsRetrived { get; set; }
+        public bool IsClaimed { get; set; }
+
+        /// <summary>
+        /// Text.
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string Text { get; set; }
 
         /// <summary>
         /// 우편물.
         /// </summary>
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(3)]
         public List<DTO_Item> Items { get; set; }
     }
 }

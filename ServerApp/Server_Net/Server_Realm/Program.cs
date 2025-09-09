@@ -8,7 +8,6 @@ using PowerArgs;
 namespace Server_Realm
 {
     using ServerEngine.AsciiBanner;
-    using System.Numerics;
 
     /// <summary>
     /// Program.
@@ -25,6 +24,9 @@ namespace Server_Realm
                 Console.WriteLine("Arguments is null.");
                 return;
             }
+
+            // Setup global.
+            SetupGlobal(arguments);
 
             // Host builder.
             var hostBuilder = Host.CreateApplicationBuilder();
@@ -61,6 +63,17 @@ namespace Server_Realm
                 Console.WriteLine(ex.Message);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Setup global.
+        /// </summary>
+        private static void SetupGlobal(Arguments arg)
+        {
+            Global.Server = arg.Name;
+            Global.DataCenter = arg.DataCenter;
+            Global.ServerId = arg.ServerId;
+            Global.HuntZoneId = $"HuntZone_{Global.ServerId}";
         }
     }
 }

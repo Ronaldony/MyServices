@@ -9,9 +9,9 @@ namespace Server_Realm.Entities
     public partial class PlayerUnit
     {
         /// <summary>
-        /// Retrieve post
+        /// Claim post
         /// </summary>
-        public void RetrievePost(DTO_Post post)
+        public void ClaimPost(DTO_Post post)
         {
             foreach (var item in post.Items)
             {

@@ -78,6 +78,12 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
 
     private void Attack()
     {
+        // 인벤토리 창이 켜져있는 경우, 무시.
+        if (Inventory.Instance.IsShowInventory() || PostBox.Instance.IsShowPostBox())
+        {
+            return;
+        }
+
         if (attackButtonDown && !isAttacking && CurrentActiveWeapon)
         {
             AttackCooldown();

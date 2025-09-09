@@ -6,6 +6,7 @@ using NLog.Extensions.Logging;
 using ServerEngine.Core.Services;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.GeoIP;
+using ServerEngine.MessageBus.RabbitMQs;
 
 namespace Server_Realm
 {
@@ -16,10 +17,8 @@ namespace Server_Realm
     using Server_Realm.Actors;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
-    using Server_Realm.Hubs;
-    using Server_Realm.Server.Hub;
     using Server_Realm.Server.HuntZone;
-    using Server_Realm.Zones;
+    using Server_Realm.Zones.Providers;
 
     /// <summary>
     /// Startup.
@@ -41,7 +40,8 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             appBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             appBuilder.Services.AddSingleton<ITDBService, TDBService>();
-            
+            appBuilder.Services.AddSingleton<RBMQConnection>();
+
             appBuilder.Services.AddSingleton<CollisionFactory>();
             appBuilder.Services.AddSingleton<ProjectileFactory>();
             appBuilder.Services.AddSingleton<UnitFactory>();
@@ -49,14 +49,10 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<MobCreateService>();
             appBuilder.Services.AddSingleton<ItemCreateService>();
 
-            // zones.
-            appBuilder.Services.AddSingleton<ZoneRouter>();
-
             // Actors.
-            appBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
+            appBuilder.Services.AddSingleton<ActorSystem>(service => ActorSystem.Create("root"));
             appBuilder.Services.AddSingleton<HuntZoneProcessorProvider>();
-            appBuilder.Services.AddSingleton<PlayHubProvider>();
-            appBuilder.Services.AddSingleton<PushPostActorProvider>();
+            appBuilder.Services.AddSingleton<HubActorProvider>();
 
             // Infos.
             appBuilder.Services.AddSingleton<DBInventoryInfo>();
@@ -72,7 +68,6 @@ namespace Server_Realm
 
             // servers.
             appBuilder.Services.AddSingleton<HuntZoneServer>();
-            appBuilder.Services.AddSingleton<HubServer>();
 
             // Transient.
             appBuilder.Services.AddTransient<SessionInfoObject>();
