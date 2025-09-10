@@ -10,6 +10,15 @@ namespace GameCore.GamePacket
     using GameCore.Datas.Play;
 
     /// <summary>
+    /// GamePacketCS_EnterPlayer.
+    /// </summary>
+    [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
+    [GamePacketAttribute(GamePacketCode.CS_EnterPlayer)]
+    public partial class GamePacketCS_EnterPlayer : GamePacketBase_CS
+    {
+    }
+
+    /// <summary>
     /// GamePacketSC_EnterPlayer.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]

@@ -17,7 +17,7 @@ namespace Server_Realm.Zones.HuntZone
         /// <summary>
         /// 플레이어 스폰.
         /// </summary>
-        private void SpawnPlayer(WorldMsg_SpawnUnits worldMsg)
+        private void SpawnPlayer(WorldMsg_EnterPlayer worldMsg)
         {
             _logger.LogDebug($"Spawn player in processor");
 

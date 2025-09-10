@@ -136,7 +136,7 @@ namespace Server_Realm.Zones.HuntZone
 
             // Spawn.
             Receive<WorldMsg_SpawnMob>(wm => SpawnMobs(wm));
-            Receive<WorldMsg_SpawnUnits>(wm => SpawnPlayer(wm));
+            Receive<WorldMsg_EnterPlayer>(wm => SpawnPlayer(wm));
             Receive<WorldMsg_LeavePlayer>(wm => LeavePlayer(wm));
 
             // Update.

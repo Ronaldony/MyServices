@@ -12,12 +12,12 @@ namespace GamePackets
     /// </summary>
     public class UdpHandler_Enter : GamePacketHandler
     {
-        private readonly GamePacketCS_SpawnUnits _sendPacket;
+        private readonly GamePacketCS_EnterPlayer _sendPacket;
 
         public UdpHandler_Enter()
             : base(GamePacketCode.SC_Enter)
         {
-            _sendPacket = new GamePacketCS_SpawnUnits();
+            _sendPacket = new GamePacketCS_EnterPlayer();
         }
 
         /// <summary>
@@ -31,11 +31,8 @@ namespace GamePackets
             playerDataManager.PlayInfo = gamePacketEnter.PlayInfo;
             playerDataManager.InventoryInfo = gamePacketEnter.InventoryInfo;
 
-            // Spawn units.
-            GamePacketManager.Instance.Send<GamePacketCS_SpawnUnits>(GamePacketCode.CS_SpawnUnits, _sendPacket);
-
             // Load scene.
-            var loginActor = LoginActor.Instance;
+            var loginActor = LoginActor.Instance;   
             loginActor.LoadScene(playerDataManager.PlayInfo.Location.Area.ToString());
         }
     }

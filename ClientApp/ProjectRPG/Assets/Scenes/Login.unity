@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 923cc16fda3b1e943bd0bf185e434a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _address: localhost
+  _address: 192.168.219.6
   _port: 9010
 --- !u!4 &284383887
 Transform:
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc1c4b5ca684c04bb816756374415ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _address: localhost
+  _address: 192.168.219.6
   _port: 9011
 --- !u!1 &1332553652
 GameObject:
@@ -753,6 +753,10 @@ PrefabInstance:
     - target: {fileID: 4324453785549404320, guid: d55f7e64b769a72499055ac07a832f98, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5106399044079328854, guid: d55f7e64b769a72499055ac07a832f98, type: 3}
+      propertyPath: _url
+      value: http://192.168.219.6:9001
       objectReference: {fileID: 0}
     - target: {fileID: 7064320444818073296, guid: d55f7e64b769a72499055ac07a832f98, type: 3}
       propertyPath: m_Pivot.x

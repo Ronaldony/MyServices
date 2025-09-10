@@ -17,11 +17,11 @@ namespace Server_Realm.Server.HuntZone.Handlers
     using Server_Realm.Zones.Providers;
 
     /// <summary>
-    /// UdpHandler_LoadPlayer.
+    /// UdpHandler_EnterPlayer.
     /// </summary>
-    public class UdpHandler_SpawnPlayer : HuntZoneHandler
+    public class UdpHandler_EnterPlayer : HuntZoneHandler
     {
-        private readonly ILogger<UdpHandler_SpawnPlayer> _logger;
+        private readonly ILogger<UdpHandler_EnterPlayer> _logger;
 
         private readonly IUniqueIdService _uniqueIdService;
         private readonly UnitFactory _unitFactory;
@@ -32,10 +32,10 @@ namespace Server_Realm.Server.HuntZone.Handlers
         private readonly HuntZoneServer _huntZoneServer;
         private readonly HuntZoneProcessorProvider _worldServerActorProvider;
 
-        public UdpHandler_SpawnPlayer(IServiceProvider serviceProvider)
-            : base(GamePacketCode.CS_SpawnUnits)
+        public UdpHandler_EnterPlayer(IServiceProvider serviceProvider)
+            : base(GamePacketCode.CS_EnterPlayer)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_SpawnPlayer>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_EnterPlayer>>();
 
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
@@ -79,15 +79,15 @@ namespace Server_Realm.Server.HuntZone.Handlers
                     return;
                 }
 
-                // Spawn player into world.
-                SpawnPlayerIntoWorld(sessionId, sessionUid, playInfo, inventoryInfo);
+                // Enter player into world.
+                EnterPlayerIntoWorld(sessionId, sessionUid, playInfo, inventoryInfo);
             });
         }
 
         /// <summary>
-        /// Spawn player into world.
+        /// Enter player into world.
         /// </summary>
-        private void SpawnPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo, DTO_InventoryInfo inventoryInfo)
+        private void EnterPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo, DTO_InventoryInfo inventoryInfo)
         {
             // Create player unit.
             var unitId = _uniqueIdService.GenerateIdAsLong();
@@ -97,7 +97,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
             pu.Setup(unitId, playInfo, inventoryInfo);
 
             // 메시지 전달.
-            _worldServerActorProvider.Tell<WorldMsg_SpawnUnits>(new WorldMsg_SpawnUnits
+            _worldServerActorProvider.Tell<WorldMsg_EnterPlayer>(new WorldMsg_EnterPlayer
             {
                 PlayerUnit = pu
             });

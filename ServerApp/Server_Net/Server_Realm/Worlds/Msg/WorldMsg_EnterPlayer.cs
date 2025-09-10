@@ -4,12 +4,12 @@
     using Server_Realm.Entities;
 
     /// <summary>
-    /// WorldMsg_SpawnPlayer.
+    /// WorldMsg_EnterPlayer.
     /// </summary>
-    public class WorldMsg_SpawnUnits : WorldMsgBase
+    public class WorldMsg_EnterPlayer : WorldMsgBase
     {
-        public WorldMsg_SpawnUnits()
-            : base(Type_WorldMsg.SpawnPlayer)
+        public WorldMsg_EnterPlayer()
+            : base(Type_WorldMsg.EnterPlayer)
         {
 
         }

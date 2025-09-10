@@ -17,7 +17,7 @@
         // Post.
         RetrievePost = 30,          // Retrieve post.
 
-        SpawnPlayer = 100,          // Spanw player.
+        EnterPlayer = 100,          // Enter player.
         LeavePlayer = 101,          // Out player.
     }
 }

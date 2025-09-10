@@ -1,3 +1,6 @@
+using GameCore;
+using GameCore.GamePacket;
+using GamePackets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +33,9 @@ public class LoginActor : Singleton<LoginActor>
         {
             _isLoadingScene = false;
             SceneManager.LoadScene(_loadScene);
+
+            // Spawn units.
+            GamePacketManager.Instance.Send<GamePacketCS_EnterPlayer>(GamePacketCode.CS_EnterPlayer, new GamePacketCS_EnterPlayer());
         }
     }
 

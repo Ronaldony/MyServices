@@ -10,15 +10,6 @@ namespace GameCore.GamePacket
     using GameCore.Datas.Play;
 
     /// <summary>
-    /// GamePacketCS_SpawnUnits.
-    /// </summary>
-    [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    [GamePacketAttribute(GamePacketCode.CS_SpawnUnits)]
-    public partial class GamePacketCS_SpawnUnits : GamePacketBase_CS
-    {
-    }
-
-    /// <summary>
     /// GamePacketSC_SpawnUnits.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
