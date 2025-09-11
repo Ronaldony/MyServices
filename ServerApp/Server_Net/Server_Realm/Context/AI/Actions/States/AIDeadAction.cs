@@ -11,6 +11,7 @@ namespace Server_Realm.Context.AI.Actions.States
     using Server_Realm.Core.Types;
     using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
+    using static Couchbase.Protostellar.View.V1.ViewQueryRequest.Types;
 
     /// <summary>
     /// AIDeadAction.
@@ -31,8 +32,30 @@ namespace Server_Realm.Context.AI.Actions.States
         {
             Owner.IsDead = true;
 
+            // Drop items.
+            DropItems();
+
+            // Request respawn.
+            var mu = Owner as MobUnit;
+            Owner.ZoneProcessor.Respawn(mu.AreaSpawnId);
+
             _logger.LogDebug($"AI Dead.");
 
+        }
+
+        public override void Update(double deltaTime)
+        {
+        }
+
+        public override void Stop()
+        {
+        }
+
+        /// <summary>
+        /// Drop items.
+        /// </summary>
+        private void DropItems()
+        {
             // 드랍 아이템 처리.
             var aggroPoints = Owner.CombatHandler.GetAggroPoints();
             var takeMostAggroPoints = aggroPoints.OrderBy(d => d.Value).Take(GameData.MAX_DROP_UNITS);
@@ -63,14 +86,6 @@ namespace Server_Realm.Context.AI.Actions.States
                     aggroOrder++;
                 }
             }
-        }
-
-        public override void Update(double deltaTime)
-        {
-        }
-
-        public override void Stop()
-        {
         }
     }
 }

@@ -29,7 +29,6 @@ namespace Server_Realm.Zones.HuntZone
         private readonly ILogger<HuntZoneProcessor> _logger;
 
         // Services.
-        private readonly IServiceProvider _serviceProvider;
         private readonly IDataSerializer _dataSerializer;
         private readonly IMemoryPoolService _memoryPoolService;
 
@@ -71,7 +70,6 @@ namespace Server_Realm.Zones.HuntZone
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneProcessor>>();
 
             // service.
-            _serviceProvider = serviceProvider;
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
@@ -185,19 +183,6 @@ namespace Server_Realm.Zones.HuntZone
                         break;
                 }
             });
-        }
-
-        /// <summary>
-        /// Get mob count.
-        /// </summary>
-        public int GetMobCount(int areaSpawnId)
-        {
-            if (false == _worldGroup.MobCountDict.ContainsKey(areaSpawnId))
-            {
-                return 0;
-            }
-
-            return _worldGroup.MobCountDict[areaSpawnId];
         }
     }
 }

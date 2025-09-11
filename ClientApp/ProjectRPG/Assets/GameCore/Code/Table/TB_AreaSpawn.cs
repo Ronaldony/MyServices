@@ -25,5 +25,9 @@ namespace GameCore
         /// 
         /// </summary>
         public int Y { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MaxCount { get; set; }
     }
 }
