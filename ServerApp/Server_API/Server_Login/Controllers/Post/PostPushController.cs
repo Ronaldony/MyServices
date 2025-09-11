@@ -25,7 +25,7 @@ namespace Server_Login.Controllers.Post
 
         [HttpGet]
         [Route("post/push")]
-        public async Task<string> Process(string pid, int itemId, int count)
+        public async Task<string> Process(string pid, string text, int itemId, int count)
         {
             var postUid = _uniqueIdService.GenerateId();
             var dtoItems = new List<DTO_Item>();
@@ -33,11 +33,11 @@ namespace Server_Login.Controllers.Post
             dtoItems.Add(new DTO_Item
             {
                 RefId = itemId,
-                Count = count
+                Count = count,
             });
 
             // create post.
-            var isCreated = await _dbPost.Create(postUid, pid, _dataSerializer.Serialize(dtoItems));
+            var isCreated = await _dbPost.Create(postUid, pid, _dataSerializer.Serialize(dtoItems), text);
 
             if (isCreated) return "create post";
             else return "fail create post";

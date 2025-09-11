@@ -86,6 +86,7 @@ namespace Server_Control.Core.Services
                     {
                         PostUid = post.Uid,
                         Items = dtoItems,
+                        Text = post.Text,
                     });
                 }
 

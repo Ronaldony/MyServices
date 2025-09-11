@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Singleton<PlayerController>
 {
@@ -55,6 +56,9 @@ public class PlayerController : Singleton<PlayerController>
         _rb.position = new Vector2(_playerDataManager.PlayInfo.Location.Pos.X, _playerDataManager.PlayInfo.Location.Pos.Y);
 
         Initialize_CallBack();
+
+        // Spawn units.
+        GamePacketManager.Instance.Send<GamePacketCS_EnterPlayer>(GamePacketCode.CS_EnterPlayer, new GamePacketCS_EnterPlayer());
     }
 
     /// <summary>

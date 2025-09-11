@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Post : MonoBehaviour
 {
     private DTO_Post _post;
+    [SerializeField] private Text _postText;
 
     /// <summary>
     /// Set slot.
@@ -16,8 +17,7 @@ public class Post : MonoBehaviour
     {
         _post = post;
 
-        var text = GetComponentInChildren<Text>();
-        text.text = _post.Text;
+        _postText.text = _post.Text;
 
         // Already claimed.
         if (post.IsClaimed)

@@ -28,12 +28,12 @@ namespace Framework.Core.Database.DAO
         /// <summary>
         /// Create.
         /// </summary>
-        public async Task<bool> Create(string postUid, string pid, byte[] items)
+        public async Task<bool> Create(string postUid, string pid, byte[] items, string text)
         {
             const string SQL = """
                                 INSERT INTO TBL_Post 
-                                    (post_uid, pid, step, items, regtime) 
-                                    VALUES (@PostUid, @Pid, @Step, @Items, NOW())
+                                    (post_uid, pid, step, items, text, regtime) 
+                                    VALUES (@PostUid, @Pid, @Step, @Items, @Text, NOW())
                                 """;
 
             using (var connection = new MySqlConnection(_connectString))
@@ -45,7 +45,8 @@ namespace Framework.Core.Database.DAO
                         PostUid = postUid,
                         Pid = pid,
                         Items = items,
-                        Step = 0
+                        Step = 0,
+                        Text = text
                     },
                     commandTimeout: 10,
                     commandType: CommandType.Text
@@ -71,7 +72,7 @@ namespace Framework.Core.Database.DAO
             }
 
             // SQL.
-            var sb = new StringBuilder("INSERT INTO TBL_Post (post_uid, pid, step, items, regtime) VALUES ");
+            var sb = new StringBuilder("INSERT INTO TBL_Post (post_uid, pid, step, items, text, regtime) VALUES ");
 
             // Last.
             var lastPost = posts.Last();
@@ -95,9 +96,10 @@ namespace Framework.Core.Database.DAO
                             command.Parameters.AddWithValue("@Pid" + idx, post.Pid);
                             command.Parameters.AddWithValue("@Step" + idx, post.PostStep);
                             command.Parameters.AddWithValue("@Items" + idx, post.Items);
+                            command.Parameters.AddWithValue("@Text" + idx, post.Text);
 
                             // Query.
-                            sb.AppendFormat("(@PostUid{0}, @Pid{0}, @Step{0}, @Items{0}, NOW())", idx);
+                            sb.AppendFormat("(@PostUid{0}, @Pid{0}, @Step{0}, @Items{0}, @Text{0}, NOW())", idx);
 
                             if (lastPost == post)
                             {

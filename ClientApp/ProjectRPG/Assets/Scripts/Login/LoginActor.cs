@@ -5,6 +5,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum SceneLoadStepType
+{
+    None = 0,
+    
+    Ready = 1,
+    Process = 2,
+    Complete = 3,
+}
+
 public class LoginActor : Singleton<LoginActor>
 {
     [SerializeField] private TMP_InputField _inputIdField;
@@ -13,8 +22,8 @@ public class LoginActor : Singleton<LoginActor>
 
     private LoginManager _loginManager;
 
-    private bool _isLoadingScene;
     private string _loadScene;
+    private SceneLoadStepType LoadStepType;
 
     private void Start()
     {
@@ -24,18 +33,34 @@ public class LoginActor : Singleton<LoginActor>
     public void LoadScene(string scene)
     {
         _loadScene = scene;
-        _isLoadingScene = true;
+
+        LoadStepType = SceneLoadStepType.Ready;
     }
 
     private void Update()
     {
-        if (_isLoadingScene)
+        switch (LoadStepType)
         {
-            _isLoadingScene = false;
-            SceneManager.LoadScene(_loadScene);
+            case SceneLoadStepType.Ready:
+                {
+                    LoadStepType = SceneLoadStepType.Process;
+                    SceneManager.LoadScene(_loadScene);
+                }
+                break;
+            case SceneLoadStepType.Process:
+                {
+                    var nowScene = SceneManager.GetActiveScene();
 
-            // Spawn units.
-            GamePacketManager.Instance.Send<GamePacketCS_EnterPlayer>(GamePacketCode.CS_EnterPlayer, new GamePacketCS_EnterPlayer());
+                    // 현재 씬 검사.
+                    if (nowScene.name == _loadScene)
+                    {
+                        LoadStepType = SceneLoadStepType.Complete;
+
+                        // Spawn units.
+                        GamePacketManager.Instance.Send<GamePacketCS_EnterPlayer>(GamePacketCode.CS_EnterPlayer, new GamePacketCS_EnterPlayer());
+                    }
+                }
+                break;
         }
     }
 

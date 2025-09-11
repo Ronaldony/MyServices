@@ -37,6 +37,12 @@ namespace Framework.Core.Database.DBO
         public byte[] Items { get; set; }
 
         /// <summary>
+        /// Text.
+        /// </summary>
+        [ColumnMapping("text")]
+        public string Text { get; set; }
+
+        /// <summary>
         /// RegTime.
         /// </summary>
         [ColumnMapping("regtime")]
