@@ -61,16 +61,12 @@ namespace Server_Realm.Context.UnitHandler
                 return 0;
             }
 
+            // Damage.
+            int hitDamage = damage - _stat.Defense;
 
-            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
+            if (damage > _stat.Defense)
             {
-                // Damage.
-                if (damage > _stat.Defense)
-                {
-                    _stat.Health -= damage - _stat.Defense;
-                }
-
-                _logger.LogDebug($"damage health: {_stat.Health}");
+                _stat.Health -= hitDamage;
             }
 
             if (_stat.Health <= 0)
@@ -85,7 +81,7 @@ namespace Server_Realm.Context.UnitHandler
             // 상태 업데이트.
             _isStatUpdate = true;
 
-            return damage - _stat.Defense;
+            return hitDamage;
         }
 
         #region common

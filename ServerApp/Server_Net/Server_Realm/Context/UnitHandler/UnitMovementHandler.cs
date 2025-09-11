@@ -118,11 +118,6 @@ namespace Server_Realm.Context.UnitHandler
 
                 _location.Pos = movePos;
 
-                if (_owner.UnitType == Core.Types.Type_Unit.Mob)
-                {
-                    //_logger.LogDebug($"Update movement. pos: {_location.Pos}, dir: {_location.MoveDirection}");
-                }
-
                 // Post process.
                 PostMove();
             }
@@ -171,11 +166,6 @@ namespace Server_Realm.Context.UnitHandler
             // 상태 업데이트.
             _isMoveing = false;
             _isMoveStatusUpdated = true;
-
-            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
-            {
-                //_logger.LogDebug($"Update movement. pos: {_location.Pos}, dir: {_location.MoveDirection}");
-            }
         }
         #endregion
 

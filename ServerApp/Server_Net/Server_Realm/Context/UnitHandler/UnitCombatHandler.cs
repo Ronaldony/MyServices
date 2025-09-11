@@ -121,8 +121,6 @@ namespace Server_Realm.Context.UnitHandler
             // Hit box 충돌 검사.
             if (true == srcHitbox.IsHit(_owner.UnitCollision.GetHitbox()))
             {
-                _logger.LogDebug($"Hit unit. unit type: {_owner.UnitType}");
-
                 var hitDamage = _owner.StatHandler.Damage(damage);
 
                 // Aggro 유닛 데미지 축적.

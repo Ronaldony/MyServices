@@ -16,8 +16,6 @@
         /// </summary>
         private void RootItem(PlayerUnit pu, GamePacketCS_RootItem packet)
         {
-            _logger.LogDebug($"Root Item. dropId:{packet.DropId}, items: {packet.Item.RefId}");
-
             // Root item.
             if (false == pu.RootItem(packet.DropId))
             {
