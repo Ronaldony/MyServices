@@ -8,102 +8,87 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MemoryPack" Version="1.21.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <None Remove="Database\TB_Area.db" />
+    <None Remove="Database\TB_AreaSpawn.db" />
+    <None Remove="Database\TB_Collision.db" />
+    <None Remove="Database\TB_Item.db" />
+    <None Remove="Database\TB_ItemConsume.db" />
+    <None Remove="Database\TB_ItemGroup.db" />
+    <None Remove="Database\TB_ItemRate.db" />
+    <None Remove="Database\TB_Mob.db" />
+    <None Remove="Database\TB_Projectile.db" />
+    <None Remove="Database\TB_Weapon.db" />
+    <None Remove="Database\Type_AIState.db" />
+    <None Remove="Database\Type_Area.db" />
+    <None Remove="Database\Type_Collision.db" />
+    <None Remove="Database\Type_Item.db" />
+    <None Remove="Database\Type_ItemConsume.db" />
+    <None Remove="Database\Type_ItemRank.db" />
+    <None Remove="Database\Type_MobAttack.db" />
+    <None Remove="Database\Type_Projectile.db" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Database\CONF_Area.db">
+    <EmbeddedResource Include="Database\TB_Area.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\CONF_Enemy.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_AreaSpawn.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\CONF_Mob.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_Collision.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_Area.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_Item.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_AreaSpawn.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_ItemConsume.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_Collision.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_ItemGroup.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_Enemy.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_ItemRate.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_EnemyProjectile.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_Mob.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_Item.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_Projectile.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_ItemConsume.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\TB_Weapon.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_ItemGroup.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_AIState.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_ItemRate.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_Area.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_Mob.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_Collision.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_MobProjectile.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_Item.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_Projectile.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_ItemConsume.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\TB_Weapon.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_ItemRank.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_Action.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_MobAttack.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_AIState.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Type_Projectile.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_Area.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_Collision.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_EnemyAction.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_EnemyProjectile.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_Item.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_ItemConsume.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_ItemRank.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_MobAttack.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_MobProjectile.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_MoveDirection.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_MovePattern.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database\Type_Projectile.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MemoryPack" Version="1.21.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
   </ItemGroup>
 
 </Project>
