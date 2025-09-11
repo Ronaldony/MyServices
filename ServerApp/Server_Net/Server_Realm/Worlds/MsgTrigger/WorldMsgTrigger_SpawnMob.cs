@@ -76,8 +76,16 @@ namespace Server_Realm.Worlds.MsgTrigger
         public void Start(Type_Area area)
         {
             _logger.LogInformation($"start spawn mob");
-            // 최초 스폰
-            FirstSpawnMobs(area);
+
+            try
+            {
+                // 최초 스폰
+                FirstSpawnMobs(area);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
 
             // 스폰 스케줄링.
             _subscriptions.Add(
