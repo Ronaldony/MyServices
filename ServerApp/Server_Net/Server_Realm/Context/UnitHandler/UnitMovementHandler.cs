@@ -81,11 +81,21 @@ namespace Server_Realm.Context.UnitHandler
 
             // 상태 업데이트.
             _isMoveStatusUpdated = true;
+        }
 
-            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
-            {
-                //_logger.LogDebug($"Update movement. pos: {_location.Pos}, dir: {_location.MoveDirection}");
-            }
+        /// <summary>
+        /// Move start.
+        /// </summary>
+        public void MoveStart(Vector2 moveDireciton, Vector2 endPos)
+        {
+            _lastMoveTime = TimeUtil.Now;
+            _isMoveing = true;
+
+            _location.MoveDirection = new Vector2(MathF.Round(moveDireciton.X, 2), MathF.Round(moveDireciton.Y, 2));
+            _location.PosEnd = endPos;
+
+            // 상태 업데이트.
+            _isMoveStatusUpdated = true;
         }
 
         /// <summary>
