@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "6zPGydnPoqo=",
+  "success": true,
+  "projectFilePath": "C:\\Depot_Jaesueng\\MyServices\\ServerApp\\Framework\\GameCore\\GameCore.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\boba1\\.nuget\\packages\\memorypack\\1.21.4\\memorypack.1.21.4.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\memorypack.core\\1.21.4\\memorypack.core.1.21.4.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\memorypack.generator\\1.21.4\\memorypack.generator.1.21.4.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.3\\microsoft.extensions.dependencyinjection.abstractions.9.0.3.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.3\\microsoft.extensions.logging.abstractions.9.0.3.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\sqlite-net-pcl\\1.9.172\\sqlite-net-pcl.1.9.172.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\sqlitepclraw.bundle_green\\2.1.2\\sqlitepclraw.bundle_green.2.1.2.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\sqlitepclraw.core\\2.1.2\\sqlitepclraw.core.2.1.2.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.2\\sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.2\\sqlitepclraw.provider.e_sqlite3.2.1.2.nupkg.sha512",
+    "C:\\Users\\boba1\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}
