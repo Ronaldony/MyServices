@@ -35,3 +35,5 @@ C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.WebAPI\obj\x64\Debug\
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.WebAPI\obj\x64\Debug\net9.0\refint\Framework.WebAPI.dll
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.WebAPI\obj\x64\Debug\net9.0\Framework.WebAPI.pdb
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.WebAPI\obj\x64\Debug\net9.0\ref\Framework.WebAPI.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.WebAPI\bin\x64\Debug\net9.0\Database\TB_ItemConsume.db
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.WebAPI\bin\x64\Debug\net9.0\Database\Type_ItemConsume.db

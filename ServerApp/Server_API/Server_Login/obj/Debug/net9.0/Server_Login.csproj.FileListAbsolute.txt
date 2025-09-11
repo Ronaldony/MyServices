@@ -127,3 +127,5 @@ C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\Server_Login\obj\Debug\net9.0\
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\Server_Login\obj\Debug\net9.0\Server_Login.pdb
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\Server_Login\obj\Debug\net9.0\Server_Login.genruntimeconfig.cache
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\Server_Login\obj\Debug\net9.0\ref\Server_Login.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\Server_Login\bin\Debug\net9.0\Database\TB_ItemConsume.db
+C:\Depot_Jaesueng\MyServices\ServerApp\Server_API\Server_Login\bin\Debug\net9.0\Database\Type_ItemConsume.db

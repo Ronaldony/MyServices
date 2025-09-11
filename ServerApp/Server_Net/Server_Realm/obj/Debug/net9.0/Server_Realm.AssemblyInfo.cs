@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Server_Realm")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ab30f72c31894b2142a43a516e87c325572bce5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+00f6db302f88ccab9aa3dd8881d044e50b465234")]
 [assembly: System.Reflection.AssemblyProductAttribute("Server_Realm")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Server_Realm")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

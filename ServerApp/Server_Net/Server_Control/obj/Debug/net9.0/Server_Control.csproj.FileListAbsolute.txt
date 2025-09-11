@@ -121,3 +121,5 @@ C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Control\obj\Debug\net9.
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Control\obj\Debug\net9.0\Server_Control.pdb
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Control\obj\Debug\net9.0\Server_Control.genruntimeconfig.cache
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Control\obj\Debug\net9.0\ref\Server_Control.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Control\bin\Debug\net9.0\Database\TB_ItemConsume.db
+C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Control\bin\Debug\net9.0\Database\Type_ItemConsume.db

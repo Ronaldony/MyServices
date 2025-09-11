@@ -553,3 +553,659 @@
 2025-09-11 21:15:01.4889 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
 2025-09-11 21:15:01.6149 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Production 
 2025-09-11 21:15:01.6149 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\bin\Debug\net9.0 
+2025-09-11 21:26:34.2519 ServerEngine.Core.Services.StrapiConfigureService.Initialize [INFO] StrapiConfigureService initialize. 
+2025-09-11 21:26:35.7139 ServerEngine.Core.Services.CustomMemoryPoolService.Initialize [INFO] CustomMemoryPoolService initialized. 
+2025-09-11 21:26:35.7139 ServerEngine.Core.Services.NewtonsoftJsonSerializer.Initialize [INFO] CustomJsonSerializer initialize. 
+2025-09-11 21:26:36.0174 GameCore.TDBService.Initialize [INFO] TDBService initialzed. total: 10 
+2025-09-11 21:26:36.0401 Server_Realm.Core.Factories.CollisionFactory.Initialize [INFO] CollisionFactory initialized 
+2025-09-11 21:26:36.0401 Server_Realm.Core.Factories.ProjectileFactory.Initialize [INFO] ProjectileFactory initialized 
+2025-09-11 21:26:36.0401 Server_Realm.Core.Factories.UnitFactory.Initialize [INFO] UnitFactory initialize. 
+2025-09-11 21:26:36.0576 Server_Realm.Core.Services.MobCreateService.Initialize [INFO] MobCreateService initialized. 
+2025-09-11 21:26:36.3759 Server_Realm.Core.Services.ItemCreateService.Initialize [INFO] ItemCreateService initialize. 
+2025-09-11 21:26:38.8944 Server_Realm.Actors.HubActor.InitializeAsync [INFO] HubActor initialize. 
+2025-09-11 21:26:38.8944 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.Start [INFO] start spawn mob 
+2025-09-11 21:26:38.8944 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawns. count: 5 
+2025-09-11 21:26:38.9101 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:26:38.9101 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-99, -64) 
+2025-09-11 21:26:38.9399 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9399 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-105, -65) 
+2025-09-11 21:26:38.9412 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9412 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-95, -71) 
+2025-09-11 21:26:38.9412 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9412 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-96, -61) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-109, -61) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-110, -65) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-94, -80) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-95, -76) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-105, -64) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-102, -61) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-109, -69) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-101, -70) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-109, -78) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-102, -75) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-101, -70) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-103, -76) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-106, -65) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-105, -74) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-96, -61) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-93, -75) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-97, -70) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-107, -73) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-102, -70) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-110, -68) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-109, -78) 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9736 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-102, -76) 
+2025-09-11 21:26:38.9899 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:38.9899 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-104, -67) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-110, -68) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-94, -75) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-100, -62) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-63, -30) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-52, -20) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-56, -17) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-60, -17) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-58, -21) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-52, -19) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-67, -11) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-63, -24) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-55, -23) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-69, -12) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-64, -18) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-66, -14) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-65, -22) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-63, -16) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-65, -13) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-60, -16) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-56, -20) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-68, -17) 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0507 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-53, -13) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-70, -29) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-58, -27) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-65, -18) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-63, -19) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-51, -30) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-63, -23) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-69, -13) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-66, -27) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-61, -21) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-59, -17) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-55, -27) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-23, 37) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-22, 47) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-22, 41) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-27, 44) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-24, 42) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-31, 31) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-32, 33) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-38, 36) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-31, 42) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-32, 46) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-36, 35) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-26, 36) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-22, 34) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-29, 42) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-32, 38) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-26, 45) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-35, 36) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-39, 40) 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0663 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-40, 48) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-27, 41) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-38, 39) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-40, 30) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-25, 34) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-37, 42) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-37, 31) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-30, 33) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-35, 31) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-21, 43) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-21, 38) 
+2025-09-11 21:26:39.0830 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.1429 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-31, 30) 
+2025-09-11 21:26:39.2032 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2032 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:26:39.2032 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (42, 36) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (40, 32) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (47, 31) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (33, 46) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (38, 38) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (44, 34) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (35, 38) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (33, 31) 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.2626 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (35, 41) 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (45, 49) 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (38, 37) 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (42, 30) 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.3093 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (36, 38) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (41, 46) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (43, 43) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (39, 32) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (41, 30) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (45, 43) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (43, 39) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (44, 31) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (30, 48) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (41, 34) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (38, 31) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (43, 42) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (47, 41) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (48, 34) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (44, 40) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (46, 33) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (34, 40) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (31, 37) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (83, 68) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (76, 77) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (77, 74) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (89, 68) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (88, 69) 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4131 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (76, 66) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (80, 77) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (82, 70) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (71, 71) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (89, 65) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (74, 71) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (70, 79) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (70, 72) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (79, 66) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (77, 68) 
+2025-09-11 21:26:39.4262 Server_Realm.Program.Main [INFO]    _____                             ____             __        
+  / ___/___  ______   _____  _____  / __ \___  ____ _/ /___ ___ 
+  \__ \/ _ \/ ___/ | / / _ \/ ___/ / /_/ / _ \/ __ `/ / __ `__ \
+ ___/ /  __/ /   | |/ /  __/ /    / _, _/  __/ /_/ / / / / / / /
+/____/\___/_/    |___/\___/_/____/_/ |_|\___/\__,_/_/_/ /_/ /_/ 
+                           /_____/                              
+ 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (73, 78) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (78, 74) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (86, 67) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (77, 68) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (81, 73) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (86, 70) 
+2025-09-11 21:26:39.4262 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (84, 65) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (79, 62) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (74, 68) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (79, 73) 
+2025-09-11 21:26:39.4475 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (88, 77) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (71, 70) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (73, 68) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (70, 63) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (88, 66) 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:26:39.4475 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Production 
+2025-09-11 21:26:39.4475 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\bin\Debug\net9.0 
+2025-09-11 21:26:39.4475 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.Start [INFO] start mob spawn. 
+2025-09-11 21:27:03.8140 ServerEngine.Core.Services.StrapiConfigureService.Initialize [INFO] StrapiConfigureService initialize. 
+2025-09-11 21:27:05.2596 ServerEngine.Core.Services.CustomMemoryPoolService.Initialize [INFO] CustomMemoryPoolService initialized. 
+2025-09-11 21:27:05.2596 ServerEngine.Core.Services.NewtonsoftJsonSerializer.Initialize [INFO] CustomJsonSerializer initialize. 
+2025-09-11 21:27:05.5446 GameCore.TDBService.Initialize [INFO] TDBService initialzed. total: 10 
+2025-09-11 21:27:05.5630 Server_Realm.Core.Factories.CollisionFactory.Initialize [INFO] CollisionFactory initialized 
+2025-09-11 21:27:05.5685 Server_Realm.Core.Factories.ProjectileFactory.Initialize [INFO] ProjectileFactory initialized 
+2025-09-11 21:27:05.5685 Server_Realm.Core.Factories.UnitFactory.Initialize [INFO] UnitFactory initialize. 
+2025-09-11 21:27:05.5685 Server_Realm.Core.Services.MobCreateService.Initialize [INFO] MobCreateService initialized. 
+2025-09-11 21:27:05.8908 Server_Realm.Core.Services.ItemCreateService.Initialize [INFO] ItemCreateService initialize. 
+2025-09-11 21:27:08.4581 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.Start [INFO] start spawn mob 
+2025-09-11 21:27:08.4581 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawns. count: 5 
+2025-09-11 21:27:08.4581 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:27:08.4581 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-99, -77) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-99, -68) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-103, -62) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-99, -68) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-107, -78) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-101, -74) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-109, -64) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-98, -63) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-97, -61) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-96, -76) 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5116 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-102, -66) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-95, -68) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-101, -66) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-106, -79) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-97, -65) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Actors.HubActor.InitializeAsync [INFO] HubActor initialize. 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-93, -79) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-102, -79) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-107, -74) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-97, -71) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-104, -64) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-93, -73) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-110, -70) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-103, -69) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-92, -73) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-100, -68) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-95, -77) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-97, -66) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-103, -75) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-109, -68) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-99, -68) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-67, -24) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-58, -21) 
+2025-09-11 21:27:08.5845 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-65, -25) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-62, -15) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-70, -27) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-67, -13) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-56, -30) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-64, -11) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-57, -27) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-58, -12) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-56, -25) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-53, -27) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-64, -30) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-60, -28) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-70, -23) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-56, -14) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-62, -26) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-55, -19) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-59, -21) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-69, -12) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-55, -25) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-57, -18) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-60, -24) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-51, -28) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-54, -22) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-70, -14) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-63, -19) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-63, -13) 
+2025-09-11 21:27:08.5980 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-52, -14) 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-66, -15) 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-29, 42) 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-27, 31) 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-26, 36) 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-22, 49) 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.6138 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-40, 33) 
+2025-09-11 21:27:08.7230 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.7230 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-38, 30) 
+2025-09-11 21:27:08.7230 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.7230 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-32, 37) 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-40, 47) 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-31, 49) 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-40, 43) 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-36, 48) 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-35, 32) 
+2025-09-11 21:27:08.8447 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8477 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-35, 33) 
+2025-09-11 21:27:08.8477 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8477 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-35, 41) 
+2025-09-11 21:27:08.8477 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.8477 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-39, 40) 
+2025-09-11 21:27:08.8477 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-36, 43) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-26, 46) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-29, 44) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-32, 31) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-28, 49) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-24, 42) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-27, 33) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-32, 48) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-40, 40) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-28, 31) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-30, 37) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-34, 34) 
+2025-09-11 21:27:08.9818 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-28, 39) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-30, 30) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (-36, 34) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (31, 42) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (49, 45) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (34, 34) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (34, 36) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (37, 34) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (47, 47) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (43, 34) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (41, 38) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (34, 36) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (43, 46) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (35, 42) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (46, 40) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (31, 39) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (40, 32) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (47, 37) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (31, 34) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (44, 38) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (34, 42) 
+2025-09-11 21:27:08.9882 Server_Realm.Program.Main [INFO]    _____                             ____             __        
+  / ___/___  ______   _____  _____  / __ \___  ____ _/ /___ ___ 
+  \__ \/ _ \/ ___/ | / / _ \/ ___/ / /_/ / _ \/ __ `/ / __ `__ \
+ ___/ /  __/ /   | |/ /  __/ /    / _, _/  __/ /_/ / / / / / / /
+/____/\___/_/    |___/\___/_/____/_/ |_|\___/\__,_/_/_/ /_/ /_/ 
+                           /_____/                              
+ 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (40, 41) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (47, 33) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (38, 48) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (33, 36) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (32, 33) 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:08.9882 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (32, 43) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (31, 35) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (43, 42) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (32, 46) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (41, 34) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (32, 38) 
+2025-09-11 21:27:09.0043 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Application started. Press Ctrl+C to shut down. 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (49, 31) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] tbAreaSpawn. max count: 30 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (85, 72) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (70, 67) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (84, 73) 
+2025-09-11 21:27:09.0043 Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted [INFO] Hosting environment: Production 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (88, 66) 
+2025-09-11 21:27:09.0043 Microsoft.Extensions.Hosting.Internal.ApplicationLifetime.NotifyStarted [INFO] Content root path: C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\bin\Debug\net9.0 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (81, 77) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (89, 79) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (88, 67) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (75, 62) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (89, 62) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (84, 76) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (77, 79) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (84, 70) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (81, 64) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (76, 63) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (78, 68) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (79, 77) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (79, 61) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (75, 75) 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0043 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (72, 74) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (78, 60) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (74, 79) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (83, 73) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (76, 78) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (72, 61) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (86, 71) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (73, 69) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (73, 71) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (80, 72) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (76, 66) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.SpawnMobUnit [DEBUG] Spawn mob. pos: (86, 76) 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.FirstSpawnMobs [DEBUG] spawn mob 
+2025-09-11 21:27:09.0254 Server_Realm.Worlds.MsgTrigger.WorldMsgTrigger_SpawnMob.Start [INFO] start mob spawn. 
