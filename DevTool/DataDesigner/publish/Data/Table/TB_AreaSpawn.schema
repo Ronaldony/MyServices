@@ -42,6 +42,14 @@
       "Type": "int",
       "RefTable": "",
       "Summary": ""
+    },
+    {
+      "Idx": 6,
+      "Name": "MaxCount",
+      "IsIndexed": false,
+      "Type": "int",
+      "RefTable": "",
+      "Summary": ""
     }
   ]
 }

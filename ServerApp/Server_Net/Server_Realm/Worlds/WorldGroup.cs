@@ -30,6 +30,13 @@
         public Dictionary<long, MobUnit> MobUnitDict;
 
         /// <summary>
+        /// Mob count.
+        /// key: TB_AreaSpawn id
+        /// value: count.
+        /// </summary>
+        public Dictionary<int, int> MobCountDict;
+
+        /// <summary>
         /// 섹션 단위 정보.
         /// key: section.
         /// value: world section.

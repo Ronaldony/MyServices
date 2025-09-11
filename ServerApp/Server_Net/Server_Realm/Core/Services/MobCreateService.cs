@@ -68,7 +68,7 @@ namespace Server_Realm.Core.Services
         /// <summary>
         /// Get mob as template.
         /// </summary>
-        public DTO_Mob CreateMob(int refId, Type_Area areaType)
+        public DTO_Mob CreateMob(int refId, Type_Area areaType, int areaSpawnId)
         {
             if (false == _confAreas.ContainsKey(areaType))
             {
@@ -85,7 +85,7 @@ namespace Server_Realm.Core.Services
             };
 
             // 스폰 위치 생성.
-            var spawnPos = GetSpawnPosition(areaType);
+            var spawnPos = GetSpawnPosition(areaType, areaSpawnId);
 
             // Stat.
             dtoMob.Stat.HealthMax = tbMob.Health;
@@ -109,15 +109,17 @@ namespace Server_Realm.Core.Services
         /// <summary>
         /// Get spawn position.
         /// </summary>
-        private Vector2 GetSpawnPosition(Type_Area area)
+        private Vector2 GetSpawnPosition(Type_Area area, int areaSpawnId)
         {
-            var tbAreas = _tbAreaSpawns[area];
-            var tbArea = tbAreas.OrderBy(d => Guid.NewGuid()).First();
+            var tbAreaSpawns = _tbAreaSpawns[area];
+            var tbAreaSpawn = tbAreaSpawns.First(d => d.Id == areaSpawnId);
 
             //return new Vector2(-105, -68);
-            return new Vector2(
-                x: _rand.Next(tbArea.X - SPAWN_RANGE, tbArea.X + SPAWN_RANGE),
-                y: _rand.Next(tbArea.Y - SPAWN_RANGE, tbArea.Y + SPAWN_RANGE));
+            var spawnPos = new Vector2(
+                x: _rand.Next(tbAreaSpawn.X - SPAWN_RANGE, tbAreaSpawn.X + SPAWN_RANGE),
+                y: _rand.Next(tbAreaSpawn.Y - SPAWN_RANGE, tbAreaSpawn.Y + SPAWN_RANGE));
+
+            return spawnPos;
         }
     }
 }

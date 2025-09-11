@@ -115,7 +115,7 @@ namespace Server_Realm.Zones.HuntZone
 
             // Message trigger.
             _msgTrgSpawnMob = new WorldMsgTrigger_SpawnMob(serviceProvider, this);
-            _msgTrgSpawnMob.Start();
+            _msgTrgSpawnMob.Start(Type_Area.HuntZone);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Server_Realm.Zones.HuntZone
 
             // Spawn.
             Receive<WorldMsg_SpawnMob>(wm => SpawnMobs(wm));
-            Receive<WorldMsg_EnterPlayer>(wm => SpawnPlayer(wm));
+            Receive<WorldMsg_EnterPlayer>(wm => EnterPlayer(wm));
             Receive<WorldMsg_LeavePlayer>(wm => LeavePlayer(wm));
 
             // Update.
@@ -185,6 +185,19 @@ namespace Server_Realm.Zones.HuntZone
                         break;
                 }
             });
+        }
+
+        /// <summary>
+        /// Get mob count.
+        /// </summary>
+        public int GetMobCount(int areaSpawnId)
+        {
+            if (false == _worldGroup.MobCountDict.ContainsKey(areaSpawnId))
+            {
+                return 0;
+            }
+
+            return _worldGroup.MobCountDict[areaSpawnId];
         }
     }
 }

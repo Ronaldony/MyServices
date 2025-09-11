@@ -66,8 +66,9 @@ namespace Server_Realm.Zones.HuntZone
             return new WorldGroup
             {
                 PlayerUnitDict = new Dictionary<string, PlayerUnit>(),
-                MobUnitDict = new Dictionary<long, MobUnit>(),
                 AroundSectionDict = aroundSessionDict,
+                MobUnitDict = new Dictionary<long, MobUnit>(),
+                MobCountDict = new Dictionary<int, int>(),
                 WorldSectionDict = worldSectionDict
             };
         }

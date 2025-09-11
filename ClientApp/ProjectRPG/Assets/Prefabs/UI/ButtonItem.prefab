@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 5684572836882872687}
   - component: {fileID: 7180459788788111830}
   - component: {fileID: 5717421980762060974}
-  - component: {fileID: 5824391130309318384}
+  - component: {fileID: -1047458818755984644}
   m_Layer: 5
   m_Name: ButtonItem
   m_TagString: Untagged
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5824391130309318384}
+      - m_Target: {fileID: -1047458818755984644}
         m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -311,7 +311,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5824391130309318384
+--- !u!114 &-1047458818755984644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -320,6 +320,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9186194854884665281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f68ca46ae40be514dacf24d88a0aabf8, type: 3}
+  m_Script: {fileID: 11500000, guid: c0bbf8e2cf9bb0b4491e9653b65be5b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

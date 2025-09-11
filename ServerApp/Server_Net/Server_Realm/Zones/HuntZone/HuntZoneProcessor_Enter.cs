@@ -17,7 +17,7 @@ namespace Server_Realm.Zones.HuntZone
         /// <summary>
         /// 플레이어 스폰.
         /// </summary>
-        private void SpawnPlayer(WorldMsg_EnterPlayer worldMsg)
+        private void EnterPlayer(WorldMsg_EnterPlayer worldMsg)
         {
             _logger.LogDebug($"Spawn player in processor");
 
@@ -91,16 +91,17 @@ namespace Server_Realm.Zones.HuntZone
             // Enemy 스폰.
             foreach (var section in msg.MobUnits.Keys)
             {
-                var worldSection = _worldGroup.WorldSectionDict[section];
+                var ws = _worldGroup.WorldSectionDict[section];
 
+                // Enter into zone.
                 foreach (var mu in msg.MobUnits[section])
                 {
-                    // Enter.
+                    // Add mob.
                     _worldGroup.MobUnitDict.Add(mu.UnitId, mu);
-                    mu.WorldSection = worldSection;
-                    mu.WorldSection.EnterMob(mu);
 
                     // Setup.
+                    mu.WorldSection = ws;
+                    mu.WorldSection.EnterMob(mu);
                     mu.ZoneProcessor = this;
                 }
 
@@ -109,7 +110,7 @@ namespace Server_Realm.Zones.HuntZone
                     spawnMobDict.Add(section, new List<MobUnit>());
                 }
 
-                // Spawn mob.
+                // Add mobs.
                 spawnMobDict[section].AddRange(msg.MobUnits[section]);
             }
 

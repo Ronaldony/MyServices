@@ -46,5 +46,10 @@ namespace Server_Realm.Zones
         /// Check valid section.
         /// </summary>
         public bool IsValidSection(Vector2 pos);
+
+        /// <summary>
+        /// Get mob counts for TB_AreaSpawn id.
+        /// </summary>
+        public int GetMobCount(int areaSpawnId);
     }
 }

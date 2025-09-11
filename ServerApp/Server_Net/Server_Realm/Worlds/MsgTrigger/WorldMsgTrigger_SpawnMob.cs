@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
+using System.Collections.Concurrent;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -26,6 +27,7 @@ namespace Server_Realm.Worlds.MsgTrigger
 
         private readonly IServiceProvider _serviceProvider;
         private readonly IUniqueIdService _uniqueIdService;
+        private readonly ITDBService _tdbService;
 
         private readonly MobCreateService _mobCreateService;
         private readonly ItemCreateService _itemCreateService;
@@ -35,8 +37,12 @@ namespace Server_Realm.Worlds.MsgTrigger
         // Actor provider.
         private readonly IZoneProcessor _zoneProcessor;
 
-        // Mobs.
-        private readonly List<TB_Mob> _tbMobs;
+        private readonly IEnumerable<TB_Mob> _tbMobs;
+
+        /// <summary>
+        /// 리스폰 지역 id.
+        /// </summary>
+        private readonly ConcurrentQueue<int> _respawnAreaIds;
 
         // Disposables.
         private readonly CompositeDisposable _subscriptions;
@@ -50,29 +56,34 @@ namespace Server_Realm.Worlds.MsgTrigger
 
             _mobCreateService = serviceProvider.GetRequiredService<MobCreateService>();
             _itemCreateService = serviceProvider.GetRequiredService<ItemCreateService>();
+            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
 
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
 
             _zoneProcessor = zoneProcessor;
 
-            var tdbService = serviceProvider.GetRequiredService<ITDBService>();
+            _tbMobs = _tdbService.SelectAll<TB_Mob>();
 
-            _tbMobs = tdbService.SelectAll<TB_Mob>().ToList();
+            _respawnAreaIds = new ConcurrentQueue<int>();
 
             _subscriptions = new CompositeDisposable();
+
         }
 
         /// <summary>
         /// 스폰 타이머 시작.
         /// </summary>
-        public void Start()
+        public void Start(Type_Area area)
         {
-            // 구독.
+            // 최초 스폰
+            FirstSpawnMobs(area);
+
+            // 스폰 스케줄링.
             _subscriptions.Add(
-                Observable.Interval(TimeSpan.FromSeconds(8))
+                Observable.Interval(TimeSpan.FromSeconds(5))
                 .Subscribe(count =>
                 {
-                    SpawnMob();
+                    CheckRespawn();
                 }));
 
             _logger.LogInformation("start mob spawn.");
@@ -94,74 +105,131 @@ namespace Server_Realm.Worlds.MsgTrigger
         }
 
         /// <summary>
-        /// 주기적으로 적 스폰.
+        /// Request respawn.
         /// </summary>
-        private void SpawnMob()
+        public void RequestRespawn(int tbAreaSpawnId)
         {
-            try
+            _respawnAreaIds.Enqueue(tbAreaSpawnId);
+        }
+
+        /// <summary>
+        /// First spawn mobs.
+        /// </summary>
+        private void FirstSpawnMobs(Type_Area area)
+        {
+            var tbAreaSpawns = _tdbService.SelectAll<TB_AreaSpawn>().Where(d => d.Area == area);
+            var spawnMob = new WorldMsg_SpawnMob();
+
+            foreach (var tbAreaSpawn in tbAreaSpawns)
             {
-                // Create spawn enemy message.
-                var spawnMsg = new WorldMsg_SpawnMob();
-
-                //var mob = _tbMobs.Last();
-                foreach (var tbMob in _tbMobs)
+                // TB_AreaSpawn의 최대 몹 수량만큼 스폰.
+                for (var spawnCnt = 0; spawnCnt < tbAreaSpawn.MaxCount; spawnCnt++)
                 {
-                    // 유닛 생성.
-                    var dtoMob = _mobCreateService.CreateMob(tbMob.Id, Type_Area.HuntZone);
+                    var mu = SpawnMobUnit(tbAreaSpawn.Id);
 
-                    if (null == dtoMob)
+                    if (mu == null)
                     {
-                        _logger.LogError($"fail to create mob. mobId: {dtoMob.MobId}");
                         continue;
                     }
 
-                    //_logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
-
                     // Get section.
-                    var spawnPos = SectionId.ToSection(dtoMob.Location.Pos);
+                    var spawnPos = SectionId.ToSection(mu.Mob.Location.Pos);
 
-                    if (false == spawnMsg.MobUnits.ContainsKey(spawnPos))
+                    if (false == spawnMob.MobUnits.ContainsKey(spawnPos))
                     {
-                        spawnMsg.MobUnits.Add(spawnPos, new List<MobUnit>());
+                        spawnMob.MobUnits.Add(spawnPos, new List<MobUnit>());
                     }
 
-                    // 드랍 아이템 처리.
-                    var dropItems = new Dictionary<int, List<DropItem>>();
+                    spawnMob.MobUnits[spawnPos].Add(mu);
+                }
+            }
 
-                    for (int aggroOrder = 0; aggroOrder < GameData.MAX_MOB_SPAWN; aggroOrder++)
-                    {
-                        dropItems.Add(aggroOrder, new List<DropItem>());
+            // Zone에 전송
+            _zoneProcessor.Tell(spawnMob);
+        }
 
-                        // Create item groups.
-                        // Aggro 순서가 증가할 때마다 드랍 확률 떨어짐.
-                        var dtoItems = _itemCreateService.CreateItemGroups(tbMob.ItemGroupId, aggroOrder);
+        /// <summary>
+        /// 리스폰 검사.
+        /// </summary>
+        private void CheckRespawn()
+        {
+            var spawnMob = new WorldMsg_SpawnMob();
 
-                        foreach (var item in dtoItems)
-                        {
-                            var dropId = _uniqueIdService.GenerateIdAsLong();
+            while (_respawnAreaIds.TryDequeue(out var areaSpawnId))
+            {
+                // 몹 스폰.
+                var mu = SpawnMobUnit(areaSpawnId);
 
-                            dropItems[aggroOrder].Add(new DropItem 
-                            {
-                                DropId = dropId,
-                                Item = item
-                            });
-                        }
-                    }
-
-                    // Create mob unit.
-                    var mu = _unitFactory.CreateUnit<MobUnit>(Type_Unit.Mob);
-                    mu.Setup(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob, dropItems);
-
-                    spawnMsg.MobUnits[spawnPos].Add(mu);
+                if (mu == null)
+                {
+                    continue;
                 }
 
-                // 메시지 전달.
-                _zoneProcessor.Tell(spawnMsg);
+                // Get section.
+                var spawnPos = SectionId.ToSection(mu.Mob.Location.Pos);
+
+                if (false == spawnMob.MobUnits.ContainsKey(spawnPos))
+                {
+                    spawnMob.MobUnits.Add(spawnPos, new List<MobUnit>());
+                }
+
+                spawnMob.MobUnits[spawnPos].Add(mu);
             }
-            catch (Exception ex)
+
+            // Zone에 전달.
+            if (spawnMob.MobUnits.Any())
             {
-                _logger.LogError(ex.Message);
+                _zoneProcessor.Tell(spawnMob);
             }
+        }
+
+        /// <summary>
+        /// Spawn mobs.
+        /// </summary>
+        private MobUnit SpawnMobUnit(int areaSpawnId)
+        {
+            // Pick random TB_Mob.
+            var tbMob = _tbMobs.OrderBy(d => Guid.NewGuid()).First();
+
+            // 유닛 생성.
+            var dtoMob = _mobCreateService.CreateMob(tbMob.Id, Type_Area.HuntZone, areaSpawnId);
+
+            if (null == dtoMob)
+            {
+                _logger.LogError($"fail to create mob. mobId: {dtoMob.MobId}");
+                return null;
+            }
+
+            //_logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
+
+            // 드랍 아이템 처리.
+            var dropItems = new Dictionary<int, List<DropItem>>();
+
+            for (int aggroOrder = 0; aggroOrder < GameData.MAX_MOB_SPAWN; aggroOrder++)
+            {
+                dropItems.Add(aggroOrder, new List<DropItem>());
+
+                // Create item groups.
+                // Aggro 순서가 증가할 때마다 드랍 확률 떨어짐.
+                var dtoItems = _itemCreateService.CreateItemGroups(tbMob.ItemGroupId, aggroOrder);
+
+                foreach (var item in dtoItems)
+                {
+                    var dropId = _uniqueIdService.GenerateIdAsLong();
+
+                    dropItems[aggroOrder].Add(new DropItem
+                    {
+                        DropId = dropId,
+                        Item = item
+                    });
+                }
+            }
+
+            // Create mob unit.
+            var mu = _unitFactory.CreateUnit<MobUnit>(Type_Unit.Mob);
+            mu.Setup(_serviceProvider, _uniqueIdService.GenerateIdAsLong(), dtoMob, dropItems, areaSpawnId);
+
+            return mu;
         }
     }
 }

@@ -9,6 +9,7 @@ public class Post : MonoBehaviour
 {
     private DTO_Post _post;
     [SerializeField] private Text _postText;
+    [SerializeField] private GameObject _claimButton;
 
     /// <summary>
     /// Set slot.
@@ -22,7 +23,7 @@ public class Post : MonoBehaviour
         // Already claimed.
         if (post.IsClaimed)
         {
-            DisablePostBG();
+            DisableClaimButton();
         }
     }
 
@@ -61,13 +62,7 @@ public class Post : MonoBehaviour
         }
 
         // Disable background.
-        DisablePostBG();
-
-        // Inactive buttons.
-        foreach (var button in GetComponentsInChildren<Button>())
-        {
-            button.gameObject.SetActive(false);
-        }
+        DisableClaimButton();
     }
 
     /// <summary>
@@ -89,19 +84,9 @@ public class Post : MonoBehaviour
         });
     }
 
-    private void DisablePostBG()
+    private void DisableClaimButton()
     {
-        // Change background.
-        foreach (var image in GetComponentsInChildren<Image>())
-        {
-            if (image.name == "NormalBG")
-            {
-                image.gameObject.SetActive(false);
-            }
-            else if (image.name == "DisableBG")
-            {
-                image.gameObject.SetActive(true);
-            }
-        }
+        _claimButton.SetActive(false);
+        //_claimButton.gameObject.SetActive(false);
     }
 }

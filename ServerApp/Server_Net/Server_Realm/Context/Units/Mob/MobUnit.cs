@@ -33,7 +33,7 @@ namespace Server_Realm.Units.Mob
         /// <summary>
         /// Setup.
         /// </summary>
-        public void Setup(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob, Dictionary<int, List<DropItem>> dropItems)
+        public void Setup(IServiceProvider serviceProvider, long unitId, DTO_Mob dtoMob, Dictionary<int, List<DropItem>> dropItems, int areaSpawnId)
         {
             // Unit.
             IsDead = false;
@@ -53,6 +53,9 @@ namespace Server_Realm.Units.Mob
 
             // Items.
             DropItems = dropItems;
+
+            // TB_AreaSpawn.
+            AreaSpawnId = areaSpawnId;
         }
         #endregion
 
@@ -72,6 +75,11 @@ namespace Server_Realm.Units.Mob
         /// value: DropItems.
         /// </summary>
         public Dictionary<int, List<DropItem>> DropItems { get; private set; }
+
+        /// <summary>
+        /// TB_AreaSpawn id.
+        /// </summary>
+        public int AreaSpawnId { get; private set; }
 
         /// <summary>
         /// Dispose.

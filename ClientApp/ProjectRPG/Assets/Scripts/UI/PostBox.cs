@@ -134,6 +134,8 @@ public class PostBox : Singleton<PostBox>
             return;
         }
 
+        _posts.Add(dtoPost.PostUid, post);
+
         // Set post.
         post.SetPost(dtoPost);
     }
@@ -171,7 +173,7 @@ public class PostBox : Singleton<PostBox>
         var post = _posts[postUid];
 
         // Destroy post.
-        Destroy(post);
+        Destroy(post.gameObject);
     }
 
     /// <summary>
