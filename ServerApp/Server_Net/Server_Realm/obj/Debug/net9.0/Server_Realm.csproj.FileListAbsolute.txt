@@ -149,3 +149,5 @@ C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\obj\Debug\net9.0\
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\obj\Debug\net9.0\Server_Realm.pdb
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\obj\Debug\net9.0\Server_Realm.genruntimeconfig.cache
 C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\obj\Debug\net9.0\ref\Server_Realm.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\bin\Debug\net9.0\Database\TB_ItemConsume.db
+C:\Depot_Jaesueng\MyServices\ServerApp\Server_Net\Server_Realm\bin\Debug\net9.0\Database\Type_ItemConsume.db

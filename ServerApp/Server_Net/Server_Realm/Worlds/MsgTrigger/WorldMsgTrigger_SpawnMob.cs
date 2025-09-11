@@ -129,8 +129,12 @@ namespace Server_Realm.Worlds.MsgTrigger
             var tbAreaSpawns = _tdbService.SelectAll<TB_AreaSpawn>().Where(d => d.Area == area);
             var spawnMob = new WorldMsg_SpawnMob();
 
+            _logger.LogDebug($"tbAreaSpawns. count: {tbAreaSpawns.Count()}");
+
             foreach (var tbAreaSpawn in tbAreaSpawns)
             {
+                _logger.LogDebug($"tbAreaSpawn. max count: {tbAreaSpawn.MaxCount}");
+
                 // TB_AreaSpawn의 최대 몹 수량만큼 스폰.
                 for (var spawnCnt = 0; spawnCnt < tbAreaSpawn.MaxCount; spawnCnt++)
                 {
@@ -140,6 +144,8 @@ namespace Server_Realm.Worlds.MsgTrigger
                     {
                         continue;
                     }
+
+                    _logger.LogDebug($"spawn mob");
 
                     // Get section.
                     var spawnPos = SectionId.ToSection(mu.Mob.Location.Pos);

@@ -33,3 +33,5 @@ C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Core\obj\x64\Debug\ne
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Core\obj\x64\Debug\net9.0\refint\Framework.Core.dll
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Core\obj\x64\Debug\net9.0\Framework.Core.pdb
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Core\obj\x64\Debug\net9.0\ref\Framework.Core.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Core\bin\x64\Debug\net9.0\Database\TB_ItemConsume.db
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\Framework.Core\bin\x64\Debug\net9.0\Database\Type_ItemConsume.db

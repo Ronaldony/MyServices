@@ -27,3 +27,5 @@ C:\Depot_Jaesueng\MyServices\ServerApp\Framework\GameCore\obj\x64\Debug\net9.0\G
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\GameCore\obj\x64\Debug\net9.0\refint\GameCore.dll
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\GameCore\obj\x64\Debug\net9.0\GameCore.pdb
 C:\Depot_Jaesueng\MyServices\ServerApp\Framework\GameCore\obj\x64\Debug\net9.0\ref\GameCore.dll
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\GameCore\bin\x64\Debug\net9.0\Database\TB_ItemConsume.db
+C:\Depot_Jaesueng\MyServices\ServerApp\Framework\GameCore\bin\x64\Debug\net9.0\Database\Type_ItemConsume.db
