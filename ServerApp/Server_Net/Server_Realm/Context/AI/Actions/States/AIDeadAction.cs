@@ -37,7 +37,7 @@ namespace Server_Realm.Context.AI.Actions.States
 
             // Request respawn.
             var mu = Owner as MobUnit;
-            Owner.ZoneProcessor.Respawn(mu.AreaSpawnId);
+            Owner.ZoneProcessor.RespawnMob(mu.AreaSpawnId);
 
             _logger.LogDebug($"AI Dead.");
 

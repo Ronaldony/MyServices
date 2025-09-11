@@ -50,6 +50,6 @@ namespace Server_Realm.Zones
         /// <summary>
         /// Respawn.
         /// </summary>
-        public void Respawn(int areaSpawnId);
+        public void RespawnMob(int areaSpawnId);
     }
 }

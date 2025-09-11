@@ -200,7 +200,7 @@ namespace Server_Realm.Worlds.MsgTrigger
                 return null;
             }
 
-            //_logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
+            _logger.LogDebug($"Spawn mob. pos: ({dtoMob.Location.Pos.X}, {dtoMob.Location.Pos.Y})");
 
             // 드랍 아이템 처리.
             var dropItems = new Dictionary<int, List<DropItem>>();

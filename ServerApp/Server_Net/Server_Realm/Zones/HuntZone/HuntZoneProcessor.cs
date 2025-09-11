@@ -184,5 +184,13 @@ namespace Server_Realm.Zones.HuntZone
                 }
             });
         }
+
+        /// <summary>
+        /// Respawn mob.
+        /// </summary>
+        public void RespawnMob(int areaSpawnId)
+        {
+            _msgTrgSpawnMob.RequestRespawn(areaSpawnId);
+        }
     }
 }
