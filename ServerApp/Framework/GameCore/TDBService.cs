@@ -54,9 +54,11 @@ namespace GameCore
                 _dbConnectionDict.Add(tableName, connection);
 
                 totalTable++;
+
+                _logger.LogDebug($"TDBService add - {tableName}");
             }
 
-			_logger.LogInformation($"TDBService initialzed. total: {totalTable}");
+            _logger.LogInformation($"TDBService initialzed. total: {totalTable}");
 
 			return true;
 		}
