@@ -34,7 +34,8 @@ namespace Server_Realm.Zones.HuntZone
             // 투사체 공격 패킷.
             var gamePacket = new GamePacketSC_AttackProjectile
             {
-                Projectile = packet.Projectile,
+                UnitId = pu.UnitId,
+                Projectile = packet.Projectile
             };
 
             // Send packet.

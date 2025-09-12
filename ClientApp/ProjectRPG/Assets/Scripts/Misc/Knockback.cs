@@ -17,11 +17,10 @@ public class Knockback : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void GetKnockedBack(Vector3 dmgSrcPosition, float knockBackThrust)
+    public void ForceKnockback(Vector3 dmgSrcPosition, float knockBackThrust)
     {
         GettingKnockedBack = true;
 
-        // mass: ����, mass�� ����Ͽ� �˹�ǰ� �ϱ� ����.
         Vector2 momentum = (transform.position - dmgSrcPosition).normalized * knockBackThrust * rb.mass;
 
         StartCoroutine(KnockRoutine(rb.position + (momentum * GameData.KNOCKBACK_TIME)));
@@ -31,6 +30,7 @@ public class Knockback : MonoBehaviour
         Debug.Log($"KnockBack Mass: {rb.mass}, normalized: {(transform.position - dmgSrcPosition).normalized}, difference: {momentum}");
 
     }
+
     private IEnumerator KnockRoutine(Vector2 knockBackPos)
     {
         if (null != KnockBack)

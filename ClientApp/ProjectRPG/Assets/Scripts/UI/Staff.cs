@@ -25,6 +25,11 @@ public class Staff : MonoBehaviour, IWeapon
         myAnimator.SetTrigger(ATTACK_HASh);
     }
 
+    public void Attack(Quaternion rotation)
+    {
+        myAnimator.SetTrigger(ATTACK_HASh);
+    }
+
     public void SpawnStaffProjectileAnimEvent()
     {
         GameObject newLaser = Instantiate(magicLaser, magicLaserSpawnPoint.position, Quaternion.identity);

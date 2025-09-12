@@ -1,19 +1,19 @@
 using GameCore;
 using GameCore.GamePacket;
 using GamePackets;
+using System.Linq;
 using UnityEngine;
 
 public class Sword : MonoBehaviour, IWeapon
 {
     [SerializeField] private WeaponInfo weaponInfo;
     [SerializeField] private GameObject slashAnimPrefab;
-    [SerializeField] private Transform slashAnimSpawnPoint;
+    private Transform _slashAnimSpawnPos;
 
     private Transform weaponCollider;
     private Animator myAnimator;
 
     private GamePacketManager _gpm;
-    private PlayerDataManager _playerDataManager;
 
     private GameObject slashAnim;
 
@@ -22,13 +22,14 @@ public class Sword : MonoBehaviour, IWeapon
         myAnimator = GetComponent<Animator>();
 
         _gpm = GamePacketManager.Instance;
-        _playerDataManager = PlayerDataManager.Instance;
     }
 
     private void Start()
     {
         weaponCollider = PlayerController.Instance.GetWeaponCollider();
-        slashAnimSpawnPoint = GameObject.Find("SlashSpawnPoint").transform;
+
+        var activeWeapon = GetComponentsInParent<Transform>().FirstOrDefault(d => d.name == "Active Weapon");
+        _slashAnimSpawnPos = activeWeapon.GetComponentsInChildren<Transform>().FirstOrDefault(d => d.name == "SlashSpawnPoint");
     }
 
     private void Update()
@@ -64,7 +65,25 @@ public class Sword : MonoBehaviour, IWeapon
         weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = true;
 
         // Slash prefab.
-        slashAnim = Instantiate(slashAnimPrefab, slashAnimSpawnPoint.position, Quaternion.identity);
+        slashAnim = Instantiate(slashAnimPrefab, _slashAnimSpawnPos.position, Quaternion.identity);
+        slashAnim.transform.parent = this.transform.parent;
+    }
+
+    /// <summary>
+    /// Opponent attack.
+    /// </summary>
+    public void Attack(Quaternion rotation)
+    {
+        // set animation.
+        myAnimator.SetTrigger("Attack");
+
+        // Visible weapon collider.
+        weaponCollider.gameObject.SetActive(true);
+        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = true;
+
+        // Slash prefab.
+        slashAnim = Instantiate(slashAnimPrefab, _slashAnimSpawnPos.position, rotation);
         slashAnim.transform.parent = this.transform.parent;
     }
 

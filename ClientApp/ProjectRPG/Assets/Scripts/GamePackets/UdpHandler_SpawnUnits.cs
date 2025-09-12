@@ -28,11 +28,8 @@ namespace GamePackets
                 Data = packetData,
             };
 
-            var enemyManagement = EnemyManagement.Instance;
-            var dummyManagement = DummyManagement.Instance;
-
-            enemyManagement.AddUpdatePacket(updatePacket);
-            dummyManagement.AddUpdatePacket(updatePacket);
+            EnemyManagement.Instance.AddUpdatePacket(updatePacket);
+            OpponentManagement.Instance.AddUpdatePacket(updatePacket);
         }
     }
 }

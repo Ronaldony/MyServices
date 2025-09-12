@@ -23,12 +23,22 @@ namespace GamePackets
         {
             var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_MoveFixed>(packet.Data);
 
-            var playerController = PlayerController.Instance;
-            playerController.EnQUpdatePacket(new UpdateGamePacket
+            if (packetData.UnitId == PlayerDataManager.Instance.UnitId)
             {
-                PacketCode = GamePacketCode.SC_MoveFixed,
-                Data = packetData,
-            });
+                PlayerController.Instance.AddUpdatePacket(new UpdateGamePacket
+                {
+                    PacketCode = GamePacketCode.SC_MoveFixed,
+                    Data = packetData,
+                });
+            }
+            else
+            {
+                OpponentManagement.Instance.AddUpdatePacket(new UpdateGamePacket
+                {
+                    PacketCode = GamePacketCode.SC_MoveFixed,
+                    Data = packetData
+                });
+            }
         }
     }
 }

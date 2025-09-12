@@ -22,13 +22,12 @@ namespace GamePackets
         {
             // packet.
             var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_SwitchWeapon>(packet.Data);
-            var updatePacket = new UpdateGamePacket
+
+            OpponentManagement.Instance.AddUpdatePacket(new UpdateGamePacket
             {
                 PacketCode = GamePacketCode.SC_SwitchWeapon,
                 Data = packetData,
-            };
-
-
+            });
         }
     }
 }

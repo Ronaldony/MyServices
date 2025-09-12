@@ -1,4 +1,3 @@
-
 namespace GamePackets
 {
     /// <summary>

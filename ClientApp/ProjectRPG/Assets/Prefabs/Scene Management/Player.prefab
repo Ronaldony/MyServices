@@ -149,11 +149,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2193359109446985528}
   - component: {fileID: 9154775367075967329}
-  - component: {fileID: 2657631433207067574}
   - component: {fileID: 3275427286805913397}
   - component: {fileID: 5158586758019073428}
   - component: {fileID: 4467630411541176178}
   - component: {fileID: 2565075097678673332}
+  - component: {fileID: 2657631433207067574}
   - component: {fileID: 4348351165888624110}
   - component: {fileID: 3305483507401507942}
   - component: {fileID: 7070984836380814225}
@@ -235,22 +235,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2657631433207067574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6315157723059402753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b07459e046717a469a5ae7a2a5c0a33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4
-  dashSpeed: 4
-  myTrailRenderer: {fileID: 7702649374699334699}
-  weaponCollider: {fileID: 2157917685152464029}
 --- !u!50 &3275427286805913397
 Rigidbody2D:
   serializedVersion: 4
@@ -259,7 +243,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6315157723059402753}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -346,6 +330,22 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &2657631433207067574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6315157723059402753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b07459e046717a469a5ae7a2a5c0a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 4
+  dashSpeed: 4
+  myTrailRenderer: {fileID: 7702649374699334699}
+  weaponCollider: {fileID: 2157917685152464029}
 --- !u!114 &4348351165888624110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,8 +358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5162e98b631804c90e5d0ea2f841e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  damageRecoveryTime: 1
 --- !u!114 &3305483507401507942
 MonoBehaviour:
   m_ObjectHideFlags: 0

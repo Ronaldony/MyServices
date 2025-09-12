@@ -30,11 +30,13 @@ namespace Server_Realm.Zones.HuntZone
                 return;
             }
 
+            _logger.LogDebug($"Projectile. endpos: {pu.MovementHandler.NowPos()}");
+
             // 패킷 전송 - 대시.
             pu.WorldSection.SendPacket_AroundSections(pu.UnitId, GamePacketCode.SC_Dash, new GamePacketSC_Dash
             {
                 UnitId = pu.UnitId,
-                Direction = pu.MovementHandler.NowDir()
+                DashEnd = pu.MovementHandler.NowPos()
             });
         }
     }

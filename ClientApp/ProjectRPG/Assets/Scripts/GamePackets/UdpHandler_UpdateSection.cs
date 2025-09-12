@@ -22,9 +22,6 @@ namespace GamePackets
         public override void HandlePacket(UdpPacket packet)
         {
             // management.
-            var enemyManagement = EnemyManagement.Instance;
-            var dummyManagement = DummyManagement.Instance;
-
             var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_UpdateSection>(packet.Data);
             var updatePacket = new UpdateGamePacket
             {
@@ -32,8 +29,8 @@ namespace GamePackets
                 Data = packetData,
             };
 
-            enemyManagement.AddUpdatePacket(updatePacket);
-            dummyManagement.AddUpdatePacket(updatePacket);
+            EnemyManagement.Instance.AddUpdatePacket(updatePacket);
+            OpponentManagement.Instance.AddUpdatePacket(updatePacket);
         }
     }
 }

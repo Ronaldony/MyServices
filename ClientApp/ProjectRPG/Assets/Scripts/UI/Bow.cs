@@ -27,12 +27,15 @@ public class Bow : MonoBehaviour, IWeapon
         MouseFollowWithOffset();
     }
 
+    /// <summary>
+    /// Player Attack
+    /// </summary>
     public void Attack()
     {
         myAnimator.SetTrigger(FIRE_HASH);
 
         // Arrow.
-        GameObject arrowObject = Instantiate(arrowPrefab, arrowSpawnPoint.position, ActiveWeapon.Instance.transform.rotation);
+        GameObject arrowObject = Instantiate(arrowPrefab, transform.position, ActiveWeapon.Instance.transform.rotation);
         Projectile projectile = arrowObject.GetComponent<Projectile>();
 
         var tbWeapon = TDBManagement.Instance.GetById<TB_Weapon>(weaponInfo.weaponId);
@@ -49,12 +52,29 @@ public class Bow : MonoBehaviour, IWeapon
             Projectile = new DTO_Projectile
             {
                 ProjectileType = Type_Projectile.Arrow,
-                SpawnPos = new System.Numerics.Vector2(arrowSpawnPoint.position.x, arrowSpawnPoint.position.y),
+                SpawnPos = new System.Numerics.Vector2(transform.position.x, transform.position.y),
                 TargetPos = new System.Numerics.Vector2(mousePos.x, mousePos.y)
             }
         });
     }
 
+    /// <summary>
+    /// Opponent attack.
+    /// </summary>
+    public void Attack(Quaternion rotation)
+    {
+        myAnimator.SetTrigger(FIRE_HASH);
+
+        // Arrow.
+        GameObject arrowObject = Instantiate(arrowPrefab, transform.position, rotation);
+        Projectile projectile = arrowObject.GetComponent<Projectile>();
+
+        var tbWeapon = TDBManagement.Instance.GetById<TB_Weapon>(weaponInfo.weaponId);
+        var tbProjectile = TDBManagement.Instance.First<TB_Projectile>(d => d.ProjectileType == tbWeapon.ProjectileType);
+
+        projectile.Setup(tbProjectile.Velocity, tbProjectile.MaxRange);
+    }
+    
     public WeaponInfo GetWeaponInfo()
     {
         return weaponInfo;

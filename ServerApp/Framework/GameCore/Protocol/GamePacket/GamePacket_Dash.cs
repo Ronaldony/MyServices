@@ -33,10 +33,10 @@ namespace GameCore.GamePacket
         public long UnitId { get; set; }
 
         /// <summary>
-        /// 대시 방향.
+        /// 대시 위치.
         /// </summary>
         [MemoryPackOrder(1)]
-        public Vector2 Direction { get; set; }
+        public Vector2 DashEnd { get; set; }
 
         public override void Dispose()
         {

@@ -36,7 +36,7 @@ namespace GamePackets
             PlayerManagement.Instance.UnitId = packetData.UnitId;
 
             EnemyManagement.Instance.AddUpdatePacket(updatePacket);
-            DummyManagement.Instance.AddUpdatePacket(updatePacket);
+            OpponentManagement.Instance.AddUpdatePacket(updatePacket);
 
             // Enter zone.
             HubPacketManager.Instance.Send<HubPacketCS_EnterZone>(HubPacketCode.CS_EnterZone, new HubPacketCS_EnterZone

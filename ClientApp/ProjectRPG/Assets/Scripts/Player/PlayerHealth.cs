@@ -13,7 +13,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     private Knockback _knockback;
     private Flash _flash;
 
-    const string HEALTH_SLIDER_TEXT = "Health Slider";
+    const string HEALTH_SLIDER_TEXT = "MyHealthSlider";
     const string TOWN_TEXT = "Scene1";
     readonly int DEATH_HASH = Animator.StringToHash("Death");
 
@@ -75,7 +75,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
         ScreenSnakeManager.Instance.SnakeScreen();
 
         // Knockback.
-        //_knockback.GetKnockedBack(hitTransform.position, GameData.KNOCKBACK_THRUST);
+        //_knockback.ForceKnockback(hitTransform.position, GameData.KNOCKBACK_THRUST);
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());
@@ -101,7 +101,10 @@ public class PlayerHealth : Singleton<PlayerHealth>
         {
             // Process death.
             _isDead = true;
-            Destroy(ActiveWeapon.Instance.gameObject);
+            
+            // Disable weapon.
+            ActiveWeapon.Instance.gameObject.SetActive(false);
+            //Destroy(ActiveWeapon.Instance.gameObject);
 
             _currentHealth = 0;
             GetComponent<Animator>().SetTrigger(DEATH_HASH);
@@ -117,7 +120,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
         yield return new WaitForSeconds(2f);
 
         // Respawn player.
-        Destroy(gameObject);
+        //Destroy(gameObject);
         //SceneManager.LoadScene(TOWN_TEXT);
     }
 

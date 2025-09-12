@@ -60,8 +60,6 @@ public class WeaponInventory : Singleton<WeaponInventory>
         WeaponSlot slot = childTransform.GetComponentInChildren<WeaponSlot>();
         WeaponInfo weaponInfo = slot.GetWeaponInfo();
 
-        Debug.Log($"_activeSlotIndexNum: {_activeSlotIndexNum}");
-
         // Check weapon.
         if (!weaponInfo)
         {

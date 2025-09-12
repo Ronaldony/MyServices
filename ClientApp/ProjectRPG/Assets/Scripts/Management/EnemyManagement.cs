@@ -17,8 +17,8 @@ public class EnemyManagement : Singleton<EnemyManagement>
     private IEnumerable<TB_Mob> _tbMobs;
 
     // Queue.
-    private ConcurrentQueue<UpdateGamePacket> _updatePacketQ;
-    private ConcurrentQueue<long> _killedEnemyQ;
+    private ConcurrentQueue<UpdateGamePacket> _updatePackets;
+    private ConcurrentQueue<long> _killedEnemies;
 
     /// <summary>
     /// Enemy GameObject dictionary.
@@ -29,8 +29,8 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
     public EnemyManagement()
     {
-        _updatePacketQ = new ConcurrentQueue<UpdateGamePacket>();
-        _killedEnemyQ = new ConcurrentQueue<long>();
+        _updatePackets = new ConcurrentQueue<UpdateGamePacket>();
+        _killedEnemies = new ConcurrentQueue<long>();
         _mobObjectDict = new Dictionary<long, GameObject>();
     }
 
@@ -58,7 +58,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// </summary>
     public void AddUpdatePacket(UpdateGamePacket updatePacket)
     {
-        _updatePacketQ.Enqueue(updatePacket);
+        _updatePackets.Enqueue(updatePacket);
     }
 
     /// <summary>
@@ -66,13 +66,13 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// </summary>
     private void Proc_DestroyEnemy()
     {
-        while (_killedEnemyQ.TryDequeue(out var enemyUid))
+        while (_killedEnemies.TryDequeue(out var unitId))
         {
             // Destroy enemy.
-            Destroy(_mobObjectDict[enemyUid]);
+            Destroy(_mobObjectDict[unitId]);
 
             // Remove enemy.
-            _mobObjectDict.Remove(enemyUid);
+            _mobObjectDict.Remove(unitId);
         }
     }
 
@@ -82,7 +82,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     private void Proc_UpdatePacket()
     {
         // Process update pakcet.
-        while (_updatePacketQ.TryDequeue(out var updatePacket))
+        while (_updatePackets.TryDequeue(out var updatePacket))
         {
             switch (updatePacket.PacketCode)
             {
@@ -219,8 +219,8 @@ public class EnemyManagement : Singleton<EnemyManagement>
             }
 
             // Update health.
-            var mobPath = mobObj.GetComponent<MobHealth>();
-            mobPath.UpdateHealth(pair.Value.Health);
+            var mobHealth = mobObj.GetComponent<MobHealth>();
+            mobHealth.UpdateHealth(pair.Value.Health);
         }
     }
 
@@ -238,7 +238,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
                 continue;
             }
 
-            // Udpate hit.
+            // Update hit.
             var mobPathfinding = mobObj.GetComponent<MobPathfinding>();
             mobPathfinding.UpdateMovement(pair.Value.MoveDirection, pair.Value.Pos, pair.Value.PosEnd);
 
@@ -354,7 +354,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
     /// </summary>
     public void KillEnemy(long unitId)
     {
-        _killedEnemyQ.Enqueue(unitId);
+        _killedEnemies.Enqueue(unitId);
     }
 
     /// <summary>

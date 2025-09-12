@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : Singleton<PlayerController>
 {
@@ -135,9 +134,9 @@ public class PlayerController : Singleton<PlayerController>
         AdjustPlayerFacingDirection();
 
         // 이동 처리.
-        BeforeMove();
+        MovePre();
         Move();
-        AfterMove();
+        MovePost();
     }
 
     /// <summary>
@@ -165,7 +164,7 @@ public class PlayerController : Singleton<PlayerController>
     /// <summary>
     /// Before move.
     /// </summary>
-    private void BeforeMove()
+    private void MovePre()
     {
         // check moving.
         if (_isMoving)
@@ -201,7 +200,7 @@ public class PlayerController : Singleton<PlayerController>
     /// <summary>
     /// After move.
     /// </summary>
-    private void AfterMove()
+    private void MovePost()
     {
         // Send MoveStart.
         if ((_moveDirection != Vector2.zero) && (false == _isMoving))
@@ -268,7 +267,7 @@ public class PlayerController : Singleton<PlayerController>
     /// <summary>
     /// Enqueue UpdatePacket.
     /// </summary>
-    public void EnQUpdatePacket(UpdateGamePacket updatePacket)
+    public void AddUpdatePacket(UpdateGamePacket updatePacket)
     {
         _updatePacketQ.Enqueue(updatePacket);
     }

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace GameCore
 {
@@ -26,8 +27,9 @@ namespace GameCore
 			_dbPathDict = new Dictionary<string, string>();
             _lock = new object();
 
-            var currentDirectory = Directory.GetCurrentDirectory();
-			_databasePath = Path.Combine(currentDirectory, "Assets", "GameCore", DB_PATH);
+            var baseDir = Application.streamingAssetsPath;
+
+            _databasePath = Path.Combine(baseDir, "GameCore", DB_PATH);
 		}
 
         protected override void Awake()

@@ -1,3 +1,4 @@
+using Externals.Serializer;
 using GameCore;
 using GameCore.GamePacket;
 using ServerEngine.Network.UDP;
@@ -23,6 +24,13 @@ namespace GamePackets
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
+            var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_MoveEnd>(packet.Data);
+
+            OpponentManagement.Instance.AddUpdatePacket(new UpdateGamePacket
+            {
+                PacketCode = GamePacketCode.SC_MoveEnd,
+                Data = packetData
+            });
         }
     }
 }

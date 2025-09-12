@@ -4,10 +4,10 @@
     "FilePathList": [
       {
         "Target": "Client",
-        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore",
-        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Protocol",
-        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Code",
-        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets\\GameCore\\Database"
+        "ProjectPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets/GameCore",
+        "ProtocolPath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets/GameCore\\Protocol",
+        "DataCodePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets/GameCore\\Code",
+        "DatabaseFilePath": "C:\\Depot_Jaesueng\\MyServices\\ClientApp\\ProjectRPG\\Assets/GameCore/StreamingAssets\\Database"
       },
       {
         "Target": "Server",
