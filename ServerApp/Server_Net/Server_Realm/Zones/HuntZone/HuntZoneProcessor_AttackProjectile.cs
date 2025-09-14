@@ -17,8 +17,6 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private void AttackProjctile(PlayerUnit pu, GamePacketCS_AttackProjectile packet)
         {
-            _logger.LogDebug($"AttackProjctile");
-
             // 투사체 스폰 위치 검사.
             var distance = Vector2.DistanceSquared(pu.MovementHandler.NowPos(), packet.Projectile.SpawnPos);
             if (distance > GameData.PROJECTILE_SPAWN_DISTANCE_SQUARE)

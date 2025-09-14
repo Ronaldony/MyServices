@@ -3,6 +3,7 @@ using GameCore;
 using GameCore.Datas.Play;
 using GameCore.GamePacket;
 using GamePackets;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
@@ -458,20 +459,28 @@ public class OpponentManagement : Singleton<OpponentManagement>
         // Scan enemy.
         foreach (var pair in _opponentDict)
         {
-            var pathFinding = pair.Value.GetComponent<MobPathfinding>();
-            if (null == pathFinding)
+            var controller = pair.Value.GetComponent<OpponentController>();
+            if (null == controller)
             {
                 continue;
             }
 
-            var position = pathFinding.GetPosition();
-            var mobSection = GetSection((int)position.x, (int)position.y);
-
-            // Check around section.
-            if (false == _sectionManagement.IsAroundSection(playerSection, mobSection))
+            try
             {
-                removemobs.Add(pair.Key);
-                //Debug.Log($"Destroy mob. uid: {pair.Key}, player section: {playerSection}, enemy section: {mobSection}");
+                var position = controller.GetPosition();
+                var section = GetSection((int)position.x, (int)position.y);
+
+                // Check around section.
+                if (false == _sectionManagement.IsAroundSection(playerSection, section))
+                {
+                    removemobs.Add(pair.Key);
+                    //Debug.Log($"Destroy mob. uid: {pair.Key}, player section: {playerSection}, enemy section: {mobSection}");
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.Log(ex.Message);
+                continue;
             }
         }
 
@@ -479,10 +488,10 @@ public class OpponentManagement : Singleton<OpponentManagement>
         foreach (var unitId in removemobs)
         {
             // Remove enemy.
-            _opponentDict.Remove(unitId, out var mob);
+            _opponentDict.Remove(unitId, out var opponent);
 
             // Destroy enemy.
-            Destroy(mob);
+            Destroy(opponent);
         }
     }
 

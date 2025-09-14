@@ -1,6 +1,5 @@
 using GameCore;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class MobPathfinding : MonoBehaviour
 {
@@ -123,6 +122,14 @@ public class MobPathfinding : MonoBehaviour
     public void StopMoving()
     {
         _moveDirection = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Fix position.
+    /// </summary>
+    public void FixPosition(float x, float y)
+    {
+        _rb.position = new Vector2(x, y);
     }
 
     /// <summary>

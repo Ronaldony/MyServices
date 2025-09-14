@@ -56,12 +56,6 @@ public class SectionManagement : Singleton<SectionManagement>
     /// <returns>true: comparer is around to target. false: comparer is not around to target</returns>
     public bool IsAroundSection((int sectionX, int sectionY) target, (int sectionX, int sectionY) comparer)
     {
-        // Comparer.
-        if (false == _aroundSessionDict.ContainsKey(comparer))
-        {
-            return false;
-        }
-
         // Target.
         if (false == _aroundSessionDict.TryGetValue(target, out var sections))
         {

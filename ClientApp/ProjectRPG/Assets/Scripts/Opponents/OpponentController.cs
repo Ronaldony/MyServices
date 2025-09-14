@@ -108,7 +108,7 @@ public class OpponentController : MonoBehaviour
     /// <summary>
     /// Get position.
     /// </summary>
-    public Vector2 GetPosition() => _rb.position;
+    public Vector2 GetPosition () => _rb.position;
 
     /// <summary>
     /// Update animator.
@@ -230,11 +230,11 @@ public class OpponentController : MonoBehaviour
     public void Knockback(System.Numerics.Vector2 srcPos, System.Numerics.Vector2 knockbackPos)
     {
         // Knockback.
-        _knockback.ForceKnockback(srcPos, knockbackPos, GameData.KNOCKBACK_THRUST);
+        //_knockback.ForceKnockback(srcPos, knockbackPos, GameData.KNOCKBACK_THRUST);
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());
 
-        _isMoving = false;
+        //_isMoving = false;
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 public class GrapeLandSplatter : MonoBehaviour
 {
     private SpriteFade spriteFade;
-    private int _damage;
 
     private void Awake()
     {

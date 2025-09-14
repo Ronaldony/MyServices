@@ -75,7 +75,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
         ScreenSnakeManager.Instance.SnakeScreen();
 
         // Knockback.
-        _knockback.ForceKnockback(hitTransform.position, GameData.KNOCKBACK_THRUST);
+        //_knockback.ForceKnockback(hitTransform.position, GameData.KNOCKBACK_THRUST);
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());

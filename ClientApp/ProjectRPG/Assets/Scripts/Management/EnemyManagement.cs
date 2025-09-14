@@ -301,7 +301,12 @@ public class EnemyManagement : Singleton<EnemyManagement>
         // Add Enemy chunk.
         if (_mobObjectDict.ContainsKey(unitId))
         {
-            //Debug.Log($"Already exist mob. uid: {unitId}, id: {mob.MobId}");
+            // Refresh position.
+            var findMobObject = _mobObjectDict[unitId];
+            var findMobPathfinding = findMobObject.GetComponent<MobPathfinding>();
+
+            findMobPathfinding.FixPosition(mob.Location.Pos.X, mob.Location.Pos.Y);
+
             return false;
         }
 
@@ -311,7 +316,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
         _mobObjectDict.Add(unitId, mobObject);
 
         // Set Enemy AI.
-        var enemyAI = mobObject.GetComponent<MobAI>();
+        var mobAI = mobObject.GetComponent<MobAI>();
 
         // Set Enemy path.
         var enemyPathfinding = mobObject.GetComponent<MobPathfinding>();

@@ -23,13 +23,14 @@ public class Knockback : MonoBehaviour
     {
         _isKnockBack = true;
 
-        Vector2 momentum = (transform.position - srcPos).normalized * knockBackThrust * rb.mass;
+        var direction = (transform.position - srcPos).normalized;
+        Vector2 momentum = direction * knockBackThrust * rb.mass;
 
         StartCoroutine(KnockRoutine(rb.position + (momentum * GameData.KNOCKBACK_TIME)));
 
         rb.AddForce(momentum, ForceMode2D.Impulse);
 
-        Debug.Log($"KnockBack Mass: {rb.mass}, normalized: {(transform.position - srcPos).normalized}, difference: {momentum}");
+        Debug.Log($"KnockBack - hit pos: {srcPos} Mass: {rb.mass}, normalized: {direction}, difference: {momentum}");
     }
 
     /// <summary>
@@ -41,7 +42,8 @@ public class Knockback : MonoBehaviour
 
         var convertSrcPos = new Vector3(srcPos.X, srcPos.Y);
 
-        Vector2 momentum = (transform.position - convertSrcPos).normalized * knockBackThrust * rb.mass;
+        var direction = (transform.position - convertSrcPos).normalized;
+        Vector2 momentum = direction * knockBackThrust * rb.mass;
 
         StartCoroutine(KnockRoutine(rb.position + (momentum * GameData.KNOCKBACK_TIME)));
 
@@ -51,7 +53,7 @@ public class Knockback : MonoBehaviour
         // Fix position.
         rb.position = new Vector2(knockbackPos.X, knockbackPos.Y);
 
-        Debug.Log($"KnockBack Mass: {rb.mass}, normalized: {(transform.position - convertSrcPos).normalized}, difference: {momentum}");
+        Debug.Log($"KnockBack Mass: {rb.mass}, normalized: {direction}, difference: {momentum}");
     }
 
     /// <summary>
@@ -71,7 +73,7 @@ public class Knockback : MonoBehaviour
 
         yield return new WaitForSeconds(GameData.KNOCKBACK_TIME);
 
-        rb.velocity = Vector2.zero;
+        //rb.velocity = Vector2.zero;
         _isKnockBack = false;
     }
 }

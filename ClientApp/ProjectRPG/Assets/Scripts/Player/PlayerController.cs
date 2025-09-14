@@ -55,7 +55,7 @@ public class PlayerController : Singleton<PlayerController>
         _rb.position = new Vector2(_playerDataManager.PlayInfo.Location.Pos.X, _playerDataManager.PlayInfo.Location.Pos.Y);
 
         // Knockback.
-        _knockback.KnockBack += OnKnockBack;
+        //_knockback.KnockBack += OnKnockBack;
 
         // Spawn units.
         GamePacketManager.Instance.Send<GamePacketCS_EnterPlayer>(GamePacketCode.CS_EnterPlayer, new GamePacketCS_EnterPlayer());
