@@ -54,19 +54,11 @@ public class PlayerController : Singleton<PlayerController>
         // Setup position.
         _rb.position = new Vector2(_playerDataManager.PlayInfo.Location.Pos.X, _playerDataManager.PlayInfo.Location.Pos.Y);
 
-        Initialize_CallBack();
+        // Knockback.
+        _knockback.KnockBack += OnKnockBack;
 
         // Spawn units.
         GamePacketManager.Instance.Send<GamePacketCS_EnterPlayer>(GamePacketCode.CS_EnterPlayer, new GamePacketCS_EnterPlayer());
-    }
-
-    /// <summary>
-    /// Initialize callback.
-    /// </summary>
-    private void Initialize_CallBack()
-    {
-        // Knockback.
-        _knockback.KnockBack += OnKnockBack;
     }
 
     private void Start()
@@ -117,7 +109,7 @@ public class PlayerController : Singleton<PlayerController>
     private void FixedUpdate()
     {
         // 넉백 혹은 죽음인 경우 처리 넘김.
-        if (_knockback.GettingKnockedBack || PlayerHealth.Instance._isDead)
+        if (_knockback.IsKnockback() || PlayerHealth.Instance._isDead)
         {
             return;
         }

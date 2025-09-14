@@ -36,6 +36,14 @@ namespace Server_Realm.Zones.HuntZone
 
                 return;
             }
+
+            // 패킷 전송 - 넉백.
+            pu.WorldSection.SendPacket_AroundSections(pu.UnitId, GamePacketCode.SC_KnockBack, new GamePacketSC_KnockBack
+            {
+                UnitId = pu.UnitId,
+                Position = packet.Position,
+                SrcPosition = packet.SrcPosition
+            });
         }
     }
 }

@@ -1,5 +1,4 @@
 using GameCore;
-using GamePackets;
 using System.Collections;
 using UnityEngine;
 
@@ -16,6 +15,7 @@ public class OpponentController : MonoBehaviour
     private Animator _myAnimator;
     private SpriteRenderer _mySpriteRenderer;
     private Knockback _knockback;
+    private Flash _flash;
 
     private float _startingMoveSpeed;
 
@@ -23,19 +23,15 @@ public class OpponentController : MonoBehaviour
     private bool _isMoving;
     private bool _isDashing;
 
-    // Data Manger.
-    private GamePacketManager _gamePacketManager;
-
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _myAnimator = GetComponent<Animator>();
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _knockback = GetComponent<Knockback>();
+        _flash = GetComponent<Flash>();
 
         _startingMoveSpeed = moveSpeed;
-
-        _gamePacketManager = GamePacketManager.Instance;
 
         _rb.position = _spawnPos;
     }
@@ -48,7 +44,7 @@ public class OpponentController : MonoBehaviour
     private void FixedUpdate()
     {
         // 넉백 혹은 죽음인 경우 처리 넘김.
-        if (_knockback.GettingKnockedBack || PlayerHealth.Instance._isDead)
+        if (_knockback.IsKnockback() || PlayerHealth.Instance._isDead)
         {
             return;
         }
@@ -218,8 +214,7 @@ public class OpponentController : MonoBehaviour
         moveSpeed = _startingMoveSpeed;
         myTrailRenderer.emitting = false;
 
-        Debug.Log($"Dashed position. pos: {dashedPos}");
-        //Debug.Log($"Move Start (Dash) - Dir: {_moveDirection}, DateTIme: {DateTime.Now}");
+        //Debug.Log($"Dashed position. pos: {dashedPos}");
 
         _isDashing = false;
 
@@ -232,8 +227,14 @@ public class OpponentController : MonoBehaviour
     /// <summary>
     /// Knocking back.
     /// </summary>
-    public void Knockback(Vector2 knockBackPos)
+    public void Knockback(System.Numerics.Vector2 srcPos, System.Numerics.Vector2 knockbackPos)
     {
+        // Knockback.
+        _knockback.ForceKnockback(srcPos, knockbackPos, GameData.KNOCKBACK_THRUST);
+
+        // flash.
+        StartCoroutine(_flash.FlashRoutine());
+
         _isMoving = false;
     }
 }

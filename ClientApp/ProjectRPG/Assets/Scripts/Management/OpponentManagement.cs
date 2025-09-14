@@ -133,6 +133,12 @@ public class OpponentManagement : Singleton<OpponentManagement>
                         Dash(gp.UnitId, gp.DashEnd.X, gp.DashEnd.Y);
                     }
                     break;
+                case GamePacketCode.SC_KnockBack:
+                    {
+                        var gp = updatePacket.Data as GamePacketSC_KnockBack;
+                        Knockback(gp.UnitId, gp);
+                    }
+                    break;
                 case GamePacketCode.SC_AttackMelee:
                     {
                         var gp = updatePacket.Data as GamePacketSC_AttackMelee;
@@ -403,7 +409,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
     /// <summary>
     /// Knockback.
     /// </summary>
-    private void Knockback(long unitId, float x, float y)
+    private void Knockback(long unitId, GamePacketSC_KnockBack packet)
     {
         // Opponent.
         var opponent = FindOpponent(unitId);
@@ -413,10 +419,10 @@ public class OpponentManagement : Singleton<OpponentManagement>
             return;
         }
 
-        // Dash.
+        // Knockback.
         var controller = opponent.GetComponent<OpponentController>();
 
-        controller.Knockback(new Vector2(x, y));
+        controller.Knockback(packet.SrcPosition, packet.Position);
     }
 
     /// <summary>

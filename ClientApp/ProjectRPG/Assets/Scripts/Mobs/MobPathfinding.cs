@@ -31,7 +31,7 @@ public class MobPathfinding : MonoBehaviour
     private void FixedUpdate()
     {
         // Status knockback.
-        if (_knockBack.GettingKnockedBack) { return; }
+        if (_knockBack.IsKnockback()) { return; }
 
         MoveToNext();
 

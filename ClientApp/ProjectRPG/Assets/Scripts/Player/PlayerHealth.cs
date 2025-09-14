@@ -1,3 +1,4 @@
+using GameCore;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
     private Flash _flash;
 
     const string HEALTH_SLIDER_TEXT = "MyHealthSlider";
-    const string TOWN_TEXT = "Scene1";
     readonly int DEATH_HASH = Animator.StringToHash("Death");
 
     protected override void Awake()
@@ -75,7 +75,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
         ScreenSnakeManager.Instance.SnakeScreen();
 
         // Knockback.
-        //_knockback.ForceKnockback(hitTransform.position, GameData.KNOCKBACK_THRUST);
+        _knockback.ForceKnockback(hitTransform.position, GameData.KNOCKBACK_THRUST);
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());
@@ -121,7 +121,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
         // Respawn player.
         //Destroy(gameObject);
-        //SceneManager.LoadScene(TOWN_TEXT);
     }
 
     /// <summary>

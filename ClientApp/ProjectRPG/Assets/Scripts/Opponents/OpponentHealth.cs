@@ -52,17 +52,6 @@ public class OpponentHealth : MonoBehaviour
     }
 
     /// <summary>
-    /// Take damage.
-    /// </summary>
-    public void TakeDamage(int damage)
-    {
-        if (_isDead) { return; }
-
-        // flash.
-        StartCoroutine(_flash.FlashRoutine());
-    }
-
-    /// <summary>
     /// Update health.
     /// </summary>
     public void UpdateHealth(int health)
