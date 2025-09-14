@@ -103,6 +103,11 @@ public class MobPathfinding : MonoBehaviour
             }
         }
 
+        if (isEndPosX && isEndPosY)
+        {
+            Debug.Log($"Move end. endpos: {_endPos}, now: {nowPos}, dir: {_moveDirection}");
+        }
+
         return isEndPosX && isEndPosY;
     }
 

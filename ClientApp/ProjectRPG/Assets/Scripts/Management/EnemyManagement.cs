@@ -240,9 +240,8 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
             // Update hit.
             var mobPathfinding = mobObj.GetComponent<MobPathfinding>();
+            Debug.Log($"update movement. now pos: {mobPathfinding.GetPosition()} dir: {pair.Value.MoveDirection}");
             mobPathfinding.UpdateMovement(pair.Value.MoveDirection, pair.Value.Pos, pair.Value.PosEnd);
-
-            //Debug.Log($"update movement. now pos: {mobPathfinding.NowPos()} dir: {pair.Value.MoveDirection}");
         }
     }
 
