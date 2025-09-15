@@ -4,7 +4,7 @@
     {
         public ServerException(string msg) 
         {
-            msg = Msg;
+            Msg = msg;
         }
 
         /// <summary>
