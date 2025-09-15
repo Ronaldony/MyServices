@@ -143,6 +143,12 @@ namespace Server_Realm.Context.UnitHandler
                 return false;
             }
 
+            // Validate section.
+            if (false == _owner.ZoneProcessor.IsValidSection(endPos))
+            {
+                return false;
+            }
+
             // 이동 정보 갱신.
             _location.Pos = endPos;
 
