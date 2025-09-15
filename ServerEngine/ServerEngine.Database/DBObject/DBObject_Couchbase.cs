@@ -54,7 +54,7 @@ namespace ServerEngine.Database.DataObject
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogDebug(ex.Message);
                 return null;
             }
         }
@@ -86,25 +86,9 @@ namespace ServerEngine.Database.DataObject
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogDebug(ex.Message);
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Not implimented.
-        /// </summary>
-        public T Select<T>(string key) where T : class, new()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Not implimented.
-        /// </summary>
-        public bool Upsert<T>(string key, T dataObject) where T : class, new()
-        {
-            throw new NotImplementedException();
         }
     }
 }
