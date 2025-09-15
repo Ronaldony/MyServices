@@ -74,11 +74,11 @@ namespace Server_Login
             // Connections.
             _webAppBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
 
-            _webAppBuilder.Services.AddSingleton<DBInventoryInfo>();
-            _webAppBuilder.Services.AddSingleton<DBPlayerInfo>();
-            _webAppBuilder.Services.AddSingleton<DBPlayInfo>();
-            _webAppBuilder.Services.AddSingleton<DBSessionInfo>();
-            _webAppBuilder.Services.AddSingleton<DBPostInfo>();
+            _webAppBuilder.Services.AddTransient<DBInventoryInfo>();
+            _webAppBuilder.Services.AddTransient<DBPlayerInfo>();
+            _webAppBuilder.Services.AddTransient<DBPlayInfo>();
+            _webAppBuilder.Services.AddTransient<DBSessionInfo>();
+            _webAppBuilder.Services.AddTransient<DBPostInfo>();
 
             _webAppBuilder.Services.AddSingleton<DBIdentity>();
             _webAppBuilder.Services.AddSingleton<DBUser>();

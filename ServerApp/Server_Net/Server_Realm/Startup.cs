@@ -63,11 +63,11 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<DataInfoSaveActorProvider>();
 
             // Infos.
-            appBuilder.Services.AddSingleton<DBInventoryInfo>();
-            appBuilder.Services.AddSingleton<DBPlayerInfo>();
-            appBuilder.Services.AddSingleton<DBPlayInfo>();
-            appBuilder.Services.AddSingleton<DBSessionInfo>();
-            appBuilder.Services.AddSingleton<DBPostInfo>();
+            appBuilder.Services.AddTransient<DBInventoryInfo>();
+            appBuilder.Services.AddTransient<DBPlayerInfo>();
+            appBuilder.Services.AddTransient<DBPlayInfo>();
+            appBuilder.Services.AddTransient<DBSessionInfo>();
+            appBuilder.Services.AddTransient<DBPostInfo>();
 
             appBuilder.Services.AddSingleton<DBIdentity>();
             appBuilder.Services.AddSingleton<DBUser>();
