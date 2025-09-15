@@ -65,7 +65,7 @@ namespace Server_Control.Server.Hub.Handlers
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.
-                    if (false == sessionInfo.AccessToken.Equals(hubPacket.Token)) throw new ServerException($"token not match. pid: {pid}");
+                    if (false == sessionInfo.AccessToken.Equals(hubPacket.Token)) throw new ServerException($"token not match. pid: {pid}, session token: {sessionInfo.AccessToken}, packet token: {hubPacket.Token}");
 
                     // UnitId 생성, 등록.
                     if (false == _server.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");

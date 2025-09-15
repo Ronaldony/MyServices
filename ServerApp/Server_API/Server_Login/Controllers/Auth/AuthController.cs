@@ -5,6 +5,7 @@ using ServerEngine.Core.Util;
 
 namespace Server_Login.Controllers.Auth
 {
+    using Akka.Configuration.Hocon;
     using Framework.Core.Database.DAO;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
@@ -128,7 +129,7 @@ namespace Server_Login.Controllers.Auth
             res.RefreshToken = refreshToken;
             res.RefrshTokenExpire = refreshTokenExpire;
 
-            _logger.LogDebug($"auth - uid: {uid}");
+            _logger.LogDebug($"auth - uid: {uid}, token: {accessToken}");
 
             return res;
         }

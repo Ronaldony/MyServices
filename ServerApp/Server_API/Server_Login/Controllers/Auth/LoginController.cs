@@ -68,7 +68,7 @@ namespace Server_Login.Controllers.Auth
             // PlayerInfo 가져오기.
             var playerInfoObejct = await GetObjectAsync<PlayerInfoObject>();
 
-            _logger.LogDebug($"login - uid: {dboIdentity.Uid}, pid: {base.Pid}");
+            _logger.LogDebug($"login - uid: {dboIdentity.Uid}, pid: {base.Pid}, token: {dboIdentity.Token}");
 
             return new RES_Login
             {

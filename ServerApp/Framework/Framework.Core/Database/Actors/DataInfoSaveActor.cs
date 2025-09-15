@@ -40,7 +40,7 @@ namespace Framework.Core.Database.Actors
         /// </summary>
         private async Task SaveDatas(DBActorMsg_SaveInfo msg)
         {
-            _logger.LogDebug($"Start save datas. count: {msg.SaveDatas.Count()}");
+            //_logger.LogDebug($"Start save datas. count: {msg.SaveDatas.Count()}");
 
             var sw = new Stopwatch();
             sw.Start();
@@ -61,7 +61,7 @@ namespace Framework.Core.Database.Actors
             // Release msg.
             _memoryPoolService.Release(msg);
 
-            _logger.LogDebug($"End save datas. ms: {sw.ElapsedMilliseconds}");
+            //_logger.LogDebug($"End save datas. ms: {sw.ElapsedMilliseconds}");
         }
     }
 }

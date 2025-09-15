@@ -56,8 +56,8 @@ namespace Server_Realm.Server.HuntZone.Handlers
             {
                 _logger.LogDebug($"Player Login");
 
-                var GamePacket = _dataSerializer.Deserialize<GamePacketCS_Enter>(packet.Data);
-                var pid = GamePacket.Pid;
+                var gp = _dataSerializer.Deserialize<GamePacketCS_Enter>(packet.Data);
+                var pid = gp.Pid;
 
                 try
                 {
@@ -68,7 +68,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.
-                    if (false == sessionInfo.AccessToken.Equals(GamePacket.Token)) throw new ServerException($"token not match. pid: {pid}");
+                    if (false == sessionInfo.AccessToken.Equals(gp.Token)) throw new ServerException($"token not match. pid: {pid}, session token: {sessionInfo.AccessToken}, packet token: {gp.Token}");
 
                     // UnitId 생성, 등록.
                     if (false == _huntZoneServer.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
