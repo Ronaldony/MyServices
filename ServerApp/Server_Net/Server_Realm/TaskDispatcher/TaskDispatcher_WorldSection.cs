@@ -2,6 +2,8 @@
 
 namespace Server_Realm.TaskSchedulers
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Server_Realm.Core.Types;
     using Server_Realm.TaskDispatcher.Node;
     using Server_Realm.TaskDispatcher.WorldSection;
@@ -14,8 +16,9 @@ namespace Server_Realm.TaskSchedulers
     {
         private const int MAX_TASKNODE_NUM = 3;
 
+        private ILogger<TaskDispatcher_WorldSection> _logger;
+
         // Group.
-        public List<TaskNodeGroup_WorldSection> GetTaskNodeGroups() => _taskNodeGroups;
         private List<TaskNodeGroup_WorldSection> _taskNodeGroups;
 
         // Obsever.
@@ -23,8 +26,10 @@ namespace Server_Realm.TaskSchedulers
 
         private CancellationToken _ct;
 
-        public TaskDispatcher_WorldSection(CancellationToken ct)
+        public TaskDispatcher_WorldSection(IServiceProvider serviceProvider, CancellationToken ct)
         {
+            _logger = serviceProvider.GetRequiredService<ILogger<TaskDispatcher_WorldSection>>();
+
             _taskNodeObserver = new TaskNodeObserver_WorldSection(ct);
             _ct = ct;
             _taskNodeGroups = new List<TaskNodeGroup_WorldSection>();
@@ -41,6 +46,8 @@ namespace Server_Realm.TaskSchedulers
 
             // Register task.
             Initialize_RegisterTask(action);
+
+            _logger.LogInformation("TaskDispatcher_WorldSection initialize.");
         }
 
         /// <summary>
@@ -62,8 +69,6 @@ namespace Server_Realm.TaskSchedulers
 
             foreach (var section in filteredSections)
             {
-                Console.WriteLine($"task node section: {section}");
-
                 // X 섹션이 동일한 영역만 가져옴.
                 var taskSections = allSections.Where(d => d.X == section.X).ToList();
                 var taskNode = new TaskNode_WorldSection
@@ -155,7 +160,7 @@ namespace Server_Realm.TaskSchedulers
                             // 노드 그룹 작업 완료.
                             taskNode.NodeGroup.AlertCompletedToObserver();
                         }
-                    }, 
+                    },
                     dataflowBlockOptions: options);
 
                 group.TaskPipeline.LinkTo(group.PostTaskPipeline);

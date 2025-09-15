@@ -89,7 +89,7 @@ namespace Server_Realm.Zones.HuntZone
             _cts = ServiceUtility.GetCTS();
 
             // Task nodes.
-            _taskDispatcher = new TaskDispatcher_WorldSection(_cts.Token);
+            _taskDispatcher = new TaskDispatcher_WorldSection(serviceProvider, _cts.Token);
             _taskDispatcher.Initialize(_worldGroup.AroundSectionDict.Keys, UpdateFrame);
 
             // Add task node types.
