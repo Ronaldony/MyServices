@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 923cc16fda3b1e943bd0bf185e434a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _address: localhost
+  _address: 192.168.219.6
   _port: 9010
 --- !u!4 &284383887
 Transform:

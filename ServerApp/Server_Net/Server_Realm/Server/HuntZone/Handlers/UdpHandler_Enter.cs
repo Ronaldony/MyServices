@@ -68,7 +68,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.
-                    if (false == sessionInfo.AccessToken.Equals(GamePacket.Token)) throw new ServerException($"not exist session. pid: {pid}");
+                    if (false == sessionInfo.AccessToken.Equals(GamePacket.Token)) throw new ServerException($"token not match. pid: {pid}");
 
                     // UnitId 생성, 등록.
                     if (false == _huntZoneServer.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
@@ -78,11 +78,11 @@ namespace Server_Realm.Server.HuntZone.Handlers
 
                     // PlayInfo.
                     var playInfo = await _dbPlayInfo.SelectAsync(pid);
-                    if (null == playInfo) throw new ServerException($"not exist player. pid: {pid}");
+                    if (null == playInfo) throw new ServerException($"not exist PlayInfo. pid: {pid}");
 
                     // InventoryInfo.
                     var inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
-                    if (null == inventoryInfo) throw new ServerException($"not exist player. pid: {pid}");
+                    if (null == inventoryInfo) throw new ServerException($"not exist InventoryInfo. pid: {pid}");
 
                     // Send Enter packet.
                     var enterPacket = _dataSerializer.Serialize(new GamePacketSC_Enter
@@ -95,7 +95,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
                 }
                 catch (ServerException ex)
                 {
-                    _logger.LogWarning(ex.Message);
+                    _logger.LogWarning(ex.Msg);
                     _huntZoneServer.Disconnect(sessionId, sessionUid);
 
                     return;
