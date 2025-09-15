@@ -35,7 +35,7 @@ namespace Server_Realm.Zones
         /// <summary>
         /// Collect dead unit.
         /// </summary>
-        public void CollectDeadUnit(Unit unit);
+        public void CollectReusableUnit(Unit unit);
 
         /// <summary>
         /// Check valid section.

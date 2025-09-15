@@ -214,7 +214,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             // Enemy Uid.
             if (false == _mobObjectDict.TryGetValue(pair.Key, out var mobObj))
             {
-                Debug.Log($"not exist mob. unitId: {pair.Key}");
+                //Debug.Log($"not exist mob. unitId: {pair.Key}");
                 continue;
             }
 
@@ -240,8 +240,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
             // Update hit.
             var mobPathfinding = mobObj.GetComponent<MobPathfinding>();
-            Debug.Log($"update movement. now pos: {mobPathfinding.GetPosition()} dir: {pair.Value.MoveDirection}");
-            mobPathfinding.UpdateMovement(pair.Value.MoveDirection, pair.Value.Pos, pair.Value.PosEnd);
+            mobPathfinding.UpdateMovement(pair.Value);
         }
     }
 
@@ -314,20 +313,21 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
         _mobObjectDict.Add(unitId, mobObject);
 
-        // Set Enemy AI.
+        // Set mob AI.
         var mobAI = mobObject.GetComponent<MobAI>();
 
-        // Set Enemy path.
-        var enemyPathfinding = mobObject.GetComponent<MobPathfinding>();
+        // Set mob path.
+        var mobPathfinding = mobObject.GetComponent<MobPathfinding>();
+        mobPathfinding.Setup(mob.SpawnPos);
 
-        // Set Enemy Health.
-        var enemyHealth = mobObject.GetComponent<MobHealth>();
-        enemyHealth.SetupHealth(mob.Stat.Health, unitId);
+        // Set mob Health.
+        var mobHealth = mobObject.GetComponent<MobHealth>();
+        mobHealth.SetupHealth(mob.Stat.Health, unitId);
 
         // Set Pick up spawner.
         var pickupSpawner = mobObject.GetComponent<PickUpSpawner>();
 
-        //Debug.Log($"Spawn enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
+        //Debug.Log($"Mob enemy - unitId: {unitId}, pos: {mob.Location.Pos}");
 
         return true;
     }

@@ -597,6 +597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 722049059883059678}
   - component: {fileID: 7808829980305533271}
+  - component: {fileID: 8901572375686454017}
   m_Layer: 5
   m_Name: Health Slider
   m_TagString: Untagged
@@ -664,7 +665,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 7884020799543079157}
   m_HandleRect: {fileID: 0}
@@ -676,6 +677,21 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8901572375686454017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6709705862371813466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8fc0c9b76783cf4a9597a834b7a55ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2193359109446985528}
+  mainCamera: {fileID: 0}
+  offset: {x: 0, y: 1.3, z: 0}
 --- !u!1 &7656576586017663060
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +704,6 @@ GameObject:
   - component: {fileID: 6946803296737108443}
   - component: {fileID: 4178957977493089729}
   - component: {fileID: 1408647169918297968}
-  - component: {fileID: 884267888600384537}
   m_Layer: 5
   m_Name: OpponetCanvas
   m_TagString: Untagged
@@ -705,17 +720,17 @@ RectTransform:
   m_GameObject: {fileID: 7656576586017663060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 722049059883059678}
   m_Father: {fileID: 2193359109446985528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 1.3}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6946803296737108443
 Canvas:
   m_ObjectHideFlags: 0
@@ -725,7 +740,7 @@ Canvas:
   m_GameObject: {fileID: 7656576586017663060}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -761,7 +776,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1408647169918297968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -779,19 +794,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &884267888600384537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7656576586017663060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8fc0c9b76783cf4a9597a834b7a55ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 2193359109446985528}
 --- !u!1 &8535647525396264666
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,15 +12,12 @@ public class OpponentHealth : MonoBehaviour
 
     [SerializeField] private GameObject _healthBar;
     private int _currentHealth;
-    private Flash _flash;
 
     readonly int DEATH_HASH = Animator.StringToHash("Death");
 
     private void Start()
     {
         _isDead = false;
-
-        _flash = GetComponent<Flash>();
     }
 
     /// <summary>
@@ -36,28 +33,10 @@ public class OpponentHealth : MonoBehaviour
     }
 
     /// <summary>
-    /// Heal opponent.
-    /// </summary>
-    public void Heal(int heal)
-    {
-        Debug.Log($"Heatl opponent. heal: {heal}");
-        _currentHealth += heal;
-
-        if (_currentHealth > _maxHealth)
-        {
-            _currentHealth = _maxHealth;
-        }
-
-        UpdateHealthSlider();
-    }
-
-    /// <summary>
     /// Update health.
     /// </summary>
     public void UpdateHealth(int health)
     {
-        Debug.Log($"Update health. heal: {health}");
-
         _currentHealth = health;
 
         // Slide bar.

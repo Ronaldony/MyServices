@@ -129,8 +129,6 @@ public class Inventory : Singleton<Inventory>
     /// </summary>
     public void PickupItem(DTO_Item item)
     {
-        Debug.Log($"PickupItem. refId: {item.RefId}");
-
         var tbItem = TDBManagement.Instance.GetById<TB_Item>(item.RefId);
 
         if (tbItem == null)

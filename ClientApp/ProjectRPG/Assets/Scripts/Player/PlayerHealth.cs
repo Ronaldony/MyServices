@@ -1,4 +1,6 @@
 using GameCore;
+using GameCore.GamePacket;
+using GamePackets;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -77,14 +79,20 @@ public class PlayerHealth : Singleton<PlayerHealth>
         // Knockback.
         //_knockback.ForceKnockback(hitTransform.position, GameData.KNOCKBACK_THRUST);
 
+        // Send packet.
+        GamePacketManager.Instance.Send<GamePacketCS_KnockBack>(
+            GamePacketCode.CS_KnockBack,
+            new GamePacketCS_KnockBack
+            {
+                Position = new System.Numerics.Vector2(transform.position.x, transform.position.y)
+            });
+
         // flash.
         StartCoroutine(_flash.FlashRoutine());
     }
 
     public void UpdateHealth(int health)
     {
-        Debug.Log($"UpdateHealth. heal: {health}");
-
         _currentHealth = health;
 
         UpdateHealthSlider();

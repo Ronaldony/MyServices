@@ -2,27 +2,20 @@ using UnityEngine;
 
 public class HPFloatingBar : MonoBehaviour
 {
-    // 따라다닐 유닛
-    public Transform target;
-
     // 유닛 머리 위 위치.
-    private Vector3 offset;
-
+    // 따라다닐 유닛
     private Camera mainCamera;
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 offset;
 
-    void Start()
+    private void Start()
     {
         mainCamera = Camera.main;
-        offset = new Vector3(0, 2f, 0);
     }
 
     void Update()
     {
-        if (target == null) return;
-
-        // 유닛의 월드 좌표 -> 화면 좌표 변환
-        Vector3 screenPos = mainCamera.WorldToScreenPoint(target.position + offset);
-
-        transform.position = screenPos;
+        transform.rotation = mainCamera.transform.rotation;
+        transform.position = target.position + offset;
     }
 }

@@ -1,4 +1,5 @@
 using GameCore;
+using GameCore.Datas.Plays;
 using UnityEngine;
 
 public class MobPathfinding : MonoBehaviour
@@ -9,6 +10,7 @@ public class MobPathfinding : MonoBehaviour
 
     private Vector2 _moveDirection = new Vector2();
     private Vector2 _endPos;
+    private Vector2 _spawnPos;
 
     private Knockback _knockBack;
     private SpriteRenderer _spriteRenderer;
@@ -41,84 +43,27 @@ public class MobPathfinding : MonoBehaviour
     }
 
     /// <summary>
-    /// Move to next.
-    /// </summary>
-    private void MoveToNext()
-    {
-        // check next position.
-        _rb.position += _moveDirection * _velocity * Time.fixedDeltaTime;
-
-        if (_moveDirection != Vector2.zero)
-        {
-            if (IsMoveEnd())
-            {
-                StopMoving();
-            }
-        }
-    }
-
-    /// <summary>
     /// Check move end.
     /// </summary>
     private bool IsMoveEnd()
     {
-        var isEndPosX = false;
-        var isEndPosY = false;
-
-        var nowPos = _rb.position;
-
-        // X 위치 검사.
-        if (_moveDirection.x > 0)
+        // 조건 1. 이동 가능 범위 검사.
+        if (Vector2.Distance(_rb.position, _spawnPos) > GameData.MOB_RETURN_DISTANCE + 4)
         {
-            // 오른쪽
-            if (nowPos.x >= _endPos.x)
-            {
-                isEndPosX = true;
-            }
-        }
-        else
-        {
-            // 왼쪽
-            if (nowPos.x <= _endPos.x)
-            {
-                isEndPosX = true;
-            }
+            return true;
         }
 
-        // Y 위치 검사.
-        if (_moveDirection.y > 0)
-        {
-            // 위
-            if (nowPos.y >= _endPos.y)
-            {
-                isEndPosY = true;
-            }
-        }
-        else
-        {
-            // 아래
-            if (nowPos.y <= _endPos.y)
-            {
-                isEndPosY = true;
-            }
-        }
-
-        if (isEndPosX && isEndPosY)
-        {
-            Debug.Log($"Move end. endpos: {_endPos}, now: {nowPos}, dir: {_moveDirection}");
-        }
-
-        return isEndPosX && isEndPosY;
+        return false;
     }
 
     /// <summary>
     /// Move to.
     /// </summary>
-    public void UpdateMovement(System.Numerics.Vector2 nextDir, System.Numerics.Vector2 pos, System.Numerics.Vector2 endPos)
+    public void UpdateMovement(DTO_Location location)
     {
-        _rb.position = new Vector2(pos.X, pos.Y);
-        _moveDirection = new Vector2(nextDir.X, nextDir.Y);
-        _endPos = new Vector2(endPos.X, endPos.Y);
+        _moveDirection = new Vector2(location.MoveDirection.X, location.MoveDirection.Y);
+        _rb.position = new Vector2(location.Pos.X, location.Pos.Y);
+        _endPos = new Vector2(location.PosEnd.X, location.PosEnd.Y);
     }
 
     /// <summary>
@@ -138,7 +83,32 @@ public class MobPathfinding : MonoBehaviour
     }
 
     /// <summary>
+    /// Setup.
+    /// </summary>
+    public void Setup(System.Numerics.Vector2 spawnPos)
+    {
+        _spawnPos = new Vector2(spawnPos.X, spawnPos.Y);
+    }
+
+    /// <summary>
     /// Get position.
     /// </summary>
     public Vector2 GetPosition() => _rb.position;
+
+    /// <summary>
+    /// Move to next.
+    /// </summary>
+    private void MoveToNext()
+    {
+        // check next position.
+        _rb.position += _moveDirection * _velocity * Time.fixedDeltaTime;
+
+        if (_moveDirection != Vector2.zero)
+        {
+            if (IsMoveEnd())
+            {
+                StopMoving();
+            }
+        }
+    }
 }

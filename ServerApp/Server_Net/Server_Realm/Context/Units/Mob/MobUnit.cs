@@ -47,7 +47,7 @@ namespace Server_Realm.Units.Mob
 
             // MobUnit.
             Mob = dtoMob;
-            SpawnPos = dtoMob.Location.Pos;
+            SpawnPos = dtoMob.SpawnPos;
             AIBrain = new AIBrain(serviceProvider, this);
             AIBrain.ChangeState(Type_AIState.Roam);
 

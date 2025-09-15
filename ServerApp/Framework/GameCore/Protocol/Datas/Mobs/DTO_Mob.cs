@@ -7,6 +7,7 @@ namespace GameCore.Datas.Mobs
 {
     using GameCore.Datas.Items;
     using GameCore.Datas.Plays;
+    using System.Numerics;
 
     /// <summary>
     /// DTO_Mob.
@@ -43,5 +44,11 @@ namespace GameCore.Datas.Mobs
         /// </summary>
         [MemoryPackOrder(4)]
         public DTO_Location Location { get; set; }
+
+        /// <summary>
+        /// 스폰 위치.
+        /// </summary>
+        [MemoryPackOrder(5)]
+        public Vector2 SpawnPos { get; set; }
     }
 }

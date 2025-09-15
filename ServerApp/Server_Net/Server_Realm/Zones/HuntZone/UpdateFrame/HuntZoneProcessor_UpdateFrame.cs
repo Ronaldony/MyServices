@@ -170,7 +170,7 @@ namespace Server_Realm.Zones.HuntZone
         {
             /////////////////////////////////////////////////////
             // 죽은 몹 수거.
-            while (_worldUnitCollector.DeadUnits.TryDequeue(out var unit))
+            while (_worldUnitCollector.ReusableUnits.TryDequeue(out var unit))
             {
                 // Leave section.
                 switch (unit.UnitType)

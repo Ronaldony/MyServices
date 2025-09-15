@@ -353,11 +353,11 @@ public class PlayerController : Singleton<PlayerController>
             GamePacketCode.CS_KnockBack,
             new GamePacketCS_KnockBack
             {
-                Position = new System.Numerics.Vector2(knockBackPos.x, knockBackPos.y)
+                Position = _playerDataManager.PlayInfo.Location.Pos
             });
 
-        _isMoving = false;
-        _moveDeltaTime = 0;
+        //_isMoving = false;
+        //_moveDeltaTime = 0;
     }
 
     private void OnToggleInventory()

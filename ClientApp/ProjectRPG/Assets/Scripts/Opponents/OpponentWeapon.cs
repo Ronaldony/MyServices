@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -21,28 +20,28 @@ public class OpponentWeapon : MonoBehaviour
     /// <summary>
     /// Attack.
     /// </summary>
-    public void Attack(System.Numerics.Vector2 angle)
+    public void Attack(Vector2 angle, float rotation)
     {
         if (null != CurrentActiveWeapon)
         {
-            var angleDeg = Mathf.Atan2(angle.Y, angle.X) * Mathf.Rad2Deg;
-            var rotation = Quaternion.Euler(0, 0, angleDeg);
+            var controller = GetComponentInParent<OpponentController>();
+            controller.AdjustPlayerFacingDirection(angle.x);
 
-            (CurrentActiveWeapon as IWeapon).Attack(rotation);
+            (CurrentActiveWeapon as IWeapon).Attack(angle, rotation);
         }
     }
 
     /// <summary>
     /// Attack.
     /// </summary>
-    public void Attack(System.Numerics.Vector2 spawn, System.Numerics.Vector2 target)
+    public void Attack(Vector2 spawn, Vector2 target)
     {
         if (null != CurrentActiveWeapon)
         {
             // Angle.
-            var rotation = Quaternion.FromToRotation(new Vector3(spawn.X, spawn.Y), new Vector3(target.X, target.Y));
+            //var rotation = Quaternion.FromToRotation(new Vector3(spawn.X, spawn.Y), new Vector3(target.X, target.Y));
 
-            (CurrentActiveWeapon as IWeapon).Attack(rotation);
+            (CurrentActiveWeapon as IWeapon).Attack((target - spawn).normalized, float.MinValue);
         }
     }
 

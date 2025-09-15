@@ -34,9 +34,15 @@ namespace Server_Realm.Zones.HuntZone
             }
 
             // 로그 아웃 패킷 전송.
-            ws.SendPacket_AroundSections(GamePacketCode.SC_Leave, new GamePacketSC_Leave());
+            ws.SendPacket_AroundSections(GamePacketCode.SC_Leave, new GamePacketSC_Leave
+            {
+                UnitId = pu.UnitId
+            });
 
-            _logger.LogWarning($"Log out end. pid: {msg.Pid}");
+            // Collect reusable unit.
+            CollectReusableUnit(pu);
+
+            _logger.LogWarning($"Leave player. pid: {msg.Pid}");
         }
 
         /// <summary>

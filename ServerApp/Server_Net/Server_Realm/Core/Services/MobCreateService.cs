@@ -99,6 +99,7 @@ namespace Server_Realm.Core.Services
             dtoMob.Location.Pos = spawnPos;
             dtoMob.Location.PosEnd = Vector2.Zero;
             dtoMob.Location.MoveDirection = Vector2.Zero;
+            dtoMob.SpawnPos = spawnPos;
 
             // AttackType.
             dtoMob.AttackType = tbMob.AttackType;

@@ -16,6 +16,12 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(2)]
         public Vector2 Angle { get; set; }
+
+        /// <summary>
+        /// Attack rotation.
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public float Rotation { get; set; }
     }
 
     /// <summary>
@@ -36,6 +42,12 @@ namespace GameCore.GamePacket
         /// </summary>
         [MemoryPackOrder(1)]
         public Vector2 Angle { get; set; }
+
+        /// <summary>
+        /// Attack rotation.
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public float Rotation { get; set; }
 
         public override void Dispose()
         {

@@ -25,7 +25,7 @@ public class Staff : MonoBehaviour, IWeapon
         myAnimator.SetTrigger(ATTACK_HASh);
     }
 
-    public void Attack(Quaternion rotation)
+    public void Attack(Vector2 dir, float rotation)
     {
         myAnimator.SetTrigger(ATTACK_HASh);
     }

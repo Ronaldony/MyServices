@@ -14,7 +14,7 @@ interface IWeapon
     /// <summary>
     /// Opponent attack.
     /// </summary>
-    void Attack(Quaternion rotation);
+    void Attack(Vector2 dir, float rotation);
 
     WeaponInfo GetWeaponInfo();
 }

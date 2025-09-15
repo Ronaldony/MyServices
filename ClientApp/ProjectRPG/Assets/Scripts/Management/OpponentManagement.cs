@@ -16,7 +16,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
     // Queue.
     private ConcurrentQueue<UpdateGamePacket> _updatePackets;
-    private ConcurrentQueue<long> _killedOpponents;
+    private ConcurrentQueue<long> _destroyOpponents;
 
     /// <summary>
     /// Opponent dictionary.
@@ -28,7 +28,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
     public OpponentManagement()
     {
         _updatePackets = new ConcurrentQueue<UpdateGamePacket>();
-        _killedOpponents = new ConcurrentQueue<long>();
+        _destroyOpponents = new ConcurrentQueue<long>();
         _opponentDict = new Dictionary<long, GameObject>();
     }
 
@@ -41,7 +41,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
     void Update()
     {
         // Process alive enemy.
-        Proc_DestroyEnemy();
+        Proc_DestroyOpponents();
 
         // Process update packet.
         Proc_UpdatePacket();
@@ -61,9 +61,9 @@ public class OpponentManagement : Singleton<OpponentManagement>
     /// <summary>
     /// Procewss destroy enemy.
     /// </summary>
-    private void Proc_DestroyEnemy()
+    private void Proc_DestroyOpponents()
     {
-        while (_killedOpponents.TryDequeue(out var unitId))
+        while (_destroyOpponents.TryDequeue(out var unitId))
         {
             // Destroy enemy.
             Destroy(_opponentDict[unitId]);
@@ -101,7 +101,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
                 case GamePacketCode.SC_UpdateSection:
                     {
                         var gp = updatePacket.Data as GamePacketSC_UpdateSection;
-                        SpawnOpponents(gp.PlayInfos);
+                        SpawnOpponents(new Dictionary<long, DTO_PlayInfo>(gp.PlayInfos));
                     }
                     break;
                 case GamePacketCode.SC_UpdateSectionNewEnter:
@@ -173,6 +173,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
         foreach (var unit in playInfos)
         {
             var unitId = unit.Key;
+            var playInfo = unit.Value;
 
             // Opponent.
             var opponent = FindOpponent(unitId);
@@ -180,42 +181,11 @@ public class OpponentManagement : Singleton<OpponentManagement>
             if (null != opponent)
             {
                 // 이미 존재하는 유닛.
+                var opponentController = opponent.GetComponent<OpponentController>();
+                opponentController.MoveFixed(playInfo.Location.Pos.X, playInfo.Location.Pos.Y);
+                opponentController.MoveStart(playInfo.Location.MoveDirection);
                 continue;
             }
-
-            // PlayInfos.
-            var playInfo = unit.Value;
-
-            if (false == SpawnOpponent(unitId, playInfo))
-            {
-                continue;
-            }
-        }
-    }
-
-    /// <summary>
-    /// SpawnOpponents.
-    /// </summary>
-    private void SpawnOpponents(ConcurrentDictionary<long, DTO_PlayInfo> playInfos)
-    {
-        // Remove player unit id.
-        playInfos.TryRemove(PlayerDataManager.Instance.UnitId, out _);
-
-        foreach (var unit in playInfos)
-        {
-            var unitId = unit.Key;
-
-            // Opponent.
-            var opponent = FindOpponent(unitId);
-
-            if (null != opponent)
-            {
-                // 이미 존재하는 유닛.
-                continue;
-            }
-
-            // PlayInfos.
-            var playInfo = unit.Value;
 
             if (false == SpawnOpponent(unitId, playInfo))
             {
@@ -245,7 +215,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
         // Controller.
         var opponentController = opponent.GetComponent<OpponentController>();
-        opponentController.Setup(location.Pos.X, location.Pos.Y, location.MoveDirection);
+        opponentController.Setup(location);
 
         // Health.
         var opponentHealth = opponent.GetComponent<OpponentHealth>();
@@ -348,7 +318,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
         // Attack melee.
         var weaponInventory = opponent.GetComponent<OpponentWeaponInventory>();
-        weaponInventory.AttackMelee(packet.Angle);
+        weaponInventory.AttackMelee(packet.Angle, packet.Rotation);
     }
 
     /// <summary>
@@ -422,7 +392,6 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
         // Knockback.
         var controller = opponent.GetComponent<OpponentController>();
-
         controller.Knockback(packet.SrcPosition, packet.Position);
     }
 
@@ -498,9 +467,9 @@ public class OpponentManagement : Singleton<OpponentManagement>
     /// <summary>
     /// Kill opponent.
     /// </summary>
-    public void KillOpponent(long unitId)
+    public void DestroyOpponent(long unitId)
     {
-        _killedOpponents.Enqueue(unitId);
+        _destroyOpponents.Enqueue(unitId);
     }
 
     /// <summary>

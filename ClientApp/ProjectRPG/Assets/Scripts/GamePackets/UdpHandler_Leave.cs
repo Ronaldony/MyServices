@@ -25,7 +25,7 @@ namespace GamePackets
             var packetLeave = MemoryPackDataSerializer.Deserialize<GamePacketSC_Leave>(packet.Data);
 
             // Leave player.
-            EnemyManagement.Instance.KillEnemy(packetLeave.UnitId);
+            OpponentManagement.Instance.DestroyOpponent(packetLeave.UnitId);
         }
     }
 }

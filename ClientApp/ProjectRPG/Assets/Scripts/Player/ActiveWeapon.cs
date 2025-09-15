@@ -5,6 +5,7 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
 {
     public MonoBehaviour CurrentActiveWeapon { get; private set; }
 
+    private WeaponInfo _weaponInfo;
     private PlayerControls playerControls;
     private float timeBetweenAttacks;
 
@@ -33,11 +34,47 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
     private void Update()
     {
         Attack();
+
+        if (_weaponInfo != null)
+        {
+            switch (_weaponInfo.weaponId)
+            {
+                case 1: // Sword.
+                    {
+                        // Angle.
+                        Vector3 mousePos = Input.mousePosition;
+                        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
+                        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+
+                        // Direction.
+                        var isLeft = mousePos.x < playerScreenPoint.x ? true : false;
+
+                        // Sword.
+                        var sword = CurrentActiveWeapon.GetComponent<Sword>();
+                        sword.FollowAngle(isLeft, angle);
+                    }
+                    break;
+                case 2: // Bow.
+                    {
+                        // Angle.
+                        Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Vector2 direction = mousePoint - transform.position;
+
+                        // Bow.
+                        var bow = CurrentActiveWeapon.GetComponent<Bow>();
+                        bow.FollowAngle(direction);
+                    }
+                    break;
+            }
+
+        }
     }
 
     public void NewWeapon(MonoBehaviour newWeapon)
     {
         CurrentActiveWeapon = newWeapon;
+
+        _weaponInfo = (CurrentActiveWeapon as IWeapon).GetWeaponInfo();
 
         AttackCooldown();
         timeBetweenAttacks = (CurrentActiveWeapon as IWeapon).GetWeaponInfo().weaponCooldown;
@@ -87,7 +124,6 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
         if (attackButtonDown && !isAttacking && CurrentActiveWeapon)
         {
             AttackCooldown();
-
 
             (CurrentActiveWeapon as IWeapon).Attack();
         }

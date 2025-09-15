@@ -88,8 +88,6 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
     /// </summary>
     private void UpdateSlotCountText()
     {
-        Debug.Log($"UpdateSlotCountText. refId: {_refId}");
-
         var text = GetComponentInChildren<Text>();
         text.text = _count.ToString();
     }

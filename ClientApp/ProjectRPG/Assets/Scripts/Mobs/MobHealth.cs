@@ -20,8 +20,6 @@ public class MobHealth : MonoBehaviour
     /// </summary>
     public void TakeDamage(Vector3 srcPosition)
     {
-        Debug.Log($"DetectDeath. health: {_health}");
-
         // Knockback.
         //_knockback.GetKnockedBack(srcPosition, GameData.KNOCKBACK_THRUST);
 
@@ -34,8 +32,6 @@ public class MobHealth : MonoBehaviour
     /// </summary>
     public void UpdateHealth(int hp)
     {
-        Debug.Log($"Set health: {hp}");
-
         _health = hp;
 
         DetectDeath();

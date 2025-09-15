@@ -98,8 +98,8 @@ namespace Server_Login.Controllers.Auth
             playInfo.Location.Area = Type_Area.HuntZone;
 
             // Stat.
-            playInfo.Stat.HealthMax = 10;
-            playInfo.Stat.Health = 10;
+            playInfo.Stat.HealthMax = 100;
+            playInfo.Stat.Health = 100;
             playInfo.Stat.Defense = 1;
             playInfo.Stat.Velocity = 4;
 

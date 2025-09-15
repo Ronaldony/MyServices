@@ -16,15 +16,34 @@ public class Bow : MonoBehaviour, IWeapon
 
     private GamePacketManager _gpm;
 
+    // Controller.
+    private PlayerController _playerController;
+    private OpponentController _opponentController;
+
+    private Transform _activeWeaponTrans;
+
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
         _gpm = GamePacketManager.Instance;
-    }
 
-    private void Update()
-    {
-        MouseFollowWithOffset();
+        // Player.
+        var player = GetComponentInParent<PlayerController>();
+
+        if (null != player)
+        {
+            _playerController = player;
+            _activeWeaponTrans = ActiveWeapon.Instance.transform;
+        }
+
+        // Opponent.
+        var opponent = GetComponentInParent<OpponentController>();
+
+        if (null != opponent)
+        {
+            _opponentController = opponent;
+            _activeWeaponTrans = GetComponentInParent<OpponentWeapon>().transform;
+        }
     }
 
     /// <summary>
@@ -61,12 +80,14 @@ public class Bow : MonoBehaviour, IWeapon
     /// <summary>
     /// Opponent attack.
     /// </summary>
-    public void Attack(Quaternion rotation)
+    public void Attack(Vector2 dir, float rotation)
     {
+        FollowAngle(dir);
+
         myAnimator.SetTrigger(FIRE_HASH);
 
         // Arrow.
-        GameObject arrowObject = Instantiate(arrowPrefab, transform.position, rotation);
+        GameObject arrowObject = Instantiate(arrowPrefab, transform.position, _activeWeaponTrans.rotation);
         Projectile projectile = arrowObject.GetComponent<Projectile>();
 
         var tbWeapon = TDBManagement.Instance.GetById<TB_Weapon>(weaponInfo.weaponId);
@@ -80,12 +101,8 @@ public class Bow : MonoBehaviour, IWeapon
         return weaponInfo;
     }
 
-    private void MouseFollowWithOffset()
+    public void FollowAngle(Vector2 direction)
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 playerScreenPoint = Camera.main.ScreenToWorldPoint(mousePos);
-        Vector2 direction = transform.position - playerScreenPoint;
-
-        ActiveWeapon.Instance.transform.right = -direction;
+        _activeWeaponTrans.right = direction;
     }
 }

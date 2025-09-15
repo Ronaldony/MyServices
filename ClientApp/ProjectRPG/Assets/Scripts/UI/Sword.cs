@@ -10,31 +10,50 @@ public class Sword : MonoBehaviour, IWeapon
     [SerializeField] private GameObject slashAnimPrefab;
     private Transform _slashAnimSpawnPos;
 
-    private Transform weaponCollider;
-    private Animator myAnimator;
+    private Transform _weaponCollider;
+    private Animator _myAnimator;
 
     private GamePacketManager _gpm;
 
-    private GameObject slashAnim;
+    private GameObject _slashAnim;
+
+    // Controller.
+    private PlayerController _playerController;
+    private OpponentController _opponentController;
+
+    private Transform _activeWeaponTrans;
 
     private void Awake()
     {
-        myAnimator = GetComponent<Animator>();
+        _myAnimator = GetComponent<Animator>();
 
         _gpm = GamePacketManager.Instance;
     }
 
     private void Start()
     {
-        weaponCollider = PlayerController.Instance.GetWeaponCollider();
+        // Player.
+        var player = GetComponentInParent<PlayerController>();
+
+        if (null != player)
+        {
+            _playerController = player;
+            _weaponCollider = PlayerController.Instance.GetWeaponCollider();
+            _activeWeaponTrans = ActiveWeapon.Instance.transform;
+        }
+
+        // Opponent.
+        var opponent = GetComponentInParent<OpponentController>();
+
+        if (null != opponent)
+        {
+            _opponentController = opponent;
+            _weaponCollider = opponent.GetWeaponCollider();
+            _activeWeaponTrans = GetComponentInParent<OpponentWeapon>().transform;
+        }
 
         var activeWeapon = GetComponentsInParent<Transform>().FirstOrDefault(d => d.name == "Active Weapon");
         _slashAnimSpawnPos = activeWeapon.GetComponentsInChildren<Transform>().FirstOrDefault(d => d.name == "SlashSpawnPoint");
-    }
-
-    private void Update()
-    {
-        MouseFollowWithOffeset();
     }
 
     public WeaponInfo GetWeaponInfo()
@@ -44,9 +63,10 @@ public class Sword : MonoBehaviour, IWeapon
 
     public void Attack()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
+        var mousePos = Input.mousePosition;
+        var playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
         Vector2 angle = (mousePos - playerScreenPoint).normalized;
+        var rotation = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 
         // Send Attack.
         _gpm.Send<GamePacketCS_AttackMelee>(
@@ -54,80 +74,108 @@ public class Sword : MonoBehaviour, IWeapon
             new GamePacketCS_AttackMelee
             {
                 Angle = new System.Numerics.Vector2(angle.x, angle.y),
+                Rotation = rotation
             });
 
         // set animation.
-        myAnimator.SetTrigger("Attack");
+        _myAnimator.SetTrigger("Attack");
 
         // Visible weapon collider.
-        weaponCollider.gameObject.SetActive(true);
-        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = true;
+        _weaponCollider.gameObject.SetActive(true);
+        _weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+        _weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = true;
 
         // Slash prefab.
-        slashAnim = Instantiate(slashAnimPrefab, _slashAnimSpawnPos.position, Quaternion.identity);
-        slashAnim.transform.parent = this.transform.parent;
+        _slashAnim = Instantiate(slashAnimPrefab, _slashAnimSpawnPos.position, Quaternion.identity);
+        _slashAnim.transform.parent = this.transform.parent;
     }
 
     /// <summary>
     /// Opponent attack.
     /// </summary>
-    public void Attack(Quaternion rotation)
+    public void Attack(Vector2 dir, float rotation)
     {
-        // set animation.
-        myAnimator.SetTrigger("Attack");
+        var isLeft = dir.x < 0 ? true : false;
+
+        // Mouse follow.
+        FollowAngle(isLeft, rotation);
+
+        _myAnimator.SetTrigger("Attack");
 
         // Visible weapon collider.
-        weaponCollider.gameObject.SetActive(true);
-        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-        weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = true;
+        _weaponCollider.gameObject.SetActive(true);
+        _weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+        _weaponCollider.gameObject.GetComponent<PolygonCollider2D>().enabled = true;
 
         // Slash prefab.
-        slashAnim = Instantiate(slashAnimPrefab, _slashAnimSpawnPos.position, rotation);
-        slashAnim.transform.parent = this.transform.parent;
+        _slashAnim = Instantiate(slashAnimPrefab, _slashAnimSpawnPos.position, Quaternion.identity);
+        _slashAnim.transform.parent = this.transform.parent;
     }
 
     public void DoneAttackingAnimEvent()
     {
-        weaponCollider.gameObject.SetActive(false);
+        _weaponCollider.gameObject.SetActive(false);
     }
 
     public void SwingUpFlipAnimEvent()
     {
-        slashAnim.gameObject.transform.rotation = Quaternion.Euler(-180, 0, 0);
-        
-        if (PlayerController.Instance.FacingLeft)
+        _slashAnim.gameObject.transform.rotation = Quaternion.Euler(-180, 0, 0);
+
+        var isLeft = IsLeft();
+
+        if (isLeft)
         {
-            slashAnim.GetComponent<SpriteRenderer>().flipX = true;
+            _slashAnim.GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 
     public void SwingDownFlipAnimEvent()
     {
-        slashAnim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        _slashAnim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-        if (PlayerController.Instance.FacingLeft)
+        var isLeft = IsLeft();
+
+        if (isLeft)
         {
-            slashAnim.GetComponent<SpriteRenderer>().flipX = true;
+            _slashAnim.GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 
-    private void MouseFollowWithOffeset()
+    /// <summary>
+    /// Check left.
+    /// </summary>
+    private bool IsLeft()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
+        bool isLeft = false;
 
-        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-
-        if (mousePos.x < playerScreenPoint.x)
+        if (_playerController)
         {
-            ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, -180, angle);
-            weaponCollider.transform.rotation = Quaternion.Euler(0, -180, 0);
+            isLeft = PlayerController.Instance.FacingLeft;
         }
         else
         {
-            ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, 0, angle);
-            weaponCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
+            isLeft = _opponentController.FacingLeft;
+        }
+
+        return isLeft;
+    }
+
+    /// <summary>
+    /// Follow angle.
+    /// </summary>
+    public void FollowAngle(bool isLeft, float angle)
+    {
+        if (isLeft)
+        {
+            // 왼쪽.
+            if (_activeWeaponTrans) _activeWeaponTrans.rotation =  Quaternion.Euler(0, -180, angle);
+            if (_weaponCollider) _weaponCollider.transform.rotation = Quaternion.Euler(0, -180, 0);
+        }
+        else
+        {
+            // 오른쪽.
+            if (_activeWeaponTrans) _activeWeaponTrans.rotation = Quaternion.Euler(0, 0, angle);
+            if (_weaponCollider) _weaponCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

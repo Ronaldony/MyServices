@@ -51,11 +51,11 @@ public class OpponentWeaponInventory : MonoBehaviour
     /// <summary>
     /// Attack melee.
     /// </summary>
-    public void AttackMelee(System.Numerics.Vector2 angle)
+    public void AttackMelee(System.Numerics.Vector2 angle, float rotation)
     {
         var weaponComp = GetComponentInChildren<OpponentWeapon>();
 
-        weaponComp?.Attack(angle);
+        weaponComp?.Attack(new Vector2(angle.X, angle.Y), rotation);
     }
 
     /// <summary>
@@ -65,6 +65,6 @@ public class OpponentWeaponInventory : MonoBehaviour
     {
         var weaponComp = GetComponentInChildren<OpponentWeapon>();
 
-        weaponComp?.Attack(spawn, target);
+        weaponComp?.Attack(new Vector2(spawn.X, spawn.Y), new Vector2(target.X, target.Y));
     }
 }

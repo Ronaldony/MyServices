@@ -11,21 +11,13 @@ namespace Server_Realm.Worlds
     {
         public WorldUnitCollector()
         {
-            DeadUnits = new ConcurrentQueue<Unit>();
+            ReusableUnits = new ConcurrentQueue<Unit>();
         }
 
         /// <summary>
-        /// Dead units Q.
+        /// Reusable units.
         /// </summary>
-        public ConcurrentQueue<Unit> DeadUnits;
-
-        /// <summary>
-        /// Clears.
-        /// </summary>
-        public void Clears()
-        {
-            DeadUnits.Clear();
-        }
+        public ConcurrentQueue<Unit> ReusableUnits;
     }
 }
 

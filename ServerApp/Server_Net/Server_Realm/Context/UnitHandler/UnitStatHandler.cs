@@ -78,7 +78,7 @@ namespace Server_Realm.Context.UnitHandler
                 _owner.AIBrain?.ChangeState(Type_AIState.Dead);
                 _owner.IsDead = true;
 
-                _owner.ZoneProcessor.CollectDeadUnit(_owner);
+                _owner.ZoneProcessor.CollectReusableUnit(_owner);
             }
 
             // 상태 업데이트.

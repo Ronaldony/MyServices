@@ -1,9 +1,12 @@
 using GameCore;
+using GameCore.Datas.Plays;
 using System.Collections;
 using UnityEngine;
 
 public class OpponentController : MonoBehaviour
 {
+    public bool FacingLeft { get; set; }
+
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer myTrailRenderer;
@@ -71,10 +74,10 @@ public class OpponentController : MonoBehaviour
     /// <summary>
     /// Setup.
     /// </summary>
-    public void Setup(float x, float y, System.Numerics.Vector2 moveDir)
+    public void Setup(DTO_Location location)
     {
-        _spawnPos = new Vector2(x, y);
-        _refreshMovement = new Vector2(moveDir.X, moveDir.Y);
+        _spawnPos = new Vector2(location.Pos.X, location.Pos.Y);
+        _refreshMovement = new Vector2(location.MoveDirection.X, location.MoveDirection.Y);
     }
 
     /// <summary>
@@ -177,17 +180,19 @@ public class OpponentController : MonoBehaviour
     /// <summary>
     /// Adjust player facing.
     /// </summary>
-    private void AdjustPlayerFacingDirection(float dirX)
+    public void AdjustPlayerFacingDirection(float dirX)
     {
         if (dirX > 0)
         {
-            // 왼쪽.
+            // 오른쪽.
             _mySpriteRenderer.flipX = false;
+            FacingLeft = false;
         }
         else if (dirX < 0)
         {
-            // 오른쪽
+            // 왼쪽
             _mySpriteRenderer.flipX = true;
+            FacingLeft = true;
         }
     }
 
@@ -234,6 +239,7 @@ public class OpponentController : MonoBehaviour
 
         // flash.
         StartCoroutine(_flash.FlashRoutine());
+        Debug.Log($"Flash");
 
         //_isMoving = false;
     }
