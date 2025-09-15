@@ -6,6 +6,7 @@ using System.Net;
 
 namespace Server_Login
 {
+    using Framework.Config.ConfigManager;
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObjects;
     using Framework.Core.WebAPI.ActionFilter;
@@ -14,6 +15,9 @@ namespace Server_Login
     using Framework.WebAPI.Controllers;
     using GameCore;
     using GameCore.Interfaces;
+    using ServerEngine.Database.DBObject.Connections;
+    using ServerEngine.Database.Interfaces;
+    using System.Reflection.PortableExecutable;
 
     public class Startup
     {
@@ -66,6 +70,9 @@ namespace Server_Login
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
             _webAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
+
+            // Connections.
+            appBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
 
             _webAppBuilder.Services.AddSingleton<DBInventoryInfo>();
             _webAppBuilder.Services.AddSingleton<DBPlayerInfo>();

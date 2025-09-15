@@ -1,11 +1,10 @@
 ﻿
-//#define TEST_LOCAL
-
 using Dapper;
 using Dapper.ColumnMapper;
 using ServerEngine.Config.Database;
 using ServerEngine.Config.Strapi;
 using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Database.Interfaces;
 using System.Reflection;
 
 namespace Server_Login
@@ -52,7 +51,6 @@ namespace Server_Login
             var tdbService = _serviceProvider.GetRequiredService<ITDBService>();
             tdbService.Initialize();
 
-#if !TEST_LOCAL
             var configGame = await remoteConfigureService.GetConfigData<Config_Game>(configStrapi.ContentType, "Devel_Game");
             var mysqlConnections = await remoteConfigureService.GetConfigData<List<Config_MySQLConnection>>(configStrapi.ContentType, "Devel_MySQL");
             var couchbaseConnections = await remoteConfigureService.GetConfigData<List<Config_CouchbaseConnection>>(configStrapi.ContentType, "Devel_Couchbase");
@@ -64,7 +62,11 @@ namespace Server_Login
             // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
-#endif
+
+            // IDBObjectConnection.
+            var dbObjectConn = _serviceProvider.GetRequiredService<IDBObjectConn>();
+            await dbObjectConn.InitializeAsync();
+
             MappingDapper();
         }
 
