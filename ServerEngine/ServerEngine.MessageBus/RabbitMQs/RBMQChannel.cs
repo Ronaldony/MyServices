@@ -34,7 +34,7 @@ namespace ServerEngine.MessageBus.RabbitMQs
         /// </summary>
         public async Task CreateExchangeAsync(string exchange)
         {
-            await _channel.ExchangeDeclareAsync(exchange, ExchangeType.Direct, autoDelete: true);
+            await _channel.ExchangeDeclareAsync(exchange, ExchangeType.Direct, autoDelete: false);
         }
 
         /// <summary>

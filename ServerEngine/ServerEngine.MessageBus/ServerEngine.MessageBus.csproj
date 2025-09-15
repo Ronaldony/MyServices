@@ -6,7 +6,7 @@
 		<Nullable>disable</Nullable>
 		<PackageOutputPath>../Packages/</PackageOutputPath>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.0.4</Version>
+		<Version>1.0.5</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
