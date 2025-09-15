@@ -68,7 +68,7 @@
     <PackageReference Include="PowerArgs" Version="4.0.3" />
     <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.1" />
     <PackageReference Include="ServerEngine.GeoIP" Version="1.0.1" />
-    <PackageReference Include="ServerEngine.MessageBus" Version="1.0.4" />
+    <PackageReference Include="ServerEngine.MessageBus" Version="1.0.5" />
     <PackageReference Include="ServerEngine.Network" Version="1.0.9" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
