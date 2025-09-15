@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 
 namespace Server_Realm.Zones.HuntZone
 {
+    using Framework.Core.Database.Actors;
     using Framework.Core.Utilities;
     using GameCore;
     using GameCore.GamePacket;
@@ -39,12 +40,12 @@ namespace Server_Realm.Zones.HuntZone
         private readonly HuntZoneServer _zoneServer;
 
         // Providers.
-        private readonly HuntZoneProcessorProvider _zoneProcessorProvider;
+        private readonly HuntZoneProcessorProvider _zoneProvider;
         private readonly HubActorProvider _hubActorProvider;
+        private readonly DataInfoSaveActorProvider _dataInfoSaveProvider;
 
         // Worlds.
         private readonly WorldGroup _worldGroup;
-        private readonly WorldUnitCollector _worldUnitCollector;
 
         // TaskDispatcher.
         private readonly TaskDispatcher_WorldSection _taskDispatcher;
@@ -60,13 +61,8 @@ namespace Server_Realm.Zones.HuntZone
         // Scheduler spawn mob.
         private readonly WorldMsgTrigger_SpawnMob _msgTrgSpawnMob;
 
-        private int _benchFrameCount;
-        private double _benchFrameSum;
-
-        public HuntZoneProcessor()
+        public HuntZoneProcessor(IServiceProvider serviceProvider)
         {
-            var serviceProvider = ServiceUtility.GetServiceProvider();
-
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneProcessor>>();
 
             // service.
@@ -80,12 +76,12 @@ namespace Server_Realm.Zones.HuntZone
             _zoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
 
             // Providers.
-            _zoneProcessorProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
+            _zoneProvider = serviceProvider.GetRequiredService<HuntZoneProcessorProvider>();
             _hubActorProvider = serviceProvider.GetRequiredService<HubActorProvider>();
+            _dataInfoSaveProvider = serviceProvider.GetRequiredService<DataInfoSaveActorProvider>();
 
             // Worlds.
             _worldGroup = Initialize_WorldGroup(serviceProvider, this);
-            _worldUnitCollector = new WorldUnitCollector();
 
             // Frame time.
             _lastFrameUpdateTime = TimeUtil.Now;
@@ -104,16 +100,34 @@ namespace Server_Realm.Zones.HuntZone
             // Register receiver.
             RegisterReceiver();
 
-            // Update frame trigger - 30FPS.
-            Observable.Interval(TimeSpan.FromSeconds(0.033))
-                .Subscribe(count =>
-                {
-                    Tell(new WorldMsg_UpdateFrame());
-                });
-
             // Message trigger.
             _msgTrgSpawnMob = new WorldMsgTrigger_SpawnMob(serviceProvider, this);
             _msgTrgSpawnMob.Start(Type_Area.HuntZone);
+
+            // Scheduler - update frame.
+            Observable
+                .Interval(TimeSpan.FromSeconds(0.033))    // 33FPS
+                .Subscribe(count =>
+                {
+                    var msg = _memoryPoolService.Rent<WorldMsg_UpdateFrame>();
+                    Tell(msg);
+                });
+
+            // Scheduler - save datas.
+            Observable
+                .Interval(TimeSpan.FromSeconds(3))    // 33FPS
+                .Subscribe(count =>
+                {
+                    Tell("save_datas");
+                });
+        }
+
+        /// <summary>
+        /// Props.
+        /// </summary>
+        public static Props Props(IServiceProvider serviceProvider)
+        {
+            return Akka.Actor.Props.Create(() => new HuntZoneProcessor(serviceProvider));
         }
 
         /// <summary>
@@ -121,7 +135,7 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         public void Tell<T>(T msg)
         {
-            _zoneProcessorProvider.Tell(msg);
+            _zoneProvider.Tell(msg);
         }
 
         /// <summary>
@@ -129,8 +143,23 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private void RegisterReceiver()
         {
+            // msg.
+            Receive<string>(msg =>
+            {
+                switch (msg)
+                {
+                    case "save_datas":
+                        SaveDatas();
+                        break;
+                }
+            });
+
             // Update frame.
-            ReceiveAsync<WorldMsg_UpdateFrame>(async wm => await DispatchUpdateFrameAsync(wm));
+            ReceiveAsync<WorldMsg_UpdateFrame>(async msg =>
+            {
+                await DispatchUpdateFrameAsync();
+                _memoryPoolService.Release(msg);
+            });
 
             // Spawn.
             Receive<WorldMsg_SpawnMob>(wm => SpawnMobs(wm));

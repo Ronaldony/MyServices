@@ -2,7 +2,6 @@
 namespace ServerEngine.Test.Database.DataObject
 {
     using GameCore.Datas.Player;
-    using ServerEngine.Config.Database;
     using ServerEngine.Database.DataObject;
     using ServerEngine.Test.ConfigManager;
 
@@ -13,7 +12,6 @@ namespace ServerEngine.Test.Database.DataObject
         public PlayerInfoObejct(IServiceProvider serviceProvider)
             : base(
                   serviceProvider,
-                  GameConfigManager.ConfigGame.Couchbase,
                   GameConfigManager.GetCouchbaseConnection("PlayerInfo")
                   )
         {

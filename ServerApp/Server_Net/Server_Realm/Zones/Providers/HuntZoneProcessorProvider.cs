@@ -2,6 +2,7 @@
 
 namespace Server_Realm.Zones.Providers
 {
+    using Akka.Actor.Dsl;
     using Server_Realm.Zones.HuntZone;
 
     /// <summary>
@@ -11,9 +12,10 @@ namespace Server_Realm.Zones.Providers
     {
         private IActorRef _actor;
 
-        public HuntZoneProcessorProvider(ActorSystem actorSystem)
+        public HuntZoneProcessorProvider(IServiceProvider serviceProvider, ActorSystem actorSystem)
         {
-            _actor = actorSystem.ActorOf<HuntZoneProcessor>();
+            var props = HuntZoneProcessor.Props(serviceProvider);
+            _actor = actorSystem.ActorOf(props);
         }
 
         /// <summary>

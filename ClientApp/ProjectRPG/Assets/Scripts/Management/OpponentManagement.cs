@@ -280,6 +280,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
         // Controller.
         var controller = opponent.GetComponent<OpponentController>();
         controller.MoveEnd();
+        controller.MoveFixed(packet.EndPos.X, packet.EndPos.Y);
     }
 
     /// <summary>

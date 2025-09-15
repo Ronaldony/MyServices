@@ -5,10 +5,15 @@
     /// <summary>
     /// WorldMsg_UpdateFrame.
     /// </summary>
-    public class WorldMsg_UpdateFrame : WorldMsgBase
+    public class WorldMsg_UpdateFrame : WorldMsgBase, IDisposable
     {
         public WorldMsg_UpdateFrame()
             : base(Type_WorldMsg.UpdateFrame)
+        {
+
+        }
+
+        public void Dispose()
         {
         }
     }

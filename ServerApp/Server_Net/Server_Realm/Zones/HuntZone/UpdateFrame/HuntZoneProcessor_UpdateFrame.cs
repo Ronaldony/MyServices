@@ -8,7 +8,6 @@ namespace Server_Realm.Zones.HuntZone
     using Server_Realm.Core.Types;
     using Server_Realm.Entities;
     using Server_Realm.TaskDispatcher.Node;
-    using Server_Realm.Worlds.Msg;
 
     /// <summary>
     /// DistrictProcessor.
@@ -18,7 +17,7 @@ namespace Server_Realm.Zones.HuntZone
         /// <summary>
         /// 업데이트 프레임 디스패치.
         /// </summary>
-        private async Task DispatchUpdateFrameAsync(WorldMsg_UpdateFrame worldMsg)
+        private async Task DispatchUpdateFrameAsync()
         {
             var nowTime = TimeUtil.Now;
 
@@ -41,18 +40,6 @@ namespace Server_Realm.Zones.HuntZone
 
             // Collect dead units.
             UpdateFrame_CollectDeadUnits();
-
-            // Benchmark.
-            ++_benchFrameCount;
-            _benchFrameSum += (TimeUtil.Now - nowTime).TotalMilliseconds;
-
-            if (_benchFrameCount >= 300)
-            {
-                //_logger.LogDebug($"frame update avg: {Math.Round(_benchFrameSum / _benchFrameCount, 2)} ms, total: {Math.Round(_benchFrameSum, 2)} ms, count: {_benchFrameCount}");
-
-                _benchFrameSum = 0;
-                _benchFrameCount = 0;
-            }
         }
 
         /// <summary>
@@ -170,7 +157,7 @@ namespace Server_Realm.Zones.HuntZone
         {
             /////////////////////////////////////////////////////
             // 죽은 몹 수거.
-            while (_worldUnitCollector.ReusableUnits.TryDequeue(out var unit))
+            while (_worldGroup.ReusableUnits.TryDequeue(out var unit))
             {
                 // Leave section.
                 switch (unit.UnitType)

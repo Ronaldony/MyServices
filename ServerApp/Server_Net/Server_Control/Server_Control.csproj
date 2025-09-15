@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.5.48" />
     <PackageReference Include="PowerArgs" Version="4.0.3" />
     <PackageReference Include="ServerEngine.AsciiBanner" Version="1.1.1" />
     <PackageReference Include="ServerEngine.GeoIP" Version="1.0.1" />

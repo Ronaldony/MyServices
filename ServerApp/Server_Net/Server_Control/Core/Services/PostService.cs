@@ -31,10 +31,8 @@ namespace Server_Control.Core.Services
 
         private readonly DBPost _dbPost;
 
-        public PostService()
+        public PostService(IServiceProvider serviceProvider)
         {
-            var serviceProvider = ServiceUtility.GetServiceProvider();
-
             _logger = serviceProvider.GetRequiredService<ILogger<PostService>>();
 
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();

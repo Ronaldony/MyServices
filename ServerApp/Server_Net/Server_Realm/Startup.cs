@@ -10,6 +10,8 @@ using ServerEngine.MessageBus.RabbitMQs;
 
 namespace Server_Realm
 {
+    using Framework.Config.ConfigManager;
+    using Framework.Core.Database.Actors;
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObjects;
     using GameCore;
@@ -19,6 +21,8 @@ namespace Server_Realm
     using Server_Realm.Core.Services;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.Zones.Providers;
+    using ServerEngine.Database.DBObject.Connections;
+    using ServerEngine.Database.Interfaces;
 
     /// <summary>
     /// Startup.
@@ -40,7 +44,10 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             appBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             appBuilder.Services.AddSingleton<ITDBService, TDBService>();
+
+            // Connections.
             appBuilder.Services.AddSingleton<RBMQConnection>();
+            appBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
 
             appBuilder.Services.AddSingleton<CollisionFactory>();
             appBuilder.Services.AddSingleton<ProjectileFactory>();
@@ -53,6 +60,7 @@ namespace Server_Realm
             appBuilder.Services.AddSingleton<ActorSystem>(service => ActorSystem.Create("root"));
             appBuilder.Services.AddSingleton<HuntZoneProcessorProvider>();
             appBuilder.Services.AddSingleton<HubActorProvider>();
+            appBuilder.Services.AddSingleton<DataInfoSaveActorProvider>();
 
             // Infos.
             appBuilder.Services.AddSingleton<DBInventoryInfo>();
@@ -74,6 +82,7 @@ namespace Server_Realm
             appBuilder.Services.AddTransient<PlayerInfoObject>();
             appBuilder.Services.AddTransient<PlayInfoObject>();
             appBuilder.Services.AddTransient<InventoryInfoObject>();
+            appBuilder.Services.AddTransient<PostInfoObject>();
         }
     }
 }

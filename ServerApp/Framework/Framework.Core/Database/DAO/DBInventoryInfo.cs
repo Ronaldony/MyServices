@@ -14,7 +14,6 @@ namespace Framework.Core.Database.DAO
         public DBInventoryInfo(IServiceProvider serviceProvider)
             : base(
                   serviceProvider,
-                  GameConfigManager.ConfigGame.Couchbase,
                   GameConfigManager.GetCouchbaseConnection("InventoryInfo"))
         {
         }

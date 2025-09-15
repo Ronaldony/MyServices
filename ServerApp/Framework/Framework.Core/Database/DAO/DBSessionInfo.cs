@@ -14,7 +14,6 @@ namespace Framework.Core.Database.DAO
         public DBSessionInfo(IServiceProvider serviceProvider)
             : base(
                   serviceProvider,
-                  GameConfigManager.ConfigGame.Couchbase,
                   GameConfigManager.GetCouchbaseConnection("SessionInfo"))
         {
         }

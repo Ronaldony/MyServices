@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Server_Realm.Zones.HuntZone
 {
     using GameCore;
     using GameCore.GamePacket;
+    using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
     using Server_Realm.Worlds.Msg;
@@ -19,21 +19,14 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private void EnterPlayer(WorldMsg_EnterPlayer worldMsg)
         {
-            _logger.LogDebug($"Spawn player in processor");
-
             var pu = worldMsg.PlayerUnit;
             var section = pu.MovementHandler.Section;
 
-            // 월드에 플레이어 추가.
-            _worldGroup.PlayerUnitDict.Add(pu.Pid, pu);
-
-            // Setup player unit.
-            pu.ZoneProcessor = this;
-            pu.WorldSection = _worldGroup.WorldSectionDict[section];
-            pu.WorldSection.EnterPlayer(pu);
-
-            var totalSW = new Stopwatch();
-            totalSW.Start();
+            // Enter zone.
+            if (false == EnterZone(pu, worldMsg))
+            {
+                return;
+            }
 
             // 인근 섹션 플레이어, 적 정보 전달.
             var packetEnterPlayer = _memoryPoolService.Rent<GamePacketSC_EnterPlayer>();
@@ -75,9 +68,31 @@ namespace Server_Realm.Zones.HuntZone
             _memoryPoolService.Release(packetEnterPlayer);
             _memoryPoolService.Release(packetSpawnUnits);
 
-            totalSW.Stop();
+            _logger.LogDebug($"Spawn player. pid: {pu.Pid}");
+        }
 
-            _logger.LogDebug($"Spawn player end. pid: {pu.Pid}, total sw: {totalSW.ElapsedMilliseconds}");
+        /// <summary>
+        /// Enter zone.
+        /// </summary>
+        private bool EnterZone(PlayerUnit pu, WorldMsg_EnterPlayer worldMsg)
+        {
+            if (_worldGroup.PlayerUnitDict.ContainsKey(pu.Pid))
+            {
+                return false;
+            }
+
+            var section = pu.MovementHandler.Section;
+
+            // 월드에 플레이어 추가.
+            _worldGroup.PlayerUnitDict.Add(pu.Pid, pu);
+            _worldGroup.DataObjectDict.Add(pu.Pid, worldMsg.DataObjects);
+
+            // Setup player unit.
+            pu.ZoneProcessor = this;
+            pu.WorldSection = _worldGroup.WorldSectionDict[section];
+            pu.WorldSection.EnterPlayer(pu);
+
+            return true;
         }
 
         /// <summary>

@@ -9,9 +9,10 @@ namespace Server_Control.Actors
     {
         private IActorRef _actor;
 
-        public HubActorProvider(ActorSystem actorSystem)
+        public HubActorProvider(IServiceProvider serviceProvider, ActorSystem actorSystem)
         {
-            _actor = actorSystem.ActorOf<HubActor>();
+            var props = HubActor.Props(serviceProvider);
+            _actor = actorSystem.ActorOf(props);
         }
 
         /// <summary>
@@ -20,6 +21,14 @@ namespace Server_Control.Actors
         public void Tell<T>(T data)
         {
             _actor.Tell(data);
+        }
+
+        /// <summary>
+        /// Initialize.
+        /// </summary>
+        public void Initialize()
+        {
+            Tell("initialize");
         }
     }
 }

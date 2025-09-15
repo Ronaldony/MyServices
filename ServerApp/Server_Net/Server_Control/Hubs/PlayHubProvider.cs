@@ -11,9 +11,10 @@ namespace Server_Control.Hubs
     {
         private IActorRef _actor;
 
-        public PlayHubProvider(ActorSystem actorSystem)
+        public PlayHubProvider(IServiceProvider serviceProvider, ActorSystem actorSystem)
         {
-            _actor = actorSystem.ActorOf <PlayHub>();
+            var props = PlayHub.Props(serviceProvider);
+            _actor = actorSystem.ActorOf(props);
         }
 
         /// <summary>

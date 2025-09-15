@@ -9,9 +9,10 @@ namespace Server_Realm.Actors
     {
         private IActorRef _actor;
 
-        public HubActorProvider(ActorSystem actorSystem)
+        public HubActorProvider(IServiceProvider serviceProvider, ActorSystem actorSystem)
         {
-            _actor = actorSystem.ActorOf<HubActor>();
+            var props = HubActor.Props(serviceProvider);
+            _actor = actorSystem.ActorOf(props);
         }
 
         /// <summary>

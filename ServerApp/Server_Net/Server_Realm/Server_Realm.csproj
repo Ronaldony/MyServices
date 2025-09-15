@@ -63,7 +63,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.5.40" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     <PackageReference Include="PowerArgs" Version="4.0.3" />

@@ -8,9 +8,9 @@ namespace Server_Realm.Actors
 {
     using Framework.Config.ConfigManager;
     using Framework.Config.MessageBus;
+    using Framework.Core.Database.Actors;
     using Framework.Core.Hubs;
     using Framework.Core.Types;
-    using Framework.Core.Utilities;
     using Server_Realm.Worlds.Msg;
     using Server_Realm.Zones.Providers;
 
@@ -35,10 +35,8 @@ namespace Server_Realm.Actors
         // Playhubs.
         private readonly Config_MessageBusData _playHubData;
 
-        public HubActor()
+        public HubActor(IServiceProvider serviceProvider)
         {
-            var serviceProvider = ServiceUtility.GetServiceProvider();
-
             _logger = serviceProvider.GetRequiredService<ILogger<HubActor>>();
 
             _serviceProvider = serviceProvider;
@@ -62,7 +60,7 @@ namespace Server_Realm.Actors
 
             ReceiveAsync<PlayHubMsg_FailClaimPost>(async msg => await FailClaimPost(msg));
 
-            // initialize.
+            // Initialize.
             _hubActorProvider.Tell("initialize");
         }
 
@@ -103,6 +101,14 @@ namespace Server_Realm.Actors
             await _huntZoneChannel.RegisterConsumerAsync(huntZoneQueue, ConsumePlayHubMsg);
 
             await AddQueueToHubAsync(huntZoneQueue);
+        }
+
+        /// <summary>
+        /// Props.
+        /// </summary>
+        public static Props Props(IServiceProvider serviceProvider)
+        {
+            return Akka.Actor.Props.Create(() => new DataInfoSaveActor(serviceProvider));
         }
 
         /// <summary>

@@ -2,11 +2,14 @@
 
 namespace Server_Realm.Zones.HuntZone
 {
+    using Framework.Core.Database.Interfaces;
     using GameCore;
     using GameCore.Interfaces;
     using Server_Realm.Entities;
     using Server_Realm.Units.Mob;
     using Server_Realm.Worlds;
+    using Server_Realm.Worlds.Sections;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// HuntZoneProcessor.
@@ -68,7 +71,9 @@ namespace Server_Realm.Zones.HuntZone
                 PlayerUnitDict = new Dictionary<string, PlayerUnit>(),
                 AroundSectionDict = aroundSessionDict,
                 MobUnitDict = new Dictionary<long, MobUnit>(),
-                WorldSectionDict = worldSectionDict
+                WorldSectionDict = worldSectionDict,
+                DataObjectDict = new Dictionary<string, List<IDataObject>>(),
+                ReusableUnits = new ConcurrentQueue<Context.Units.Unit>()
             };
         }
 

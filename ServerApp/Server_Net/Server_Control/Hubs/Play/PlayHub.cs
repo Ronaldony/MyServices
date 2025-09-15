@@ -7,7 +7,6 @@ using System.Threading.Tasks.Dataflow;
 namespace Server_Control.Hubs.Play
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Utilities;
     using GameCore.HubPacket;
     using Server_Control.Actors;
     using Server_Control.Hubs;
@@ -38,10 +37,8 @@ namespace Server_Control.Hubs.Play
         // 도메인 그룹.
         public PlayHubGroup _hubGroup;
 
-        public PlayHub()
+        public PlayHub(IServiceProvider serviceProvider)
         {
-            var serviceProvider = ServiceUtility.GetServiceProvider();
-
             _logger = serviceProvider.GetRequiredService<ILogger<PlayHub>>();
 
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
@@ -58,6 +55,14 @@ namespace Server_Control.Hubs.Play
             _hubGroup = new PlayHubGroup();
 
             RegisterReceive();
+        }
+
+        /// <summary>
+        /// Props.
+        /// </summary>
+        public static Props Props(IServiceProvider serviceProvider)
+        {
+            return Akka.Actor.Props.Create(() => new PlayHub(serviceProvider));
         }
 
         /// <summary>

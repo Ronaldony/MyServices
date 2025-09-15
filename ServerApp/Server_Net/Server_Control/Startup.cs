@@ -10,6 +10,7 @@ using ServerEngine.MessageBus.RabbitMQs;
 
 namespace Server_Control
 {
+    using Framework.Config.ConfigManager;
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObjects;
     using GameCore;
@@ -18,6 +19,8 @@ namespace Server_Control
     using Server_Control.Core.Services;
     using Server_Control.Hubs;
     using Server_Control.Server.Hub;
+    using ServerEngine.Database.DBObject.Connections;
+    using ServerEngine.Database.Interfaces;
 
     /// <summary>
     /// Startup.
@@ -40,8 +43,9 @@ namespace Server_Control
             appBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             appBuilder.Services.AddSingleton<ITDBService, TDBService>();
 
-            // MessageBus.
+            // Connections.
             appBuilder.Services.AddSingleton<RBMQConnection>();
+            appBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
 
             // Background.
             appBuilder.Services.AddSingleton<PostService>();

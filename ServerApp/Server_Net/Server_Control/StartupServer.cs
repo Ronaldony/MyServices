@@ -20,6 +20,7 @@ namespace Server_Control
     using GameCore.Interfaces;
     using Server_Control.Core.Services;
     using Server_Control.Server.Hub;
+    using ServerEngine.Database.Interfaces;
 
     internal class StartupServer
     {
@@ -72,6 +73,10 @@ namespace Server_Control
             // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
+
+            // IDBObjectConnection.
+            var dbObjectConn = _serviceProvider.GetRequiredService<IDBObjectConn>();
+            await dbObjectConn.InitializeAsync();
 
             // rbmqConnection.
             var rbmqConnection = _serviceProvider.GetRequiredService<RBMQConnection>();

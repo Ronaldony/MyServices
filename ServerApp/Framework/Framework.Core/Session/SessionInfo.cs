@@ -1,10 +1,18 @@
-﻿namespace Framwork.Core.Session
+﻿
+using Framework.Core.Database.Interfaces;
+
+namespace Framwork.Core.Session
 {
     /// <summary>
     /// GameSession.
     /// </summary>
     public partial class SessionInfo
     {
+        public SessionInfo()
+        {
+
+        }
+
         /// <summary>
         /// 유저 Id.
         /// </summary>

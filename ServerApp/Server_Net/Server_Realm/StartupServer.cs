@@ -21,6 +21,7 @@ namespace Server_Realm
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
     using Server_Realm.Server.HuntZone;
+    using ServerEngine.Database.Interfaces;
 
     internal class StartupServer
     {
@@ -94,6 +95,10 @@ namespace Server_Realm
             // Initialize servivces.
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
+
+            // IDBObjectConnection.
+            var dbObjectConn = _serviceProvider.GetRequiredService<IDBObjectConn>();
+            await dbObjectConn.InitializeAsync();
 
             // rbmqConnection.
             var rbmqConnection = _serviceProvider.GetRequiredService<RBMQConnection>();

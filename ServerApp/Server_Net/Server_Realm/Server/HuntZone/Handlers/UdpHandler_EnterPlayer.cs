@@ -5,10 +5,8 @@ using ServerEngine.Network.UDP;
 
 namespace Server_Realm.Server.HuntZone.Handlers
 {
-    using Framework.Core.Database.DAO;
+    using Framework.Core.Database.DataObjects;
     using GameCore;
-    using GameCore.Datas.Inventory;
-    using GameCore.Datas.Play;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
     using Server_Realm.Entities;
@@ -23,11 +21,9 @@ namespace Server_Realm.Server.HuntZone.Handlers
     {
         private readonly ILogger<UdpHandler_EnterPlayer> _logger;
 
+        private readonly IServiceProvider _serviceProvider;
         private readonly IUniqueIdService _uniqueIdService;
         private readonly UnitFactory _unitFactory;
-
-        private readonly DBPlayInfo _dbPlayInfo;
-        private readonly DBInventoryInfo _dbInventoryInfo;
 
         private readonly HuntZoneServer _huntZoneServer;
         private readonly HuntZoneProcessorProvider _worldServerActorProvider;
@@ -37,11 +33,9 @@ namespace Server_Realm.Server.HuntZone.Handlers
         {
             _logger = serviceProvider.GetRequiredService<ILogger<UdpHandler_EnterPlayer>>();
 
+            _serviceProvider = serviceProvider;
             _uniqueIdService = serviceProvider.GetRequiredService<IUniqueIdService>();
             _unitFactory = serviceProvider.GetRequiredService<UnitFactory>();
-
-            _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
-            _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
 
             _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
 
@@ -64,43 +58,53 @@ namespace Server_Realm.Server.HuntZone.Handlers
                 /// Load info datas.
 
                 // PlayInfo.
-                var playInfo = await _dbPlayInfo.SelectAsync(pid);
-                if (null == playInfo)
+                var playInfoObject = _serviceProvider.GetRequiredService<PlayInfoObject>();
+                await playInfoObject.LoadDataAsync(pid);
+
+                if (null == playInfoObject.PlayInfo)
                 {
                     _huntZoneServer.Disconnect(sessionId, sessionUid);
                     return;
                 }
 
                 // InventoryInfo.
-                var inventoryInfo = await _dbInventoryInfo.SelectAsync(pid);
-                if (null == inventoryInfo)
+                var inventoryInfoObject  = _serviceProvider.GetRequiredService<InventoryInfoObject>();
+                await inventoryInfoObject.LoadDataAsync(pid);
+
+                if (null == inventoryInfoObject.InventoryInfo)
                 {
                     _huntZoneServer.Disconnect(sessionId, sessionUid);
                     return;
                 }
 
                 // Enter player into world.
-                EnterPlayerIntoWorld(sessionId, sessionUid, playInfo, inventoryInfo);
+                EnterPlayerIntoWorld(sessionId, sessionUid, playInfoObject, inventoryInfoObject);
             });
         }
 
         /// <summary>
         /// Enter player into world.
         /// </summary>
-        private void EnterPlayerIntoWorld(int sessionId, ulong sessionUid, DTO_PlayInfo playInfo, DTO_InventoryInfo inventoryInfo)
+        private void EnterPlayerIntoWorld(int sessionId, ulong sessionUid, PlayInfoObject playInfoObject, InventoryInfoObject inventoryInfoObject)
         {
             // Create player unit.
             var unitId = _uniqueIdService.GenerateIdAsLong();
 
             // Setup player unit.
             var pu = _unitFactory.CreateUnit<PlayerUnit>(Type_Unit.Player);
-            pu.Setup(unitId, playInfo, inventoryInfo);
+            pu.Setup(unitId, playInfoObject.PlayInfo, inventoryInfoObject.InventoryInfo);
 
-            // 메시지 전달.
-            _worldServerActorProvider.Tell<WorldMsg_EnterPlayer>(new WorldMsg_EnterPlayer
+            // 월드 메시지.
+            var worldMsg = new WorldMsg_EnterPlayer
             {
                 PlayerUnit = pu
-            });
+            };
+
+            // Add DataObjects.
+            worldMsg.DataObjects.Add(playInfoObject);
+            worldMsg.DataObjects.Add(inventoryInfoObject);
+
+            _worldServerActorProvider.Tell<WorldMsg_EnterPlayer>(worldMsg);
         }
     }
 }

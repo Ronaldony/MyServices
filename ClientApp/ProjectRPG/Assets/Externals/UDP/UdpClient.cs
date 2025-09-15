@@ -194,5 +194,18 @@ namespace Externals.UDP
                 value.method.Invoke(value.handler, new object[1] { packet });
             }
         }
+
+        /// <summary>
+        /// Get ping (ms)
+        /// </summary>
+        public int GetPing()
+        {
+            if (null == _peer)
+            {
+                return 0;
+            }
+
+            return _peer.Ping;
+        }
     }
 }

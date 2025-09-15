@@ -1,5 +1,5 @@
 ﻿
-namespace Server_Realm.Worlds
+namespace Server_Realm.Worlds.Sections
 {
     using GameCore.GamePacket;
 

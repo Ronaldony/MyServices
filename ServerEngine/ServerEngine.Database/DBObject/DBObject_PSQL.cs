@@ -14,9 +14,9 @@ namespace ServerEngine.Database.DataObject
     /// <summary>
     /// Data object for PostgreSQL.
     /// </summary>
-    public abstract class DataObject_PSQL : IDBObject
+    public abstract class DBObject_PSQL : IDBObject
     {
-        private readonly ILogger<DataObject_PSQL> _logger;
+        private readonly ILogger<DBObject_PSQL> _logger;
         
         private readonly IDataSerializer _dataSerializer;
         private IMemcachedService _cacheService;
@@ -26,9 +26,9 @@ namespace ServerEngine.Database.DataObject
 
         private byte[] _oriDataBytes;
 
-        public DataObject_PSQL(IServiceProvider serviceProvider, DataObjectInfo dataObjectInfo, string connectString)
+        public DBObject_PSQL(IServiceProvider serviceProvider, DataObjectInfo dataObjectInfo, string connectString)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<DataObject_PSQL>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<DBObject_PSQL>>();
 
             _cacheService = serviceProvider.GetRequiredService<IMemcachedService>();
 			_dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
@@ -192,17 +192,111 @@ namespace ServerEngine.Database.DataObject
         /// <summary>
         /// Not implemented.
         /// </summary>
-        public Task<T> SelectAsync<T>(string key) where T : class, new()
+        public async Task<T> SelectAsync<T>(string key) where T : class, new()
         {
-            throw new NotImplementedException();
+            // Get from memory cache.
+            var cachingData = _cacheService.Get<T>(key);
+            if (null != cachingData)
+            {
+                return cachingData;
+            }
+
+            // Select Database.
+            try
+            {
+                var sql = $"""
+                        SELECT _data FROM "{_dataObjectInfo.Bucket}" WHERE key=@Key
+                        """;
+
+                using (var connection = new NpgsqlConnection(_connectString))
+                {
+                    connection.Open();
+
+                    var dataBytes = await connection.QueryFirstOrDefaultAsync<byte[]>(
+                        sql: sql,
+                        param: new
+                        {
+                            Key = key,
+                        },
+                        commandTimeout: 10,
+                        commandType: CommandType.Text
+                        );
+
+                    // save ori data bytes.
+                    _oriDataBytes = dataBytes;
+
+                    var dataObject = _dataSerializer.Deserialize<T>(dataBytes);
+
+                    // update cache.
+                    _cacheService.Set<T>(key, dataObject);
+
+                    return dataObject;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return null;
+            }
         }
 
         /// <summary>
         /// Not implemented.
         /// </summary>
-        public Task<bool> UpsertAsync<T>(string key, T dataObject) where T : class, new()
+        public async Task<bool> UpsertAsync<T>(string key, T dataObject) where T : class, new()
         {
-            throw new NotImplementedException();
+            var dataBytes = _dataSerializer.Serialize(dataObject);
+
+            // dirty check.
+            if (false == IsDirty(_oriDataBytes, dataBytes))
+            {
+                // skip upsert DB.
+                return true;
+            }
+
+            // update cache.
+            _cacheService.Set<T>(key, dataObject);
+
+            // Upsert.
+            try
+            {
+                var sql = $"""
+                        INSERT INTO "{_dataObjectInfo.Bucket}" (key, _data, regtime) VALUES (@Key, @Data, NOW()) 
+                        ON CONFLICT (key) 
+                        DO UPDATE 
+                        SET _data=@Data
+                        """;
+
+                using (var connection = new NpgsqlConnection(_connectString))
+                {
+                    // Connection.
+                    connection.Open();
+
+                    int rowAffect = await connection.ExecuteAsync(
+                        sql: sql,
+                        param: new
+                        {
+                            Key = key,
+                            Data = dataBytes
+                        },
+                        commandTimeout: 10,
+                        commandType: CommandType.Text
+                        );
+
+                    // Upsert success.
+                    if (rowAffect > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return false;
+            }
         }
     }
 }

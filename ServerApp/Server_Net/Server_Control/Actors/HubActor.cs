@@ -8,9 +8,9 @@ namespace Server_Control.Actors
 {
     using Framework.Config.ConfigManager;
     using Framework.Config.MessageBus;
+    using Framework.Core.Database.Actors;
     using Framework.Core.Hubs;
     using Framework.Core.Types;
-    using Framework.Core.Utilities;
     using Server_Control.Hubs;
     using Server_Control.Hubs.Msg;
 
@@ -41,10 +41,8 @@ namespace Server_Control.Actors
         // Playhubs.
         private readonly Config_MessageBusData _playHubData;
 
-        public HubActor()
+        public HubActor(IServiceProvider serviceProvider)
         {
-            var serviceProvider = ServiceUtility.GetServiceProvider();
-
             _logger = serviceProvider.GetRequiredService<ILogger<HubActor>>();
 
             _serviceProvider = serviceProvider;
@@ -70,8 +68,16 @@ namespace Server_Control.Actors
             // Claim post.
             ReceiveAsync<PlayHubMsg_ClaimPost>(msg => PublishMsg<PlayHubMsg_ClaimPost>(msg.ZoneId, msg));
 
-            // initialize.
+            // Initialize.
             _hubActorProvider.Tell("initialize");
+        }
+
+        /// <summary>
+        /// Props.
+        /// </summary>
+        public static Props Props(IServiceProvider serviceProvider)
+        {
+            return Akka.Actor.Props.Create(() => new DataInfoSaveActor(serviceProvider));
         }
 
         /// <summary>
@@ -101,6 +107,7 @@ namespace Server_Control.Actors
             // Consume.
             await _playhubChannel.RegisterConsumerAsync(_playHubData.Queue, ConsumePlayHubMsgAsync);
         }
+
 
         /// <summary>
         /// Consume play hub.

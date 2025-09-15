@@ -1,10 +1,8 @@
-﻿using System.Numerics;
-
-namespace Server_Realm.Context.Units
+﻿namespace Server_Realm.Context.Units
 {
-    using Server_Realm.Core.Types;
     using Server_Realm.Context.Collisions;
-    using Server_Realm.Worlds;
+    using Server_Realm.Core.Types;
+    using Server_Realm.Worlds.Sections;
 
     /// <summary>
     /// IUnit.

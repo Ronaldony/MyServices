@@ -27,7 +27,7 @@ namespace Server_Realm.Zones.HuntZone
             var ws = pu.WorldSection;
 
             // Remove player from distrcit.
-            if (false == PostLeavePlayer(msg.Pid))
+            if (false == LeaveZone(msg.Pid))
             {
                 _logger.LogError($"fail to post leave player");
                 return;
@@ -48,12 +48,13 @@ namespace Server_Realm.Zones.HuntZone
         /// <summary>
         /// Post process liveaing player.
         /// </summary>
-        private bool PostLeavePlayer(string pid)
+        private bool LeaveZone(string pid)
         {
             // Leave zone.
+            _worldGroup.DataObjectDict.Remove(pid);
             if (false == _worldGroup.PlayerUnitDict.Remove(pid, out var pu))
             {
-                _logger.LogError($"remove player error. pid: {pu.Pid}, section: {pu.MovementHandler.Section}");
+                _logger.LogError($"remove player error. pid: {pid}");
                 return false;
             }
 

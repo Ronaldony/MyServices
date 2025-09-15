@@ -26,7 +26,7 @@
         /// </summary>
         public void CollectReusableUnit(Unit unit)
         {
-            _worldUnitCollector.ReusableUnits.Enqueue(unit);
+            _worldGroup.ReusableUnits.Enqueue(unit);
         }
     }
 }

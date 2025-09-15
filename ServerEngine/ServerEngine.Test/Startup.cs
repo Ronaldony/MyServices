@@ -5,9 +5,13 @@ using System.Net;
 namespace ServerEngine.Test
 {
     using Akka.Actor;
+    using ServerEngine.Config.Database;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Database.DBObject.Connections;
+    using ServerEngine.Database.Interfaces;
     using ServerEngine.GeoIP;
+    using ServerEngine.Test.ConfigManager;
     using ServerEngine.Test.Database.DataObject;
     using ServerEngine.Test.Server;
 
@@ -42,17 +46,19 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<IUniqueIdService, SnowflakeService>();
             _webAppBuilder.Services.AddSingleton<IDataSerializer, MemoryPackDataSerializer>();
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
+            _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
+            _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
+            _webAppBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
+
             _webAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
 
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-            _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
-            _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
             _webAppBuilder.Services.AddSingleton<TestServer>();
 
             // scoped.
             _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
 
-			_webAppBuilder.WebHost.UseKestrel(configs =>
+            _webAppBuilder.WebHost.UseKestrel(configs =>
             {
                 configs.Listen(IPAddress.Any, _arguments.Port);
             });

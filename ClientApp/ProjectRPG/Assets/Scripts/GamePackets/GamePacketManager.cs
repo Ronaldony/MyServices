@@ -22,6 +22,11 @@ namespace GamePackets
             _client.Initialize_Handlers<GamePacketHandler>();
         }
 
+        public int GetPing()
+        {
+            return _client.GetPing();
+        }
+
         /// <summary>
         /// Connect to server.
         /// </summary>

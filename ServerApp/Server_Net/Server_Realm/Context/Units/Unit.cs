@@ -1,10 +1,10 @@
 ﻿namespace Server_Realm.Context.Units
 {
-    using Server_Realm.Core.Types;
     using Server_Realm.Context.AI;
     using Server_Realm.Context.Collisions;
     using Server_Realm.Context.UnitHandler;
-    using Server_Realm.Worlds;
+    using Server_Realm.Core.Types;
+    using Server_Realm.Worlds.Sections;
     using Server_Realm.Zones;
 
     /// <summary>
