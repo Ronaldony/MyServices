@@ -5,14 +5,18 @@ using Microsoft.Extensions.Logging;
 namespace ServerEngine.Database.DataObject
 {
     using ServerEngine.Config.Database;
+    using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.Interfaces;
 
     public abstract class DBObject_Couchbase : IDBObject
     {
         private readonly ILogger<DBObject_Couchbase> _logger;
 
-        // Account information.
+        private readonly IJsonSerializer _jsonSerializer;
+
+        // Connection.
         private readonly IDBObjectConn _conn;
+
         // Queries.
         private readonly string _selectQuery;
         private string _upsertQuery;
@@ -20,6 +24,8 @@ namespace ServerEngine.Database.DataObject
         public DBObject_Couchbase(IServiceProvider serviceProvider, Config_CouchbaseConnection connection)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DBObject_Couchbase>>();
+
+            _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
 
             _conn = serviceProvider.GetRequiredService<IDBObjectConn>();
 
@@ -34,7 +40,6 @@ namespace ServerEngine.Database.DataObject
         {
             try
             {
-                var localKey = key;
                 var cluster = _conn.GetConnection<ICluster>();
 
                 // Query.
@@ -42,7 +47,7 @@ namespace ServerEngine.Database.DataObject
                     _selectQuery,
                     options => options
                         .AdHoc(false)           // Query caching.
-                        .Parameter("key", localKey)
+                        .Parameter("key", key)
                         );
 
                 if (result.MetaData.Status != Couchbase.Query.QueryStatus.Success)
@@ -51,7 +56,10 @@ namespace ServerEngine.Database.DataObject
                     return null;
                 }
 
-                _logger.LogDebug($"Couchbase select. key: {key}, localKey: {localKey}");
+                await foreach (var row in result.Rows)
+                {
+                    _logger.LogDebug($"Couchbase select. key: {key} \n\n{_jsonSerializer.Serialize(row)}");
+                }
 
                 return await result.FirstAsync();
             }
@@ -69,14 +77,13 @@ namespace ServerEngine.Database.DataObject
         {
             try
             {
-                var localKey = key;
                 var cluster = _conn.GetConnection<ICluster>();
 
                 var result = await cluster.QueryAsync<dynamic>(
                     _upsertQuery,
                     options => options
                         .AdHoc(false)           // Query caching.
-                        .Parameter("key", localKey)
+                        .Parameter("key", key)
                         .Parameter("value", dataObject)
                         );
 
@@ -85,8 +92,6 @@ namespace ServerEngine.Database.DataObject
                     // Fail.
                     return false;
                 }
-
-                _logger.LogDebug($"Couchbase upsert. key: {key}, localKey: {localKey}");
 
                 return true;
             }
