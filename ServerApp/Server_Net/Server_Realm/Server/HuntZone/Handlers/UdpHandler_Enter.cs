@@ -21,6 +21,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
 
         private readonly HuntZoneServer _huntZoneServer;
 
+        private readonly IJsonSerializer _jsonSerializer;
         private readonly IDataSerializer _dataSerializer;
 
         // Data objects.
@@ -37,6 +38,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
 
             _huntZoneServer = serviceProvider.GetRequiredService<HuntZoneServer>();
 
+            _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             // Session object.
@@ -68,7 +70,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.
-                    if (false == sessionInfo.AccessToken.Equals(gp.Token)) throw new ServerException($"token not match. pid: {pid}, session token: {sessionInfo.AccessToken}, packet token: {gp.Token}");
+                    if (false == sessionInfo.AccessToken.Equals(gp.Token)) throw new ServerException($"token not match. pid: {pid}, packet token: {gp.Token}, json: {_jsonSerializer.Serialize(sessionInfo)}");
 
                     // UnitId 생성, 등록.
                     if (false == _huntZoneServer.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");

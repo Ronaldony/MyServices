@@ -21,6 +21,7 @@ namespace Server_Control.Server.Hub.Handlers
 
         private readonly HubServer _server;
 
+        private readonly IJsonSerializer _jsonSerializer;
         private readonly IDataSerializer _dataSerializer;
 
         // Data objects.
@@ -35,6 +36,7 @@ namespace Server_Control.Server.Hub.Handlers
 
             _server = serviceProvider.GetRequiredService<HubServer>();
 
+            _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             // Session object.
@@ -65,7 +67,7 @@ namespace Server_Control.Server.Hub.Handlers
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.
-                    if (false == sessionInfo.AccessToken.Equals(hubPacket.Token)) throw new ServerException($"token not match. pid: {pid}, session token: {sessionInfo.AccessToken}, packet token: {hubPacket.Token}");
+                    if (false == sessionInfo.AccessToken.Equals(hubPacket.Token)) throw new ServerException($"token not match. pid: {pid}, packet token: {hubPacket.Token}, json: {_jsonSerializer.Serialize(sessionInfo)}");
 
                     // UnitId 생성, 등록.
                     if (false == _server.RegisterPid(sessionId, sessionUid, pid)) throw new ServerException($"already exist player. pid: {pid}");
