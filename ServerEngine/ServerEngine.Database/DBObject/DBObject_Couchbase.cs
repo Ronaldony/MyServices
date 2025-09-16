@@ -46,7 +46,7 @@ namespace ServerEngine.Database.DataObject
                 var result = await cluster.QueryAsync<T>(
                     _selectQuery,
                     options => options
-                        .AdHoc(false)           // Query caching.
+                        .AdHoc(true)           // Query caching.
                         .Parameter("key", key)
                         );
 
@@ -54,11 +54,6 @@ namespace ServerEngine.Database.DataObject
                 {
                     // Fail.
                     return null;
-                }
-
-                await foreach (var row in result.Rows)
-                {
-                    _logger.LogDebug($"Couchbase select. key: {key} \n\n{_jsonSerializer.Serialize(row)}");
                 }
 
                 return await result.FirstAsync();
@@ -82,7 +77,7 @@ namespace ServerEngine.Database.DataObject
                 var result = await cluster.QueryAsync<dynamic>(
                     _upsertQuery,
                     options => options
-                        .AdHoc(false)           // Query caching.
+                        .AdHoc(true)           // Query caching.
                         .Parameter("key", key)
                         .Parameter("value", dataObject)
                         );
