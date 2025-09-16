@@ -6,7 +6,6 @@ using ServerEngine.Network.UDP;
 namespace Server_Realm.Server.HuntZone.Handlers
 {
     using Framework.Core.Database.DAO;
-    using Framework.Core.Database.DataObjects;
     using Framework.Core.Exceptions;
     using GameCore;
     using GameCore.GamePacket;
@@ -24,10 +23,8 @@ namespace Server_Realm.Server.HuntZone.Handlers
         private readonly IJsonSerializer _jsonSerializer;
         private readonly IDataSerializer _dataSerializer;
 
-        // Data objects.
-        private readonly SessionInfoObject _sessionInfoObject;
-
         // DB Objects.
+        private readonly DBSessionInfo _dbSessionInfo;
         private readonly DBPlayInfo _dbPlayInfo;
         private readonly DBInventoryInfo _dbInventoryInfo;
 
@@ -41,10 +38,8 @@ namespace Server_Realm.Server.HuntZone.Handlers
             _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
-            // Session object.
-            _sessionInfoObject = serviceProvider.GetRequiredService<SessionInfoObject>();
-
             // Data object 생성.
+            _dbSessionInfo = serviceProvider.GetRequiredService<DBSessionInfo>();
             _dbPlayInfo = serviceProvider.GetRequiredService<DBPlayInfo>();
             _dbInventoryInfo = serviceProvider.GetRequiredService<DBInventoryInfo>();
         }
@@ -64,10 +59,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
 
                 try
                 {
-                    // 세션.
-                    await _sessionInfoObject.LoadDataAsync(pid);
-
-                    var sessionInfo = _sessionInfoObject.SessionInfo;
+                    var sessionInfo = await _dbSessionInfo.SelectAsync(pid);
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.

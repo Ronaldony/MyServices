@@ -5,7 +5,7 @@ using ServerEngine.Network.UDP;
 
 namespace Server_Control.Server.Hub.Handlers
 {
-    using Framework.Core.Database.DataObjects;
+    using Framework.Core.Database.DAO;
     using Framework.Core.Exceptions;
     using GameCore;
     using GameCore.HubPacket;
@@ -24,8 +24,7 @@ namespace Server_Control.Server.Hub.Handlers
         private readonly IJsonSerializer _jsonSerializer;
         private readonly IDataSerializer _dataSerializer;
 
-        // Data objects.
-        private readonly SessionInfoObject _sessionInfoObject;
+        private readonly DBSessionInfo _dbSessionInfo;
 
         private readonly PlayHubProvider _playHubProvider;
 
@@ -39,8 +38,7 @@ namespace Server_Control.Server.Hub.Handlers
             _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
-            // Session object.
-            _sessionInfoObject = serviceProvider.GetRequiredService<SessionInfoObject>();
+            _dbSessionInfo = serviceProvider.GetRequiredService<DBSessionInfo>();
 
             // Hub providers.
             _playHubProvider = serviceProvider.GetRequiredService<PlayHubProvider>();
@@ -62,9 +60,7 @@ namespace Server_Control.Server.Hub.Handlers
                 try
                 {
                     // 세션.
-                    await _sessionInfoObject.LoadDataAsync(pid);
-
-                    var sessionInfo = _sessionInfoObject.SessionInfo;
+                    var sessionInfo = await _dbSessionInfo.SelectAsync(pid);
                     if (sessionInfo == null) throw new ServerException($"not exist session. pid: {pid}");
 
                     // 세션 토큰 검사.
