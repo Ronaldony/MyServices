@@ -85,8 +85,6 @@ namespace Server_Control.Hubs.Play
         /// </summary>
         private void DispatchHubMsg(HubMsgBase msg)
         {
-            _logger.LogDebug($"Process msg. type: {msg.GetType()}");
-
             switch (msg)
             {
                 case HubMsg_PushPost:    // 우편물 푸시.

@@ -16,7 +16,7 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private void LeavePlayer(WorldMsg_LeavePlayer msg)
         {
-            _logger.LogWarning($"leave player. pid: {msg.Pid}");
+            _logger.LogInformation($"leave player. pid: {msg.Pid}");
 
             if (false == _worldGroup.PlayerUnitDict.TryGetValue(msg.Pid, out var pu))
             {

@@ -68,7 +68,7 @@ namespace Server_Realm.Zones.HuntZone
             _memoryPoolService.Release(packetEnterPlayer);
             _memoryPoolService.Release(packetSpawnUnits);
 
-            _logger.LogDebug($"Spawn player. pid: {pu.Pid}");
+            _logger.LogInformation($"Enter player. pid: {pu.Pid}");
         }
 
         /// <summary>
