@@ -46,7 +46,7 @@ namespace ServerEngine.Database.DataObject
                 var result = await cluster.QueryAsync<T>(
                     _selectQuery,
                     options => options
-                        .AdHoc(true)           // Query caching.
+                        .AdHoc(false)           // Query caching.
                         .Parameter("key", key)
                         );
 
@@ -77,7 +77,7 @@ namespace ServerEngine.Database.DataObject
                 var result = await cluster.QueryAsync<dynamic>(
                     _upsertQuery,
                     options => options
-                        .AdHoc(true)           // Query caching.
+                        .AdHoc(false)           // Query caching.
                         .Parameter("key", key)
                         .Parameter("value", dataObject)
                         );

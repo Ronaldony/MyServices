@@ -51,11 +51,12 @@ namespace Server_Control.Server.Hub.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
+            var hubPacket = _dataSerializer.Deserialize<HubPacketCS_Enter>(packet.Data);
+
             Task.Run(async () => 
             {
                 _logger.LogDebug($"Player enter into hub");
 
-                var hubPacket = _dataSerializer.Deserialize<HubPacketCS_Enter>(packet.Data);
                 var pid = hubPacket.Pid;
 
                 try

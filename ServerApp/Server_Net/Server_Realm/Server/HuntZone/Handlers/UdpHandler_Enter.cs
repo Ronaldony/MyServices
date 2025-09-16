@@ -54,11 +54,12 @@ namespace Server_Realm.Server.HuntZone.Handlers
         /// </summary>
         public override void HandlePacket(int sessionId, ulong sessionUid, UdpPacket packet)
 		{
+            var gp = _dataSerializer.Deserialize<GamePacketCS_Enter>(packet.Data);
+
             Task.Run(async () => 
             {
                 _logger.LogDebug($"Player Enter");
 
-                var gp = _dataSerializer.Deserialize<GamePacketCS_Enter>(packet.Data);
                 var pid = gp.Pid;
 
                 try
