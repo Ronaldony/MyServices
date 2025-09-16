@@ -201,10 +201,12 @@ public class OpponentController : MonoBehaviour
     /// </summary>
     public void Dash(Vector2 dashedPos)
     {
-        // Set movement status.
-        moveSpeed *= dashSpeed;
+        // Update status.
         myTrailRenderer.emitting = true;
         _isDashing = true;
+
+        // Set movement status.
+        //moveSpeed *= dashSpeed;
 
         // Start dash routine.
         StartCoroutine(EndDashRoutine(dashedPos));
@@ -215,16 +217,30 @@ public class OpponentController : MonoBehaviour
     /// </summary>
     private IEnumerator EndDashRoutine(Vector2 dashedPos)
     {
-        yield return new WaitForSeconds(GameData.DASH_TIME);
-        moveSpeed = _startingMoveSpeed;
-        myTrailRenderer.emitting = false;
+        float timePassed = 0f;
+        var startPos = GetPosition();
 
-        //Debug.Log($"Dashed position. pos: {dashedPos}");
+        while (timePassed < GameData.DASH_TIME)
+        {
+            timePassed += Time.deltaTime;
+            float linearT = timePassed / GameData.DASH_TIME;
+            _rb.position = Vector2.Lerp(startPos, dashedPos, linearT);
+
+            Debug.Log($"linearT: {linearT}");
+
+            yield return null;
+        }
+        //yield return new WaitForSeconds(GameData.DASH_TIME);
+        //moveSpeed = _startingMoveSpeed;
+
+        myTrailRenderer.emitting = false;
 
         _isDashing = false;
 
+        Debug.Log($"End dash. real: {_rb.position}, packet: {dashedPos}");
+
         // Fix position
-        MoveFixed(dashedPos.x, dashedPos.y);
+        //MoveFixed(dashedPos.x, dashedPos.y);
 
         yield return new WaitForSeconds(GameData.DASH_COOLDOWN);
     }
@@ -238,8 +254,10 @@ public class OpponentController : MonoBehaviour
         //_knockback.ForceKnockback(srcPos, knockbackPos, GameData.KNOCKBACK_THRUST);
 
         // flash.
-        StartCoroutine(_flash.FlashRoutine());
-        Debug.Log($"Flash");
+        if (_flash)
+        {
+            StartCoroutine(_flash.FlashRoutine());
+        }
 
         //_isMoving = false;
     }

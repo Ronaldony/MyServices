@@ -291,7 +291,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (!_isDashCoolDown && Stamina.Instance.CurrentStamina > 0)
         {
-            Stamina.Instance.UseStamina();
+            //Stamina.Instance.UseStamina();
 
             _isDashing = true;
             _isDashCoolDown = true;
@@ -307,7 +307,7 @@ public class PlayerController : Singleton<PlayerController>
                     Position = new System.Numerics.Vector2(dashedPosition.x, dashedPosition.y)
                 });
 
-            //Debug.Log($"Dash calc position: {dashedPosition}");
+            Debug.Log($"Dash calc position: {dashedPosition}");
 
             myTrailRenderer.emitting = true;
             StartCoroutine(EndDashRoutine());

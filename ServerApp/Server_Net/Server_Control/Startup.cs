@@ -13,6 +13,7 @@ using ServerEngine.MessageBus.RabbitMQs;
 namespace Server_Control
 {
     using Framework.Config.ConfigManager;
+    using Framework.Core.Database.Actors;
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObjects;
     using GameCore;
@@ -55,6 +56,7 @@ namespace Server_Control
             appBuilder.Services.AddSingleton<ActorSystem>(service => ActorSystem.Create("root"));
             appBuilder.Services.AddSingleton<PlayHubProvider>();
             appBuilder.Services.AddSingleton<HubActorProvider>();
+            appBuilder.Services.AddSingleton<DataInfoSaveActorProvider>();
 
             // Infos.
             appBuilder.Services.AddSingleton<DBInventoryInfo>();

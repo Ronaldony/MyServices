@@ -64,7 +64,7 @@ namespace Server_Realm.Context.UnitHandler
             // Damage.
             int hitDamage = damage - _stat.Defense;
 
-            //if (_owner.UnitType == Core.Types.Type_Unit.Mob)
+            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
             {
                 if (damage > _stat.Defense)
                 {

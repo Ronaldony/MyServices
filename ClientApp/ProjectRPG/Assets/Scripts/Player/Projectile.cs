@@ -33,6 +33,7 @@ public class Projectile : MonoBehaviour
         var mobHealth = collision.gameObject.GetComponent<MobHealth>();
         var indestructible = collision.gameObject.GetComponent<Indestructible>();
         var playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+        var opponentHealth = collision.gameObject.GetComponent<OpponentHealth>();
 
         // Cond 1. Trigger collision.
         // Cond 2. EnemyHealth Indestructible.
@@ -43,6 +44,11 @@ public class Projectile : MonoBehaviour
                 playerHealth?.TakeDamage(transform);
 
                 // Collision.
+                Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
+            else if (opponentHealth && isEnemyProjectile)
+            {
                 Instantiate(particleOnPrefabVFX, transform.position, transform.rotation);
                 Destroy(gameObject);
             }
