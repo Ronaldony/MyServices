@@ -54,7 +54,7 @@ namespace Server_Realm.Server.HuntZone.Handlers
 		{
             Task.Run(async () => 
             {
-                _logger.LogDebug($"Player Login");
+                _logger.LogDebug($"Player Enter");
 
                 var gp = _dataSerializer.Deserialize<GamePacketCS_Enter>(packet.Data);
                 var pid = gp.Pid;
