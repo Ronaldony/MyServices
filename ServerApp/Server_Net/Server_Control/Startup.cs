@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using ServerEngine.Core.Services;
 using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Database.DBObject.Connections;
+using ServerEngine.Database.Interfaces;
 using ServerEngine.GeoIP;
 using ServerEngine.MessageBus.RabbitMQs;
 
@@ -19,8 +21,6 @@ namespace Server_Control
     using Server_Control.Core.Services;
     using Server_Control.Hubs;
     using Server_Control.Server.Hub;
-    using ServerEngine.Database.DBObject.Connections;
-    using ServerEngine.Database.Interfaces;
 
     /// <summary>
     /// Startup.

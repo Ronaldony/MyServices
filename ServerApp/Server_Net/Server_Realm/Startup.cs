@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using ServerEngine.Core.Services;
 using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Database.DBObject.Connections;
+using ServerEngine.Database.Interfaces;
 using ServerEngine.GeoIP;
 using ServerEngine.MessageBus.RabbitMQs;
 
@@ -21,8 +23,6 @@ namespace Server_Realm
     using Server_Realm.Core.Services;
     using Server_Realm.Server.HuntZone;
     using Server_Realm.Zones.Providers;
-    using ServerEngine.Database.DBObject.Connections;
-    using ServerEngine.Database.Interfaces;
 
     /// <summary>
     /// Startup.

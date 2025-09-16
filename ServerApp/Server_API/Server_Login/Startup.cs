@@ -3,6 +3,8 @@ using ServerEngine.Core.Services;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.GeoIP;
 using System.Net;
+using ServerEngine.Database.DBObject.Connections;
+using ServerEngine.Database.Interfaces;
 
 namespace Server_Login
 {
@@ -15,9 +17,6 @@ namespace Server_Login
     using Framework.WebAPI.Controllers;
     using GameCore;
     using GameCore.Interfaces;
-    using ServerEngine.Database.DBObject.Connections;
-    using ServerEngine.Database.Interfaces;
-    using System.Reflection.PortableExecutable;
 
     public class Startup
     {

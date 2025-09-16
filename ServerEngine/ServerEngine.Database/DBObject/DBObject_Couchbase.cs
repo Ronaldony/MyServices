@@ -34,6 +34,7 @@ namespace ServerEngine.Database.DataObject
         {
             try
             {
+                var localKey = key;
                 var cluster = _conn.GetConnection<ICluster>();
 
                 // Query.
@@ -41,7 +42,7 @@ namespace ServerEngine.Database.DataObject
                     _selectQuery,
                     options => options
                         .AdHoc(false)           // Query caching.
-                        .Parameter("key", key)
+                        .Parameter("key", localKey)
                         );
 
                 if (result.MetaData.Status != Couchbase.Query.QueryStatus.Success)
@@ -49,6 +50,8 @@ namespace ServerEngine.Database.DataObject
                     // Fail.
                     return null;
                 }
+
+                _logger.LogDebug($"Couchbase select. key: {key}, localKey: {localKey}");
 
                 return await result.FirstAsync();
             }
@@ -66,13 +69,14 @@ namespace ServerEngine.Database.DataObject
         {
             try
             {
+                var localKey = key;
                 var cluster = _conn.GetConnection<ICluster>();
 
                 var result = await cluster.QueryAsync<dynamic>(
                     _upsertQuery,
                     options => options
                         .AdHoc(false)           // Query caching.
-                        .Parameter("key", key)
+                        .Parameter("key", localKey)
                         .Parameter("value", dataObject)
                         );
 
@@ -81,6 +85,8 @@ namespace ServerEngine.Database.DataObject
                     // Fail.
                     return false;
                 }
+
+                _logger.LogDebug($"Couchbase upsert. key: {key}, localKey: {localKey}");
 
                 return true;
             }
