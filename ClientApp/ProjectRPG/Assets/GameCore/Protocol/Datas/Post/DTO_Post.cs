@@ -1,6 +1,7 @@
 ﻿using MemoryPack;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System;
 
 namespace GameCore.Datas.Post
 {
@@ -40,5 +41,11 @@ namespace GameCore.Datas.Post
         /// </summary>
         [MemoryPackOrder(3)]
         public List<DTO_Item> Items { get; set; }
+
+        /// <summary>
+        /// RegTime.
+        /// </summary>
+        [MemoryPackOrder(4)]
+        public DateTime RegTime { get; set; }
     }
 }

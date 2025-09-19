@@ -1,11 +1,15 @@
 ﻿namespace Server_Control.Hubs.Play
 {
+    using Framework.Core.Database.DataObjects;
+    using Framework.Core.Database.Interfaces;
     using GameCore;
     using GameCore.Datas.Player;
     using GameCore.HubPacket;
+    using Microsoft.Extensions.DependencyInjection;
     using Server_Control.Hubs.Msg;
     using Server_Control.Hubs.Play.Datas;
     using ServerEngine.Core.Util;
+    using System.Collections.Generic;
 
     /// <summary>
     /// PlayHub.
@@ -20,7 +24,20 @@
             var pid = dataSet.Pid;
 
             dataSet.IsEnter = true;
-            dataSet.PostInfo = await _dbPostInfo.SelectAsync(pid);
+
+            // PostInfo가 없는 경우 추가.
+            if (dataSet.PostInfo == null)
+            {
+                // PlayInfo.
+                var postInfoObject = _serviceProvider.GetRequiredService<PostInfoObject>();
+                await postInfoObject.LoadDataAsync(pid);
+
+                var dataObjects = new List<IDataObject>();
+                dataObjects.Add(postInfoObject);
+
+                dataSet.PostInfo = postInfoObject.PostInfo;
+                _hubGroup.DataObjectDict.AddOrUpdate(pid, dataObjects, (old, key) => dataObjects);
+            }
 
             // 우편물 검사.
             CheckPosts(dataSet.PostInfo);
@@ -30,7 +47,6 @@
             {
                 PostInfo = dataSet.PostInfo,
             });
-
         }
 
         /// <summary>

@@ -78,6 +78,7 @@ namespace Server_Control
             appBuilder.Services.AddTransient<PlayerInfoObject>();
             appBuilder.Services.AddTransient<PlayInfoObject>();
             appBuilder.Services.AddTransient<InventoryInfoObject>();
+            appBuilder.Services.AddTransient<PostInfoObject>();
         }
     }
 }

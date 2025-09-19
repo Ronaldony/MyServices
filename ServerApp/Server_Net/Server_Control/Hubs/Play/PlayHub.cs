@@ -3,9 +3,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerEngine.Core.Services.Interfaces;
 using System.Threading.Tasks.Dataflow;
+using System;
+using System.Reactive.Linq;
 
 namespace Server_Control.Hubs.Play
 {
+    using Framework.Core.Database.Actors;
     using Framework.Core.Database.DAO;
     using GameCore.HubPacket;
     using Server_Control.Actors;
@@ -22,7 +25,9 @@ namespace Server_Control.Hubs.Play
         private readonly ILogger<PlayHub> _logger;
 
         // Services.
+        private readonly IServiceProvider _serviceProvider;
         private readonly IDataSerializer _dataSerializer;
+        private readonly IMemoryPoolService _memoryPoolService;
 
         // DB object.
         private readonly DBPostInfo _dbPostInfo;
@@ -34,15 +39,18 @@ namespace Server_Control.Hubs.Play
         // Providers.
         private readonly PlayHubProvider _hubProvider;
         private readonly HubActorProvider _hubActorProvider;
+        private readonly DataInfoSaveActorProvider _dataInfoSaveProvider;
 
-        // 도메인 그룹.
+        // PlayHubGroup.
         public PlayHubGroup _hubGroup;
 
         public PlayHub(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<PlayHub>>();
 
+            _serviceProvider = serviceProvider;
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
+            _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
             _dbPostInfo = serviceProvider.GetRequiredService<DBPostInfo>();
             _dbPost = serviceProvider.GetRequiredService<DBPost>();
@@ -53,10 +61,19 @@ namespace Server_Control.Hubs.Play
             // Providers.
             _hubProvider = serviceProvider.GetRequiredService<PlayHubProvider>();
             _hubActorProvider = serviceProvider.GetRequiredService<HubActorProvider>();
+            _dataInfoSaveProvider = serviceProvider.GetRequiredService<DataInfoSaveActorProvider>();
 
             _hubGroup = new PlayHubGroup();
 
             RegisterReceive();
+
+            // Scheduler - save datas.
+            Observable
+                .Interval(TimeSpan.FromSeconds(3))    // 33FPS
+                .Subscribe(count =>
+                {
+                    Tell("save_datas");
+                });
         }
 
         /// <summary>
@@ -72,6 +89,17 @@ namespace Server_Control.Hubs.Play
         /// </summary>
         private void RegisterReceive()
         {
+            // msg.
+            Receive<string>(msg =>
+            {
+                switch (msg)
+                {
+                    case "save_datas":
+                        SaveDatas();
+                        break;
+                }
+            });
+
             // Hubmsg.
             Receive<HubMsg_Enter>(msg => DispatchHubMsg(msg));
             Receive<HubMsg_EnterZone>(msg => DispatchHubMsg(msg));
@@ -133,7 +161,7 @@ namespace Server_Control.Hubs.Play
                     await EnterAsync(tuple.dataSet, tuple.msg as HubMsg_Enter);
                     break;
                 case HubMsg_Leave:
-                    Leave(tuple.dataSet, tuple.msg as HubMsg_Leave);
+                    //Leave(tuple.dataSet, tuple.msg as HubMsg_Leave);
                     break;
                 case HubMsg_EnterZone:
                     EnterZone(tuple.dataSet, tuple.msg as HubMsg_EnterZone);

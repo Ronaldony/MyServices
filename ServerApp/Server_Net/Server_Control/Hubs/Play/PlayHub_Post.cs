@@ -2,9 +2,12 @@
 
 namespace Server_Control.Hubs.Play
 {
+    using Framework.Core.Database.DataObjects;
+    using Framework.Core.Database.Interfaces;
     using Framework.Core.Hubs;
     using GameCore;
     using GameCore.HubPacket;
+    using Microsoft.Extensions.DependencyInjection;
     using Server_Control.Hubs.Msg;
     using Server_Control.Hubs.Play.Datas;
 
@@ -22,10 +25,18 @@ namespace Server_Control.Hubs.Play
         {
             var pid = dataSet.Pid;
 
-            // PostInfo 로드.
+            // PostInfo가 없는 경우 추가.
             if (dataSet.PostInfo == null)
             {
-                dataSet.PostInfo = await _dbPostInfo.SelectAsync(pid);
+                // PlayInfo.
+                var postInfoObject = _serviceProvider.GetRequiredService<PostInfoObject>();
+                await postInfoObject.LoadDataAsync(pid);
+
+                var dataObjects = new List<IDataObject>();
+                dataObjects.Add(postInfoObject);
+
+                dataSet.PostInfo = postInfoObject.PostInfo;
+                _hubGroup.DataObjectDict.AddOrUpdate(pid, dataObjects, (old, key) => dataObjects);
             }
 
             var postInfo = dataSet.PostInfo;
@@ -42,7 +53,6 @@ namespace Server_Control.Hubs.Play
                 postInfo.Posts.Add(post.PostUid, post);
 
                 // 우편물 추가.
-                _logger.LogDebug($"PushPost. uid: {post.PostUid}");
             }
 
             _logger.LogDebug($"PushPost. Zone: {dataSet.ZoneId}");
@@ -68,12 +78,6 @@ namespace Server_Control.Hubs.Play
             // PostInfo 로드.
             if (dataSet.PostInfo == null)
             {
-                // 수령 실패. PostInfo가 없는 경우 비정상적인 상황. (PlayDomain 접속 시 무조건 로드되기 때문)
-                SendPacket<HubPacketSC_ClaimPostFail>(pid, HubPacketCode.SC_ClaimPostFail, new HubPacketSC_ClaimPostFail
-                {
-                    PostUid  = msg.PostUid
-                });
-
                 _logger.LogError($"load PostInfo error. pid: {pid}");
                 return;
             }
@@ -199,6 +203,5 @@ namespace Server_Control.Hubs.Play
                 IsDeleted = true
             });
         }
-
     }
 }

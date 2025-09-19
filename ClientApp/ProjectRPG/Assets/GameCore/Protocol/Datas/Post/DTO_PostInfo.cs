@@ -20,6 +20,8 @@ namespace GameCore.Datas.Player
 
         /// <summary>
         /// 우편물.
+        /// key: PostUid.
+        /// value: DTO_Post
         /// </summary>
         [MemoryPackOrder(0)]
         public Dictionary<string, DTO_Post> Posts { get; set; }

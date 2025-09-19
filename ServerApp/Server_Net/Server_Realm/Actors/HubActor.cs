@@ -59,8 +59,8 @@ namespace Server_Realm.Actors
             });
 
             // Publish.
-            ReceiveAsync<ControlMsg_ClaimPostFail>(async msg => await PublishMsg<ControlMsg_ClaimPostFail>(msg, Type_ControlMsg.ClaimPostFail));
-            ReceiveAsync<ControlMsg_ClaimPostComplete>(async msg => await PublishMsg<ControlMsg_ClaimPostComplete>(msg, Type_ControlMsg.ClaimPostComplete));
+            ReceiveAsync<ControlMsg_ClaimPostFail>(async msg => await PublishMsgAsync<ControlMsg_ClaimPostFail>(msg, Type_ControlMsg.ClaimPostFail));
+            ReceiveAsync<ControlMsg_ClaimPostComplete>(async msg => await PublishMsgAsync<ControlMsg_ClaimPostComplete>(msg, Type_ControlMsg.ClaimPostComplete));
 
             // Initialize.
             _hubActorProvider.Tell("initialize");
@@ -110,7 +110,7 @@ namespace Server_Realm.Actors
         /// </summary>
         public static Props Props(IServiceProvider serviceProvider)
         {
-            return Akka.Actor.Props.Create(() => new DataInfoSaveActor(serviceProvider));
+            return Akka.Actor.Props.Create(() => new HubActor(serviceProvider));
         }
 
         /// <summary>
@@ -131,6 +131,8 @@ namespace Server_Realm.Actors
                         Post = claimPost.Post,
                         TryCount = claimPost.TryCount,
                     });
+
+                    _logger.LogDebug($"Claim post");
                     break;
             }
         }
@@ -138,7 +140,7 @@ namespace Server_Realm.Actors
         /// <summary>
         /// Publish msg.
         /// </summary>
-        private async Task PublishMsg<T>(T msg, Type_ControlMsg msgType) where T: class
+        private async Task PublishMsgAsync<T>(T msg, Type_ControlMsg msgType) where T: class
         {
             var msgData = _dataSerializer.Serialize(msg);
 

@@ -4,6 +4,7 @@
     using GameCore;
     using GameCore.GamePacket;
     using GameCore.HubPacket;
+    using Microsoft.Extensions.Logging;
     using Server_Realm.Worlds.Msg;
 
     /// <summary>
@@ -16,7 +17,7 @@
         /// </summary>
         private void ClaimPost(WorldMsg_ClaimPost worldMsg)
         {
-            // 월드에 플레이어 추가.
+            // 플레이어가 Zone에 존재하는지 확인.
             if (false == _worldGroup.PlayerUnitDict.TryGetValue(worldMsg.Pid, out var pu))
             {
                 // 다른 존으로 이동했거나, 게임 종료된 플레이어.

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ServerEngine.Config.Database;
 using ServerEngine.Config.Strapi;
 using ServerEngine.Core.Services.Interfaces;
+using ServerEngine.Database.Interfaces;
 using ServerEngine.MessageBus.RabbitMQs;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -20,7 +21,6 @@ namespace Server_Control
     using GameCore.Interfaces;
     using Server_Control.Core.Services;
     using Server_Control.Server.Hub;
-    using ServerEngine.Database.Interfaces;
 
     internal class StartupServer
     {

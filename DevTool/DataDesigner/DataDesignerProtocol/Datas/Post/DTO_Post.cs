@@ -1,6 +1,7 @@
 ﻿using MemoryPack;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System;
 
 namespace GameCore.Datas.Post
 {

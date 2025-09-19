@@ -8,7 +8,6 @@ namespace Server_Control.Actors
 {
     using Framework.Config.ConfigManager;
     using Framework.Config.MessageBus;
-    using Framework.Core.Database.Actors;
     using Framework.Core.Hubs;
     using Framework.Core.Types;
     using Server_Control.Hubs;
@@ -49,6 +48,7 @@ namespace Server_Control.Actors
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             _hubActorProvider = serviceProvider.GetRequiredService<HubActorProvider>();
+            _playHubProvider = serviceProvider.GetRequiredService<PlayHubProvider>();
 
             _channelDict = new Dictionary<string, RBMQChannel>();
 
@@ -66,7 +66,7 @@ namespace Server_Control.Actors
             });
 
             // Claim post.
-            ReceiveAsync<ControlMsg_ClaimPost>(async msg => await PublishMsgAsync<ControlMsg_ClaimPost>(msg.ZoneId, msg));
+            ReceiveAsync<ControlMsg_ClaimPost>(async msg => await PublishMsgAsync<ControlMsg_ClaimPost>(msg.ZoneId, msg, Type_ControlMsg.ClaimPost));
 
             // Initialize.
             _hubActorProvider.Tell("initialize");
@@ -77,7 +77,7 @@ namespace Server_Control.Actors
         /// </summary>
         public static Props Props(IServiceProvider serviceProvider)
         {
-            return Akka.Actor.Props.Create(() => new DataInfoSaveActor(serviceProvider));
+            return Akka.Actor.Props.Create(() => new HubActor(serviceProvider));
         }
 
         /// <summary>
@@ -162,15 +162,23 @@ namespace Server_Control.Actors
         /// <summary>
         /// Publish msg.
         /// </summary>
-        private async Task PublishMsgAsync<T>(string queue, T msg) where T : class
+        private async Task PublishMsgAsync<T>(string queue, T msg, Type_ControlMsg msgType) where T : class
         {
             if (false == _channelDict.ContainsKey(queue))
             {
                 return;
             }
 
+            // Msg.
             var channel = _channelDict[queue];
-            await channel.PublishAsync(_playHubData.Router, _playHubData.Queue, msg);
+            var publishMsg = _dataSerializer.Serialize(msg);
+
+            await channel.PublishAsync(_playHubData.Router, queue,
+                new ControlMsg
+                {
+                    MsgType = msgType,
+                    Data = publishMsg
+                });
         }
     }
 }
