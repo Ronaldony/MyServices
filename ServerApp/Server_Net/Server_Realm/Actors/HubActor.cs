@@ -58,7 +58,9 @@ namespace Server_Realm.Actors
                 }
             });
 
-            ReceiveAsync<PlayHubMsg_FailClaimPost>(async msg => await FailClaimPost(msg));
+            // Publish.
+            ReceiveAsync<ControlMsg_ClaimPostFail>(async msg => await PublishMsg<ControlMsg_ClaimPostFail>(msg, Type_ControlMsg.ClaimPostFail));
+            ReceiveAsync<ControlMsg_ClaimPostComplete>(async msg => await PublishMsg<ControlMsg_ClaimPostComplete>(msg, Type_ControlMsg.ClaimPostComplete));
 
             // Initialize.
             _hubActorProvider.Tell("initialize");
@@ -98,7 +100,7 @@ namespace Server_Realm.Actors
             var huntZoneQueue = await _huntZoneChannel.CreateQueueAsync(Global.HuntZoneId);
 
             await _huntZoneChannel.BindQueueAsync(huntZoneQueue, _playHubData.Router, huntZoneQueue);
-            await _huntZoneChannel.RegisterConsumerAsync(huntZoneQueue, ConsumePlayHubMsg);
+            await _huntZoneChannel.RegisterConsumerAsync(huntZoneQueue, ConsumeControlMsg);
 
             await AddQueueToHubAsync(huntZoneQueue);
         }
@@ -112,37 +114,38 @@ namespace Server_Realm.Actors
         }
 
         /// <summary>
-        /// Consume play hub.
+        /// Consume contorl message.
         /// </summary>
-        private void ConsumePlayHubMsg(byte[] bytes)
+        private void ConsumeControlMsg(byte[] bytes)
         {
-            var msg = _dataSerializer.Deserialize<PlayHubMsg>(bytes);
+            var msg = _dataSerializer.Deserialize<ControlMsg>(bytes);
 
             switch (msg.MsgType)
             {
-                case Type_PlayHubMsg.ClaimPost:
-                    var claimPost = _dataSerializer.Deserialize<PlayHubMsg_ClaimPost>(msg.Data);
+                case Type_ControlMsg.ClaimPost:
+                    var claimPost = _dataSerializer.Deserialize<ControlMsg_ClaimPost>(msg.Data);
 
                     _huntZoneProcessorProvider.Tell<WorldMsg_ClaimPost>(new WorldMsg_ClaimPost
                     {
                         Pid = claimPost.Pid,
-                        Post = claimPost.Post
+                        Post = claimPost.Post,
+                        TryCount = claimPost.TryCount,
                     });
                     break;
             }
         }
 
         /// <summary>
-        /// 우편물 수령 실패.
+        /// Publish msg.
         /// </summary>
-        private async Task FailClaimPost(PlayHubMsg_FailClaimPost msg)
+        private async Task PublishMsg<T>(T msg, Type_ControlMsg msgType) where T: class
         {
             var msgData = _dataSerializer.Serialize(msg);
 
             await _playhubChannel.PublishAsync(_playHubData.Router, _playHubData.Queue,
-                new PlayHubMsg
+                new ControlMsg
                 {
-                    MsgType = Type_PlayHubMsg.FailClaimPost,
+                    MsgType = msgType,
                     Data = msgData
                 });
         }
@@ -152,16 +155,16 @@ namespace Server_Realm.Actors
         /// </summary>
         private async Task AddQueueToHubAsync(string queue)
         {
-            var addQueueMsg = new PlayHubMsg_AddQueue
+            var addQueueMsg = new ControlMsg_AddQueue
             {
                 Queue = queue
             };
             var msgData = _dataSerializer.Serialize(addQueueMsg);
 
             await _playhubChannel.PublishAsync(_playHubData.Router, _playHubData.Queue, 
-                new PlayHubMsg
+                new ControlMsg
                 {
-                    MsgType = Type_PlayHubMsg.AddQueue,
+                    MsgType = Type_ControlMsg.AddQueue,
                     Data = msgData
                 });
         }

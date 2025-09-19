@@ -4,15 +4,14 @@ using System.Runtime.InteropServices;
 
 namespace Framework.Core.Hubs
 {
-    using GameCore.Datas.Post;
-
     /// <summary>
-    /// PlayHubMsg_ClaimPost.
+    /// ControlMsg_ClaimPostComplete.
+    /// Realm -> Control.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class PlayHubMsg_ClaimPost
+    public partial class ControlMsg_ClaimPostComplete
     {
-        public PlayHubMsg_ClaimPost()
+        public ControlMsg_ClaimPostComplete()
         {
 
         }
@@ -24,15 +23,9 @@ namespace Framework.Core.Hubs
         public string Pid { get; set; }
 
         /// <summary>
-        /// Zone id.
+        /// Post uid.
         /// </summary>
         [MemoryPackOrder(1)]
-        public string ZoneId { get; set; }
-
-        /// <summary>
-        /// Post.
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public DTO_Post Post { get; set; }
+        public string PostUid { get; set; }
     }
 }

@@ -5,12 +5,13 @@ using System.Runtime.InteropServices;
 namespace Framework.Core.Hubs
 {
     /// <summary>
-    /// PlayHubMsg_FailClaimPost.
+    /// ControlMsg_ClaimPostFail.
+    /// Realm -> Control.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class PlayHubMsg_FailClaimPost
+    public partial class ControlMsg_ClaimPostFail
     {
-        public PlayHubMsg_FailClaimPost()
+        public ControlMsg_ClaimPostFail()
         {
 
         }
@@ -26,5 +27,11 @@ namespace Framework.Core.Hubs
         /// </summary>
         [MemoryPackOrder(1)]
         public string PostUid { get; set; }
+
+        /// <summary>
+        /// Fail count.
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public int FailCount { get; set; }
     }
 }

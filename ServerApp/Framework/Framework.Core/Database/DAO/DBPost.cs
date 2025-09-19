@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Framework.Core.Database.DAO
 {
+    using Akka.Dispatch.SysMsg;
     using Framework.Config.ConfigManager;
     using Framework.Core.Database.DBO;
     using Framework.Core.Types;
@@ -138,7 +139,28 @@ namespace Framework.Core.Database.DAO
         }
 
         /// <summary>
-        /// Select .
+        /// Select.
+        /// </summary>
+        public async Task<IEnumerable<DBO_Post>> SelectPostsAsync(IEnumerable<string> postUids)
+        {
+            const string SQL = "SELECT * FROM TBL_Post WHERE post_uid IN @PostUids";
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                return await connection.QueryAsync<DBO_Post>(
+                    sql: SQL,
+                    param: new
+                    {
+                        PostUids = postUids
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Select.
         /// </summary>
         public async Task<IEnumerable<DBO_Post>> SelectPostsAsync(Type_PostStep step)
         {
@@ -188,11 +210,11 @@ namespace Framework.Core.Database.DAO
         }
 
         /// <summary>
-        /// Delete posts.
+        /// Delete post.
         /// </summary>
-        public async Task<bool> DeletesAsync(List<string> postUids)
+        public async Task<bool> DeleteAsync(string postUid)
         {
-            const string SQL = "DELETE FROM TBL_Post WHERE post_uid in @PostUids";
+            const string SQL = "DELETE FROM TBL_Post WHERE post_uid = @PostUid";
 
             using (var connection = new MySqlConnection(_connectString))
             {
@@ -200,7 +222,7 @@ namespace Framework.Core.Database.DAO
                     sql: SQL,
                     param: new
                     {
-                        PostUids = postUids
+                        PostUid = postUid
                     },
                     commandTimeout: 10,
                     commandType: CommandType.Text

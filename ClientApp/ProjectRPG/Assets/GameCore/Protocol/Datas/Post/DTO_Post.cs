@@ -24,10 +24,10 @@ namespace GameCore.Datas.Post
         public string PostUid { get; set; }
 
         /// <summary>
-        /// 수령 여부.
+        /// 우편물 상태.
         /// </summary>
         [MemoryPackOrder(1)]
-        public bool IsClaimed { get; set; }
+        public Type_PostStatus Status { get; set; }
 
         /// <summary>
         /// Text.

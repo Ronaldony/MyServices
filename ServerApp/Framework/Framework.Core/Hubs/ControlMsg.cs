@@ -7,16 +7,16 @@ namespace Framework.Core.Hubs
     using Framework.Core.Types;
 
     /// <summary>
-    /// PlayHubMsg.
+    /// ControlMsg.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class PlayHubMsg
+    public partial class ControlMsg
     {
         /// <summary>
-        /// Type_PlayHubMsg.
+        /// Type_ControlMsg.
         /// </summary>
         [MemoryPackOrder(0)]
-        public Type_PlayHubMsg MsgType { get; set; }
+        public Type_ControlMsg MsgType { get; set; }
 
         /// <summary>
         /// Msg.

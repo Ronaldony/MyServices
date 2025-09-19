@@ -15,7 +15,8 @@
         // Post.
         PushPost = 100,
         ClaimPost = 101,
-        FailClaimPost = 102,
-        DeletePost = 103,
+        ClaimPostFail = 102,
+        ClaimPostComplete = 103,
+        DeletePost = 104,
     }
 }

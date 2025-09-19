@@ -1,6 +1,4 @@
-﻿using ServerEngine.Core.Util;
-
-namespace Server_Realm.Context.AI
+﻿namespace Server_Realm.Context.AI
 {
     using GameCore;
     using Server_Realm.Context.AI.Actions;

@@ -4,12 +4,12 @@ namespace Server_Control.Hubs.Msg
     using Server_Control.Core.Types;
 
     /// <summary>
-    /// HubMsg_FailClaimPost.
+    /// HubMsg_ClaimPostComplete.
     /// </summary>
-    public class HubMsg_FailClaimPost : HubMsgBase
+    public class HubMsg_ClaimPostComplete : HubMsgBase
     {
-        public HubMsg_FailClaimPost()
-            : base(Type_HubMsg.FailClaimPost)
+        public HubMsg_ClaimPostComplete()
+            : base(Type_HubMsg.ClaimPostComplete)
         {
         }
 

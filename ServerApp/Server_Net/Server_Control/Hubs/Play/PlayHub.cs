@@ -26,6 +26,7 @@ namespace Server_Control.Hubs.Play
 
         // DB object.
         private readonly DBPostInfo _dbPostInfo;
+        private readonly DBPost _dbPost;
 
         // Server.
         private readonly HubServer _hubServer;
@@ -44,6 +45,7 @@ namespace Server_Control.Hubs.Play
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             _dbPostInfo = serviceProvider.GetRequiredService<DBPostInfo>();
+            _dbPost = serviceProvider.GetRequiredService<DBPost>();
 
             // Servers.
             _hubServer = serviceProvider.GetRequiredService<HubServer>();
@@ -76,8 +78,9 @@ namespace Server_Control.Hubs.Play
             Receive<HubMsg_Leave>(msg => DispatchHubMsg(msg));
             Receive<HubMsg_PushPost>(msg => DispatchHubMsg(msg));
             Receive<HubMsg_ClaimPost>(msg => DispatchHubMsg(msg));
+            Receive<HubMsg_ClaimPostComplete>(msg => DispatchHubMsg(msg));
+            Receive<HubMsg_ClaimPostFail>(msg => DispatchHubMsg(msg));
             Receive<HubMsg_DeletePost>(msg => DispatchHubMsg(msg));
-            Receive<HubMsg_FailClaimPost>(msg => DispatchHubMsg(msg));
         }
 
         /// <summary>
@@ -124,7 +127,6 @@ namespace Server_Control.Hubs.Play
         /// </summary>
         private async Task ProcessAsync((PlayHubDataSet dataSet, HubMsgBase msg) tuple)
         {
-
             switch (tuple.msg)
             {
                 case HubMsg_Enter:
@@ -140,13 +142,16 @@ namespace Server_Control.Hubs.Play
                     await PushPostAsync(tuple.dataSet, tuple.msg as HubMsg_PushPost);
                     break;
                 case HubMsg_ClaimPost:
-                    ClaimPost(tuple.dataSet, tuple.msg as HubMsg_ClaimPost);
+                    await ClaimPostAsync(tuple.dataSet, tuple.msg as HubMsg_ClaimPost);
+                    break;
+                case HubMsg_ClaimPostFail:
+                    ClaimPostFail(tuple.dataSet, tuple.msg as HubMsg_ClaimPostFail);
+                    break;
+                case HubMsg_ClaimPostComplete:
+                    ClaimPostComplete(tuple.dataSet, tuple.msg as HubMsg_ClaimPostComplete);
                     break;
                 case HubMsg_DeletePost:
                     DeletePost(tuple.dataSet, tuple.msg as HubMsg_DeletePost);
-                    break;
-                case HubMsg_FailClaimPost:
-                    FailClaimPost(tuple.dataSet, tuple.msg as HubMsg_FailClaimPost);
                     break;
             }
         }

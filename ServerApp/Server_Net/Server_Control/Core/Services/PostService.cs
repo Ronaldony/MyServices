@@ -9,7 +9,6 @@ namespace Server_Control.Core.Services
 {
     using Framework.Core.Database.DAO;
     using Framework.Core.Types;
-    using Framework.Core.Utilities;
     using GameCore.Datas.Items;
     using GameCore.Datas.Post;
     using Server_Control.Hubs;
@@ -89,7 +88,7 @@ namespace Server_Control.Core.Services
                 }
 
                 // Post 상태 갱신.
-                await _dbPost.UpdatePostStatusAsync(dboPosts.Select(d => d.Uid), Type_PostStep.Progress);
+                await _dbPost.UpdatePostStatusAsync(dboPosts.Select(d => d.Uid), Type_PostStep.Process);
 
                 // PlayHub에 새로운 우편물 전달.
                 _playHubProvider.Tell(pushPost);

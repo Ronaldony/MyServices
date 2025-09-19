@@ -18,8 +18,8 @@
         public const int SC_PushPost = 102;
         public const int CS_ClaimPost = 103;
         public const int SC_ClaimPost = 104;
-        public const int CS_FailClaimPost = 1053;
-        public const int SC_FailClaimPost = 106;
+        public const int CS_ClaimPostFail = 105;
+        public const int SC_ClaimPostFail = 106;
         public const int CS_DeletePost = 107;
         public const int SC_DeletePost = 108;
     }

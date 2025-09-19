@@ -22,7 +22,11 @@
                 // 루팅 실패.
                 var packetRootItem = _memoryPoolService.Rent<GamePacketSC_RootItem>();
                 packetRootItem.IsFailed = true;
+
                 SendPacket(pu.Pid, GamePacketCode.SC_RootItem, packetRootItem);
+
+                // release.
+                _memoryPoolService.Release(packetRootItem);
 
                 return;
             }

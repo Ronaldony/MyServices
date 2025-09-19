@@ -5,15 +5,17 @@ namespace Server_Control.Hubs.Play
     using Framework.Core.Hubs;
     using GameCore;
     using GameCore.HubPacket;
-    using PowerArgs;
     using Server_Control.Hubs.Msg;
     using Server_Control.Hubs.Play.Datas;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// PlayHub.
     /// </summary>
     public partial class PlayHub
     {
+        public const int PostMaxTryCount = 3;
+
         /// <summary>
         /// 우편물 푸시.
         /// </summary>
@@ -59,7 +61,7 @@ namespace Server_Control.Hubs.Play
         /// <summary>
         /// 우편물 수령.
         /// </summary>
-        private void ClaimPost(PlayHubDataSet dataSet, HubMsg_ClaimPost msg)
+        private async Task ClaimPostAsync(PlayHubDataSet dataSet, HubMsg_ClaimPost msg)
         {
             var pid = dataSet.Pid;
 
@@ -67,9 +69,9 @@ namespace Server_Control.Hubs.Play
             if (dataSet.PostInfo == null)
             {
                 // 수령 실패. PostInfo가 없는 경우 비정상적인 상황. (PlayDomain 접속 시 무조건 로드되기 때문)
-                SendPacket<HubPacketSC_ClaimPost>(pid, HubPacketCode.SC_ClaimPost, new HubPacketSC_ClaimPost
+                SendPacket<HubPacketSC_ClaimPostFail>(pid, HubPacketCode.SC_ClaimPostFail, new HubPacketSC_ClaimPostFail
                 {
-                    IsClaimed = false
+                    PostUid  = msg.PostUid
                 });
 
                 _logger.LogError($"load PostInfo error. pid: {pid}");
@@ -83,40 +85,86 @@ namespace Server_Control.Hubs.Play
             // 우편물 검사.
             if (false == postInfo.Posts.ContainsKey(postUid))
             {
-                // 수령 실패
-                SendPacket<HubPacketSC_ClaimPost>(pid, HubPacketCode.SC_ClaimPost, new HubPacketSC_ClaimPost
+                // 수령 실패. PostInfo가 없는 경우 비정상적인 상황. (PlayDomain 접속 시 무조건 로드되기 때문)
+                SendPacket<HubPacketSC_ClaimPostFail>(pid, HubPacketCode.SC_ClaimPostFail, new HubPacketSC_ClaimPostFail
                 {
-                    IsClaimed = false
+                    PostUid = msg.PostUid
                 });
 
                 _logger.LogError($"not exist post. uid: {postUid}");
                 return;
             }
 
-            // 수령 여부 확인.
-            if (postInfo.Posts[postUid].IsClaimed)
+            var post = postInfo.Posts[postUid];
+
+            // 이미 수령하였는지 확인.
+            if (post.Status == Type_PostStatus.Complete)
             {
                 _logger.LogError($"already claim post. uid: {postUid}");
                 return;
             }
 
-            // 우편물 수령.
-            postInfo.Posts[postUid].IsClaimed = true;
-
-            // 수령 확인.
-            SendPacket<HubPacketSC_ClaimPost>(pid, HubPacketCode.SC_ClaimPost, new HubPacketSC_ClaimPost
-            {
-                IsClaimed = true,
-                PostUid = postUid
-            });
+            // 수령 진행.
+            post.Status = Type_PostStatus.Process;
 
             // Zone에 아이템 수령 전송.
-            _hubActorProvider.Tell<PlayHubMsg_ClaimPost>(new PlayHubMsg_ClaimPost
+            _hubActorProvider.Tell<ControlMsg_ClaimPost>(new ControlMsg_ClaimPost
             {
                 Pid = pid,
-                Post = postInfo.Posts[postUid],
-                ZoneId = dataSet.ZoneId
+                Post = post,
+                ZoneId = dataSet.ZoneId,
+                TryCount = 1
             });
+
+            // Post 삭제.
+            await _dbPost.DeleteAsync(post.PostUid);
+        }
+
+        /// <summary>
+        /// Fail to retrieve post.
+        /// </summary>
+        private void ClaimPostFail(PlayHubDataSet dataSet, HubMsg_ClaimPostFail msg)
+        {
+            var pid = dataSet.Pid;
+            var postInfo = dataSet.PostInfo;
+            var post = postInfo.Posts[msg.PostUid];
+
+            // 수령 시도 횟수 검사.
+            if (msg.FailCount >= PostMaxTryCount)
+            {
+                // 수령 실패. 우편물 수령 시도가 너무 많은 경우.
+                SendPacket<HubPacketSC_ClaimPostFail>(pid, HubPacketCode.SC_ClaimPostFail, new HubPacketSC_ClaimPostFail
+                {
+                    PostUid = msg.PostUid
+                });
+
+                _logger.LogError($"many try claim post eror. pid: {pid} post uid: {msg.PostUid}");
+                return;
+            }
+
+            // Fail 횟수 증가.
+            ++msg.FailCount;
+
+            // Zone에 아이템 수령 전송.
+            _hubActorProvider.Tell<ControlMsg_ClaimPost>(new ControlMsg_ClaimPost
+            {
+                Pid = pid,
+                Post = post,
+                ZoneId = dataSet.ZoneId,
+                TryCount = msg.FailCount
+            });
+        }
+
+        /// <summary>
+        /// Complete to retrieve post.
+        /// </summary>
+        private void ClaimPostComplete(PlayHubDataSet dataSet, HubMsg_ClaimPostComplete msg)
+        {
+            var postInfo = dataSet.PostInfo;
+            var post = postInfo.Posts[msg.PostUid];
+
+            // 수령 완료.
+            post.Status = Type_PostStatus.Complete;
         }
 
         /// <summary>
@@ -152,35 +200,5 @@ namespace Server_Control.Hubs.Play
             });
         }
 
-        /// <summary>
-        /// Fail to retrieve post.
-        /// </summary>
-        private void FailClaimPost(PlayHubDataSet dataSet, HubMsg_FailClaimPost msg)
-        {
-            var pid = dataSet.Pid;
-            var postInfo = dataSet.PostInfo;
-
-            // 우편물 검사.
-            if (false == postInfo.Posts.ContainsKey(msg.PostUid))
-            {
-                // 수령 실패
-                SendPacket<HubPacketSC_ClaimPost>(pid, HubPacketCode.SC_ClaimPost, new HubPacketSC_ClaimPost
-                {
-                    IsClaimed = false
-                });
-
-                _logger.LogError($"not exist post. uid: {msg.PostUid}");
-                return;
-            }
-
-            // 우편물 미수령.
-            postInfo.Posts[msg.PostUid].IsClaimed = false;
-
-            // 수령 확인.
-            SendPacket<HubPacketSC_FailClaimPost>(pid, HubPacketCode.SC_FailClaimPost, new HubPacketSC_FailClaimPost
-            {
-                Post = postInfo.Posts[msg.PostUid]
-            });
-        }
     }
 }

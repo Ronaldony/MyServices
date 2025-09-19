@@ -24,5 +24,10 @@ namespace Server_Realm.Worlds.Msg
         /// Post.
         /// </summary>
         public DTO_Post Post { get; set; }
+
+        /// <summary>
+        /// 우편물 수령 시도 횟수.
+        /// </summary>
+        public int TryCount { get; set; }
     }
 }

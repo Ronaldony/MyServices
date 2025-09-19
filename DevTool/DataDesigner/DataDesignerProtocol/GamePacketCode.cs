@@ -66,6 +66,10 @@
         public const int CS_SwitchEquipment = 502;              // 장비 교체.
         public const int SC_SwitchEquipment = 503;              // 장비 교체.
 
+        // 우편
+        public const int CS_ClaimPost = 601;                    // 우편물 수령.
+        public const int SC_ClaimPost = 602;                    // 우편물 수령.
+
         // 더미.
         public const int CS_DummyMove = 1000;                  // 더미 이동.
         public const int SC_DummyMove = 1001;                  // 더미 이동.

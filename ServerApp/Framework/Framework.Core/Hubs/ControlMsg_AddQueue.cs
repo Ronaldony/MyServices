@@ -4,12 +4,13 @@ using System.Runtime.InteropServices;
 namespace Framework.Core.Hubs
 {
     /// <summary>
-    /// PlayHubMsg_AddQueue.
+    /// ControlMsg_AddQueue.
+    /// Realm -> Control.
     /// </summary>
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
-    public partial class PlayHubMsg_AddQueue
+    public partial class ControlMsg_AddQueue
     {
-        public PlayHubMsg_AddQueue()
+        public ControlMsg_AddQueue()
         {
 
         }

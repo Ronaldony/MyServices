@@ -66,7 +66,7 @@ namespace Server_Control.Actors
             });
 
             // Claim post.
-            ReceiveAsync<PlayHubMsg_ClaimPost>(msg => PublishMsg<PlayHubMsg_ClaimPost>(msg.ZoneId, msg));
+            ReceiveAsync<ControlMsg_ClaimPost>(msg => PublishMsg<ControlMsg_ClaimPost>(msg.ZoneId, msg));
 
             // Initialize.
             _hubActorProvider.Tell("initialize");
@@ -114,24 +114,35 @@ namespace Server_Control.Actors
         /// </summary>
         private async Task ConsumePlayHubMsgAsync(byte[] bytes)
         {
-            var msg = _dataSerializer.Deserialize<PlayHubMsg>(bytes);
+            var msg = _dataSerializer.Deserialize<ControlMsg>(bytes);
 
             switch (msg.MsgType)
             {
-                case Type_PlayHubMsg.AddQueue:
-                    var addQueue = _dataSerializer.Deserialize<PlayHubMsg_AddQueue>(msg.Data);
+                case Type_ControlMsg.AddQueue:
+                    var addQueue = _dataSerializer.Deserialize<ControlMsg_AddQueue>(msg.Data);
 
                     // Add queue.
                     await AddChannelAsync(addQueue.Queue);
                     break;
-                case Type_PlayHubMsg.FailClaimPost:     
-                    var failClaimPost = _dataSerializer.Deserialize<PlayHubMsg_FailClaimPost>(msg.Data);
+                case Type_ControlMsg.ClaimPostFail:     
+                    var failClaimPost = _dataSerializer.Deserialize<ControlMsg_ClaimPostFail>(msg.Data);
 
                     // 우편물 수령 실패.
-                    _playHubProvider.Tell<HubMsg_FailClaimPost>(new HubMsg_FailClaimPost
+                    _playHubProvider.Tell<HubMsg_ClaimPostFail>(new HubMsg_ClaimPostFail
                     {
                         PostUid = failClaimPost.PostUid,
-                        TargetPid = failClaimPost.Pid
+                        TargetPid = failClaimPost.Pid,
+                        FailCount = failClaimPost.FailCount,
+                    });
+                    break;
+                case Type_ControlMsg.ClaimPostComplete:
+                    var completeClaimPost = _dataSerializer.Deserialize<ControlMsg_ClaimPostComplete>(msg.Data);
+
+                    // 우편물 수령 완료.
+                    _playHubProvider.Tell<HubMsg_ClaimPostComplete>(new HubMsg_ClaimPostComplete
+                    {
+                        PostUid = completeClaimPost.PostUid,
+                        TargetPid = completeClaimPost.Pid,
                     });
                     break;
             }
