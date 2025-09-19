@@ -9,10 +9,10 @@ namespace HubPackets
     /// <summary>
     /// UdpHandler_FailClaimPost.
     /// </summary>
-    public class UdpHandler_FailClaimPost : HubPacketHandler
+    public class UdpHandler_ClaimPostFail : HubPacketHandler
     {
-        public UdpHandler_FailClaimPost()
-            : base(HubPacketCode.SC_FailClaimPost)
+        public UdpHandler_ClaimPostFail()
+            : base(HubPacketCode.SC_ClaimPostFail)
         {
         }
 
@@ -21,13 +21,12 @@ namespace HubPackets
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            var packetFailClaimPost = MemoryPackDataSerializer.Deserialize<HubPacketSC_FailClaimPost>(packet.Data);
-            var postInfo = PlayerDataManager.Instance.PostInfo;
+            var packetFailClaimPost = MemoryPackDataSerializer.Deserialize<HubPacketSC_ClaimPostFail>(packet.Data);
 
             // Add update pakcet.
             PostBox.Instance.AddUpdatePacket(new UpdateHubPacket
             {
-                PacketCode = HubPacketCode.SC_FailClaimPost,
+                PacketCode = HubPacketCode.SC_ClaimPostFail,
                 Data = packetFailClaimPost,
             });
         }

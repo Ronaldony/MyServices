@@ -67,16 +67,16 @@ public class PostBox : Singleton<PostBox>
                         }
                     }
                     break;
-                case HubPacketCode.SC_ClaimPost:
+                case HubPacketCode.SC_ClaimPostFail:
                     {
-                        var packet = updatePacket.Data as HubPacketSC_ClaimPost;
-                        ClaimPost(packet.PostUid);
+                        var packet = updatePacket.Data as HubPacketSC_ClaimPostFail;
+                        Debug.LogError($"Fail claim post");
                     }
                     break;
-                case HubPacketCode.SC_FailClaimPost:
+                case GamePacketCode.SC_ClaimPost:
                     {
-                        var packet = updatePacket.Data as HubPacketSC_FailClaimPost;
-                        Debug.LogError($"Fail claim post");
+                        var packet = updatePacket.Data as GamePacketSC_ClaimPost;
+                        ClaimPost(packet.PostUid);
                     }
                     break;
             }

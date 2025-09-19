@@ -21,7 +21,7 @@ public class Post : MonoBehaviour
         _postText.text = _post.Text;
 
         // Already claimed.
-        if (post.IsClaimed)
+        if (post.Status == Type_PostStatus.Complete)
         {
             DisableClaimButton();
         }
@@ -33,7 +33,7 @@ public class Post : MonoBehaviour
     public void OnClaim()
     {
         // 이미 수령하였는지 확인.
-        if (_post.IsClaimed)
+        if (_post.Status == Type_PostStatus.Complete)
         {
             Debug.LogError($"post already claimed. post uid: {_post.PostUid}");
             return;
@@ -52,7 +52,7 @@ public class Post : MonoBehaviour
     public void Claim()
     {
         // Claim items.
-        _post.IsClaimed = true;
+        _post.Status = Type_PostStatus.Complete;
 
         var inventory = Inventory.Instance;
 
@@ -70,8 +70,8 @@ public class Post : MonoBehaviour
     /// </summary>
     public void OnDelete()
     {
-        // 이미 수령하였는지 확인.
-        if (false == _post.IsClaimed)
+        // 수령되지 않은 우편물인지 확인.
+        if (Type_PostStatus.Complete != _post.Status)
         {
             Debug.LogError($"post not claimed. post uid: {_post.PostUid}");
             return;

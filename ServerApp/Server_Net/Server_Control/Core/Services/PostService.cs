@@ -13,6 +13,7 @@ namespace Server_Control.Core.Services
     using GameCore.Datas.Post;
     using Server_Control.Hubs;
     using Server_Control.Hubs.Msg;
+    using ServerEngine.Core.Util;
 
     /// <summary>
     /// PostService.
@@ -84,6 +85,7 @@ namespace Server_Control.Core.Services
                         PostUid = post.Uid,
                         Items = dtoItems,
                         Text = post.Text,
+                        RegTime = TimeUtil.Now
                     });
                 }
 

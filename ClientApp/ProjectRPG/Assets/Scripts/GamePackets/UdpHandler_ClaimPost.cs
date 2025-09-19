@@ -2,6 +2,7 @@
 using Externals.Serializer;
 using GameCore;
 using GameCore.HubPacket;
+using GamePackets;
 using ServerEngine.Network.UDP;
 
 namespace HubPackets
@@ -9,10 +10,10 @@ namespace HubPackets
     /// <summary>
     /// UdpHandler_ClaimPost.
     /// </summary>
-    public class UdpHandler_ClaimPost : HubPacketHandler
+    public class UdpHandler_ClaimPost : GamePacketHandler
     {
         public UdpHandler_ClaimPost()
-            : base(HubPacketCode.SC_ClaimPost)
+            : base(GamePacketCode.SC_ClaimPost)
         {
         }
 
@@ -21,13 +22,12 @@ namespace HubPackets
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            var packetClaimPost = MemoryPackDataSerializer.Deserialize<HubPacketSC_ClaimPost>(packet.Data);
-            var postInfo = PlayerDataManager.Instance.PostInfo;
+            var packetClaimPost = MemoryPackDataSerializer.Deserialize<GamePacketSC_ClaimPost>(packet.Data);
 
             // Add update pakcet.
             PostBox.Instance.AddUpdatePacket(new UpdateHubPacket
             {
-                PacketCode = HubPacketCode.SC_ClaimPost,
+                PacketCode = GamePacketCode.SC_ClaimPost,
                 Data = packetClaimPost,
             });
         }

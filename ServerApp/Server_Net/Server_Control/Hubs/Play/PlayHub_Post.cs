@@ -7,7 +7,6 @@ namespace Server_Control.Hubs.Play
     using GameCore.HubPacket;
     using Server_Control.Hubs.Msg;
     using Server_Control.Hubs.Play.Datas;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// PlayHub.
@@ -40,9 +39,10 @@ namespace Server_Control.Hubs.Play
                     continue;
                 }
 
+                postInfo.Posts.Add(post.PostUid, post);
+
                 // 우편물 추가.
                 _logger.LogDebug($"PushPost. uid: {post.PostUid}");
-                postInfo.Posts.Add(post.PostUid, post);
             }
 
             _logger.LogDebug($"PushPost. Zone: {dataSet.ZoneId}");
