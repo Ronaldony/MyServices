@@ -1,4 +1,5 @@
-﻿using LiteNetLib;
+﻿using Akka.Actor;
+using LiteNetLib;
 using LiteNetLib.Layers;
 using LiteNetLib.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using Akka.Actor;
 
 namespace ServerEngine.Network.UDP
 {
@@ -23,7 +23,6 @@ namespace ServerEngine.Network.UDP
 
         private readonly IServiceProvider _serviceProvider;
         private readonly IMemoryPoolService _memoryPoolService;
-        private readonly IDataSerializer _serializer;
 
         // Network.
         private NetPacketProcessor _packetProcessor;
@@ -43,18 +42,18 @@ namespace ServerEngine.Network.UDP
         private Dictionary<int, (UdpHandler handler, MethodInfo method, object[] args)> _handlerDict;
 
         /// <summary>
+        /// UdpSendActorProvider dictionary.
+        /// key: hash for session id.
+        /// value: UdpSendActorProvider.
+        /// </summary>
+        private Dictionary<int, UdpSendActorProvider> _udpSendActorDict;
+
+        /// <summary>
         /// Session dictonary.
         /// key: session id.
         /// value: UDP Session interface.
         /// </summary>
         private readonly Dictionary<int, UdpSession> _sessionDict;
-
-        /// <summary>
-        /// UdpSendActorProvider dictionary.
-        /// key: hash for session id.
-        /// value: UdpSendActorProvider.
-        /// </summary>
-        private readonly Dictionary<int, UdpSendActorProvider> _udpSendActorDict;
 
         /// <summary>
         /// Session uid.
@@ -72,24 +71,10 @@ namespace ServerEngine.Network.UDP
             _logger = _serviceProvider.GetRequiredService<ILogger<UdpServer>>();
 
             _memoryPoolService = _serviceProvider.GetRequiredService<IMemoryPoolService>();
-            _serializer = _serviceProvider.GetRequiredService<IDataSerializer>();
 
             // Initialize network.
             _packetProcessor = new NetPacketProcessor();
             _listener = new EventBasedNetListener();
-
-            // Encryption layer.
-            var xorEncryptLayer = new XorEncryptLayer("ProjectRPG");
-
-            _netManager = new NetManager(_listener, xorEncryptLayer)
-            {
-                ReuseAddress = false,               // Reuse address.
-                UnsyncedEvents = true,              // Event base network.
-                AutoRecycle = true,                 // Auto NetPacketReader Recycle.
-                SimulateLatency = false,
-                SimulatePacketLoss = false,
-                EnableStatistics = true,
-            };
 
             // Handler.
             _handlerDict = new Dictionary<int, (UdpHandler, MethodInfo, object[])>();
@@ -97,33 +82,6 @@ namespace ServerEngine.Network.UDP
 
             // Black list.
             _whiteList = new List<IPAddress>();
-
-            // Initialize udp actor.
-            _udpSendActorDict = Initialize_UpdSendActor(_serviceProvider, actorSystem, _netManager);
-        }
-
-        /// <summary>
-        /// Initialize udp send actors.
-        /// </summary>
-        private Dictionary<int, UdpSendActorProvider> Initialize_UpdSendActor(IServiceProvider serviceProvider, ActorSystem actorSystem, NetManager netManager)
-        {
-            // 논리 프로세서 개수의 1/4 만큼 액터 색성.
-            var actorCount = Environment.ProcessorCount / 2;
-
-            if (actorCount == 0)
-            {
-                actorCount = 1;
-            }
-
-            // 액터 생성.
-            var actorDict = new Dictionary<int, UdpSendActorProvider>();
-
-            for (var cnt = 0; cnt < actorCount; ++cnt)
-            {
-                actorDict.Add(cnt, new UdpSendActorProvider(actorSystem.ActorOf(UdpSendActor.Props(serviceProvider, netManager))));
-            }
-
-            return actorDict;
         }
 
         /// <summary>
@@ -132,13 +90,33 @@ namespace ServerEngine.Network.UDP
         /// <param name="port">Server port</param>
         /// <param name="allowPeerAddrChange">Allow peer address changable (lte to wifi, wifi to let etc).</param>
         /// <param name="pollingMilliseconds">Polling event time. Default time: 33ms (about 30 fps) </param>
-        public void Start<T>(int port, bool allowPeerAddrChange) where T : UdpHandler
+        public void Start<T>(int port, string encrypt, bool allowPeerAddrChange = false, bool simulateLatency = false, int maxLatencyMs = 0, int minLatancyMs = 0) where T : UdpHandler
         {
 			// Initialize listener.
 			Initialize_Listener();
 
             // Initialize handler.
             Initialize_Handlers<T>();
+
+            // Encryption layer.
+            var xorEncryptLayer = new XorEncryptLayer(encrypt);
+
+            _netManager = new NetManager(_listener, xorEncryptLayer)
+            {
+                ReuseAddress = false,               // Reuse address.
+                UnsyncedEvents = true,              // Event base network.
+                AutoRecycle = true,                 // Auto NetPacketReader Recycle.
+                SimulateLatency = simulateLatency,
+                SimulationMaxLatency = maxLatencyMs,
+                SimulationMinLatency = minLatancyMs,
+                SimulatePacketLoss = false,
+                EnableStatistics = true,
+            };
+
+            // Initialize udp actor.
+            var actorSystem = _serviceProvider.GetRequiredService<ActorSystem>();
+
+            _udpSendActorDict = Initialize_UpdSendActor(_serviceProvider, actorSystem, _netManager);
 
             // Register UDP packet.
             _packetProcessor.SubscribeReusable<UdpPacket, UdpSession>(HandlePacket);
@@ -250,6 +228,19 @@ namespace ServerEngine.Network.UDP
             return true;
 		}
 
+        /// <summary>
+        /// Get RTT ms of peer.
+        /// </summary>
+        public int GetPeerRTT(int sessionId, ulong sessionUid)
+        {
+            if (false == _sessionDict.TryGetValue(sessionId, out var session))
+            {
+                return 0;
+            }
+
+            return session.Peer.RoundTripTime;
+        }
+
 		/// <summary>
 		/// Initialize listener.
 		/// </summary>
@@ -351,11 +342,36 @@ namespace ServerEngine.Network.UDP
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Initialize udp send actors.
+        /// </summary>
+        private Dictionary<int, UdpSendActorProvider> Initialize_UpdSendActor(IServiceProvider serviceProvider, ActorSystem actorSystem, NetManager netManager)
+        {
+            // 논리 프로세서 개수의 1/4 만큼 액터 색성.
+            var actorCount = Environment.ProcessorCount / 2;
+
+            if (actorCount == 0)
+            {
+                actorCount = 1;
+            }
+
+            // 액터 생성.
+            var actorDict = new Dictionary<int, UdpSendActorProvider>();
+
+            for (var cnt = 0; cnt < actorCount; ++cnt)
+            {
+                actorDict.Add(cnt, new UdpSendActorProvider(actorSystem.ActorOf(UdpSendActor.Props(serviceProvider, netManager))));
+            }
+
+            return actorDict;
+        }
+
+
         /// <summary>
         /// Handle udp packet.
         /// </summary>
-		private void HandlePacket(UdpPacket packet, UdpSession session)
+        private void HandlePacket(UdpPacket packet, UdpSession session)
         {
             // Handle udp packet.
             if (_handlerDict.TryGetValue(packet.PacketCode, out var value))

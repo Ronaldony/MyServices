@@ -11,7 +11,7 @@ namespace ServerEngine.Network.Interfaces
         /// <summary>
         /// Start server.
         /// </summary>
-        void Start<T>(int port, bool allowPeerAddrChange) where T : UdpHandler;
+        void Start<T>(int port, string encrypt, bool allowPeerAddrChange, bool simulateLatency, int maxLatencyMs, int minLatancyMs) where T : UdpHandler;
 
         /// <summary>
         /// Send.

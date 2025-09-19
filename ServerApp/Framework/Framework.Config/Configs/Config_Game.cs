@@ -34,6 +34,11 @@ namespace Framework.Config.Configs
         public int FrameRate { get; set; }
 
         /// <summary>
+        /// Server encrypt.
+        /// </summary>
+        public string ServerEncrypt { get; set; }
+
+        /// <summary>
         /// ConfigCouchbase.
         /// </summary>
         public Config_Couchbase Couchbase { get; set; }

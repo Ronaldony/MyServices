@@ -110,7 +110,7 @@ namespace Server_Realm
             MappingDapper();
 
             // Start servers.
-            BootstrapServer();
+            BootstrapServer(configGame);
         }
 
         /// <summary>
@@ -134,11 +134,13 @@ namespace Server_Realm
         /// <summary>
         /// Bootstrap server.
         /// </summary>
-        private void BootstrapServer()
+        private void BootstrapServer(Config_Game configGame)
         {
             // Start server.
             var huntZoneServer = _serviceProvider.GetRequiredService<HuntZoneServer>();
-            huntZoneServer.Start<HuntZoneHandler>(_arguments.Port_HuntZone, false);
+            huntZoneServer.Start<HuntZoneHandler>(
+                port: _arguments.Port_HuntZone, 
+                encrypt: configGame.ServerEncrypt);
         }
     }
 }

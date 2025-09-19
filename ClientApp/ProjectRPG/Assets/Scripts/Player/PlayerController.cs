@@ -15,12 +15,16 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private TrailRenderer myTrailRenderer;
     [SerializeField] private Transform weaponCollider;
 
+    private const float _cooldownMovement = 0.2f;
+    private bool _canMovement = true;
+
     private PlayerControls _playerControls;
     private Vector2 _movement;
     private Rigidbody2D _rb;
     private Animator _myAnimator;
     private SpriteRenderer _mySpriteRenderer;
     private Knockback _knockback;
+
 
     private float _startingMoveSpeed;
     private float _moveDeltaTime;
@@ -121,7 +125,17 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         // Update movement.
-        _movement = _playerControls.Movement.Move.ReadValue<Vector2>();
+        var movement = _playerControls.Movement.Move.ReadValue<Vector2>();
+
+        if (movement != _movement)
+        {
+            if (_canMovement)
+            {
+                _movement = _playerControls.Movement.Move.ReadValue<Vector2>();
+
+                StartCoroutine(EndMovementRoutine());
+            }
+        }
 
         AdjustPlayerFacingDirection();
 
@@ -129,6 +143,16 @@ public class PlayerController : Singleton<PlayerController>
         MovePre();
         Move();
         MovePost();
+    }
+
+    /// <summary>
+    /// End movement routine.
+    /// </summary>
+    private IEnumerator EndMovementRoutine()
+    {
+        _canMovement = false;
+        yield return new WaitForSeconds(_cooldownMovement);
+        _canMovement = true;
     }
 
     /// <summary>

@@ -38,7 +38,7 @@ namespace Externals.UDP
             _listener = new EventBasedNetListener();
 
             // Encryption layer.
-            var xorEncryptLayer = new XorEncryptLayer("ProjectRPG");
+            var xorEncryptLayer = new XorEncryptLayer("Project_RPG");
 
             _netManager = new NetManager(_listener, xorEncryptLayer)
             {

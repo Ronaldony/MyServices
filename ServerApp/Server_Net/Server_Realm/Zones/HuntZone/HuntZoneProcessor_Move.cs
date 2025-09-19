@@ -21,7 +21,7 @@ namespace Server_Realm.Zones.HuntZone
             pu.MovementHandler.MoveStart(packet.Direction);
 
             // log.
-            //_logger.LogDebug($"MoveStart - pos: {pu.MovementHandler.NowPos()}, move: {packet.Direction}");
+            _logger.LogDebug($"MoveStart - pos: {pu.MovementHandler.NowPos()}, move: {packet.Direction}");
 
             // 패킷 전송 - 이동 시작.
             pu.WorldSection.SendPacket_AroundSections(pu.UnitId, GamePacketCode.SC_MoveStart, new GamePacketSC_MoveStart
@@ -36,7 +36,7 @@ namespace Server_Realm.Zones.HuntZone
         /// </summary>
         private void MoveEnd(PlayerUnit pu, GamePacketCS_MoveEnd packet)
         {
-            //_logger.LogDebug($"MoveEnd - pos: {packet.EndPos}");
+            _logger.LogDebug($"MoveEnd - pos: {packet.EndPos}");
 
             // 섹션 검증
             if (false == IsValidSection(packet.EndPos))

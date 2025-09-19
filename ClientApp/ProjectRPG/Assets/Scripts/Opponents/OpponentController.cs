@@ -139,7 +139,6 @@ public class OpponentController : MonoBehaviour
         }
 
         // 이전 방향 값 갱신.
-        //_preDirection = new Vector2((float)Math.Round(_movement.x, 2), (float)Math.Round(_movement.y, 2));
         _moveDir = _refreshMovement;
     }
 
@@ -152,7 +151,7 @@ public class OpponentController : MonoBehaviour
         if (_moveDir != Vector2.zero)
         {
             _rb.MovePosition(_rb.position + _moveDir * (moveSpeed * Time.fixedDeltaTime));
-            //Debug.Log($"rb: {rb.position}, DeltaTime: {Time.fixedDeltaTime}, result: {movement * (moveSpeed * Time.fixedDeltaTime)}, movement: {movement}");
+            Debug.Log($"Move - rb: {_rb.position}");
 
             return true;
         }
@@ -205,9 +204,6 @@ public class OpponentController : MonoBehaviour
         myTrailRenderer.emitting = true;
         _isDashing = true;
 
-        // Set movement status.
-        //moveSpeed *= dashSpeed;
-
         // Start dash routine.
         StartCoroutine(EndDashRoutine(dashedPos));
     }
@@ -226,21 +222,12 @@ public class OpponentController : MonoBehaviour
             float linearT = timePassed / GameData.DASH_TIME;
             _rb.position = Vector2.Lerp(startPos, dashedPos, linearT);
 
-            Debug.Log($"linearT: {linearT}");
-
             yield return null;
         }
-        //yield return new WaitForSeconds(GameData.DASH_TIME);
-        //moveSpeed = _startingMoveSpeed;
 
         myTrailRenderer.emitting = false;
 
         _isDashing = false;
-
-        Debug.Log($"End dash. real: {_rb.position}, packet: {dashedPos}");
-
-        // Fix position
-        //MoveFixed(dashedPos.x, dashedPos.y);
 
         yield return new WaitForSeconds(GameData.DASH_COOLDOWN);
     }

@@ -47,7 +47,7 @@ namespace ServerEngine.Test
 
             // TestServer
             var testServer = _serviceProvider.GetRequiredService<TestServer>();
-            testServer.Start<UdpHandler>(9050, false);    // port, peer address changable, polling interval.
+            testServer.Start<UdpHandler>(9050, "Project_RPG", false, false, 0, 0);    // port, peer address changable, polling interval.
 
             // IJsonSerializer.
             var jsonSerializer = _serviceProvider.GetRequiredService<IJsonSerializer>();

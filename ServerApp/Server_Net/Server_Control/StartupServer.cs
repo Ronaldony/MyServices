@@ -95,7 +95,7 @@ namespace Server_Control
             MappingDapper();
 
             // Start servers.
-            BootstrapServer();
+            BootstrapServer(configGame);
         }
 
         /// <summary>
@@ -119,11 +119,13 @@ namespace Server_Control
         /// <summary>
         /// Bootstrap server.
         /// </summary>
-        private void BootstrapServer()
+        private void BootstrapServer(Config_Game configGame)
         {
             // Start server.
             var hubServer = _serviceProvider.GetRequiredService<HubServer>();
-            hubServer.Start<HubHanlder>(_arguments.Port_PlayHub, false);
+            hubServer.Start<HubHanlder>(
+                port: _arguments.Port_PlayHub, 
+                encrypt: configGame.ServerEncrypt);
         }
     }
 }
