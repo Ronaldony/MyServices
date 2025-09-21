@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class OpponentHealth : MonoBehaviour
 {
     private bool _isDead;
-
     private int _maxHealth;
 
     [SerializeField] private GameObject _healthBar;
@@ -31,6 +30,11 @@ public class OpponentHealth : MonoBehaviour
         // Slider.
         UpdateHealthSlider();
     }
+
+    /// <summary>
+    /// Is dead.
+    /// </summary>
+    public bool IsDead() => _isDead;
 
     /// <summary>
     /// Update health.

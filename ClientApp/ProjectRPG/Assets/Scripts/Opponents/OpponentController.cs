@@ -1,29 +1,34 @@
 using GameCore;
 using GameCore.Datas.Plays;
 using System.Collections;
+using System.Collections.Concurrent;
 using UnityEngine;
 
 public class OpponentController : MonoBehaviour
 {
     public bool FacingLeft { get; set; }
 
+    [SerializeField] private OpponentDummy _dummy;
     [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer myTrailRenderer;
     [SerializeField] private Transform weaponCollider;
+    private const float MovePerFrame = 0.1f;
 
+    private float _dummyTimePassed;
+    private Vector2 _dummyPos = new Vector2();
     private Vector2 _spawnPos;
     private Vector2 _refreshMovement;
+
     private Rigidbody2D _rb;
     private Animator _myAnimator;
     private SpriteRenderer _mySpriteRenderer;
     private Knockback _knockback;
     private Flash _flash;
+    private OpponentHealth _health;
 
-    private float _startingMoveSpeed;
+    private ConcurrentQueue<OpponentMsg> _msgQ = new ConcurrentQueue<OpponentMsg>();
 
     private Vector2 _moveDir;
-    private bool _isMoving;
     private bool _isDashing;
 
     private void Start()
@@ -33,8 +38,7 @@ public class OpponentController : MonoBehaviour
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _knockback = GetComponent<Knockback>();
         _flash = GetComponent<Flash>();
-
-        _startingMoveSpeed = moveSpeed;
+        _health = GetComponent<OpponentHealth>();
 
         _rb.position = _spawnPos;
     }
@@ -47,37 +51,123 @@ public class OpponentController : MonoBehaviour
     private void FixedUpdate()
     {
         // 넉백 혹은 죽음인 경우 처리 넘김.
-        if (_knockback.IsKnockback() || PlayerHealth.Instance._isDead)
+        if (_health.IsDead())
         {
             return;
         }
 
         if (_isDashing)
         {
-            _rb.MovePosition(_rb.position + _refreshMovement * (moveSpeed * Time.fixedDeltaTime));
+            //_dummy.UpdatePosition(_rb.position + _refreshMovement * (moveSpeed * Time.fixedDeltaTime));
+            _rb.MovePosition(_dummy.GetPosition());
             return;
         }
+
+        // Process msg.
+        Proc_Msg();
 
         // Adjust face 방향.
         AdjustPlayerFacingDirection(_refreshMovement.x);
 
-        // Pre move.
-        MovePre();
+        // 이전 방향 값 갱신.
+        _moveDir = _refreshMovement;
 
-        // Move
-        if (Move())
+        // Move dummy.
+        MoveDummy();
+
+        // Follow dummy.
+        FollowDummy();
+    }
+
+    /// <summary>
+    /// Follow dummy.
+    /// </summary>
+    private void FollowDummy()
+    {
+        // Follow to dummy.
+        var newDummyPos = _dummy.GetPosition();
+
+        if (_dummyPos != newDummyPos)
         {
-            MovePost();
+            _dummyPos = newDummyPos;
+            _dummyTimePassed = 0;
+        }
+
+        _dummyTimePassed += Time.deltaTime;
+        float linearT = _dummyTimePassed / MovePerFrame;
+
+        // Move position.
+        if (linearT <= 1)
+        {
+            _rb.MovePosition(Vector2.Lerp(transform.position, _dummyPos, linearT));
         }
     }
 
     /// <summary>
+    /// Add msg.
+    /// </summary>
+    public void AddMsg(OpponentMsg msg)
+    {
+        _msgQ.Enqueue(msg);
+    }
+
+    private void Proc_Msg()
+    {
+        if (_msgQ.TryDequeue(out var msg))
+        {
+            switch (msg.MsgType)
+            {
+                case Type_OpponentMsg.ControllerSpawn:
+                    var msgControllerSpawn = msg as OpponentMsg_ControllerSpawn;
+                    Setup(msgControllerSpawn.Location, msgControllerSpawn.Dummy);
+                    break;
+                case Type_OpponentMsg.MoveStart:
+                    var msgMoveStart = msg as OpponentMsg_MoveStart;
+                    MoveStart(msgMoveStart.MoveDir);
+                    break;
+                case Type_OpponentMsg.MoveEnd:
+                    var msgMoveEnd = msg as OpponentMsg_MoveEnd;
+                    MoveEnd();
+                    MoveFixed(new Vector2(msgMoveEnd.EndPos.X, msgMoveEnd.EndPos.Y));
+                    break;
+                case Type_OpponentMsg.MoveFix:
+                    var msgMoveFix = msg as OpponentMsg_MoveFix;
+                    MoveFixed(msgMoveFix.FixPos);
+                    break;
+                case Type_OpponentMsg.Dash:
+                    var msgMoveDash = msg as OpponentMsg_Dash;
+                    Dash(msgMoveDash.DashedPos);
+                    break;
+                case Type_OpponentMsg.Knockback:
+                    var msgMoveKnockback = msg as OpponentMsg_Knockback;
+                    Knockback(msgMoveKnockback.SrcPosition, msgMoveKnockback.Position);
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Get dummy.
+    /// </summary>
+    public OpponentDummy GetDummy() => _dummy;
+
+    /// <summary>
     /// Setup.
     /// </summary>
-    public void Setup(DTO_Location location)
+    public void Setup(DTO_Location location, OpponentDummy dummy = null)
     {
         _spawnPos = new Vector2(location.Pos.X, location.Pos.Y);
         _refreshMovement = new Vector2(location.MoveDirection.X, location.MoveDirection.Y);
+
+        if (dummy != null)
+        {
+            _dummy = dummy;
+        }
+
+        if (_dummy != null)
+        {
+            _dummy.FixPosition(_spawnPos);
+        }
     }
 
     /// <summary>
@@ -95,9 +185,6 @@ public class OpponentController : MonoBehaviour
     {
         // Reset status.
         _refreshMovement = Vector2.zero;
-        _isMoving = false;
-
-        //Debug.Log($"Move Stop - DateTIme: {packetTime}, DeltaTime: {_moveDeltaTime}");
     }
 
     /// <summary>
@@ -123,35 +210,15 @@ public class OpponentController : MonoBehaviour
     }
 
     /// <summary>
-    /// Before move.
-    /// </summary>
-    private void MovePre()
-    {
-        // check moving.
-        if (_isMoving)
-        {
-            // Cond 1. not moving anymore.
-            // Cond 2. change move direction.
-            if ((_refreshMovement == Vector2.zero) || (_refreshMovement != _moveDir))
-            {
-                MoveEnd();
-            }
-        }
-
-        // 이전 방향 값 갱신.
-        _moveDir = _refreshMovement;
-    }
-
-    /// <summary>
     /// Move.
     /// </summary>
-    private bool Move()
+    private bool MoveDummy()
     {
         // Move.
         if (_moveDir != Vector2.zero)
         {
-            _rb.MovePosition(_rb.position + _moveDir * (moveSpeed * Time.fixedDeltaTime));
-            Debug.Log($"Move - rb: {_rb.position}");
+            //Debug.Log($"Move. dir: {_moveDir}, spped: {moveSpeed}, time: {Time.fixedDeltaTime}");
+            _dummy.MoveTo(_moveDir * (moveSpeed * Time.fixedDeltaTime));
 
             return true;
         }
@@ -160,20 +227,11 @@ public class OpponentController : MonoBehaviour
     }
 
     /// <summary>
-    /// After move.
-    /// </summary>
-    private void MovePost()
-    {
-        _isMoving = true;
-        //Debug.Log($"Move End - Dir: {_moveDirection}, DateTIme: {packetTime}, DeltaTime: {_moveDeltaTime}");
-    }
-
-    /// <summary>
     /// Move fixed.
     /// </summary>
-    public void MoveFixed(float x, float y)
+    public void MoveFixed(Vector2 fixPos)
     {
-        _rb.position = new Vector2(x, y);
+        _dummy.FixPosition(fixPos);
     }
 
     /// <summary>
@@ -220,7 +278,8 @@ public class OpponentController : MonoBehaviour
         {
             timePassed += Time.deltaTime;
             float linearT = timePassed / GameData.DASH_TIME;
-            _rb.position = Vector2.Lerp(startPos, dashedPos, linearT);
+            _dummy.FixPosition(Vector2.Lerp(startPos, dashedPos, linearT));
+            //_rb.position = Vector2.Lerp(startPos, dashedPos, linearT);
 
             yield return null;
         }

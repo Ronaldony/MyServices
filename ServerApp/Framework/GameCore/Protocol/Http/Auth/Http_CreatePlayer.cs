@@ -10,6 +10,11 @@ namespace GameCore.Http.Auth
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class REQ_CreatePlayer
     {
+        /// <summary>
+        /// UserId.
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public string UserId { get; set; }
     }
 
     /// <summary>

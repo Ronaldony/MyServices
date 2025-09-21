@@ -50,7 +50,7 @@ namespace Server_Login.Controllers.Auth
 
             // Pid 발급.
             var newPid = _uniqueIdService.GenerateId();
-            var playerName = newPid;
+            var playerName = req.UserId;
 
             // Update controller.
             base.Pid = newPid;
@@ -68,7 +68,7 @@ namespace Server_Login.Controllers.Auth
             }
 
             // 플레이어 객체 생성.
-            await CreateOrUpdatePlayerAsync(base.Uid, newPid, nowTime);
+            await CreateOrUpdatePlayerAsync(base.Uid, newPid, playerName, nowTime);
 
             _logger.LogDebug($"Create player. pid: {newPid}, player name: {playerName}");
 
@@ -83,7 +83,7 @@ namespace Server_Login.Controllers.Auth
         /// <summary>
         /// Create or update player.
         /// </summary>
-        private async Task CreateOrUpdatePlayerAsync(string uid, string pid, DateTime nowTime)
+        private async Task CreateOrUpdatePlayerAsync(string uid, string pid, string playerName, DateTime nowTime)
         {
             var tbWeapon = _tdbService.SelectAll<TB_Weapon>().First();
 
@@ -92,7 +92,7 @@ namespace Server_Login.Controllers.Auth
             var playInfo = playInfoObject.PlayInfo;
 
             playInfo.Pid = pid;
-            playInfo.PlayerName = pid;
+            playInfo.PlayerName = playerName;
 
             // Location.
             playInfo.Location.Area = Type_Area.HuntZone;

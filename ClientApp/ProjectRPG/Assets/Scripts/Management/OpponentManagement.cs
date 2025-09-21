@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class OpponentManagement : Singleton<OpponentManagement>
 {
+    [SerializeField] private GameObject _opponentDummyPrefab;
     [SerializeField] private GameObject _opponentPrefab;
 
     private SectionManagement _sectionManagement;
@@ -65,8 +66,14 @@ public class OpponentManagement : Singleton<OpponentManagement>
     {
         while (_destroyOpponents.TryDequeue(out var unitId))
         {
+            var opponent = _opponentDict[unitId];
+
+            var opponentController = opponent.GetComponent<OpponentController>();
+            var opponentDummy = opponentController.GetDummy();
+
             // Destroy enemy.
-            Destroy(_opponentDict[unitId]);
+            Destroy(opponent);
+            Destroy(opponentDummy.gameObject);
 
             // Remove enemy.
             _opponentDict.Remove(unitId);
@@ -182,8 +189,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
             {
                 // 이미 존재하는 유닛.
                 var opponentController = opponent.GetComponent<OpponentController>();
-                opponentController.MoveFixed(playInfo.Location.Pos.X, playInfo.Location.Pos.Y);
-                opponentController.MoveStart(playInfo.Location.MoveDirection);
+                opponentController.Setup(playInfo.Location);
                 continue;
             }
 
@@ -204,6 +210,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
         var stat = playInfo.Stat;
 
         // Opponent 생성.
+        var opponentDummyObj = Instantiate(_opponentDummyPrefab, new Vector3(location.Pos.X, location.Pos.Y), Quaternion.identity);
         var opponent = Instantiate(_opponentPrefab, new Vector3(location.Pos.X, location.Pos.Y), Quaternion.identity);
 
         // Add opponent.
@@ -214,16 +221,26 @@ public class OpponentManagement : Singleton<OpponentManagement>
         }
 
         // Controller.
-        var opponentController = opponent.GetComponent<OpponentController>();
-        opponentController.Setup(location);
+        var controller = opponent.GetComponent<OpponentController>();
+        var dummy = opponentDummyObj.GetComponent<OpponentDummy>();
+
+        controller.AddMsg(new OpponentMsg_ControllerSpawn
+        {
+            Location = location,
+            Dummy = dummy
+        });
 
         // Health.
-        var opponentHealth = opponent.GetComponent<OpponentHealth>();
-        opponentHealth.Setup(stat.Health, stat.HealthMax);
+        var health = opponent.GetComponent<OpponentHealth>();
+        health.Setup(stat.Health, stat.HealthMax);
 
         // Weapon.
-        var opponentWeaponInventory = opponent.GetComponent<OpponentWeaponInventory>();
-        opponentWeaponInventory.ChangeActiveWeapon(playInfo.Equipment.Weapon);
+        var weaponInventory = opponent.GetComponent<OpponentWeaponInventory>();
+        weaponInventory.ChangeActiveWeapon(playInfo.Equipment.Weapon);
+
+        // NameTag.
+        var nameTag = opponent.GetComponent<NameTag>();
+        nameTag.SetPlayerName(playInfo.PlayerName);
 
         return true;
     }
@@ -261,7 +278,10 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
         // Controller.
         var controller = opponent.GetComponent<OpponentController>();
-        controller.MoveStart(packet.Direction);
+        controller.AddMsg(new OpponentMsg_MoveStart 
+        {
+            MoveDir = packet.Direction
+        });
     }
 
     /// <summary>
@@ -279,8 +299,10 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
         // Controller.
         var controller = opponent.GetComponent<OpponentController>();
-        controller.MoveEnd();
-        //controller.MoveFixed(packet.EndPos.X, packet.EndPos.Y);
+        controller.AddMsg(new OpponentMsg_MoveEnd
+        {
+            EndPos = packet.EndPos
+        });
     }
 
     /// <summary>
@@ -356,7 +378,10 @@ public class OpponentManagement : Singleton<OpponentManagement>
         // Move fixed.
         var controller = opponent.GetComponent<OpponentController>();
 
-        controller.MoveFixed(x, y);
+        controller.AddMsg(new OpponentMsg_MoveFix
+        {
+            FixPos = new Vector2(x, y)
+        });
     }
 
     /// <summary>
@@ -374,8 +399,11 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
         // Dash.
         var controller = opponent.GetComponent<OpponentController>();
-
-        controller.Dash(new Vector2(x, y));
+        //controller.Dash(new Vector2(x, y));
+        controller.AddMsg(new OpponentMsg_Dash
+        {
+            DashedPos = new Vector2(x, y)
+        });
     }
 
     /// <summary>
@@ -393,7 +421,12 @@ public class OpponentManagement : Singleton<OpponentManagement>
 
         // Knockback.
         var controller = opponent.GetComponent<OpponentController>();
-        controller.Knockback(packet.SrcPosition, packet.Position);
+        //controller.Knockback(packet.SrcPosition, packet.Position);
+        controller.AddMsg(new OpponentMsg_Knockback
+        {
+            Position = packet.Position,
+            SrcPosition = packet.SrcPosition
+        });
     }
 
     /// <summary>
@@ -460,7 +493,11 @@ public class OpponentManagement : Singleton<OpponentManagement>
             // Remove enemy.
             _opponentDict.Remove(unitId, out var opponent);
 
+            var opponentController = opponent.GetComponent<OpponentController>();
+            var opponentDummy = opponentController.GetDummy();
+
             // Destroy enemy.
+            Destroy(opponentDummy.gameObject);
             Destroy(opponent);
         }
     }

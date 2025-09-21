@@ -15,19 +15,17 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private TrailRenderer myTrailRenderer;
     [SerializeField] private Transform weaponCollider;
 
-    private const float _cooldownMovement = 0.2f;
+    private const float _cooldownMovement = 0.1f;
     private bool _canMovement = true;
 
     private PlayerControls _playerControls;
-    private Vector2 _movement;
+    private Vector2 _nowMovement;
     private Rigidbody2D _rb;
     private Animator _myAnimator;
     private SpriteRenderer _mySpriteRenderer;
     private Knockback _knockback;
 
-
     private float _startingMoveSpeed;
-    private float _moveDeltaTime;
 
     private Vector2 _moveDirection;
     private bool _isMoving;
@@ -120,18 +118,18 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_isDashing)
         {
-            _rb.MovePosition(_rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
+            _rb.MovePosition(_rb.position + _nowMovement * (moveSpeed * Time.fixedDeltaTime));
             return;
         }
 
         // Update movement.
         var movement = _playerControls.Movement.Move.ReadValue<Vector2>();
 
-        if (movement != _movement)
+        if (movement != _nowMovement)
         {
             if (_canMovement)
             {
-                _movement = _playerControls.Movement.Move.ReadValue<Vector2>();
+                _nowMovement = _playerControls.Movement.Move.ReadValue<Vector2>();
 
                 StartCoroutine(EndMovementRoutine());
             }
@@ -173,8 +171,8 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void UpdateAnaimator()
     {
-        _myAnimator.SetFloat("moveX", _movement.x);
-        _myAnimator.SetFloat("moveY", _movement.y);
+        _myAnimator.SetFloat("moveX", _nowMovement.x);
+        _myAnimator.SetFloat("moveY", _nowMovement.y);
     }
 
     /// <summary>
@@ -182,21 +180,21 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MovePre()
     {
+        var moveDir = new Vector2((float)Math.Round(_nowMovement.normalized.x, 2), (float)Math.Round(_nowMovement.normalized.y, 2));
+
         // check moving.
         if (_isMoving)
         {
             // Cond 1. not moving anymore.
             // Cond 2. change move direction.
-            if ((_movement.normalized == Vector2.zero) || (_movement.normalized != _moveDirection))
+            if ((moveDir == Vector2.zero) || (moveDir != _moveDirection))
             {
                 MoveStop();
             }
         }
 
         // �̵� ���� ����.
-        var moveDir = _movement.normalized;
-
-        _moveDirection = new Vector2((float)Math.Round(moveDir.x, 2), (float)Math.Round(moveDir.y, 2));
+        _moveDirection = moveDir;
     }
 
     /// <summary>
@@ -207,8 +205,7 @@ public class PlayerController : Singleton<PlayerController>
         // Update move.
         if (_moveDirection != Vector2.zero)
         {
-            _rb.MovePosition(_rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
-            _moveDeltaTime += Time.fixedDeltaTime;
+            _rb.MovePosition(_rb.position + _nowMovement * (moveSpeed * Time.fixedDeltaTime));
             //Debug.Log($"rb: {rb.position}, DeltaTime: {Time.fixedDeltaTime}, result: {movement * (moveSpeed * Time.fixedDeltaTime)}, movement: {movement}");
         }
     }
@@ -230,7 +227,9 @@ public class PlayerController : Singleton<PlayerController>
     /// </summary>
     private void MoveStop()
     {
-        PlayerDataManager.Instance.PlayInfo.Location.Pos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+        var nowPos = new System.Numerics.Vector2(_rb.position.x, _rb.position.y);
+
+        PlayerDataManager.Instance.PlayInfo.Location.Pos = nowPos;
 
         var packetTime = DateTime.Now.AddSeconds(Time.fixedDeltaTime);
 
@@ -239,7 +238,7 @@ public class PlayerController : Singleton<PlayerController>
             GamePacketCode.CS_MoveEnd,
             new GamePacketCS_MoveEnd
             {
-                EndPos = PlayerDataManager.Instance.PlayInfo.Location.Pos,
+                EndPos = nowPos,
                 PacketTime = packetTime,
             });
 
@@ -247,7 +246,6 @@ public class PlayerController : Singleton<PlayerController>
 
         // initialize status.
         _isMoving = false;
-        _moveDeltaTime = 0;
     }
 
     /// <summary>
@@ -257,15 +255,13 @@ public class PlayerController : Singleton<PlayerController>
     {
         _isMoving = true;
 
-        var packetTime = DateTime.Now.AddSeconds(_moveDeltaTime);
-
         // Send MoveEnd.
         _gamePacketManager.Send<GamePacketCS_MoveStart>(
             GamePacketCode.CS_MoveStart,
             new GamePacketCS_MoveStart
             {
                 Direction = new System.Numerics.Vector2(_moveDirection.x, _moveDirection.y),
-                PacketTime = packetTime
+                PacketTime = new DateTime()
             });
 
         //Debug.Log($"Move End - Dir: {_moveDirection}, DateTIme: {packetTime}, DeltaTime: {_moveDeltaTime}");
@@ -322,7 +318,7 @@ public class PlayerController : Singleton<PlayerController>
             moveSpeed *= dashSpeed;
 
             // Dash.
-            var dashedPosition = _rb.position + _movement * (moveSpeed * GameData.DASH_TIME);
+            var dashedPosition = _rb.position + _nowMovement * (moveSpeed * GameData.DASH_TIME);
 
             _gamePacketManager.Send<GamePacketCS_Dash>(
                 GamePacketCode.CS_Dash,
@@ -346,9 +342,6 @@ public class PlayerController : Singleton<PlayerController>
         yield return new WaitForSeconds(GameData.DASH_TIME);
         moveSpeed = _startingMoveSpeed;
         myTrailRenderer.emitting = false;
-
-        //Debug.Log($"Dashed position. pos: {_rb.position}, Dir: {_moveDirection}");
-        //Debug.Log($"Move Start (Dash) - Dir: {_moveDirection}, DateTIme: {DateTime.Now}");
 
         // Send MoveStart.
         _gamePacketManager.Send<GamePacketCS_MoveStart>(

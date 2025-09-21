@@ -55,8 +55,7 @@ namespace Server_Realm.Zones.HuntZone
                     FixedPos = pu.MovementHandler.NowPos()
                 });
                 
-                _logger.LogError($"Move end position error. ");
-                _logger.LogError($"ori: {pu.MovementHandler.NowPos()}, dst: {packet.EndPos}, dir: {pu.MovementHandler.NowDir()}");
+                _logger.LogError($"Move end position error. ori: {pu.MovementHandler.NowPos()}, dst: {packet.EndPos}, dir: {pu.MovementHandler.NowDir()}");
                 return;
             }
 

@@ -98,7 +98,10 @@ public class LoginManager : MonoBehaviour
     {
         // Packet.
         var httpRouteAttr = typeof(REQ_CreatePlayer).GetAttribute(typeof(HttpRouteAttribute)) as HttpRouteAttribute;
-        var body = MemoryPackDataSerializer.Serialize(new REQ_CreatePlayer());
+        var body = MemoryPackDataSerializer.Serialize(new REQ_CreatePlayer
+        {
+            UserId = userId,
+        });
 
         // Request web.
         yield return WebRequestPost($"{_url}/{httpRouteAttr.Path}", body, (request) =>

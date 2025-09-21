@@ -1,11 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-public class PositionDisp : MonoBehaviour
+public class PositionTag : MonoBehaviour
 {
     private Camera mainCamera;
     private Vector2Int _lastPos;
-    [SerializeField] TMP_Text _positionText;
+    [SerializeField] private Transform _transform;
+    [SerializeField] private TMP_Text _positionText;
 
     // Start is called before the first frame update
     void Start()
@@ -19,11 +20,12 @@ public class PositionDisp : MonoBehaviour
     {
         transform.rotation = mainCamera.transform.rotation;
 
-        var nowPos = Vector2Int.RoundToInt(PlayerController.Instance.GetPosition());
+        Vector2 nowPos = _transform.position;
+        var nowPosInt = Vector2Int.RoundToInt(nowPos);
 
-        if (_lastPos != nowPos)
+        if (_lastPos != nowPosInt)
         {
-            _lastPos = nowPos;
+            _lastPos = nowPosInt;
             _positionText.text = $"({_lastPos.x}/{_lastPos.y})";
         }
     }
