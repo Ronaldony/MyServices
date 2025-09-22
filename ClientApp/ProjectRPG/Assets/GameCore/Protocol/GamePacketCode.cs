@@ -59,6 +59,8 @@
         public const int SC_DropItems = 191;                    // 아이템 드랍.
         public const int CS_RootItem = 192;                     // 아이템 루트.
         public const int SC_RootItem = 193;                     // 아이템 루트.
+        public const int CS_ConsumeItem = 194;                  // 아이템 소모.
+        public const int SC_ConsumeItem = 195;                  // 아이템 소모.
 
         // 장비.
         public const int CS_SwitchWeapon = 500;                 // 무기 교체.

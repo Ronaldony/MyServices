@@ -32,7 +32,6 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
             if (Inventory.Instance.IsUseable(_refId))
             {
                 _count--;
-                Debug.Log($"Use item. refId: {_refId}");
 
                 Inventory.Instance.UseItem(_refId);
 

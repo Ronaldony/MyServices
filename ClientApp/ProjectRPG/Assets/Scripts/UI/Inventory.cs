@@ -1,5 +1,8 @@
 using GameCore;
+using GameCore.Datas.Inventory;
 using GameCore.Datas.Items;
+using GameCore.HubPacket;
+using GamePackets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +40,15 @@ public class Inventory : Singleton<Inventory>
     {
         base.Awake();
     }
+
+    public void Setup(DTO_InventoryInfo inventoryInfo)
+    {
+        foreach (var item in inventoryInfo.Items)
+        {
+            PickupItem(item.Value);
+        }
+    }
+
     /// <summary>
     /// Toggle inventory.
     /// </summary>
@@ -94,6 +106,12 @@ public class Inventory : Singleton<Inventory>
     {
         var tbItem = TDBManagement.Instance.GetById<TB_Item>(refId);
 
+        // Send packet.
+        GamePacketManager.Instance.Send<GamePacketCS_ConsumeItem>(GamePacketCode.CS_ConsumeItem, new GamePacketCS_ConsumeItem
+        {
+            RefId = refId
+        });
+
         // Consume 1.
         var tbConsume = TDBManagement.Instance.GetById<TB_ItemConsume>(tbItem.Consume_Ref1);
 
@@ -116,7 +134,7 @@ public class Inventory : Singleton<Inventory>
         switch (tbItemConsume.ConsumeType)
         {
             case Type_ItemConsume.HP_Plus:
-                PlayerHealth.Instance.HealPlayer(consumeValue);
+                //PlayerHealth.Instance.HealPlayer(consumeValue);
                 break;
             case Type_ItemConsume.Stamina_Plus:
                 Stamina.Instance.RefreshStamina(consumeValue);
@@ -148,6 +166,7 @@ public class Inventory : Singleton<Inventory>
         else if (tbItem.ItemType == Type_Item.Gold)
         {
             // Update gold score.
+            var ss = EconomyManager.Instance;
             EconomyManager.Instance.PlusGold(item.Count);
         }
         else

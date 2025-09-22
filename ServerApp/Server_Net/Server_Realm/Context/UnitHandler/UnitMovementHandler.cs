@@ -62,6 +62,7 @@ namespace Server_Realm.Context.UnitHandler
             Section = SectionId.ToSection(_location.Pos);
             OldSection = Section;
 
+            _location.MoveDirection = Vector2.Zero;
             _isMoveing = false;
             _isSectionUpdated = false;
             _isMoveStatusUpdated = false;

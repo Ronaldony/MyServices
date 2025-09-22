@@ -18,7 +18,6 @@ public class WeaponInventory : Singleton<WeaponInventory>
 
     private void Start()
     {
-        ToggleActiveHighlight(0);
         _playerControls.Weapons.keyboard.performed += ctx => ToggleActiveSlot((int)ctx.ReadValue<float>());
     }
 
@@ -27,7 +26,7 @@ public class WeaponInventory : Singleton<WeaponInventory>
         _playerControls.Enable();
     }
 
-    private void ToggleActiveSlot(int numValue)
+    public void ToggleActiveSlot(int numValue)
     {
         ToggleActiveHighlight(numValue - 1);
     }

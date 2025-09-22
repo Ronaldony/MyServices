@@ -255,7 +255,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1941139674948643996}
+      - m_Target: {fileID: 7986588749436570272}
         m_TargetAssemblyTypeName: LoginActor, Assembly-CSharp
         m_MethodName: OnClickLogin
         m_Mode: 1
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 2575791284316990377}
   - component: {fileID: 4112029313557386931}
   - component: {fileID: 1662998809224513139}
-  - component: {fileID: 1941139674948643996}
+  - component: {fileID: 7986588749436570272}
   - component: {fileID: 5106399044079328854}
   m_Layer: 5
   m_Name: LoginPanel
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1941139674948643996
+--- !u!114 &7986588749436570272
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -359,7 +359,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputIdField: {fileID: 4251052055590336918}
-  _inputPassField: {fileID: 0}
   _button: {fileID: 1938107042004354489}
 --- !u!114 &5106399044079328854
 MonoBehaviour:

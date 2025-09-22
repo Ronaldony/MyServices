@@ -32,7 +32,7 @@ public class MobPathfinding : MonoBehaviour
     private void FixedUpdate()
     {
         // Status knockback.
-        if (_knockBack.IsKnockback()) { return; }
+        //if (_knockBack.IsKnockback()) { return; }
 
         MoveToNext();
 
@@ -48,7 +48,7 @@ public class MobPathfinding : MonoBehaviour
     private bool IsMoveEnd()
     {
         // 조건 1. 이동 가능 범위 검사.
-        if (Vector2.Distance(_rb.position, _spawnPos) > GameData.MOB_RETURN_DISTANCE + 4)
+        if (Vector2.Distance(_rb.position, _spawnPos) > GameData.MOB_RETURN_DISTANCE + 2)
         {
             return true;
         }

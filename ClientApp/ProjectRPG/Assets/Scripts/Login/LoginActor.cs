@@ -1,6 +1,3 @@
-using GameCore;
-using GameCore.GamePacket;
-using GamePackets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +14,6 @@ public enum SceneLoadStepType
 public class LoginActor : Singleton<LoginActor>
 {
     [SerializeField] private TMP_InputField _inputIdField;
-    [SerializeField] private TMP_InputField _inputPassField;
 	[SerializeField] private GameObject _button;
 
     private LoginManager _loginManager;
@@ -25,9 +21,14 @@ public class LoginActor : Singleton<LoginActor>
     private string _loadScene;
     private SceneLoadStepType LoadStepType;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
-        _loginManager = GetComponent<LoginManager>();
+        _loginManager = GetComponentInChildren<LoginManager>();
     }
 
     public void LoadScene(string scene)
@@ -44,6 +45,7 @@ public class LoginActor : Singleton<LoginActor>
             case SceneLoadStepType.Ready:
                 {
                     LoadStepType = SceneLoadStepType.Process;
+
                     SceneManager.LoadScene(_loadScene);
                 }
                 break;
@@ -55,9 +57,6 @@ public class LoginActor : Singleton<LoginActor>
                     if (nowScene.name == _loadScene)
                     {
                         LoadStepType = SceneLoadStepType.Complete;
-
-                        // Spawn units.
-                        GamePacketManager.Instance.Send<GamePacketCS_EnterPlayer>(GamePacketCode.CS_EnterPlayer, new GamePacketCS_EnterPlayer());
                     }
                 }
                 break;

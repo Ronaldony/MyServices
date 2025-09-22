@@ -56,6 +56,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     public void HealPlayer(int heal)
     {
         _currentHealth += heal;
+        Debug.Log($"HealPlayer. health: {heal}");
 
         if (_currentHealth > _maxHealth)
         {
@@ -93,6 +94,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     public void UpdateHealth(int health)
     {
         _currentHealth = health;
+        Debug.Log($"UpdateHealth. health: {health}");
 
         UpdateHealthSlider();
 

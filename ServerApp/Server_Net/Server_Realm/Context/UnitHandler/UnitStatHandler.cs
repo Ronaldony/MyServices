@@ -39,7 +39,8 @@ namespace Server_Realm.Context.UnitHandler
             _owner = owner;
             _stat = stat;
 
-            _isStatUpdate = false;
+            // 상태 업데이트.
+            _isStatUpdate = true;
         }
 
         /// <summary>
@@ -64,12 +65,9 @@ namespace Server_Realm.Context.UnitHandler
             // Damage.
             int hitDamage = damage - _stat.Defense;
 
-            if (_owner.UnitType == Core.Types.Type_Unit.Mob)
+            if (damage > _stat.Defense)
             {
-                if (damage > _stat.Defense)
-                {
-                    _stat.Health -= hitDamage;
-                }
+                _stat.Health -= hitDamage;
             }
 
             if (_stat.Health <= 0)
@@ -104,6 +102,17 @@ namespace Server_Realm.Context.UnitHandler
         public void RefreshHP()
         {
             _stat.Health = _stat.HealthMax;
+        }
+
+        /// <summary>
+        /// Refresh HP.
+        /// </summary>
+        public void Heal(int hp)
+        {
+            _stat.Health += hp;
+
+            // 상태 업데이트.
+            _isStatUpdate = true;
         }
 
         /// <summary>

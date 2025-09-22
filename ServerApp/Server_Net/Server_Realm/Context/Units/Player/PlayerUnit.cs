@@ -4,6 +4,8 @@
     using GameCore.Datas.Inventory;
     using GameCore.Datas.Items;
     using GameCore.Datas.Play;
+    using GameCore.Interfaces;
+    using Microsoft.Extensions.DependencyInjection;
     using Server_Realm.Context.UnitHandler;
     using Server_Realm.Context.Units;
     using Server_Realm.Core.Types;
@@ -16,6 +18,8 @@
         public PlayerUnit()
         {
             var serviceProvider = ServiceUtility.GetServiceProvider();
+
+            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
 
             // Unit.
             UnitType = Type_Unit.Player;
@@ -80,6 +84,11 @@
         /// value: DTO_Item.
         /// </summary>
         public Dictionary<long, DTO_Item> MobDropItems { get; private set; }
+
+        /// <summary>
+        /// TDBService.
+        /// </summary>
+        public ITDBService _tdbService;
 
         /// <summary>
         /// Dispose.

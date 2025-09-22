@@ -11,6 +11,8 @@ namespace Server_Realm.Zones.HuntZone
     using Framework.Core.Utilities;
     using GameCore;
     using GameCore.GamePacket;
+    using GameCore.HubPacket;
+    using GameCore.Interfaces;
     using Server_Realm.Actors;
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Types;
@@ -30,6 +32,7 @@ namespace Server_Realm.Zones.HuntZone
         private readonly ILogger<HuntZoneProcessor> _logger;
 
         // Services.
+        private readonly ITDBService _tdbService;
         private readonly IDataSerializer _dataSerializer;
         private readonly IMemoryPoolService _memoryPoolService;
 
@@ -66,6 +69,7 @@ namespace Server_Realm.Zones.HuntZone
             _logger = serviceProvider.GetRequiredService<ILogger<HuntZoneProcessor>>();
 
             // service.
+            _tdbService = serviceProvider.GetRequiredService<ITDBService>();
             _dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
             _memoryPoolService = serviceProvider.GetRequiredService<IMemoryPoolService>();
 
@@ -206,6 +210,9 @@ namespace Server_Realm.Zones.HuntZone
                         break;
                     case GamePacketCode.CS_RootItem:
                         RootItem(pu, wm.Packet as GamePacketCS_RootItem);
+                        break;
+                    case GamePacketCode.CS_ConsumeItem:
+                        ConsumeItem(pu, wm.Packet as GamePacketCS_ConsumeItem);
                         break;
                     case GamePacketCode.CS_SwitchWeapon:
                         SwitchWeapon(pu, wm.Packet as GamePacketCS_SwitchWeapon);

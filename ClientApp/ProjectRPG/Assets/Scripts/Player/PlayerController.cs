@@ -36,7 +36,9 @@ public class PlayerController : Singleton<PlayerController>
     private GamePacketManager _gamePacketManager;
     private PlayerDataManager _playerDataManager;
 
-    private ConcurrentQueue<UpdateGamePacket> _updatePacketQ; 
+    private ConcurrentQueue<UpdateGamePacket> _updatePacketQ;
+
+    private bool _initializePlayer;
 
     protected override void Awake()
     {
@@ -89,6 +91,22 @@ public class PlayerController : Singleton<PlayerController>
     {
         UpdateAnaimator();
         Proc_UpdatePacket();
+
+        // Initialize player.
+        if (_initializePlayer)
+        {
+            _initializePlayer = false;
+
+            // Setup inventory.
+            GameUIManager.Instance.UpdateActive(true);
+            Inventory.Instance.Setup(PlayerDataManager.Instance.InventoryInfo);
+            WeaponInventory.Instance.ToggleActiveSlot(1);
+        }
+    }
+
+    public void InitializePlayer()
+    {
+        _initializePlayer = true;
     }
 
     private void Proc_UpdatePacket()
@@ -311,7 +329,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (!_isDashCoolDown && Stamina.Instance.CurrentStamina > 0)
         {
-            //Stamina.Instance.UseStamina();
+            Stamina.Instance.UseStamina();
 
             _isDashing = true;
             _isDashCoolDown = true;
@@ -326,8 +344,6 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     Position = new System.Numerics.Vector2(dashedPosition.x, dashedPosition.y)
                 });
-
-            Debug.Log($"Dash calc position: {dashedPosition}");
 
             myTrailRenderer.emitting = true;
             StartCoroutine(EndDashRoutine());
