@@ -7,7 +7,8 @@
     {
         //////////////////////////////////////////////////////////////////
         /// Server internal.
-        public const int NotExistUser = -3;
+        public const int NotExistUser = -4;
+        public const int DBObjectError = -3;
         public const int DBError = -2;
         public const int ServerException = -1;
 

@@ -15,13 +15,13 @@ namespace ServerEngine.Test.Controllers
     {
         private readonly ILogger<Test_CacheController> _logger;
 
-        private readonly PlayerInfoObejct _playerInfoObject;
-        private readonly IMemcachedService _memcachedService;
+        private readonly DBPlayerInfo _playerInfoObject;
+        private readonly ICacheService _memcachedService;
 
         public Test_CacheController(
             ILogger<Test_CacheController> logger, 
-            PlayerInfoObejct playerInfoObject,
-			IMemcachedService memcachedService)
+            DBPlayerInfo playerInfoObject,
+			ICacheService memcachedService)
         {
             _logger = logger;
 

@@ -71,7 +71,7 @@ namespace Server_Login
             _webAppBuilder.Services.AddSingleton<ITDBService, TDBService>();
 
             // Connections.
-            _webAppBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
+            _webAppBuilder.Services.AddSingleton<CouchbaseConnection>(provider => new CouchbaseConnection());
 
             _webAppBuilder.Services.AddTransient<DBInventoryInfo>();
             _webAppBuilder.Services.AddTransient<DBPlayerInfo>();

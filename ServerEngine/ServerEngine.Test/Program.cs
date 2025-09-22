@@ -47,16 +47,6 @@ namespace ServerEngine.Test
 
             logger.LogInformation(asciiBannerWriter.GetAsciiText(PROGRAM_NAME));
 
-            var ss = new Dictionary<string, Conf_MessageBus>();
-
-            ss.Add("playhub", new Conf_MessageBus("name", "exchange", "queue"));
-            ss.Add("playhub2", new Conf_MessageBus("name", "exchange", "queue"));
-
-            var jsonSer = startup.WebApp.Services.GetRequiredService<IJsonSerializer>();
-            var dd = jsonSer.Serialize(ss);
-
-            await TestCode(startup.WebApp.Services);
-
             await startup.WebApp.RunAsync();
         }
 

@@ -7,7 +7,7 @@ namespace ServerEngine.Database.Interfaces
 	/// <summary>
 	/// IMemcachedService.
 	/// </summary>
-	public interface IMemcachedService
+	public interface ICacheService
 	{
 		/// <summary>
 		/// Initialize.

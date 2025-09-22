@@ -19,7 +19,7 @@ namespace Server_Login.Controllers.Auth
     {
         private readonly ILogger<LoginController> _logger;
 
-        private readonly DBIdentity _dbIdentity;
+        private readonly DBIdentity _dbIdentity; 
         private readonly DBUser _dbUser;
 
         public LoginController(

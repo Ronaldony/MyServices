@@ -6,13 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using ServerEngine.Config.Database;
 using ServerEngine.Config.Strapi;
 using ServerEngine.Core.Services.Interfaces;
-using ServerEngine.Database.Interfaces;
 using ServerEngine.MessageBus.RabbitMQs;
 using System.Reactive.Linq;
 using System.Reflection;
 
 namespace Server_Realm
 {
+    using Couchbase.KeyValue;
     using Framework.Config.ConfigManager;
     using Framework.Config.Configs;
     using Framework.Config.MessageBus;
@@ -22,6 +22,7 @@ namespace Server_Realm
     using Server_Realm.Core.Factories;
     using Server_Realm.Core.Services;
     using Server_Realm.Server.HuntZone;
+    using ServerEngine.Database.DBObject.Connections;
 
     internal class StartupServer
     {
@@ -96,9 +97,9 @@ namespace Server_Realm
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 
-            // IDBObjectConnection.
-            var dbObjectConn = _serviceProvider.GetRequiredService<IDBObjectConn>();
-            await dbObjectConn.InitializeAsync();
+            // CouchbaseConnection.
+            var couchbaseConnection = _serviceProvider.GetRequiredService<CouchbaseConnection>();
+            await couchbaseConnection.InitializeAsync(configGame.Couchbase, DurabilityLevel.None);
 
             // rbmqConnection.
             var rbmqConnection = _serviceProvider.GetRequiredService<RBMQConnection>();

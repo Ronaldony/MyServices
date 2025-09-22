@@ -9,11 +9,13 @@ using System.Reflection;
 
 namespace Server_Login
 {
+    using Couchbase.KeyValue;
     using Framework.Config.ConfigManager;
     using Framework.Config.Configs;
     using Framework.Config.MessageBus;
     using Framework.Core.Database.Attributes;
     using GameCore.Interfaces;
+    using ServerEngine.Database.DBObject.Connections;
 
     internal class StartupServer
     {
@@ -63,9 +65,9 @@ namespace Server_Login
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 
-            // IDBObjectConnection.
-            var dbObjectConn = _serviceProvider.GetRequiredService<IDBObjectConn>();
-            await dbObjectConn.InitializeAsync();
+            // CouchbaseConnection.
+            var couchbaseConnection = _serviceProvider.GetRequiredService<CouchbaseConnection>();
+            await couchbaseConnection.InitializeAsync(configGame.Couchbase, DurabilityLevel.None);
 
             MappingDapper();
         }

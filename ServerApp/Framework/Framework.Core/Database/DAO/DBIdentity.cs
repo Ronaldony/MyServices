@@ -154,7 +154,7 @@ namespace Framework.Core.Database.DAO
                     {
                         Uid = uid,
                         Token = token,
-                        refreshToken = refreshToken,
+                        RefreshToken = refreshToken,
                         TokenExpire = tokenExpireTime
                     },
                     commandTimeout: 10,

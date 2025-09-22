@@ -9,6 +9,9 @@ namespace Framework.Core.WebAPI.ActionFilter
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
     using GameCore;
+    using ServerEngine.Database.DBObject.Connections;
+    using System.Diagnostics;
+    using System.Transactions;
 
     /// <summary>
     /// auth service action filter
@@ -23,12 +26,17 @@ namespace Framework.Core.WebAPI.ActionFilter
         private readonly ILogger<AuthActionFilter> _logger;
 
         private IGameController _gameController;
+
         private readonly DBIdentity _dbIdentity;
+        private readonly DBPlayerData _dbPlayerData;
+        private readonly CouchbaseConnection _dbObjectConn;
 
         public AuthActionFilter(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<AuthActionFilter>>();
 
+            _dbObjectConn = serviceProvider.GetRequiredService<CouchbaseConnection>();
+            _dbPlayerData = serviceProvider.GetService<DBPlayerData>();
             _dbIdentity = serviceProvider.GetRequiredService<DBIdentity>();
         }
 
@@ -85,6 +93,8 @@ namespace Framework.Core.WebAPI.ActionFilter
                 Address = context.HttpContext.Connection.RemoteIpAddress.ToString();
             }
 
+            var ss =  _dbPlayerData.SelectOrDefault(uid);
+
             // APIController
             var controller = context.Controller as IGameController;
 
@@ -101,26 +111,30 @@ namespace Framework.Core.WebAPI.ActionFilter
         /// </summary>
         public async Task OnActionExecutedAsync()
         {
-            // TODO: Action after excuted.
             var gameController = _gameController as GameController;
             var pid = gameController.Pid;
 
-            // Upsert controller.
-            foreach (var pair in gameController.DataObjectDict)
+            // Transaction DataObjects.
+            try
             {
-                for (int tryCount = 0; tryCount < 5; tryCount++)
+                await _dbObjectConn.TransactionAsync(async (context) =>
                 {
-                    if (await pair.Value.UpsertAsync(pid))
+                    foreach (var pair in gameController.DataObjectDict)
                     {
-                        // Success.
-                        break;
-                    }
+                        var dataObject = pair.Value;
 
-                    _logger.LogError($"======================================================");
-                    _logger.LogError($"======================================================");
-                    _logger.LogError($"failed to upsert data object!!! try count - {tryCount}, pid: {pid}.");
-                    _logger.LogError($"DataObject type: {pair.Key}");
-                }
+                        // Upsert DBObject.
+                        if (false == await dataObject.UpsertAsync(context, pid))
+                        {
+                            _logger.LogError($"failed to upsert data object!!! pid: {pid}, type: {pair.Key}");
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw new ServerException(GameErrorCode.DBObjectError, $"failed to upsert data object! pid: {pid}");
             }
         }
 
@@ -132,10 +146,16 @@ namespace Framework.Core.WebAPI.ActionFilter
             // Before action.
             OnActionExecuting(context);
 
-            await next();
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                await next();
 
-            // After action.
-            await OnActionExecutedAsync();
+                // After action.
+                await OnActionExecutedAsync();
+
+                // Commit.
+                ts.Complete();
+            }
         }
     }
 }

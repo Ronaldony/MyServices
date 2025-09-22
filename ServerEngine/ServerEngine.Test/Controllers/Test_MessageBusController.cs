@@ -16,12 +16,12 @@ namespace ServerEngine.Test.Controllers
     public class Test_MessageBusController : Controller
     {
         private readonly ILogger<Test_MessageBusController> _logger;
-        private readonly PlayerInfoObejct _playerInfoObject;
+        private readonly DBPlayerInfo _playerInfoObject;
         private readonly IDataSerializer _dataSerializer;
 
         public Test_MessageBusController(
             ILogger<Test_MessageBusController> logger, 
-            PlayerInfoObejct playerInfoObject,
+            DBPlayerInfo playerInfoObject,
             IDataSerializer dataSerializer)
         {
             _logger = logger;

@@ -46,7 +46,7 @@ namespace Server_Control
 
             // Connections.
             appBuilder.Services.AddSingleton<RBMQConnection>();
-            appBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
+            appBuilder.Services.AddSingleton<CouchbaseConnection>(provider => new CouchbaseConnection());
 
             // Background.
             appBuilder.Services.AddSingleton<PostService>();

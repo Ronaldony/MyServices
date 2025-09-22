@@ -5,7 +5,6 @@ using System.Net;
 namespace ServerEngine.Test
 {
     using Akka.Actor;
-    using ServerEngine.Config.Database;
     using ServerEngine.Core.Services;
     using ServerEngine.Core.Services.Interfaces;
     using ServerEngine.Database.DBObject.Connections;
@@ -48,15 +47,17 @@ namespace ServerEngine.Test
             _webAppBuilder.Services.AddSingleton<IJsonSerializer, NewtonsoftJsonSerializer>();
             _webAppBuilder.Services.AddSingleton<IMemoryPoolService, CustomMemoryPoolService>();
             _webAppBuilder.Services.AddSingleton<IGeoIPService, MaxMindIPService>();
-            _webAppBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
 
             _webAppBuilder.Services.AddSingleton<ActorSystem>(provider => ActorSystem.Create("Root"));
 
             _webAppBuilder.Services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             _webAppBuilder.Services.AddSingleton<TestServer>();
 
+            // Connections.
+            _webAppBuilder.Services.AddSingleton<CouchbaseConnection>(provider => new CouchbaseConnection());
+
             // scoped.
-            _webAppBuilder.Services.AddScoped<PlayerInfoObejct>();
+            _webAppBuilder.Services.AddScoped<DBPlayerInfo>();
 
             _webAppBuilder.WebHost.UseKestrel(configs =>
             {

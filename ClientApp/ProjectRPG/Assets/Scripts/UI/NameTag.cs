@@ -20,12 +20,12 @@ public class NameTag : MonoBehaviour
             var playerName = PlayerDataManager.Instance.PlayInfo.PlayerName;
 
             // Player.
-            _text.text = $"Player (name: {playerName})";
+            _text.text = $"{playerName}";
         }
         else
         {
             // Unit.
-            _text.text = $"Unit (name: {_playerName})";
+            _text.text = $"{_playerName}";
         }
     }
 

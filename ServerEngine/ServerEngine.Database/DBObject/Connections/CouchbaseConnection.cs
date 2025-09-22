@@ -1,38 +1,67 @@
 ﻿using Couchbase;
+using Couchbase.Client.Transactions;
+using Couchbase.Client.Transactions.Config;
+using Couchbase.KeyValue;
 
 namespace ServerEngine.Database.DBObject.Connections
 {
     using ServerEngine.Config.Database;
-    using ServerEngine.Database.Interfaces;
+    using ServerEngine.Database.DBObject.Transactions;
 
     /// <summary>
     /// CouchbaseConnection.
     /// </summary>
-    public class CouchbaseConnection : IDBObjectConn
+    public class CouchbaseConnection
     {
-        private readonly Config_Couchbase _config;
-
         private ICluster _cluster;
 
-        public CouchbaseConnection(Config_Couchbase config)
+        public CouchbaseConnection()
         {
-            _config = config;
         }
 
         /// <summary>
         /// Initialize.
         /// </summary>
-        public async Task InitializeAsync()
+        public async Task InitializeAsync(Config_Couchbase config, DurabilityLevel durabilityLevel)
         {
-            _cluster = await Cluster.ConnectAsync(_config.Host, _config.User, _config.Pass);
+            var transactionsConfig = TransactionsConfigBuilder.Create()
+                .DurabilityLevel(durabilityLevel)
+                .Build();
+
+            var options = new ClusterOptions()
+            {
+                ConnectionString = config.Host,
+                UserName = config.User,
+                Password = config.Pass,
+                TransactionsConfig = transactionsConfig,
+            };
+
+            _cluster = await Cluster.ConnectAsync(options);
         }
 
         /// <summary>
         /// Get connection.
         /// </summary>
-        public T GetConnection<T>() where T : class
+        public ICluster GetConnection()
         {
-            return _cluster as T;
+            return _cluster;
+        }
+
+        /// <summary>
+        /// Run transactions.
+        /// </summary>
+        public async Task<TransactionResult> TransactionAsync(Func<TransactionContext, Task> task)
+        {
+            var ts = _cluster.Transactions;
+
+            return await ts.RunAsync(async (attemptContext) =>
+            {
+                // context.
+                var context = new CouchbaseTransaction();
+                context.Context = attemptContext;
+
+                await task(context);
+            });
         }
     }
 }

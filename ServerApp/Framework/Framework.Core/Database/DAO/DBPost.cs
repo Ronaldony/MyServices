@@ -83,79 +83,50 @@ namespace Framework.Core.Database.DAO
                 // connection open.
                 connection.Open();
 
-                try
+                // Command.
+                using (var command = new MySqlCommand())
                 {
-                    // Command.
-                    using (var command = new MySqlCommand())
+                    int idx = 0;
+
+                    foreach (var post in posts)
                     {
-                        int idx = 0;
+                        // Add parameters.
+                        command.Parameters.AddWithValue("@PostUid" + idx, post.Uid);
+                        command.Parameters.AddWithValue("@Pid" + idx, post.Pid);
+                        command.Parameters.AddWithValue("@Step" + idx, post.PostStep);
+                        command.Parameters.AddWithValue("@Items" + idx, post.Items);
+                        command.Parameters.AddWithValue("@Text" + idx, post.Text);
 
-                        foreach (var post in posts)
+                        // Query.
+                        sb.AppendFormat("(@PostUid{0}, @Pid{0}, @Step{0}, @Items{0}, @Text{0}, NOW())", idx);
+
+                        if (lastPost == post)
                         {
-                            // Add parameters.
-                            command.Parameters.AddWithValue("@PostUid" + idx, post.Uid);
-                            command.Parameters.AddWithValue("@Pid" + idx, post.Pid);
-                            command.Parameters.AddWithValue("@Step" + idx, post.PostStep);
-                            command.Parameters.AddWithValue("@Items" + idx, post.Items);
-                            command.Parameters.AddWithValue("@Text" + idx, post.Text);
-
-                            // Query.
-                            sb.AppendFormat("(@PostUid{0}, @Pid{0}, @Step{0}, @Items{0}, @Text{0}, NOW())", idx);
-
-                            if (lastPost == post)
-                            {
-                                // Last query.
-                                sb.Append(";");
-                            }
-                            else
-                            {
-                                sb.Append(", ");
-                            }
-
-                            ++idx;
+                            // Last query.
+                            sb.Append(";");
+                        }
+                        else
+                        {
+                            sb.Append(", ");
                         }
 
-                        // Add Last 
-
-                        command.Connection = connection;
-                        command.CommandText = sb.ToString();
-
-                        var rowAffected = command.ExecuteNonQuery();
-
-                        if (rowAffected > 0)
-                        {
-                            return true;
-                        }
-
-                        return false;
+                        ++idx;
                     }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex.Message);
+
+                    // Add Last 
+
+                    command.Connection = connection;
+                    command.CommandText = sb.ToString();
+
+                    var rowAffected = command.ExecuteNonQuery();
+
+                    if (rowAffected > 0)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Select.
-        /// </summary>
-        public async Task<IEnumerable<DBO_Post>> SelectPostsAsync(IEnumerable<string> postUids)
-        {
-            const string SQL = "SELECT * FROM TBL_Post WHERE post_uid IN @PostUids";
-
-            using (var connection = new MySqlConnection(_connectString))
-            {
-                return await connection.QueryAsync<DBO_Post>(
-                    sql: SQL,
-                    param: new
-                    {
-                        PostUids = postUids
-                    },
-                    commandTimeout: 10,
-                    commandType: CommandType.Text
-                    );
             }
         }
 

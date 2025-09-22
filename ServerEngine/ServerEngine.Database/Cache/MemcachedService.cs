@@ -12,7 +12,7 @@ namespace ServerEngine.Database.Cache
 	/// <summary>
 	/// MemcachedObject.
 	/// </summary>
-	public sealed class MemcachedService : IMemcachedService
+	public sealed class MemcachedService : ICacheService
 	{
 		private ILogger<MemcachedService> _logger;
 

@@ -11,6 +11,10 @@ namespace GameCore.Datas.Player
     [MemoryPackable(GenerateType.VersionTolerant), StructLayout(LayoutKind.Auto)]
     public partial class DTOPlayerInfo : IDisposable
     {
+        public DTOPlayerInfo()
+        {
+
+        }
         /// <summary>
         /// Pid.
         /// </summary>

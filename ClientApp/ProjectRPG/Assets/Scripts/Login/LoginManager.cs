@@ -1,6 +1,5 @@
 using Externals.Serializer;
 using GameCore;
-using GameCore.GamePacket;
 using GameCore.Http;
 using GameCore.Http.Auth;
 using GameCore.HubPacket;

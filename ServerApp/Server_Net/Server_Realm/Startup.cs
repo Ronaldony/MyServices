@@ -6,13 +6,11 @@ using NLog.Extensions.Logging;
 using ServerEngine.Core.Services;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Database.DBObject.Connections;
-using ServerEngine.Database.Interfaces;
 using ServerEngine.GeoIP;
 using ServerEngine.MessageBus.RabbitMQs;
 
 namespace Server_Realm
 {
-    using Framework.Config.ConfigManager;
     using Framework.Core.Database.Actors;
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.DataObjects;
@@ -47,7 +45,7 @@ namespace Server_Realm
 
             // Connections.
             appBuilder.Services.AddSingleton<RBMQConnection>();
-            appBuilder.Services.AddSingleton<IDBObjectConn, CouchbaseConnection>(provider => new CouchbaseConnection(GameConfigManager.ConfigGame.Couchbase));
+            appBuilder.Services.AddSingleton<CouchbaseConnection>(provider => new CouchbaseConnection());
 
             appBuilder.Services.AddSingleton<CollisionFactory>();
             appBuilder.Services.AddSingleton<ProjectileFactory>();

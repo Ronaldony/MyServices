@@ -57,7 +57,7 @@ namespace Framework.Core.Database.DAO
         /// <summary>
         /// Select player data.
         /// </summary>
-        public async Task<DBO_PlayerData> SelectOrDefault(string uid)
+        public async Task<DBO_PlayerData> SelectOrDefaultAsync(string uid)
         {
             const string SQL = """
                                 SELECT * FROM TBL_PlayerData
@@ -67,6 +67,30 @@ namespace Framework.Core.Database.DAO
             using (var connection = new MySqlConnection(_connectString))
             {
                 return await connection.QueryFirstOrDefaultAsync<DBO_PlayerData>(
+                    sql: SQL,
+                    param: new
+                    {
+                        Uid = uid,
+                    },
+                    commandTimeout: 10,
+                    commandType: CommandType.Text
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Select player data.
+        /// </summary>
+        public DBO_PlayerData SelectOrDefault(string uid)
+        {
+            const string SQL = """
+                                SELECT * FROM TBL_PlayerData
+                                    WHERE uid=@Uid
+                                """;
+
+            using (var connection = new MySqlConnection(_connectString))
+            {
+                return connection.QueryFirstOrDefault<DBO_PlayerData>(
                     sql: SQL,
                     param: new
                     {

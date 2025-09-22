@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ServerEngine.Database.Interfaces;
 
 namespace Framework.Core.Database.DataObjects
 {
     using Framework.Core.Database.DAO;
     using Framework.Core.Database.Interfaces;
     using Framwork.Core.Session;
+    using ServerEngine.Database.DBObject.Transactions;
 
     /// <summary>
     /// SessionInfoObject.
@@ -40,6 +42,22 @@ namespace Framework.Core.Database.DataObjects
         public async Task<bool> UpsertAsync(string pid)
         {
             return await _dbSessionInfo.UpsertAsync(pid, _sessionInfo);
+        }
+
+        /// <summary>
+        /// Get DB object.
+        /// </summary>
+        public IDBObject GetDBObject()
+        {
+            return _dbSessionInfo;
+        }
+
+        /// <summary>
+        /// Upsert async for transaction.
+        /// </summary>
+        public async Task<bool> UpsertAsync(TransactionContext tranContext, string pid)
+        {
+            return await tranContext.UpsertAsync(_dbSessionInfo, pid, _sessionInfo);
         }
     }
 }

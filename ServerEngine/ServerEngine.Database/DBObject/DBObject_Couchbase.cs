@@ -1,33 +1,34 @@
 ﻿using Couchbase;
+using Couchbase.Client.Transactions.Config;
+using Couchbase.Query;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace ServerEngine.Database.DataObject
 {
     using ServerEngine.Config.Database;
-    using ServerEngine.Core.Services.Interfaces;
+    using ServerEngine.Database.DBObject.Connections;
     using ServerEngine.Database.Interfaces;
 
+    /// <summary>
+    /// DBObject_Couchbase.
+    /// </summary>
     public abstract class DBObject_Couchbase : IDBObject
     {
         private readonly ILogger<DBObject_Couchbase> _logger;
 
-        private readonly IJsonSerializer _jsonSerializer;
-
         // Connection.
-        private readonly IDBObjectConn _conn;
+        private readonly CouchbaseConnection _conn;
 
         // Queries.
         private readonly string _selectQuery;
-        private string _upsertQuery;
+        private readonly string _upsertQuery;
 
         public DBObject_Couchbase(IServiceProvider serviceProvider, Config_CouchbaseConnection connection)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DBObject_Couchbase>>();
 
-            _jsonSerializer = serviceProvider.GetRequiredService<IJsonSerializer>();
-
-            _conn = serviceProvider.GetRequiredService<IDBObjectConn>();
+            _conn = serviceProvider.GetRequiredService<CouchbaseConnection>();
 
             _selectQuery = $"SELECT c.* FROM `{connection.Bucket}`.{connection.Scope}.{connection.Collection} c USE KEYS $key";
             _upsertQuery = $"UPSERT INTO `{connection.Bucket}`.{connection.Scope}.{connection.Collection} (KEY, VALUE) VALUES ($key, $value)";
@@ -36,11 +37,11 @@ namespace ServerEngine.Database.DataObject
         /// <summary>
         /// Select async.
         /// </summary>
-        public async Task<T> SelectAsync<T>(string key) where T : class, new()
+        public virtual async Task<T> SelectAsync<T>(string key) where T : class, new()
         {
             try
             {
-                var cluster = _conn.GetConnection<ICluster>();
+                var cluster = _conn.GetConnection();
 
                 // Query.
                 var result = await cluster.QueryAsync<T>(
@@ -56,7 +57,7 @@ namespace ServerEngine.Database.DataObject
                     return null;
                 }
 
-                return await result.FirstAsync();
+                return await result.FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -68,11 +69,11 @@ namespace ServerEngine.Database.DataObject
         /// <summary>
         /// Upsert async.
         /// </summary>
-        public async Task<bool> UpsertAsync<T>(string key, T dataObject) where T : class, new()
+        public virtual async Task<bool> UpsertAsync<T>(string key, T dataObject) where T : class, new()
         {
             try
             {
-                var cluster = _conn.GetConnection<ICluster>();
+                var cluster = _conn.GetConnection();
 
                 var result = await cluster.QueryAsync<dynamic>(
                     _upsertQuery,
@@ -95,6 +96,22 @@ namespace ServerEngine.Database.DataObject
                 _logger.LogDebug(ex.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Get select query.
+        /// </summary>
+        public string GetQuery_Select()
+        {
+            return _selectQuery;
+        }
+
+        /// <summary>
+        /// Get upsert query.
+        /// </summary>
+        public string GetQuery_Upsert()
+        {
+            return _upsertQuery;
         }
     }
 }

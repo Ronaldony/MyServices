@@ -1,19 +1,17 @@
 ﻿
 //#define TEST_LOCAL
 
+using Couchbase.KeyValue;
+
 namespace ServerEngine.Test
 {
-    using Akka.Dispatch.SysMsg;
-    using GameCore.Datas.Player;
     using ServerEngine.Config.Database;
     using ServerEngine.Config.Strapi;
     using ServerEngine.Core.Services.Interfaces;
-    using ServerEngine.Database.Interfaces;
+    using ServerEngine.Database.DBObject.Connections;
     using ServerEngine.Network.UDP;
     using ServerEngine.Test.ConfigManager;
-    using ServerEngine.Test.Database.DataObject;
     using ServerEngine.Test.Server;
-    using System.Diagnostics;
 
     internal class StartupServer
     {
@@ -54,8 +52,8 @@ namespace ServerEngine.Test
             jsonSerializer.Initialize();
 
             // IDBObjectConn.
-            var dbObjectConn = _serviceProvider.GetRequiredService<IDBObjectConn>();
-            await dbObjectConn.InitializeAsync();
+            var dbObjectConn = _serviceProvider.GetRequiredService<CouchbaseConnection>();
+            await dbObjectConn.InitializeAsync(configGame.Couchbase, DurabilityLevel.None);
         }
     }
 }

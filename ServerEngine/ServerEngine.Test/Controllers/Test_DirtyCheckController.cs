@@ -15,12 +15,12 @@ namespace ServerEngine.Test.Controllers
 	public class Test_DirtyCheckController : Controller
     {
         private readonly ILogger<Test_DirtyCheckController> _logger;
-        private readonly PlayerInfoObejct _playerInfoObject;
+        private readonly DBPlayerInfo _playerInfoObject;
         private readonly IDataSerializer _dataSerializer;
 
         public Test_DirtyCheckController(
             ILogger<Test_DirtyCheckController> logger, 
-            PlayerInfoObejct playerInfoObject,
+            DBPlayerInfo playerInfoObject,
             IDataSerializer dataSerializer)
         {
             _logger = logger;

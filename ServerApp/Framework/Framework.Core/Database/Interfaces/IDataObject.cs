@@ -1,4 +1,7 @@
-﻿namespace Framework.Core.Database.Interfaces
+﻿using ServerEngine.Database.DBObject.Transactions;
+using ServerEngine.Database.Interfaces;
+
+namespace Framework.Core.Database.Interfaces
 {
     /// <summary>
     /// IDataObject.
@@ -14,5 +17,15 @@
         /// Upsert async.
         /// </summary>
         Task<bool> UpsertAsync(string pid);
+
+        /// <summary>
+        /// Upsert async for async.
+        /// </summary>
+        Task<bool> UpsertAsync(TransactionContext tranContext, string pid);
+
+        /// <summary>
+        /// Get DB object.
+        /// </summary>
+        IDBObject GetDBObject();
     }
 }

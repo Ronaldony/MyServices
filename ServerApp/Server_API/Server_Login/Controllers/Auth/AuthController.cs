@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using ServerEngine.Core.Services.Interfaces;
 using ServerEngine.Core.Util;
+using System.Transactions;
 
 namespace Server_Login.Controllers.Auth
 {
-    using Akka.Configuration.Hocon;
     using Framework.Core.Database.DAO;
     using Framework.WebAPI;
     using Framework.WebAPI.Controllers;
@@ -45,63 +45,52 @@ namespace Server_Login.Controllers.Auth
         [Route("auth/auth")]
         public async Task<RES_Auth> ProcessAsync([FromBody] REQ_Auth req)
         {
-            if (true == string.IsNullOrEmpty(req.UserId))
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                throw new ServerException(GameErrorCode.Auth_EmptyUserId, $"local user id is empty.");
-            }
-
-            // 실제 서비스에서는 현 시점에서 SAML, SSO 등의 인증 솔루션을 통해 인증 정보(UserId 등) 유효성 검사.
-
-            var nowTime = TimeUtil.Now;
-            bool isNewUser = false;
-
-            // database userlocal data get
-            var dboUser = await _dbUser.SelectUserOrDefualtAsync(req.UserId);
-            var uid = dboUser?.Uid;
-
-            if (true == string.IsNullOrEmpty(uid))
-            {
-                // Uid가 없는경우 신규 가입자.
-                isNewUser = true;
-                uid = _uniqueIdService.GenerateId();
-            }
-
-            // Request.
-            var res = new RES_Auth
-            {
-                IsNewPlayer = isNewUser,
-            };
-
-            // 액세스 토큰 및 리프레시 토큰 발행.
-            var accessToken = _uniqueIdService.GenerateId();
-            var refreshToken = _uniqueIdService.GenerateId();
-            var refreshTokenExpire = nowTime.AddDays(1);
-
-            // 신규 유적와 기존 유저 구분.
-            if (true == isNewUser)
-            {
-                // 신규유저.
-                if (false == await _dbUser.CreateUserAsync(req.UserId, uid))
+                if (true == string.IsNullOrEmpty(req.UserId))
                 {
-                    throw new ServerException(GameErrorCode.DBError, $"create user error. {req.UserId}, {uid}");
+                    throw new ServerException(GameErrorCode.Auth_EmptyUserId, $"local user id is empty.");
                 }
 
-                if (false == await _dbIdentity.CreateIdentityAsync(uid, accessToken, refreshToken, refreshTokenExpire))
-                {
-                    throw new ServerException(GameErrorCode.DBError, $"create identity error. {uid}");
-                }
-            }
-            else
-            {
-                var dboIdentity = _dbIdentity.SelectOrDefaultAsync(dboUser.Uid);
+                // 실제 서비스에서는 현 시점에서 SAML, SSO 등의 인증 솔루션을 통해 인증 정보(UserId 등) 유효성 검사.
 
-                // 기존가입자이지만 Uid는 존재하고 Identity가 없는경우 추가로 넣어준다.
-                // TBL_User에는 Uid가 설정되어 있고 TBL_Identity에는 없는 경우
-                if (null == dboIdentity)
+                var nowTime = TimeUtil.Now;
+                bool isNewUser = false;
+
+                // database userlocal data get
+                var dboUser = await _dbUser.SelectUserOrDefualtAsync(req.UserId);
+                var uid = dboUser?.Uid;
+
+                if (true == string.IsNullOrEmpty(uid))
                 {
+                    // Uid가 없는경우 신규 가입자.
+                    isNewUser = true;
+                    uid = _uniqueIdService.GenerateId();
+                }
+
+                // Request.
+                var res = new RES_Auth
+                {
+                    IsNewPlayer = isNewUser,
+                };
+
+                // 액세스 토큰 및 리프레시 토큰 발행.
+                var accessToken = _uniqueIdService.GenerateId();
+                var refreshToken = _uniqueIdService.GenerateId();
+                var refreshTokenExpire = nowTime.AddDays(1);
+
+                // 신규 유적와 기존 유저 구분.
+                if (true == isNewUser)
+                {
+                    // 신규유저.
+                    if (false == await _dbUser.CreateUserAsync(req.UserId, uid))
+                    {
+                        throw new ServerException(GameErrorCode.DBError, $"create user error. {req.UserId}, {uid}");
+                    }
+
                     if (false == await _dbIdentity.CreateIdentityAsync(uid, accessToken, refreshToken, refreshTokenExpire))
                     {
-                        throw new ServerException(GameErrorCode.DBError, "create identity error.");
+                        throw new ServerException(GameErrorCode.DBError, $"create identity error. {uid}");
                     }
                 }
                 else
@@ -112,7 +101,7 @@ namespace Server_Login.Controllers.Auth
                     }
 
                     // Set player datas.
-                    var playerData = await _dbPlayerData.SelectOrDefault(uid);
+                    var playerData = await _dbPlayerData.SelectOrDefaultAsync(uid);
                     if (null == playerData)
                     {
                         throw new ServerException(GameErrorCode.Auth_NotExistPlayer, $"not exist player. uid: {uid}");
@@ -121,17 +110,20 @@ namespace Server_Login.Controllers.Auth
                     res.Pid = playerData.Pid;
                     res.PlayerName = playerData.PlayerName;
                 }
+
+                // Response.
+                res.Uid = uid;
+                res.AccessToken = accessToken;
+                res.RefreshToken = refreshToken;
+                res.RefrshTokenExpire = refreshTokenExpire;
+
+                _logger.LogDebug($"auth - uid: {uid}, token: {accessToken}");
+
+                // Commit.
+                ts.Complete();
+
+                return res;
             }
-
-            // Response.
-            res.Uid = uid;
-            res.AccessToken = accessToken;
-            res.RefreshToken = refreshToken;
-            res.RefrshTokenExpire = refreshTokenExpire;
-
-            _logger.LogDebug($"auth - uid: {uid}, token: {accessToken}");
-
-            return res;
         }
     }
 }

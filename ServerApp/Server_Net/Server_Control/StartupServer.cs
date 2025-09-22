@@ -13,6 +13,7 @@ using System.Reflection;
 
 namespace Server_Control
 {
+    using Couchbase.KeyValue;
     using Framework.Config.ConfigManager;
     using Framework.Config.Configs;
     using Framework.Config.MessageBus;
@@ -21,6 +22,7 @@ namespace Server_Control
     using GameCore.Interfaces;
     using Server_Control.Core.Services;
     using Server_Control.Server.Hub;
+    using ServerEngine.Database.DBObject.Connections;
 
     internal class StartupServer
     {
@@ -74,9 +76,9 @@ namespace Server_Control
             var snowFlakeService = _serviceProvider.GetRequiredService<IUniqueIdService>();
             snowFlakeService.Initialize(configGame.SnowflakeBaseTime, _arguments.DataCenter, _arguments.ServerId);
 
-            // IDBObjectConnection.
-            var dbObjectConn = _serviceProvider.GetRequiredService<IDBObjectConn>();
-            await dbObjectConn.InitializeAsync();
+            // CouchbaseConnection.
+            var couchbaseConnection = _serviceProvider.GetRequiredService<CouchbaseConnection>();
+            await couchbaseConnection.InitializeAsync(configGame.Couchbase, DurabilityLevel.None);
 
             // rbmqConnection.
             var rbmqConnection = _serviceProvider.GetRequiredService<RBMQConnection>();

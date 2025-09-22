@@ -239,7 +239,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
         weaponInventory.ChangeActiveWeapon(playInfo.Equipment.Weapon);
 
         // NameTag.
-        var nameTag = opponent.GetComponent<NameTag>();
+        var nameTag = opponent.GetComponentInChildren<NameTag>();
         nameTag.SetPlayerName(playInfo.PlayerName);
 
         return true;

@@ -12,14 +12,14 @@ namespace ServerEngine.Database.DataObject
     using ServerEngine.Database.Interfaces;
 
     /// <summary>
-    /// Data object for PostgreSQL.
+    /// Data object for PostgreSQL. (deprecated)
     /// </summary>
     public abstract class DBObject_PSQL : IDBObject
     {
         private readonly ILogger<DBObject_PSQL> _logger;
         
         private readonly IDataSerializer _dataSerializer;
-        private IMemcachedService _cacheService;
+        private ICacheService _cacheService;
 
         private DataObjectInfo _dataObjectInfo;
         private readonly string _connectString;
@@ -30,7 +30,7 @@ namespace ServerEngine.Database.DataObject
         {
             _logger = serviceProvider.GetRequiredService<ILogger<DBObject_PSQL>>();
 
-            _cacheService = serviceProvider.GetRequiredService<IMemcachedService>();
+            _cacheService = serviceProvider.GetRequiredService<ICacheService>();
 			_dataSerializer = serviceProvider.GetRequiredService<IDataSerializer>();
 
             _dataObjectInfo = dataObjectInfo;
@@ -187,6 +187,16 @@ namespace ServerEngine.Database.DataObject
                 _logger.LogError(ex.Message);
                 return false;
             }
+        }
+
+        public string GetQuery_Select()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetQuery_Upsert()
+        {
+            throw new NotImplementedException();
         }
     }
 }

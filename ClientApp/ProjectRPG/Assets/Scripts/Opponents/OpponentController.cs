@@ -1,3 +1,7 @@
+
+//#define POS_SYNC_1
+#define POS_SYNC_2
+
 using GameCore;
 using GameCore.Datas.Plays;
 using System.Collections;
@@ -58,8 +62,11 @@ public class OpponentController : MonoBehaviour
 
         if (_isDashing)
         {
-            //_dummy.UpdatePosition(_rb.position + _refreshMovement * (moveSpeed * Time.fixedDeltaTime));
+#if POS_SYNC_1
+            _rb.MovePosition(_rb.position + _refreshMovement * (moveSpeed * Time.fixedDeltaTime));
+#elif POS_SYNC_2
             _rb.MovePosition(_dummy.GetPosition());
+#endif
             return;
         }
 
@@ -75,8 +82,10 @@ public class OpponentController : MonoBehaviour
         // Move dummy.
         MoveDummy();
 
+#if POS_SYNC_2
         // Follow dummy.
         FollowDummy();
+#endif
     }
 
     /// <summary>
@@ -218,8 +227,11 @@ public class OpponentController : MonoBehaviour
         if (_moveDir != Vector2.zero)
         {
             //Debug.Log($"Move. dir: {_moveDir}, spped: {moveSpeed}, time: {Time.fixedDeltaTime}");
+#if POS_SYNC_1
+            _rb.MovePosition(_rb.position + _moveDir * (moveSpeed * Time.fixedDeltaTime));
+#elif POS_SYNC_2
             _dummy.MoveTo(_moveDir * (moveSpeed * Time.fixedDeltaTime));
-
+#endif
             return true;
         }
 
@@ -231,7 +243,11 @@ public class OpponentController : MonoBehaviour
     /// </summary>
     public void MoveFixed(Vector2 fixPos)
     {
+#if POS_SYNC_1
+        _rb.MovePosition(fixPos);
+#elif POS_SYNC_2
         _dummy.FixPosition(fixPos);
+#endif
     }
 
     /// <summary>
@@ -278,8 +294,11 @@ public class OpponentController : MonoBehaviour
         {
             timePassed += Time.deltaTime;
             float linearT = timePassed / GameData.DASH_TIME;
+#if POS_SYNC_1
+            _rb.position = Vector2.Lerp(startPos, dashedPos, linearT);
+#elif POS_SYNC_2
             _dummy.FixPosition(Vector2.Lerp(startPos, dashedPos, linearT));
-            //_rb.position = Vector2.Lerp(startPos, dashedPos, linearT);
+#endif
 
             yield return null;
         }
