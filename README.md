@@ -70,3 +70,11 @@ C# 논 타겟팅 MMORPG 서버 제작 프로젝트로, C# 으로 제작되었다
    * docker: v26.1.3
    * RabbitMQ: v4.1.4 (Docker)
    * Strapi: v5.21.0 (node.js v22.14.0)
+  
+## 기타 환경
+   1. Linux Ubuntu: 24.04 LTS
+   2. MySQL: 8.0.43-0ubuntu0.24.04.1 Linux on x86_64
+   3. Couchbase: v7.2.0 community amd64
+   4. docker: v26.1.3
+   5. RabbitMQ: v4.1.4 (Docker)
+   6. Strapi: v5.21.0 (node.js v22.14.0)
