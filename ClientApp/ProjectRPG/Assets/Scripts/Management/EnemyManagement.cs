@@ -10,6 +10,7 @@ using UnityEngine;
 public class EnemyManagement : Singleton<EnemyManagement>
 {
     [SerializeField] private List<GameObject> _mobPrefabs;
+    [SerializeField] private GameObject _dummyPrefab;
 
     private SectionManagement _sectionManagement;
 
@@ -43,6 +44,11 @@ public class EnemyManagement : Singleton<EnemyManagement>
     // Update is called once per frame
     void Update()
     {
+        if (!GameLoadManager.Instance.IsLoadComplete())
+        {
+            return;
+        }
+
         // Process alive enemy.
         Proc_DestroyEnemy();
 
@@ -68,11 +74,13 @@ public class EnemyManagement : Singleton<EnemyManagement>
     {
         while (_killedEnemies.TryDequeue(out var unitId))
         {
-            // Destroy enemy.
-            Destroy(_mobObjectDict[unitId]);
-
             // Remove enemy.
-            _mobObjectDict.Remove(unitId);
+            _mobObjectDict.Remove(unitId, out var mob);
+
+            var pathFinding = mob.GetComponent<MobPathfinding>();
+
+            Destroy(pathFinding.GetDummy().gameObject);
+            Destroy(mob);
         }
     }
 
@@ -182,7 +190,10 @@ public class EnemyManagement : Singleton<EnemyManagement>
             // Remove enemy.
             _mobObjectDict.Remove(unitId, out var mob);
 
+            var pathFinding = mob.GetComponent<MobPathfinding>();
+
             // Destroy enemy.
+            Destroy(pathFinding.GetDummy().gameObject);
             Destroy(mob);
         }
     }
@@ -214,7 +225,7 @@ public class EnemyManagement : Singleton<EnemyManagement>
             // Enemy Uid.
             if (false == _mobObjectDict.TryGetValue(pair.Key, out var mobObj))
             {
-                //Debug.Log($"not exist mob. unitId: {pair.Key}");
+                Debug.Log($"not exist mob. unitId: {pair.Key}");
                 continue;
             }
 
@@ -240,7 +251,10 @@ public class EnemyManagement : Singleton<EnemyManagement>
 
             // Update hit.
             var mobPathfinding = mobObj.GetComponent<MobPathfinding>();
-            mobPathfinding.UpdateMovement(pair.Value);
+            mobPathfinding.AddMobMsg(new MobMsg_UpdateMovement
+            {
+                Location = pair.Value
+            });
         }
     }
 
@@ -297,28 +311,35 @@ public class EnemyManagement : Singleton<EnemyManagement>
         }
 
         // Add Enemy chunk.
+        var location = mob.Location;
+
         if (_mobObjectDict.ContainsKey(unitId))
         {
             // Refresh position.
             var findMobObject = _mobObjectDict[unitId];
             var findMobPathfinding = findMobObject.GetComponent<MobPathfinding>();
 
-            findMobPathfinding.FixPosition(mob.Location.Pos.X, mob.Location.Pos.Y);
+            findMobPathfinding.AddMobMsg(new MobMsg_FixMovement
+            {
+                FixPos = new Vector2(location.Pos.X, location.Pos.Y)
+            });
 
             return false;
         }
 
         // Create enemy object.
-        var mobObject = Instantiate(findEnemyPrefab, new Vector3(mob.Location.Pos.X, mob.Location.Pos.Y), Quaternion.identity);
+        var dummyObj = Instantiate(_dummyPrefab, new Vector3(location.Pos.X, location.Pos.Y), Quaternion.identity);
+        var mobObject = Instantiate(findEnemyPrefab, new Vector3(location.Pos.X, location.Pos.Y), Quaternion.identity);
 
         _mobObjectDict.Add(unitId, mobObject);
 
         // Set mob AI.
+        var dummy = dummyObj.GetComponent<UnitDummy>();
         var mobAI = mobObject.GetComponent<MobAI>();
 
         // Set mob path.
         var mobPathfinding = mobObject.GetComponent<MobPathfinding>();
-        mobPathfinding.Setup(mob.SpawnPos);
+        mobPathfinding.Setup(location, dummy);
 
         // Set mob Health.
         var mobHealth = mobObject.GetComponent<MobHealth>();

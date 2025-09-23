@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using UnityEngine;
 
+
 public class PlayerController : Singleton<PlayerController>
 {
     public bool FacingLeft { get; set; }
@@ -37,8 +38,6 @@ public class PlayerController : Singleton<PlayerController>
     private PlayerDataManager _playerDataManager;
 
     private ConcurrentQueue<UpdateGamePacket> _updatePacketQ;
-
-    private bool _initializePlayer;
 
     protected override void Awake()
     {
@@ -91,22 +90,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         UpdateAnaimator();
         Proc_UpdatePacket();
-
-        // Initialize player.
-        if (_initializePlayer)
-        {
-            _initializePlayer = false;
-
-            // Setup inventory.
-            GameUIManager.Instance.UpdateActive(true);
-            Inventory.Instance.Setup(PlayerDataManager.Instance.InventoryInfo);
-            WeaponInventory.Instance.ToggleActiveSlot(1);
-        }
-    }
-
-    public void InitializePlayer()
-    {
-        _initializePlayer = true;
     }
 
     private void Proc_UpdatePacket()

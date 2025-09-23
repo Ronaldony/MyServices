@@ -56,6 +56,7 @@ namespace Server_Realm.Context.UnitHandler
         public void Setup(Unit owner)
         {
             _owner = owner;
+            _aggroPoints.Clear();
         }
 
         /// <summary>

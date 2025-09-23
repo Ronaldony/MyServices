@@ -39,8 +39,13 @@ public class OpponentManagement : Singleton<OpponentManagement>
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
+        if (!GameLoadManager.Instance.IsLoadComplete())
+        {
+            return;
+        }
+
         // Process alive enemy.
         Proc_DestroyOpponents();
 
@@ -57,27 +62,6 @@ public class OpponentManagement : Singleton<OpponentManagement>
     public void AddUpdatePacket(UpdateGamePacket updatePacket)
     {
         _updatePackets.Enqueue(updatePacket);
-    }
-
-    /// <summary>
-    /// Procewss destroy enemy.
-    /// </summary>
-    private void Proc_DestroyOpponents()
-    {
-        while (_destroyOpponents.TryDequeue(out var unitId))
-        {
-            var opponent = _opponentDict[unitId];
-
-            var opponentController = opponent.GetComponent<OpponentController>();
-            var opponentDummy = opponentController.GetDummy();
-
-            // Destroy enemy.
-            Destroy(opponent);
-            Destroy(opponentDummy.gameObject);
-
-            // Remove enemy.
-            _opponentDict.Remove(unitId);
-        }
     }
 
     private void Proc_UpdatePacket()
@@ -216,19 +200,17 @@ public class OpponentManagement : Singleton<OpponentManagement>
         // Add opponent.
         if (false == AddOpponent(unitId, opponent))
         {
+            Debug.Log($"Spawn opponent fail.");
             Destroy(opponent);
             return false;
         }
 
         // Controller.
         var controller = opponent.GetComponent<OpponentController>();
-        var dummy = opponentDummyObj.GetComponent<OpponentDummy>();
+        var dummy = opponentDummyObj.GetComponent<UnitDummy>();
 
-        controller.AddMsg(new OpponentMsg_ControllerSpawn
-        {
-            Location = location,
-            Dummy = dummy
-        });
+        // Setups
+        controller.Setup(playInfo.Location, dummy);
 
         // Health.
         var health = opponent.GetComponent<OpponentHealth>();
@@ -477,7 +459,7 @@ public class OpponentManagement : Singleton<OpponentManagement>
                 if (false == _sectionManagement.IsAroundSection(playerSection, section))
                 {
                     removemobs.Add(pair.Key);
-                    //Debug.Log($"Destroy mob. uid: {pair.Key}, player section: {playerSection}, enemy section: {mobSection}");
+                    Debug.Log($"Destroy mob. player section: {playerSection}, mob section: {section}");
                 }
             }
             catch(Exception ex)
@@ -497,8 +479,31 @@ public class OpponentManagement : Singleton<OpponentManagement>
             var opponentDummy = opponentController.GetDummy();
 
             // Destroy enemy.
+            Debug.Log($"Proc_Section - Destroy opponent.");
             Destroy(opponentDummy.gameObject);
             Destroy(opponent);
+        }
+    }
+
+    /// <summary>
+    /// Procewss destroy enemy.
+    /// </summary>
+    private void Proc_DestroyOpponents()
+    {
+        while (_destroyOpponents.TryDequeue(out var unitId))
+        {
+            var opponent = _opponentDict[unitId];
+
+            var opponentController = opponent.GetComponent<OpponentController>();
+            var opponentDummy = opponentController.GetDummy();
+
+            // Destroy enemy.
+            Debug.Log($"Destroy opponent.");
+            Destroy(opponentDummy.gameObject);
+            Destroy(opponent);
+
+            // Remove enemy.
+            _opponentDict.Remove(unitId);
         }
     }
 

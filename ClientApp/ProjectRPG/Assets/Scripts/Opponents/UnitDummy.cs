@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class OpponentDummy : MonoBehaviour
+public class UnitDummy : MonoBehaviour
 {
     /// <summary>
     /// Update position.

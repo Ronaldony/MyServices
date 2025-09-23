@@ -12,7 +12,6 @@ public class OpponentController : MonoBehaviour
 {
     public bool FacingLeft { get; set; }
 
-    [SerializeField] private OpponentDummy _dummy;
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private TrailRenderer myTrailRenderer;
     [SerializeField] private Transform weaponCollider;
@@ -23,6 +22,7 @@ public class OpponentController : MonoBehaviour
     private Vector2 _spawnPos;
     private Vector2 _refreshMovement;
 
+    private UnitDummy _dummy;
     private Rigidbody2D _rb;
     private Animator _myAnimator;
     private SpriteRenderer _mySpriteRenderer;
@@ -158,25 +158,23 @@ public class OpponentController : MonoBehaviour
     /// <summary>
     /// Get dummy.
     /// </summary>
-    public OpponentDummy GetDummy() => _dummy;
+    public UnitDummy GetDummy() => _dummy;
 
     /// <summary>
     /// Setup.
     /// </summary>
-    public void Setup(DTO_Location location, OpponentDummy dummy = null)
+    public void Setup(DTO_Location location, UnitDummy dummy = null)
     {
         _spawnPos = new Vector2(location.Pos.X, location.Pos.Y);
         _refreshMovement = new Vector2(location.MoveDirection.X, location.MoveDirection.Y);
+        transform.position = _spawnPos;
 
         if (dummy != null)
         {
             _dummy = dummy;
         }
 
-        if (_dummy != null)
-        {
-            _dummy.FixPosition(_spawnPos);
-        }
+        _dummy?.FixPosition(_spawnPos);
     }
 
     /// <summary>
@@ -255,6 +253,11 @@ public class OpponentController : MonoBehaviour
     /// </summary>
     public void AdjustPlayerFacingDirection(float dirX)
     {
+        if (_mySpriteRenderer == null)
+        {
+            return;
+        }
+
         if (dirX > 0)
         {
             // 오른쪽.

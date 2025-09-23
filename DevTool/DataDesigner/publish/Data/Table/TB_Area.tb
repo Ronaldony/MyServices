@@ -3,9 +3,9 @@
     "Id": 0,
     "Name": "HuntZone",
     "Area": "HuntZone",
-    "MinX": -140,
-    "MaxX": 130,
+    "MinX": -150,
+    "MaxX": 150,
     "MinY": -100,
-    "MaxY": 90
+    "MaxY": 100
   }
 ]

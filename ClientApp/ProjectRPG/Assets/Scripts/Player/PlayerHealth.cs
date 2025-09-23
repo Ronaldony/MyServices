@@ -94,7 +94,6 @@ public class PlayerHealth : Singleton<PlayerHealth>
     public void UpdateHealth(int health)
     {
         _currentHealth = health;
-        Debug.Log($"UpdateHealth. health: {health}");
 
         UpdateHealthSlider();
 

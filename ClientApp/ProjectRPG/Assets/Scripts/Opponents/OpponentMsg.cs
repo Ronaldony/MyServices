@@ -9,7 +9,7 @@ public enum Type_OpponentMsg
     ControllerSpawn = 1,
     MoveStart = 2,
     MoveEnd = 3,
-    MoveFix = 4,
+    MoveFix = 4, 
     MoveShift = 5,
     Dash = 6,
     Knockback = 7,
@@ -38,7 +38,7 @@ public class OpponentMsg_ControllerSpawn : OpponentMsg
 
     public DTO_Location Location { get; set; }
 
-    public OpponentDummy Dummy { get; set; }
+    public UnitDummy Dummy { get; set; }
 }
 
 /// <summary>

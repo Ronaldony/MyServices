@@ -20,8 +20,6 @@ namespace GamePackets
         /// </summary>
         public override void HandlePacket(UdpPacket packet)
         {
-            var dummyManagement = DummyManagement.Instance;
-
             // packet.
             var packetData = MemoryPackDataSerializer.Deserialize<GamePacketSC_DummyMove>(packet.Data);
             var updatePacket = new UpdateGamePacket
@@ -29,8 +27,6 @@ namespace GamePackets
                 PacketCode = GamePacketCode.SC_DummyMove,
                 Data = packetData,
             };
-
-            dummyManagement.AddUpdatePacket(updatePacket);
         }
     }
 }

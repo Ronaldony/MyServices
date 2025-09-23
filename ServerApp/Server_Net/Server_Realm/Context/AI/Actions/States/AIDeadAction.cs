@@ -86,6 +86,9 @@ namespace Server_Realm.Context.AI.Actions.States
                     aggroOrder++;
                 }
             }
+
+            // Clear aggro points.
+            Owner.CombatHandler.ClearAggroPoints();
         }
     }
 }

@@ -38,7 +38,8 @@ namespace GamePackets
             EnemyManagement.Instance.AddUpdatePacket(updatePacket);
             OpponentManagement.Instance.AddUpdatePacket(updatePacket);
 
-            PlayerController.Instance.InitializePlayer();
+            // Ready load.
+            GameLoadManager.Instance.UpdateLoadStep(LoadStepType.Ready);
 
             // Enter zone.
             HubPacketManager.Instance.Send<HubPacketCS_EnterZone>(HubPacketCode.CS_EnterZone, new HubPacketCS_EnterZone

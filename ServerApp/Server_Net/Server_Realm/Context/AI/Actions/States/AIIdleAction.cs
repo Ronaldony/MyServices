@@ -22,7 +22,7 @@
             // Move stop.
             Owner.MovementHandler.MoveStop();
 
-            // Aggro 초기화.
+            // Clear aggro points.
             Owner.CombatHandler.ClearAggroPoints();
         }
 

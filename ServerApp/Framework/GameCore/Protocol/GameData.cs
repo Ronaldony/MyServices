@@ -12,8 +12,8 @@
         public const int MOVEMENT_RANGE_LIMIT = 5;                   // 이동 범위 제한.
 
         // 섹션.
-        public const int SECTION_WIDTH = 20;                         // 섹션 가로 길이.
-        public const int SECTION_HEIGHT = 15;                        // 섹션 세로 길이.
+        public const int SECTION_WIDTH = 25;                         // 섹션 가로 길이.
+        public const int SECTION_HEIGHT = 20;                        // 섹션 세로 길이.
 
         // KnockBack.
         public const float KNOCKBACK_THRUST = 10f;                          // 넉백 쓰러스트.
@@ -44,10 +44,10 @@
         public const int MOB_IDLE_TIME = 5;                         // Idle 상태 지속 시간.
         public const int MOB_ARRIVAL_RANGE = 2;                     // 도착 판정 범위.
         public const int MOB_ARRIVAL_RANGE_SQUARE = 2 * 2;          // 도착 판정 범위 제곱근. (거리 비교용)
-        public const int MOB_DETECT_RANGE = 7;                      // 감지 거리.
-        public const int MOB_DETECT_RANGE_SQUARE = 7 * 7;           // 감지 거리 제곱근. (거리 비교용)
-        public const int MOB_RETURN_DISTANCE = 18;                  // Return 거리.
-        public const int MOB_RETURN_DISTANCE_SQUARE = 18 * 18;      // Return 거리 제곱근. (거리 비교용)
+        public const int MOB_DETECT_RANGE = 5;                      // 감지 거리.
+        public const int MOB_DETECT_RANGE_SQUARE = 5 * 5;           // 감지 거리 제곱근. (거리 비교용)
+        public const int MOB_RETURN_DISTANCE = 13;                  // Return 거리.
+        public const int MOB_RETURN_DISTANCE_SQUARE = 13 * 13;      // Return 거리 제곱근. (거리 비교용)
 
         // Drop system.
         public const int MAX_DROP_UNITS = 3;

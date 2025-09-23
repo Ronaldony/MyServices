@@ -79,7 +79,6 @@ Transform:
   - {fileID: 7691854202894157801}
   - {fileID: 2220440593072506389}
   - {fileID: 457379038809271333}
-  - {fileID: 5836726344933496932}
   - {fileID: 2900165348036176921}
   - {fileID: 8799216027531657635}
   m_Father: {fileID: 0}
@@ -238,53 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da53e28c2780b54babeebcae7f26335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _opponentDummyPrefab: {fileID: 0}
+  _opponentDummyPrefab: {fileID: 6187664327686558941, guid: cbc5e066c142edb43bb38bc5ac6583c6, type: 3}
   _opponentPrefab: {fileID: 6315157723059402753, guid: 1bc6246d25c3af04baa4e065f64eb3f5, type: 3}
---- !u!1 &3511552614964575902
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5836726344933496932}
-  - component: {fileID: 6118234053456358201}
-  m_Layer: 0
-  m_Name: DummyManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5836726344933496932
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3511552614964575902}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7690632761798223299}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6118234053456358201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3511552614964575902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 427df139cc67dab4b80c0b4728d72b85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dummyPrefab: {fileID: 5464340256960616465, guid: 72bebeb18d21b8e4b8c9ca9e49afa450, type: 3}
 --- !u!1 &5896430917882197941
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,3 +419,4 @@ MonoBehaviour:
   _mobPrefabs:
   - {fileID: 2288677416517812029, guid: 56bb442f859d2374590da35ee8231409, type: 3}
   - {fileID: 5464340256960616465, guid: fd224c21969dbc642a747ad5676a5511, type: 3}
+  _dummyPrefab: {fileID: 6187664327686558941, guid: cbc5e066c142edb43bb38bc5ac6583c6, type: 3}
